@@ -9,7 +9,7 @@ public partial class JailbreakExtras
     #region Give
 
     [ConsoleCommand("give", "Silah Verir")]
-    [CommandHelper(2, "<@t,@ct,@all,oyuncu ismi> <silah kisa ismi>")]
+    [CommandHelper(2, "<oyuncu ismi,@t,@ct,@all,@me> <silah kisa ismi>")]
     public void Give(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)
@@ -21,7 +21,7 @@ public partial class JailbreakExtras
         var weapon = info.GetArg(2);
         GetPlayers()
                .Where(x => x.PawnIsAlive
-                          && GetTargetAction(x, target))
+                          && GetTargetAction(x, target, player.PlayerName))
                .ToList()
                .ForEach(x =>
                {

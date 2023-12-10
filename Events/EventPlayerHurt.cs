@@ -5,7 +5,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private void EventPlayerHurt()
+    internal void EventPlayerHurt()
     {
         RegisterEventHandler<EventPlayerHurt>((@event, info) =>
         {

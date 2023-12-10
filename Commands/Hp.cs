@@ -1,8 +1,7 @@
-﻿using CounterStrikeSharp.API.Core.Attributes.Registration;
-using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
-using CounterStrikeSharp.API;
 
 namespace JailbreakExtras;
 
@@ -11,7 +10,7 @@ public partial class JailbreakExtras
     #region HP
 
     [ConsoleCommand("hp", "Change a player's HP.")]
-    [CommandHelper(2, "<@t,@ct,@all,oyuncu ismi>  <health>")]
+    [CommandHelper(2, "<oyuncu ismi,@t,@ct,@all,@me>  <health>")]
     public void OnHealthCommand(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)
@@ -28,7 +27,7 @@ public partial class JailbreakExtras
         GetPlayers()
                .Where(x => x.PawnIsAlive
                         && x.Pawn.Value != null
-                        && GetTargetAction(x, target))
+                        && GetTargetAction(x, target, player.PlayerName))
                .ToList()
                .ForEach(x =>
                {

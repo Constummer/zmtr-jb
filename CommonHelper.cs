@@ -3,8 +3,6 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Utils;
-using Microsoft.Extensions.Logging;
-using Serilog.Core;
 using System.Drawing;
 
 namespace JailbreakExtras;
@@ -126,7 +124,7 @@ public partial class JailbreakExtras
         }
     }
 
-    private static bool GetTargetAction(CCSPlayerController x, string target)
+    private static bool GetTargetAction(CCSPlayerController x, string target, string self)
     {
         var targetArgument = GetTargetArgument(target);
 
@@ -136,11 +134,12 @@ public partial class JailbreakExtras
             TargetForArgument.T => (CsTeam)x.TeamNum == CsTeam.Terrorist,
             TargetForArgument.Ct => (CsTeam)x.TeamNum == CsTeam.CounterTerrorist,
             TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target) ?? false,
+            TargetForArgument.Me => x.PlayerName == self,
             _ => false
         };
     }
 
-    private static bool ExecuteFreezeOrUnfreeze(CCSPlayerController x, string target, out bool randomFreeze)
+    private static bool ExecuteFreezeOrUnfreeze(CCSPlayerController x, string target, string self, out bool randomFreeze)
     {
         randomFreeze = _random.NextDouble() >= 0.5;
 
@@ -155,6 +154,7 @@ public partial class JailbreakExtras
             TargetForArgument.All => true,
             TargetForArgument.Alive => true,
             TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target) ?? false,
+            TargetForArgument.Me => x.PlayerName == self,
             _ => false,
         };
     }
@@ -168,28 +168,29 @@ public partial class JailbreakExtras
         "@random" => TargetForArgument.Random,
         "@randomt" => TargetForArgument.RandomT,
         "@randomct" => TargetForArgument.RandomCt,
+        "@me" => TargetForArgument.Me,
         _ => TargetForArgument.None,
     };
 
-    private void FreezeTarget(string target)
+    private void FreezeTarget(string target, string self)
     {
         bool randomFreeze = false;
 
         GetPlayers()
               .Where(x => x.PawnIsAlive
-                   && GetTargetAction(x, target))
+                   && GetTargetAction(x, target, self))
               .ToList()
         .ForEach(x =>
         {
-            Freeze(target, x, ref randomFreeze);
+            Freeze(target, x, self, ref randomFreeze);
         });
     }
 
-    private static void Freeze(string target, CCSPlayerController x, ref bool randomFreeze)
+    private static void Freeze(string target, CCSPlayerController x, string self, ref bool randomFreeze)
     {
         if (randomFreeze == false
-            && x?.PlayerPawn?.Value != null
-            && ExecuteFreezeOrUnfreeze(x, target, out randomFreeze))
+        && x?.PlayerPawn?.Value != null
+            && ExecuteFreezeOrUnfreeze(x, target, self, out randomFreeze))
         {
             SetColour(x, Color.FromArgb(255, 0, 0, 255));
             RefreshPawn(x);
@@ -197,9 +198,10 @@ public partial class JailbreakExtras
             var tempPlayer = x;
 
             Vector currentPosition = tempPlayer?.Pawn?.Value?.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
-            Vector currentSpeed = new Vector(0, 90, 0);
+            Vector currentSpeed = new Vector(0, 0, 0);
             QAngle currentRotation = new QAngle(0, 0, 0);
-            tempPlayer.Teleport(currentPosition, currentRotation, currentSpeed);
+            tempPlayer.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z - 15), currentRotation, currentSpeed);
+
             tempPlayer.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_NONE;
         }
     }

@@ -23,7 +23,7 @@ public partial class JailbreakExtras
 
         GetPlayers()
            .Where(x => x.PawnIsAlive
-                   && GetTargetAction(x, target))
+                   && GetTargetAction(x, target, player.PlayerName))
            .ToList()
            .ForEach(x =>
            {
@@ -34,8 +34,8 @@ public partial class JailbreakExtras
 
                    Vector currentPosition = x.Pawn.Value.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                    Vector currentSpeed = new Vector(0, 0, 0);
-                   QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
-                   x.PlayerPawn.Value.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z - 20), currentRotation, currentSpeed);
+                   QAngle currentRotation = new QAngle(0, 0, 0);
+                   x.PlayerPawn.Value.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z - 30), currentRotation, currentSpeed);
                    x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_NONE;
                }
            });
@@ -70,8 +70,8 @@ public partial class JailbreakExtras
 
                            Vector currentPosition = x.Pawn.Value.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                            Vector currentSpeed = new Vector(0, 0, 0);
-                           QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
-                           x.PlayerPawn.Value.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z - 20), currentRotation, currentSpeed);
+                           QAngle currentRotation = new QAngle(0, 0, 0);
+                           x.PlayerPawn.Value.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z - 50), currentRotation, currentSpeed);
                            x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_NONE;
                        }
                    });
@@ -92,7 +92,7 @@ public partial class JailbreakExtras
 
         GetPlayers()
            .Where(x => x.PawnIsAlive
-                   && GetTargetAction(x, target))
+                   && GetTargetAction(x, target, player.PlayerName))
            .ToList()
            .ForEach(x =>
            {

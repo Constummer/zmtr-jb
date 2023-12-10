@@ -10,7 +10,7 @@ public partial class JailbreakExtras
     #region Disarm
 
     [ConsoleCommand("disarm", "Bicak dahil silme")]
-    [CommandHelper(1, "<@t,@ct,@all,oyuncu ismi>")]
+    [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me>")]
     public void Disarm(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)
@@ -22,7 +22,7 @@ public partial class JailbreakExtras
 
         GetPlayers()
         .Where(x => x.PawnIsAlive
-                   && GetTargetAction(x, target))
+                   && GetTargetAction(x, target, player.PlayerName))
         .ToList()
         .ForEach(x =>
         {

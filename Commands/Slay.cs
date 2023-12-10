@@ -11,7 +11,7 @@ public partial class JailbreakExtras
     #region Slay
 
     [ConsoleCommand("slay", "slay")]
-    [CommandHelper(1, "<@t,@ct,@all,oyuncu ismi>")]
+    [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me>")]
     public void Slay(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)
@@ -23,7 +23,7 @@ public partial class JailbreakExtras
 
         GetPlayers()
         .Where(x => x.PawnIsAlive
-                   && GetTargetAction(x, target))
+                   && GetTargetAction(x, target, player.PlayerName))
         .ToList()
         .ForEach(x =>
         {

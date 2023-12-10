@@ -31,7 +31,7 @@ public partial class JailbreakExtras
     }
 
     [ConsoleCommand("respawn", "öldüğü yerde canlanır")]
-    [CommandHelper(1, "<@t,@ct,@all,oyuncu ismi>")]
+    [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me>")]
     public void Respawn(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)
@@ -42,7 +42,7 @@ public partial class JailbreakExtras
         var target = info.GetArg(1);
         GetPlayers()
               .Where(x => x.PawnIsAlive == false
-                          && GetTargetAction(x, target))
+                          && GetTargetAction(x, target, player.PlayerName))
               .ToList()
               .ForEach(x =>
               {
@@ -61,8 +61,8 @@ public partial class JailbreakExtras
             x.Respawn();
             AddTimer(0.5f, () =>
             {
-                tpPlayer.PlayerPawn.Value.Teleport(new(tempX, tempY, tempZ), new(0, 90, 0), new(0, 0, 0));
-                tpPlayer.Teleport(new(tempX, tempY, tempZ), new(0, 90, 0), new(0, 0, 0));
+                tpPlayer.PlayerPawn.Value.Teleport(new(tempX, tempY, tempZ), new(0, 0, 0), new(0, 0, 0));
+                tpPlayer.Teleport(new(tempX, tempY, tempZ), new(0, 0, 0), new(0, 0, 0));
             });
         }
         else

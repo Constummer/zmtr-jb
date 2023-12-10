@@ -10,7 +10,7 @@ public partial class JailbreakExtras
     #region God
 
     [ConsoleCommand("god", "godmode a player")]
-    [CommandHelper(1, "<@t,@ct,@all,oyuncu ismi>")]
+    [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me>")]
     public void God(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)
@@ -22,18 +22,29 @@ public partial class JailbreakExtras
 
         GetPlayers()
                .Where(x => x.PawnIsAlive
-                        && GetTargetAction(x, target))
+                        && GetTargetAction(x, target, player.PlayerName))
                .ToList()
                .ForEach(x =>
                {
                    if (ActiveGodMode.TryGetValue(x.SteamID, out var god))
                    {
+                       if (god)
+                       {
+                           FakeGod(x, 100);
+                       }
+                       else
+                       {
+                           FakeGod(x, int.MaxValue);
+                       }
+
                        ActiveGodMode[x.SteamID] = !god;
                    }
                    else
                    {
                        ActiveGodMode.TryAdd(x.SteamID, true);
+                       FakeGod(x, int.MaxValue);
                    }
+                   RefreshPawn(x);
                });
     }
 
@@ -49,6 +60,8 @@ public partial class JailbreakExtras
                .ForEach(x =>
                {
                    ActiveGodMode[x.SteamID] = true;
+                   FakeGod(x, int.MaxValue);
+                   RefreshPawn(x);
                });
     }
 
@@ -64,7 +77,19 @@ public partial class JailbreakExtras
                .ForEach(x =>
                {
                    ActiveGodMode.Remove(x.SteamID);
+                   FakeGod(x, 100);
+                   RefreshPawn(x);
                });
+    }
+
+    private static void FakeGod(CCSPlayerController x, int amount)
+    {
+        x.Pawn.Value!.Health = amount;
+        var playerPawnValue = x.PlayerPawn.Value;
+        if (playerPawnValue != null)
+        {
+            playerPawnValue.ArmorValue = amount;
+        }
     }
 
     #endregion God
