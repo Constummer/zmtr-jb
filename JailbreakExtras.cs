@@ -30,6 +30,12 @@ public partial class JailbreakExtras : BasePlugin
 
     public override void Load(bool hotReload)
     {
+        HookEntityOutput("*", "*", (output, name, activator, caller, value, delay) =>
+        {
+            //Logger.LogInformation("All EntityOutput ({name}, {activator}, {caller}, {delay})", output.Description.Name, activator.DesignerName, caller.DesignerName, delay);
+
+            return HookResult.Continue;
+        });
         CallEvents();
         CallListeners();
 

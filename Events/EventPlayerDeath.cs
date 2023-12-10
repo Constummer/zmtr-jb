@@ -15,7 +15,9 @@ public partial class JailbreakExtras
             }
 
             if (@event.Attacker != null
-                && (CsTeam)@event.Attacker.TeamNum == CsTeam.CounterTerrorist)
+                    && ((CEntityInstance)@event.Attacker).IsValid == true
+                    && ((CEntityInstance)@event.Attacker).Index != 32767
+                    && (CsTeam)@event.Attacker.TeamNum == CsTeam.CounterTerrorist)
             {
                 if (KilledPlayers.TryGetValue(@event.Attacker.SteamID, out var kilList))
                 {
