@@ -15,41 +15,9 @@ public partial class JailbreakExtras
     private static CounterStrikeSharp.API.Modules.Timers.Timer? timer_2;
     private static string Pattern = @"(\d+)\s*(saniye|sn|second|se|s.)";
 
-    public static class BasicCountdown
+    internal static class BasicCountdown
     {
-        public static void Load(JailbreakExtras jailbreakExtras)
-        {
-            jailbreakExtras.RegisterListener<Listeners.OnMapStart>(name =>
-            {
-                Countdown_enable = false;
-                Countdown_enable_text = false;
-                Text = "";
-                Time = 0;
-            });
-            jailbreakExtras.RegisterListener((Listeners.OnTick)(() =>
-            {
-                bool changed = false;
-                for (int i = 1; i < Server.MaxPlayers; i++)
-                {
-                    var ent = NativeAPI.GetEntityFromIndex(i);
-                    if (ent == 0)
-                        continue;
-
-                    var client = new CCSPlayerController(ent);
-                    if (client == null || !client.IsValid)
-                        continue;
-                    if (Countdown_enable)
-                    {
-                        client.PrintToCenterHtml(
-                        $"<font color='gray'>►</font> <font class='fontSize-m' color='red'>{Time} saniye kaldı</font> <font color='gray'>◄</font>"
-                        );
-                    }
-                    changed = CountdownEnableTextHandler(changed, client);
-                }
-            }));
-        }
-
-        private static bool CountdownEnableTextHandler(bool changed, CCSPlayerController client)
+        internal static bool CountdownEnableTextHandler(bool changed, CCSPlayerController client)
         {
             if (Countdown_enable_text)
             {
@@ -89,7 +57,7 @@ public partial class JailbreakExtras
             return changed;
         }
 
-        public static void CommandStartTextCountDown(JailbreakExtras jailbreakExtras, string text)
+        internal static void CommandStartTextCountDown(JailbreakExtras jailbreakExtras, string text)
         {
             try
             {

@@ -26,9 +26,13 @@ public partial class JailbreakExtras
                .ToList()
                .ForEach(x =>
                {
-                   if (!ActiveGodMode.Remove(x.SteamID))
+                   if (ActiveGodMode.TryGetValue(x.SteamID, out var god))
                    {
-                       ActiveGodMode[x.SteamID] = true;
+                       ActiveGodMode[x.SteamID] = !god;
+                   }
+                   else
+                   {
+                       ActiveGodMode.TryAdd(x.SteamID, true);
                    }
                });
     }

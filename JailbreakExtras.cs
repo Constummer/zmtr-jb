@@ -1,12 +1,5 @@
-using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Core.Attributes.Registration;
-using CounterStrikeSharp.API.Modules.Admin;
-using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Memory.DynamicFunctions;
 using CounterStrikeSharp.API.Modules.Utils;
-using Microsoft.Extensions.Logging;
-using System.Drawing;
 
 namespace JailbreakExtras;
 
@@ -37,10 +30,8 @@ public partial class JailbreakExtras : BasePlugin
 
     public override void Load(bool hotReload)
     {
-        BasicCountdown.Load(this);
-        EventRoundStart();
-        EventPlayerDeath();
-        EventPlayerHurt();
+        CallEvents();
+        CallListeners();
 
         base.Load(hotReload);
     }
