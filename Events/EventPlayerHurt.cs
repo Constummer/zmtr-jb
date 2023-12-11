@@ -1,4 +1,6 @@
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Memory;
 using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
@@ -16,13 +18,22 @@ public partial class JailbreakExtras
 
             if (ActiveGodMode.TryGetValue(@event.Userid.SteamID, out var value))
             {
-                Logger.LogInformation(value.ToString());
                 if (value)
                 {
                     return HookResult.Stop;
                 }
                 return HookResult.Continue;
             }
+
+            return HookResult.Continue;
+        }, HookMode.Post);
+        RegisterEventHandler<EventBulletImpact>((@event, info) =>
+        {
+            if (@event.Userid.IsBot == true)
+            {
+                return HookResult.Continue;
+            }
+            Server.PrintToChatAll($"a= {@event.X},{@event.Y},{@event.Z}");
 
             return HookResult.Continue;
         }, HookMode.Post);

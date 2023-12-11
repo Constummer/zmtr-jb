@@ -1,20 +1,18 @@
-﻿using CounterStrikeSharp.API.Core.Attributes.Registration;
+﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
 using System.Drawing;
-using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static readonly Vector ZeroSpeed = new Vector(0, 0, 0);
-    private static readonly QAngle ZeroRotation = new QAngle(0, 0, 0);
-
     #region Gom - gomsure
 
     [ConsoleCommand("gom", "yere gomer.")]
+    [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me>")]
     public void Gom(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)
@@ -34,14 +32,13 @@ public partial class JailbreakExtras
                if (x?.PlayerPawn?.Value != null)
                {
                    SetColour(x, Color.FromArgb(255, 0, 0, 255));
-                   RefreshPawn(x);
 
-                   Vector currentPosition = x?.Pawn?.Value?.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
+                   Vector currentPosition = x.Pawn.Value.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                    Vector currentSpeed = new Vector(0, 0, 0);
-                   QAngle currentRotation = new QAngle(0, 0, 0);
-                   x.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z - 30), currentRotation, currentSpeed);
+                   QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
+                   x.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z - 50), currentRotation, currentSpeed);
 
-                   x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_NONE;
+                   x.MoveType = MoveType_t.MOVETYPE_NONE;
                }
            });
     }
@@ -54,31 +51,33 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (info.ArgCount != 2) return;
-
         var target = info.GetArg(1);
-        var targetFreeze = GetTargetArgument(target);
         if (int.TryParse(target, out int value))
         {
             BasicCountdown.CommandStartTextCountDown(this, $"{value} saniye kaldı");
-            AddTimer(value, () =>
+            _ = AddTimer(value, () =>
             {
-                GetPlayers(CsTeam.Terrorist)
-                   .Where(x => x.PawnIsAlive)
-                   .ToList()
-                   .ForEach(x =>
-                   {
-                       if (x?.PlayerPawn?.Value != null)
-                       {
-                           //SetColour(x, Color.FromArgb(255, 0, 0, 255));
-                           //RefreshPawn(x);
-                           if (x.AbsOrigin != null)
-                           {
-                               x.Teleport(new Vector(x.AbsOrigin.X, x.AbsOrigin.Y, x.AbsOrigin.Z - 50), ZeroRotation, ZeroSpeed);
-                           }
-                           x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_NONE;
-                       }
-                   });
+                GetPlayers()
+                .Where(x => x != null
+                     && x.PlayerPawn.IsValid
+                     && x.PawnIsAlive
+                     && x.IsValid
+                     && x?.PlayerPawn?.Value != null
+                     && (CsTeam)x.TeamNum == CsTeam.Terrorist)
+                .ToList()
+                .ForEach(x =>
+                {
+                    Server.NextFrame(() =>
+                    {
+                        SetColour(x, Color.FromArgb(255, 0, 0, 255));
+
+                        Vector currentPosition = x.Pawn.Value.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
+                        Vector currentSpeed = new Vector(0, 0, 0);
+                        QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
+                        x.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z - 50), currentRotation, currentSpeed);
+                        x.MoveType = MoveType_t.MOVETYPE_NONE;
+                    });
+                });
             });
         }
     }

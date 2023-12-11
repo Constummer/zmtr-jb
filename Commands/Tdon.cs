@@ -32,18 +32,7 @@ public partial class JailbreakExtras
            .ToList()
            .ForEach(x =>
            {
-               if (x?.PlayerPawn?.Value != null
-                    && ExecuteFreezeOrUnfreeze(x, "@t", player.PlayerName, out randomFreeze))
-               {
-                   SetColour(x, Color.FromArgb(255, 255, 255, 255));
-                   RefreshPawn(x);
-
-                   x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
-                   Vector currentPosition = x.Pawn.Value.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
-                   Vector currentSpeed = new Vector(0, 0, 0);
-                   QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
-                   x.PlayerPawn.Value.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z + 15), currentRotation, currentSpeed);
-               }
+               randomFreeze = UnfreezeX(player, x, "@t", randomFreeze);
            });
     }
 }

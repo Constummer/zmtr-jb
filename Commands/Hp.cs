@@ -38,16 +38,10 @@ public partial class JailbreakExtras
     }
 
     [ConsoleCommand("hpt", "Change t player's HP.")]
-    [CommandHelper(1, "<miktar>")]
     public void OnHealthTCommand(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)
         {
-            return;
-        }
-        if (!int.TryParse(info.GetArg(1), out var health))
-        {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR] Can degeri duzgun deil!");
             return;
         }
         GetPlayers(CsTeam.Terrorist)
@@ -55,23 +49,17 @@ public partial class JailbreakExtras
                .ToList()
                .ForEach(x =>
                {
-                   x.Pawn.Value!.Health = health;
+                   x.Pawn.Value!.Health = 100;
 
                    RefreshPawn(x);
                });
     }
 
     [ConsoleCommand("hpct", "Change ct player's HP.")]
-    [CommandHelper(1, "<miktar>")]
     public void OnHealthCTCommand(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)
         {
-            return;
-        }
-        if (!int.TryParse(info.GetArg(1), out var health))
-        {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR] Can degeri duzgun deil!");
             return;
         }
         GetPlayers(CsTeam.CounterTerrorist)
@@ -79,23 +67,17 @@ public partial class JailbreakExtras
                .ToList()
                .ForEach(x =>
                {
-                   x.Pawn.Value!.Health = health;
+                   x.Pawn.Value!.Health = 100;
 
                    RefreshPawn(x);
                });
     }
 
     [ConsoleCommand("hpall", "Change all player's HP.")]
-    [CommandHelper(1, "<miktar>")]
     public void OnHealthALLCommand(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)
         {
-            return;
-        }
-        if (!int.TryParse(info.GetArg(1), out var health))
-        {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR] Can degeri duzgun deil!");
             return;
         }
         GetPlayers()
@@ -103,7 +85,7 @@ public partial class JailbreakExtras
                .ToList()
                .ForEach(x =>
                {
-                   x.Pawn.Value!.Health = health;
+                   x.Pawn.Value!.Health = 100;
 
                    RefreshPawn(x);
                });

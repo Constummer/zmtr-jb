@@ -9,28 +9,28 @@ public partial class JailbreakExtras
 {
     private void AddTimers()
     {
-        AddTimer(0.3f, () =>
-       {
-           if (freezeWanted)
-           {
-               if (freezeTimer == 0)
-               {
-                   GetPlayers()
-                   .Where(x => x != null
-                        && x.PlayerPawn.IsValid
-                        && x.PawnIsAlive
-                        && x.IsValid
-                        && x?.PlayerPawn?.Value != null
-                        && (CsTeam)x.TeamNum == CsTeam.Terrorist
-                        && x.PlayerPawn.Value.MoveType == MoveType_t.MOVETYPE_NONE)
-                   .ToList()
-                   .ForEach(x =>
-                   {
-                       SetColour(x, Color.FromArgb(255, 0, 0, 255));
-                       RefreshPawn(x);
-                   });
-               }
-           }
-       }, TimerFlags.REPEAT);
+        // AddTimer(0.3f, () =>
+        //{
+        //    if (freezeWanted)
+        //    {
+        //        if (freezeTimer == 0)
+        //        {
+        //            GetPlayers()
+        //            .Where(x => x != null
+        //                 && x.PlayerPawn.IsValid
+        //                 && x.PawnIsAlive
+        //                 && x.IsValid
+        //                 && x?.PlayerPawn?.Value != null
+        //                 && (CsTeam)x.TeamNum == CsTeam.Terrorist
+        //                 && x.PlayerPawn.Value.MoveType == MoveType_t.MOVETYPE_NONE)
+        //            .ToList()
+        //            .ForEach(x =>
+        //            {
+        //                SetColour(x, Color.FromArgb(255, 0, 0, 255));
+        //                RefreshPawn(x);
+        //            });
+        //        }
+        //    }
+        //}, TimerFlags.REPEAT);
     }
 }
