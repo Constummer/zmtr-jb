@@ -1,5 +1,4 @@
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
@@ -37,8 +36,10 @@ public partial class JailbreakExtras : BasePlugin
 
             return HookResult.Continue;
         });
+
         CallEvents();
         CallListeners();
+        CallCommandListeners();
         AddTimers();
         base.Load(hotReload);
     }
