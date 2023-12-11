@@ -6,5 +6,6 @@ public partial class JailbreakExtras
     {
         ListenersOnMapStart();
         ListenersOnTick();
+        ListenersOnClientConnected();
     }
 }
