@@ -2,8 +2,6 @@ using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Utils;
-using Microsoft.Extensions.Logging;
-using Serilog.Core;
 using System.Drawing;
 
 namespace JailbreakExtras;
@@ -13,20 +11,20 @@ public partial class JailbreakExtras
     private static IEnumerable<CCSPlayerController> GetPlayers(CsTeam? team = null)
     {
         bool changed = false;
-        var players = new List<CCSPlayerController>();
-        for (int i = 1; i < Server.MaxPlayers; i++)
-        {
-            var ent = NativeAPI.GetEntityFromIndex(i);
-            if (ent == 0)
-                continue;
+        //var players = new List<CCSPlayerController>();
+        //for (int i = 1; i < Server.MaxPlayers; i++)
+        //{
+        //    var ent = NativeAPI.GetEntityFromIndex(i);
+        //    if (ent == 0)
+        //        continue;
 
-            var player = new CCSPlayerController(ent);
-            if (player == null || !player.IsValid)
-                continue;
-            players.Add(player);
-        }
-        return players
-        //return Utilities.GetPlayers()
+        //    var player = new CCSPlayerController(ent);
+        //    if (player == null || !player.IsValid)
+        //        continue;
+        //    players.Add(player);
+        //}
+        //return players
+        return Utilities.GetPlayers()
              .Where(x => x != null
                          && x.Connected == PlayerConnectedState.PlayerConnected
                          && x.IsValid
@@ -188,41 +186,4 @@ public partial class JailbreakExtras
         "@me" => TargetForArgument.Me,
         _ => TargetForArgument.None,
     };
-
-    private void FreezeTarget(string target, string self)
-    {
-        bool randomFreeze = false;
-
-        GetPlayers()
-              .Where(x => x != null
-                   && x.PlayerPawn.IsValid
-                   && x.PawnIsAlive
-                   && x.IsValid
-                   && GetTargetAction(x, target, self))
-              .ToList()
-        .ForEach(x =>
-        {
-            Freeze(target, x, self, ref randomFreeze);
-        });
-    }
-
-    private static void Freeze(string target, CCSPlayerController x, string self, ref bool randomFreeze)
-    {
-        if (randomFreeze == false
-        && x?.PlayerPawn?.Value != null
-            && ExecuteFreezeOrUnfreeze(x, target, self, out randomFreeze))
-        {
-            SetColour(x, Color.FromArgb(255, 0, 0, 255));
-            RefreshPawn(x);
-
-            var tempPlayer = x;
-
-            Vector currentPosition = tempPlayer?.Pawn?.Value?.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
-            Vector currentSpeed = new Vector(0, 0, 0);
-            QAngle currentRotation = new QAngle(0, 0, 0);
-            tempPlayer.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z - 30), currentRotation, currentSpeed);
-
-            tempPlayer.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_NONE;
-        }
-    }
 }

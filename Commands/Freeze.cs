@@ -31,32 +31,26 @@ public partial class JailbreakExtras
             freezeTimer = value;
             BasicCountdown.CommandStartTextCountDown(this, $"{value} saniye kaldı");
 
-            _ = AddTimer(1f, () =>
+            _ = AddTimer(value, () =>
             {
-                if (freezeWanted)
+                GetPlayers()
+                .Where(x => x != null
+                     && x.PlayerPawn.IsValid
+                     && x.PawnIsAlive
+                     && x.IsValid
+                     && x?.PlayerPawn?.Value != null
+                     && (CsTeam)x.TeamNum == CsTeam.Terrorist)
+                .ToList()
+                .ForEach(x =>
                 {
-                    freezeTimer--;
-                    if (freezeTimer == 0)
-                    {
-                        freezeWanted = false;
-                        GetPlayers()
-                        .Where(x => x != null
-                             && x.PlayerPawn.IsValid
-                             && x.PawnIsAlive
-                             && x.IsValid
-                             && x?.PlayerPawn?.Value != null
-                             && (CsTeam)x.TeamNum == CsTeam.Terrorist)
-                        .ToList()
-                        .ForEach(x =>
-                        {
-                            if (x.AbsOrigin != null)
-                            {
-                                x.Teleport(new Vector(x.AbsOrigin.X, x.AbsOrigin.Y, x.AbsOrigin.Z - 50), ZeroRotation, ZeroSpeed);
-                            }
-                            x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_NONE;
-                        });
-                    }
-                }
+                    SetColour(x, Color.FromArgb(255, 0, 0, 255));
+
+                    Vector currentPosition = x.Pawn.Value.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
+                    Vector currentSpeed = new Vector(0, 0, 0);
+                    QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
+                    x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
+                    x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_NONE;
+                });
             }, TimerFlags.REPEAT);
         }
     }
@@ -104,6 +98,40 @@ public partial class JailbreakExtras
                     x.PlayerPawn.Value.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z + 100), currentRotation, currentSpeed);
                 }
             });
+    }
+
+    private void FreezeTarget(string target, string self)
+    {
+        bool randomFreeze = false;
+
+        GetPlayers()
+              .Where(x => x != null
+                   && x.PlayerPawn.IsValid
+                   && x.PawnIsAlive
+                   && x.IsValid
+                   && GetTargetAction(x, target, self))
+              .ToList()
+        .ForEach(x =>
+        {
+            Freeze(target, x, self, ref randomFreeze);
+        });
+    }
+
+    private static void Freeze(string target, CCSPlayerController x, string self, ref bool randomFreeze)
+    {
+        if (randomFreeze == false
+        && x?.PlayerPawn?.Value != null
+            && ExecuteFreezeOrUnfreeze(x, target, self, out randomFreeze))
+        {
+            SetColour(x, Color.FromArgb(255, 0, 0, 255));
+            RefreshPawn(x);
+
+            Vector currentPosition = x.Pawn.Value.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
+            Vector currentSpeed = new Vector(0, 0, 0);
+            QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
+            x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
+            x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_NONE;
+        }
     }
 
     #endregion Freeze-Unfreeze
