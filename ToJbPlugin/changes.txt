@@ -1,0 +1,12 @@
+ jail.cs içinde 
+ - public class JailPlugin
+ yazıyor
+ bunu
+ - public partial class JailPlugin
+ haline getir
+ 
+ 
+ 
+ bu iki satırı register_hook methoduna ekle
+ RegisterEventHandler<EventRoundStart>(EXTRAOnRoundStart);
+ RegisterEventHandler<EventPlayerPing>(EXTRAOnPlayerPing);

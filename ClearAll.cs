@@ -13,13 +13,5 @@ public partial class JailbreakExtras
         ActiveGodMode?.Clear();
         DeathLocations?.Clear();
         KilledPlayers?.Clear();
-        if (Lasers != null)
-        {
-            foreach (var item in Lasers)
-            {
-                item.Remove();
-            }
-            Lasers.Clear();
-        }
     }
 }

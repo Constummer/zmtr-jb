@@ -13,15 +13,6 @@ public partial class JailbreakExtras : BasePlugin
     private static readonly Dictionary<ulong, bool> ActiveGodMode = new();
     private static readonly Dictionary<ulong, Vector> DeathLocations = new();
     private static readonly Dictionary<ulong, Dictionary<ulong, string>> KilledPlayers = new();
-    private static readonly List<CEnvBeam> Lasers = new();
-
-    private static LaserConfigData LaserConfig = new LaserConfigData()
-    {
-        Radius = 75,//marker R
-        Width = 2,//marker genisligi
-        EdgeCount = 100,// marker kenarindaki line sayisi
-        Color = CYAN,// marker color
-    };
 
     private static readonly Random _random = new Random();
 
