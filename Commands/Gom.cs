@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
+using Microsoft.Extensions.Logging;
 using System.Drawing;
 
 namespace JailbreakExtras;
@@ -24,23 +25,22 @@ public partial class JailbreakExtras
         var target = info.GetArg(1);
 
         GetPlayers()
-           .Where(x => x.PawnIsAlive
-                   && GetTargetAction(x, target, player.PlayerName))
-           .ToList()
-           .ForEach(x =>
-           {
-               if (x?.PlayerPawn?.Value != null)
-               {
-                   SetColour(x, Color.FromArgb(255, 0, 0, 255));
+             .Where(x => x.PawnIsAlive
+                     && GetTargetAction(x, target, player.PlayerName))
+             .ToList()
+             .ForEach(x =>
+          {
+              if (x?.PlayerPawn?.Value != null)
+              {
+                  SetColour(x, Color.FromArgb(255, 0, 0, 255));
 
-                   Vector currentPosition = x.Pawn.Value.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
-                   Vector currentSpeed = new Vector(0, 0, 0);
-                   QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
-                   x.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z - 50), currentRotation, currentSpeed);
-
-                   x.MoveType = MoveType_t.MOVETYPE_NONE;
-               }
-           });
+                  x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_NONE;
+                  Vector currentPosition = x.Pawn.Value.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
+                  Vector currentSpeed = new Vector(0, 0, 0);
+                  QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
+                  x.PlayerPawn.Value.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z - 40), currentRotation, currentSpeed);
+              }
+          });
     }
 
     [ConsoleCommand("gomsure", "yere gomer.")]
@@ -67,22 +67,20 @@ public partial class JailbreakExtras
                 .ToList()
                 .ForEach(x =>
                 {
-                    Server.NextFrame(() =>
-                    {
-                        SetColour(x, Color.FromArgb(255, 0, 0, 255));
+                    SetColour(x, Color.FromArgb(255, 0, 0, 255));
 
-                        Vector currentPosition = x.Pawn.Value.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
-                        Vector currentSpeed = new Vector(0, 0, 0);
-                        QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
-                        x.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z - 50), currentRotation, currentSpeed);
-                        x.MoveType = MoveType_t.MOVETYPE_NONE;
-                    });
+                    x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_NONE;
+                    Vector currentPosition = x.Pawn.Value.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
+                    Vector currentSpeed = new Vector(0, 0, 0);
+                    QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
+                    x.PlayerPawn.Value.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z - 40), currentRotation, currentSpeed);
                 });
             });
         }
     }
 
     [ConsoleCommand("gomkaldir", "yerden kaldirir.")]
+    [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me>")]
     public void GomKaldir(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)
@@ -102,7 +100,7 @@ public partial class JailbreakExtras
                if (x?.PlayerPawn?.Value != null)
                {
                    SetColour(x, Color.FromArgb(255, 255, 255, 255));
-                   RefreshPawn(x);
+                   //RefreshPawn(x);
 
                    x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
                    Vector currentPosition = x.Pawn.Value.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);

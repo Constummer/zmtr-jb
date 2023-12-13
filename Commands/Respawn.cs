@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
@@ -29,7 +30,7 @@ public partial class JailbreakExtras
               });
     }
 
-    [ConsoleCommand("respawn", "öldüğü yerde canlanır")]
+    [ConsoleCommand("respawn")]
     [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me>")]
     public void Respawn(CCSPlayerController? player, CommandInfo info)
     {
@@ -47,6 +48,30 @@ public partial class JailbreakExtras
               {
                   x.Respawn();
               });
+    }
+
+    [ConsoleCommand("respawnAc")]
+    public void RespawnAc(CCSPlayerController? player, CommandInfo info)
+    {
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+
+        Server.ExecuteCommand("mp_respawn_on_death_ct 1");
+        Server.ExecuteCommand("mp_respawn_on_death_t 1");
+    }
+
+    [ConsoleCommand("respawnKapa")]
+    [ConsoleCommand("respawnKapat")]
+    public void RespawnKapat(CCSPlayerController? player, CommandInfo info)
+    {
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        Server.ExecuteCommand("mp_respawn_on_death_ct 0");
+        Server.ExecuteCommand("mp_respawn_on_death_t 0");
     }
 
     private void RespawnPlayer(CCSPlayerController x)

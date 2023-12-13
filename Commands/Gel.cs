@@ -25,7 +25,10 @@ public partial class JailbreakExtras
               .ToList()
               .ForEach(x =>
               {
-                  x.Teleport(player.AbsOrigin, new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
+                  if (x.SteamID != player.SteamID)
+                  {
+                      x.Teleport(player.PlayerPawn.Value.AbsOrigin, new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
+                  }
               });
     }
 
@@ -37,12 +40,15 @@ public partial class JailbreakExtras
             return;
         }
         GetPlayers()
-              .Where(x => x.PawnIsAlive == false
+              .Where(x => x.PawnIsAlive
                           && GetTargetAction(x, "@t", player.PlayerName))
               .ToList()
               .ForEach(x =>
               {
-                  x.Teleport(player.AbsOrigin, new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
+                  if (x.SteamID != player.SteamID)
+                  {
+                      x.Teleport(player.PlayerPawn.Value.AbsOrigin, new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
+                  }
               });
     }
 
@@ -54,12 +60,15 @@ public partial class JailbreakExtras
             return;
         }
         GetPlayers()
-              .Where(x => x.PawnIsAlive == false
+              .Where(x => x.PawnIsAlive
                           && GetTargetAction(x, "@ct", player.PlayerName))
               .ToList()
               .ForEach(x =>
               {
-                  x.Teleport(player.AbsOrigin, new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
+                  if (x.SteamID != player.SteamID)
+                  {
+                      x.Teleport(player.PlayerPawn.Value.AbsOrigin, new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
+                  }
               });
     }
 
@@ -71,12 +80,15 @@ public partial class JailbreakExtras
             return;
         }
         GetPlayers()
-              .Where(x => x.PawnIsAlive == false
+              .Where(x => x.PawnIsAlive
                           && GetTargetAction(x, "@all", player.PlayerName))
               .ToList()
               .ForEach(x =>
               {
-                  x.Teleport(player.AbsOrigin, new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
+                  if (x.SteamID != player.SteamID)
+                  {
+                      x.Teleport(player.PlayerPawn.Value.AbsOrigin, new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
+                  }
               });
     }
 

@@ -33,7 +33,7 @@ public partial class JailbreakExtras
                {
                    x.Pawn.Value!.Health = health;
 
-                   RefreshPawn(x);
+                   //RefreshPawn(x);
                });
     }
 
@@ -51,7 +51,7 @@ public partial class JailbreakExtras
                {
                    x.Pawn.Value!.Health = 100;
 
-                   RefreshPawn(x);
+                   //RefreshPawn(x);
                });
     }
 
@@ -69,7 +69,7 @@ public partial class JailbreakExtras
                {
                    x.Pawn.Value!.Health = 100;
 
-                   RefreshPawn(x);
+                   //RefreshPawn(x);
                });
     }
 
@@ -87,7 +87,7 @@ public partial class JailbreakExtras
                {
                    x.Pawn.Value!.Health = 100;
 
-                   RefreshPawn(x);
+                   //RefreshPawn(x);
                });
     }
 

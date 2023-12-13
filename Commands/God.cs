@@ -44,7 +44,7 @@ public partial class JailbreakExtras
                        ActiveGodMode.TryAdd(x.SteamID, true);
                        FakeGod(x, int.MaxValue);
                    }
-                   RefreshPawn(x);
+                   //RefreshPawn(x);
                });
     }
 
@@ -61,7 +61,7 @@ public partial class JailbreakExtras
                {
                    ActiveGodMode[x.SteamID] = true;
                    FakeGod(x, int.MaxValue);
-                   RefreshPawn(x);
+                   //RefreshPawn(x);
                });
     }
 
@@ -78,7 +78,7 @@ public partial class JailbreakExtras
                {
                    ActiveGodMode.Remove(x.SteamID);
                    FakeGod(x, 100);
-                   RefreshPawn(x);
+                   //RefreshPawn(x);
                });
     }
 

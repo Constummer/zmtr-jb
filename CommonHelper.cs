@@ -30,6 +30,7 @@ public partial class JailbreakExtras
                          && x.Connected == PlayerConnectedState.PlayerConnected
                          && x.IsValid
                          && !x.IsBot
+                         && !x.IsHLTV
                          && x.Pawn?.Value != null
                          && (team.HasValue ? team.Value == GetTeam(x) : true));
     }
