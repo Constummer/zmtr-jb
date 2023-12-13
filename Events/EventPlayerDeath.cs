@@ -35,7 +35,10 @@ public partial class JailbreakExtras
                     });
                     }
                 }
-                AddCreditToAttacker(@event?.Attacker, GetTeam(@event.Userid));
+                if (@event?.Attacker.UserId != @event?.Userid.UserId)
+                {
+                    AddCreditToAttacker(@event?.Attacker, GetTeam(@event.Userid));
+                }
             }
             Vector currentPosition = @event?.Userid?.Pawn?.Value?.CBodyComponent?.SceneNode?.AbsOrigin;
             if (currentPosition != null)
