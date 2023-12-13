@@ -1,12 +1,14 @@
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private void ListenersOnClientConnected()
+    private void ListenersOnClientDisconnect()
     {
-        RegisterListener<Listeners.OnClientConnected>(playerSlot =>
+        RegisterListener<Listeners.OnClientDisconnect>(playerSlot =>
         {
             uint finalSlot = (uint)playerSlot + 1;
             CCSPlayerController player = new CCSPlayerController(NativeAPI.GetEntityFromIndex((int)finalSlot));
@@ -17,7 +19,7 @@ public partial class JailbreakExtras
             {
                 Task.Run(async () =>
                 {
-                    await GetPlayerMarketData(player!.SteamID);
+                    await UpdatePlayerMarketData(player!.SteamID);
                 });
             }
         });

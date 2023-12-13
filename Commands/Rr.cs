@@ -1,8 +1,7 @@
-﻿using CounterStrikeSharp.API.Core.Attributes.Registration;
+﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Utils;
-using CounterStrikeSharp.API;
 
 namespace JailbreakExtras;
 
@@ -10,7 +9,7 @@ public partial class JailbreakExtras
 {
     #region RR
 
-    [ConsoleCommand("rr", "Eli yeniden baslatir")]
+    [ConsoleCommand("rr")]
     public void RR(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)

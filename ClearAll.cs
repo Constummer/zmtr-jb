@@ -13,5 +13,7 @@ public partial class JailbreakExtras
         ActiveGodMode?.Clear();
         DeathLocations?.Clear();
         KilledPlayers?.Clear();
+        LatestHediyeCall?.Clear();
+        PlayerMarketModels?.Clear();
     }
 }

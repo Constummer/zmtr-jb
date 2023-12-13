@@ -4,9 +4,9 @@
     <TargetFramework>net7.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <CopyLocalLockFileAssemblies>false</CopyLocalLockFileAssemblies>
+	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
   </PropertyGroup>
-
+	
   <ItemGroup>
     <Compile Remove="ToJbPlugin\**" />
     <EmbeddedResource Remove="ToJbPlugin\**" />
@@ -15,6 +15,8 @@
 
   <ItemGroup>
     <PackageReference Include="CounterStrikeSharp.API" Version="1.0.121" />
+    <PackageReference Include="Dapper" Version="2.1.24" />
+	<PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.14" />
   </ItemGroup>
 
 </Project>

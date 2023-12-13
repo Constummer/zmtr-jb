@@ -1,6 +1,5 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Utils;
-using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
 
@@ -31,6 +30,25 @@ public partial class JailbreakExtras : BasePlugin
 
     public override void Load(bool hotReload)
     {
+        //!!!!DO NOT CHANGE ORDER OF CALLS IN THIS METHOD !!!!!
+
+        #region System Releated
+
+        CreateDataFolder();
+        DatabaseInit();
+        LoadPlayerModels();
+
+        #endregion System Releated
+
+        #region CSS releated
+
+        CallEvents();
+        CallListeners();
+        CallCommandListeners();
+        AddTimers();
+
+        #endregion CSS releated
+
         //HookEntityOutput("*", "*", (output, name, activator, caller, value, delay) =>
         //{
         //    Logger.LogInformation("All EntityOutput ({name}, {activator}, {caller}, {delay})", output.Description.Name, activator.DesignerName, caller.DesignerName, delay);
@@ -38,10 +56,6 @@ public partial class JailbreakExtras : BasePlugin
         //    return HookResult.Continue;
         //});
 
-        CallEvents();
-        CallListeners();
-        CallCommandListeners();
-        AddTimers();
         base.Load(hotReload);
     }
 }

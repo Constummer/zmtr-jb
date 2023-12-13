@@ -19,7 +19,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if ((CsTeam)player.TeamNum != CsTeam.CounterTerrorist)
+        if (GetTeam(player) != CsTeam.CounterTerrorist)
         {
             return;
         }

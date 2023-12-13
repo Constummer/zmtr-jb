@@ -27,15 +27,5 @@ public partial class JailbreakExtras
 
             return HookResult.Continue;
         }, HookMode.Post);
-        RegisterEventHandler<EventBulletImpact>((@event, info) =>
-        {
-            if (@event.Userid.IsBot == true)
-            {
-                return HookResult.Continue;
-            }
-            Server.PrintToChatAll($"a= {@event.X},{@event.Y},{@event.Z}");
-
-            return HookResult.Continue;
-        }, HookMode.Post);
     }
 }

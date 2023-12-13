@@ -7,5 +7,6 @@ public partial class JailbreakExtras
         EventRoundStart();
         EventPlayerDeath();
         EventPlayerHurt();
+        EventPlayerSpawn();
     }
 }

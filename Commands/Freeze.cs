@@ -34,7 +34,7 @@ public partial class JailbreakExtras
                      && x.PawnIsAlive
                      && x.IsValid
                      && x?.PlayerPawn?.Value != null
-                     && (CsTeam)x.TeamNum == CsTeam.Terrorist)
+                     && GetTeam(x) == CsTeam.Terrorist)
                 .ToList()
                 .ForEach(x =>
                 {

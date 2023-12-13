@@ -1,6 +1,7 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Admin;
+using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Utils;
 using System.Drawing;
 
@@ -30,7 +31,7 @@ public partial class JailbreakExtras
                          && x.IsValid
                          && !x.IsBot
                          && x.Pawn?.Value != null
-                         && (team.HasValue ? team.Value == (CsTeam)x.TeamNum : true));
+                         && (team.HasValue ? team.Value == GetTeam(x) : true));
     }
 
     private static bool CheckPermission(CCSPlayerController player)
@@ -46,16 +47,25 @@ public partial class JailbreakExtras
         return res;
     }
 
-    private static bool ValidateCallerPlayer(CCSPlayerController? player)
+    private static bool ValidateCallerPlayer(CCSPlayerController? player, bool checkPermission = true)
     {
         if (player == null) return false;
-        if (CheckPermission(player) == false)
+        if (checkPermission)
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR] Bu komutu kullanamazsın!");
-            return false;
+            if (CheckPermission(player) == false)
+            {
+                player.PrintToChat($" {ChatColors.LightRed}[ZMTR] Bu komutu kullanamazsın!");
+                return false;
+            }
         }
         if (player.IsBot) return false;
-        if (!player.IsValid || !player.PlayerPawn.IsValid) return false;
+        if (player == null
+            || !player.IsValid
+            || player.PlayerPawn == null
+            || !player.PlayerPawn.IsValid
+            || player.PlayerPawn.Value == null
+            || !player.PlayerPawn.Value.IsValid
+            ) return false;
         return true;
     }
 
@@ -146,8 +156,8 @@ public partial class JailbreakExtras
         return targetArgument switch
         {
             TargetForArgument.All => true,
-            TargetForArgument.T => (CsTeam)x.TeamNum == CsTeam.Terrorist,
-            TargetForArgument.Ct => (CsTeam)x.TeamNum == CsTeam.CounterTerrorist,
+            TargetForArgument.T => GetTeam(x) == CsTeam.Terrorist,
+            TargetForArgument.Ct => GetTeam(x) == CsTeam.CounterTerrorist,
             TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target) ?? false,
             TargetForArgument.Me => x.PlayerName == self,
             _ => false
@@ -161,11 +171,11 @@ public partial class JailbreakExtras
         var targetArgument = GetTargetArgument(target);
         return targetArgument switch
         {
-            TargetForArgument.T => (CsTeam)x.TeamNum == CsTeam.Terrorist,
-            TargetForArgument.Ct => (CsTeam)x.TeamNum == CsTeam.CounterTerrorist,
+            TargetForArgument.T => GetTeam(x) == CsTeam.Terrorist,
+            TargetForArgument.Ct => GetTeam(x) == CsTeam.CounterTerrorist,
             TargetForArgument.Random => randomFreeze,
-            TargetForArgument.RandomT => randomFreeze && (CsTeam)x.TeamNum == CsTeam.Terrorist,
-            TargetForArgument.RandomCt => randomFreeze && (CsTeam)x.TeamNum == CsTeam.CounterTerrorist,
+            TargetForArgument.RandomT => randomFreeze && GetTeam(x) == CsTeam.Terrorist,
+            TargetForArgument.RandomCt => randomFreeze && GetTeam(x) == CsTeam.CounterTerrorist,
             TargetForArgument.All => true,
             TargetForArgument.Alive => true,
             TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target) ?? false,
@@ -173,6 +183,8 @@ public partial class JailbreakExtras
             _ => false,
         };
     }
+
+    private static CsTeam GetTeam(CCSPlayerController x) => x.PendingTeamNum != x.TeamNum ? (CsTeam)x.PendingTeamNum : (CsTeam)x.TeamNum;
 
     private static TargetForArgument GetTargetArgument(string target) => target switch
     {

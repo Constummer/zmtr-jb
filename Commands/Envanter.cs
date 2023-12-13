@@ -1,0 +1,70 @@
+﻿using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Core.Attributes.Registration;
+using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Menu;
+using CounterStrikeSharp.API.Modules.Utils;
+
+namespace JailbreakExtras;
+
+public partial class JailbreakExtras
+{
+    #region Envanter
+
+    [ConsoleCommand("env")]
+    [ConsoleCommand("envanter")]
+    [ConsoleCommand("inventory")]
+    [ConsoleCommand("inv")]
+    public void Envanter(CCSPlayerController? player, CommandInfo info)
+    {
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        if (player?.SteamID == null || player!.SteamID == 0)
+        {
+            return;
+        }
+
+        if (PlayerMarketModels.TryGetValue(player.SteamID, out var item))
+        {
+            var marketMenu = new ChatMenu($"Envanter | Krediniz = [{item.Credit}]");
+            marketMenu.AddMenuOption(CTOyuncuModeli, OpenSelectedModelEnv);
+            marketMenu.AddMenuOption(TOyuncuModeli, OpenSelectedModelEnv);
+
+            ChatMenus.OpenMenu(player, marketMenu);
+        }
+        else
+        {
+            item = new(player.SteamID);
+            PlayerMarketModels[player.SteamID] = item;
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.LightBlue} Envanterinde hiç item yok");
+        }
+    }
+
+    private void OpenSelectedModelEnv(CCSPlayerController player, ChatMenuOption option)
+    {
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        if (player?.SteamID == null || player!.SteamID == 0)
+        {
+            return;
+        }
+        switch (option.Text)
+        {
+            case CTOyuncuModeli:
+                GetPlayerModelsMenu(player, CsTeam.CounterTerrorist, true);
+                break;
+
+            case TOyuncuModeli:
+                GetPlayerModelsMenu(player, CsTeam.Terrorist, true);
+                break;
+
+            default:
+                break;
+        }
+    }
+
+    #endregion Envanter
+}

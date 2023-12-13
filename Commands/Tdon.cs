@@ -27,7 +27,7 @@ public partial class JailbreakExtras
             return;
         }
         bool randomFreeze = false;
-        GetPlayers()
+        GetPlayers(CsTeam.Terrorist)
            .Where(x => x.PawnIsAlive)
            .ToList()
            .ForEach(x =>

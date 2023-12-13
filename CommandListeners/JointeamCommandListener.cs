@@ -11,7 +11,9 @@ public partial class JailbreakExtras
         {
             if (info.ArgString != null)
             {
-                if (info.ArgString.Contains("0") || info.ArgString.Contains("1") || info.ArgString.Contains("3"))
+                if (info.ArgString.Contains("0")
+                 || info.ArgString.Contains("1")
+                 || info.ArgString.Contains("3"))
                 {
                     player.ChangeTeam(CsTeam.Terrorist);
                     return HookResult.Stop;
