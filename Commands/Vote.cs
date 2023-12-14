@@ -79,22 +79,6 @@ public partial class JailbreakExtras
         return;
     }
 
-    public void Vote(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        GetPlayers()
-              .Where(x => x.PawnIsAlive
-                          && GetTargetAction(x, "@all", player.PlayerName))
-              .ToList()
-              .ForEach(x =>
-              {
-                  x.Teleport(player.AbsOrigin, new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
-              });
-    }
-
     internal static void HandleVotes(CCSPlayerController player, ChatMenuOption option)
     {
         if (VoteInProgress)

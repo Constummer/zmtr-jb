@@ -52,7 +52,7 @@ public partial class JailbreakExtras
 
     private void AddCreditToAttacker(CCSPlayerController? attacker, CsTeam teamNum)
     {
-        if (ValidateCallerPlayer(attacker) == false)
+        if (ValidateCallerPlayer(attacker, false) == false)
         {
             return;
         }

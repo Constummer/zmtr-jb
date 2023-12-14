@@ -31,7 +31,7 @@ public partial class JailbreakExtras
                .ToList()
                .ForEach(x =>
                {
-                   if (ValidateCallerPlayer(x) && x?.SteamID != null && x!.SteamID != 0)
+                   if (ValidateCallerPlayer(x, false) && x?.SteamID != null && x!.SteamID != 0)
                    {
                        if (PlayerMarketModels.TryGetValue(x.SteamID, out var item))
                        {

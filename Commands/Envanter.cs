@@ -16,7 +16,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("inv")]
     public void Envanter(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (ValidateCallerPlayer(player, false) == false)
         {
             return;
         }
@@ -43,7 +43,7 @@ public partial class JailbreakExtras
 
     private void OpenSelectedModelEnv(CCSPlayerController player, ChatMenuOption option)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (ValidateCallerPlayer(player, false) == false)
         {
             return;
         }

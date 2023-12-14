@@ -91,7 +91,7 @@ public partial class JailbreakExtras
         {
             BasicCountdown.CommandStartTextCountDown(this, $"FF açılmasına {value} saniye kaldı");
             GetPlayers(CsTeam.Terrorist)
-             .Where(x => x.PawnIsAlive && ValidateCallerPlayer(x))
+             .Where(x => x.PawnIsAlive && ValidateCallerPlayer(x, false))
              .ToList()
              .ForEach(x =>
              {

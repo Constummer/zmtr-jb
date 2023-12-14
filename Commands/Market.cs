@@ -51,7 +51,7 @@ public partial class JailbreakExtras
 
     private void OpenSelectedModelMarket(CCSPlayerController player, ChatMenuOption option)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (ValidateCallerPlayer(player, false) == false)
         {
             return;
         }
@@ -132,7 +132,7 @@ public partial class JailbreakExtras
 
     private void OpenSelectedModel(CCSPlayerController player, ChatMenuOption option)
     {
-        if (ValidateCallerPlayer(player) == false) return;
+        if (ValidateCallerPlayer(player, false) == false) return;
         if (player?.SteamID == null || player!.SteamID == 0) return;
         if (string.IsNullOrWhiteSpace(option.Text)) return;
 

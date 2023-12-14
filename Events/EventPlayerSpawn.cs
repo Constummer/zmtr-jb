@@ -25,7 +25,7 @@ public partial class JailbreakExtras
         {
             foreach (var item in GetPlayers())
             {
-                if (ValidateCallerPlayer(item)
+                if (ValidateCallerPlayer(item, false)
                     && item?.SteamID != null
                     && item!.SteamID != 0)
                 {
