@@ -20,6 +20,14 @@ public partial class JailbreakExtras
                 {
                     player.Health = 100;
                     player.PlayerPawn.Value!.Health = 100;
+                    if (player.PawnArmor != 0)
+                    {
+                        player.PawnArmor = 100;
+                    }
+                    if (player.PlayerPawn.Value!.ArmorValue != 0)
+                    {
+                        player.PlayerPawn.Value!.ArmorValue = 100;
+                    }
                 }
             }
 
