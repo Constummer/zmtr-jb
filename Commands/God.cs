@@ -28,21 +28,21 @@ public partial class JailbreakExtras
                {
                    if (ActiveGodMode.TryGetValue(x.SteamID, out var god))
                    {
-                       if (god)
-                       {
-                           FakeGod(x, 100);
-                       }
-                       else
-                       {
-                           FakeGod(x, int.MaxValue);
-                       }
+                       //if (god)
+                       //{
+                       //    FakeGod(x, 100);
+                       //}
+                       //else
+                       //{
+                       //    FakeGod(x, int.MaxValue);
+                       //}
 
                        ActiveGodMode[x.SteamID] = !god;
                    }
                    else
                    {
                        ActiveGodMode.TryAdd(x.SteamID, true);
-                       FakeGod(x, int.MaxValue);
+                       //FakeGod(x, int.MaxValue);
                    }
                    //RefreshPawn(x);
                });
@@ -60,7 +60,7 @@ public partial class JailbreakExtras
                .ForEach(x =>
                {
                    ActiveGodMode[x.SteamID] = true;
-                   FakeGod(x, int.MaxValue);
+                   //FakeGod(x, int.MaxValue);
                    //RefreshPawn(x);
                });
     }
@@ -77,7 +77,7 @@ public partial class JailbreakExtras
                .ForEach(x =>
                {
                    ActiveGodMode.Remove(x.SteamID);
-                   FakeGod(x, 100);
+                   //FakeGod(x, 100);
                    //RefreshPawn(x);
                });
     }

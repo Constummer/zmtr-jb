@@ -1,7 +1,4 @@
-using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Memory;
-using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
 
@@ -15,14 +12,15 @@ public partial class JailbreakExtras
             {
                 return HookResult.Continue;
             }
+            CCSPlayerController? player = @event.Userid;
 
             if (ActiveGodMode.TryGetValue(@event.Userid.SteamID, out var value))
             {
                 if (value)
                 {
-                    return HookResult.Stop;
+                    player.Health = 100;
+                    player.PlayerPawn.Value!.Health = 100;
                 }
-                return HookResult.Continue;
             }
 
             return HookResult.Continue;
