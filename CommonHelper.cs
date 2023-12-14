@@ -79,22 +79,21 @@ public partial class JailbreakExtras
     {
         if (player != null)
         {
-            if (player.PlayerPawn?.Value?.WeaponServices?.MyWeapons != null)
+            if (ValidateCallerPlayer(player, false) == false)
+                return;
+            var weaponServices = player.PlayerPawn.Value!.WeaponServices;
+            if (weaponServices == null) return;
+
+            player.GiveNamedItem("weapon_healthshot");
+
+            foreach (var weapon in weaponServices.MyWeapons)
             {
-                foreach (var weapon in player.PlayerPawn.Value.WeaponServices!.MyWeapons)
+                if (weapon != null && weapon.IsValid && weapon.Value!.DesignerName == "weapon_healthshot")
                 {
-                    if (weapon.Value != null
-                        && string.IsNullOrWhiteSpace(weapon.Value.DesignerName) == false
-                        && weapon.Value.DesignerName != "[null]")
-                    {
-                        if (weapon.Value.DesignerName.Contains("knife") == true)
-                        {
-                            weapon.Value.Remove();
-                        }
-                    }
+                    weapon.Value.Remove();
+                    break;
                 }
             }
-            player.GiveNamedItem("weapon_knife");
         }
     }
 

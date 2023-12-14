@@ -31,9 +31,12 @@ public partial class JailbreakExtras
                .ToList()
                .ForEach(x =>
                {
-                   x.Pawn.Value!.Health = health;
+                   if (ValidateCallerPlayer(x, false) == true)
+                   {
+                       SetHp(x, health);
+                   }
 
-                   //RefreshPawn(x);
+                   RefreshPawn(x);
                });
     }
 
@@ -49,9 +52,9 @@ public partial class JailbreakExtras
                .ToList()
                .ForEach(x =>
                {
-                   x.Pawn.Value!.Health = 100;
+                   SetHp(x, 100);
 
-                   //RefreshPawn(x);
+                   RefreshPawn(x);
                });
     }
 
@@ -67,9 +70,9 @@ public partial class JailbreakExtras
                .ToList()
                .ForEach(x =>
                {
-                   x.Pawn.Value!.Health = 100;
+                   SetHp(x, 100);
 
-                   //RefreshPawn(x);
+                   RefreshPawn(x);
                });
     }
 
@@ -85,10 +88,24 @@ public partial class JailbreakExtras
                .ToList()
                .ForEach(x =>
                {
-                   x.Pawn.Value!.Health = 100;
+                   SetHp(x, 100);
 
-                   //RefreshPawn(x);
+                   RefreshPawn(x);
                });
+    }
+
+    public static void SetHp(CCSPlayerController controller, int health = 100)
+    {
+        if (health <= 0 || !controller.PawnIsAlive || controller.PlayerPawn.Value == null) return;
+
+        controller.Health = health;
+        controller.PlayerPawn.Value.Health = health;
+
+        if (health > 100)
+        {
+            controller.MaxHealth = health;
+            controller.PlayerPawn.Value.MaxHealth = health;
+        }
     }
 
     #endregion HP

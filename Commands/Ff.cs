@@ -123,7 +123,7 @@ public partial class JailbreakExtras
 
         var mp_teammates_are_enemies = ConVar.Find("mp_teammates_are_enemies")?.GetPrimitiveValue<bool>();
 
-        if (FFMenuCheck == true || mp_teammates_are_enemies == true)
+        if (FFMenuCheck == true)
         {
             var gunMenu = new ChatMenu("Silah Menu");
             MenuHelper.GetGuns(gunMenu);

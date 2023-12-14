@@ -15,5 +15,14 @@ public partial class JailbreakExtras
         KilledPlayers?.Clear();
         LatestHediyeCall?.Clear();
         PlayerMarketModels?.Clear();
+
+        if (Lasers != null)
+        {
+            foreach (var item in Lasers)
+            {
+                item.Remove();
+            }
+            Lasers.Clear();
+        }
     }
 }

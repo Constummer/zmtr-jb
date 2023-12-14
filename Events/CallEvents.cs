@@ -1,3 +1,5 @@
+using CounterStrikeSharp.API.Core;
+
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras
@@ -8,5 +10,6 @@ public partial class JailbreakExtras
         EventPlayerDeath();
         EventPlayerHurt();
         EventPlayerSpawn();
+        RegisterEventHandler<EventPlayerPing>(EXTRAOnPlayerPing);
     }
 }

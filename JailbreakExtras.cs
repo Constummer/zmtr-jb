@@ -40,6 +40,12 @@ public partial class JailbreakExtras : BasePlugin
 
         #endregion System Releated
 
+        #region OtherPlugins
+
+        BlockRadioCommandsLoad();
+
+        #endregion OtherPlugins
+
         #region CSS releated
 
         CallEvents();

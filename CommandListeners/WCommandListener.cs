@@ -6,17 +6,26 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    private static ulong LatestWCommandUser = 0;
+
     private void WCommandListener()
     {
         AddCommandListener("w", (player, info) =>
         {
-            Logger.LogInformation("w yakalandi");
             if (ValidateCallerPlayer(player, false) == false)
             {
                 return HookResult.Continue;
             }
             SetColour(player, Color.FromArgb(255, 0, 0, 255));
 
+            LatestWCommandUser = player!.SteamID;
+            return HookResult.Continue;
+        });
+        AddCommandListener("css_customwtestadmin", (player, info) =>
+        {
+            Logger.LogInformation("aaaaaaaaaaaaaaaaa");
+            Logger.LogInformation(info.ArgString);
+            Logger.LogInformation("bbbbbbbbbbbbbbbb");
             return HookResult.Continue;
         });
     }
