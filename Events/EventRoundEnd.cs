@@ -10,7 +10,6 @@ public partial class JailbreakExtras
     {
         RegisterEventHandler<EventRoundEnd>((@event, _) =>
         {
-            //oyuncularýn rengi defaulta dönmeli
             Server.ExecuteCommand("mp_respawn_on_death_t 1");
             Server.ExecuteCommand("mp_respawn_on_death_ct 1");
             Server.ExecuteCommand("sv_enablebunnyhopping 1");

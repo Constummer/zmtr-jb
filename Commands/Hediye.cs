@@ -9,6 +9,7 @@ namespace JailbreakExtras;
 public partial class JailbreakExtras
 {
     #region Hediye
+
     private static Dictionary<ulong, DateTime> LatestHediyeCall = new Dictionary<ulong, DateTime>();
 
     [ConsoleCommand("hediye")]

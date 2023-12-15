@@ -1,5 +1,4 @@
 using CounterStrikeSharp.API.Core;
-using Microsoft.Extensions.Logging;
 using System.Drawing;
 
 namespace JailbreakExtras;
