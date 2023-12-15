@@ -10,6 +10,7 @@ public partial class JailbreakExtras
         EventPlayerDeath();
         EventPlayerHurt();
         EventPlayerSpawn();
-        RegisterEventHandler<EventPlayerPing>(EXTRAOnPlayerPing);
+        EventWeaponFire();
+        EventPlayerPing();
     }
 }
