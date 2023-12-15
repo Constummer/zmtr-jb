@@ -1,5 +1,4 @@
 ﻿using CounterStrikeSharp.API.Core;
-using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
 
@@ -14,18 +13,20 @@ public partial class JailbreakExtras
 
     public void BlockRadioCommandsLoad()
     {
-        for (int i = 0; i < BlockedRadioCommands.Length; i++)
+        foreach (var command in BlockedRadioCommands)
         {
-            AddCommandListener(BlockedRadioCommands[i], (player, info) =>
+            AddCommandListener(command, (player, info) =>
             {
                 if (!player.IsValid)
                 {
                     return HookResult.Continue;
                 }
+
                 if (!player.PlayerPawn.IsValid)
                 {
                     return HookResult.Continue;
                 }
+
                 if (WardenAllowedRadioCommands.Contains(info.GetCommandString))
                 {
                     if (player.SteamID == LatestWCommandUser)

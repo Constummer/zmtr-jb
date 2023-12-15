@@ -17,15 +17,7 @@ public partial class JailbreakExtras
                 return HookResult.Continue;
             }
             SetColour(player, Color.FromArgb(255, 0, 0, 255));
-
             LatestWCommandUser = player!.SteamID;
-            return HookResult.Continue;
-        });
-        AddCommandListener("css_customwtestadmin", (player, info) =>
-        {
-            Logger.LogInformation("aaaaaaaaaaaaaaaaa");
-            Logger.LogInformation(info.ArgString);
-            Logger.LogInformation("bbbbbbbbbbbbbbbb");
             return HookResult.Continue;
         });
     }
