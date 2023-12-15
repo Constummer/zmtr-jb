@@ -9,8 +9,8 @@ public partial class JailbreakExtras
 {
     #region Bunny
 
-    [ConsoleCommand("ba", "bunny acar")]
     [ConsoleCommand("bunnyac", "bunny acar")]
+    [ConsoleCommand("ba", "bunny acar")]
     public void BunnyAc(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)

@@ -14,7 +14,6 @@ public partial class JailbreakExtras
         DeathLocations?.Clear();
         KilledPlayers?.Clear();
         LatestHediyeCall?.Clear();
-        PlayerMarketModels?.Clear();
 
         if (Lasers != null)
         {
