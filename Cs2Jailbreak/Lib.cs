@@ -6,10 +6,14 @@ using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using System.Drawing;
 using System.Runtime.InteropServices;
+using static JailbreakExtras.JailbreakExtras;
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 // NOTE: this is a timer wrapper, and should be owned the class
 // wanting to use the timer
+
+namespace JailbreakExtras;
+
 public class Countdown<T>
 {
     public void start(String countdown_name, int countdown_delay,
@@ -21,9 +25,9 @@ public class Countdown<T>
         this.data = countdown_data;
         this.print_func = countdown_print_func;
 
-        if (JailPlugin.global_ctx != null)
+        if (JailPlugin.global_extras != null)
         {
-            this.handle = JailPlugin.global_ctx.AddTimer(1.0f, countdown, CSTimer.TimerFlags.STOP_ON_MAPCHANGE | CSTimer.TimerFlags.REPEAT);
+            this.handle = JailPlugin.global_extras.AddTimer(1.0f, countdown, CSTimer.TimerFlags.STOP_ON_MAPCHANGE | CSTimer.TimerFlags.REPEAT);
         }
     }
 
@@ -191,14 +195,14 @@ public static class Lib
 
     public static void give_event_nade_delay(CCSPlayerController? target, float delay, String name)
     {
-        if (JailPlugin.global_ctx == null)
+        if (JailPlugin.global_extras == null)
         {
             return;
         }
 
         int? slot = target.slot();
 
-        JailPlugin.global_ctx.AddTimer(delay, () =>
+        JailPlugin.global_extras.AddTimer(delay, () =>
         {
             if (slot != null)
             {
@@ -221,9 +225,9 @@ public static class Lib
         {
             int index = (int)entity.Index;
 
-            if (JailPlugin.global_ctx != null)
+            if (JailPlugin.global_extras != null)
             {
-                JailPlugin.global_ctx.AddTimer(delay, () =>
+                JailPlugin.global_extras.AddTimer(delay, () =>
                 {
                     CBaseEntity? grenade = Utilities.GetEntityFromIndex<CBaseEntity>(index);
 
@@ -828,9 +832,9 @@ public static class Lib
 
     public static void respawn_delay(this CCSPlayerController? player, float delay)
     {
-        if (JailPlugin.global_ctx != null)
+        if (JailPlugin.global_extras != null)
         {
-            JailPlugin.global_ctx.AddTimer(delay, () => respawn_callback(player.slot()), CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
+            JailPlugin.global_extras.AddTimer(delay, () => respawn_callback(player.slot()), CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
         }
     }
 

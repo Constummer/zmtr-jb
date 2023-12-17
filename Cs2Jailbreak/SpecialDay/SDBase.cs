@@ -3,153 +3,158 @@ using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using System.Drawing;
 
-public abstract class SDBase
+namespace JailbreakExtras;
+
+public partial class JailbreakExtras
 {
-    public abstract void setup();
-
-    public abstract void start();
-
-    public abstract void end();
-
-    public void setup_common()
+    public abstract class SDBase
     {
-        // no damage before start
-        restrict_damage = true;
+        public abstract void setup();
 
-        // revive all dead players
+        public abstract void start();
 
-        state = SDState.STARTED;
-        setup();
+        public abstract void end();
 
-        setup_players();
-    }
-
-    public void start_common()
-    {
-        restrict_damage = false;
-
-        state = SDState.ACTIVE;
-        start();
-    }
-
-    // NOTE: this will be recalled by the disconnect function if the boss dc's
-    public virtual void make_boss(CCSPlayerController? tank, int count)
-    {
-    }
-
-    public (CCSPlayerController, int) pick_boss()
-    {
-        // get valid players
-        List<CCSPlayerController> players = Utilities.GetPlayers();
-        var valid = players.FindAll(player => player.is_valid_alive());
-
-        // override pick
-        if (rigged != null)
+        public void setup_common()
         {
-            var player = rigged;
-            rigged = null;
-            return (player, valid.Count);
+            // no damage before start
+            restrict_damage = true;
+
+            // revive all dead players
+
+            state = SDState.STARTED;
+            setup();
+
+            setup_players();
         }
 
-        // pick one back at random
-        Random rnd = new Random((int)DateTime.Now.Ticks);
-
-        int boss = rnd.Next(0, valid.Count);
-
-        return (valid[boss], valid.Count);
-    }
-
-    public void disconnect(CCSPlayerController? player)
-    {
-        if (player == null || !player.is_valid())
+        public void start_common()
         {
-            return;
+            restrict_damage = false;
+
+            state = SDState.ACTIVE;
+            start();
         }
 
-        // player has dced re roll the boss if we have one
-        if (player.slot() == boss.slot())
+        // NOTE: this will be recalled by the disconnect function if the boss dc's
+        public virtual void make_boss(CCSPlayerController? tank, int count)
         {
-            (CCSPlayerController boss, int count) = pick_boss();
-
-            make_boss(boss, count);
-        }
-    }
-
-    public void end_common()
-    {
-        state = SDState.INACTIVE;
-        end();
-
-        Lib.disable_friendly_fire();
-
-        // reset the boss colour
-        if (boss != null && boss.is_valid_alive())
-        {
-            boss.set_velocity(1.0f);
-            boss.set_colour(Color.FromArgb(255, 255, 255, 255));
         }
 
-        cleanup_players();
-    }
-
-    public bool is_boss(CCSPlayerController? player)
-    {
-        return boss.slot() != null && player.slot() == boss.slot();
-    }
-
-    public virtual bool weapon_equip(CCSPlayerController player, String name)
-    {
-        return weapon_restrict == "" || name.Contains(weapon_restrict);
-    }
-
-    public virtual void player_hurt(CCSPlayerController? player, int health, int damage, int hitgroup)
-    { }
-
-    public virtual void ent_created(CEntityInstance entity)
-    { }
-
-    public virtual void grenade_thrown(CCSPlayerController? player)
-    { }
-
-    public virtual void death(CCSPlayerController? player, CCSPlayerController? attacker)
-    { }
-
-    public abstract void setup_player(CCSPlayerController player);
-
-    public virtual void cleanup_player(CCSPlayerController player)
-    { }
-
-    public void setup_players()
-    {
-        foreach (CCSPlayerController player in Utilities.GetPlayers())
+        public (CCSPlayerController, int) pick_boss()
         {
-            if (player.is_valid_alive())
+            // get valid players
+            List<CCSPlayerController> players = Utilities.GetPlayers();
+            var valid = players.FindAll(player => player.is_valid_alive());
+
+            // override pick
+            if (rigged != null)
             {
-                setup_player(player);
+                var player = rigged;
+                rigged = null;
+                return (player, valid.Count);
+            }
+
+            // pick one back at random
+            Random rnd = new Random((int)DateTime.Now.Ticks);
+
+            int boss = rnd.Next(0, valid.Count);
+
+            return (valid[boss], valid.Count);
+        }
+
+        public void disconnect(CCSPlayerController? player)
+        {
+            if (player == null || !player.is_valid())
+            {
+                return;
+            }
+
+            // player has dced re roll the boss if we have one
+            if (player.slot() == boss.slot())
+            {
+                (CCSPlayerController boss, int count) = pick_boss();
+
+                make_boss(boss, count);
             }
         }
-    }
 
-    public void cleanup_players()
-    {
-        foreach (CCSPlayerController player in Utilities.GetPlayers())
+        public void end_common()
         {
-            if (player.is_valid_alive())
+            state = SDState.INACTIVE;
+            end();
+
+            Lib.disable_friendly_fire();
+
+            // reset the boss colour
+            if (boss != null && boss.is_valid_alive())
             {
-                cleanup_player(player);
+                boss.set_velocity(1.0f);
+                boss.set_colour(Color.FromArgb(255, 255, 255, 255));
+            }
+
+            cleanup_players();
+        }
+
+        public bool is_boss(CCSPlayerController? player)
+        {
+            return boss.slot() != null && player.slot() == boss.slot();
+        }
+
+        public virtual bool weapon_equip(CCSPlayerController player, String name)
+        {
+            return weapon_restrict == "" || name.Contains(weapon_restrict);
+        }
+
+        public virtual void player_hurt(CCSPlayerController? player, int health, int damage, int hitgroup)
+        { }
+
+        public virtual void ent_created(CEntityInstance entity)
+        { }
+
+        public virtual void grenade_thrown(CCSPlayerController? player)
+        { }
+
+        public virtual void death(CCSPlayerController? player, CCSPlayerController? attacker)
+        { }
+
+        public abstract void setup_player(CCSPlayerController player);
+
+        public virtual void cleanup_player(CCSPlayerController player)
+        { }
+
+        public void setup_players()
+        {
+            foreach (CCSPlayerController player in Utilities.GetPlayers())
+            {
+                if (player.is_valid_alive())
+                {
+                    setup_player(player);
+                }
             }
         }
+
+        public void cleanup_players()
+        {
+            foreach (CCSPlayerController player in Utilities.GetPlayers())
+            {
+                if (player.is_valid_alive())
+                {
+                    cleanup_player(player);
+                }
+            }
+        }
+
+        public void announce(String str)
+        {
+            Lib.announce(SpecialDay.SPECIALDAY_PREFIX, str);
+        }
+
+        public CCSPlayerController? boss = null;
+        public CCSPlayerController? rigged = null;
+
+        public bool restrict_damage = false;
+        public String weapon_restrict = "";
+        public SDState state = SDState.INACTIVE;
     }
-
-    public void announce(String str)
-    {
-        Lib.announce(SpecialDay.SPECIALDAY_PREFIX, str);
-    }
-
-    public CCSPlayerController? boss = null;
-    public CCSPlayerController? rigged = null;
-
-    public bool restrict_damage = false;
-    public String weapon_restrict = "";
-    public SDState state = SDState.INACTIVE;
 }

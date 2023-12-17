@@ -2,56 +2,61 @@ using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Utils;
 
-public class TeamSave
+namespace JailbreakExtras;
+
+public partial class JailbreakExtras
 {
-    public void save()
+    public class TeamSave
     {
-        count = 0;
-
-        // iter over each active player and save the theam they are on
-        foreach (CCSPlayerController player in Utilities.GetPlayers())
+        public void save()
         {
-            int? player_slot = player.slot();
+            count = 0;
 
-            if (!player.is_valid() || player_slot == null)
+            // iter over each active player and save the theam they are on
+            foreach (CCSPlayerController player in Utilities.GetPlayers())
             {
-                continue;
-            }
+                int? player_slot = player.slot();
 
-            int team = player.TeamNum;
+                if (!player.is_valid() || player_slot == null)
+                {
+                    continue;
+                }
 
-            if (Lib.is_active_team(team))
-            {
-                slots[count] = player_slot.Value;
-                teams[count] = team;
-                count++;
-            }
-        }
-    }
+                int team = player.TeamNum;
 
-    public void restore()
-    {
-        // iter over each player and switch to recorded team
-        for (int i = 0; i < count; i++)
-        {
-            CCSPlayerController? player = Utilities.GetPlayerFromSlot(slots[i]);
-
-            if (player == null || !player.is_valid())
-            {
-                continue;
-            }
-
-            if (Lib.is_active_team(player.TeamNum))
-            {
-                player.SwitchTeam((CsTeam)teams[i]);
+                if (Lib.is_active_team(team))
+                {
+                    slots[count] = player_slot.Value;
+                    teams[count] = team;
+                    count++;
+                }
             }
         }
 
-        count = 0;
-    }
+        public void restore()
+        {
+            // iter over each player and switch to recorded team
+            for (int i = 0; i < count; i++)
+            {
+                CCSPlayerController? player = Utilities.GetPlayerFromSlot(slots[i]);
 
-    private int[] slots = new int[64];
-    private int[] teams = new int[64];
+                if (player == null || !player.is_valid())
+                {
+                    continue;
+                }
 
-    private int count = 0;
-};
+                if (Lib.is_active_team(player.TeamNum))
+                {
+                    player.SwitchTeam((CsTeam)teams[i]);
+                }
+            }
+
+            count = 0;
+        }
+
+        private int[] slots = new int[64];
+        private int[] teams = new int[64];
+
+        private int count = 0;
+    };
+}

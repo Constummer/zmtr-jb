@@ -1,42 +1,47 @@
 using CounterStrikeSharp.API.Core;
 
-public class LRKnife : LRBase
+namespace JailbreakExtras;
+
+public partial class JailbreakExtras
 {
-    public LRKnife(LastRequest manager, LastRequest.LRType type, int lr_slot, int player_slot, String choice) : base(manager, type, lr_slot, player_slot, choice)
+    public class LRKnife : LRBase
     {
-    }
-
-    public override void init_player(CCSPlayerController player)
-    {
-        // give player a knife and restrict them to it
-        player.GiveNamedItem("weapon_knife");
-        weapon_restrict = "knife";
-
-        // Handle options
-        switch (choice)
+        public LRKnife(LastRequest manager, LastRequest.LRType type, int lr_slot, int player_slot, String choice) : base(manager, type, lr_slot, player_slot, choice)
         {
-            case "Vanilla":
-                {
-                    break;
-                }
+        }
 
-            case "Low gravity":
-                {
-                    player.set_gravity(0.6f);
-                    break;
-                }
+        public override void init_player(CCSPlayerController player)
+        {
+            // give player a knife and restrict them to it
+            player.GiveNamedItem("weapon_knife");
+            weapon_restrict = "knife";
 
-            case "High speed":
-                {
-                    player.set_velocity(2.5f);
-                    break;
-                }
+            // Handle options
+            switch (choice)
+            {
+                case "Vanilla":
+                    {
+                        break;
+                    }
 
-            case "One hit":
-                {
-                    player.set_health(50);
-                    break;
-                }
+                case "Low gravity":
+                    {
+                        player.set_gravity(0.6f);
+                        break;
+                    }
+
+                case "High speed":
+                    {
+                        player.set_velocity(2.5f);
+                        break;
+                    }
+
+                case "One hit":
+                    {
+                        player.set_health(50);
+                        break;
+                    }
+            }
         }
     }
 }
