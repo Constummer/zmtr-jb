@@ -16,12 +16,12 @@ public partial class JailbreakExtras
 
         public override void make_boss(CCSPlayerController? spectre, int count)
         {
-            if (spectre != null && spectre.is_valid_alive())
+            if (spectre != null && is_valid_alive(spectre))
             {
                 announce($"{spectre.PlayerName} is the spectre!");
 
                 // give the spectre the HP and swap him
-                spectre.set_health(count * 60);
+                set_health(spectre, count * 60);
                 spectre.SwitchTeam(CsTeam.CounterTerrorist);
 
                 setup_player(spectre);
@@ -45,7 +45,7 @@ public partial class JailbreakExtras
 
         public override void start()
         {
-            Lib.swap_all_t();
+            swap_all_t();
 
             (boss, int count) = pick_boss();
             make_boss(boss, count);
@@ -61,17 +61,17 @@ public partial class JailbreakExtras
             if (is_boss(player))
             {
                 // invis and speed
-                player.set_colour(Color.FromArgb(0, 0, 0, 0));
-                player.set_velocity(2.5f);
+                set_colour(player, Color.FromArgb(0, 0, 0, 0));
+                set_velocity(player, 2.5f);
 
-                player.strip_weapons();
+                strip_weapons(player);
 
                 // Work around for colour updates
                 player.GiveNamedItem("weapon_decoy");
             }
             else
             {
-                player.event_gun_menu();
+                event_gun_menu(player);
             }
         }
     }

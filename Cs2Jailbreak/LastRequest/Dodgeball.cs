@@ -15,9 +15,9 @@ public partial class JailbreakExtras
         {
             weapon_restrict = "flashbang";
 
-            if (player.is_valid_alive())
+            if (is_valid_alive(player))
             {
-                player.set_health(1);
+                set_health(player, 1);
 
                 player.GiveNamedItem("weapon_flashbang");
 
@@ -30,7 +30,7 @@ public partial class JailbreakExtras
 
                     case "Low gravity":
                         {
-                            player.set_gravity(0.6f);
+                            set_gravity(player, 0.6f);
                             break;
                         }
                 }
@@ -41,21 +41,21 @@ public partial class JailbreakExtras
         {
             CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
 
-            if (player != null && player.is_valid_alive())
+            if (player != null && is_valid_alive(player))
             {
-                player.slay();
+                slay(player);
             }
         }
 
         public override void grenade_thrown()
         {
             CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
-            Lib.give_event_nade_delay(player, 1.4f, "weapon_flashbang");
+            give_event_nade_delay(player, 1.4f, "weapon_flashbang");
         }
 
         public override void ent_created(CEntityInstance entity)
         {
-            Lib.remove_ent_delay(entity, 1.4f, "flashbang_projectile");
+            remove_ent_delay(entity, 1.4f, "flashbang_projectile");
         }
     }
 }

@@ -15,7 +15,7 @@ public partial class JailbreakExtras
         public override void start()
         {
             announce("Friendly fire enabled");
-            Lib.enable_friendly_fire();
+            enable_friendly_fire();
         }
 
         public override void end()
@@ -25,18 +25,18 @@ public partial class JailbreakExtras
 
         public override void death(CCSPlayerController? player, CCSPlayerController? attacker)
         {
-            if (player == null || !player.is_valid() || attacker == null || !attacker.is_valid_alive())
+            if (player == null || !is_valid(player) || attacker == null || !is_valid_alive(attacker))
             {
                 return;
             }
 
             // Give attacker 100 hp
-            attacker.set_health(attacker.get_health() + 100);
+            set_health(attacker, get_health(attacker) + 100);
         }
 
         public override void setup_player(CCSPlayerController? player)
         {
-            player.event_gun_menu();
+            event_gun_menu(player);
         }
     }
 }

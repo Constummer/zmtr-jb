@@ -38,7 +38,7 @@ public partial class JailbreakExtras
             var player = Utilities.GetPlayerFromSlot(player_slot);
 
             // player is not alive cancel the lr
-            if (player == null || !player.is_valid_alive())
+            if (player == null || !is_valid_alive(player))
             {
                 manager.end_lr(slot);
                 return;
@@ -50,14 +50,14 @@ public partial class JailbreakExtras
         public void cleanup()
         {
             // clean up timer
-            Lib.kill_timer(ref timer);
+            kill_timer(ref timer);
 
             countdown.kill();
 
             // reset alive player
             CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
 
-            if (player == null || !player.is_valid_alive())
+            if (player == null || !is_valid_alive(player))
             {
                 return;
             }
@@ -66,17 +66,17 @@ public partial class JailbreakExtras
             weapon_restrict = "";
 
             // restore hp
-            player.set_health(100);
+            set_health(player, 100);
 
             // restore weapons
-            player.strip_weapons();
+            strip_weapons(player);
 
             // reset gravity
-            player.set_gravity(1.0f);
+            set_gravity(player, 1.0f);
 
-            player.set_velocity(1.0f);
+            set_velocity(player, 1.0f);
 
-            if (player.is_ct())
+            if (is_ct(player))
             {
                 player.GiveNamedItem("item_assaultsuit");
                 player.GiveNamedItem("weapon_deagle");
@@ -94,7 +94,7 @@ public partial class JailbreakExtras
             CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
             CCSPlayerController? winner = Utilities.GetPlayerFromSlot(partner.player_slot);
 
-            if (player == null || !player.is_valid() || winner == null || !winner.is_valid())
+            if (player == null || !is_valid(player) || winner == null || !is_valid(winner))
             {
                 manager.end_lr(slot);
                 return;
@@ -126,9 +126,9 @@ public partial class JailbreakExtras
 
             CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
 
-            if (player != null && player.is_valid_alive())
+            if (player != null && is_valid_alive(player))
             {
-                player.announce(LastRequest.LR_PREFIX, "Fight!");
+                announce(player, LastRequest.LR_PREFIX, "Fight!");
             }
 
             // renable damage
@@ -216,7 +216,7 @@ public partial class JailbreakExtras
             CCSPlayerController? t_player = Utilities.GetPlayerFromSlot(lr.player_slot);
             CCSPlayerController? ct_player = Utilities.GetPlayerFromSlot(lr.partner.player_slot);
 
-            if (t_player == null || !t_player.is_valid() || ct_player == null || !ct_player.is_valid())
+            if (t_player == null || !is_valid(t_player) || ct_player == null || !is_valid(ct_player))
             {
                 return;
             }

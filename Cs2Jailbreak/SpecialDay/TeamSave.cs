@@ -15,16 +15,16 @@ public partial class JailbreakExtras
             // iter over each active player and save the theam they are on
             foreach (CCSPlayerController player in Utilities.GetPlayers())
             {
-                int? player_slot = player.slot();
+                int? player_slot = slot(player);
 
-                if (!player.is_valid() || player_slot == null)
+                if (!is_valid(player) || player_slot == null)
                 {
                     continue;
                 }
 
                 int team = player.TeamNum;
 
-                if (Lib.is_active_team(team))
+                if (is_active_team(team))
                 {
                     slots[count] = player_slot.Value;
                     teams[count] = team;
@@ -40,12 +40,12 @@ public partial class JailbreakExtras
             {
                 CCSPlayerController? player = Utilities.GetPlayerFromSlot(slots[i]);
 
-                if (player == null || !player.is_valid())
+                if (player == null || !is_valid(player))
                 {
                     continue;
                 }
 
-                if (Lib.is_active_team(player.TeamNum))
+                if (is_active_team(player.TeamNum))
                 {
                     player.SwitchTeam((CsTeam)teams[i]);
                 }

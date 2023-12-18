@@ -21,10 +21,10 @@ public partial class JailbreakExtras
         public override void player_hurt(int health, int damage, int hitgroup)
         {
             // dont allow damage when its not to head
-            if (hitgroup != Lib.HITGROUP_HEAD)
+            if (hitgroup != HITGROUP_HEAD)
             {
                 CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
-                Lib.restore_hp(player, damage, health);
+                restore_hp(player, damage, health);
             }
         }
     }

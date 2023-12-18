@@ -17,11 +17,11 @@ public partial class JailbreakExtras
 
             player.GiveNamedItem("weapon_deagle");
 
-            var deagle = Lib.find_weapon(player, "weapon_" + weapon_restrict);
+            var deagle = find_weapon(player, "weapon_" + weapon_restrict);
 
             if (deagle != null)
             {
-                deagle.set_ammo(0, 0);
+                set_ammo(deagle, 0, 0);
             }
 
             restrict_damage = true;
@@ -36,8 +36,8 @@ public partial class JailbreakExtras
             // Give the lucky player the first shot
             if (winner != null && loser != null && winner_lr != null)
             {
-                winner.announce(LastRequest.LR_PREFIX, $"Randomly chose {winner.PlayerName} to shoot first");
-                loser.announce(LastRequest.LR_PREFIX, $"Randomly chose {winner.PlayerName} to shoot first");
+                announce(winner, LastRequest.LR_PREFIX, $"Randomly chose {winner.PlayerName} to shoot first");
+                announce(loser, LastRequest.LR_PREFIX, $"Randomly chose {winner.PlayerName} to shoot first");
 
                 winner_lr.reload_clip();
             }
@@ -47,19 +47,19 @@ public partial class JailbreakExtras
         {
             CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
 
-            if (name.Contains(weapon_restrict) && player != null && player.is_valid())
+            if (name.Contains(weapon_restrict) && player != null && is_valid(player))
             {
                 Random rnd = new Random((int)DateTime.Now.Ticks);
 
                 // Bang!
                 if (rnd.Next(0, 7) == 6)
                 {
-                    player.slay();
-                    Lib.announce(LastRequest.LR_PREFIX, $"{player.PlayerName} brains splattered against the wall");
+                    slay(player);
+                    announce(LastRequest.LR_PREFIX, $"{player.PlayerName} brains splattered against the wall");
                 }
                 else if (partner != null)
                 {
-                    player.announce(LastRequest.LR_PREFIX, "Click!");
+                    announce(player, LastRequest.LR_PREFIX, "Click!");
                     var lr_shot = (LRRussianRoulette)partner;
                     lr_shot.reload_clip();
                 }
@@ -70,18 +70,18 @@ public partial class JailbreakExtras
         {
             CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
 
-            if (player != null && player.is_valid_alive())
+            if (player != null && is_valid_alive(player))
             {
                 player.PrintToChat($"{LastRequest.LR_PREFIX} Reload!");
 
-                var deagle = Lib.find_weapon(player, "weapon_" + weapon_restrict);
+                var deagle = find_weapon(player, "weapon_" + weapon_restrict);
 
                 // NOTE: this doesn't update the unload state
                 // however giving a new gun doesn't work either because it doesnt register fast enough
                 // also taking a gun away too quickly after a shot will cause it not to register
                 if (deagle != null)
                 {
-                    deagle.set_ammo(1, 0);
+                    set_ammo(deagle, 1, 0);
                 }
             }
         }

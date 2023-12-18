@@ -24,15 +24,15 @@ public partial class JailbreakExtras
 
         public override void setup_player(CCSPlayerController player)
         {
-            player.strip_weapons(true);
-            player.set_health(175);
+            strip_weapons(player, true);
+            set_health(player, 175);
             player.GiveNamedItem("weapon_hegrenade");
             weapon_restrict = "hegrenade";
         }
 
         public override void grenade_thrown(CCSPlayerController? player)
         {
-            Lib.give_event_nade_delay(player, 1.4f, "weapon_hegrenade");
+            give_event_nade_delay(player, 1.4f, "weapon_hegrenade");
         }
     }
 }

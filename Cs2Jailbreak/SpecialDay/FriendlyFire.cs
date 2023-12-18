@@ -16,7 +16,7 @@ public partial class JailbreakExtras
         public override void start()
         {
             announce("Friendly fire enabled");
-            Lib.enable_friendly_fire();
+            enable_friendly_fire();
         }
 
         public override void end()
@@ -26,7 +26,7 @@ public partial class JailbreakExtras
 
         public override void setup_player(CCSPlayerController? player)
         {
-            player.event_gun_menu();
+            event_gun_menu(player);
         }
     }
 }

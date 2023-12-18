@@ -25,9 +25,9 @@ public partial class JailbreakExtras
 
         public override void setup_player(CCSPlayerController player)
         {
-            player.strip_weapons();
+            strip_weapons(player);
             player.GiveNamedItem("weapon_ssg08");
-            player.set_gravity(0.1f);
+            set_gravity(player, 0.1f);
         }
 
         public override bool weapon_equip(CCSPlayerController player, String name)
@@ -37,7 +37,7 @@ public partial class JailbreakExtras
 
         public override void cleanup_player(CCSPlayerController player)
         {
-            player.set_gravity(1.0f);
+            set_gravity(player, 1.0f);
         }
     }
 }

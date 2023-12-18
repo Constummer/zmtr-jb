@@ -24,7 +24,7 @@ public partial class JailbreakExtras
 
         public override void setup_player(CCSPlayerController player)
         {
-            player.strip_weapons();
+            strip_weapons(player);
             weapon_restrict = "knife";
         }
     }

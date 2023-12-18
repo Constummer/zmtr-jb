@@ -65,11 +65,11 @@ public partial class JailbreakExtras
 
             player.GiveNamedItem("weapon_" + weapon_restrict);
 
-            var deagle = Lib.find_weapon(player, "weapon_" + weapon_restrict);
+            var deagle = find_weapon(player, "weapon_" + weapon_restrict);
 
             if (deagle != null)
             {
-                deagle.set_ammo(0, 0);
+                set_ammo(deagle, 0, 0);
             }
         }
 
@@ -82,8 +82,8 @@ public partial class JailbreakExtras
             // Give the lucky player the first shot
             if (winner != null && loser != null && winner_lr != null)
             {
-                winner.announce(LastRequest.LR_PREFIX, $"Randomly chose {winner.PlayerName} to shoot first");
-                loser.announce(LastRequest.LR_PREFIX, $"Randomly chose {winner.PlayerName} to shoot first");
+                announce(winner, LastRequest.LR_PREFIX, $"Randomly chose {winner.PlayerName} to shoot first");
+                announce(loser, LastRequest.LR_PREFIX, $"Randomly chose {winner.PlayerName} to shoot first");
 
                 winner_lr.reload_clip();
             }
@@ -106,18 +106,18 @@ public partial class JailbreakExtras
         {
             CCSPlayerController? player = Utilities.GetPlayerFromSlot(player_slot);
 
-            if (player != null && player.is_valid_alive())
+            if (player != null && is_valid_alive(player))
             {
                 player.PrintToChat($"{LastRequest.LR_PREFIX} Reload!");
 
-                var deagle = Lib.find_weapon(player, "weapon_" + weapon_restrict);
+                var deagle = find_weapon(player, "weapon_" + weapon_restrict);
 
                 // NOTE: this doesn't update the unload state
                 // however giving a new gun doesn't work either because it doesnt register fast enough
                 // also taking a gun away too quickly after a shot will cause it not to register
                 if (deagle != null)
                 {
-                    deagle.set_ammo(clip_size, 0);
+                    set_ammo(deagle, clip_size, 0);
                 }
 
                 cur_clip = clip_size;

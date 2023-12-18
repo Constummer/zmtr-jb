@@ -11,25 +11,25 @@ public partial class JailbreakExtras
         [RequiresPermissions("@jail/debug")]
         public void is_blocked(CCSPlayerController? invoke, CommandInfo command)
         {
-            invoke.announce(Debug.DEBUG_PREFIX, $"Block state {block_state} : {Lib.block_enabled()}");
+            announce(invoke, Debug.DEBUG_PREFIX, $"Block state {block_state} : {block_enabled()}");
         }
 
         public void block_all()
         {
-            if (!Lib.block_enabled())
+            if (!block_enabled())
             {
-                Lib.announce(Warden.WARDEN_PREFIX, "Block enabled");
-                Lib.block_all();
+                announce(Warden.WARDEN_PREFIX, "Block enabled");
+                block_all();
                 block_state = true;
             }
         }
 
         public void unblock_all()
         {
-            if (Lib.block_enabled())
+            if (block_enabled())
             {
-                Lib.announce(Warden.WARDEN_PREFIX, "No block enabled");
-                Lib.unblock_all();
+                announce(Warden.WARDEN_PREFIX, "No block enabled");
+                unblock_all();
                 block_state = false;
             }
         }

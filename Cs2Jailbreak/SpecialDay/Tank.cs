@@ -15,13 +15,13 @@ public partial class JailbreakExtras
 
         public override void make_boss(CCSPlayerController? tank, int count)
         {
-            if (tank != null && tank.is_valid_alive())
+            if (tank != null && is_valid_alive(tank))
             {
                 announce($"{tank.PlayerName} is the tank!");
 
                 // give the tank the HP and swap him
-                tank.set_health(count * 100);
-                tank.set_colour(Lib.RED);
+                set_health(tank, count * 100);
+                set_colour(tank, RED);
                 tank.SwitchTeam(CsTeam.CounterTerrorist);
 
                 // Work around for colour updates
@@ -35,7 +35,7 @@ public partial class JailbreakExtras
 
         public override void start()
         {
-            Lib.swap_all_t();
+            swap_all_t();
 
             (boss, int count) = pick_boss();
             make_boss(boss, count);
@@ -48,7 +48,7 @@ public partial class JailbreakExtras
 
         public override void setup_player(CCSPlayerController player)
         {
-            player.event_gun_menu();
+            event_gun_menu(player);
         }
     }
 }

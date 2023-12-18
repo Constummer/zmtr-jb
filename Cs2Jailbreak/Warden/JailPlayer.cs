@@ -22,28 +22,25 @@ public partial class JailbreakExtras
 
         public void set_rebel(CCSPlayerController? player)
         {
-            if (JailPlugin.event_active())
+            if (event_active())
             {
                 return;
             }
 
             // ignore if they are in lr
-            if (JailPlugin.global_ctx != null)
+            if (lr.in_lr(player))
             {
-                if (JailPlugin.lr.in_lr(player))
-                {
-                    return;
-                }
+                return;
             }
 
             // dont care if player is invalid
-            if (!player.is_valid() || player == null)
+            if (!is_valid(player) || player == null)
             {
                 return;
             }
 
             // on T with no warday or sd active
-            if (player.TeamNum == Lib.TEAM_T)
+            if (player.TeamNum == TEAM_T)
             {
                 is_rebel = true;
             }
@@ -52,19 +49,19 @@ public partial class JailbreakExtras
         public void rebel_death(CCSPlayerController? player, CCSPlayerController? killer)
         {
             // event active dont care
-            if (JailPlugin.event_active())
+            if (event_active())
             {
                 return;
             }
 
             // players aernt valid dont care
-            if (killer == null || player == null || !player.is_valid() || !killer.is_valid())
+            if (killer == null || player == null || !is_valid(player) || !is_valid(killer))
             {
                 return;
             }
 
             // print death if player is rebel and killer on CT
-            if (is_rebel && killer.TeamNum == Lib.TEAM_CT)
+            if (is_rebel && killer.TeamNum == TEAM_CT)
             {
                 Server.PrintToChatAll($" {ChatColors.Green}[REBEL]: {ChatColors.White}{killer.PlayerName} killed the rebel {player.PlayerName}");
             }
@@ -81,21 +78,21 @@ public partial class JailbreakExtras
 
         public void player_hurt(CCSPlayerController? player, CCSPlayerController? attacker, int health, int damage)
         {
-            if (player == null || attacker == null || !player.is_valid() || !attacker.is_valid())
+            if (player == null || attacker == null || !is_valid(player) || !is_valid(attacker))
             {
                 return;
             }
 
             // ct hit by T they are a rebel
-            if (player.is_ct() && attacker.is_t())
+            if (is_ct(player) && is_t(attacker))
             {
                 set_rebel(attacker);
             }
 
             // log any ct damage
-            else if (attacker.is_ct())
+            else if (is_ct(attacker))
             {
-                //Lib.print_console_all($"CT {attacker.PlayerName} hit {player.PlayerName} for {damage}");
+                //print_console_all($"CT {attacker.PlayerName} hit {player.PlayerName} for {damage}");
             }
         }
 

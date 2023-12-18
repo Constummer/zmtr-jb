@@ -6,88 +6,85 @@ using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using System.Drawing;
 using System.Runtime.InteropServices;
-using static JailbreakExtras.JailbreakExtras;
+
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
-// NOTE: this is a timer wrapper, and should be owned the class
+// NOTE:  is a timer wrapper, and should be owned the class
 // wanting to use the timer
 
 namespace JailbreakExtras;
 
-public class Countdown<T>
+public partial class JailbreakExtras
 {
-    public void start(String countdown_name, int countdown_delay,
-        T countdown_data, Action<T, int>? countdown_print_func, Action<T> countdown_callback)
+    public class Countdown<T>
     {
-        this.delay = countdown_delay;
-        this.callback = countdown_callback;
-        this.name = countdown_name;
-        this.data = countdown_data;
-        this.print_func = countdown_print_func;
-
-        if (JailPlugin.global_extras != null)
+        public void start(String countdown_name, int countdown_delay,
+            T countdown_data, Action<T, int>? countdown_print_func, Action<T> countdown_callback)
         {
-            this.handle = JailPlugin.global_extras.AddTimer(1.0f, countdown, CSTimer.TimerFlags.STOP_ON_MAPCHANGE | CSTimer.TimerFlags.REPEAT);
-        }
-    }
+            delay = countdown_delay;
+            callback = countdown_callback;
+            name = countdown_name;
+            data = countdown_data;
+            print_func = countdown_print_func;
 
-    public void kill()
-    {
-        Lib.kill_timer(ref handle);
-    }
-
-    private void countdown()
-    {
-        delay -= 1;
-
-        // countdown over
-        if (delay <= 0)
-        {
-            // kill the timer
-            // and then call the callback
-            kill();
-
-            if (callback != null && data != null)
-            {
-                callback(data);
-            }
+            handle = instance.AddTimer(1.0f, countdown, CSTimer.TimerFlags.STOP_ON_MAPCHANGE | CSTimer.TimerFlags.REPEAT);
         }
 
-        // countdown still active
-        else
+        public void kill()
         {
-            // custom print
-            if (print_func != null && data != null)
+            kill_timer(ref handle);
+        }
+
+        private void countdown()
+        {
+            delay -= 1;
+
+            // countdown over
+            if (delay <= 0)
             {
-                print_func(data, delay);
+                // kill the timer
+                // and then call the callback
+                kill();
+
+                if (callback != null && data != null)
+                {
+                    callback(data);
+                }
             }
 
-            // default print
+            // countdown still active
             else
             {
-                Lib.print_centre_all($"{name} is starting in {delay} seconds");
+                // custom print
+                if (print_func != null && data != null)
+                {
+                    print_func(data, delay);
+                }
+
+                // default print
+                else
+                {
+                    print_centre_all($"{name} is starting in {delay} seconds");
+                }
             }
         }
+
+        public int delay = 0;
+        public Action<T>? callback = null;
+        public String name = "";
+        public Action<T, int>? print_func = null;
+        private CSTimer.Timer? handle = null;
+
+        // callback data
+        private T? data = default(T);
     }
 
-    public int delay = 0;
-    public Action<T>? callback = null;
-    public String name = "";
-    public Action<T, int>? print_func = null;
-    private CSTimer.Timer? handle = null;
-
-    // callback data
-    private T? data = default(T);
-}
-
-public static class Lib
-{
-    // TODO: i dont think there is a builtin func for this...
+    // TODO: i dont think there is a builtin func for ...
     public static void print_centre_all(String str)
     {
         foreach (CCSPlayerController player in Utilities.GetPlayers())
         {
-            if (!player.is_valid())
+            if (!is_valid(player))
             {
                 continue;
             }
@@ -100,12 +97,12 @@ public static class Lib
     {
         foreach (CCSPlayerController player in Utilities.GetPlayers())
         {
-            if (!player.is_valid())
+            if (!is_valid(player))
             {
                 continue;
             }
 
-            if (admin_only && !player.is_generic_admin())
+            if (admin_only && !is_generic_admin(player))
             {
                 return;
             }
@@ -114,39 +111,39 @@ public static class Lib
         }
     }
 
-    public static void slay(this CCSPlayerController? player)
+    public static void slay(CCSPlayerController? player)
     {
-        if (player != null && player.is_valid_alive())
+        if (player != null && is_valid_alive(player))
         {
             player.PlayerPawn.Value?.CommitSuicide(true, true);
         }
     }
 
     // Cheers Kill for suggesting method extenstions
-    public static bool is_valid(this CCSPlayerController? player)
+    public static bool is_valid(CCSPlayerController? player)
     {
         return player != null && player.IsValid && player.PlayerPawn.IsValid;
     }
 
-    public static bool is_t(this CCSPlayerController? player)
+    public static bool is_t(CCSPlayerController? player)
     {
         return player != null && is_valid(player) && player.TeamNum == TEAM_T;
     }
 
-    public static bool is_ct(this CCSPlayerController? player)
+    public static bool is_ct(CCSPlayerController? player)
     {
         return player != null && is_valid(player) && player.TeamNum == TEAM_CT;
     }
 
     // yes i know the null check is redundant but C# is dumb
-    public static bool is_valid_alive(this CCSPlayerController? player)
+    public static bool is_valid_alive(CCSPlayerController? player)
     {
-        return player != null && player.is_valid() && player.PawnIsAlive && player.get_health() > 0;
+        return player != null && is_valid(player) && player.PawnIsAlive && get_health(player) > 0;
     }
 
-    public static CCSPlayerPawn? pawn(this CCSPlayerController? player)
+    public static CCSPlayerPawn? ppawn(CCSPlayerController? player)
     {
-        if (player == null || !player.is_valid())
+        if (player == null || !is_valid(player))
         {
             return null;
         }
@@ -156,9 +153,9 @@ public static class Lib
         return pawn;
     }
 
-    public static void set_health(this CCSPlayerController? player, int hp)
+    public static void set_health(CCSPlayerController? player, int hp)
     {
-        CCSPlayerPawn? pawn = player.pawn();
+        CCSPlayerPawn? pawn = ppawn(player);
 
         if (pawn != null)
         {
@@ -171,9 +168,9 @@ public static class Lib
         return RuntimeInformation.IsOSPlatform(OSPlatform.Windows);
     }
 
-    public static int get_health(this CCSPlayerController? player)
+    public static int get_health(CCSPlayerController? player)
     {
-        CCSPlayerPawn? pawn = player.pawn();
+        CCSPlayerPawn? pawn = ppawn(player);
 
         if (pawn == null)
         {
@@ -183,35 +180,30 @@ public static class Lib
         return pawn.Health;
     }
 
-    public static void freeze(this CCSPlayerController? player)
+    public static void freeze(CCSPlayerController? player)
     {
-        player.set_movetype(MoveType_t.MOVETYPE_NONE);
+        set_movetype(player, MoveType_t.MOVETYPE_OBSOLETE);
     }
 
-    public static void unfreeze(this CCSPlayerController? player)
+    public static void unfreeze(CCSPlayerController? player)
     {
-        player.set_movetype(MoveType_t.MOVETYPE_WALK);
+        set_movetype(player, MoveType_t.MOVETYPE_WALK);
     }
 
     public static void give_event_nade_delay(CCSPlayerController? target, float delay, String name)
     {
-        if (JailPlugin.global_extras == null)
-        {
-            return;
-        }
+        int? slotS = slot(target);
 
-        int? slot = target.slot();
-
-        JailPlugin.global_extras.AddTimer(delay, () =>
+        instance.AddTimer(delay, () =>
         {
             if (slot != null)
             {
-                CCSPlayerController? player = Utilities.GetPlayerFromSlot(slot.Value);
+                CCSPlayerController? player = Utilities.GetPlayerFromSlot(slotS.Value);
 
-                if (player != null && player.is_valid_alive())
+                if (player != null && is_valid_alive(player))
                 {
                     Server.PrintToChatAll("give nade");
-                    player.strip_weapons(true);
+                    strip_weapons(player, true);
                     player.GiveNamedItem(name);
                 }
             }
@@ -225,24 +217,21 @@ public static class Lib
         {
             int index = (int)entity.Index;
 
-            if (JailPlugin.global_extras != null)
+            instance.AddTimer(delay, () =>
             {
-                JailPlugin.global_extras.AddTimer(delay, () =>
-                {
-                    CBaseEntity? grenade = Utilities.GetEntityFromIndex<CBaseEntity>(index);
+                CBaseEntity? grenade = Utilities.GetEntityFromIndex<CBaseEntity>(index);
 
-                    if (grenade != null && grenade.DesignerName == name)
-                    {
-                        grenade.Remove();
-                    }
-                });
-            }
+                if (grenade != null && grenade.DesignerName == name)
+                {
+                    grenade.Remove();
+                }
+            });
         }
     }
 
-    public static void set_movetype(this CCSPlayerController? player, MoveType_t type)
+    public static void set_movetype(CCSPlayerController? player, MoveType_t type)
     {
-        CCSPlayerPawn? pawn = player.pawn();
+        CCSPlayerPawn? pawn = ppawn(player);
 
         if (pawn != null)
         {
@@ -250,9 +239,9 @@ public static class Lib
         }
     }
 
-    public static void set_gravity(this CCSPlayerController? player, float value)
+    public static void set_gravity(CCSPlayerController? player, float value)
     {
-        CCSPlayerPawn? pawn = player.pawn();
+        CCSPlayerPawn? pawn = ppawn(player);
 
         if (pawn != null)
         {
@@ -260,9 +249,9 @@ public static class Lib
         }
     }
 
-    public static void set_velocity(this CCSPlayerController? player, float value)
+    public static void set_velocity(CCSPlayerController? player, float value)
     {
-        CCSPlayerPawn? pawn = player.pawn();
+        CCSPlayerPawn? pawn = ppawn(player);
 
         if (pawn != null)
         {
@@ -270,9 +259,9 @@ public static class Lib
         }
     }
 
-    public static void set_armour(this CCSPlayerController? player, int hp)
+    public static void set_armour(CCSPlayerController? player, int hp)
     {
-        CCSPlayerPawn? pawn = player.pawn();
+        CCSPlayerPawn? pawn = ppawn(player);
 
         if (pawn != null)
         {
@@ -280,10 +269,10 @@ public static class Lib
         }
     }
 
-    public static void strip_weapons(this CCSPlayerController? player, bool remove_knife = false)
+    public static void strip_weapons(CCSPlayerController? player, bool remove_knife = false)
     {
         // only care if player is valid
-        if (player == null || !player.is_valid_alive())
+        if (player == null || !is_valid_alive(player))
         {
             return;
         }
@@ -297,9 +286,9 @@ public static class Lib
         }
     }
 
-    public static void set_colour(this CCSPlayerController? player, Color colour)
+    public static void set_colour(CCSPlayerController? player, Color colour)
     {
-        CCSPlayerPawn? pawn = player.pawn();
+        CCSPlayerPawn? pawn = ppawn(player);
 
         if (pawn != null)
         {
@@ -308,18 +297,15 @@ public static class Lib
         }
     }
 
-    public static bool is_generic_admin(this CCSPlayerController? player)
+    public static bool is_generic_admin(CCSPlayerController? player)
     {
-        if (player == null || !player.is_valid())
+        if (player == null || !is_valid(player))
         {
             return false;
         }
 
         return AdminManager.PlayerHasPermissions(player, new String[] { "@css/generic" });
     }
-
-    private static Vector VEC_ZERO = new Vector(0.0f, 0.0f, 0.0f);
-    private static QAngle ANGLE_ZERO = new QAngle(0.0f, 0.0f, 0.0f);
 
     public static void draw_laser(Vector start, Vector end, float life, float width, Color color)
     {
@@ -353,9 +339,9 @@ public static class Lib
         remove_ent_delay(laser, life, "env_beam");
     }
 
-    public static void play_sound(this CCSPlayerController? player, String sound)
+    public static void play_sound(CCSPlayerController? player, String sound)
     {
-        if (player == null || !player.is_valid())
+        if (player == null || !is_valid(player))
         {
             return;
         }
@@ -363,7 +349,7 @@ public static class Lib
         player.ExecuteClientCommand($"play {sound}");
     }
 
-    public static CCSPlayerController? player(this CEntityInstance? instance)
+    public static CCSPlayerController? player(CEntityInstance? instance)
     {
         if (instance == null)
         {
@@ -392,7 +378,7 @@ public static class Lib
         return player_pawn.OriginalController.Value;
     }
 
-    public static CCSPlayerController? player(this CHandle<CBaseEntity> handle)
+    public static CCSPlayerController? player(CHandle<CBaseEntity> handle)
     {
         if (handle.IsValid)
         {
@@ -400,18 +386,18 @@ public static class Lib
 
             if (ent != null)
             {
-                return handle.Value.player();
+                return player(handle.Value);
             }
         }
 
         return null;
     }
 
-    // NOTE: i dont think we call this in the right context
+    // NOTE: i dont think we call  in the right context
     // OnPostThink doesn't appear to be good enough?
-    public static void hide_weapon(this CCSPlayerController? player)
+    public static void hide_weapon(CCSPlayerController? player)
     {
-        CCSPlayerPawn? pawn = player.pawn();
+        CCSPlayerPawn? pawn = ppawn(player);
 
         if (pawn != null)
         {
@@ -421,9 +407,9 @@ public static class Lib
         }
     }
 
-    public static void listen_all(this CCSPlayerController? player)
+    public static void listen_all(CCSPlayerController? player)
     {
-        if (player == null || !player.is_valid())
+        if (player == null || !is_valid(player))
         {
             return;
         }
@@ -432,9 +418,9 @@ public static class Lib
         player.VoiceFlags &= ~VoiceFlags.ListenTeam;
     }
 
-    public static void listen_team(this CCSPlayerController? player)
+    public static void listen_team(CCSPlayerController? player)
     {
-        if (player == null || !player.is_valid())
+        if (player == null || !is_valid(player))
         {
             return;
         }
@@ -443,24 +429,24 @@ public static class Lib
         player.VoiceFlags |= VoiceFlags.ListenTeam;
     }
 
-    public static void mute(this CCSPlayerController? player)
+    public static void mute(CCSPlayerController? player)
     {
-        if (player == null || !player.is_valid())
+        if (player == null || !is_valid(player))
         {
             return;
         }
 
         // admins cannot be muted by the plugin
-        if (!player.is_generic_admin())
+        if (!is_generic_admin(player))
         {
             player.VoiceFlags |= VoiceFlags.Muted;
         }
     }
 
-    // TODO: this needs to be hooked into the ban system that becomes used
-    public static void unmute(this CCSPlayerController? player)
+    // TODO:  needs to be hooked into the ban system that becomes used
+    public static void unmute(CCSPlayerController? player)
     {
-        if (player == null || !player.is_valid())
+        if (player == null || !is_valid(player))
         {
             return;
         }
@@ -472,9 +458,9 @@ public static class Lib
     {
         foreach (CCSPlayerController player in Utilities.GetPlayers())
         {
-            if (player.is_valid() && player.is_t())
+            if (is_valid(player) && is_t(player))
             {
-                player.mute();
+                mute(player);
             }
         }
     }
@@ -492,27 +478,27 @@ public static class Lib
     {
         foreach (CCSPlayerController player in Utilities.GetPlayers())
         {
-            if (player.is_valid())
+            if (is_valid(player))
             {
-                player.unmute();
+                unmute(player);
             }
         }
     }
 
-    public static bool is_valid(this CBasePlayerWeapon? weapon)
+    public static bool is_valid(CBasePlayerWeapon? weapon)
     {
         return weapon != null && weapon.IsValid;
     }
 
-    public static CBasePlayerWeapon? find_weapon(this CCSPlayerController? player, String name)
+    public static CBasePlayerWeapon? find_weapon(CCSPlayerController? player, String name)
     {
         // only care if player is alive
-        if (!player.is_valid_alive())
+        if (!is_valid_alive(player))
         {
             return null;
         }
 
-        CCSPlayerPawn? pawn = player.pawn();
+        CCSPlayerPawn? pawn = ppawn(player);
 
         if (pawn == null)
         {
@@ -544,9 +530,9 @@ public static class Lib
         return null;
     }
 
-    public static void set_ammo(this CBasePlayerWeapon? weapon, int clip, int reserve)
+    public static void set_ammo(CBasePlayerWeapon? weapon, int clip, int reserve)
     {
-        if (weapon == null || !weapon.is_valid())
+        if (weapon == null || !is_valid(weapon))
         {
             return;
         }
@@ -557,43 +543,43 @@ public static class Lib
 
     public static void restore_hp(CCSPlayerController? player, int damage, int health)
     {
-        if (player == null || !player.is_valid())
+        if (player == null || !is_valid(player))
         {
             return;
         }
 
-        // TODO: why does this sometimes mess up?
+        // TODO: why does  sometimes mess up?
         if (health < 100)
         {
-            player.set_health(Math.Min(health + damage, 100));
+            set_health(player, Math.Min(health + damage, 100));
         }
         else
         {
-            player.set_health(health + damage);
+            set_health(player, health + damage);
         }
     }
 
-    // TODO: for now this is just a give guns
+    // TODO: for now  is just a give guns
     // because menus dont work
-    public static void event_gun_menu(this CCSPlayerController? player)
+    public static void event_gun_menu(CCSPlayerController? player)
     {
         // Event has been cancelled in the mean time dont give any guns
-        if (!JailPlugin.event_active())
+        if (!event_active())
         {
             return;
         }
 
-        player.gun_menu(false);
+        gun_menu(player, false);
     }
 
     private static void give_menu_weapon(CCSPlayerController player, ChatMenuOption option)
     {
-        if (!player.is_valid())
+        if (!is_valid(player))
         {
             return;
         }
 
-        player.strip_weapons();
+        strip_weapons(player);
 
         player.GiveNamedItem("weapon_" + gun_give_name(option.Text));
         player.GiveNamedItem("weapon_deagle");
@@ -618,7 +604,7 @@ public static class Lib
 
     public static String gun_give_name(String name)
     {
-        // TODO: a linear scan shouldn't matter on a list this small
+        // TODO: a linear scan shouldn't matter on a list  small
         for (int i = 0; i < GUN_NAMES.Count(); i++)
         {
             if (name == GUN_NAMES[i])
@@ -630,10 +616,10 @@ public static class Lib
         return "";
     }
 
-    public static void gun_menu_internal(this CCSPlayerController? player, bool no_awp, Action<CCSPlayerController, ChatMenuOption> callback)
+    public static void gun_menu_internal(CCSPlayerController? player, bool no_awp, Action<CCSPlayerController, ChatMenuOption> callback)
     {
         // player must be alive and active!
-        if (player == null || !player.is_valid_alive())
+        if (player == null || !is_valid_alive(player))
         {
             return;
         }
@@ -653,10 +639,10 @@ public static class Lib
         ChatMenus.OpenMenu(player, gun_menu);
     }
 
-    public static void gun_menu(this CCSPlayerController? player, bool no_awp)
+    public static void gun_menu(CCSPlayerController? player, bool no_awp)
     {
         // give bots some test guns
-        if (player != null && player.is_valid_alive() && player.IsBot)
+        if (player != null && is_valid_alive(player) && player.IsBot)
         {
             player.GiveNamedItem("weapon_ak47");
             player.GiveNamedItem("weapon_deagle");
@@ -672,9 +658,9 @@ public static class Lib
         print_centre_all(str);
     }
 
-    public static void announce(this CCSPlayerController? player, String prefix, String str)
+    public static void announce(CCSPlayerController? player, String prefix, String str)
     {
-        if (player != null && player.is_valid())
+        if (player != null && is_valid(player))
         {
             player.PrintToChat(prefix + str);
             player.PrintToCenter(str);
@@ -701,7 +687,7 @@ public static class Lib
     {
         // get valid players
         List<CCSPlayerController> players = Utilities.GetPlayers();
-        var valid = players.FindAll(player => player.is_valid_alive());
+        var valid = players.FindAll(player => is_valid_alive(player));
 
         foreach (var player in valid)
         {
@@ -712,19 +698,19 @@ public static class Lib
     public static List<CCSPlayerController> get_alive_ct()
     {
         List<CCSPlayerController> players = Utilities.GetPlayers();
-        return players.FindAll(player => player.is_valid_alive() && player.is_ct());
+        return players.FindAll(player => is_valid_alive(player) && is_ct(player));
     }
 
     public static int ct_count()
     {
         List<CCSPlayerController> players = Utilities.GetPlayers();
-        return players.FindAll(player => player.is_valid() && player.is_ct()).Count;
+        return players.FindAll(player => is_valid(player) && is_ct(player)).Count;
     }
 
     public static int t_count()
     {
         List<CCSPlayerController> players = Utilities.GetPlayers();
-        return players.FindAll(player => player.is_valid() && player.is_t()).Count;
+        return players.FindAll(player => is_valid(player) && is_t(player)).Count;
     }
 
     public static int alive_ct_count()
@@ -735,7 +721,7 @@ public static class Lib
     public static List<CCSPlayerController> get_alive_t()
     {
         List<CCSPlayerController> players = Utilities.GetPlayers();
-        return players.FindAll(player => player.is_valid_alive() && player.is_t()); ;
+        return players.FindAll(player => is_valid_alive(player) && is_t(player)); ;
     }
 
     public static int alive_t_count()
@@ -771,7 +757,7 @@ public static class Lib
 
     public static void set_cvar_str(String name, String value)
     {
-        // why doesn't this work lol
+        // why doesn't  work lol
 
         ConVar? cvar = ConVar.Find(name);
 
@@ -791,7 +777,7 @@ public static class Lib
         return user_id & 0xff;
     }
 
-    public static int? slot(this CCSPlayerController? player)
+    public static int? slot(CCSPlayerController? player)
     {
         if (player == null)
         {
@@ -814,7 +800,7 @@ public static class Lib
 
     public static bool is_active_team(int team)
     {
-        return (team == Lib.TEAM_T || team == Lib.TEAM_CT);
+        return (team == TEAM_T || team == TEAM_CT);
     }
 
     private static void respawn_callback(int? slot)
@@ -823,22 +809,18 @@ public static class Lib
         {
             var player = Utilities.GetPlayerFromSlot(slot.Value);
 
-            if (player != null && player.is_valid())
+            if (player != null && is_valid(player))
             {
                 player.Respawn();
             }
         }
     }
 
-    public static void respawn_delay(this CCSPlayerController? player, float delay)
+    public void respawn_delay(CCSPlayerController? player, float delay)
     {
-        if (JailPlugin.global_extras != null)
-        {
-            JailPlugin.global_extras.AddTimer(delay, () => respawn_callback(player.slot()), CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
-        }
+        Addtimer(delay, () => respawn_callback(slot(player)), CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
     }
 
-    public static readonly Color CYAN = Color.FromArgb(255, 153, 255, 255);
     public static readonly Color RED = Color.FromArgb(255, 255, 0, 0);
 
     private static ConVar? block_cvar = ConVar.Find("mp_solid_teammates");

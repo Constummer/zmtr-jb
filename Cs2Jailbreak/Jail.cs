@@ -95,393 +95,370 @@ public partial class JailbreakExtras
         public uint lr_count { get; set; } = 2;
     }
 
+    private static Warden warden = new Warden();
+    private static LastRequest lr = new LastRequest();
+    private static SpecialDay sd = new SpecialDay();
+    private static bool is_event_active = false;
+
     // main plugin file, controls central hooking
     // defers to warden, lr and sd
-    public class JailPlugin
+
+    // workaround to query global state!
+
+    // Global event settings, used to filter plugin activits
+    // during warday and SD
+
+    internal void OnClientVoice(int slot)
     {
-        // workaround to query global state!
-        public static JailPlugin? global_ctx;
+        CCSPlayerController? player = Utilities.GetPlayerFromSlot(slot);
 
-        public static JailbreakExtras global_extras;
-
-        public static JailConfig Config { get; set; } = new JailConfig();
-
-        public static Warden warden = new Warden();
-        public static LastRequest lr = new LastRequest();
-        public static SpecialDay sd = new SpecialDay();
-
-        // Global event settings, used to filter plugin activits
-        // during warday and SD
-        internal bool is_event_active = false;
-
-        public static bool is_warden(CCSPlayerController? player)
+        if (player != null && is_valid(player))
         {
-            if (global_ctx == null)
-            {
-                return false;
-            }
+            warden.voice(player);
+        }
+    }
 
-            return warden.is_warden(player);
+    // button log
+    internal HookResult OnButtonPressed(CEntityIOOutput output, String name, CEntityInstance activator, CEntityInstance caller, CVariant value, float delay)
+    {
+        CCSPlayerController? playera = player(activator);
+
+        // grab player controller from pawn
+        CBaseEntity? ent = Utilities.GetEntityFromIndex<CBaseEntity>((int)caller.Index);
+
+        if (playera != null && is_valid(playera) && ent != null && ent.IsValid)
+        {
+            print_console_all($"{playera.PlayerName} pressed button '{ent.Entity?.Name}' -> '{output?.Connections?.TargetDesc}'", true);
         }
 
-        public static bool event_active()
-        {
-            if (global_ctx == null)
-            {
-                return false;
-            }
+        return HookResult.Continue;
+    }
 
-            return global_ctx.is_event_active;
+    internal HookResult OnGrenadeThrown(EventGrenadeThrown @event, GameEventInfo info)
+    {
+        CCSPlayerController? player = @event.Userid;
+
+        if (player != null && is_valid(player))
+        {
+            lr.grenade_thrown(player);
+            sd.grenade_thrown(player);
         }
 
-        public static void start_event()
+        return HookResult.Continue;
+    }
+
+    internal HookResult OnWeaponZoom(EventWeaponZoom @event, GameEventInfo info)
+    {
+        CCSPlayerController? player = @event.Userid;
+
+        if (player != null && is_valid(player))
         {
-            if (global_ctx != null)
-            {
-                global_ctx.is_event_active = true;
-            }
+            lr.weapon_zoom(player);
         }
 
-        public static void end_event()
+        return HookResult.Continue;
+    }
+
+    internal HookResult OnItemEquip(EventItemEquip @event, GameEventInfo info)
+    {
+        CCSPlayerController? player = @event.Userid;
+
+        if (player != null && is_valid(player))
         {
-            if (global_ctx != null)
-            {
-                global_ctx.is_event_active = false;
-            }
+            lr.weapon_equip(player, @event.Item);
+            sd.weapon_equip(player, @event.Item);
         }
 
-        internal void register_listener()
+        return HookResult.Continue;
+    }
+
+    internal HookResult OnPlayerHurt(EventPlayerHurt @event, GameEventInfo info)
+    {
+        CCSPlayerController? player = @event.Userid;
+        CCSPlayerController? attacker = @event.Attacker;
+
+        int damage = @event.DmgHealth;
+        int health = @event.Health;
+        int hitgroup = @event.Hitgroup;
+
+        if (player != null && is_valid(player))
         {
-            global_extras.RegisterListener<Listeners.OnEntitySpawned>(entity =>
+            lr.player_hurt(player, attacker, damage, health, hitgroup);
+            warden.player_hurt(player, attacker, damage, health);
+            sd.player_hurt(player, attacker, damage, health, hitgroup);
+        }
+
+        return HookResult.Continue;
+    }
+
+    internal HookResult OnTakeDamage(DynamicHook handle)
+    {
+        CEntityInstance victim = handle.GetParam<CEntityInstance>(0);
+        CTakeDamageInfo damage_info = handle.GetParam<CTakeDamageInfo>(1);
+
+        CHandle<CBaseEntity> dealer = damage_info.Attacker;
+
+        // get player and attacker
+        CCSPlayerController? playerp = player(victim);
+        CCSPlayerController? attacker = player(dealer);
+
+        sd.take_damage(playerp, attacker, ref damage_info.Damage);
+        lr.take_damage(playerp, attacker, ref damage_info.Damage);
+
+        return HookResult.Continue;
+    }
+
+    internal HookResult OnMapChange(EventMapTransition @event, GameEventInfo info)
+    {
+        warden.map_start();
+
+        return HookResult.Continue;
+    }
+
+    internal HookResult OnRoundStart(EventRoundStart @event, GameEventInfo info)
+    {
+        warden.round_start();
+        lr.round_start();
+        sd.round_start();
+
+        return HookResult.Continue;
+    }
+
+    internal HookResult OnPlayerDeath(EventPlayerDeath @event, GameEventInfo info)
+    {
+        CCSPlayerController? victim = @event.Userid;
+        CCSPlayerController? killer = @event.Attacker;
+
+        // hide t killing ct
+        if (Config.hide_kills && is_t(killer) && is_ct(victim))
+        {
+            //@event.Attacker = player;
+            // fire event as is to T
+            foreach (CCSPlayerController? player in Utilities.GetPlayers())
             {
-                lr.ent_created(entity);
-                sd.ent_created(entity);
+                if (player != null && is_valid(player))
+                {
+                    if (is_t(player))
+                    {
+                        // T gets full event
+                        @event.Userid = victim;
+                        @event.Attacker = killer;
+
+                        @event.FireEventToClient(player);
+                    }
+                    else
+                    {
+                        // ct gets a suicide
+                        @event.Userid = victim;
+                        @event.Attacker = victim;
+
+                        @event.FireEventToClient(player);
+                    }
+                }
+            }
+
+            info.DontBroadcast = true;
+        }
+
+        if (victim != null && is_valid(victim))
+        {
+            warden.death(victim, killer);
+            lr.death(victim);
+            sd.death(victim, killer);
+        }
+
+        return HookResult.Continue;
+    }
+
+    internal HookResult OnPlayerSpawn(EventPlayerSpawn @event, GameEventInfo info)
+    {
+        CCSPlayerController? player = @event.Userid;
+
+        if (player != null && is_valid(player))
+        {
+            int? slota = slot(player);
+
+            AddTimer(0.5f, () =>
+            {
+                if (slota != null)
+                {
+                    warden.spawn(Utilities.GetPlayerFromSlot(slota.Value));
+                }
             });
         }
 
-        internal void register_commands()
+        return HookResult.Continue;
+    }
+
+    internal HookResult OnSwitchTeam(EventTeamchangePending @event, GameEventInfo info)
+    {
+        CCSPlayerController? player = @event.Userid;
+
+        int new_team = @event.Toteam;
+
+        if (player != null && is_valid(player))
         {
-            // reg warden comamnds
-            global_extras.AddCommand("w", "take warden", warden.take_warden_cmd);
-            global_extras.AddCommand("uw", "leave warden", warden.leave_warden_cmd);
-            global_extras.AddCommand("rw", "remove warden", warden.remove_warden_cmd);
-
-            global_extras.AddCommand("wub", "warden : disable block", warden.wub_cmd);
-            global_extras.AddCommand("wb", "warden : enable block", warden.wb_cmd);
-
-            global_extras.AddCommand("swap_guard", "admin : move a player to ct", warden.swap_guard_cmd);
-
-            global_extras.AddCommand("wd", "warden : start warday", warden.warday_cmd);
-            global_extras.AddCommand("wcommands", "warden : show all commands", warden.cmd_info);
-
-            global_extras.AddCommand("guns", "give ct guns", warden.cmd_ct_guns);
-
-            // reg lr commands
-            global_extras.AddCommand("lr", "start an lr", lr.lr_cmd);
-            global_extras.AddCommand("cancel_lr", "admin : cancel lr", lr.cancel_lr_cmd);
-            global_extras.AddCommand("lr_stats", "list lr stats", lr.lr_stats.lr_stats_cmd);
-
-            // reg sd commands
-            global_extras.AddCommand("sd", "start a sd", sd.sd_cmd);
-            global_extras.AddCommand("sd_ff", "start a ff sd", sd.sd_ff_cmd);
-            global_extras.AddCommand("cancel_sd", "cancel an sd", sd.cancel_sd_cmd);
-
-            global_extras.AddCommandListener("jointeam", join_team);
-
-            // debug
-            if (Debug.enable)
-            {
-                global_extras.AddCommand("nuke", "debug : kill every player", Debug.nuke);
-                global_extras.AddCommand("force_open", "debug : force open every door and vent", Debug.force_open_cmd);
-                global_extras.AddCommand("is_rebel", "debug : print rebel state to console", warden.is_rebel_cmd);
-                global_extras.AddCommand("lr_debug", "debug : start an lr without restriction", lr.lr_debug_cmd);
-                global_extras.AddCommand("is_blocked", "debug : print block state", warden.block.is_blocked);
-                global_extras.AddCommand("test_laser", "test laser", Debug.test_laser);
-                global_extras.AddCommand("test_strip", "test weapon strip", Debug.test_strip_cmd);
-                global_extras.AddCommand("join_ct_debug", "debug : force join ct", Debug.join_ct_cmd);
-                global_extras.AddCommand("hide_weapon_debug", "debug : hide player weapon on back", Debug.hide_weapon_cmd);
-                global_extras.AddCommand("rig", "debug : force player to boss on sd", sd.sd_rig_cmd);
-                global_extras.AddCommand("is_muted", "debug : print voice flags", Debug.is_muted_cmd);
-            }
+            warden.switch_team(player, new_team);
         }
 
-        public HookResult join_team(CCSPlayerController? invoke, CommandInfo command)
+        return HookResult.Continue;
+    }
+
+    internal HookResult OnPlayerConnect(EventPlayerConnect @event, GameEventInfo info)
+    {
+        CCSPlayerController? player = @event.Userid;
+
+        if (player != null && is_valid(player))
         {
-            lr.lr_stats.connect(invoke);
-
-            if (!warden.join_team(invoke, command))
-            {
-                return HookResult.Stop;
-            }
-
-            return HookResult.Continue;
+            lr.lr_stats.connect(player);
         }
 
-        internal void register_hook()
+        return HookResult.Continue;
+    }
+
+    internal HookResult OnPlayerDisconnect(EventPlayerDisconnect @event, GameEventInfo info)
+    {
+        CCSPlayerController? player = @event.Userid;
+
+        if (player != null && is_valid(player))
         {
-            global_extras.RegisterEventHandler<EventRoundStart>(OnRoundStart);
-            global_extras.RegisterEventHandler<EventRoundEnd>(OnRoundEnd, HookMode.Pre);
-            global_extras.RegisterEventHandler<EventWeaponFire>(OnWeaponFire);
-            global_extras.RegisterEventHandler<EventPlayerSpawn>(OnPlayerSpawn);
-            global_extras.RegisterEventHandler<EventPlayerDisconnect>(OnPlayerDisconnect);
-            global_extras.RegisterEventHandler<EventPlayerConnect>(OnPlayerConnect);
-            global_extras.RegisterEventHandler<EventTeamchangePending>(OnSwitchTeam);
-            global_extras.RegisterEventHandler<EventMapTransition>(OnMapChange);
-            global_extras.RegisterEventHandler<EventPlayerDeath>(OnPlayerDeath, HookMode.Pre);
-            global_extras.RegisterEventHandler<EventItemEquip>(OnItemEquip);
-            global_extras.RegisterEventHandler<EventGrenadeThrown>(OnGrenadeThrown);
-            global_extras.RegisterEventHandler<EventPlayerHurt>(OnPlayerHurt);
-            global_extras.RegisterEventHandler<EventWeaponZoom>(OnWeaponZoom);
-            VirtualFunctions.CBaseEntity_TakeDamageOldFunc.Hook(OnTakeDamage, HookMode.Pre);
-
-            //HookEntityOutput("func_button", "OnPressed", OnButtonPressed);
-
-            //RegisterListener<Listeners.OnClientVoice>(OnClientVoice);
-
-            // TODO: need to hook weapon drop
+            warden.disconnect(player);
+            lr.disconnect(player);
+            sd.disconnect(player);
         }
 
-        internal void OnClientVoice(int slot)
-        {
-            CCSPlayerController? player = Utilities.GetPlayerFromSlot(slot);
+        return HookResult.Continue;
+    }
 
-            if (player != null && player.is_valid())
-            {
-                warden.voice(player);
-            }
+    internal HookResult OnRoundEnd(EventRoundEnd @event, GameEventInfo info)
+    {
+        warden.round_end();
+        lr.round_end();
+        sd.round_end();
+
+        return HookResult.Continue;
+    }
+
+    internal HookResult OnWeaponFire(EventWeaponFire @event, GameEventInfo info)
+    {
+        // attempt to get player and weapon
+        var player = @event.Userid;
+        String name = @event.Weapon;
+
+        warden.weapon_fire(player, name);
+        lr.weapon_fire(player, name);
+
+        return HookResult.Continue;
+    }
+
+    internal void register_listener()
+    {
+        RegisterListener<Listeners.OnEntitySpawned>(entity =>
+        {
+            lr.ent_created(entity);
+            sd.ent_created(entity);
+        });
+    }
+
+    internal void register_commands()
+    {
+        // reg warden comamnds
+        AddCommand("w", "take warden", warden.take_warden_cmd);
+        AddCommand("uw", "leave warden", warden.leave_warden_cmd);
+        AddCommand("rw", "remove warden", warden.remove_warden_cmd);
+
+        AddCommand("wub", "warden : disable block", warden.wub_cmd);
+        AddCommand("wb", "warden : enable block", warden.wb_cmd);
+
+        AddCommand("swap_guard", "admin : move a player to ct", warden.swap_guard_cmd);
+
+        AddCommand("wd", "warden : start warday", warden.warday_cmd);
+        AddCommand("wcommands", "warden : show all commands", warden.cmd_info);
+
+        AddCommand("guns", "give ct guns", warden.cmd_ct_guns);
+
+        // reg lr commands
+        AddCommand("lr", "start an lr", lr.lr_cmd);
+        AddCommand("cancel_lr", "admin : cancel lr", lr.cancel_lr_cmd);
+        AddCommand("lr_stats", "list lr stats", lr.lr_stats.lr_stats_cmd);
+
+        // reg sd commands
+        AddCommand("sd", "start a sd", sd.sd_cmd);
+        AddCommand("sd_ff", "start a ff sd", sd.sd_ff_cmd);
+        AddCommand("cancel_sd", "cancel an sd", sd.cancel_sd_cmd);
+
+        AddCommandListener("jointeam", join_team);
+
+        // debug
+        if (Debug.enable)
+        {
+            AddCommand("nuke", "debug : kill every player", Debug.nuke);
+            AddCommand("force_open", "debug : force open every door and vent", Debug.force_open_cmd);
+            AddCommand("is_rebel", "debug : print rebel state to console", warden.is_rebel_cmd);
+            AddCommand("lr_debug", "debug : start an lr without restriction", lr.lr_debug_cmd);
+            AddCommand("is_blocked", "debug : print block state", warden.block.is_blocked);
+            AddCommand("test_laser", "test laser", Debug.test_laser);
+            AddCommand("test_strip", "test weapon strip", Debug.test_strip_cmd);
+            AddCommand("join_ct_debug", "debug : force join ct", Debug.join_ct_cmd);
+            AddCommand("hide_weapon_debug", "debug : hide player weapon on back", Debug.hide_weapon_cmd);
+            AddCommand("rig", "debug : force player to boss on sd", sd.sd_rig_cmd);
+            AddCommand("is_muted", "debug : print voice flags", Debug.is_muted_cmd);
+        }
+    }
+
+    internal void register_hook()
+    {
+        RegisterEventHandler<EventRoundStart>(OnRoundStart);
+        RegisterEventHandler<EventRoundEnd>(OnRoundEnd, HookMode.Pre);
+        RegisterEventHandler<EventWeaponFire>(OnWeaponFire);
+        RegisterEventHandler<EventPlayerSpawn>(OnPlayerSpawn);
+        RegisterEventHandler<EventPlayerDisconnect>(OnPlayerDisconnect);
+        RegisterEventHandler<EventPlayerConnect>(OnPlayerConnect);
+        RegisterEventHandler<EventTeamchangePending>(OnSwitchTeam);
+        RegisterEventHandler<EventMapTransition>(OnMapChange);
+        RegisterEventHandler<EventPlayerDeath>(OnPlayerDeath, HookMode.Pre);
+        RegisterEventHandler<EventItemEquip>(OnItemEquip);
+        RegisterEventHandler<EventGrenadeThrown>(OnGrenadeThrown);
+        RegisterEventHandler<EventPlayerHurt>(OnPlayerHurt);
+        RegisterEventHandler<EventWeaponZoom>(OnWeaponZoom);
+        VirtualFunctions.CBaseEntity_TakeDamageOldFunc.Hook(OnTakeDamage, HookMode.Pre);
+
+        //HookEntityOutput("func_button", "OnPressed", OnButtonPressed);
+
+        //RegisterListener<Listeners.OnClientVoice>(OnClientVoice);
+
+        // TODO: need to hook weapon drop
+    }
+
+    public HookResult join_team(CCSPlayerController? invoke, CommandInfo command)
+    {
+        lr.lr_stats.connect(invoke);
+
+        if (!warden.join_team(invoke, command))
+        {
+            return HookResult.Stop;
         }
 
-        // button log
-        internal HookResult OnButtonPressed(CEntityIOOutput output, String name, CEntityInstance activator, CEntityInstance caller, CVariant value, float delay)
-        {
-            CCSPlayerController? player = activator.player();
+        return HookResult.Continue;
+    }
 
-            // grab player controller from pawn
-            CBaseEntity? ent = Utilities.GetEntityFromIndex<CBaseEntity>((int)caller.Index);
+    public static bool is_warden(CCSPlayerController? player)
+    {
+        return warden.is_warden(player);
+    }
 
-            if (player != null && player.is_valid() && ent != null && ent.IsValid)
-            {
-                Lib.print_console_all($"{player.PlayerName} pressed button '{ent.Entity?.Name}' -> '{output?.Connections?.TargetDesc}'", true);
-            }
+    public static bool event_active()
+    {
+        return is_event_active;
+    }
 
-            return HookResult.Continue;
-        }
+    public static void start_event()
+    {
+        is_event_active = true;
+    }
 
-        internal HookResult OnGrenadeThrown(EventGrenadeThrown @event, GameEventInfo info)
-        {
-            CCSPlayerController? player = @event.Userid;
-
-            if (player != null && player.is_valid())
-            {
-                lr.grenade_thrown(player);
-                sd.grenade_thrown(player);
-            }
-
-            return HookResult.Continue;
-        }
-
-        internal HookResult OnWeaponZoom(EventWeaponZoom @event, GameEventInfo info)
-        {
-            CCSPlayerController? player = @event.Userid;
-
-            if (player != null && player.is_valid())
-            {
-                lr.weapon_zoom(player);
-            }
-
-            return HookResult.Continue;
-        }
-
-        internal HookResult OnItemEquip(EventItemEquip @event, GameEventInfo info)
-        {
-            CCSPlayerController? player = @event.Userid;
-
-            if (player != null && player.is_valid())
-            {
-                lr.weapon_equip(player, @event.Item);
-                sd.weapon_equip(player, @event.Item);
-            }
-
-            return HookResult.Continue;
-        }
-
-        internal HookResult OnPlayerHurt(EventPlayerHurt @event, GameEventInfo info)
-        {
-            CCSPlayerController? player = @event.Userid;
-            CCSPlayerController? attacker = @event.Attacker;
-
-            int damage = @event.DmgHealth;
-            int health = @event.Health;
-            int hitgroup = @event.Hitgroup;
-
-            if (player != null && player.is_valid())
-            {
-                lr.player_hurt(player, attacker, damage, health, hitgroup);
-                warden.player_hurt(player, attacker, damage, health);
-                sd.player_hurt(player, attacker, damage, health, hitgroup);
-            }
-
-            return HookResult.Continue;
-        }
-
-        internal HookResult OnTakeDamage(DynamicHook handle)
-        {
-            CEntityInstance victim = handle.GetParam<CEntityInstance>(0);
-            CTakeDamageInfo damage_info = handle.GetParam<CTakeDamageInfo>(1);
-
-            CHandle<CBaseEntity> dealer = damage_info.Attacker;
-
-            // get player and attacker
-            CCSPlayerController? player = victim.player();
-            CCSPlayerController? attacker = dealer.player();
-
-            sd.take_damage(player, attacker, ref damage_info.Damage);
-            lr.take_damage(player, attacker, ref damage_info.Damage);
-
-            return HookResult.Continue;
-        }
-
-        internal HookResult OnMapChange(EventMapTransition @event, GameEventInfo info)
-        {
-            warden.map_start();
-
-            return HookResult.Continue;
-        }
-
-        internal HookResult OnRoundStart(EventRoundStart @event, GameEventInfo info)
-        {
-            warden.round_start();
-            lr.round_start();
-            sd.round_start();
-
-            return HookResult.Continue;
-        }
-
-        internal HookResult OnPlayerDeath(EventPlayerDeath @event, GameEventInfo info)
-        {
-            CCSPlayerController? victim = @event.Userid;
-            CCSPlayerController? killer = @event.Attacker;
-
-            // hide t killing ct
-            if (Config.hide_kills && killer.is_t() && victim.is_ct())
-            {
-                //@event.Attacker = player;
-                // fire event as is to T
-                foreach (CCSPlayerController? player in Utilities.GetPlayers())
-                {
-                    if (player != null && player.is_valid())
-                    {
-                        if (player.is_t())
-                        {
-                            // T gets full event
-                            @event.Userid = victim;
-                            @event.Attacker = killer;
-
-                            @event.FireEventToClient(player);
-                        }
-                        else
-                        {
-                            // ct gets a suicide
-                            @event.Userid = victim;
-                            @event.Attacker = victim;
-
-                            @event.FireEventToClient(player);
-                        }
-                    }
-                }
-
-                info.DontBroadcast = true;
-            }
-
-            if (victim != null && victim.is_valid())
-            {
-                warden.death(victim, killer);
-                lr.death(victim);
-                sd.death(victim, killer);
-            }
-
-            return HookResult.Continue;
-        }
-
-        internal HookResult OnPlayerSpawn(EventPlayerSpawn @event, GameEventInfo info)
-        {
-            CCSPlayerController? player = @event.Userid;
-
-            if (player != null && player.is_valid())
-            {
-                int? slot = player.slot();
-
-                global_extras.AddTimer(0.5f, () =>
-                {
-                    if (slot != null)
-                    {
-                        warden.spawn(Utilities.GetPlayerFromSlot(slot.Value));
-                    }
-                });
-            }
-
-            return HookResult.Continue;
-        }
-
-        internal HookResult OnSwitchTeam(EventTeamchangePending @event, GameEventInfo info)
-        {
-            CCSPlayerController? player = @event.Userid;
-
-            int new_team = @event.Toteam;
-
-            if (player != null && player.is_valid())
-            {
-                warden.switch_team(player, new_team);
-            }
-
-            return HookResult.Continue;
-        }
-
-        internal HookResult OnPlayerConnect(EventPlayerConnect @event, GameEventInfo info)
-        {
-            CCSPlayerController? player = @event.Userid;
-
-            if (player != null && player.is_valid())
-            {
-                lr.lr_stats.connect(player);
-            }
-
-            return HookResult.Continue;
-        }
-
-        internal HookResult OnPlayerDisconnect(EventPlayerDisconnect @event, GameEventInfo info)
-        {
-            CCSPlayerController? player = @event.Userid;
-
-            if (player != null && player.is_valid())
-            {
-                warden.disconnect(player);
-                lr.disconnect(player);
-                sd.disconnect(player);
-            }
-
-            return HookResult.Continue;
-        }
-
-        internal HookResult OnRoundEnd(EventRoundEnd @event, GameEventInfo info)
-        {
-            warden.round_end();
-            lr.round_end();
-            sd.round_end();
-
-            return HookResult.Continue;
-        }
-
-        internal HookResult OnWeaponFire(EventWeaponFire @event, GameEventInfo info)
-        {
-            // attempt to get player and weapon
-            var player = @event.Userid;
-            String name = @event.Weapon;
-
-            warden.weapon_fire(player, name);
-            lr.weapon_fire(player, name);
-
-            return HookResult.Continue;
-        }
+    public static void end_event()
+    {
+        is_event_active = false;
     }
 }

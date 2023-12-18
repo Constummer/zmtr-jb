@@ -13,12 +13,12 @@ public partial class JailbreakExtras
 
         private void give_weapon(CCSPlayerController? player)
         {
-            if (player == null || !player.is_valid())
+            if (player == null || !is_valid(player))
             {
                 return;
             }
 
-            player.strip_weapons(true);
+            strip_weapons(player, true);
 
             switch (choice)
             {

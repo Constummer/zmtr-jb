@@ -25,7 +25,7 @@ public partial class JailbreakExtras
         {
             if (active_sd != null)
             {
-                JailPlugin.end_event();
+                end_event();
                 active_sd.end_common();
                 active_sd = null;
 
@@ -34,7 +34,7 @@ public partial class JailbreakExtras
                 // restore all players if from a cancel
                 if (forced)
                 {
-                    Lib.announce(SPECIALDAY_PREFIX, "Special day cancelled");
+                    announce(SPECIALDAY_PREFIX, "Special day cancelled");
                 }
 
                 team_save.restore();
@@ -53,14 +53,14 @@ public partial class JailbreakExtras
 
         public void setup_sd(CCSPlayerController? invoke, ChatMenuOption option)
         {
-            if (invoke == null || !invoke.is_valid())
+            if (invoke == null || !is_valid(invoke))
             {
                 return;
             }
 
             if (active_sd != null)
             {
-                invoke.announce(SPECIALDAY_PREFIX, "You cannot call two SD's at once");
+                announce(invoke, SPECIALDAY_PREFIX, "You cannot call two SD's at once");
                 return;
             }
 
@@ -142,7 +142,7 @@ public partial class JailbreakExtras
             // 1up all dead players
             foreach (CCSPlayerController player in Utilities.GetPlayers())
             {
-                if (player.is_valid() && !player.is_valid_alive())
+                if (is_valid(player) && !is_valid_alive(player))
                 {
                     player.Respawn();
                 }
@@ -151,22 +151,19 @@ public partial class JailbreakExtras
             // call the intiail sd setup
             if (active_sd != null)
             {
-                JailPlugin.start_event();
+                start_event();
                 active_sd.setup_common();
             }
 
             // start the countdown for enable
-            if (JailPlugin.global_ctx != null)
-            {
-                countdown.start($"{name} specialday", 15, 0, null, start_sd);
-            }
+            countdown.start($"{name} specialday", 15, 0, null, start_sd);
 
             team_save.save();
         }
 
         public void weapon_equip(CCSPlayerController? player, String name)
         {
-            if (player == null || !player.is_valid_alive())
+            if (player == null || !is_valid_alive(player))
             {
                 return;
             }
@@ -183,7 +180,7 @@ public partial class JailbreakExtras
 
         public void disconnect(CCSPlayerController? player)
         {
-            if (player == null || !player.is_valid())
+            if (player == null || !is_valid(player))
             {
                 return;
             }
@@ -220,7 +217,7 @@ public partial class JailbreakExtras
 
         public void player_hurt(CCSPlayerController? player, CCSPlayerController? attacker, int damage, int health, int hitgroup)
         {
-            if (active_sd != null && player != null && player.is_valid())
+            if (active_sd != null && player != null && is_valid(player))
             {
                 active_sd.player_hurt(player, damage, health, hitgroup);
             }
@@ -233,8 +230,8 @@ public partial class JailbreakExtras
                 // force ff active
                 if (override_ff)
                 {
-                    Lib.announce(SPECIALDAY_PREFIX, "Friendly fire enabled!");
-                    Lib.enable_friendly_fire();
+                    announce(SPECIALDAY_PREFIX, "Friendly fire enabled!");
+                    enable_friendly_fire();
                 }
 
                 active_sd.start_common();
@@ -243,7 +240,7 @@ public partial class JailbreakExtras
 
         public void take_damage(CCSPlayerController? player, CCSPlayerController? attacker, ref float damage)
         {
-            if (active_sd == null || player == null || !player.is_valid())
+            if (active_sd == null || player == null || !is_valid(player))
             {
                 return;
             }
@@ -262,7 +259,7 @@ public partial class JailbreakExtras
 
         public void sd_cmd_internal(CCSPlayerController? player)
         {
-            if (player == null || !player.is_valid())
+            if (player == null || !is_valid(player))
             {
                 return;
             }
@@ -281,7 +278,7 @@ public partial class JailbreakExtras
         [RequiresPermissions("@jail/debug")]
         public void sd_rig_cmd(CCSPlayerController? player, CommandInfo command)
         {
-            if (player == null || !player.is_valid())
+            if (player == null || !is_valid(player))
             {
                 return;
             }

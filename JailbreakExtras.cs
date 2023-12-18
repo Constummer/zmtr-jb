@@ -1,5 +1,6 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Memory;
+using CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Utils;
 using static JailbreakExtras.JailbreakExtras;
 
@@ -7,10 +8,15 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailConfig>
 {
+    private static readonly JailbreakExtras instance = new();
+
+    internal static JailbreakExtras Instance
+    { get { return instance; } }
+
     public override string ModuleName => "JailbreakExtras";
     public override string ModuleAuthor => "Constummer";
     public override string ModuleDescription => "Extra jailbreak plugins";
-    public override string ModuleVersion => "V. 1.0.1";
+    public override string ModuleVersion => "V.1.0.1";
 
     private static readonly Dictionary<ulong, bool> ActiveGodMode = new();
     private static readonly Dictionary<ulong, Vector> DeathLocations = new();
@@ -18,12 +24,10 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailConfig>
 
     private static readonly Random _random = new Random();
     public JailConfig Config { get; set; } = new JailConfig();
-    private JailPlugin? jailPlugin;
+    public static JailConfig _config { get; set; } = new JailConfig();
 
     static JailbreakExtras()
     {
-        JailPlugin jailPlugin = new JailPlugin();
-        JailPlugin.global_ctx = jailPlugin;
     }
 
     private static readonly string[] BaseRequiresPermissions = new[]
@@ -40,13 +44,13 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailConfig>
 
     public void OnConfigParsed(JailConfig config)
     {
-        JailPlugin.Config = this.Config = config;
-        JailPlugin.lr.lr_stats.config = config;
-        JailPlugin.lr.config = config;
-        JailPlugin.warden.config = config;
-        JailPlugin.warden.mute.config = config;
+        _config = Config = config;
+        lr.lr_stats.config = config;
+        lr.config = config;
+        warden.config = config;
+        warden.mute.config = config;
 
-        JailPlugin.lr.lr_config_reload();
+        lr.lr_config_reload();
     }
 
     public override void Load(bool hotReload)
@@ -90,23 +94,21 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailConfig>
 
     private void CS2JailbreakLoad()
     {
-        if (jailPlugin != null)
-        {
-            JailPlugin.global_extras = this;
-            jailPlugin.register_commands();
-            jailPlugin.register_hook();
-            jailPlugin.register_listener();
-            // workaround to query global state!
-        }
+        register_commands();
+        register_hook();
+        register_listener();
+        // workaround to query global state!
     }
 
     public override void Unload(bool hotReload)
     {
-        if (jailPlugin != null)
-        {
-            VirtualFunctions.CBaseEntity_TakeDamageOldFunc.Unhook(jailPlugin.OnTakeDamage, HookMode.Pre);
-        }
+        VirtualFunctions.CBaseEntity_TakeDamageOldFunc.Unhook(OnTakeDamage, HookMode.Pre);
 
         base.Unload(hotReload);
+    }
+
+    private void Addtimer(float delay, Action value, TimerFlags? timerFlags)
+    {
+        base.AddTimer(delay, value, timerFlags);
     }
 }

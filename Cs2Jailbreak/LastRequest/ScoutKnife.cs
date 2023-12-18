@@ -14,7 +14,7 @@ public partial class JailbreakExtras
         {
             player.GiveNamedItem("weapon_knife");
             player.GiveNamedItem("weapon_ssg08");
-            player.set_gravity(0.1f);
+          set_gravity(  player,0.1f);
         }
 
         public override bool weapon_equip(String name)

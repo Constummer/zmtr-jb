@@ -17,28 +17,25 @@ public partial class JailbreakExtras
                 return;
             }
 
-            Lib.announce(MUTE_PREFIX, "All t's are muted for the first 30 seconds");
+            announce(MUTE_PREFIX, "All t's are muted for the first 30 seconds");
 
-            Lib.mute_t();
+            mute_t();
 
-            if (JailPlugin.global_extras != null)
-            {
-                mute_timer = JailPlugin.global_extras.AddTimer(30.0f, unmute_all, CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
-            }
+            mute_timer = instance.AddTimer(30.0f, unmute_all, CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
 
             mute_active = true;
         }
 
         public void unmute_all()
         {
-            Lib.announce(MUTE_PREFIX, "T's may now speak quietly");
+            announce(MUTE_PREFIX, "T's may now speak quietly");
 
             // Go through and unmute all alive players!
             foreach (CCSPlayerController player in Utilities.GetPlayers())
             {
-                if (player.is_valid() && player.PawnIsAlive)
+                if (is_valid(player) && player.PawnIsAlive)
                 {
-                    player.unmute();
+                    unmute(player);
                 }
             }
 
@@ -49,74 +46,74 @@ public partial class JailbreakExtras
 
         public void round_start()
         {
-            Lib.kill_timer(ref mute_timer);
+            kill_timer(ref mute_timer);
 
             mute_t();
         }
 
         public void round_end()
         {
-            Lib.kill_timer(ref mute_timer);
+            kill_timer(ref mute_timer);
 
-            Lib.unmute_all();
+            unmute_all();
         }
 
         public void connect(CCSPlayerController? player)
         {
             // just connected mute them
-            player.mute();
+            mute(player);
         }
 
         public void apply_listen_flags(CCSPlayerController player)
         {
             // default to listen all
-            player.listen_all();
+            listen_all(player);
 
             // if ct cannot hear team, change listen flags to team only
-            if (player.is_ct() && config.ct_voice_only)
+            if (is_ct(player) && config.ct_voice_only)
             {
-                player.listen_team();
+                listen_team(player);
             }
         }
 
         public void spawn(CCSPlayerController? player)
         {
-            if (!player.is_valid() || player == null)
+            if (!is_valid(player) || player == null)
             {
                 return;
             }
 
             apply_listen_flags(player);
 
-            if (config.mute_t_allways && player.is_t())
+            if (config.mute_t_allways && is_t(player))
             {
-                player.mute();
+                mute(player);
                 return;
             }
 
             // no mute active or on ct unmute
-            if (!mute_active || player.is_ct())
+            if (!mute_active || is_ct(player))
             {
-                player.unmute();
+                unmute(player);
             }
         }
 
         public void death(CCSPlayerController? player)
         {
             // mute on death
-            if (!player.is_valid() || player == null)
+            if (!is_valid(player) || player == null)
             {
                 return;
             }
 
             player.PrintToChat($"{MUTE_PREFIX}You are muted until the end of the round");
 
-            player.mute();
+            mute(player);
         }
 
         public void switch_team(CCSPlayerController? player, int new_team)
         {
-            if (!player.is_valid() || player == null)
+            if (!is_valid(player) || player == null)
             {
                 return;
             }
@@ -126,23 +123,23 @@ public partial class JailbreakExtras
             // player not alive mute
             if (!player.PawnIsAlive)
             {
-                player.mute();
+                mute(player);
             }
 
             // player is alive
             else
             {
                 // on ct fine to unmute
-                if (new_team == Lib.TEAM_CT)
+                if (new_team == TEAM_CT)
                 {
-                    player.unmute();
+                    unmute(player);
                 }
                 else
                 {
                     // mute timer active, mute the client
                     if (mute_active || config.mute_t_allways)
                     {
-                        player.mute();
+                        mute(player);
                     }
                 }
             }

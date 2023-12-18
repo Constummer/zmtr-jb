@@ -15,24 +15,24 @@ public partial class JailbreakExtras
         [RequiresPermissions("@jail/debug")]
         public static void nuke(CCSPlayerController? invoke, CommandInfo command)
         {
-            Lib.announce(DEBUG_PREFIX, "Slaying all players");
+            announce(DEBUG_PREFIX, "Slaying all players");
 
             foreach (CCSPlayerController player in Utilities.GetPlayers())
             {
-                player.slay();
+                slay(player);
             }
         }
 
         [RequiresPermissions("@jail/debug")]
         public static void force_open_cmd(CCSPlayerController? invoke, CommandInfo command)
         {
-            Lib.force_open();
+            force_open();
         }
 
         [RequiresPermissions("@jail/debug")]
         public static void test_laser(CCSPlayerController? invoke, CommandInfo command)
         {
-            CCSPlayerPawn? pawn = invoke.pawn();
+            CCSPlayerPawn? pawn = ppawn(invoke);
 
             if (pawn != null && pawn.AbsOrigin != null)
             {
@@ -44,20 +44,20 @@ public partial class JailbreakExtras
                     invoke.PrintToChat($"end: {end.X} {end.Y} {end.Z}");
                 }
 
-                Lib.draw_laser(pawn.AbsOrigin, end, 10.0f, 2.0f, Lib.CYAN);
+                draw_laser(pawn.AbsOrigin, end, 10.0f, 2.0f, CYAN);
             }
         }
 
         [RequiresPermissions("@jail/debug")]
         public static void test_strip_cmd(CCSPlayerController? invoke, CommandInfo command)
         {
-            invoke.strip_weapons(true);
+            strip_weapons(invoke, true);
         }
 
         [RequiresPermissions("@jail/debug")]
         public static void join_ct_cmd(CCSPlayerController? invoke, CommandInfo command)
         {
-            if (invoke != null && invoke.is_valid())
+            if (invoke != null && is_valid(invoke))
             {
                 invoke.SwitchTeam(CsTeam.CounterTerrorist);
             }
@@ -66,18 +66,18 @@ public partial class JailbreakExtras
         [RequiresPermissions("@jail/debug")]
         public static void hide_weapon_cmd(CCSPlayerController? invoke, CommandInfo command)
         {
-            if (invoke != null && invoke.is_valid())
+            if (invoke != null && is_valid(invoke))
             {
                 invoke.PrintToChat("hiding weapons");
             }
 
-            invoke.hide_weapon();
+            hide_weapon(invoke);
         }
 
         [RequiresPermissions("@jail/debug")]
         public static void is_muted_cmd(CCSPlayerController? invoke, CommandInfo command)
         {
-            if (invoke == null || !invoke.is_valid())
+            if (invoke == null || !is_valid(invoke))
             {
                 return;
             }

@@ -22,12 +22,12 @@ public partial class JailbreakExtras
         {
             var lr_player = lr_player_from_player(player);
 
-            if (lr_player != null && type != LastRequest.LRType.NONE && player != null && player.is_valid())
+            if (lr_player != null && type != LastRequest.LRType.NONE && player != null && is_valid(player))
             {
                 int idx = (int)type;
                 lr_player.win[idx] += 1;
                 inc_db(player, type, true);
-                Lib.announce(LastRequest.LR_PREFIX, $"{player.PlayerName} won {LastRequest.LR_NAME[idx]} win {lr_player.win[idx]} : loss {lr_player.loss[idx]}");
+                announce(LastRequest.LR_PREFIX, $"{player.PlayerName} won {LastRequest.LR_NAME[idx]} win {lr_player.win[idx]} : loss {lr_player.loss[idx]}");
             }
         }
 
@@ -35,43 +35,43 @@ public partial class JailbreakExtras
         {
             var lr_player = lr_player_from_player(player);
 
-            if (lr_player != null && type != LastRequest.LRType.NONE && player != null && player.is_valid())
+            if (lr_player != null && type != LastRequest.LRType.NONE && player != null && is_valid(player))
             {
                 int idx = (int)type;
                 lr_player.loss[idx] += 1;
                 inc_db(player, type, false);
 
-                Lib.announce(LastRequest.LR_PREFIX, $"{player.PlayerName} lost {LastRequest.LR_NAME[idx]} win {lr_player.win[idx]} : loss {lr_player.loss[idx]}");
+                announce(LastRequest.LR_PREFIX, $"{player.PlayerName} lost {LastRequest.LR_NAME[idx]} win {lr_player.win[idx]} : loss {lr_player.loss[idx]}");
             }
         }
 
         private PlayerStat? lr_player_from_player(CCSPlayerController? player)
         {
-            if (player == null || !player.is_valid())
+            if (player == null || !is_valid(player))
             {
                 return null;
             }
 
-            var slot = player.slot();
+            var slot2 = slot(player);
 
-            if (slot == null)
+            if (slot2 == null)
             {
                 return null;
             }
 
-            return lr_players[slot.Value];
+            return lr_players[slot2.Value];
         }
 
         private void print_stats(CCSPlayerController? invoke, CCSPlayerController? player)
         {
-            if (invoke == null || !invoke.is_valid())
+            if (invoke == null || !is_valid(invoke))
             {
                 return;
             }
 
             var lr_player = lr_player_from_player(player);
 
-            if (lr_player != null && player != null && player.is_valid())
+            if (lr_player != null && player != null && is_valid(player))
             {
                 invoke.PrintToChat($"{LastRequest.LR_PREFIX} lr stats for {player.PlayerName}");
 
@@ -137,7 +137,7 @@ public partial class JailbreakExtras
 
         public async void inc_db(CCSPlayerController? player, LastRequest.LRType type, bool win)
         {
-            if (player == null || !player.is_valid() || type == LastRequest.LRType.NONE)
+            if (player == null || !is_valid(player) || type == LastRequest.LRType.NONE)
             {
                 return;
             }
@@ -187,17 +187,17 @@ public partial class JailbreakExtras
 
             // repull player from steamid if they are still around
             CCSPlayerController? player = Utilities.GetPlayerFromSteamId(id);
-            int? slot_opt = player.slot();
+            int? slot_opt = slot(player);
 
             if (slot_opt == null)
             {
                 return;
             }
 
-            int slot = slot_opt.Value;
+            int slot2 = slot_opt.Value;
 
             // allready cached we dont care
-            if (lr_players[slot].cached)
+            if (lr_players[slot2].cached)
             {
                 return;
             }
@@ -212,7 +212,7 @@ public partial class JailbreakExtras
 
                 if (reader.Read())
                 {
-                    if (player == null || !player.is_valid() || slot_opt == null)
+                    if (player == null || !is_valid(player) || slot_opt == null)
                     {
                         return;
                     }
@@ -223,11 +223,11 @@ public partial class JailbreakExtras
                     {
                         String name = LastRequest.LR_NAME[i].Replace(" ", "_");
 
-                        lr_players[slot].win[i] = (int)reader[name + "_win"];
-                        lr_players[slot].loss[i] = (int)reader[name + "_loss"];
+                        lr_players[slot2].win[i] = (int)reader[name + "_win"];
+                        lr_players[slot2].loss[i] = (int)reader[name + "_loss"];
                     }
 
-                    lr_players[slot].cached = true;
+                    lr_players[slot2].cached = true;
                 }
 
                 // failed to pull player stats
@@ -249,7 +249,7 @@ public partial class JailbreakExtras
 
         public void connect(CCSPlayerController? player)
         {
-            if (player == null || !player.is_valid())
+            if (player == null || !is_valid(player))
             {
                 return;
             }

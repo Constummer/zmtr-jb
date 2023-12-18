@@ -45,7 +45,7 @@ public partial class JailbreakExtras
         {
             // get valid players
             List<CCSPlayerController> players = Utilities.GetPlayers();
-            var valid = players.FindAll(player => player.is_valid_alive());
+            var valid = players.FindAll(player => is_valid_alive(player));
 
             // override pick
             if (rigged != null)
@@ -65,13 +65,13 @@ public partial class JailbreakExtras
 
         public void disconnect(CCSPlayerController? player)
         {
-            if (player == null || !player.is_valid())
+            if (player == null || !is_valid(player))
             {
                 return;
             }
 
             // player has dced re roll the boss if we have one
-            if (player.slot() == boss.slot())
+            if (slot(player) == slot(boss))
             {
                 (CCSPlayerController boss, int count) = pick_boss();
 
@@ -84,13 +84,13 @@ public partial class JailbreakExtras
             state = SDState.INACTIVE;
             end();
 
-            Lib.disable_friendly_fire();
+            disable_friendly_fire();
 
             // reset the boss colour
-            if (boss != null && boss.is_valid_alive())
+            if (boss != null && is_valid_alive(boss))
             {
-                boss.set_velocity(1.0f);
-                boss.set_colour(Color.FromArgb(255, 255, 255, 255));
+                set_velocity(boss, 1.0f);
+                set_colour(boss, Color.FromArgb(255, 255, 255, 255));
             }
 
             cleanup_players();
@@ -98,7 +98,7 @@ public partial class JailbreakExtras
 
         public bool is_boss(CCSPlayerController? player)
         {
-            return boss.slot() != null && player.slot() == boss.slot();
+            return slot(boss) != null && slot(player) == slot(boss);
         }
 
         public virtual bool weapon_equip(CCSPlayerController player, String name)
@@ -127,7 +127,7 @@ public partial class JailbreakExtras
         {
             foreach (CCSPlayerController player in Utilities.GetPlayers())
             {
-                if (player.is_valid_alive())
+                if (is_valid_alive(player))
                 {
                     setup_player(player);
                 }
@@ -138,7 +138,7 @@ public partial class JailbreakExtras
         {
             foreach (CCSPlayerController player in Utilities.GetPlayers())
             {
-                if (player.is_valid_alive())
+                if (is_valid_alive(player))
                 {
                     cleanup_player(player);
                 }
@@ -147,7 +147,7 @@ public partial class JailbreakExtras
 
         public void announce(String str)
         {
-            Lib.announce(SpecialDay.SPECIALDAY_PREFIX, str);
+            JailbreakExtras.announce(SpecialDay.SPECIALDAY_PREFIX, str);
         }
 
         public CCSPlayerController? boss = null;

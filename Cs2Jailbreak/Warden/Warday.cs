@@ -17,13 +17,13 @@ public partial class JailbreakExtras
                 // give T guns
                 foreach (CCSPlayerController player in Utilities.GetPlayers())
                 {
-                    if (player.is_valid() && player.TeamNum == Lib.TEAM_T)
+                    if (is_valid(player) && player.TeamNum == TEAM_T)
                     {
-                        player.event_gun_menu();
+                        event_gun_menu(player);
                     }
                 }
 
-                Lib.announce(WARDAY_PREFIX, "Weapons live!");
+                announce(WARDAY_PREFIX, "Weapons live!");
             }
         }
 
@@ -35,13 +35,13 @@ public partial class JailbreakExtras
                 round_counter = 0;
 
                 warday_active = true;
-                JailPlugin.start_event();
+                start_event();
 
                 foreach (CCSPlayerController player in Utilities.GetPlayers())
                 {
-                    if (player.is_valid() && player.TeamNum == Lib.TEAM_CT)
+                    if (is_valid(player) && player.TeamNum == TEAM_CT)
                     {
-                        player.event_gun_menu();
+                        event_gun_menu(player);
                     }
                 }
 
@@ -65,7 +65,7 @@ public partial class JailbreakExtras
             countdown.kill();
 
             warday_active = false;
-            JailPlugin.end_event();
+            end_event();
         }
 
         public void map_start()

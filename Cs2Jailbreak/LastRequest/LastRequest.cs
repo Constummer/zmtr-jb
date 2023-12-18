@@ -3,7 +3,10 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Menu;
+using CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Utils;
+using System.Runtime.CompilerServices;
+
 using CSTimer = CounterStrikeSharp.API.Modules.Timers;
 
 namespace JailbreakExtras;
@@ -56,15 +59,15 @@ public partial class JailbreakExtras
 
         private void init_player_common(CCSPlayerController? player)
         {
-            if (!player.is_valid_alive() || player == null)
+            if (!is_valid_alive(player) || player == null)
             {
                 return;
             }
 
             // strip weapons restore hp
-            player.set_health(100);
-            player.set_armour(100);
-            player.strip_weapons(true);
+            set_health(player, 100);
+            set_armour(player, 100);
+            strip_weapons(player, true);
             player.GiveNamedItem("item_assaultsuit");
         }
 
@@ -94,9 +97,9 @@ public partial class JailbreakExtras
 
         public void death(CCSPlayerController? player)
         {
-            if (Lib.alive_t_count() == config.lr_count && player.is_t())
+            if (alive_t_count() == config.lr_count && is_t(player))
             {
-                Lib.announce(LR_PREFIX, "Last request is available type !lr");
+                announce(LR_PREFIX, "Last request is available type !lr");
             }
 
             LRBase? lr = find_lr(player);
@@ -127,7 +130,7 @@ public partial class JailbreakExtras
 
             // check we still actually have all the players
             // our handlers only check once we have actually triggered the LR
-            if (t_player == null || ct_player == null || !t_player.is_valid_alive() || !ct_player.is_valid_alive())
+            if (t_player == null || ct_player == null || !is_valid_alive(t_player) || !is_valid_alive(ct_player))
             {
                 Server.PrintToChatAll($"{LR_PREFIX}disconnection during lr setup");
                 return;
@@ -237,7 +240,7 @@ public partial class JailbreakExtras
             // This should not happen
             if (slot == -1 || t_lr == null || ct_lr == null)
             {
-                Lib.announce(LR_PREFIX, $"Internal LR error in init_lr");
+                announce(LR_PREFIX, $"Internal LR error in init_lr");
                 return;
             }
 
@@ -283,7 +286,7 @@ public partial class JailbreakExtras
 
             if (lr != null)
             {
-                Lib.announce(LR_PREFIX, "Player disconnection cancelling LR");
+                announce(LR_PREFIX, "Player disconnection cancelling LR");
                 end_lr(lr.slot);
             }
         }
@@ -376,14 +379,14 @@ public partial class JailbreakExtras
 
         public void weapon_equip(CCSPlayerController? player, String name)
         {
-            if (player == null || !player.is_valid_alive())
+            if (player == null || !is_valid_alive(player))
             {
                 return;
             }
 
             if (rebel_type == RebelType.KNIFE && !name.Contains("knife"))
             {
-                player.strip_weapons();
+                strip_weapons(player);
                 return;
             }
 
@@ -391,15 +394,15 @@ public partial class JailbreakExtras
 
             if (lr != null)
             {
-                CCSPlayerPawn? pawn = player.pawn();
+                CCSPlayerPawn? pawna = ppawn(player);
 
-                if (pawn == null)
+                if (pawna == null)
                 {
                     return;
                 }
 
                 // strip all weapons that aint the restricted one
-                var weapons = pawn.WeaponServices?.MyWeapons;
+                var weapons = pawna.WeaponServices?.MyWeapons;
 
                 if (weapons == null)
                 {
@@ -490,7 +493,7 @@ public partial class JailbreakExtras
 
         private bool is_valid_t(CCSPlayerController? player)
         {
-            if (player == null || !player.is_valid())
+            if (player == null || !is_valid(player))
             {
                 return false;
             }
@@ -507,7 +510,7 @@ public partial class JailbreakExtras
                 return false;
             }
 
-            if (!player.is_t())
+            if (!is_t(player))
             {
                 player.PrintToChat($"{LR_PREFIX}You must be on T to start an lr");
                 return false;
@@ -525,14 +528,14 @@ public partial class JailbreakExtras
                 return null;
             }
 
-            int? slot_opt = player.slot();
+            int? slot_opt = slot(player);
 
             if (slot_opt == null)
             {
                 return null;
             }
 
-            int slot = slot_opt.Value;
+            int slota = slot_opt.Value;
 
             // scan each active lr for player and partner
             // a HashTable setup is probably not worthwhile here
@@ -543,12 +546,12 @@ public partial class JailbreakExtras
                     continue;
                 }
 
-                if (lr.player_slot == slot)
+                if (lr.player_slot == slota)
                 {
                     return lr;
                 }
 
-                if (lr.partner != null && lr.partner.player_slot == slot)
+                if (lr.partner != null && lr.partner.player_slot == slota)
                 {
                     return lr.partner;
                 }
@@ -570,7 +573,7 @@ public partial class JailbreakExtras
                 return false;
             }
 
-            if (Lib.alive_t_count() > active_lr.Length)
+            if (alive_t_count() > active_lr.Length)
             {
                 player.PrintToChat($"{LR_PREFIX}There are too many t's alive to start an lr {active_lr.Length}");
                 return false;
@@ -590,32 +593,32 @@ public partial class JailbreakExtras
             }
 
             // find the slot of our partner with a scan...
-            int slot = -1;
+            int slota = -1;
 
             String name = option.Text;
 
             foreach (CCSPlayerController partner in Utilities.GetPlayers())
             {
-                if (!partner.is_valid())
+                if (!is_valid(partner))
                 {
                     continue;
                 }
 
                 if (partner.PlayerName == name)
                 {
-                    int? slot_opt = partner.slot();
+                    int? slot_opt = slot(partner);
 
                     if (slot_opt == null)
                     {
                         return;
                     }
 
-                    slot = slot_opt.Value;
+                    slota = slot_opt.Value;
                     break;
                 }
             }
 
-            choice.ct_slot = slot;
+            choice.ct_slot = slota;
 
             // finally setup the lr
             init_lr(choice);
@@ -725,16 +728,16 @@ public partial class JailbreakExtras
             choice.option = name;
 
             // Debugging pick t's
-            if (choice.bypass && player.is_ct())
+            if (choice.bypass && is_ct(player))
             {
                 // scan for avaiable CT's that are alive and add as choice
-                var alive_t = Lib.get_alive_t();
+                var alive_t = get_alive_t();
 
                 var lr_menu = new ChatMenu("Partner Menu");
 
                 foreach (var t in alive_t)
                 {
-                    if (!t.is_valid() || in_lr(t))
+                    if (!is_valid(t) || in_lr(t))
                     {
                         continue;
                     }
@@ -747,13 +750,13 @@ public partial class JailbreakExtras
             else
             {
                 // scan for avaiable CT's that are alive and add as choice
-                var alive_ct = Lib.get_alive_ct();
+                var alive_ct = get_alive_ct();
 
                 var lr_menu = new ChatMenu("Partner Menu");
 
                 foreach (var ct in alive_ct)
                 {
-                    if (!ct.is_valid() || in_lr(ct))
+                    if (!is_valid(ct) || in_lr(ct))
                     {
                         continue;
                     }
@@ -767,12 +770,12 @@ public partial class JailbreakExtras
 
         private bool can_rebel()
         {
-            return Lib.alive_t_count() == 1;
+            return alive_t_count() == 1;
         }
 
         public void rebel_guns(CCSPlayerController player, ChatMenuOption option)
         {
-            if (player == null || !player.is_valid())
+            if (player == null || !is_valid(player))
             {
                 return;
             }
@@ -783,33 +786,33 @@ public partial class JailbreakExtras
                 return;
             }
 
-            player.strip_weapons();
+            strip_weapons(player);
 
-            player.GiveNamedItem("weapon_" + Lib.gun_give_name(option.Text));
+            player.GiveNamedItem("weapon_" + gun_give_name(option.Text));
             player.GiveNamedItem("weapon_deagle");
 
             player.GiveNamedItem("item_assaultsuit");
 
-            player.set_health(Lib.alive_ct_count() * 100);
+            set_health(player, alive_ct_count() * 100);
 
             rebel_type = RebelType.REBEL;
 
-            Lib.announce(LR_PREFIX, $"{player.PlayerName} is a rebel!");
+            announce(LR_PREFIX, $"{player.PlayerName} is a rebel!");
         }
 
         public void start_rebel(CCSPlayerController? player, ChatMenuOption option)
         {
-            if (player == null || !player.is_valid())
+            if (player == null || !is_valid(player))
             {
                 return;
             }
 
-            player.gun_menu_internal(false, rebel_guns);
+            gun_menu_internal(player, false, rebel_guns);
         }
 
         public void start_knife_rebel(CCSPlayerController? rebel, ChatMenuOption option)
         {
-            if (rebel == null || !rebel.is_valid())
+            if (rebel == null || !is_valid(rebel))
             {
                 return;
             }
@@ -822,14 +825,14 @@ public partial class JailbreakExtras
 
             rebel_type = RebelType.KNIFE;
 
-            Lib.announce(LR_PREFIX, $"{rebel.PlayerName} is knife a rebel!");
-            rebel.set_health(Lib.alive_ct_count() * 100);
+            announce(LR_PREFIX, $"{rebel.PlayerName} is knife a rebel!");
+            set_health(rebel, alive_ct_count() * 100);
 
             foreach (CCSPlayerController? player in Utilities.GetPlayers())
             {
-                if (player != null && player.is_valid_alive())
+                if (player != null && is_valid_alive(player))
                 {
-                    player.strip_weapons();
+                    strip_weapons(player);
                 }
             }
         }
@@ -842,11 +845,11 @@ public partial class JailbreakExtras
                 return;
             }
 
-            Lib.announce(LR_PREFIX, "Riot active");
+            announce(LR_PREFIX, "Riot active");
 
             foreach (CCSPlayerController? player in Utilities.GetPlayers())
             {
-                if (player != null && player.is_valid() && !player.is_valid_alive())
+                if (player != null && is_valid(player) && !is_valid_alive(player))
                 {
                     Server.PrintToChatAll($"Respawn {player.PlayerName}");
                     player.Respawn();
@@ -856,7 +859,7 @@ public partial class JailbreakExtras
 
         public void start_riot(CCSPlayerController? rebel, ChatMenuOption option)
         {
-            if (rebel == null || !rebel.is_valid())
+            if (rebel == null || !is_valid(rebel))
             {
                 return;
             }
@@ -869,12 +872,9 @@ public partial class JailbreakExtras
 
             rebel_type = RebelType.RIOT;
 
-            Lib.announce(LR_PREFIX, "A riot has started CT's have 15 seconds to hide");
+            announce(LR_PREFIX, "A riot has started CT's have 15 seconds to hide");
 
-            if (JailPlugin.global_extras != null)
-            {
-                JailPlugin.global_extras.AddTimer(15.0f, riot_respawn, CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
-            }
+            instance.AddTimer(15.0f, riot_respawn, CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
         }
 
         public void add_lr(ChatMenu menu, bool cond, LRType type)
@@ -887,12 +887,12 @@ public partial class JailbreakExtras
 
         public void lr_cmd_internal(CCSPlayerController? player, bool bypass, CommandInfo command)
         {
-            int? player_slot_opt = player.slot();
+            int? player_slot_opt = slot(player);
 
             // check player can start lr
             // NOTE: higher level function checks its valid to start an lr
             // so we can do a bypass for debugging
-            if (player == null || !player.is_valid() || player_slot_opt == null || rebel_type != RebelType.NONE)
+            if (player == null || !is_valid(player) || player_slot_opt == null || rebel_type != RebelType.NONE)
             {
                 return;
             }
@@ -950,19 +950,19 @@ public partial class JailbreakExtras
 
         public void cancel_lr_cmd(CCSPlayerController? player, CommandInfo command)
         {
-            if (player == null || !player.is_valid())
+            if (player == null || !is_valid(player))
             {
                 return;
             }
 
             // must be admin or warden
-            if (!player.is_generic_admin() && !JailPlugin.is_warden(player))
+            if (!is_generic_admin(player) && !is_warden(player))
             {
                 player.PrintToChat($"{LR_PREFIX} You must be an admin or warden to cancel lr");
                 return;
             }
 
-            Lib.announce(LR_PREFIX, "LR cancelled");
+            announce(LR_PREFIX, "LR cancelled");
             purge_lr();
         }
 
@@ -982,9 +982,9 @@ public partial class JailbreakExtras
 
         private LRChoice? choice_from_player(CCSPlayerController? player)
         {
-            int? player_slot_opt = player.slot();
+            int? player_slot_opt = slot(player);
 
-            if (!player.is_valid() || player_slot_opt == null)
+            if (!is_valid(player) || player_slot_opt == null)
             {
                 return null;
             }

@@ -17,11 +17,11 @@ public partial class JailbreakExtras
             player.GiveNamedItem("weapon_deagle");
 
             // empty ammo so players dont shoot eachother
-            var deagle = Lib.find_weapon(player, "weapon_deagle");
+            var deagle = find_weapon(player, "weapon_deagle");
 
             if (deagle != null)
             {
-                deagle.set_ammo(0, 0);
+                set_ammo(deagle, 0, 0);
             }
         }
 

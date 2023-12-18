@@ -26,19 +26,19 @@ public partial class JailbreakExtras
 
                 case "Low gravity":
                     {
-                        player.set_gravity(0.6f);
+                        set_gravity(player, 0.6f);
                         break;
                     }
 
                 case "High speed":
                     {
-                        player.set_velocity(2.5f);
+                        set_velocity(player, 2.5f);
                         break;
                     }
 
                 case "One hit":
                     {
-                        player.set_health(50);
+                        set_health(player, 50);
                         break;
                     }
             }

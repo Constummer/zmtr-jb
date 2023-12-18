@@ -23,7 +23,7 @@ public partial class JailbreakExtras
 
         private void announce(String message)
         {
-            Lib.announce(WARDEN_PREFIX, message);
+            JailbreakExtras.announce(WARDEN_PREFIX, message);
         }
 
         // Give a player warden
@@ -39,7 +39,7 @@ public partial class JailbreakExtras
             var player = Utilities.GetPlayerFromSlot(warden_slot);
 
             // one last saftey check
-            if (!player.is_valid())
+            if (!is_valid(player))
             {
                 warden_slot = INAVLID_SLOT;
                 return;
@@ -47,24 +47,24 @@ public partial class JailbreakExtras
 
             announce($"{player.PlayerName} is now the warden");
 
-            player.announce(WARDEN_PREFIX, "Type !wcommands to see a full list of warden commands");
+            JailbreakExtras.announce(player, WARDEN_PREFIX, "Type !wcommands to see a full list of warden commands");
 
             // change player color!
-            player.set_colour(Color.FromArgb(255, 0, 0, 255));
+            set_colour(player, Color.FromArgb(255, 0, 0, 255));
         }
 
         public bool is_warden(CCSPlayerController? player)
         {
-            return player.slot() == warden_slot;
+            return slot(player) == warden_slot;
         }
 
         public void remove_warden()
         {
             var player = Utilities.GetPlayerFromSlot(warden_slot);
 
-            if (player.is_valid())
+            if (is_valid(player))
             {
-                player.set_colour(Color.FromArgb(255, 255, 255, 255));
+                set_colour(player, Color.FromArgb(255, 255, 255, 255));
                 announce($"{player.PlayerName} is no longer the warden");
             }
 
@@ -73,7 +73,7 @@ public partial class JailbreakExtras
 
         public void remove_if_warden(CCSPlayerController? player)
         {
-            if (!player.is_valid() || player == null)
+            if (!is_valid(player) || player == null)
             {
                 return;
             }
@@ -98,7 +98,7 @@ public partial class JailbreakExtras
 
         public void warday_cmd(CCSPlayerController? player, CommandInfo command)
         {
-            if (player == null || !player.is_valid())
+            if (player == null || !is_valid(player))
             {
                 return;
             }
@@ -128,7 +128,7 @@ public partial class JailbreakExtras
 
         public void wub_cmd(CCSPlayerController? player, CommandInfo command)
         {
-            if (player == null || !player.is_valid())
+            if (player == null || !is_valid(player))
             {
                 return;
             }
@@ -145,7 +145,7 @@ public partial class JailbreakExtras
 
         public void wb_cmd(CCSPlayerController? player, CommandInfo command)
         {
-            if (player == null || !player.is_valid())
+            if (player == null || !is_valid(player))
             {
                 return;
             }
@@ -164,7 +164,7 @@ public partial class JailbreakExtras
         [RequiresPermissions("@jail/debug")]
         public void is_rebel_cmd(CCSPlayerController? invoke, CommandInfo command)
         {
-            if (invoke == null || !invoke.is_valid())
+            if (invoke == null || !is_valid(invoke))
             {
                 return;
             }
@@ -173,23 +173,23 @@ public partial class JailbreakExtras
 
             foreach (CCSPlayerController player in Utilities.GetPlayers())
             {
-                if (!player.is_valid())
+                if (!is_valid(player))
                 {
                     continue;
                 }
 
-                int? slot = player.slot();
+                int? slots = slot(player);
 
-                if (slot != null)
+                if (slots != null)
                 {
-                    invoke.PrintToConsole($"{jail_players[slot.Value].is_rebel} : {player.PlayerName}\n");
+                    invoke.PrintToConsole($"{jail_players[slots.Value].is_rebel} : {player.PlayerName}\n");
                 }
             }
         }
 
         public void cmd_info(CCSPlayerController? player, CommandInfo command)
         {
-            if (player == null || !player.is_valid())
+            if (player == null || !is_valid(player))
             {
                 return;
             }
@@ -205,7 +205,7 @@ public partial class JailbreakExtras
         public void take_warden_cmd(CCSPlayerController? player, CommandInfo command)
         {
             // invalid player we dont care
-            if (!player.is_valid() || player == null)
+            if (!is_valid(player) || player == null)
             {
                 return;
             }
@@ -217,7 +217,7 @@ public partial class JailbreakExtras
             }
 
             // check team is valid
-            else if (!player.is_ct())
+            else if (!is_ct(player))
             {
                 player.PrintToChat($"{WARDEN_PREFIX}You must be a CT to warden");
             }
@@ -233,7 +233,7 @@ public partial class JailbreakExtras
             // player is valid to take warden
             else
             {
-                set_warden(player.slot());
+                set_warden(slot(player));
             }
         }
 
@@ -257,13 +257,13 @@ public partial class JailbreakExtras
         private void set_warden_if_last()
         {
             // if there is only one ct automatically give them warden!
-            var ct_players = Lib.get_alive_ct();
+            var ct_players = get_alive_ct();
 
             if (ct_players.Count == 1)
             {
-                int? slot = ct_players[0].slot();
+                int? slot2 = slot(ct_players[0]);
 
-                set_warden(slot);
+                set_warden(slot2);
             }
         }
 
@@ -278,10 +278,7 @@ public partial class JailbreakExtras
 
             purge_round();
 
-            if (JailPlugin.global_extras != null)
-            {
-                start_timer = JailPlugin.global_extras.AddTimer(20.0F, round_timer_callback, CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
-            }
+            start_timer = instance.AddTimer(20.0F, round_timer_callback, CSTimer.TimerFlags.STOP_ON_MAPCHANGE);
 
             // handle submodules
             mute.round_start();
@@ -290,7 +287,7 @@ public partial class JailbreakExtras
 
             foreach (CCSPlayerController player in Utilities.GetPlayers())
             {
-                player.set_colour(Color.FromArgb(255, 255, 255, 255));
+                set_colour(player, Color.FromArgb(255, 255, 255, 255));
             }
 
             set_warden_if_last();
@@ -298,7 +295,7 @@ public partial class JailbreakExtras
 
         public void round_end()
         {
-            Lib.kill_timer(ref start_timer);
+            kill_timer(ref start_timer);
             mute.round_end();
             warday.round_end();
             purge_round();
@@ -306,11 +303,11 @@ public partial class JailbreakExtras
 
         public void connect(CCSPlayerController? player)
         {
-            var slot = player.slot();
+            var slota = slot(player);
 
-            if (slot != null)
+            if (slota != null)
             {
-                jail_players[slot.Value].reset();
+                jail_players[slota.Value].reset();
             }
 
             mute.connect(player);
@@ -323,7 +320,7 @@ public partial class JailbreakExtras
 
         public void setup_player_guns(CCSPlayerController? player)
         {
-            if (player == null || !player.is_valid_alive())
+            if (player == null || !is_valid_alive(player))
             {
                 return;
             }
@@ -332,9 +329,9 @@ public partial class JailbreakExtras
 
             if (jail_player != null)
             {
-                player.strip_weapons();
+                strip_weapons(player);
 
-                if (player.is_ct())
+                if (is_ct(player))
                 {
                     if (config.ct_guns)
                     {
@@ -352,7 +349,7 @@ public partial class JailbreakExtras
 
         public void voice(CCSPlayerController? player)
         {
-            if (player == null || !player.is_valid_alive())
+            if (player == null || !is_valid_alive(player))
             {
                 return;
             }
@@ -362,15 +359,15 @@ public partial class JailbreakExtras
                 return;
             }
 
-            if (warden_slot == INAVLID_SLOT && player.is_ct())
+            if (warden_slot == INAVLID_SLOT && is_ct(player))
             {
-                set_warden(player.slot());
+                set_warden(slot(player));
             }
         }
 
         public void spawn(CCSPlayerController? player)
         {
-            if (player == null || !player.is_valid_alive())
+            if (player == null || !is_valid_alive(player))
             {
                 return;
             }
@@ -395,7 +392,7 @@ public partial class JailbreakExtras
         public void death(CCSPlayerController? player, CCSPlayerController? killer)
         {
             // player is no longer on server
-            if (!player.is_valid() || player == null)
+            if (!is_valid(player) || player == null)
             {
                 return;
             }
@@ -414,7 +411,7 @@ public partial class JailbreakExtras
             }
 
             // if a t dies we dont need to regive the warden
-            if (player.is_ct())
+            if (is_ct(player))
             {
                 set_warden_if_last();
             }
@@ -424,7 +421,7 @@ public partial class JailbreakExtras
 
         public bool join_team(CCSPlayerController? invoke, CommandInfo command)
         {
-            if (invoke == null || !invoke.is_valid())
+            if (invoke == null || !is_valid(invoke))
             {
                 return true;
             }
@@ -434,7 +431,7 @@ public partial class JailbreakExtras
                 return true;
             }
 
-            CCSPlayerPawn? pawn = invoke.pawn();
+            CCSPlayerPawn? pawn = ppawn(invoke);
 
             if (!Int32.TryParse(command.ArgByIndex(1), out int team))
             {
@@ -450,43 +447,43 @@ public partial class JailbreakExtras
 
             switch (team)
             {
-                case Lib.TEAM_CT:
+                case TEAM_CT:
                     {
                         if (config.ct_swap_only)
                         {
-                            invoke.announce(TEAM_PREFIX, $"Sorry guards must be swapped to CT by admin");
-                            invoke.play_sound("sounds/ui/counter_beep.vsnd");
+                            JailbreakExtras.announce(invoke, TEAM_PREFIX, $"Sorry guards must be swapped to CT by admin");
+                            play_sound(invoke, "sounds/ui/counter_beep.vsnd");
                             return false;
                         }
 
-                        int ct_count = Lib.ct_count();
-                        int t_count = Lib.t_count();
+                        int ct_counta = ct_count();
+                        int t_counta = t_count();
 
                         // check CT aint full
                         // i.e at a suitable raito or either team is empty
-                        if ((ct_count * config.bal_guards) > t_count && ct_count != 0 && t_count != 0)
+                        if ((ct_counta * config.bal_guards) > t_counta && ct_counta != 0 && t_counta != 0)
                         {
-                            invoke.announce(TEAM_PREFIX, $"Sorry, CT has too many players {config.bal_guards}:1 ratio maximum");
-                            invoke.play_sound("sounds/ui/counter_beep.vsnd");
+                            JailbreakExtras.announce(invoke, TEAM_PREFIX, $"Sorry, CT has too many players {config.bal_guards}:1 ratio maximum");
+                            play_sound(invoke, "sounds/ui/counter_beep.vsnd");
                             return false;
                         }
 
                         return true;
                     }
 
-                case Lib.TEAM_T:
+                case TEAM_T:
                     {
                         return true;
                     }
 
-                case Lib.TEAM_SPEC:
+                case TEAM_SPEC:
                     {
                         return true;
                     }
 
                 default:
                     {
-                        invoke.play_sound("sounds/ui/counter_beep.vsnd");
+                        play_sound(invoke, "sounds/ui/counter_beep.vsnd");
                         return false;
                     }
             }
@@ -495,7 +492,7 @@ public partial class JailbreakExtras
         [RequiresPermissions("@css/generic")]
         public void swap_guard_cmd(CCSPlayerController? invoke, CommandInfo command)
         {
-            if (invoke == null || !invoke.is_valid())
+            if (invoke == null || !is_valid(invoke))
             {
                 return;
             }
@@ -510,7 +507,7 @@ public partial class JailbreakExtras
 
             foreach (CCSPlayerController player in target)
             {
-                if (player.is_valid())
+                if (is_valid(player))
                 {
                     invoke.PrintToChat($"swapped: {player.PlayerName}");
                     player.SwitchTeam(CsTeam.CounterTerrorist);
@@ -520,14 +517,14 @@ public partial class JailbreakExtras
 
         public void ct_guns(CCSPlayerController player, ChatMenuOption option)
         {
-            if (player == null || !player.is_valid_alive() || !player.is_ct())
+            if (player == null || !is_valid_alive(player) || !is_ct(player))
             {
                 return;
             }
 
-            player.strip_weapons();
+            strip_weapons(player);
 
-            player.GiveNamedItem("weapon_" + Lib.gun_give_name(option.Text));
+            player.GiveNamedItem("weapon_" + gun_give_name(option.Text));
             player.GiveNamedItem("weapon_deagle");
 
             if (config.ct_armour)
@@ -538,24 +535,24 @@ public partial class JailbreakExtras
 
         public void cmd_ct_guns(CCSPlayerController? player, CommandInfo command)
         {
-            if (player == null || !player.is_valid())
+            if (player == null || !is_valid(player))
             {
                 return;
             }
 
-            if (!player.is_ct())
+            if (!is_ct(player))
             {
-                player.announce(WARDEN_PREFIX, "You must be a ct to use the gun menu!");
+                JailbreakExtras.announce(player, WARDEN_PREFIX, "You must be a ct to use the gun menu!");
                 return;
             }
 
             if (!config.ct_gun_menu)
             {
-                player.announce(WARDEN_PREFIX, "Gun menu is disabled!");
+                JailbreakExtras.announce(player, WARDEN_PREFIX, "Gun menu is disabled!");
                 return;
             }
 
-            player.gun_menu_internal(true, ct_guns);
+            gun_menu_internal(player, true, ct_guns);
         }
 
         public void player_hurt(CCSPlayerController? player, CCSPlayerController? attacker, int damage, int health)
@@ -582,19 +579,19 @@ public partial class JailbreakExtras
         // util func to get a jail player
         private JailPlayer? jail_player_from_player(CCSPlayerController? player)
         {
-            if (!player.is_valid() || player == null)
+            if (!is_valid(player) || player == null)
             {
                 return null;
             }
 
-            var slot = player.slot();
+            var slota = slot(player);
 
-            if (slot == null)
+            if (slota == null)
             {
                 return null;
             }
 
-            return jail_players[slot.Value];
+            return jail_players[slota.Value];
         }
 
         private const int INAVLID_SLOT = -3;
