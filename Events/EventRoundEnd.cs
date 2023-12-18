@@ -27,13 +27,12 @@ public partial class JailbreakExtras
         Server.ExecuteCommand("player_ping_token_cooldown 1");
 
         GetPlayers()
- .Where(x => ValidateCallerPlayer(x, false)
-             && is_warden(x) == false)
- .ToList()
- .ForEach(x =>
- {
-     SetColour(x, Color.FromArgb(255, 255, 255, 255));
-     RefreshPawn(x);
- });
+         .Where(x => ValidateCallerPlayer(x, false))
+         .ToList()
+         .ForEach(x =>
+         {
+             SetColour(x, Color.FromArgb(255, 255, 255, 255));
+             RefreshPawn(x);
+         });
     }
 }

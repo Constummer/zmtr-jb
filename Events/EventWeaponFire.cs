@@ -35,7 +35,7 @@ public partial class JailbreakExtras
         {
             if (weapon != null && weapon.IsValid && weapon.Value!.DesignerName == @event.Weapon)
             {
-                var clip1 = weapon.Value.Clip1;
+                //var clip1 = weapon.Value.Clip1;
                 var reservedAmmo = weapon.Value.ReserveAmmo[0];
 
                 Server.NextFrame(() =>
@@ -43,7 +43,7 @@ public partial class JailbreakExtras
                     if (weapon.Value == null) return;
                     try
                     {
-                        weapon.Value.Clip1 = clip1;
+                        //weapon.Value.Clip1 = clip1;
                         weapon.Value.ReserveAmmo[0] = reservedAmmo;
                     }
                     catch (Exception)

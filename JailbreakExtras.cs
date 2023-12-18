@@ -1,18 +1,13 @@
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Memory;
-using CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Utils;
-using static JailbreakExtras.JailbreakExtras;
+using System.Net;
+using System.Net.Sockets;
+using System.Text;
 
 namespace JailbreakExtras;
 
-public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailConfig>
+public partial class JailbreakExtras : BasePlugin
 {
-    private static readonly JailbreakExtras instance = new();
-
-    internal static JailbreakExtras Instance
-    { get { return instance; } }
-
     public override string ModuleName => "JailbreakExtras";
     public override string ModuleAuthor => "Constummer";
     public override string ModuleDescription => "Extra jailbreak plugins";
@@ -23,12 +18,6 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailConfig>
     private static readonly Dictionary<ulong, Dictionary<ulong, string>> KilledPlayers = new();
 
     private static readonly Random _random = new Random();
-    public JailConfig Config { get; set; } = new JailConfig();
-    public static JailConfig _config { get; set; } = new JailConfig();
-
-    static JailbreakExtras()
-    {
-    }
 
     private static readonly string[] BaseRequiresPermissions = new[]
     {
@@ -41,17 +30,6 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailConfig>
         "@css/generic",
         "@css/vip"
     };
-
-    public void OnConfigParsed(JailConfig config)
-    {
-        _config = Config = config;
-        lr.lr_stats.config = config;
-        lr.config = config;
-        warden.config = config;
-        warden.mute.config = config;
-
-        lr.lr_config_reload();
-    }
 
     public override void Load(bool hotReload)
     {
@@ -69,7 +47,6 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailConfig>
         #region OtherPlugins
 
         BlockRadioCommandsLoad();
-        CS2JailbreakLoad();
 
         #endregion OtherPlugins
 
@@ -88,27 +65,36 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailConfig>
 
         //    return HookResult.Continue;
         //});
-
+        Task.Run(() => { SharedMemoryConsumer.ReadData(); });
+        //AddTimer(0.1f, () => {  }, TimerFlags.REPEAT);
         base.Load(hotReload);
-    }
-
-    private void CS2JailbreakLoad()
-    {
-        register_commands();
-        register_hook();
-        register_listener();
-        // workaround to query global state!
     }
 
     public override void Unload(bool hotReload)
     {
-        VirtualFunctions.CBaseEntity_TakeDamageOldFunc.Unhook(OnTakeDamage, HookMode.Pre);
-
         base.Unload(hotReload);
     }
 
-    private void Addtimer(float delay, Action value, TimerFlags? timerFlags)
+    public class SharedMemoryConsumer
     {
-        base.AddTimer(delay, value, timerFlags);
+        public static void ReadData()
+        {
+            TcpListener listener = new TcpListener(IPAddress.Loopback, 12345);
+            listener.Start();
+
+            while (true)
+            {
+                using (TcpClient client = listener.AcceptTcpClient())
+                using (NetworkStream stream = client.GetStream())
+                {
+                    byte[] data = new byte[10000];
+                    int bytesRead = stream.Read(data, 0, data.Length);
+
+                    var str = Encoding.UTF8.GetString(data, 0, bytesRead);
+                    Console.WriteLine(str);
+                    ulong.TryParse(str ?? "", out LatestWCommandUser);
+                }
+            }
+        }
     }
 }

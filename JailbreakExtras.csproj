@@ -8,13 +8,16 @@
   </PropertyGroup>
 	
   <ItemGroup>
+    <Compile Remove="Cs2Jailbreak\**" />
     <Compile Remove="ToJbPlugin\**" />
+    <EmbeddedResource Remove="Cs2Jailbreak\**" />
     <EmbeddedResource Remove="ToJbPlugin\**" />
+    <None Remove="Cs2Jailbreak\**" />
     <None Remove="ToJbPlugin\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <PackageReference Include="CounterStrikeSharp.API" Version="1.0.126" />
+    <PackageReference Include="CounterStrikeSharp.API" Version="1.0.129" />
     <PackageReference Include="Dapper" Version="2.1.24" />
 	<PackageReference Include="Microsoft.Data.Sqlite" Version="7.0.14" />
     <PackageReference Include="MySqlConnector" Version="2.3.1" />
