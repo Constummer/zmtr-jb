@@ -5,8 +5,6 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static ulong LatestWCommandUser = 0;
-
     private void WCommandListener()
     {
         AddCommandListener("w", (player, info) =>

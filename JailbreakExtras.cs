@@ -1,8 +1,5 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Utils;
-using System.Net;
-using System.Net.Sockets;
-using System.Text;
 
 namespace JailbreakExtras;
 
@@ -20,6 +17,7 @@ public partial class JailbreakExtras : BasePlugin
     private static readonly Dictionary<ulong, Dictionary<ulong, string>> KilledPlayers = new();
 
     private const ulong FButtonIndex = 34359738368;
+    private static ulong? LatestWCommandUser { get; set; } = 0;
 
     private static readonly string[] BaseRequiresPermissions = new[]
     {
@@ -43,6 +41,7 @@ public partial class JailbreakExtras : BasePlugin
         CreateDataFolder();
         DatabaseInit();
         LoadPlayerModels();
+        Task.Run(() => { SharedMemoryConsumer.StartListenerData(); });
 
         #endregion System Releated
 
@@ -67,36 +66,12 @@ public partial class JailbreakExtras : BasePlugin
 
         //    return HookResult.Continue;
         //});
-        Task.Run(() => { SharedMemoryConsumer.ReadData(); });
-        //AddTimer(0.1f, () => {  }, TimerFlags.REPEAT);
+
         base.Load(hotReload);
     }
 
     public override void Unload(bool hotReload)
     {
         base.Unload(hotReload);
-    }
-
-    public class SharedMemoryConsumer
-    {
-        public static void ReadData()
-        {
-            TcpListener listener = new TcpListener(IPAddress.Loopback, 12345);
-            listener.Start();
-
-            while (true)
-            {
-                using (TcpClient client = listener.AcceptTcpClient())
-                using (NetworkStream stream = client.GetStream())
-                {
-                    byte[] data = new byte[10000];
-                    int bytesRead = stream.Read(data, 0, data.Length);
-
-                    var str = Encoding.UTF8.GetString(data, 0, bytesRead);
-                    Console.WriteLine(str);
-                    ulong.TryParse(str ?? "", out LatestWCommandUser);
-                }
-            }
-        }
     }
 }
