@@ -1,5 +1,8 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Admin;
+using CounterStrikeSharp.API.Modules.Entities;
+using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
 
@@ -19,6 +22,28 @@ public partial class JailbreakExtras
                 var player = new CCSPlayerController(ent);
                 if (player == null || !player.IsValid)
                     continue;
+                if (LatestWCommandUser == player.SteamID)
+                {
+                    foreach (var c in player.Pawn.Value!.MovementServices!.Buttons.ButtonStates)
+                    {
+                        if (c == FButtonIndex)
+                        {
+                            if (ValidateCallerPlayer(player, false) == false
+                                || player.PlayerPawn.Value!.AbsOrigin == null)
+                            {
+                                break;
+                            }
+                            float x, y, z;
+                            x = player.PlayerPawn.Value!.AbsOrigin!.X;
+                            y = player.PlayerPawn.Value!.AbsOrigin!.Y;
+                            z = player.PlayerPawn.Value!.AbsOrigin!.Z;
+
+                            LasersEntry(x, y, z);
+                            break;
+                        }
+                    }
+                }
+
                 if (Countdown_enable)
                 {
                     player.PrintToCenterHtml(

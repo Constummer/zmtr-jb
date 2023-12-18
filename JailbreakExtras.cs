@@ -13,11 +13,13 @@ public partial class JailbreakExtras : BasePlugin
     public override string ModuleDescription => "Extra jailbreak plugins";
     public override string ModuleVersion => "V.1.0.1";
 
+    private static readonly Random _random = new Random();
+
     private static readonly Dictionary<ulong, bool> ActiveGodMode = new();
     private static readonly Dictionary<ulong, Vector> DeathLocations = new();
     private static readonly Dictionary<ulong, Dictionary<ulong, string>> KilledPlayers = new();
 
-    private static readonly Random _random = new Random();
+    private const ulong FButtonIndex = 34359738368;
 
     private static readonly string[] BaseRequiresPermissions = new[]
     {

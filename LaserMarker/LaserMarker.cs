@@ -29,6 +29,13 @@ public partial class JailbreakExtras
             player.PrintToChat($"Marker kullanabilmek icin warden olman gerekli");
             return HookResult.Continue;
         }
+        LasersEntry(@event.X, @event.Y, @event.Z);
+
+        return HookResult.Continue;
+    }
+
+    private void LasersEntry(float x, float y, float z)
+    {
         foreach (var item in Lasers)
         {
             if (item.IsValid)
@@ -41,9 +48,7 @@ public partial class JailbreakExtras
         double radius = LaserConfig.Radius;
         int edgeCount = LaserConfig.EdgeCount;
 
-        CalculateAndPrintEdges(@event.X, @event.Y, @event.Z, radius, edgeCount);
-
-        return HookResult.Continue;
+        CalculateAndPrintEdges(x, y, z, radius, edgeCount);
     }
 
     [ConsoleCommand("markertemizle", "Eli yeniden baslatir")]
