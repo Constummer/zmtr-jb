@@ -58,7 +58,6 @@ public partial class JailbreakExtras
                 return false;
             }
         }
-        if (player.IsBot) return false;
         if (player == null
             || !player.IsValid
             || player.PlayerPawn == null
@@ -66,6 +65,7 @@ public partial class JailbreakExtras
             || player.PlayerPawn.Value == null
             || !player.PlayerPawn.Value.IsValid
             ) return false;
+        if (player.IsBot) return false;
         return true;
     }
 

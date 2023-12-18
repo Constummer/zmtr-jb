@@ -10,23 +10,30 @@ public partial class JailbreakExtras
     {
         RegisterEventHandler<EventRoundEnd>((@event, _) =>
         {
-            Server.ExecuteCommand("mp_respawn_on_death_t 1");
-            Server.ExecuteCommand("mp_respawn_on_death_ct 1");
-            Server.ExecuteCommand("sv_enablebunnyhopping 1");
-            Server.ExecuteCommand("sv_autobunnyhopping 1");
-            Server.ExecuteCommand("sv_maxspeed 320");
-            Server.ExecuteCommand("mp_teammates_are_enemies 0");
+            PrepareRoundDefaults();
 
-            GetPlayers()
-            .Where(x => ValidateCallerPlayer(x, false)
-                        && LatestWCommandUser != x.SteamID)
-            .ToList()
-            .ForEach(x =>
-            {
-                SetColour(x, Color.FromArgb(255, 255, 255, 255));
-                RefreshPawn(x);
-            });
             return HookResult.Continue;
         });
+    }
+
+    private static void PrepareRoundDefaults()
+    {
+        Server.ExecuteCommand("mp_respawn_on_death_t 1");
+        Server.ExecuteCommand("mp_respawn_on_death_ct 1");
+        Server.ExecuteCommand("sv_enablebunnyhopping 1");
+        Server.ExecuteCommand("sv_autobunnyhopping 1");
+        Server.ExecuteCommand("sv_maxspeed 320");
+        Server.ExecuteCommand("mp_teammates_are_enemies 0");
+        Server.ExecuteCommand("player_ping_token_cooldown 1");
+
+        GetPlayers()
+ .Where(x => ValidateCallerPlayer(x, false)
+             && is_warden(x) == false)
+ .ToList()
+ .ForEach(x =>
+ {
+     SetColour(x, Color.FromArgb(255, 255, 255, 255));
+     RefreshPawn(x);
+ });
     }
 }

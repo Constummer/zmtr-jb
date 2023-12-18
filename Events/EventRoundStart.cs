@@ -8,6 +8,7 @@ public partial class JailbreakExtras
     {
         RegisterEventHandler<EventRoundStart>((@event, _) =>
         {
+            PrepareRoundDefaults();
             ClearAll();
             return HookResult.Continue;
         });
