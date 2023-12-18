@@ -4,13 +4,11 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private const float SaveEveryXMin = 1 * 60;//her 1 dk
-
     #region GiveCreditTimer
 
     public void SaveCreditTimer()
     {
-        AddTimer(SaveEveryXMin, () =>
+        AddTimer(Config.SaveCreditTimerEveryXSecond, () =>
         {
             UpdateAllModels();
         }, TimerFlags.REPEAT);

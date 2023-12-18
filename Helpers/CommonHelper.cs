@@ -10,20 +10,6 @@ public partial class JailbreakExtras
 {
     private static IEnumerable<CCSPlayerController> GetPlayers(CsTeam? team = null)
     {
-        bool changed = false;
-        //var players = new List<CCSPlayerController>();
-        //for (int i = 1; i < Server.MaxPlayers; i++)
-        //{
-        //    var ent = NativeAPI.GetEntityFromIndex(i);
-        //    if (ent == 0)
-        //        continue;
-
-        //    var player = new CCSPlayerController(ent);
-        //    if (player == null || !player.IsValid)
-        //        continue;
-        //    players.Add(player);
-        //}
-        //return players
         return Utilities.GetPlayers()
              .Where(x => x != null
                          && x.Connected == PlayerConnectedState.PlayerConnected
@@ -31,6 +17,7 @@ public partial class JailbreakExtras
                          && !x.IsBot
                          && !x.IsHLTV
                          && x.Pawn?.Value != null
+                         && ValidateCallerPlayer(x, false)
                          && (team.HasValue ? team.Value == GetTeam(x) : true));
     }
 
@@ -189,7 +176,9 @@ public partial class JailbreakExtras
     {
         "@all" => TargetForArgument.All,
         "@t" => TargetForArgument.T,
+        "@terrorist" => TargetForArgument.T,
         "@ct" => TargetForArgument.Ct,
+        "@counterstrike" => TargetForArgument.Ct,
         "@alive" => TargetForArgument.Alive,
         "@random" => TargetForArgument.Random,
         "@randomt" => TargetForArgument.RandomT,

@@ -17,7 +17,7 @@ public partial class JailbreakExtras
             return;
         }
 
-        player.PlayerPawn.Value.Render = Color.FromArgb(254, 254, 254, 254);
+        player!.PlayerPawn.Value!.Render = Color.FromArgb(254, 254, 254, 254);
     }
 
     [ConsoleCommand("ayakgoster", "Ayaklarini goster")]
@@ -27,7 +27,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        player.PlayerPawn.Value.Render = Color.FromArgb(255, 255, 255, 255);
+        player!.PlayerPawn.Value!.Render = DefaultPlayerColor;
     }
 
     #endregion Ayak Gizle

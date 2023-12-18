@@ -21,7 +21,7 @@ public partial class JailbreakExtras
         {
             return HookResult.Continue;
         }
-        var player = @event.Userid;
+        var player = @event!.Userid;
         if (GetTeam(player) != CsTeam.CounterTerrorist)
         {
             return HookResult.Continue;

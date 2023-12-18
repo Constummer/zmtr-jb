@@ -23,12 +23,12 @@ public partial class JailbreakExtras
 
         GetPlayers()
         .Where(x => x.PawnIsAlive
-                   && GetTargetAction(x, target, player.PlayerName))
+                    && GetTargetAction(x, target, player!.PlayerName))
         .ToList()
         .ForEach(x =>
         {
             var playerPawn = x.PlayerPawn.Value;
-            playerPawn.CommitSuicide(false, true);
+            playerPawn!.CommitSuicide(false, true);
         });
     }
 
@@ -44,7 +44,7 @@ public partial class JailbreakExtras
           .ForEach(x =>
           {
               var playerPawn = x.PlayerPawn.Value;
-              playerPawn.CommitSuicide(false, true);
+              playerPawn!.CommitSuicide(false, true);
           });
         Server.PrintToChatAll("Öldünüz");
     }

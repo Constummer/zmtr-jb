@@ -1,9 +1,13 @@
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Core.Attributes;
 using CounterStrikeSharp.API.Modules.Utils;
+using System.Drawing;
+using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
 
-public partial class JailbreakExtras : BasePlugin
+[MinimumApiVersion(128)]
+public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtrasConfig>
 {
     public override string ModuleName => "JailbreakExtras";
     public override string ModuleAuthor => "Constummer";
@@ -11,13 +15,17 @@ public partial class JailbreakExtras : BasePlugin
     public override string ModuleVersion => "V.1.0.1";
 
     private static readonly Random _random = new Random();
+    public JailbreakExtrasConfig Config { get; set; } = new JailbreakExtrasConfig();
+    public static JailbreakExtrasConfig _Config { get; set; } = new JailbreakExtrasConfig();
 
     private static readonly Dictionary<ulong, bool> ActiveGodMode = new();
     private static readonly Dictionary<ulong, Vector> DeathLocations = new();
     private static readonly Dictionary<ulong, Dictionary<ulong, string>> KilledPlayers = new();
 
+    private static Color DefaultPlayerColor = Color.FromArgb(255, 255, 255, 255);
     private const ulong FButtonIndex = 34359738368;
-    private static ulong? LatestWCommandUser { get; set; } = 0;
+
+    private static ulong? LatestWCommandUser { get; set; }
 
     private static readonly string[] BaseRequiresPermissions = new[]
     {
@@ -73,5 +81,14 @@ public partial class JailbreakExtras : BasePlugin
     public override void Unload(bool hotReload)
     {
         base.Unload(hotReload);
+    }
+
+    public void OnConfigParsed(JailbreakExtrasConfig config)
+    {
+        _Config = Config = config;
+        config.BuryColor = Color.FromArgb(config.BurryColorR, config.BurryColorG, config.BurryColorB);
+        config.LaserColor = Color.FromArgb(config.LaserColorR, config.LaserColorG, config.LaserColorB);
+        //Re-assign after adjustments
+        _Config = Config = config;
     }
 }

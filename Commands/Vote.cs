@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Menu;
+using CounterStrikeSharp.API.Modules.Timers;
 
 namespace JailbreakExtras;
 
@@ -27,7 +28,7 @@ public partial class JailbreakExtras
 
         if (command.ArgCount > 7)
         {
-            player.PrintToChat("Maximum 7 adet şık belirleyebilirsin");
+            player!.PrintToChat("Maximum 7 adet şık belirleyebilirsin");
             return;
         }
         Answers.Clear();
@@ -69,7 +70,7 @@ public partial class JailbreakExtras
             }
             Answers.Clear();
             VoteInProgress = false;
-        }, CounterStrikeSharp.API.Modules.Timers.TimerFlags.STOP_ON_MAPCHANGE);
+        }, TimerFlags.STOP_ON_MAPCHANGE);
 
         return;
     }

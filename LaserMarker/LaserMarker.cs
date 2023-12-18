@@ -11,15 +11,8 @@ public partial class JailbreakExtras
 {
     private static readonly List<CEnvBeam> Lasers = new();
 
-    public static readonly Color CYAN = Color.FromArgb(255, 153, 255, 255);
-
-    private static LaserConfigData LaserConfig = new LaserConfigData()
-    {
-        Radius = 75,//marker R
-        Width = 2,//marker genisligi
-        EdgeCount = 100,// marker kenarindaki line sayisi
-        Color = CYAN,// marker color
-    };
+    private static Vector VEC_ZERO = new Vector(0.0f, 0.0f, 0.0f);
+    private static QAngle ANGLE_ZERO = new QAngle(0.0f, 0.0f, 0.0f);
 
     private HookResult EXTRAOnPlayerPing(EventPlayerPing @event, GameEventInfo info)
     {
@@ -45,8 +38,8 @@ public partial class JailbreakExtras
         }
         Lasers.Clear();
 
-        double radius = LaserConfig.Radius;
-        int edgeCount = LaserConfig.EdgeCount;
+        double radius = Config.LaserRadius;
+        int edgeCount = Config.LaserEdgeCount;
 
         CalculateAndPrintEdges(x, y, z, radius, edgeCount);
     }
@@ -54,7 +47,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("markertemizle", "Eli yeniden baslatir")]
     public void LaserTemizle(CCSPlayerController? player, CommandInfo info)
     {
-        if (player.SteamID != LatestWCommandUser)
+        if (player!.SteamID != LatestWCommandUser)
         {
             player.PrintToChat($"You must be an admin or warden to clean marker");
             return;
@@ -89,9 +82,6 @@ public partial class JailbreakExtras
         }
     }
 
-    private static Vector VEC_ZERO = new Vector(0.0f, 0.0f, 0.0f);
-    private static QAngle ANGLE_ZERO = new QAngle(0.0f, 0.0f, 0.0f);
-
     private void DrawLaser(Vector start, Vector end)
     {
         CEnvBeam? laser = Utilities.CreateEntityByName<CEnvBeam>("env_beam");
@@ -101,8 +91,8 @@ public partial class JailbreakExtras
             return;
         }
 
-        laser.Render = LaserConfig.Color;
-        laser.Width = LaserConfig.Width;
+        laser.Render = Config.LaserColor;
+        laser.Width = Config.LaserWidth;
 
         laser.Teleport(start, ANGLE_ZERO, VEC_ZERO);
         laser.EndPos.X = end.X;
@@ -114,13 +104,5 @@ public partial class JailbreakExtras
         {
             Lasers.Add(laser);
         }
-    }
-
-    public class LaserConfigData
-    {
-        public int EdgeCount { get; set; }
-        public int Radius { get; set; }
-        public int Width { get; set; }
-        public Color Color { get; set; }
     }
 }

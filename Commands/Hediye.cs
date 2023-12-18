@@ -10,7 +10,7 @@ public partial class JailbreakExtras
 {
     #region Hediye
 
-    private static Dictionary<ulong, DateTime> LatestHediyeCall = new Dictionary<ulong, DateTime>();
+    private static Dictionary<ulong, DateTime> LatestHediyeCommandCalls = new Dictionary<ulong, DateTime>();
 
     [ConsoleCommand("hediye")]
     [CommandHelper(2, "<oyuncu ismi> <miktar>")]
@@ -20,7 +20,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (LatestHediyeCall.TryGetValue(player.SteamID, out var call))
+        if (LatestHediyeCommandCalls.TryGetValue(player.SteamID, out var call))
         {
             if (DateTime.UtcNow < call.AddSeconds(10))
             {
@@ -72,7 +72,7 @@ public partial class JailbreakExtras
             PlayerMarketModels[x.SteamID] = item;
             data.Model!.Credit -= miktar;
             PlayerMarketModels[player.SteamID] = data.Model;
-            LatestHediyeCall[player.SteamID] = DateTime.UtcNow;
+            LatestHediyeCommandCalls[player.SteamID] = DateTime.UtcNow;
             Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.LightBlue}{player.PlayerName}, {x.PlayerName} oyuncusuna {miktar} kredi yolladı!");
         }
     }

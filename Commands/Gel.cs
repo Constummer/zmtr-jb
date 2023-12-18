@@ -61,13 +61,13 @@ public partial class JailbreakExtras
         }
         GetPlayers()
               .Where(x => x.PawnIsAlive
-                          && GetTargetAction(x, "@ct", player.PlayerName))
+                          && GetTargetAction(x, "@ct", player!.PlayerName))
               .ToList()
               .ForEach(x =>
               {
-                  if (x.SteamID != player.SteamID)
+                  if (x.SteamID != player!.SteamID)
                   {
-                      x.Teleport(player.PlayerPawn.Value.AbsOrigin, new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
+                      x.Teleport(player.PlayerPawn.Value!.AbsOrigin!, new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
     }
@@ -81,13 +81,13 @@ public partial class JailbreakExtras
         }
         GetPlayers()
               .Where(x => x.PawnIsAlive
-                          && GetTargetAction(x, "@all", player.PlayerName))
+                          && GetTargetAction(x, "@all", player!.PlayerName))
               .ToList()
               .ForEach(x =>
               {
-                  if (x.SteamID != player.SteamID)
+                  if (x.SteamID != player!.SteamID)
                   {
-                      x.Teleport(player.PlayerPawn.Value.AbsOrigin, new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
+                      x.Teleport(player.PlayerPawn.Value!.AbsOrigin!, new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
     }

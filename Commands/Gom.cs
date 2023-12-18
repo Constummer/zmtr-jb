@@ -24,16 +24,16 @@ public partial class JailbreakExtras
 
         GetPlayers()
              .Where(x => x.PawnIsAlive
-                     && GetTargetAction(x, target, player.PlayerName))
+                     && GetTargetAction(x, target, player!.PlayerName))
              .ToList()
              .ForEach(x =>
           {
               if (x?.PlayerPawn?.Value != null)
               {
-                  SetColour(x, Color.FromArgb(255, 0, 0, 255));
+                  SetColour(x, Config.BuryColor);
 
                   x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
-                  Vector currentPosition = x.Pawn.Value.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
+                  Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                   Vector currentSpeed = new Vector(0, 0, 0);
                   QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
                   x.PlayerPawn.Value.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z - 40), currentRotation, currentSpeed);
@@ -65,10 +65,10 @@ public partial class JailbreakExtras
                 .ToList()
                 .ForEach(x =>
                 {
-                    SetColour(x, Color.FromArgb(255, 0, 0, 255));
+                    SetColour(x, Config.BuryColor);
 
-                    x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
-                    Vector currentPosition = x.Pawn.Value.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
+                    x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
+                    Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                     Vector currentSpeed = new Vector(0, 0, 0);
                     QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
                     x.PlayerPawn.Value.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z - 40), currentRotation, currentSpeed);
@@ -91,17 +91,17 @@ public partial class JailbreakExtras
 
         GetPlayers()
            .Where(x => x.PawnIsAlive
-                   && GetTargetAction(x, target, player.PlayerName))
+                   && GetTargetAction(x, target, player!.PlayerName))
            .ToList()
            .ForEach(x =>
            {
                if (x?.PlayerPawn?.Value != null)
                {
-                   SetColour(x, Color.FromArgb(255, 255, 255, 255));
+                   SetColour(x, DefaultPlayerColor);
                    RefreshPawn(x);
 
                    x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
-                   Vector currentPosition = x.Pawn.Value.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
+                   Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                    Vector currentSpeed = new Vector(0, 0, 0);
                    QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
                    x.PlayerPawn.Value.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z + 100), currentRotation, currentSpeed);

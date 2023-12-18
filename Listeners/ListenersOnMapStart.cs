@@ -26,13 +26,19 @@ public partial class JailbreakExtras
                 }
             }
         }
-        foreach (var item in RandomCT)
+        if (Config.RandomTModels != null)
         {
-            Server.PrecacheModel(item);
+            foreach (var item in Config.RandomTModels)
+            {
+                Server.PrecacheModel(item);
+            }
         }
-        foreach (var item in RandomT)
+        if (Config.RandomCTModels != null)
         {
-            Server.PrecacheModel(item);
+            foreach (var item in Config.RandomCTModels)
+            {
+                Server.PrecacheModel(item);
+            }
         }
     }
 }

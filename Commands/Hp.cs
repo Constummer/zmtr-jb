@@ -21,13 +21,13 @@ public partial class JailbreakExtras
         var target = info.GetArg(1);
         if (!int.TryParse(info.GetArg(2), out var health))
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR] Can degeri duzgun deil!");
+            player!.PrintToChat($" {ChatColors.LightRed}[ZMTR] Can degeri duzgun deil!");
             return;
         }
         GetPlayers()
                .Where(x => x.PawnIsAlive
                         && x.Pawn.Value != null
-                        && GetTargetAction(x, target, player.PlayerName))
+                        && GetTargetAction(x, target, player!.PlayerName))
                .ToList()
                .ForEach(x =>
                {

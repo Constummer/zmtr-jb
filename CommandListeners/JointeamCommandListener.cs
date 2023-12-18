@@ -15,12 +15,8 @@ public partial class JailbreakExtras
                  || info.ArgString.Contains("1")
                  || info.ArgString.Contains("3"))
                 {
-                    player.ChangeTeam(CsTeam.Terrorist);
+                    player!.ChangeTeam(CsTeam.Terrorist);
                     return HookResult.Stop;
-                }
-                else
-                {
-                    player.VoiceFlags = CounterStrikeSharp.API.VoiceFlags.Muted;
                 }
             }
             return HookResult.Continue;

@@ -15,6 +15,6 @@ public partial class JailbreakExtras
             return;
         }
 
-        player.ChangeTeam(CsTeam.CounterTerrorist);
+        player!.ChangeTeam(CsTeam.CounterTerrorist);
     }
 }

@@ -15,7 +15,6 @@ public partial class JailbreakExtras
         AddTimer(EveryXMin, () =>
         {
             GetPlayers()
-                   .Where(x => ValidateCallerPlayer(x, false))
                    .ToList()
                    .ForEach(x =>
                    {

@@ -5,9 +5,6 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private const int EveryCTKill = 5;//her CT oldurme
-    private const int EveryTKill = 1;//her T oldurme
-
     private void EventPlayerDeath()
     {
         RegisterEventHandler<EventPlayerDeath>((@event, info) =>
@@ -37,13 +34,13 @@ public partial class JailbreakExtras
                 }
                 if (@event?.Attacker.UserId != @event?.Userid.UserId)
                 {
-                    AddCreditToAttacker(@event?.Attacker, GetTeam(@event.Userid));
+                    AddCreditToAttacker(@event?.Attacker, GetTeam(@event!.Userid));
                 }
             }
-            Vector currentPosition = @event?.Userid?.Pawn?.Value?.CBodyComponent?.SceneNode?.AbsOrigin;
+            Vector? currentPosition = @event?.Userid?.Pawn?.Value?.CBodyComponent?.SceneNode?.AbsOrigin;
             if (currentPosition != null)
             {
-                DeathLocations.TryAdd(@event.Userid.SteamID, currentPosition);
+                DeathLocations.TryAdd(@event!.Userid.SteamID, currentPosition);
             }
 
             return HookResult.Continue;
@@ -60,8 +57,8 @@ public partial class JailbreakExtras
         {
             var amount = teamNum switch
             {
-                CsTeam.Terrorist => EveryTKill,
-                CsTeam.CounterTerrorist => EveryCTKill,
+                CsTeam.Terrorist => Config.RetrieveCreditEveryTKill,
+                CsTeam.CounterTerrorist => Config.RetrieveCreditEveryCTKill,
                 _ => 0
             };
 

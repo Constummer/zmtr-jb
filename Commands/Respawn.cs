@@ -42,7 +42,7 @@ public partial class JailbreakExtras
         var target = info.GetArg(1);
         GetPlayers()
               .Where(x => x.PawnIsAlive == false
-                          && GetTargetAction(x, target, player.PlayerName))
+                          && GetTargetAction(x, target, player!.PlayerName))
               .ToList()
               .ForEach(x =>
               {
@@ -76,7 +76,7 @@ public partial class JailbreakExtras
 
     private void RespawnPlayer(CCSPlayerController x)
     {
-        if (DeathLocations.TryGetValue(x.SteamID, out Vector position))
+        if (DeathLocations.TryGetValue(x.SteamID, out Vector? position))
         {
             var tempX = position.X;
             var tempY = position.Y;
@@ -85,7 +85,7 @@ public partial class JailbreakExtras
             x.Respawn();
             AddTimer(0.5f, () =>
             {
-                tpPlayer.PlayerPawn.Value.Teleport(new(tempX, tempY, tempZ), new(0, 0, 0), new(0, 0, 0));
+                tpPlayer.PlayerPawn.Value!.Teleport(new(tempX, tempY, tempZ), new(0, 0, 0), new(0, 0, 0));
                 tpPlayer.Teleport(new(tempX, tempY, tempZ), new(0, 0, 0), new(0, 0, 0));
             });
         }

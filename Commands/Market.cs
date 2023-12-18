@@ -117,6 +117,7 @@ public partial class JailbreakExtras
                 {
                     CsTeam.CounterTerrorist => CTModeli,
                     CsTeam.Terrorist => TModeli,
+                    _ => ""
                 };
 
                 var text = $"{item.Value.Text} | ({item.Value.Cost}) | {teamText}";
@@ -162,6 +163,10 @@ public partial class JailbreakExtras
 
     private void SetModel(CCSPlayerController player, PlayerModel model, PlayerMarketModel playerData, string? text, bool isBoughtAlready)
     {
+        if (text == null)
+        {
+            return;
+        }
         if (!isBoughtAlready)
         {
             if (playerData.Credit < model.Cost
@@ -195,7 +200,7 @@ public partial class JailbreakExtras
                 if (text.Contains(TModeli))
                 {
                     player.PrintToChat($"[ZMTR] {model.Text} modelini kullaniyorsun");
-                    SetModelNextServerFrame(player.PlayerPawn.Value, model.PathToModel);
+                    SetModelNextServerFrame(player.PlayerPawn.Value!, model.PathToModel);
                 }
                 break;
 
@@ -203,7 +208,7 @@ public partial class JailbreakExtras
                 if (text.Contains(CTModeli))
                 {
                     player.PrintToChat($"[ZMTR] {model.Text} modelini kullaniyorsun");
-                    SetModelNextServerFrame(player.PlayerPawn.Value, model.PathToModel);
+                    SetModelNextServerFrame(player.PlayerPawn.Value!, model.PathToModel);
                 }
                 break;
         }
@@ -243,7 +248,7 @@ public partial class JailbreakExtras
 
         if (PlayerMarketModels.ContainsKey(steamID))
         {
-            return null;
+            return null!;
         }
 
         var command = DbConnection.CreateCommand();
@@ -257,7 +262,7 @@ public partial class JailbreakExtras
                 WHERE `{nameof(PlayerMarketModel.SteamId)}` = @SteamId";
         command.Parameters.AddWithValue("@SteamId", steamID);
 
-        PlayerMarketModel data = null;
+        PlayerMarketModel data = null!;
 
         using (var reader = await command.ExecuteReaderAsync())
         {
@@ -321,7 +326,7 @@ public partial class JailbreakExtras
         PlayerMarketModel? data = null;
 
         if (steamId.HasValue == false || steamId == 0)
-            return (null, true);
+            return (null!, true);
 
         if (PlayerMarketModels == null)
         {

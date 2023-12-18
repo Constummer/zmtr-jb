@@ -22,12 +22,11 @@ public partial class JailbreakExtras
         var target = info.GetArg(1);
         if (!int.TryParse(info.GetArg(2), out var miktar))
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR] Miktar duzgun deil!");
+            player!.PrintToChat($" {ChatColors.LightRed}[ZMTR] Miktar duzgun deil!");
             return;
         }
         GetPlayers()
-               .Where(x => x.Pawn.Value != null
-                        && GetTargetAction(x, target, player.PlayerName))
+               .Where(x => GetTargetAction(x, target, player!.PlayerName))
                .ToList()
                .ForEach(x =>
                {

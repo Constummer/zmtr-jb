@@ -39,13 +39,13 @@ public partial class JailbreakExtras
                 {
                     if (ValidateCallerPlayer(x, false))
                     {
-                        SetColour(x, Color.FromArgb(255, 0, 0, 255));
+                        SetColour(x, Config.BuryColor);
 
                         //Vector currentPosition = x.Pawn.Value.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                         //Vector currentSpeed = new Vector(0, 0, 0);
                         //QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
                         //x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
-                        x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
+                        x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
                     }
                 });
             });
@@ -62,7 +62,7 @@ public partial class JailbreakExtras
         }
         if (info.ArgCount != 2) return;
         var target = info.GetArg(1);
-        FreezeTarget(target, player.PlayerName);
+        FreezeTarget(target, player!.PlayerName);
     }
 
     [ConsoleCommand("unfreeze", "Unfreeze a player.")]
@@ -108,7 +108,7 @@ public partial class JailbreakExtras
         && x?.PlayerPawn?.Value != null
             && ExecuteFreezeOrUnfreeze(x, target, self, out randomFreeze))
         {
-            SetColour(x, Color.FromArgb(255, 0, 0, 255));
+            SetColour(x, _Config.BuryColor);
             RefreshPawn(x);
 
             //Vector currentPosition = x.Pawn.Value.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
@@ -123,11 +123,11 @@ public partial class JailbreakExtras
     {
         if (randomFreeze == false
                      && x?.PlayerPawn?.Value != null
-                     && ExecuteFreezeOrUnfreeze(x, target, player.PlayerName, out randomFreeze))
+                     && ExecuteFreezeOrUnfreeze(x, target, player!.PlayerName, out randomFreeze))
         {
             //Server.NextFrame(() =>
             //{
-            SetColour(x, Color.FromArgb(255, 255, 255, 255));
+            SetColour(x, DefaultPlayerColor);
             RefreshPawn(x);
 
             //Vector currentPosition = x.Pawn.Value.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);

@@ -24,13 +24,13 @@ public partial class JailbreakExtras
              Logger.LogInformation(x.PlayerName);
              if (x.PawnIsAlive == false)
              {
-                 x.PlayerPawn.Value.Respawn();
+                 x.PlayerPawn.Value!.Respawn();
                  x.Respawn();
-                 x.Teleport(x.PlayerPawn.Value.AbsOrigin, x.PlayerPawn.Value.AbsRotation, x.PlayerPawn.Value.AbsVelocity);
+                 x.Teleport(x.PlayerPawn.Value.AbsOrigin!, x.PlayerPawn.Value.AbsRotation!, x.PlayerPawn.Value.AbsVelocity);
              }
              else
              {
-                 x.Pawn.Value.Health = 100;
+                 x.Pawn.Value!.Health = 100;
 
                  RefreshPawn(x);
              }

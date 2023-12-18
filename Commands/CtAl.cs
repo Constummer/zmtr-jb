@@ -21,8 +21,8 @@ public partial class JailbreakExtras
            .ToList()
            .ForEach(x =>
            {
-               x.PlayerPawn.Value.CommitSuicide(false, true);
-               player.ChangeTeam(CsTeam.CounterTerrorist);
+               x.PlayerPawn.Value!.CommitSuicide(false, true);
+               player!.ChangeTeam(CsTeam.CounterTerrorist);
            });
     }
 
