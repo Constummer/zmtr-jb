@@ -2,8 +2,11 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Memory;
 using CounterStrikeSharp.API.Modules.Utils;
+using Microsoft.Extensions.Logging;
 using System.Drawing;
+using System.Xml.Linq;
 
 namespace JailbreakExtras;
 
@@ -82,13 +85,13 @@ public partial class JailbreakExtras
         }
     }
 
-    private void DrawLaser(Vector start, Vector end)
+    private CEnvBeam DrawLaser(Vector start, Vector end)
     {
         CEnvBeam? laser = Utilities.CreateEntityByName<CEnvBeam>("env_beam");
 
         if (laser == null)
         {
-            return;
+            return null;
         }
 
         laser.Render = Config.LaserColor;
@@ -99,10 +102,20 @@ public partial class JailbreakExtras
         laser.EndPos.Y = end.Y;
         laser.EndPos.Z = end.Z;
 
+        laser.ClipStyle = BeamClipStyle_t.kMODELCLIP;
+        laser.TouchType = Touch_t.touch_player_or_npc_or_physicsprop;
         laser.DispatchSpawn();
         if (Lasers != null)
         {
+            var bune = laser.OnTouchedByEntity;
+
             Lasers.Add(laser);
         }
+        //oto remove - cok tatli
+        AddTimer(0.2f, () =>
+        {
+            laser.Remove();
+        });
+        return laser;
     }
 }

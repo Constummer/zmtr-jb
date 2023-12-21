@@ -10,6 +10,7 @@ public partial class JailbreakExtras
         RegisterListener<Listeners.OnMapStart>(name =>
         {
             ClearAll();
+            HideFoots?.Clear();
             LoadAllModels();
         });
     }

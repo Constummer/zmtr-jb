@@ -21,5 +21,10 @@ public partial class JailbreakExtras
             }
             return HookResult.Continue;
         });
+        AddCommandListener("w", (player, info) =>
+        {
+            LatestWCommandUser = player.SteamID;
+            return HookResult.Continue;
+        });
     }
 }

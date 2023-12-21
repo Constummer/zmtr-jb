@@ -1,6 +1,7 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
 using CounterStrikeSharp.API.Modules.Utils;
+using Microsoft.Extensions.Logging;
 using System.Drawing;
 using static JailbreakExtras.JailbreakExtras;
 
@@ -20,6 +21,7 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
 
     private static readonly Dictionary<ulong, bool> ActiveGodMode = new();
     private static readonly Dictionary<ulong, Vector> DeathLocations = new();
+    private static readonly Dictionary<ulong, bool> HideFoots = new();
     private static readonly Dictionary<ulong, Dictionary<ulong, string>> KilledPlayers = new();
 
     private static Color DefaultPlayerColor = Color.FromArgb(255, 255, 255, 255);
@@ -70,8 +72,7 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
 
         //HookEntityOutput("*", "*", (output, name, activator, caller, value, delay) =>
         //{
-        //    Logger.LogInformation("All EntityOutput ({name}, {activator}, {caller}, {delay})", output.Description.Name, activator.DesignerName, caller.DesignerName, delay);
-
+        //    Console.WriteLine(name);
         //    return HookResult.Continue;
         //});
 

@@ -1,5 +1,9 @@
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Utils;
+using Microsoft.Extensions.Logging;
+using System.Drawing;
 
 namespace JailbreakExtras;
 
@@ -12,7 +16,7 @@ public partial class JailbreakExtras
             foreach (var item in GetPlayers())
             {
                 if (ValidateCallerPlayer(item, false)
-                    && item?.SteamID != null
+                && item?.SteamID != null
                     && item!.SteamID != 0)
                 {
                     var data = GetPlayerMarketModel(item?.SteamID);
