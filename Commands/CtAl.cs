@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
@@ -24,6 +25,7 @@ public partial class JailbreakExtras
                x.PlayerPawn.Value!.CommitSuicide(false, true);
                player!.ChangeTeam(CsTeam.CounterTerrorist);
            });
+        Server.PrintToChatAll($"{ChatColors.LightRed}[ZMTR] {ChatColors.White}Yaşayan Mahkûmlar, Gardiyan takımına atıldı.");
     }
 
     #endregion CT AL

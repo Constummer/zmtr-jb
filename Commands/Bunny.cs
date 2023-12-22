@@ -2,6 +2,7 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
@@ -18,7 +19,7 @@ public partial class JailbreakExtras
             return;
         }
         Server.ExecuteCommand($"sv_enablebunnyhopping 1;sv_autobunnyhopping 1");
-        Server.PrintToChatAll("Bunny Açık");
+        Server.PrintToChatAll($"{ChatColors.LightRed}[ZMTR] {ChatColors.White}Bunny açıldı.");
     }
 
     [ConsoleCommand("bk", "bunny kapar")]
@@ -31,7 +32,7 @@ public partial class JailbreakExtras
             return;
         }
         Server.ExecuteCommand($"sv_enablebunnyhopping 0;sv_autobunnyhopping 0");
-        Server.PrintToChatAll("Bunny Kapalı");
+        Server.PrintToChatAll($"{ChatColors.LightRed}[ZMTR] {ChatColors.White}Bunny kapandı.");
     }
 
     #endregion Bunny

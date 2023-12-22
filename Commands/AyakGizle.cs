@@ -20,6 +20,7 @@ public partial class JailbreakExtras
 
         HideFoots[player.SteamID] = true;
         player!.PlayerPawn.Value!.Render = Color.FromArgb(254, 254, 254, 254);
+
         RefreshPawn(player);
     }
 

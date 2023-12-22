@@ -29,7 +29,6 @@ public partial class JailbreakExtras
                  RefreshPawn(x);
              }
          });
-        Server.PrintToChatAll("aflandiniz");
     }
 
     #endregion Af

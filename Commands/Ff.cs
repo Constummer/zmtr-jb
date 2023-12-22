@@ -14,25 +14,6 @@ public partial class JailbreakExtras
 
     #region Ff
 
-    [ConsoleCommand("ff")]
-    public void F(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        var mp_teammates_are_enemies = ConVar.Find("mp_teammates_are_enemies")?.GetPrimitiveValue<bool>();
-
-        if (mp_teammates_are_enemies.HasValue)
-        {
-            Ff(!mp_teammates_are_enemies.Value);
-        }
-        else
-        {
-            Ff(true);
-        }
-    }
-
     [ConsoleCommand("ffac", "ff acar")]
     public void FfAc(CCSPlayerController? player, CommandInfo info)
     {
@@ -141,13 +122,13 @@ public partial class JailbreakExtras
         if (ac)
         {
             Server.ExecuteCommand("mp_teammates_are_enemies 1");
-            Server.PrintToChatAll("FF Açık");
+            Server.PrintToChatAll($"{ChatColors.LightRed}[ZMTR] {ChatColors.Darkred}FF {ChatColors.White}açıldı.");
         }
         else
         {
             FFMenuCheck = false;
             Server.ExecuteCommand("mp_teammates_are_enemies 0");
-            Server.PrintToChatAll("FF Kapalı");
+            Server.PrintToChatAll($"{ChatColors.LightRed}[ZMTR] {ChatColors.Darkred}FF {ChatColors.White}kapandı.");
         }
     }
 

@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
@@ -28,6 +29,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, true);
         });
+        Server.PrintToChatAll($"{ChatColors.LightRed}[ZMTR] {ChatColors.White}nick adlı oyuncunun silahları silindi.");
     }
 
     [ConsoleCommand("disarmt", "Bicak dahil silme")]
@@ -45,6 +47,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, true);
         });
+        Server.PrintToChatAll($"{ChatColors.LightRed}[ZMTR] {ChatColors.White}Mahkûmların silahları silindi.");
     }
 
     [ConsoleCommand("disarmct", "Bicak dahil silme")]
@@ -62,6 +65,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, true);
         });
+        Server.PrintToChatAll($"{ChatColors.LightRed}[ZMTR] {ChatColors.White}Gardiyanların silahları silindi.");
     }
 
     [ConsoleCommand("disarmall", "Bicak dahil silme")]
@@ -79,6 +83,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, true);
         });
+        Server.PrintToChatAll($"{ChatColors.LightRed}[ZMTR] {ChatColors.White}Herkesin silahları silindi.");
     }
 
     #endregion Disarm
