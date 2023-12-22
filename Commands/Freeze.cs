@@ -37,16 +37,13 @@ public partial class JailbreakExtras
                 .ToList()
                 .ForEach(x =>
                 {
-                    if (ValidateCallerPlayer(x, false))
-                    {
-                        SetColour(x, Config.BuryColor);
-                        RefreshPawn(x);
-                        //Vector currentPosition = x.Pawn.Value.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
-                        //Vector currentSpeed = new Vector(0, 0, 0);
-                        //QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
-                        //x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
-                        x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
-                    }
+                    SetColour(x, Config.BuryColor);
+
+                    x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
+                    Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
+                    Vector currentSpeed = new Vector(0, 0, 0);
+                    QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
+                    x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
                 });
             });
         }

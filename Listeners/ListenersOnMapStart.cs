@@ -11,6 +11,7 @@ public partial class JailbreakExtras
         {
             ClearAll();
             HideFoots?.Clear();
+            HookPlayers?.Clear();
             LoadAllModels();
         });
     }
