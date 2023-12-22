@@ -9,6 +9,20 @@ public partial class JailbreakExtras
 {
     public class JailbreakExtrasConfig : BasePluginConfig
     {
+        [JsonPropertyName("RoundEndStartCommands")]
+        public List<string> RoundEndStartCommands { get; set; } = new(){
+            "mp_respawn_on_death_t 0",
+            "mp_respawn_on_death_ct 0",
+            "sv_enablebunnyhopping 1",
+            "sv_autobunnyhopping 1",
+            "sv_maxspeed 320",
+            "mp_teammates_are_enemies 0",
+            "player_ping_token_cooldown 1",
+        };
+
+        [JsonPropertyName("GrappleSpeed")]
+        public float GrappleSpeed { get; set; } = 1500.0f;
+
         #region Credit Releated
 
         [JsonPropertyName("SaveCreditTimerEveryXSecond")]
@@ -59,7 +73,7 @@ public partial class JailbreakExtras
         public short LaserColorG { get; set; } = 255;
 
         [JsonPropertyName("LaserColorB"), Range(0, 255)]
-        public short LaserColorB { get; set; } = 0;
+        public short LaserColorB { get; set; } = 255;
 
         #endregion Laser
 

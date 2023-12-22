@@ -2,7 +2,6 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
-using System.Drawing;
 
 namespace JailbreakExtras;
 
@@ -23,7 +22,8 @@ public partial class JailbreakExtras
                 if (player == null || !player.IsValid)
                     continue;
 
-                AllowLaserForWarden(player);
+                AllowGrabForWarden(player);
+                //AllowLaserForWarden(player);
 
                 if (Countdown_enable)
                 {
@@ -104,6 +104,111 @@ public partial class JailbreakExtras
         return new Vector((float)pointX, (float)pointY, (float)pointZ);
     }
 
+    private void AllowGrabForWarden(CCSPlayerController player)
+    {
+        if (LatestWCommandUser == player.SteamID)
+        {
+            foreach (var c in player.Pawn.Value!.MovementServices!.Buttons.ButtonStates)
+            {
+                if (c == FButtonIndex)
+                {
+                    if (ValidateCallerPlayer(player, false) == false
+                        || player.PlayerPawn.Value!.AbsOrigin == null)
+                    {
+                        break;
+                    }
+                    //Logger.LogInformation("af");
+
+                    float x, y, z;
+                    x = player.PlayerPawn.Value!.AbsOrigin!.X;
+                    y = player.PlayerPawn.Value!.AbsOrigin!.Y;
+                    z = player.PlayerPawn.Value!.AbsOrigin!.Z;
+                    var start = new Vector((float)x, (float)y, (float)z);
+                    var end = GetEndXYZ(player);
+
+                    var players = GetPlayers().Where(x => x.PawnIsAlive
+                                    && x.SteamID != player.SteamID).ToList();
+                    var closest = GetClosestPlayer(start, end, players, 100);
+                    if (closest != null)
+                    {
+                        ActiveGodMode[closest.SteamID] = true;
+                        closest.Teleport(end, closest.PlayerPawn.Value.AbsRotation!, closest.PlayerPawn.Value.AbsVelocity);
+                        closest.PlayerPawn.Value.Teleport(end, closest.PlayerPawn.Value.AbsRotation!, closest.PlayerPawn.Value.AbsVelocity);
+                        ActiveGodMode[closest.SteamID] = false;
+                    }
+                    //foreach (var item in players)
+                    //{
+                    //    var res = IsPointOnLine(start, end, item.PlayerPawn?.Value.CBodyComponent?.SceneNode?.AbsOrigin, 100);
+                    //    Logger.LogInformation(item.PlayerName);
+                    //    item.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
+                    //}
+
+                    //Vector playerPosition = player.PlayerPawn?.Value.CBodyComponent?.SceneNode?.AbsOrigin;
+                    //QAngle viewAngles = player.PlayerPawn.Value.EyeAngles;
+
+                    //if (IsPlayerCloseToTarget(player, end, player.PlayerPawn.Value!.AbsOrigin, 100))
+                    //{
+                    //    //DetachGrapple(player);
+                    //    continue;
+                    //}
+                    //var angleDifference = CalculateAngleDifference(new Vector(viewAngles.X, viewAngles.Y, viewAngles.Z), end - playerPosition);
+                    //if (angleDifference > 180.0f)
+                    //{
+                    //    //DetachGrapple(player);
+                    //    Console.WriteLine($"Player {player.PlayerName} looked away from the grapple target.");
+                    //    continue;
+                    //}
+                    //var laser = DrawLaser(start, end);
+                    //PullPlayer(player, end, playerPosition, viewAngles);
+
+                    //if (IsPlayerCloseToTarget(player, end, playerPosition, 100))
+                    //{
+                    //    //DetachGrapple(player);
+                    //}
+                    //if (laser != null)
+                    //{
+                    //    var velocity = player.PlayerPawn.Value.AbsVelocity;
+                    //    var res = HookThere(start, end, velocity);
+
+                    //    //player.Teleport(res.Position, player.PlayerPawn.Value.AbsRotation, res.Velocity);
+                    //    player.PlayerPawn.Value.Teleport(player.PlayerPawn.Value.AbsOrigin, player.PlayerPawn.Value.AbsRotation, res);
+                    //}
+                    //LasersEntry(x, y, z);
+                    break;
+                }
+            }
+        }
+    }
+
+    private static CCSPlayerController GetClosestPlayer(Vector start, Vector end, List<CCSPlayerController> players, double threshold)
+    {
+        var closestPlayer = (CCSPlayerController)null;
+        double closestDistance = double.MaxValue;
+
+        foreach (var player in players)
+        {
+            bool isOnLine = IsPointOnLine(start, end, player.PlayerPawn?.Value.CBodyComponent?.SceneNode?.AbsOrigin, threshold);
+
+            if (isOnLine)
+            {
+                double distance = CalculateDistance(player.PlayerPawn?.Value.CBodyComponent?.SceneNode?.AbsOrigin, start);
+
+                if (distance < closestDistance)
+                {
+                    closestDistance = distance;
+                    closestPlayer = player;
+                }
+            }
+        }
+
+        return closestPlayer;
+    }
+
+    private static double CalculateDistance(Vector p1, Vector p2)
+    {
+        return Math.Sqrt(Math.Pow(p1.X - p2.X, 2) + Math.Pow(p1.Y - p2.Y, 2) + Math.Pow(p1.Z - p2.Z, 2));
+    }
+
     private void AllowLaserForWarden(CCSPlayerController player)
     {
         if (LatestWCommandUser == player.SteamID)
@@ -126,21 +231,205 @@ public partial class JailbreakExtras
                     var start = new Vector((float)x, (float)y, (float)z);
                     var end = GetEndXYZ(player);
 
-                    var laser = DrawLaser(start, end);
+                    Vector playerPosition = player.PlayerPawn?.Value.CBodyComponent?.SceneNode?.AbsOrigin;
+                    QAngle viewAngles = player.PlayerPawn.Value.EyeAngles;
 
-                    if (laser != null)
+                    if (IsPlayerCloseToTarget(player, end, player.PlayerPawn.Value!.AbsOrigin, 100))
                     {
-                        var velocity = player.PlayerPawn.Value.AbsVelocity;
-                        var res = HookThere(start, end, velocity);
-
-                        //player.Teleport(res.Position, player.PlayerPawn.Value.AbsRotation, res.Velocity);
-                        player.PlayerPawn.Value.Teleport(player.PlayerPawn.Value.AbsOrigin, player.PlayerPawn.Value.AbsRotation, res);
+                        //DetachGrapple(player);
+                        continue;
                     }
+                    var angleDifference = CalculateAngleDifference(new Vector(viewAngles.X, viewAngles.Y, viewAngles.Z), end - playerPosition);
+                    if (angleDifference > 180.0f)
+                    {
+                        //DetachGrapple(player);
+                        Console.WriteLine($"Player {player.PlayerName} looked away from the grapple target.");
+                        continue;
+                    }
+                    var laser = DrawLaser(start, end);
+                    PullPlayer(player, end, playerPosition, viewAngles);
+
+                    if (IsPlayerCloseToTarget(player, end, playerPosition, 100))
+                    {
+                        //DetachGrapple(player);
+                    }
+                    //if (laser != null)
+                    //{
+                    //    var velocity = player.PlayerPawn.Value.AbsVelocity;
+                    //    var res = HookThere(start, end, velocity);
+
+                    //    //player.Teleport(res.Position, player.PlayerPawn.Value.AbsRotation, res.Velocity);
+                    //    player.PlayerPawn.Value.Teleport(player.PlayerPawn.Value.AbsOrigin, player.PlayerPawn.Value.AbsRotation, res);
+                    //}
                     //LasersEntry(x, y, z);
                     break;
                 }
             }
         }
+    }
+
+    private static bool IsPointOnLine(Vector start, Vector end, Vector point, double threshold)
+    {
+        // Check if the point is on the line defined by start and end within the specified threshold
+
+        // Calculate the direction vector of the line
+        double lineDirectionX = end.X - start.X;
+        double lineDirectionY = end.Y - start.Y;
+        double lineDirectionZ = end.Z - start.Z;
+
+        // Calculate the vector from start to the point
+        double pointVectorX = point.X - start.X;
+        double pointVectorY = point.Y - start.Y;
+        double pointVectorZ = point.Z - start.Z;
+
+        // Calculate the scalar projection of pointVector onto the lineDirection
+        double scalarProjection = (pointVectorX * lineDirectionX + pointVectorY * lineDirectionY + pointVectorZ * lineDirectionZ) /
+                                 (lineDirectionX * lineDirectionX + lineDirectionY * lineDirectionY + lineDirectionZ * lineDirectionZ);
+
+        // Calculate the closest point on the line to the given point
+        double closestPointX = start.X + scalarProjection * lineDirectionX;
+        double closestPointY = start.Y + scalarProjection * lineDirectionY;
+        double closestPointZ = start.Z + scalarProjection * lineDirectionZ;
+
+        // Calculate the distance between the given point and the closest point on the line
+        double distance = Math.Sqrt(Math.Pow(point.X - closestPointX, 2) + Math.Pow(point.Y - closestPointY, 2) + Math.Pow(point.Z - closestPointZ, 2));
+
+        // Check if the distance is within the specified threshold
+        return distance <= threshold;
+    }
+
+    private Vector CalculateForwardVector(Vector viewAngles)
+    {
+        if (viewAngles == null)
+        {
+            return new Vector(0, 0, 0);
+        }
+
+        float pitch = viewAngles.X * (float)Math.PI / 180.0f;
+        float yaw = viewAngles.Y * (float)Math.PI / 180.0f;
+
+        float x = (float)(Math.Cos(pitch) * Math.Cos(yaw));
+        float y = (float)(Math.Cos(pitch) * Math.Sin(yaw));
+        float z = (float)(-Math.Sin(pitch));
+
+        return new Vector(x, y, z);
+    }
+
+    private Vector CalculateRightVector(Vector viewAngles)
+    {
+        if (viewAngles == null)
+        {
+            return new Vector(0, 0, 0);
+        }
+
+        float yaw = (viewAngles.Y - 90.0f) * (float)Math.PI / 180.0f;
+
+        float x = (float)Math.Cos(yaw);
+        float y = (float)Math.Sin(yaw);
+        float z = 0.0f;
+
+        return new Vector(x, y, z);
+    }
+
+    private void PullPlayer(CCSPlayerController player, Vector grappleTarget, Vector playerPosition, QAngle viewAngles)
+    {
+        if (player == null || player.PlayerPawn == null || player.PlayerPawn.Value.CBodyComponent == null || playerPosition == null || !player.IsValid || !player.PawnIsAlive)
+        {
+            Console.WriteLine("Player is null.");
+            return;
+        }
+
+        if (player.PlayerPawn.Value.CBodyComponent.SceneNode == null)
+        {
+            Console.WriteLine("SceneNode is null. Skipping pull.");
+            return;
+        }
+
+        if (grappleTarget == null)
+        {
+            Console.WriteLine("Grapple target is null.");
+            return;
+        }
+
+        var direction = grappleTarget - playerPosition;
+        var distance = direction.Length();
+        direction = new Vector(direction.X / distance, direction.Y / distance, direction.Z / distance); // Normalize manually
+        float grappleSpeed = Config.GrappleSpeed;
+
+        var buttons = player.Buttons;
+        if (buttons == null) return;
+
+        float adjustmentFactor = 0.5f;
+
+        var forwardVector = CalculateForwardVector(new Vector(viewAngles.X, viewAngles.Y, viewAngles.Z));
+        var rightVector = CalculateRightVector(new Vector(viewAngles.X, viewAngles.Y, viewAngles.Z));
+
+        if ((buttons & PlayerButtons.Moveright) != 0)
+        {
+            direction += rightVector * adjustmentFactor;
+        }
+        else if ((buttons & PlayerButtons.Moveleft) != 0)
+        {
+            direction -= rightVector * adjustmentFactor;
+        }
+
+        direction = new Vector(direction.X / direction.Length(), direction.Y / direction.Length(), direction.Z / direction.Length());
+
+        var newVelocity = new Vector(
+            direction.X * grappleSpeed,
+            direction.Y * grappleSpeed,
+            direction.Z * grappleSpeed
+        );
+
+        if (player.PlayerPawn.Value.AbsVelocity != null)
+        {
+            player.PlayerPawn.Value.AbsVelocity.X = newVelocity.X;
+            player.PlayerPawn.Value.AbsVelocity.Y = newVelocity.Y;
+            player.PlayerPawn.Value.AbsVelocity.Z = newVelocity.Z;
+        }
+        else
+        {
+            Console.WriteLine("AbsVelocity is null.");
+            return;
+        }
+
+        //if (playerGrapples[player.Slot].GrappleWire != null)
+        //{
+        //    playerGrapples[player.Slot].GrappleWire.Teleport(playerPosition, new QAngle(0, 0, 0), new Vector(0, 0, 0));
+        //}
+        //else
+        //{
+        //    Console.WriteLine("GrappleWire is null.");
+        //}
+    }
+
+    private float CalculateAngleDifference(Vector angles1, Vector angles2)
+    {
+        if (angles1 == null || angles2 == null)
+        {
+            return 0.0f;
+        }
+
+        float pitchDiff = Math.Abs(angles1.X - angles2.X);
+        float yawDiff = Math.Abs(angles1.Y - angles2.Y);
+
+        pitchDiff = pitchDiff > 180.0f ? 360.0f - pitchDiff : pitchDiff;
+        yawDiff = yawDiff > 180.0f ? 360.0f - yawDiff : yawDiff;
+
+        return Math.Max(pitchDiff, yawDiff);
+    }
+
+    private bool IsPlayerCloseToTarget(CCSPlayerController player, Vector grappleTarget, Vector playerPosition, float thresholdDistance)
+    {
+        if (player == null || grappleTarget == null || playerPosition == null)
+        {
+            return false;
+        }
+
+        var direction = grappleTarget - playerPosition;
+        var distance = direction.Length();
+
+        return distance < thresholdDistance;
     }
 
     private static Vector HookThere(Vector start, Vector end, Vector velocity)

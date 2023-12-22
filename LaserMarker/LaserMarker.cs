@@ -2,11 +2,7 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Memory;
 using CounterStrikeSharp.API.Modules.Utils;
-using Microsoft.Extensions.Logging;
-using System.Drawing;
-using System.Xml.Linq;
 
 namespace JailbreakExtras;
 
@@ -22,7 +18,6 @@ public partial class JailbreakExtras
         var player = @event.Userid;
         if (player.SteamID != LatestWCommandUser)
         {
-            player.PrintToChat($"Marker kullanabilmek icin warden olman gerekli");
             return HookResult.Continue;
         }
         LasersEntry(@event.X, @event.Y, @event.Z);
@@ -50,9 +45,10 @@ public partial class JailbreakExtras
     [ConsoleCommand("markertemizle", "Eli yeniden baslatir")]
     public void LaserTemizle(CCSPlayerController? player, CommandInfo info)
     {
-        if (player!.SteamID != LatestWCommandUser)
+        if (player!.SteamID != LatestWCommandUser ||
+            ValidateCallerPlayer(player) == false)
         {
-            player.PrintToChat($"You must be an admin or warden to clean marker");
+            player.PrintToChat($"sen bunu temizleyemezsin :}}");
             return;
         }
         foreach (var item in Lasers)
@@ -81,11 +77,11 @@ public partial class JailbreakExtras
             Vector start = new Vector((float)startX, (float)startY, (float)centerZ);
             Vector end = new Vector((float)endX, (float)endY, (float)centerZ);
 
-            DrawLaser(start, end);
+            DrawLaser(start, end, false);
         }
     }
 
-    private CEnvBeam DrawLaser(Vector start, Vector end)
+    private CEnvBeam DrawLaser(Vector start, Vector end, bool clearAfter = true)
     {
         CEnvBeam? laser = Utilities.CreateEntityByName<CEnvBeam>("env_beam");
 
@@ -105,17 +101,21 @@ public partial class JailbreakExtras
         laser.ClipStyle = BeamClipStyle_t.kMODELCLIP;
         laser.TouchType = Touch_t.touch_player_or_npc_or_physicsprop;
         laser.DispatchSpawn();
-        if (Lasers != null)
+        if (clearAfter)
         {
-            var bune = laser.OnTouchedByEntity;
-
-            Lasers.Add(laser);
+            //oto remove - cok tatli
+            AddTimer(0.1f, () =>
+            {
+                laser.Remove();
+            });
         }
-        //oto remove - cok tatli
-        AddTimer(0.2f, () =>
+        else
         {
-            laser.Remove();
-        });
+            if (Lasers != null)
+            {
+                Lasers.Add(laser);
+            }
+        }
         return laser;
     }
 }

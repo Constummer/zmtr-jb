@@ -1,6 +1,5 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
-using System.Drawing;
 
 namespace JailbreakExtras;
 
@@ -18,15 +17,13 @@ public partial class JailbreakExtras
 
     private static void PrepareRoundDefaults()
     {
-        Server.ExecuteCommand("mp_respawn_on_death_t 1");
-        Server.ExecuteCommand("mp_respawn_on_death_ct 1");
-        Server.ExecuteCommand("sv_enablebunnyhopping 1");
-        Server.ExecuteCommand("sv_autobunnyhopping 1");
-        Server.ExecuteCommand("sv_maxspeed 320");
-        Server.ExecuteCommand("mp_teammates_are_enemies 0");
-        Server.ExecuteCommand("player_ping_token_cooldown 1");
+        foreach (var item in _Config.RoundEndStartCommands)
+        {
+            Server.ExecuteCommand(item);
+        }
 
         GetPlayers()
+         .Where(x => ValidateCallerPlayer(x, false) == true && x.SteamID != LatestWCommandUser)
          .ToList()
          .ForEach(x =>
          {

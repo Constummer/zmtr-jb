@@ -11,7 +11,8 @@ public partial class JailbreakExtras
         public enum SharedMemoryDataTypes
         {
             None = 0,
-            LatestWarden = 1,
+            SetWarden = 1,
+            RemoveWarden = 2,
         }
 
         public static void StartListenerData()
@@ -36,6 +37,10 @@ public partial class JailbreakExtras
 
         private static void ProcessData(string str)
         {
+            Console.WriteLine("Recieved====================");
+            Console.WriteLine(str);
+            Console.WriteLine(str);
+            Console.WriteLine("Recieved====================");
             if (string.IsNullOrWhiteSpace(str))
             {
                 return;
@@ -55,12 +60,22 @@ public partial class JailbreakExtras
             }
             switch (dataType)
             {
-                case SharedMemoryDataTypes.LatestWarden:
+                case SharedMemoryDataTypes.SetWarden:
                     if (string.IsNullOrWhiteSpace(splitted[1]) == false)
                     {
                         if (ulong.TryParse(splitted[1] ?? "", out var parsed))
                         {
                             LatestWCommandUser = parsed;
+                        }
+                    }
+                    break;
+
+                case SharedMemoryDataTypes.RemoveWarden:
+                    if (string.IsNullOrWhiteSpace(splitted[1]) == false)
+                    {
+                        if (ulong.TryParse(splitted[1] ?? "", out var parsed))
+                        {
+                            LatestWCommandUser = null;
                         }
                     }
                     break;
