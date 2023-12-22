@@ -2,6 +2,7 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
@@ -17,7 +18,7 @@ public partial class JailbreakExtras
             return;
         }
         Server.ExecuteCommand($"sv_maxspeed 0");
-        Server.PrintToChatAll("Durdunuz");
+        Server.PrintToChatAll($"{ChatColors.LightRed}[ZMTR] {ChatColors.White}Herkes durduruldu.");
     }
 
     [ConsoleCommand("devam", "herkesi durdurma")]
@@ -28,7 +29,7 @@ public partial class JailbreakExtras
             return;
         }
         Server.ExecuteCommand($"sv_maxspeed 320");
-        Server.PrintToChatAll("Devam ettiniz");
+        Server.PrintToChatAll($"{ChatColors.LightRed}[ZMTR] {ChatColors.White}Yürüme düzeltildi.");
     }
 
     #endregion Dur-Devam
