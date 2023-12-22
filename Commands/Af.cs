@@ -22,13 +22,7 @@ public partial class JailbreakExtras
          .ForEach(x =>
          {
              Logger.LogInformation(x.PlayerName);
-             if (x.PawnIsAlive == false)
-             {
-                 x.PlayerPawn.Value!.Respawn();
-                 x.Respawn();
-                 x.Teleport(x.PlayerPawn.Value.AbsOrigin!, x.PlayerPawn.Value.AbsRotation!, x.PlayerPawn.Value.AbsVelocity);
-             }
-             else
+             if (x.PawnIsAlive != false)
              {
                  x.Pawn.Value!.Health = 100;
 
