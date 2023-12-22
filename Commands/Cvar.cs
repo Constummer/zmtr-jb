@@ -23,7 +23,7 @@ public partial class JailbreakExtras
 
         if (cvar == null)
         {
-            command.ReplyToCommand($"Cvar \"{command.GetArg(1)}\" Komutu bulunamadi.");
+            command.ReplyToCommand($"{ChatColors.LightRed}[ZMTR] {ChatColors.White}\"{command.GetArg(1)}\" ayarı bulunamadı.");
             return;
         }
 
@@ -37,8 +37,8 @@ public partial class JailbreakExtras
 
         Server.ExecuteCommand($"{cvar.Name} {value}");
 
-        Server.PrintToChatAll($"{ChatColors.LightRed}[ZMTR] {ChatColors.White}{playerName} adlı admin, {cvar.Name} ayarını {value} olarak değiştirdi.");
-        Logger.LogInformation($"{playerName} cvar ayarini {cvar.Name} dan {value} a degistirdi.");
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}{playerName} adlı admin, {cvar.Name} ayarını {value} olarak değiştirdi.");
+        Logger.LogInformation($" {playerName} cvar ayarini {cvar.Name} dan {value} a degistirdi.");
     }
 
     #endregion Cvar

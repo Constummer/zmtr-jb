@@ -48,7 +48,7 @@ public partial class JailbreakExtras
 
         if (int.TryParse(target, out int value))
         {
-            BasicCountdown.CommandStartTextCountDown(this, $"FF açılmasına {value} saniye kaldı");
+            BasicCountdown.CommandStartTextCountDown(this, $"FF'in açılmasına {value} saniye kaldı!");
 
             _ = AddTimer(value, () =>
             {
@@ -83,7 +83,7 @@ public partial class JailbreakExtras
                  var gunMenu = new ChatMenu("Silah Menu");
                  MenuHelper.GetGuns(gunMenu);
                  ChatMenus.OpenMenu(x, gunMenu);
-                 x.PrintToChat("FF başlayana kadar veya FF boyunca silah değiştirebilirsin, !guns");
+                 x.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}FF başlayana kadar veya FF boyunca silah değiştirebilirsin, !guns");
              });
             FFMenuCheck = true;
 
@@ -112,7 +112,7 @@ public partial class JailbreakExtras
         }
         else
         {
-            player!.PrintToChat("FF açık olmadığı için silah menüsüne erişemezsin");
+            player!.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}FF açık olmadığı için silah menüsüne erişemezsin.");
             return;
         }
     }
@@ -122,13 +122,13 @@ public partial class JailbreakExtras
         if (ac)
         {
             Server.ExecuteCommand("mp_teammates_are_enemies 1");
-            Server.PrintToChatAll($"{ChatColors.LightRed}[ZMTR] {ChatColors.Darkred}FF {ChatColors.White}açıldı.");
+            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Darkred}FF {ChatColors.White}açıldı.");
         }
         else
         {
             FFMenuCheck = false;
             Server.ExecuteCommand("mp_teammates_are_enemies 0");
-            Server.PrintToChatAll($"{ChatColors.LightRed}[ZMTR] {ChatColors.Darkred}FF {ChatColors.White}kapandı.");
+            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Darkred}FF {ChatColors.White}kapandı.");
         }
     }
 

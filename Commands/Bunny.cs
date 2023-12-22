@@ -19,7 +19,7 @@ public partial class JailbreakExtras
             return;
         }
         Server.ExecuteCommand($"sv_enablebunnyhopping 1;sv_autobunnyhopping 1");
-        Server.PrintToChatAll($"{ChatColors.LightRed}[ZMTR] {ChatColors.White}Bunny açıldı.");
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Bunny açıldı.");
     }
 
     [ConsoleCommand("bk", "bunny kapar")]
@@ -32,7 +32,7 @@ public partial class JailbreakExtras
             return;
         }
         Server.ExecuteCommand($"sv_enablebunnyhopping 0;sv_autobunnyhopping 0");
-        Server.PrintToChatAll($"{ChatColors.LightRed}[ZMTR] {ChatColors.White}Bunny kapandı.");
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Bunny kapandı.");
     }
 
     #endregion Bunny

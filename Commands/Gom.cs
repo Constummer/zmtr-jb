@@ -39,6 +39,7 @@ public partial class JailbreakExtras
                   x.PlayerPawn.Value.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z - 40), currentRotation, currentSpeed);
               }
           });
+        player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Admin, {ChatColors.Blue}{player!.PlayerName} {ChatColors.White}adlı oyuncuyu gömdü.");
     }
 
     [ConsoleCommand("gomsure", "yere gomer.")]
@@ -52,7 +53,7 @@ public partial class JailbreakExtras
         var target = info.GetArg(1);
         if (int.TryParse(target, out int value))
         {
-            BasicCountdown.CommandStartTextCountDown(this, $"{value} saniye kaldı");
+            BasicCountdown.CommandStartTextCountDown(this, $"Mahkûmların gömülmesine {value} saniye kaldı!");
             _ = AddTimer(value, () =>
             {
                 GetPlayers()
@@ -107,6 +108,7 @@ public partial class JailbreakExtras
                    x.PlayerPawn.Value.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z + 100), currentRotation, currentSpeed);
                }
            });
+        player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Admin, {ChatColors.Blue}{player!.PlayerName} {ChatColors.White}adlı oyuncuyu kaldırdı.");
     }
 
     #endregion Gom - gomsure

@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
@@ -46,6 +47,7 @@ public partial class JailbreakExtras
                    }
                    RefreshPawn(x);
                });
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] Admin, {ChatColors.Green}{player.PlayerName} {ChatColors.White}adlı oyuncuya {ChatColors.Green}god {ChatColors.White}verdi.");
     }
 
     [ConsoleCommand("q", "godmode ct player")]
@@ -63,6 +65,7 @@ public partial class JailbreakExtras
                    //FakeGod(x, int.MaxValue);
                    RefreshPawn(x);
                });
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] Tüm {ChatColors.Blue}gardiyanlara {ChatColors.Green}god {ChatColors.White}verildi.");
     }
 
     [ConsoleCommand("qq", "remove godmode ct player")]
@@ -80,6 +83,7 @@ public partial class JailbreakExtras
                    //FakeGod(x, 100);
                    RefreshPawn(x);
                });
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] Tüm {ChatColors.Blue}gardiyanların {ChatColors.Green}godunu {ChatColors.White}kaldırdı.");
     }
 
     private static void FakeGod(CCSPlayerController x, int amount)
