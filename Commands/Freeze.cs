@@ -40,7 +40,7 @@ public partial class JailbreakExtras
                     if (ValidateCallerPlayer(x, false))
                     {
                         SetColour(x, Config.BuryColor);
-
+                        RefreshPawn(x);
                         //Vector currentPosition = x.Pawn.Value.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                         //Vector currentSpeed = new Vector(0, 0, 0);
                         //QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
