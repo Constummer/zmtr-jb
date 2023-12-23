@@ -135,6 +135,10 @@ public partial class JailbreakExtras
             closest.Teleport(end, closest.PlayerPawn.Value.AbsRotation!, closest.PlayerPawn.Value.AbsVelocity);
             closest.PlayerPawn.Value.Teleport(end, closest.PlayerPawn.Value.AbsRotation!, closest.PlayerPawn.Value.AbsVelocity);
             var laser = DrawLaser(start, closest.PlayerPawn.Value.AbsOrigin);
+            AddTimer(1, () =>
+            {
+                ActiveGodMode[closest.SteamID] = false;
+            });
         }
 
         //Vector playerPosition = player.PlayerPawn?.Value.CBodyComponent?.SceneNode?.AbsOrigin;
