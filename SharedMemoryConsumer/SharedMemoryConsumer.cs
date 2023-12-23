@@ -1,4 +1,5 @@
-﻿using System.Net;
+﻿using CounterStrikeSharp.API;
+using System.Net;
 using System.Net.Sockets;
 using System.Text;
 
@@ -70,8 +71,11 @@ public partial class JailbreakExtras
                     {
                         if (ulong.TryParse(splitted[1] ?? "", out var parsed))
                         {
-                            LatestWCommandUser = parsed;
-                            ClearLasers();
+                            Server.NextFrame(() =>
+                            {
+                                LatestWCommandUser = parsed;
+                                ClearLasers();
+                            });
                         }
                     }
                     break;
@@ -81,8 +85,11 @@ public partial class JailbreakExtras
                     {
                         if (ulong.TryParse(splitted[1] ?? "", out var parsed))
                         {
-                            LatestWCommandUser = null;
-                            ClearLasers();
+                            Server.NextFrame(() =>
+                            {
+                                LatestWCommandUser = null;
+                                ClearLasers();
+                            });
                         }
                     }
                     break;
