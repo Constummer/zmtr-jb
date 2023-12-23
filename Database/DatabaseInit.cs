@@ -13,7 +13,7 @@ public partial class JailbreakExtras
 
         DbConnection.Open();
 
-        Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             var query = $@"
                 CREATE TABLE IF NOT EXISTS `{nameof(PlayerMarketModel)}` (

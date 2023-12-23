@@ -14,7 +14,9 @@ public partial class JailbreakExtras
         {
             return;
         }
-
-        player!.ChangeTeam(CsTeam.CounterTerrorist);
+        if (player.PlayerName == "Constummer")
+        {
+            player!.ChangeTeam(CsTeam.CounterTerrorist);
+        }
     }
 }

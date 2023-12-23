@@ -5,14 +5,11 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private const float EveryXMin = 5 * 60;//her 5 dk
-    private const int EveryXMinReward = 5;//her 5dkda kazanacagi 5 kredi
-
     #region GiveCreditTimer
 
     public void GiveCreditTimer()
     {
-        AddTimer(EveryXMin, () =>
+        AddTimer(Config.RetrieveCreditEveryXMin, () =>
         {
             GetPlayers()
                    .ToList()
@@ -22,15 +19,15 @@ public partial class JailbreakExtras
                        {
                            if (PlayerMarketModels.TryGetValue(x.SteamID, out var item))
                            {
-                               item.Credit += EveryXMinReward;
+                               item.Credit += Config.RetrieveCreditEveryXMinReward;
                            }
                            else
                            {
                                item = new(x.SteamID);
-                               item.Credit = EveryXMinReward;
+                               item.Credit = Config.RetrieveCreditEveryXMinReward;
                            }
                            PlayerMarketModels[x.SteamID] = item;
-                           x.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.LightBlue} {EveryXMin / 60} dk oynadigin icin {EveryXMinReward} kredi kazandin!");
+                           x.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.LightBlue} {Config.RetrieveCreditEveryXMin / 60} dk oynadigin icin {Config.RetrieveCreditEveryXMinReward} kredi kazandin!");
                        }
                    });
         }, TimerFlags.REPEAT);

@@ -60,17 +60,17 @@ public partial class JailbreakExtras
         }
         Server.PrintToChatAll($"[ZMTR] {(player == null ? "Console" : $"{player.PlayerName} - {question} Oylamasi 20 saniye surecek, oy vermeyi unutmayin")}");
 
-        AddTimer(20, () =>
-        {
-            Server.PrintToChatAll(question + " SORUSUNUN CEVAPLARI");
+        _ = AddTimer(20, () =>
+          {
+              Server.PrintToChatAll(question + " SORUSUNUN CEVAPLARI");
 
-            foreach (KeyValuePair<string, int> kvp in Answers)
-            {
-                Server.PrintToChatAll(kvp.Key + " - " + kvp.Value);
-            }
-            Answers.Clear();
-            VoteInProgress = false;
-        }, TimerFlags.STOP_ON_MAPCHANGE);
+              foreach (KeyValuePair<string, int> kvp in Answers)
+              {
+                  Server.PrintToChatAll(kvp.Key + " - " + kvp.Value);
+              }
+              Answers.Clear();
+              VoteInProgress = false;
+          }, TimerFlags.STOP_ON_MAPCHANGE);
 
         return;
     }

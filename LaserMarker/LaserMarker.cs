@@ -10,8 +10,8 @@ public partial class JailbreakExtras
 {
     private static readonly List<CEnvBeam> Lasers = new();
 
-    private static Vector VEC_ZERO = new Vector(0.0f, 0.0f, 0.0f);
-    private static QAngle ANGLE_ZERO = new QAngle(0.0f, 0.0f, 0.0f);
+    private static readonly Vector VEC_ZERO = new Vector(0.0f, 0.0f, 0.0f);
+    private static readonly QAngle ANGLE_ZERO = new QAngle(0.0f, 0.0f, 0.0f);
 
     private HookResult EXTRAOnPlayerPing(EventPlayerPing @event, GameEventInfo info)
     {

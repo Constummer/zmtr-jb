@@ -9,7 +9,7 @@ public partial class JailbreakExtras
     {
         Logger.LogInformation("Loading player models");
 
-        Task.Run(async () =>
+        _ = Task.Run(async () =>
         {
             var command = DbConnection.CreateCommand();
             command.CommandText = @$"

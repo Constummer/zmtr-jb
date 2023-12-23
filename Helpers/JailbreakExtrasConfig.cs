@@ -38,13 +38,19 @@ public partial class JailbreakExtras
         #region Credit Releated
 
         [JsonPropertyName("SaveCreditTimerEveryXSecond")]
-        public short SaveCreditTimerEveryXSecond { get; set; } = 60;//saves credits every x seconds
+        public short SaveCreditTimerEveryXSecond { get; set; } = 60;
 
         [JsonPropertyName("RetrieveCreditEveryCTKill")]
-        public short RetrieveCreditEveryCTKill { get; set; } = 5;//Retrieve Credit Every CT Kill
+        public short RetrieveCreditEveryCTKill { get; set; } = 5;
 
         [JsonPropertyName("RetrieveCreditEveryTKill")]
-        public short RetrieveCreditEveryTKill { get; set; } = 1;//Retrieve Credit Every T Kill
+        public short RetrieveCreditEveryTKill { get; set; } = 1;
+
+        [JsonPropertyName("RetrieveCreditEveryXMin")]
+        public short RetrieveCreditEveryXMin { get; set; } = 5 * 60;
+
+        [JsonPropertyName("RetrieveCreditEveryXMinReward")]
+        public short RetrieveCreditEveryXMinReward { get; set; } = 5;
 
         #endregion Credit Releated
 
