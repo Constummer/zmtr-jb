@@ -23,6 +23,15 @@ public partial class JailbreakExtras
         [JsonPropertyName("GrappleSpeed")]
         public float GrappleSpeed { get; set; } = 1500.0f;
 
+        #region Parachute
+
+        [JsonPropertyName("ParachuteEnabled")] public bool ParachuteEnabled { get; set; } = true;
+        [JsonPropertyName("ParachuteDecreaseVec")] public float ParachuteDecreaseVec { get; set; } = 50;
+        [JsonPropertyName("ParachuteLinear")] public bool ParachuteLinear { get; set; } = true;
+        [JsonPropertyName("ParachuteFallSpeed")] public float ParachuteFallSpeed { get; set; } = 100;
+
+        #endregion Parachute
+
         #region Credit Releated
 
         [JsonPropertyName("SaveCreditTimerEveryXSecond")]

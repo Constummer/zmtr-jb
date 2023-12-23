@@ -1,5 +1,7 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Admin;
+using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
 
@@ -33,6 +35,7 @@ public partial class JailbreakExtras
                 //    AllowLaserForWarden(player);
                 //}
 
+                ParachuteOnTick(player);
                 if (Countdown_enable)
                 {
                     player.PrintToCenterHtml(
@@ -224,7 +227,7 @@ public partial class JailbreakExtras
         Vector playerPosition = player.PlayerPawn?.Value.CBodyComponent?.SceneNode?.AbsOrigin;
         QAngle viewAngles = player.PlayerPawn.Value.EyeAngles;
 
-        if (IsPlayerCloseToTarget(player, end, player.PlayerPawn.Value!.AbsOrigin, 100))
+        if (IsPlayerCloseToTarget(player, end, player.PlayerPawn.Value!.AbsOrigin, 40))
         {
             //DetachGrapple(player);
             return;
@@ -239,7 +242,7 @@ public partial class JailbreakExtras
         var laser = DrawLaser(start, end);
         PullPlayer(player, end, playerPosition, viewAngles);
 
-        if (IsPlayerCloseToTarget(player, end, playerPosition, 100))
+        if (IsPlayerCloseToTarget(player, end, playerPosition, 40))
         {
             //DetachGrapple(player);
         }
