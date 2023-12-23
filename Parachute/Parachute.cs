@@ -7,7 +7,7 @@ public partial class JailbreakExtras
 {
     private void ParachuteOnTick(CCSPlayerController player)
     {
-        if (Config.ParachuteEnabled
+        if (_Config.ParachuteEnabled
                     && player.IsValid
                     && !player.IsBot
                     && player.PawnIsAlive)

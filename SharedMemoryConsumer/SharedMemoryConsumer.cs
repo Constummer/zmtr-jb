@@ -71,6 +71,7 @@ public partial class JailbreakExtras
                         if (ulong.TryParse(splitted[1] ?? "", out var parsed))
                         {
                             LatestWCommandUser = parsed;
+                            ClearLasers();
                         }
                     }
                     break;
@@ -81,6 +82,7 @@ public partial class JailbreakExtras
                         if (ulong.TryParse(splitted[1] ?? "", out var parsed))
                         {
                             LatestWCommandUser = null;
+                            ClearLasers();
                         }
                     }
                     break;

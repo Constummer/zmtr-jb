@@ -17,7 +17,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        Config.ParachuteEnabled = false;
+        _Config.ParachuteEnabled = false;
     }
 
     [ConsoleCommand("pa")]
@@ -28,7 +28,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        Config.ParachuteEnabled = true;
+        _Config.ParachuteEnabled = true;
     }
 
     #endregion Parachute

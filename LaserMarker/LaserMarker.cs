@@ -25,37 +25,29 @@ public partial class JailbreakExtras
         return HookResult.Continue;
     }
 
+    private static void ClearLasers()
+    {
+        if (Lasers != null)
+        {
+            foreach (var item in Lasers)
+            {
+                if (item.IsValid)
+                {
+                    item.Remove();
+                }
+            }
+            Lasers.Clear();
+        }
+    }
+
     private void LasersEntry(float x, float y, float z)
     {
-        foreach (var item in Lasers)
-        {
-            if (item.IsValid)
-            {
-                item.Remove();
-            }
-        }
-        Lasers.Clear();
+        ClearLasers();
 
         double radius = Config.LaserRadius;
         int edgeCount = Config.LaserEdgeCount;
 
         CalculateAndPrintEdges(x, y, z, radius, edgeCount);
-    }
-
-    [ConsoleCommand("markertemizle", "Eli yeniden baslatir")]
-    public void LaserTemizle(CCSPlayerController? player, CommandInfo info)
-    {
-        if (player!.SteamID != LatestWCommandUser ||
-            ValidateCallerPlayer(player) == false)
-        {
-            player.PrintToChat($"sen bunu temizleyemezsin :}}");
-            return;
-        }
-        foreach (var item in Lasers)
-        {
-            item.Remove();
-        }
-        Lasers.Clear();
     }
 
     private void CalculateAndPrintEdges(double centerX, double centerY, double centerZ, double radius, int edgeCount)

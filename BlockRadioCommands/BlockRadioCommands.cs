@@ -1,4 +1,5 @@
 ﻿using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
@@ -15,7 +16,8 @@ public partial class JailbreakExtras
                     return HookResult.Continue;
                 }
 
-                if (player!.SteamID == LatestWCommandUser)
+                if (player!.SteamID == LatestWCommandUser
+                    && GetTeam(player) == CsTeam.CounterTerrorist)
                 {
                     if (Config.WardenAllowedRadioCommands.Contains(info.GetCommandString))
                     {
