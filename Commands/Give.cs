@@ -1,6 +1,8 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
@@ -27,6 +29,8 @@ public partial class JailbreakExtras
                {
                    x.GiveNamedItem($"weapon_{weapon}");
                });
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] Admin, {ChatColors.Green}{player.PlayerName} {ChatColors.White}adlı oyuncuya {ChatColors.Red}{weapon} adlı silahı verdi.");
+
     }
 
     #endregion Give

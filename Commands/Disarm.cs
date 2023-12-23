@@ -29,7 +29,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, true);
         });
-        Server.PrintToChatAll($"{ChatColors.LightRed}[ZMTR] {ChatColors.White}nick adlı oyuncunun silahları silindi.");
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}{player!.PlayerName} adlı oyuncunun silahları silindi.");
     }
 
     [ConsoleCommand("disarmt", "Bicak dahil silme")]
@@ -47,7 +47,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, true);
         });
-        Server.PrintToChatAll($"{ChatColors.LightRed}[ZMTR] {ChatColors.White}Mahkûmların silahları silindi.");
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Mahkûmların silahları silindi.");
     }
 
     [ConsoleCommand("disarmct", "Bicak dahil silme")]
@@ -65,7 +65,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, true);
         });
-        Server.PrintToChatAll($"{ChatColors.LightRed}[ZMTR] {ChatColors.White}Gardiyanların silahları silindi.");
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Gardiyanların silahları silindi.");
     }
 
     [ConsoleCommand("disarmall", "Bicak dahil silme")]
@@ -83,7 +83,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, true);
         });
-        Server.PrintToChatAll($"{ChatColors.LightRed}[ZMTR] {ChatColors.White}Herkesin silahları silindi.");
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Herkesin silahları silindi.");
     }
 
     #endregion Disarm

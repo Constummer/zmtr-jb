@@ -24,7 +24,7 @@ public partial class JailbreakExtras
         {
             if (DateTime.UtcNow < call.AddSeconds(10))
             {
-                player.PrintToChat($" {ChatColors.LightRed}[ZMTR] 10 saniyede bir hediye gönderebilirsin!");
+                player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Tekrar kredi hediye edebilmek için {ChatColors.Darkred}10 {ChatColors.White}saniye beklemelisin!");
                 return;
             }
         }
@@ -33,13 +33,13 @@ public partial class JailbreakExtras
         var target = info.GetArg(1);
         if (!int.TryParse(info.GetArg(2), out var miktar))
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR] Miktar duzgun deil!");
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Miktar yanlış!");
             return;
         }
         var data = GetPlayerMarketModel(player.SteamID);
         if (data.Model == null || data.Model.Credit < miktar || data.Model.Credit - miktar < 0)
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR] Yetersiz Bakiye!");
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Yetersiz Bakiye!");
             return;
         }
         var players = GetPlayers()
@@ -47,12 +47,12 @@ public partial class JailbreakExtras
                .ToList();
         if (players.Count == 0)
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR] Eşleşen oyuncu bulunamadı!");
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Eşleşen oyuncu bulunamadı!");
             return;
         }
         if (players.Count != 1)
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR] Birden fazla oyuncu bulundu. Devam edilemiyor. İsmi daha iyi belirtin!");
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Birden fazla oyuncu bulundu.");
             return;
         }
         var x = players.FirstOrDefault();
@@ -73,7 +73,7 @@ public partial class JailbreakExtras
             data.Model!.Credit -= miktar;
             PlayerMarketModels[player.SteamID] = data.Model;
             LatestHediyeCommandCalls[player.SteamID] = DateTime.UtcNow;
-            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.LightBlue}{player.PlayerName}, {x.PlayerName} oyuncusuna {miktar} kredi yolladı!");
+            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}{player.PlayerName}, {x.PlayerName} adlı oyuncuya {ChatColors.Green}{miktar} {ChatColors.White}kredi yolladı!");
         }
     }
 

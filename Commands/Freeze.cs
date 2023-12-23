@@ -23,7 +23,7 @@ public partial class JailbreakExtras
 
         if (int.TryParse(target, out int value))
         {
-            BasicCountdown.CommandStartTextCountDown(this, $"{value} saniye kaldı");
+            BasicCountdown.CommandStartTextCountDown(this, $"Mahkûmların donmasına {value} saniye kaldı!");
 
             _ = AddTimer(value, () =>
             {
@@ -60,6 +60,7 @@ public partial class JailbreakExtras
         if (info.ArgCount != 2) return;
         var target = info.GetArg(1);
         FreezeTarget(target, player!.PlayerName);
+        player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Admin, {ChatColors.Blue}{player!.PlayerName} {ChatColors.White}adlı oyuncuyu dondurdu.");
     }
 
     [ConsoleCommand("unfreeze", "Unfreeze a player.")]
@@ -80,6 +81,8 @@ public partial class JailbreakExtras
             {
                 UnfreezeX(player, x, target, randomFreeze);
             });
+        player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}{player.PlayerName}, {ChatColors.Blue}{target.PlayerName} {ChatColors.White}adlı oyuncunun donunu kaldırdı.");
+
     }
 
     private void FreezeTarget(string target, string self)
