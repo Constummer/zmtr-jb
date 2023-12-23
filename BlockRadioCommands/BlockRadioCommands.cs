@@ -10,7 +10,7 @@ public partial class JailbreakExtras
         {
             AddCommandListener(command, (player, info) =>
             {
-                if (!ValidateCallerPlayer(player, false) == false)
+                if (ValidateCallerPlayer(player, false) == false)
                 {
                     return HookResult.Continue;
                 }

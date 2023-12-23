@@ -22,15 +22,20 @@ public partial class JailbreakExtras
 
             while (true)
             {
-                using (TcpClient client = listener.AcceptTcpClient())
-                using (NetworkStream stream = client.GetStream())
+                try
                 {
-                    byte[] data = new byte[10000];
-                    int bytesRead = stream.Read(data, 0, data.Length);
+                    using (TcpClient client = listener.AcceptTcpClient())
+                    using (NetworkStream stream = client.GetStream())
+                    {
+                        byte[] data = new byte[10000];
+                        int bytesRead = stream.Read(data, 0, data.Length);
 
-                    var str = Encoding.UTF8.GetString(data, 0, bytesRead);
-                    Console.WriteLine(str);
-                    ProcessData(str);
+                        var str = Encoding.UTF8.GetString(data, 0, bytesRead);
+                        ProcessData(str);
+                    }
+                }
+                catch
+                {
                 }
             }
         }

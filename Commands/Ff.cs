@@ -57,6 +57,40 @@ public partial class JailbreakExtras
         }
     }
 
+    [ConsoleCommand("ffdondur")]
+    [CommandHelper(2, "<saniye> <mesaj>")]
+    public void FfDondur(CCSPlayerController? player, CommandInfo info)
+    {
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        if (info.ArgCount < 3) return;
+        var target = info.GetArg(1);
+        int index = info.ArgString.IndexOf($"{target} ");
+
+        var msg = string.Empty;
+        if (index != -1)
+        {
+            msg = info.ArgString.Remove(index, target.Length + 1);
+        }
+        else
+        {
+            msg = info.ArgString;
+        }
+
+        if (int.TryParse(target, out int value))
+        {
+            BasicCountdown.CommandStartTextCountDown(this, $"{msg} |{Environment.NewLine} Donmak için {value} saniye!");
+
+            _ = AddTimer(value, () =>
+            {
+                FreezeTarget("@t", "");
+                Ff(false);
+            });
+        }
+    }
+
     [ConsoleCommand("ffmenu")]
     [CommandHelper(1, "<saniye>")]
     public void FfMenu(CCSPlayerController? player, CommandInfo info)

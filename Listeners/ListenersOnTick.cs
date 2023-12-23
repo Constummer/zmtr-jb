@@ -36,12 +36,7 @@ public partial class JailbreakExtras
                 //}
 
                 ParachuteOnTick(player);
-                if (Countdown_enable)
-                {
-                    player.PrintToCenterHtml(
-                    $"<font color='gray'>►</font> <font class='fontSize-m' color='red'>{Time} saniye kaldı</font> <font color='gray'>◄</font>"
-                    );
-                }
+
                 changed = BasicCountdown.CountdownEnableTextHandler(changed, player);
 
                 //Logger.LogInformation("A={0},{1},{2}", player.AbsOrigin.X, player.AbsOrigin.Y, player.AbsOrigin.Z);

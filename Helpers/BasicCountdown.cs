@@ -1,14 +1,14 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Timers;
+using CounterStrikeSharp.API.Modules.Utils;
 using System.Text.RegularExpressions;
 
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static float Time;
-    private static string Text;
-    private static bool Countdown_enable;
+    private static float CountdownTime;
+    private static string CountdownText = "";
     private static bool Countdown_enable_text;
     private static CounterStrikeSharp.API.Modules.Timers.Timer? timer_1;
     private static CounterStrikeSharp.API.Modules.Timers.Timer? timer_2;
@@ -20,36 +20,35 @@ public partial class JailbreakExtras
         {
             if (Countdown_enable_text)
             {
-                if (Text != null)
+                if (CountdownText != null)
                 {
-                    var tempText = Text;
+                    var tempText = CountdownText;
                     try
                     {
                         if (changed == false)
                         {
-                            Match match = Regex.Match(Text, Pattern, RegexOptions.IgnoreCase);
+                            Match match = Regex.Match(CountdownText, Pattern, RegexOptions.IgnoreCase);
 
                             if (match.Success)
                             {
-                                Text = Regex.Replace(Text, Pattern, match =>
+                                CountdownText = Regex.Replace(CountdownText, Pattern, match =>
                                 {
-                                    return Time + " " + match.Groups[2].Value;
+                                    return CountdownTime + " " + match.Groups[2].Value;
                                 }, RegexOptions.IgnoreCase);
                             }
 
-                            Text = Regex.Replace(Text, @"[#*<>]+\s*", "");
+                            CountdownText = Regex.Replace(CountdownText, @"[#*<>]+\s*", "");
 
                             changed = true;
                         }
                     }
                     catch
                     {
-                        Text = tempText;
+                        CountdownText = tempText;
                     }
 
-                    client.PrintToCenterHtml(
-                        $"<font class='fontSize-m' color='#00FF00'>{Text} </font>"
-                    );
+                    client.PrintToCenter($"{ChatColors.Green}{CountdownText}");
+                    client.PrintToCenterHtml($"{ChatColors.Green}{CountdownText}");
                 }
             }
 
@@ -69,21 +68,21 @@ public partial class JailbreakExtras
                     var TimeSec = match.Groups[1].Value;
 
                     var time_convert = Convert.ToInt32(TimeSec);
-                    Time = time_convert;
-                    Text = text;
+                    CountdownTime = time_convert;
+                    CountdownText = text;
                     Countdown_enable_text = true;
 
                     // Yeni bir zamanlayıcı ekle
                     timer_2 = jailbreakExtras.AddTimer(1.0f, () =>
                     {
-                        if (Time == 0.0)
+                        if (CountdownTime == 0.0)
                         {
                             Countdown_enable_text = false;
                             timer_2?.Kill();
                             return;
                         }
 
-                        Time = Time - 1.0f;
+                        CountdownTime = CountdownTime - 1.0f;
                     }, TimerFlags.REPEAT);
                 }
             }
