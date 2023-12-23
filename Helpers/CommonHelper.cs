@@ -71,15 +71,30 @@ public partial class JailbreakExtras
             if (weaponServices == null) return;
 
             player.GiveNamedItem("weapon_healthshot");
-
-            foreach (var weapon in weaponServices.MyWeapons)
+            if (weaponServices.MyWeapons != null)
             {
-                if (weapon != null && weapon.IsValid && weapon.Value!.DesignerName == "weapon_healthshot")
+                foreach (var weapon in weaponServices.MyWeapons)
                 {
-                    weapon.Value.Remove();
-                    break;
+                    if (weapon != null && weapon.IsValid && weapon.Value != null && weapon.Value!.DesignerName == "weapon_healthshot")
+                    {
+                        weapon.Value.Remove();
+                        break;
+                    }
                 }
             }
+        }
+    }
+
+    private static void RefreshPawnTP(CCSPlayerController x)
+    {
+        if (x != null)
+        {
+            if (ValidateCallerPlayer(x, false) == false)
+                return;
+            Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
+            Vector currentSpeed = new Vector(0, 0, 0);
+            QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
+            x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
         }
     }
 

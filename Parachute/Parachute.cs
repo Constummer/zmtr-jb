@@ -19,12 +19,26 @@ public partial class JailbreakExtras
             var buttons = player.Buttons;
             if ((buttons & PlayerButtons.Use) != 0 && !player.PlayerPawn.Value!.OnGroundLastTick)
             {
-                bUsingPara[player] = true;
+                if (bUsingPara.TryGetValue(player, out bool _))
+                {
+                    bUsingPara[player] = true;
+                }
+                else
+                {
+                    bUsingPara.TryAdd(player, true);
+                }
                 StartParachute(player);
             }
-            else if (bUsingPara[player])
+            else if (bUsingPara.TryGetValue(player, out bool data) && data)
             {
-                bUsingPara[player] = false;
+                if (bUsingPara.TryGetValue(player, out bool _))
+                {
+                    bUsingPara[player] = false;
+                }
+                else
+                {
+                    bUsingPara.TryAdd(player, false);
+                }
                 StopParachute(player);
             }
         }

@@ -81,8 +81,7 @@ public partial class JailbreakExtras
             {
                 UnfreezeX(player, x, target, randomFreeze);
             });
-        player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}{player.PlayerName}, {ChatColors.Blue}{target.PlayerName} {ChatColors.White}adlı oyuncunun donunu kaldırdı.");
-
+        player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}{player.PlayerName}, {ChatColors.Blue}{target} {ChatColors.White}adlı oyuncunun donunu kaldırdı.");
     }
 
     private void FreezeTarget(string target, string self)

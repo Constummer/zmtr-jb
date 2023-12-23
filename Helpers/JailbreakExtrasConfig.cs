@@ -9,6 +9,12 @@ public partial class JailbreakExtras
 {
     public class JailbreakExtrasConfig : BasePluginConfig
     {
+        [JsonPropertyName("HideFootsOnConnect")]
+        public bool HideFootsOnConnect { get; set; } = true;
+
+        [JsonPropertyName("GrappleSpeed")]
+        public float GrappleSpeed { get; set; } = 1500.0f;
+
         [JsonPropertyName("RoundEndStartCommands")]
         public List<string> RoundEndStartCommands { get; set; } = new(){
             "mp_respawn_on_death_t 0",
@@ -19,9 +25,6 @@ public partial class JailbreakExtras
             "mp_teammates_are_enemies 0",
             "player_ping_token_cooldown 1",
         };
-
-        [JsonPropertyName("GrappleSpeed")]
-        public float GrappleSpeed { get; set; } = 1500.0f;
 
         #region Parachute
 

@@ -1,9 +1,6 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Utils;
-using Microsoft.Extensions.Logging;
-using System.Drawing;
 
 namespace JailbreakExtras;
 
@@ -19,6 +16,17 @@ public partial class JailbreakExtras
                 && item?.SteamID != null
                     && item!.SteamID != 0)
                 {
+                    if (HideFoots.TryGetValue(item.SteamID, out var _) == false && Config.HideFootsOnConnect)
+                    {
+                        AddTimer(2f, () =>
+                       {
+                           Server.NextFrame(() =>
+                           {
+                               AyakGizle(item, true);
+                           });
+                       });
+                    }
+
                     var data = GetPlayerMarketModel(item?.SteamID);
                     if (data.Model == null || data.ChooseRandom)
                     {
