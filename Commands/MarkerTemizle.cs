@@ -2,6 +2,7 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
@@ -15,7 +16,7 @@ public partial class JailbreakExtras
         if (player!.SteamID != LatestWCommandUser ||
             ValidateCallerPlayer(player) == false)
         {
-            player.PrintToChat($"sen bunu temizleyemezsin :}}");
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} sen bunu temizleyemezsin :}}");
             return;
         }
         ClearLasers();

@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Utils;
+using System.Drawing;
 
 namespace JailbreakExtras;
 
@@ -28,13 +29,15 @@ public partial class JailbreakExtras
                    && x.PawnIsAlive
                    && x.IsValid
                    && x?.PlayerPawn?.Value != null
-                   && GetTeam(x) == CsTeam.Terrorist);
+                   && GetTeam(x) == CsTeam.Terrorist
+                   && ValidateCallerPlayer(x, false));
 
         var teamOne = players.Take(players.Count() / 2);
         var teamTwo = players.Skip(players.Count() / 2);
         teamOne.ToList().ForEach(x =>
               {
-                  SetColour(x, Config.TeamOneColor);
+                  SetColour(x, Color.FromArgb(255, 0, 0, 255));
+                  x.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Red} Kırmızı Takıma girdin!");
 
                   Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                   Vector currentSpeed = new Vector(0, 0, 0);
@@ -44,7 +47,8 @@ public partial class JailbreakExtras
         TeamOneSteamIds = teamOne.Select(x => x.SteamID).ToList();
         teamTwo.ToList().ForEach(x =>
         {
-            SetColour(x, Config.TeamTwoColor);
+            SetColour(x, Color.FromArgb(255, 255, 0, 0));
+            x.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Blue} Mavi Takıma girdin!");
 
             Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
             Vector currentSpeed = new Vector(0, 0, 0);

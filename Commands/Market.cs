@@ -93,7 +93,7 @@ public partial class JailbreakExtras
         var models = PlayerModels.ToList().Where(x => x.Value.TeamNo == team).ToList();
         if (onlyBoughtOnes && models.Count == 0)
         {
-            player.PrintToChat("Satın aldığınız hiç eşya yok");
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Satın aldığınız hiç eşya yok");
         }
         else
         {
@@ -143,19 +143,19 @@ public partial class JailbreakExtras
         var modelName = option.Text?.Split(" | (")?[0];
         if (string.IsNullOrWhiteSpace(modelName))
         {
-            player.PrintToChat("Admin ile irtibata geçin");
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Admin ile irtibata geçin");
             return;
         }
         var models = PlayerModels.Where(x => x.Value.Text.Equals(modelName)).ToList();
         if (models.Count != 1)
         {
-            player.PrintToChat("Admin ile irtibata geçin");
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Admin ile irtibata geçin");
             return;
         }
         var model = models.Select(x => x.Value).FirstOrDefault();
         if (model == null)
         {
-            player.PrintToChat("Admin ile irtibata geçin");
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Admin ile irtibata geçin");
             return;
         }
         SetModel(player, model!, data.Model, option.Text, option.Text!.EndsWith(" | [SATIN ALINDI]"));
@@ -172,7 +172,7 @@ public partial class JailbreakExtras
             if (playerData.Credit < model.Cost
                 || playerData.Credit - model.Cost < 0)
             {
-                player.PrintToChat("Yeterli krediniz bulunmuyor");
+                player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Yeterli krediniz bulunmuyor");
                 return;
             }
             playerData.Credit -= model.Cost;
@@ -186,7 +186,7 @@ public partial class JailbreakExtras
                 playerData.ModelIdT = AddModelIdToGivenData(playerData.ModelIdT, model.Id);
                 playerData.DefaultIdT = model.Id;
             }
-            player.PrintToChat($"[ZMTR] {model.Text} modelini satin aldin");
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} {model.Text} modelini satin aldin");
         }
         else
         {
@@ -199,7 +199,7 @@ public partial class JailbreakExtras
             case CsTeam.Terrorist:
                 if (text.Contains(TModeli))
                 {
-                    player.PrintToChat($"[ZMTR] {model.Text} modelini kullaniyorsun");
+                    player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} {model.Text} modelini kullaniyorsun");
                     SetModelNextServerFrame(player.PlayerPawn.Value!, model.PathToModel);
                 }
                 break;
@@ -207,7 +207,7 @@ public partial class JailbreakExtras
             case CsTeam.CounterTerrorist:
                 if (text.Contains(CTModeli))
                 {
-                    player.PrintToChat($"[ZMTR] {model.Text} modelini kullaniyorsun");
+                    player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} {model.Text} modelini kullaniyorsun");
                     SetModelNextServerFrame(player.PlayerPawn.Value!, model.PathToModel);
                 }
                 break;

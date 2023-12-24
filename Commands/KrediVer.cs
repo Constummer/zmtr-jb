@@ -22,7 +22,7 @@ public partial class JailbreakExtras
         var target = info.GetArg(1);
         if (!int.TryParse(info.GetArg(2), out var miktar))
         {
-            player!.PrintToChat($" {ChatColors.LightRed}[ZMTR] Miktar duzgun deil!");
+            player!.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Miktar duzgun deil!");
             return;
         }
         GetPlayers()

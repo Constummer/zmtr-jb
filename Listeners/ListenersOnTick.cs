@@ -20,40 +20,11 @@ public partial class JailbreakExtras
                 var player = new CCSPlayerController(ent);
                 if (player == null || !player.IsValid)
                     continue;
-                //foreach (var c in player.Pawn.Value!.MovementServices!.Buttons.ButtonStates)
-                //{
-                //    if (c == 0)
-                //        continue;
-                //    Logger.LogInformation(c.ToString());
-                //}
-                //AllowGrabForWarden(player);
-                //if (HookActive == false)
-                //{
-                //    AllowLaserForWarden(player);
-                //}
 
                 CoinMoveOnTick(player);
                 ParachuteOnTick(player);
 
                 changed = BasicCountdown.CountdownEnableTextHandler(changed, player);
-
-                //Logger.LogInformation("A={0},{1},{2}", player.AbsOrigin.X, player.AbsOrigin.Y, player.AbsOrigin.Z);
-                //Logger.LogInformation("B={0},{1},{2}", player.AbsRotation.X, player.AbsRotation.Y, player.AbsRotation.Z);
-                //Logger.LogInformation("C={0},{1},{2}", player.AbsVelocity.X, player.AbsVelocity.Y, player.AbsVelocity.Z);
-                //Logger.LogInformation("D={0},{1},{2}", player.PlayerPawn.Value.AbsOrigin.X, player.PlayerPawn.Value.AbsOrigin.Y, player.PlayerPawn.Value.AbsOrigin.Z);
-                //Logger.LogInformation("E={0},{1},{2}", player.PlayerPawn.Value.AbsRotation.X, player.PlayerPawn.Value.AbsRotation.Y, player.PlayerPawn.Value.AbsRotation.Z);
-                //Logger.LogInformation("F={0},{1},{2}", player.PlayerPawn.Value.AbsVelocity.X, player.PlayerPawn.Value.AbsVelocity.Y, player.PlayerPawn.Value.AbsVelocity.Z);
-                //            Logger.LogInformation("A={0},{1},{2} B={3},{4},{5} C={6},{7},{8} D={9},{10},{11} E={12},{13},{14} F={15},{16},{17}  G={18},{19},{20} H={21},{22},{23}",
-                ////player.AbsOrigin.X, player.AbsOrigin.Y, player.AbsOrigin.Z,
-                ////player.AbsRotation.X, player.AbsRotation.Y, player.AbsRotation.Z,
-                //player.AbsVelocity.X, player.AbsVelocity.Y, player.AbsVelocity.Z,
-                //player.PlayerPawn.Value.AbsOrigin.X, player.PlayerPawn.Value.AbsOrigin.Y, player.PlayerPawn.Value.AbsOrigin.Z,
-                //player.PlayerPawn.Value.AbsRotation.X, player.PlayerPawn.Value.AbsRotation.Y, player.PlayerPawn.Value.AbsRotation.Z,
-                //player.PlayerPawn.Value.AbsVelocity.X, player.PlayerPawn.Value.AbsVelocity.Y, player.PlayerPawn.Value.AbsVelocity.Z,
-                //player.AngVelocity.X, player.AngVelocity.Y, player.AngVelocity.Z,
-                //player.PlayerPawn.Value.AngVelocity.X, player.PlayerPawn.Value.AngVelocity.Y, player.PlayerPawn.Value.AngVelocity.Z,
-                //player.PlayerPawn.Value.V_angle.X, player.PlayerPawn.Value.V_angle.Y, player.PlayerPawn.Value.V_angle.Z,
-                //player.PlayerPawn.Value.EyeAngles.X, player.PlayerPawn.Value.EyeAngles.Y, player.PlayerPawn.Value.EyeAngles.Z);
             }
         }));
     }

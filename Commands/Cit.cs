@@ -19,7 +19,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        player.PrintToChat("ates ettigin yerde cit olusacak !citkapa veya !cittemizle kllan");
+        player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} ates ettigin yerde cit olusacak !citkapa veya !cittemizle kllan");
         CitEnable = true;
         return;
     }
@@ -75,7 +75,6 @@ public partial class JailbreakExtras
             return;
         }
         var vector = new Vector(@event.X, @event.Y, @event.Z);
-        Logger.LogInformation(vector.ToString());
         cit.Teleport(vector, @event.Userid.PlayerPawn.Value.AbsRotation, VEC_ZERO);
         //cit.Health = 1;
         //cit.TakeDamageFlags = TakeDamageFlags_t.DFLAG_FORCE_DEATH;

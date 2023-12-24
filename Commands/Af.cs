@@ -21,7 +21,6 @@ public partial class JailbreakExtras
          .ToList()
          .ForEach(x =>
          {
-             Logger.LogInformation(x.PlayerName);
              Server.ExecuteCommand($"mp_respawn_on_death_ct 1;mp_respawn_on_death_t 1");
              if (x.PawnIsAlive != false)
              {

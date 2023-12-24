@@ -21,30 +21,6 @@ public partial class JailbreakExtras
         AyakGizle(player);
     }
 
-    private void AyakGizle(CCSPlayerController player, bool refreshTp = false)
-    {
-        HideFoots[player.SteamID] = true;
-        player!.PlayerPawn.Value!.Render = Color.FromArgb(254, 254, 254, 254);
-        if (refreshTp == false)
-        {
-            RefreshPawn(player);
-            player!.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Darkred}Ayaklarını gizledin!");
-        }
-        else
-        {
-            RefreshPawnTP(player);
-            player!.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Darkred}Ayakların otomatik olarak gizlendi. !ayakgoster ile tekrar gösterebilirsin");
-        }
-    }
-
-    private void AyakGoster(CCSPlayerController player)
-    {
-        HideFoots[player.SteamID] = false;
-        player!.PlayerPawn.Value!.Render = DefaultPlayerColor;
-        RefreshPawn(player);
-        player!.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}Ayakların artık gözüküyor!");
-    }
-
     [ConsoleCommand("ayakgoster", "Ayaklarini goster")]
     public void AyakGoster(CCSPlayerController? player, CommandInfo info)
     {
@@ -52,7 +28,26 @@ public partial class JailbreakExtras
         {
             return;
         }
-        AyakGoster(player);
+        HideFoots[player.SteamID] = false;
+        player!.PlayerPawn.Value!.Render = DefaultPlayerColor;
+        RefreshPawn(player);
+        player!.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}Ayakların artık gözüküyor!");
+    }
+
+    private void AyakGizle(CCSPlayerController player, bool refreshTp = false)
+    {
+        HideFoots[player.SteamID] = true;
+        player!.PlayerPawn.Value!.Render = Color.FromArgb(254, 254, 254, 254);
+        if (refreshTp == false)
+        {
+            RefreshPawn(player);
+            player!.PrintToChat($" {ChatColors.Green}[ZMTR] {ChatColors.Darkred}Ayaklarını gizledin!");
+        }
+        else
+        {
+            RefreshPawnTP(player);
+            player!.PrintToChat($" {ChatColors.Green}[ZMTR] {ChatColors.Darkred}Ayakların otomatik olarak gizlendi. !ayakgoster ile tekrar gösterebilirsin");
+        }
     }
 
     #endregion Ayak Gizle

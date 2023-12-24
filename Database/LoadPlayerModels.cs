@@ -7,8 +7,6 @@ public partial class JailbreakExtras
 {
     private void LoadPlayerModels()
     {
-        Logger.LogInformation("Loading player models");
-
         _ = Task.Run(async () =>
         {
             var command = DbConnection.CreateCommand();
