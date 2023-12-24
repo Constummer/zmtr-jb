@@ -18,6 +18,7 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
     public JailbreakExtrasConfig Config { get; set; } = new JailbreakExtrasConfig();
     public static JailbreakExtrasConfig _Config { get; set; } = new JailbreakExtrasConfig();
 
+    private static bool LrActive = false;
     private static readonly Dictionary<ulong, bool> ActiveGodMode = new();
     private static readonly Dictionary<ulong, Vector> DeathLocations = new();
     private static readonly Dictionary<ulong, bool> HideFoots = new();

@@ -13,20 +13,22 @@ public partial class JailbreakExtras
                 return HookResult.Continue;
             }
             CCSPlayerController? player = @event.Userid;
-
-            if (ActiveGodMode.TryGetValue(@event.Userid.SteamID, out var value))
+            if (LrActive == false)
             {
-                if (value)
+                if (ActiveGodMode.TryGetValue(@event.Userid.SteamID, out var value))
                 {
-                    player.Health = 100;
-                    player.PlayerPawn.Value!.Health = 100;
-                    if (player.PawnArmor != 0)
+                    if (value)
                     {
-                        player.PawnArmor = 100;
-                    }
-                    if (player.PlayerPawn.Value!.ArmorValue != 0)
-                    {
-                        player.PlayerPawn.Value!.ArmorValue = 100;
+                        player.Health = 100;
+                        player.PlayerPawn.Value!.Health = 100;
+                        if (player.PawnArmor != 0)
+                        {
+                            player.PawnArmor = 100;
+                        }
+                        if (player.PlayerPawn.Value!.ArmorValue != 0)
+                        {
+                            player.PlayerPawn.Value!.ArmorValue = 100;
+                        }
                     }
                 }
             }

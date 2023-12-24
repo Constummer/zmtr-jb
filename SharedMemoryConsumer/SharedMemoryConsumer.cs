@@ -1,4 +1,6 @@
 ﻿using CounterStrikeSharp.API;
+using Microsoft.Extensions.Logging;
+using Serilog.Core;
 using System.Net;
 using System.Net.Sockets;
 using System.Text;
@@ -14,6 +16,7 @@ public partial class JailbreakExtras
             None = 0,
             SetWarden = 1,
             RemoveWarden = 2,
+            LrActive = 3,
         }
 
         public static void StartListenerData()
@@ -92,6 +95,10 @@ public partial class JailbreakExtras
                             });
                         }
                     }
+                    break;
+
+                case SharedMemoryDataTypes.LrActive:
+                    LrActive = true;
                     break;
 
                 case SharedMemoryDataTypes.None:

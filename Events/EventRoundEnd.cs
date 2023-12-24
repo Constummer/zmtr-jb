@@ -21,6 +21,7 @@ public partial class JailbreakExtras
         {
             Server.ExecuteCommand(item);
         }
+        LrActive = false;
         _Config.ParachuteEnabled = true;
         GetPlayers()
          .Where(x => ValidateCallerPlayer(x, false) == true && x.SteamID != LatestWCommandUser)
