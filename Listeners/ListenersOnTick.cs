@@ -32,6 +32,7 @@ public partial class JailbreakExtras
                 //    AllowLaserForWarden(player);
                 //}
 
+                CoinMoveOnTick(player);
                 ParachuteOnTick(player);
 
                 changed = BasicCountdown.CountdownEnableTextHandler(changed, player);

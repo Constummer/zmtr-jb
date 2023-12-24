@@ -11,19 +11,21 @@ public partial class JailbreakExtras
         {
             PrepareRoundDefaults();
             ClearAll();
-            foreach (var item in GetPlayers())
+            foreach (var x in GetPlayers())
             {
-                if (HideFoots.TryGetValue(item.SteamID, out bool hideFoot))
+                CoinStart(x);
+
+                if (HideFoots.TryGetValue(x.SteamID, out bool hideFoot))
                 {
                     if (hideFoot)
                     {
-                        item.PlayerPawn.Value.Render = Color.FromArgb(254, 254, 254, 254);
-                        RefreshPawn(item);
+                        x.PlayerPawn.Value.Render = Color.FromArgb(254, 254, 254, 254);
+                        RefreshPawn(x);
                     }
                     else
                     {
-                        item.PlayerPawn.Value.Render = DefaultPlayerColor;
-                        RefreshPawn(item);
+                        x.PlayerPawn.Value.Render = DefaultPlayerColor;
+                        RefreshPawn(x);
                     }
                 }
             }

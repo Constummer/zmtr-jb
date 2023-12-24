@@ -21,6 +21,27 @@ public partial class JailbreakExtras
         }
     }
 
+    [ConsoleCommand("c")]
+    public void c(CCSPlayerController? player, CommandInfo info)
+    {
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        var playerAbs = player.PlayerPawn.Value.AbsOrigin;
+
+        var a = Utilities.CreateEntityByName<CFuncPlatRot>("func_platrot");
+        if (a == null)
+        {
+            return;
+        }
+
+        var vector = new Vector(playerAbs.X, playerAbs.Y, playerAbs.Z + 100);
+        a.Teleport(vector, ANGLE_ZERO, VEC_ZERO);
+        a.DispatchSpawn();
+        a.SetModel("models/coop/challenge_coin.vmdl");
+    }
+
     [ConsoleCommand("ts")]
     public void testses(CCSPlayerController? player, CommandInfo info)
     {

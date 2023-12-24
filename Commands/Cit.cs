@@ -68,8 +68,6 @@ public partial class JailbreakExtras
             return;
         if (ValidateCallerPlayer(@event.Userid) == false && LatestWCommandUser != @event.Userid.SteamID)
             return;
-        if (GetTeam(@event.Userid) != CsTeam.CounterTerrorist)
-            return;
 
         CFuncWall? cit = Utilities.CreateEntityByName<CFuncWall>("func_wall");
         if (cit == null)
