@@ -25,6 +25,9 @@ public partial class JailbreakExtras
         CitEnable = false;
         LrActive = false;
         _Config.ParachuteEnabled = true;
+        TeamOneSteamIds = new();
+        TeamTwoSteamIds = new();
+        TeamActive = false;
         GetPlayers()
          .Where(x => ValidateCallerPlayer(x, false) == true && x.SteamID != LatestWCommandUser)
          .ToList()

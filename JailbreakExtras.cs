@@ -91,6 +91,8 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
         _Config = Config = config;
         config.BuryColor = Color.FromArgb(config.BurryColorR, config.BurryColorG, config.BurryColorB);
         config.LaserColor = Color.FromArgb(config.LaserColorR, config.LaserColorG, config.LaserColorB);
+        config.TeamOneColor = Color.FromArgb(config.TeamOneColorR, config.TeamOneColorG, config.TeamOneColorB);
+        config.TeamTwoColor = Color.FromArgb(config.TeamTwoColorR, config.TeamTwoColorG, config.TeamTwoColorB);
         //Re-assign after adjustments
         _Config = Config = config;
     }

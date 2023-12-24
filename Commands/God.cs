@@ -29,21 +29,11 @@ public partial class JailbreakExtras
                {
                    if (ActiveGodMode.TryGetValue(x.SteamID, out var god))
                    {
-                       //if (god)
-                       //{
-                       //    FakeGod(x, 100);
-                       //}
-                       //else
-                       //{
-                       //    FakeGod(x, int.MaxValue);
-                       //}
-
                        ActiveGodMode[x.SteamID] = !god;
                    }
                    else
                    {
                        ActiveGodMode.TryAdd(x.SteamID, true);
-                       //FakeGod(x, int.MaxValue);
                    }
                    RefreshPawn(x);
                });
@@ -62,7 +52,6 @@ public partial class JailbreakExtras
                .ForEach(x =>
                {
                    ActiveGodMode[x.SteamID] = true;
-                   //FakeGod(x, int.MaxValue);
                    RefreshPawn(x);
                });
         Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] Tüm {ChatColors.Blue}gardiyanlara {ChatColors.Green}god {ChatColors.White}verildi.");
@@ -80,19 +69,28 @@ public partial class JailbreakExtras
                .ForEach(x =>
                {
                    ActiveGodMode.Remove(x.SteamID);
-                   //FakeGod(x, 100);
                    RefreshPawn(x);
                });
         Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] Tüm {ChatColors.Blue}gardiyanların {ChatColors.Green}godunu {ChatColors.White}kaldırdı.");
     }
 
-    private static void FakeGod(CCSPlayerController x, int amount)
+    private static void GodHurtCover(EventPlayerHurt @event, CCSPlayerController player)
     {
-        x.Pawn.Value!.Health = amount;
-        var playerPawnValue = x.PlayerPawn.Value;
-        if (playerPawnValue != null)
+        if (ActiveGodMode.TryGetValue(@event.Userid.SteamID, out var value))
         {
-            playerPawnValue.ArmorValue = amount;
+            if (value)
+            {
+                player.Health = 100;
+                player.PlayerPawn.Value!.Health = 100;
+                if (player.PawnArmor != 0)
+                {
+                    player.PawnArmor = 100;
+                }
+                if (player.PlayerPawn.Value!.ArmorValue != 0)
+                {
+                    player.PlayerPawn.Value!.ArmorValue = 100;
+                }
+            }
         }
     }
 

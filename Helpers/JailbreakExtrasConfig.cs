@@ -54,6 +54,38 @@ public partial class JailbreakExtras
 
         #endregion Credit Releated
 
+        #region TeamOneColor
+
+        [JsonIgnore]
+        public Color TeamOneColor { get; set; } = Color.FromArgb(255, 0, 0, 255);//when players burry, freeze they will color this
+
+        [JsonPropertyName("TeamOneColorR"), Range(0, 255)]
+        public short TeamOneColorR { get; set; } = 0;
+
+        [JsonPropertyName("TeamOneColorG"), Range(0, 255)]
+        public short TeamOneColorG { get; set; } = 0;
+
+        [JsonPropertyName("TeamOneColorB"), Range(0, 255)]
+        public short TeamOneColorB { get; set; } = 255;
+
+        #endregion TeamOneColor
+
+        #region TeamTwoColor
+
+        [JsonIgnore]
+        public Color TeamTwoColor { get; set; } = Color.FromArgb(255, 255, 0, 0);//when players burry, freeze they will color this
+
+        [JsonPropertyName("TeamTwoColorR"), Range(0, 255)]
+        public short TeamTwoColorR { get; set; } = 255;
+
+        [JsonPropertyName("TeamTwoColorG"), Range(0, 255)]
+        public short TeamTwoColorG { get; set; } = 0;
+
+        [JsonPropertyName("TeamTwoColorB"), Range(0, 255)]
+        public short TeamTwoColorB { get; set; } = 0;
+
+        #endregion TeamTwoColor
+
         #region BurryColor
 
         [JsonIgnore]
