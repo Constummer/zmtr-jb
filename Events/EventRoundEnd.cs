@@ -21,7 +21,6 @@ public partial class JailbreakExtras
         {
             Server.ExecuteCommand(item);
         }
-        CoinRemove();
         CitEnable = false;
         LrActive = false;
         _Config.ParachuteEnabled = true;

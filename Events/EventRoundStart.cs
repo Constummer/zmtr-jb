@@ -11,10 +11,9 @@ public partial class JailbreakExtras
         {
             PrepareRoundDefaults();
             ClearAll();
+            CoinAfterNewCommander();
             foreach (var x in GetPlayers())
             {
-                CoinStart(x);
-
                 if (HideFoots.TryGetValue(x.SteamID, out bool hideFoot))
                 {
                     if (hideFoot)

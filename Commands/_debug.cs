@@ -29,17 +29,6 @@ public partial class JailbreakExtras
             return;
         }
         var playerAbs = player.PlayerPawn.Value.AbsOrigin;
-
-        var a = Utilities.CreateEntityByName<CFuncPlatRot>("func_platrot");
-        if (a == null)
-        {
-            return;
-        }
-
-        var vector = new Vector(playerAbs.X, playerAbs.Y, playerAbs.Z + 100);
-        a.Teleport(vector, ANGLE_ZERO, VEC_ZERO);
-        a.DispatchSpawn();
-        a.SetModel("models/coop/challenge_coin.vmdl");
     }
 
     [ConsoleCommand("ts")]

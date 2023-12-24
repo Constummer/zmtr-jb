@@ -6,8 +6,9 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static CFuncPlat Coin = null;
-    private static QAngle coinAngle = new QAngle(0.0f, 0.0f, 0.0f);
+    private static CFuncWall Coin = null;
+    private static QAngle CoinAngle = new QAngle(0.0f, 0.0f, 0.0f);
+    private static bool CoinSpawned { get; set; } = false;
 
     private static void CoinAfterNewCommander()
     {
@@ -28,15 +29,17 @@ public partial class JailbreakExtras
 
                 CoinRemove();
 
-                Coin = Utilities.CreateEntityByName<CFuncPlat>("func_plat");
+                Coin = Utilities.CreateEntityByName<CFuncWall>("func_wall");
+
                 if (Coin == null)
                 {
                     return;
                 }
                 var vector = new Vector(playerAbs.X, playerAbs.Y, playerAbs.Z + 100);
-                Coin.Teleport(vector, coinAngle, VEC_ZERO);
-                coinAngle = new QAngle(coinAngle.X, coinAngle.Y, coinAngle.Z);
+                Coin.Teleport(vector, CoinAngle, VEC_ZERO);
+                CoinAngle = new QAngle(CoinAngle.X, CoinAngle.Y, CoinAngle.Z);
                 Coin.DispatchSpawn();
+                CoinSpawned = true;
                 Coin.SetModel("models/coop/challenge_coin.vmdl");
             }
         }
@@ -48,20 +51,22 @@ public partial class JailbreakExtras
         {
             if (ValidateCallerPlayer(player, false) == false)
             {
-                CoinRemove();
                 return;
             }
-            if (Coin != null)
+            if (CoinSpawned)
             {
-                if (Coin.IsValid)
+                if (Coin != null)
                 {
-                    var playerAbs = player.PlayerPawn.Value.AbsOrigin;
-                    var vector = new Vector(
-                            playerAbs.X,
-                            playerAbs.Y,
-                            playerAbs.Z + 100);
-                    coinAngle = new QAngle(coinAngle.X, (coinAngle.Y + 5) % 360.0f, coinAngle.Z);
-                    Coin.Teleport(vector, coinAngle, VEC_ZERO);
+                    if (Coin.IsValid)
+                    {
+                        var playerAbs = player.PlayerPawn.Value.AbsOrigin;
+                        var vector = new Vector(
+                                playerAbs.X,
+                                playerAbs.Y,
+                                playerAbs.Z + 100);
+                        CoinAngle = new QAngle(CoinAngle.X, (CoinAngle.Y + 5) % 360.0f, CoinAngle.Z);
+                        Coin.Teleport(vector, CoinAngle, VEC_ZERO);
+                    }
                 }
             }
         }
@@ -76,6 +81,7 @@ public partial class JailbreakExtras
                 Coin.Remove();
             }
             Coin = null;
+            CoinSpawned = false;
         }
     }
 }
