@@ -10,44 +10,51 @@ public partial class JailbreakExtras
     {
         RegisterEventHandler((GameEventHandler<EventPlayerSpawn>)((@event, _) =>
         {
-            foreach (var item in GetPlayers())
+            foreach (var x in GetPlayers())
             {
-                if (ValidateCallerPlayer(item, false)
-                && item?.SteamID != null
-                    && item!.SteamID != 0)
+                if (ValidateCallerPlayer(x, false)
+                && x?.SteamID != null
+                    && x!.SteamID != 0)
                 {
-                    if (HideFoots.TryGetValue(item.SteamID, out var _) == false && Config.HideFootsOnConnect)
+                    if (HideFoots.TryGetValue(x.SteamID, out var _) == false && Config.HideFootsOnConnect)
                     {
                         AddTimer(2f, () =>
                        {
                            Server.NextFrame(() =>
                            {
-                               AyakGizle(item, true);
+                               AyakGizle(x, true);
                            });
                        });
                     }
+                    AddTimer(2f, () =>
+                    {
+                        Server.NextFrame(() =>
+                        {
+                            x.VoiceFlags |= VoiceFlags.Muted;
+                        });
+                    });
 
-                    var data = GetPlayerMarketModel(item?.SteamID);
+                    var data = GetPlayerMarketModel(x?.SteamID);
                     if (data.Model == null || data.ChooseRandom)
                     {
-                        GiveRandomSkin(item);
+                        GiveRandomSkin(x);
                     }
                     else
                     {
                         PlayerModel? model;
-                        switch (GetTeam(item!))
+                        switch (GetTeam(x!))
                         {
                             case CsTeam.Terrorist:
                                 if (data.Model.DefaultIdT.HasValue == true)
                                 {
                                     if (PlayerModels.TryGetValue(data.Model.DefaultIdT.Value, out model))
                                     {
-                                        SetModelNextServerFrame(item!.PlayerPawn.Value!, model.PathToModel);
+                                        SetModelNextServerFrame(x!.PlayerPawn.Value!, model.PathToModel);
                                     }
                                 }
                                 else
                                 {
-                                    GiveRandomSkin(item);
+                                    GiveRandomSkin(x);
                                 }
                                 break;
 
@@ -56,12 +63,12 @@ public partial class JailbreakExtras
                                 {
                                     if (PlayerModels.TryGetValue(data.Model.DefaultIdCT.Value, out model))
                                     {
-                                        SetModelNextServerFrame(item!.PlayerPawn.Value!, model.PathToModel);
+                                        SetModelNextServerFrame(x!.PlayerPawn.Value!, model.PathToModel);
                                     }
                                 }
                                 else
                                 {
-                                    GiveRandomSkin(item);
+                                    GiveRandomSkin(x);
                                 }
                                 break;
 

@@ -195,6 +195,7 @@ public partial class JailbreakExtras
         "@ct" => TargetForArgument.Ct,
         "@counterstrike" => TargetForArgument.Ct,
         "@alive" => TargetForArgument.Alive,
+        "@dead" => TargetForArgument.Dead,
         "@random" => TargetForArgument.Random,
         "@randomt" => TargetForArgument.RandomT,
         "@randomct" => TargetForArgument.RandomCt,
