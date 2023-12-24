@@ -21,6 +21,7 @@ public partial class JailbreakExtras
         {
             Server.ExecuteCommand(item);
         }
+        CitEnable = false;
         LrActive = false;
         _Config.ParachuteEnabled = true;
         GetPlayers()
