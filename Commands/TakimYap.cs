@@ -9,8 +9,8 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static List<ulong> TeamOneSteamIds = new List<ulong>();
-    private static List<ulong> TeamTwoSteamIds = new List<ulong>();
+    private static List<ulong> TeamBlueSteamIds = new List<ulong>();
+    private static List<ulong> TeamRedSteamIds = new List<ulong>();
     private static bool TeamActive = false;
 
     #region TakimYap
@@ -32,30 +32,32 @@ public partial class JailbreakExtras
                    && GetTeam(x) == CsTeam.Terrorist
                    && ValidateCallerPlayer(x, false));
 
-        var teamOne = players.Take(players.Count() / 2);
-        var teamTwo = players.Skip(players.Count() / 2);
-        teamOne.ToList().ForEach(x =>
+        var teamBlue = players.Take(players.Count() / 2);
+        var teamRed = players.Skip(players.Count() / 2);
+        teamBlue.ToList().ForEach(x =>
               {
                   SetColour(x, Color.FromArgb(255, 0, 0, 255));
-                  x.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Red} Kırmızı Takıma girdin!");
+                  x.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Blue} Kırmızı Takıma girdin!");
+                  x.PrintToCenter($" {ChatColors.LightRed}[ZMTR] {ChatColors.Blue} Kırmızı Takıma girdin!");
 
                   Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                   Vector currentSpeed = new Vector(0, 0, 0);
                   QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
                   x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
               });
-        TeamOneSteamIds = teamOne.Select(x => x.SteamID).ToList();
-        teamTwo.ToList().ForEach(x =>
+        TeamBlueSteamIds = teamBlue.Select(x => x.SteamID).ToList();
+        teamRed.ToList().ForEach(x =>
         {
             SetColour(x, Color.FromArgb(255, 255, 0, 0));
-            x.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Blue} Mavi Takıma girdin!");
+            x.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Red} Mavi Takıma girdin!");
+            x.PrintToCenter($" {ChatColors.LightRed}[ZMTR] {ChatColors.Red} Mavi Takıma girdin!");
 
             Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
             Vector currentSpeed = new Vector(0, 0, 0);
             QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
             x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
         });
-        TeamTwoSteamIds = teamTwo.Select(x => x.SteamID).ToList();
+        TeamRedSteamIds = teamRed.Select(x => x.SteamID).ToList();
     }
 
     [ConsoleCommand("takimboz")]
@@ -91,18 +93,18 @@ public partial class JailbreakExtras
     {
         if (TeamActive == true)
         {
-            if (TeamOneSteamIds != null)
+            if (TeamBlueSteamIds != null)
             {
-                if (TeamOneSteamIds.Contains(attacker.SteamID)
-                    && TeamOneSteamIds.Contains(victim.SteamID))
+                if (TeamBlueSteamIds.Contains(attacker.SteamID)
+                    && TeamBlueSteamIds.Contains(victim.SteamID))
                 {
                     AddHp(victim, dmgHealth, dmgArmor);
                 }
             }
-            if (TeamTwoSteamIds != null)
+            if (TeamRedSteamIds != null)
             {
-                if (TeamTwoSteamIds.Contains(attacker.SteamID)
-                    && TeamTwoSteamIds.Contains(victim.SteamID))
+                if (TeamRedSteamIds.Contains(attacker.SteamID)
+                    && TeamRedSteamIds.Contains(victim.SteamID))
                 {
                     AddHp(victim, dmgHealth, dmgArmor);
                 }

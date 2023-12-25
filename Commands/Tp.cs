@@ -17,6 +17,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        player.ExecuteClientCommand("thirdperson");
     }
 
     #endregion Tp

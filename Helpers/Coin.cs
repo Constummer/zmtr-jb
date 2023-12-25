@@ -7,7 +7,21 @@ namespace JailbreakExtras;
 public partial class JailbreakExtras
 {
     private static CFuncWall Coin = null;
-    private static QAngle CoinAngle = new QAngle(0.0f, 0.0f, 0.0f);
+    private static QAngle CoinAngle = null;
+
+    private static QAngle GetNextCoinAngle()
+    {
+        if (CoinAngle == null)
+        {
+            CoinAngle = ANGLE_ZERO;
+        }
+        else
+        {
+            CoinAngle = new QAngle(CoinAngle.X, (CoinAngle.Y + 5) % 360.0f, CoinAngle.Z);
+        }
+        return CoinAngle;
+    }
+
     private static bool CoinSpawned { get; set; } = false;
 
     private static void CoinAfterNewCommander()
@@ -37,7 +51,6 @@ public partial class JailbreakExtras
                 }
                 var vector = new Vector(playerAbs.X, playerAbs.Y, playerAbs.Z + 100);
                 Coin.Teleport(vector, CoinAngle, VEC_ZERO);
-                CoinAngle = new QAngle(CoinAngle.X, CoinAngle.Y, CoinAngle.Z);
                 Coin.DispatchSpawn();
                 CoinSpawned = true;
                 Coin.SetModel("models/coop/challenge_coin.vmdl");
@@ -55,18 +68,28 @@ public partial class JailbreakExtras
             }
             if (CoinSpawned)
             {
-                if (Coin != null)
+                if (GetTeam(player) == CsTeam.CounterTerrorist)
                 {
-                    if (Coin.IsValid)
+                    if (Coin != null)
                     {
-                        var playerAbs = player.PlayerPawn.Value.AbsOrigin;
-                        var vector = new Vector(
-                                playerAbs.X,
-                                playerAbs.Y,
-                                playerAbs.Z + 100);
-                        CoinAngle = new QAngle(CoinAngle.X, (CoinAngle.Y + 5) % 360.0f, CoinAngle.Z);
-                        Coin.Teleport(vector, CoinAngle, VEC_ZERO);
+                        if (Coin.IsValid)
+                        {
+                            var playerAbs = player.PlayerPawn.Value.AbsOrigin;
+                            var vector = new Vector(
+                                    playerAbs.X,
+                                    playerAbs.Y,
+                                    playerAbs.Z + 100);
+                            Coin.Teleport(vector, CoinAngle, VEC_ZERO);
+                        }
                     }
+                    else
+                    {
+                        CoinRemove();
+                    }
+                }
+                else
+                {
+                    CoinRemove();
                 }
             }
         }

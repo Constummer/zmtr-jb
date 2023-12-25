@@ -54,31 +54,6 @@ public partial class JailbreakExtras
         return new Vector((float)x, (float)y, (float)z);
     }
 
-    private static Vector GetEndXYZ1(CCSPlayerController player)
-    {
-        // Kamera (göz) konumu
-        double karakterX = player.PlayerPawn.Value.AbsOrigin.X;
-        double karakterY = player.PlayerPawn.Value.AbsOrigin.Y;
-        double karakterZ = player.PlayerPawn.Value.AbsOrigin.Z;
-
-        double uzunluk = 1000;
-
-        // Göz açıları (eye angles) radyan cinsinden olabilir, dikkat et
-        double theta = player.PlayerPawn.Value.EyeAngles.X * Math.PI / 180.0;
-        double phi = player.PlayerPawn.Value.EyeAngles.Y * Math.PI / 180.0;
-
-        // A noktasını oluştur
-        double pointX = karakterX + uzunluk * Math.Sin(theta) * Math.Cos(phi);
-        double pointY = karakterY + uzunluk * Math.Sin(theta) * Math.Sin(phi);
-        double pointZ = karakterZ + uzunluk * Math.Cos(theta);
-
-        Console.WriteLine($"Benim koordinatlarim: {karakterX},{karakterY},{karakterZ}");
-        Console.WriteLine($"Goz Acim: {player.PlayerPawn.Value.EyeAngles.X},{player.PlayerPawn.Value.EyeAngles.Y},{player.PlayerPawn.Value.EyeAngles.Z}");
-        Console.WriteLine($"Kameranın baktığı noktanın koordinatları: ({pointX}, {pointY}, {pointZ})");
-
-        return new Vector((float)pointX, (float)pointY, (float)pointZ);
-    }
-
     private void AllowGrabForWarden(CCSPlayerController player)
     {
         if (ValidateCallerPlayer(player, false) == false
