@@ -24,7 +24,7 @@ public partial class JailbreakExtras
                 amount = item.Credit;
             }
         }
-        player!.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.LightBlue}{amount} kredin var!");
+        player!.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName} {ChatColors.White}adlı oyuncunun {ChatColors.LightBlue}{amount} {ChatColors.White}kredisi var!");
     }
 
     #endregion Kredi

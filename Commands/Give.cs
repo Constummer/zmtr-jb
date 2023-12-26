@@ -21,15 +21,23 @@ public partial class JailbreakExtras
         if (info.ArgCount != 3) return;
         var target = info.GetArg(1);
         var weapon = info.GetArg(2);
+        var targetArgument = GetTargetArgument(target);
         GetPlayers()
                .Where(x => x.PawnIsAlive
                           && GetTargetAction(x, target, player.PlayerName))
                .ToList()
                .ForEach(x =>
                {
+                   if (targetArgument == TargetForArgument.None)
+                   {
+                       Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncuya {ChatColors.Blue}{weapon} {ChatColors.White}adlı silahı verdi.");
+                   }
                    x.GiveNamedItem($"weapon_{weapon}");
                });
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] Admin, {ChatColors.Green}{player.PlayerName} {ChatColors.White}adlı oyuncuya {ChatColors.Red}{weapon} adlı silahı verdi.");
+        if (targetArgument != TargetForArgument.None)
+        {
+            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{target} {ChatColors.White}hedefine {ChatColors.Blue}{weapon} {ChatColors.White}adlı silahı verdi.");
+        }
     }
 
     #endregion Give

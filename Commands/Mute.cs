@@ -39,8 +39,15 @@ public partial class JailbreakExtras
             .ForEach(x =>
             {
                 x.VoiceFlags |= VoiceFlags.Muted;
+                if (targetArgument == TargetForArgument.None)
+                {
+                    Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncuyu {ChatColors.Blue}susturdu{ChatColors.White}.");
+                }
             });
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Admin, {ChatColors.Blue}{target} {ChatColors.White}muteledi.");
+        if (targetArgument != TargetForArgument.None)
+        {
+            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{target} {ChatColors.White}hedefini {ChatColors.Blue}susturdu{ChatColors.White}.");
+        }
     }
 
     [ConsoleCommand("unmute")]
@@ -72,8 +79,15 @@ public partial class JailbreakExtras
             .ForEach(x =>
             {
                 x.VoiceFlags &= ~VoiceFlags.Muted;
+                if (targetArgument == TargetForArgument.None)
+                {
+                    Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncunun {ChatColors.Blue}susturmasını{ChatColors.White} kaldırdı.");
+                }
             });
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Admin, {ChatColors.Blue}{target} {ChatColors.White}unmuteledi.");
+        if (targetArgument != TargetForArgument.None)
+        {
+            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{target} {ChatColors.White}hedefinin {ChatColors.Blue}susturmasını{ChatColors.White} kaldırdı.");
+        }
     }
 
     #endregion Mute

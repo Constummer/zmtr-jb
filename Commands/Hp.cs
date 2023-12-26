@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
@@ -21,9 +22,10 @@ public partial class JailbreakExtras
         var target = info.GetArg(1);
         if (!int.TryParse(info.GetArg(2), out var health))
         {
-            player!.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Can degeri duzgun deil!");
+            player!.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Can değeri yanlış!");
             return;
         }
+        var targetArgument = GetTargetArgument(target);
         GetPlayers()
                .Where(x => x.PawnIsAlive
                         && x.Pawn.Value != null
@@ -37,7 +39,15 @@ public partial class JailbreakExtras
                    }
 
                    RefreshPawn(x);
+                   if (targetArgument == TargetForArgument.None)
+                   {
+                       Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncunun canını {ChatColors.Blue}{health} {ChatColors.White}olarak ayarladı.");
+                   }
                });
+        if (targetArgument != TargetForArgument.None)
+        {
+            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{target} {ChatColors.White}hedefinin canını {ChatColors.Blue}{health} {ChatColors.White}olarak ayarladı.");
+        }
     }
 
     [ConsoleCommand("hpt", "Change t player's HP.")]
@@ -56,6 +66,7 @@ public partial class JailbreakExtras
 
                    RefreshPawn(x);
                });
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}mahkûmların canını {ChatColors.Blue}100 {ChatColors.White}olarak ayarladı.");
     }
 
     [ConsoleCommand("hpct", "Change ct player's HP.")]
@@ -74,6 +85,7 @@ public partial class JailbreakExtras
 
                    RefreshPawn(x);
                });
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}gardiyanların canını {ChatColors.Blue}100 {ChatColors.White}olarak ayarladı.");
     }
 
     [ConsoleCommand("hpall", "Change all player's HP.")]
@@ -92,6 +104,8 @@ public partial class JailbreakExtras
 
                    RefreshPawn(x);
                });
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}herkesin canını {ChatColors.Blue}100 {ChatColors.White}olarak ayarladı.");
+
     }
 
     public static void SetHp(CCSPlayerController controller, int health = 100)

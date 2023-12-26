@@ -1,6 +1,8 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
@@ -18,6 +20,7 @@ public partial class JailbreakExtras
             return;
         }
         _Config.ParachuteEnabled = false;
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Paraşüt kapandı.");
     }
 
     [ConsoleCommand("pa")]
@@ -29,6 +32,7 @@ public partial class JailbreakExtras
             return;
         }
         _Config.ParachuteEnabled = true;
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Paraşüt açıldı.");
     }
 
     #endregion Parachute

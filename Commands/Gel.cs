@@ -28,7 +28,7 @@ public partial class JailbreakExtras
                       x.Teleport(player.PlayerPawn.Value.AbsOrigin, new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Admin, tüm {ChatColors.Darkred}Mahkûmları {ChatColors.White}yanına ışınladı.");
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, tüm {ChatColors.Darkred}Mahkûmları {ChatColors.White}yanına ışınladı.");
     }
 
     [ConsoleCommand("gelct")]
@@ -49,7 +49,7 @@ public partial class JailbreakExtras
                       x.Teleport(player.PlayerPawn.Value!.AbsOrigin!, new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Admin, tüm {ChatColors.Blue}Gardiyanları {ChatColors.White}yanına ışınladı.");
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, tüm {ChatColors.Blue}Gardiyanları {ChatColors.White}yanına ışınladı.");
     }
 
     [ConsoleCommand("gelall")]
@@ -70,7 +70,7 @@ public partial class JailbreakExtras
                       x.Teleport(player.PlayerPawn.Value!.AbsOrigin!, new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Admin, tüm {ChatColors.Green}herkesi {ChatColors.White}yanına ışınladı.");
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, tüm {ChatColors.Green}herkesi {ChatColors.White}yanına ışınladı.");
     }
 
     #endregion Gel

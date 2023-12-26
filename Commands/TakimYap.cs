@@ -74,8 +74,8 @@ public partial class JailbreakExtras
                 plist.ForEach(x =>
                 {
                     SetColour(x, res.Color);
-                    x.PrintToChat($" {ChatColors.LightRed}[ZMTR] {res.Msg} Takıma girdin!");
-                    x.PrintToCenter($" {ChatColors.LightRed}[ZMTR] {res.Msg} Takıma girdin!");
+                    x.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Purple}{res.Msg} {ChatColors.White}Takıma girdin!");
+                    x.PrintToCenter($" {ChatColors.LightRed}[ZMTR] {ChatColors.Purple}{res.Msg} {ChatColors.White}Takıma girdin!");
 
                     Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                     Vector currentSpeed = new Vector(0, 0, 0);
@@ -92,8 +92,8 @@ public partial class JailbreakExtras
             teamBlue.ToList().ForEach(x =>
             {
                 SetColour(x, Color.FromArgb(255, 0, 0, 255));
-                x.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Blue} Mavi Takıma girdin!");
-                x.PrintToCenter($" {ChatColors.LightRed}[ZMTR] {ChatColors.Blue} Mavi Takıma girdin!");
+                x.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Blue}Mavi Takıma girdin!");
+                x.PrintToCenter($" {ChatColors.LightRed}[ZMTR] {ChatColors.Blue}Mavi Takıma girdin!");
 
                 Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                 Vector currentSpeed = new Vector(0, 0, 0);
@@ -104,8 +104,8 @@ public partial class JailbreakExtras
             teamRed.ToList().ForEach(x =>
             {
                 SetColour(x, Color.FromArgb(255, 255, 0, 0));
-                x.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Red} Kırmızı Takıma girdin!");
-                x.PrintToCenter($" {ChatColors.LightRed}[ZMTR] {ChatColors.Red} Kırmızı Takıma girdin!");
+                x.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Red}Kırmızı Takıma girdin!");
+                x.PrintToCenter($" {ChatColors.LightRed}[ZMTR] {ChatColors.Red}Kırmızı Takıma girdin!");
 
                 Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                 Vector currentSpeed = new Vector(0, 0, 0);

@@ -81,7 +81,7 @@ public partial class JailbreakExtras
 
         if (int.TryParse(target, out int value))
         {
-            BasicCountdown.CommandStartTextCountDown(this, $"{msg} |{Environment.NewLine} Donmak için {value} saniye!");
+            BasicCountdown.CommandStartTextCountDown(this, $"[{msg}] {Environment.NewLine}Donmak için {value} saniye!");
             _ = AddTimer(value, () =>
             {
                 GetPlayers()

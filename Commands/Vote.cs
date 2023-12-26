@@ -29,7 +29,7 @@ public partial class JailbreakExtras
 
         if (command.ArgCount > 7)
         {
-            player!.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Maximum 7 adet şık belirleyebilirsin");
+            player!.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Maximum 5 adet şık belirleyebilirsin");
             return;
         }
         Answers.Clear();
@@ -44,11 +44,11 @@ public partial class JailbreakExtras
             Answers.Add(command.GetArg(i), 0);
             voteMenu.AddMenuOption(command.GetArg(i), HandleVotes);
         }
-        Server.PrintToChatAll($"[ZMTR] {(player == null ? "Console" : $"{player.PlayerName} - {question} Oylamasini baslatti")}");
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {(player == null ? "Console" : $"{ChatColors.Blue}{player.PlayerName} - {ChatColors.Green}{question} Oylamasını başlattı!")}");
 
         GetPlayers().ToList().ForEach(x =>
         {
-            x.PrintToCenter(player == null ? "Console" : $"{player.PlayerName} - {question} Oylamasi 20 saniye surecek, oy vermeyi unutmayin");
+            x.PrintToCenter(player == null ? "Console" : $"{ChatColors.Blue}{player.PlayerName} - {ChatColors.Green}{question} Oylaması 20 saniye sürecek, oy vermeyi unutmayın!");
         });
 
         VoteInProgress = true;
@@ -59,11 +59,11 @@ public partial class JailbreakExtras
             if (p == null) continue;
             ChatMenus.OpenMenu(p, voteMenu);
         }
-        Server.PrintToChatAll($"[ZMTR] {(player == null ? "Console" : $"{player.PlayerName} - {question} Oylamasi 20 saniye surecek, oy vermeyi unutmayin")}");
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {(player == null ? "Console" : $"{ChatColors.Blue}{player.PlayerName} - {ChatColors.Green}{question} Oylaması 20 saniye sürecek, oy vermeyi unutmayın!")}");
 
         _ = AddTimer(20, () =>
           {
-              Server.PrintToChatAll(question + " SORUSUNUN CEVAPLARI");
+              Server.PrintToChatAll(question + $" {ChatColors.Red}SORUSUNUN YANITLARI");
 
               foreach (KeyValuePair<string, int> kvp in Answers)
               {

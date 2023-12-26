@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
@@ -20,6 +21,7 @@ public partial class JailbreakExtras
         if (info.ArgCount != 2) return;
 
         var target = info.GetArg(1);
+        var targetArgument = GetTargetArgument(target);
 
         GetPlayers()
              .Where(x => x.PawnIsAlive
@@ -36,9 +38,16 @@ public partial class JailbreakExtras
                   Vector currentSpeed = new Vector(0, 0, 0);
                   QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
                   x.PlayerPawn.Value.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z - 40), currentRotation, currentSpeed);
+                  if (targetArgument == TargetForArgument.None)
+                  {
+                      Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncuyu {ChatColors.Blue}gömdü{ChatColors.White}.");
+                  }
               }
           });
-        player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Admin, {ChatColors.Blue}{player!.PlayerName} {ChatColors.White}adlı oyuncuyu gömdü.");
+        if (targetArgument != TargetForArgument.None)
+        {
+            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{target} {ChatColors.White}hedefini {ChatColors.Blue}gömdü{ChatColors.White}.");
+        }
     }
 
     [ConsoleCommand("gomsure", "yere gomer.")]
@@ -88,6 +97,7 @@ public partial class JailbreakExtras
         if (info.ArgCount != 2) return;
 
         var target = info.GetArg(1);
+        var targetArgument = GetTargetArgument(target);
 
         GetPlayers()
            .Where(x => x.PawnIsAlive
@@ -105,9 +115,16 @@ public partial class JailbreakExtras
                    Vector currentSpeed = new Vector(0, 0, 0);
                    QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
                    x.PlayerPawn.Value.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z + 100), currentRotation, currentSpeed);
+                   if (targetArgument == TargetForArgument.None)
+                   {
+                       Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncuyu {ChatColors.Blue}kaldırdı{ChatColors.White}.");
+                   }
                }
            });
-        player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Admin, {ChatColors.Blue}{player!.PlayerName} {ChatColors.White}adlı oyuncuyu kaldırdı.");
+        if (targetArgument != TargetForArgument.None)
+        {
+            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{target} {ChatColors.White}hedefini {ChatColors.Blue}kaldırdı{ChatColors.White}.");
+        }
     }
 
     #endregion Gom - gomsure

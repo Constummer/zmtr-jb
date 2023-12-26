@@ -21,15 +21,23 @@ public partial class JailbreakExtras
         if (info.ArgCount != 2) return;
         var target = info.GetArg(1);
 
+        var targetArgument = GetTargetArgument(target);
         GetPlayers()
         .Where(x => x.PawnIsAlive
                    && GetTargetAction(x, target, player!.PlayerName))
         .ToList()
         .ForEach(x =>
         {
+            if (targetArgument == TargetForArgument.None)
+            {
+                Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncuyu {ChatColors.LightRed}disarmladı{ChatColors.White}.");
+            }
             RemoveWeapons(x, true);
         });
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}{player!.PlayerName} adlı oyuncunun silahları silindi.");
+        if (targetArgument != TargetForArgument.None)
+        {
+            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{target} {ChatColors.White}hedefini {ChatColors.LightRed}disarmladı{ChatColors.White}.");
+        }
     }
 
     [ConsoleCommand("disarmt", "Bicak dahil silme")]

@@ -2,6 +2,7 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Commands.Targeting;
 using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
@@ -30,7 +31,7 @@ public partial class JailbreakExtras
                {
                    if (targetArgument == TargetForArgument.None)
                    {
-                       Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] Admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncuya {ChatColors.Green}god {ChatColors.White}verdi.");
+                       Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncuya {ChatColors.Blue}god {ChatColors.White}verdi.");
                    }
                    if (ActiveGodMode.TryGetValue(x.SteamID, out var god))
                    {
@@ -44,7 +45,7 @@ public partial class JailbreakExtras
                });
         if (targetArgument != TargetForArgument.None)
         {
-            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] Admin, {ChatColors.Green}{target} {ChatColors.White}hedefine {ChatColors.Green}god {ChatColors.White}verdi.");
+            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{target} {ChatColors.White}hedefine {ChatColors.Blue}god {ChatColors.White}verdi.");
         }
     }
 
@@ -62,7 +63,7 @@ public partial class JailbreakExtras
                    ActiveGodMode[x.SteamID] = true;
                    RefreshPawn(x);
                });
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] Tüm {ChatColors.Blue}gardiyanlara {ChatColors.Green}god {ChatColors.White}verildi.");
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Blue}gardiyanlara {ChatColors.Green}god {ChatColors.White}verdi.");
     }
 
     [ConsoleCommand("qq", "remove godmode ct player")]
@@ -79,7 +80,7 @@ public partial class JailbreakExtras
                    ActiveGodMode.Remove(x.SteamID);
                    RefreshPawn(x);
                });
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] Tüm {ChatColors.Blue}gardiyanların {ChatColors.Green}godunu {ChatColors.White}kaldırdı.");
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Blue}gardiyanların {ChatColors.Green}godunu {ChatColors.White}kaldırdı.");
     }
 
     private static void GodHurtCover(EventPlayerHurt @event, CCSPlayerController player)

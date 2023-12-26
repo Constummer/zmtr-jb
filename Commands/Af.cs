@@ -21,13 +21,11 @@ public partial class JailbreakExtras
          .ToList()
          .ForEach(x =>
          {
-             Server.ExecuteCommand($"mp_respawn_on_death_ct 1;mp_respawn_on_death_t 1");
              if (x.PawnIsAlive != false)
              {
                  x.Pawn.Value!.Health = 100;
 
                  RefreshPawn(x);
-                 Server.ExecuteCommand($"mp_respawn_on_death_ct 0;mp_respawn_on_death_t 0");
              }
          });
     }

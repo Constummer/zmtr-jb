@@ -2,6 +2,7 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
@@ -21,24 +22,29 @@ public partial class JailbreakExtras
         {
             return;
         }
-        player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} ates ettigin yerde cit olusacak !citkapa veya !cittemizle kllan");
+        player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Ateş ettiğin yere çit oluşacak.");
+        player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Kapatmak için !citkapat yaz.");
+        player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Çitleri silmek çin !cittemizle yaz.");
         CitEnable = true;
         return;
     }
 
     [ConsoleCommand("citkapa")]
+    [ConsoleCommand("citkapat")]
     public void CitKapa(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false && LatestWCommandUser != player.SteamID)
         {
             return;
         }
+        player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Darkred} Çit oluşturma kapandı.");
         CitEnable = false;
 
         return;
     }
 
     [ConsoleCommand("cittemizle")]
+    [ConsoleCommand("citsil")]
     public void CitTemizle(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false && LatestWCommandUser != player.SteamID)
@@ -61,6 +67,7 @@ public partial class JailbreakExtras
                 }
             }
             Cits.Clear();
+            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR]{ChatColors.Darkred} Tüm çitler silindi.");
         }
     }
 

@@ -20,6 +20,7 @@ public partial class JailbreakExtras
         }
         if (info.ArgCount != 2) return;
         var target = info.GetArg(1);
+        var targetArgument = GetTargetArgument(target);
         GetPlayers()
               .Where(x => (x.PlayerName?.ToLower()?.Contains(target) ?? false)
                           && x.PawnIsAlive == false)
@@ -27,26 +28,10 @@ public partial class JailbreakExtras
               .ForEach(x =>
               {
                   RespawnPlayer(x);
-              });
-    }
-
-    [ConsoleCommand("respawn")]
-    [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me>")]
-    public void Respawn(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        if (info.ArgCount != 2) return;
-        var target = info.GetArg(1);
-        GetPlayers()
-              .Where(x => x.PawnIsAlive == false
-                          && GetTargetAction(x, target, player!.PlayerName))
-              .ToList()
-              .ForEach(x =>
-              {
-                  x.Respawn();
+                  if (targetArgument == TargetForArgument.None)
+                  {
+                      Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncuyu öldüğü yerde {ChatColors.Blue}canlandırdı{ChatColors.White}.");
+                  }
               });
     }
 
@@ -60,6 +45,7 @@ public partial class JailbreakExtras
 
         Server.ExecuteCommand("mp_respawn_on_death_ct 1");
         Server.ExecuteCommand("mp_respawn_on_death_t 1");
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Respawn açıldı.");
     }
 
     [ConsoleCommand("respawnkapa")]
@@ -72,6 +58,7 @@ public partial class JailbreakExtras
         }
         Server.ExecuteCommand("mp_respawn_on_death_ct 0");
         Server.ExecuteCommand("mp_respawn_on_death_t 0");
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Respawn kapandı.");
     }
 
     private void RespawnPlayer(CCSPlayerController x)

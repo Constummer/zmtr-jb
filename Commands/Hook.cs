@@ -38,7 +38,7 @@ public partial class JailbreakExtras
               .ToList()
               .ForEach(x =>
               {
-                  x.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Konsolunuza `bind x hook` hazarak hook kullanmaya baslayabilirsiniz!");
+                  x.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Konsolunuza `bind x hook` hazarak hook kullanmaya başlayabilirsiniz!");
 
                   HookPlayers[x.SteamID] = true;
               });
@@ -59,7 +59,7 @@ public partial class JailbreakExtras
               .ToList()
               .ForEach(x =>
               {
-                  x.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Hookunuz alindi!");
+                  x.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Hookunuz alındı!");
                   HookPlayers.Remove(x.SteamID, out _);
               });
     }

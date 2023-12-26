@@ -23,7 +23,7 @@ public partial class JailbreakExtras
 
         if (cvar == null)
         {
-            command.ReplyToCommand($"{ChatColors.LightRed}[ZMTR] {ChatColors.White}\"{command.GetArg(1)}\" ayarı bulunamadı.");
+            command.ReplyToCommand($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}\"{command.GetArg(1)}\" ayarı bulunamadı.");
             return;
         }
 

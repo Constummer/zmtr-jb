@@ -42,7 +42,7 @@ public partial class JailbreakExtras
                            item.Credit = miktar;
                        }
                        PlayerMarketModels[x.SteamID] = item;
-                       Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.LightBlue}{player.PlayerName}, {x.PlayerName} oyuncusuna {miktar} kredi yolladı!");
+                       Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Red}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncuya {ChatColors.LightBlue}{miktar} {ChatColors.White}kredi verdi!");
                    }
                });
     }
