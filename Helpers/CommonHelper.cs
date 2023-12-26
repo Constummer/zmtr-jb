@@ -15,6 +15,7 @@ public partial class JailbreakExtras
                          && x.Connected == PlayerConnectedState.PlayerConnected
                          && x.IsValid
                          && !x.IsBot
+                         && x.Index != 32767
                          && !x.IsHLTV
                          && x.Pawn?.Value != null
                          && ValidateCallerPlayer(x, false)

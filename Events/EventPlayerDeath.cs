@@ -36,16 +36,17 @@ public partial class JailbreakExtras
                 {
                     AddCreditToAttacker(@event?.Attacker, GetTeam(@event!.Userid));
                 }
+                Vector? currentPosition = @event?.Userid?.Pawn?.Value?.CBodyComponent?.SceneNode?.AbsOrigin;
+                if (currentPosition != null)
+                {
+                    DeathLocations.TryAdd(@event!.Userid.SteamID, currentPosition);
+                }
+                if (@event?.Userid?.SteamID == LatestWCommandUser)
+                {
+                    CoinRemove();
+                }
             }
-            Vector? currentPosition = @event?.Userid?.Pawn?.Value?.CBodyComponent?.SceneNode?.AbsOrigin;
-            if (currentPosition != null)
-            {
-                DeathLocations.TryAdd(@event!.Userid.SteamID, currentPosition);
-            }
-            if (@event?.Userid?.SteamID == LatestWCommandUser)
-            {
-                CoinRemove();
-            }
+
             return HookResult.Continue;
         }, HookMode.Pre);
     }
