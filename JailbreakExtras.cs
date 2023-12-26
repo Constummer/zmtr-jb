@@ -46,11 +46,11 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
 
     public override void Load(bool hotReload)
     {
-        Console.WriteLine("Sucessfully started JB");
         //!!!!DO NOT CHANGE ORDER OF CALLS IN THIS METHOD !!!!!
 
         #region System Releated
 
+        LoadCredit();
         CreateDataFolder();
         DatabaseInit();
         LoadPlayerModels();

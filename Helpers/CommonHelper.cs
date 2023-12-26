@@ -2,6 +2,7 @@ using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Utils;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace JailbreakExtras;
@@ -19,6 +20,11 @@ public partial class JailbreakExtras
                          && x.Pawn?.Value != null
                          && ValidateCallerPlayer(x, false)
                          && (team.HasValue ? team.Value == GetTeam(x) : true));
+    }
+
+    private static CCSPlayerController? GetWarden()
+    {
+        return GetPlayers().Where(x => ValidateCallerPlayer(x, false) && x.SteamID == LatestWCommandUser).FirstOrDefault();
     }
 
     private static bool CheckPermission(CCSPlayerController player)
@@ -195,10 +201,39 @@ public partial class JailbreakExtras
 
     private static List<List<T>> ChunkBy<T>(List<T> source, int chunkSize)
     {
-        return source
-            .Select((x, i) => new { Index = i, Value = x })
-            .GroupBy(x => x.Index / chunkSize)
-            .Select(x => x.Select(v => v.Value).ToList())
-            .ToList();
+        //if (numLists * elementsPerList != list.Count)
+        //{
+        //    throw new ArgumentException("The product of numLists and elementsPerList must equal the count of the input list.");
+        //}
+        int elementsPerList = (int)Math.Ceiling((double)source.Count / chunkSize);
+        return Enumerable.Range(0, chunkSize)
+                        .Select(i => source.Skip(i * elementsPerList).Take(elementsPerList).ToList())
+                        .ToList();
+        //return Enumerable.Range(0, (int)Math.Ceiling(source.Count / (double)chunkSize))
+        //               .Select(i => source.Skip(i * chunkSize).Take(chunkSize).ToList())
+        //               .ToList();
+
+        //return source
+        //    .Select((x, i) => new { Index = i, Value = x })
+        //    .GroupBy(x => x.Index / chunkSize)
+        //    .Select(x => x.Select(v => v.Value).ToList())
+        //    .ToList();
+    }
+
+    private void LoadCredit()
+    {
+        Console.WriteLine(@"
+
+         _______  _______  _        _______ _________          _______  _______  _______  _______
+        (  ____ \(  ___  )( (    /|(  ____ \\__   __/|\     /|(       )(       )(  ____ \(  ____ )
+        | (    \/| (   ) ||  \  ( || (    \/   ) (   | )   ( || () () || () () || (    \/| (    )|
+        | |      | |   | ||   \ | || (_____    | |   | |   | || || || || || || || (__    | (____)|
+        | |      | |   | || (\ \) |(_____  )   | |   | |   | || |(_)| || |(_)| ||  __)   |     __)
+        | |      | |   | || | \   |      ) |   | |   | |   | || |   | || |   | || (      | (\ (
+        | (____/\| (___) || )  \  |/\____) |   | |   | (___) || )   ( || )   ( || (____/\| ) \ \__
+        (_______/(_______)|/    )_)\_______)   )_(   (_______)|/     \||/     \|(_______/|/   \__/
+
+        Jailbreak Extras Plugin is loading, almost ready to go :}
+        ");
     }
 }

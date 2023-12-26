@@ -40,7 +40,7 @@ public partial class JailbreakExtras
                 chunk = 2;
                 player!.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Takım sayısı değeri düzgün değil! 2 olarak ilerlendi. !takimboz ile bozup tekrar deneyebilirsiniz.");
             }
-            if (chunk < 2)
+            if (chunk < 1)
             {
                 player!.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Takım sayısı değeri düzgün değil! en az 2 takım oluşturabilirsiniz. 2 takım oluşturuldu. !takimboz ile bozup tekrar deneyebilirsiniz.");
                 chunk = 2;
@@ -61,7 +61,7 @@ public partial class JailbreakExtras
             chunk = 2;
             player!.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Takım sayısı değeri düzgün değil! 2 olarak ilerlendi. !takimboz ile bozup tekrar deneyebilirsiniz.");
         }
-        var chunked = ChunkBy(players.ToList(), 2);
+        var chunked = ChunkBy(players.ToList(), chunk);
         if (chunked != null)
         {
             for (int i = 0; i < chunked.Count; i++)

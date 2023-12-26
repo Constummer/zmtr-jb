@@ -1,7 +1,8 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
-using Serilog.Core;
+using System;
 
 namespace JailbreakExtras;
 
@@ -79,6 +80,68 @@ public partial class JailbreakExtras
                     }
                 }
             }
+        }
+    }
+
+    private void CoinRemoveOnWardenTeamChange(CCSPlayerController? player, CommandInfo info)
+    {
+        if (string.IsNullOrWhiteSpace(info.ArgString))
+        {
+            return;
+        }
+        var split = info.ArgString.Split(' ');
+        if (split.Length < 2)
+        {
+            return;
+        }
+        var pname = split[0];
+        if (string.IsNullOrWhiteSpace(pname))
+        {
+            return;
+        }
+        var teamNo = split[1];
+        if (Enum.TryParse<CsTeam>(teamNo ?? "", out var team) == false)
+        {
+            return;
+        }
+        if (LatestWCommandUser.HasValue == false)
+        {
+            return;
+        }
+        var warden = GetWarden();
+        if (warden == null)
+        {
+            return;
+        }
+        if (warden.PlayerName.ToLower().Contains(pname.ToLower()))
+        {
+            CoinRemove();
+        }
+        else if (pname == "@me"
+            && warden.PlayerName == player.PlayerName)
+        {
+            CoinRemove();
+        }
+        var target = GetTargetArgument(pname);
+        switch (target)
+        {
+            case TargetForArgument.All:
+            case TargetForArgument.T:
+            case TargetForArgument.Ct:
+            case TargetForArgument.Random:
+            case TargetForArgument.RandomT:
+            case TargetForArgument.RandomCt:
+                if (team != CsTeam.CounterTerrorist)
+                {
+                    CoinRemove();
+                }
+                break;
+
+            case TargetForArgument.None:
+            case TargetForArgument.Alive:
+            case TargetForArgument.Dead:
+            default:
+                break;
         }
     }
 
