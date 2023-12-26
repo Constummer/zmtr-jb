@@ -65,7 +65,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (player?.SteamID == LatestWCommandUser || player?.PlayerName == "Constummer")
+        if (player?.SteamID == LatestWCommandUser)
         {
             if (CoinSpawned && CoinGo)
             {
