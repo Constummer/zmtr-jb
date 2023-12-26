@@ -22,6 +22,8 @@ public partial class JailbreakExtras
             return;
         }
         TeamActive = true;
+        TeamSteamIds.Clear();
+
         var players = GetPlayers()
               .Where(x => x != null
                    && x.PlayerPawn.IsValid
