@@ -34,7 +34,6 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
 
     private static readonly string[] BaseRequiresPermissions = new[]
     {
-        "@css/adminzmtr",
         "@css/root",
         "@jail/debug",
         "@css/ban",
