@@ -7,6 +7,28 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    #region Sounds
+
+    public class Sounds
+    {
+        [JsonPropertyName("WardenEnterSound")]
+        public string WardenEnterSound { get; set; } = "sounds/zmtr_warden/wzenter.vsnd_c";
+
+        [JsonPropertyName("WardenLeaveSound")]
+        public string WardenLeaveSound { get; set; } = "sounds/zmtr_warden/wzleave.vsnd_c";
+
+        [JsonPropertyName("LastAliveTSound")]
+        public string LastAliveTSound { get; set; } = "sounds/lr/lr1.vsnd_c";
+
+        [JsonPropertyName("FreezeOrUnfreezeSound")]
+        public string FreezeOrUnfreezeSound { get; set; } = "sounds/zmtr_freeze/freeze.vsnd_c";
+
+        [JsonPropertyName("LrStartSound")]
+        public string LrStartSound { get; set; } = "sounds/zmtr/bell.vsnd_c";
+    }
+
+    #endregion Sounds
+
     public class JailbreakExtrasConfig : BasePluginConfig
     {
         [JsonPropertyName("HideFootsOnConnect")]
@@ -15,16 +37,8 @@ public partial class JailbreakExtras
         [JsonPropertyName("GrappleSpeed")]
         public float GrappleSpeed { get; set; } = 1500.0f;
 
-        [JsonPropertyName("RoundEndStartCommands")]
-        public List<string> RoundEndStartCommands { get; set; } = new(){
-            "mp_respawn_on_death_t 0",
-            "mp_respawn_on_death_ct 0",
-            "sv_enablebunnyhopping 1",
-            "sv_autobunnyhopping 1",
-            "sv_maxspeed 320",
-            "mp_teammates_are_enemies 0",
-            "player_ping_token_cooldown 1",
-        };
+        [JsonPropertyName("Sounds")]
+        public Sounds Sounds { get; set; } = new Sounds();
 
         #region Parachute
 
@@ -160,5 +174,16 @@ public partial class JailbreakExtras
         };
 
         #endregion BlockedRadioCommands
+
+        [JsonPropertyName("RoundEndStartCommands")]
+        public List<string> RoundEndStartCommands { get; set; } = new(){
+            "mp_respawn_on_death_t 0",
+            "mp_respawn_on_death_ct 0",
+            "sv_enablebunnyhopping 1",
+            "sv_autobunnyhopping 1",
+            "sv_maxspeed 320",
+            "mp_teammates_are_enemies 0",
+            "player_ping_token_cooldown 1",
+        };
     }
 }

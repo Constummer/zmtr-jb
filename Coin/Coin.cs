@@ -129,12 +129,12 @@ public partial class JailbreakExtras
         }
         if (warden.PlayerName.ToLower().Contains(pname.ToLower()))
         {
-            CoinRemove();
+            RemoveWarden();
         }
         else if (pname == "@me"
             && warden.PlayerName == player.PlayerName)
         {
-            CoinRemove();
+            RemoveWarden();
         }
         var target = GetTargetArgument(pname);
         switch (target)

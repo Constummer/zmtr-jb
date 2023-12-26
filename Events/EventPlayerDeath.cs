@@ -13,6 +13,7 @@ public partial class JailbreakExtras
             {
                 return HookResult.Continue;
             }
+            LastAliveTSound();
 
             if (@event.Attacker != null
                     && ((CEntityInstance)@event.Attacker).IsValid == true
