@@ -13,6 +13,9 @@ public partial class JailbreakExtras
     private static bool CitEnable = false;
 
     [ConsoleCommand("citac")]
+    [ConsoleCommand("citolustur")]
+    [ConsoleCommand("cityap")]
+    [ConsoleCommand("cit")]
     public void CitAc(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false && LatestWCommandUser != player.SteamID)
