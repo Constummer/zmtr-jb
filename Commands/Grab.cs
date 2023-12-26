@@ -16,7 +16,8 @@ public partial class JailbreakExtras
         {
             return;
         }
-        AllowGrabForWarden(player);
+        player.PrintToChat("-disabled- (for now)");
+        //AllowGrabForWarden(player);
     }
 
     private void AllowGrabForWarden(CCSPlayerController player)
