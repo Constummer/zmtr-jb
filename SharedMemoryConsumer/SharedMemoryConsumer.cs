@@ -80,7 +80,8 @@ public partial class JailbreakExtras
                             {
                                 LatestWCommandUser = parsed;
                                 ClearLasers();
-                                //CoinAfterNewCommander();
+                                CoinAfterNewCommander();
+                                CoinGoWanted = true;
                             });
                         }
                     }

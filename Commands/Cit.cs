@@ -9,7 +9,7 @@ namespace JailbreakExtras;
 public partial class JailbreakExtras
 {
     private static readonly List<CFuncWall> Cits = new();
-    private static bool CitEnable = false;
+    private static bool CitEnable { get; set; } = false;
 
     [ConsoleCommand("citac")]
     [ConsoleCommand("citolustur")]

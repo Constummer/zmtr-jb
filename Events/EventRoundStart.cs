@@ -11,9 +11,11 @@ public partial class JailbreakExtras
         {
             PrepareRoundDefaults();
             ClearAll();
-            AddTimer(5.0f, () =>
+
+            CoinAfterNewCommander();
+            AddTimer(1.0f, () =>
             {
-                //CoinAfterNewCommander();
+                CoinGo = true;
             });
             foreach (var x in GetPlayers())
             {

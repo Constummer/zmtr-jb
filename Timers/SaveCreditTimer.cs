@@ -4,7 +4,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    #region GiveCreditTimer
+    #region SaveCreditTimer
 
     public void SaveCreditTimer()
     {
@@ -14,5 +14,5 @@ public partial class JailbreakExtras
         }, TimerFlags.REPEAT);
     }
 
-    #endregion GiveCreditTimer
+    #endregion SaveCreditTimer
 }

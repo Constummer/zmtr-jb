@@ -2,16 +2,17 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
-using System;
 
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static CFuncPlat Coin = null;
+    private static CFuncWall Coin { get; set; } = null;
     private static bool CoinSpawned { get; set; } = false;
-    private static float CoinAngleY = 0.0f;
-    private static bool CoinAngleYUpdaterActive = false;
+    private static float CoinAngleY { get; set; } = 0.0f;
+    private static bool CoinAngleYUpdaterActive { get; set; } = false;
+    private static bool CoinGo { get; set; } = false;
+    private static bool CoinGoWanted { get; set; } = false;
 
     private static void CoinAfterNewCommander()
     {
@@ -34,22 +35,24 @@ public partial class JailbreakExtras
         if (x.SteamID == LatestWCommandUser)
         {
             CoinRemove();
-            if (GetTeam(x) != CsTeam.CounterTerrorist)
-            {
-                return;
-            }
+            //if (GetTeam(x) != CsTeam.CounterTerrorist)
+            //{
+            //    return;
+            //}
 
-            Coin = Utilities.CreateEntityByName<CFuncPlat>("func_plat");
-
+            Coin = Utilities.CreateEntityByName<CFuncWall>("func_plat");
             if (Coin == null)
             {
                 return;
             }
-            var playerAbs = x.PlayerPawn.Value.AbsOrigin;
-            var vector = new Vector(playerAbs.X, playerAbs.Y, playerAbs.Z + 100);
+
+            //var playerAbs = x.PlayerPawn.Value.AbsOrigin;
+            //var vector = new Vector(playerAbs.X, playerAbs.Y, playerAbs.Z + 100);
+            var vector = VEC_ZERO;
+            //var vector = new Vector(-718, -765, 24);
             Coin.Teleport(vector, new QAngle(0.0f, 0.0f, 0.0f), VEC_ZERO);
-            Coin.SetModel("models/coop/challenge_coin.vmdl");
             Coin.DispatchSpawn();
+            Coin.SetModel("models/coop/challenge_coin.vmdl");
 
             CoinSpawned = true;
             CoinAngleYUpdaterActive = true;
@@ -62,22 +65,19 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (player.SteamID == LatestWCommandUser)
+        if (player?.SteamID == LatestWCommandUser || player?.PlayerName == "Constummer")
         {
-            if (CoinSpawned)
+            if (CoinSpawned && CoinGo)
             {
-                if (GetTeam(player) == CsTeam.CounterTerrorist)
+                if (Coin != null && Coin.IsValid)
                 {
-                    if (Coin != null && Coin.IsValid)
-                    {
-                        var playerAbs = player.PlayerPawn.Value.AbsOrigin;
-                        var vector = new Vector(
-                                playerAbs.X,
-                                playerAbs.Y,
-                                playerAbs.Z + 100);
+                    var playerAbs = player.PlayerPawn.Value.AbsOrigin;
+                    var vector = new Vector(
+                            playerAbs.X,
+                            playerAbs.Y,
+                            playerAbs.Z + 100);
 
-                        Coin.Teleport(vector, new QAngle(0.0f, CoinAngleY, 0.0f), VEC_ZERO);
-                    }
+                    Coin.Teleport(vector, new QAngle(0.0f, CoinAngleY, 0.0f), VEC_ZERO);
                 }
             }
         }
@@ -85,13 +85,13 @@ public partial class JailbreakExtras
 
     private static void CoinRemove()
     {
-        return;
         if (Coin != null)
         {
             if (Coin.IsValid)
             {
                 Coin.Remove();
             }
+            CoinGo = false;
             CoinAngleYUpdaterActive = false;
             CoinSpawned = false;
         }

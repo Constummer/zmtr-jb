@@ -14,6 +14,7 @@ public partial class JailbreakExtras
             {
                 CoinAngleY = (CoinAngleY + 2) % 360;
             }
+
             bool changed = false;
             for (int i = 1; i < Server.MaxPlayers; i++)
             {
@@ -25,6 +26,7 @@ public partial class JailbreakExtras
                 if (player == null || !player.IsValid)
                     continue;
                 CoinMoveOnTick(player);
+
                 ParachuteOnTick(player);
 
                 changed = BasicCountdown.CountdownEnableTextHandler(changed, player);

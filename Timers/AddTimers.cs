@@ -1,5 +1,3 @@
-using CounterStrikeSharp.API.Modules.Timers;
-
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras
@@ -8,5 +6,6 @@ public partial class JailbreakExtras
     {
         GiveCreditTimer();
         SaveCreditTimer();
+        CoinGoWantedTimer();
     }
 }
