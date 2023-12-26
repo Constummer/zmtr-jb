@@ -28,7 +28,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var playerAbs = player.PlayerPawn.Value.AbsOrigin;
+        CoinAfterNewCommander();
     }
 
     [ConsoleCommand("ts")]

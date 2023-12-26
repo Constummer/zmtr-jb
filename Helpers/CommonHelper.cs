@@ -114,16 +114,6 @@ public partial class JailbreakExtras
         }
     }
 
-    private static void RemoveTerroristWeapons(bool knifeStays)
-    {
-        GetPlayers(CsTeam.Terrorist)
-        .ToList()
-        .ForEach(x =>
-        {
-            RemoveWeapons(x, knifeStays);
-        });
-    }
-
     private static void RemoveWeapons(CCSPlayerController x, bool knifeStays)
     {
         if (x?.PlayerPawn?.Value?.WeaponServices?.MyWeapons != null)
@@ -202,4 +192,13 @@ public partial class JailbreakExtras
         "@me" => TargetForArgument.Me,
         _ => TargetForArgument.None,
     };
+
+    private static List<List<T>> ChunkBy<T>(List<T> source, int chunkSize)
+    {
+        return source
+            .Select((x, i) => new { Index = i, Value = x })
+            .GroupBy(x => x.Index / chunkSize)
+            .Select(x => x.Select(v => v.Value).ToList())
+            .ToList();
+    }
 }

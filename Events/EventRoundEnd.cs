@@ -10,7 +10,7 @@ public partial class JailbreakExtras
         RegisterEventHandler<EventRoundEnd>((@event, _) =>
         {
             PrepareRoundDefaults();
-
+            CoinRemove();
             return HookResult.Continue;
         });
     }
@@ -23,9 +23,10 @@ public partial class JailbreakExtras
         }
         CitEnable = false;
         LrActive = false;
+        CoinAngleYUpdaterActive = false;
+        CoinSpawned = false;
         _Config.ParachuteEnabled = true;
-        TeamBlueSteamIds = new();
-        TeamRedSteamIds = new();
+        TeamSteamIds?.Clear();
         TeamActive = false;
         GetPlayers()
          .Where(x => ValidateCallerPlayer(x, false) == true && x.SteamID != LatestWCommandUser)

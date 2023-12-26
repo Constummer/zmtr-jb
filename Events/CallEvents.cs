@@ -12,5 +12,6 @@ public partial class JailbreakExtras
         EventWeaponFire();
         EventPlayerPing();
         EventBulletImpact();
+        EventPlayerDisconnect();
     }
 }

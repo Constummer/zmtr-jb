@@ -4,6 +4,7 @@ using Serilog.Core;
 using System.Net;
 using System.Net.Sockets;
 using System.Reflection.Metadata;
+using System.Runtime.CompilerServices;
 using System.Text;
 
 namespace JailbreakExtras;
@@ -79,7 +80,7 @@ public partial class JailbreakExtras
                             {
                                 LatestWCommandUser = parsed;
                                 ClearLasers();
-                                CoinAfterNewCommander();
+                                //CoinAfterNewCommander();
                             });
                         }
                     }

@@ -42,7 +42,10 @@ public partial class JailbreakExtras
             {
                 DeathLocations.TryAdd(@event!.Userid.SteamID, currentPosition);
             }
-
+            if (@event?.Userid?.SteamID == LatestWCommandUser)
+            {
+                CoinRemove();
+            }
             return HookResult.Continue;
         }, HookMode.Pre);
     }

@@ -1,4 +1,5 @@
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Entities;
 
 namespace JailbreakExtras;
 
@@ -19,13 +20,17 @@ public partial class JailbreakExtras
 
     private void UpdateAllModels()
     {
-        foreach (var item in GetPlayers())
+        foreach (var player in GetPlayers())
         {
-            if (item?.SteamID != null && item!.SteamID != 0)
+            if (player?.SteamID != null && player!.SteamID != 0)
             {
+                if (player?.SteamID == LatestWCommandUser)
+                {
+                    CoinRemove();
+                }
                 Task.Run(async () =>
                 {
-                    await UpdatePlayerMarketData(item!.SteamID);
+                    await UpdatePlayerMarketData(player!.SteamID);
                 });
             }
         }

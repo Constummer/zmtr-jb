@@ -50,7 +50,7 @@ public partial class JailbreakExtras
               });
     }
 
-    [ConsoleCommand("respawnAc")]
+    [ConsoleCommand("respawnac")]
     public void RespawnAc(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)
@@ -62,8 +62,8 @@ public partial class JailbreakExtras
         Server.ExecuteCommand("mp_respawn_on_death_t 1");
     }
 
-    [ConsoleCommand("respawnKapa")]
-    [ConsoleCommand("respawnKapat")]
+    [ConsoleCommand("respawnkapa")]
+    [ConsoleCommand("respawnkapat")]
     public void RespawnKapat(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)

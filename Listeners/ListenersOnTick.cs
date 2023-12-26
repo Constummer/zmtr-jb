@@ -6,10 +6,17 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    private static int TickHandler = 0;
+
     private void ListenersOnTick()
     {
         RegisterListener((Listeners.OnTick)(() =>
         {
+            if (CoinAngleYUpdaterActive)
+            {
+                CoinAngleY = (CoinAngleY + 2) % 360;
+            }
+            TickHandler = (TickHandler + 1) % 100;
             bool changed = false;
             for (int i = 1; i < Server.MaxPlayers; i++)
             {
@@ -20,8 +27,10 @@ public partial class JailbreakExtras
                 var player = new CCSPlayerController(ent);
                 if (player == null || !player.IsValid)
                     continue;
-
-                CoinMoveOnTick(player);
+                if (TickHandler > 90)
+                {
+                    CoinMoveOnTick(player);
+                }
                 ParachuteOnTick(player);
 
                 changed = BasicCountdown.CountdownEnableTextHandler(changed, player);
