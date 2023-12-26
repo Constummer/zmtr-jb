@@ -83,6 +83,20 @@ public partial class JailbreakExtras
         }
     }
 
+    private static void CoinRemove()
+    {
+        return;
+        if (Coin != null)
+        {
+            if (Coin.IsValid)
+            {
+                Coin.Remove();
+            }
+            CoinAngleYUpdaterActive = false;
+            CoinSpawned = false;
+        }
+    }
+
     private void CoinRemoveOnWardenTeamChange(CCSPlayerController? player, CommandInfo info)
     {
         if (string.IsNullOrWhiteSpace(info.ArgString))
@@ -142,20 +156,6 @@ public partial class JailbreakExtras
             case TargetForArgument.Dead:
             default:
                 break;
-        }
-    }
-
-    private static void CoinRemove()
-    {
-        return;
-        if (Coin != null)
-        {
-            if (Coin.IsValid)
-            {
-                Coin.Remove();
-            }
-            CoinAngleYUpdaterActive = false;
-            CoinSpawned = false;
         }
     }
 }
