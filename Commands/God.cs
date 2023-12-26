@@ -21,12 +21,17 @@ public partial class JailbreakExtras
         if (info.ArgCount != 2) return;
         var target = info.GetArg(1);
 
+        var targetArgument = GetTargetArgument(target);
         GetPlayers()
                .Where(x => x.PawnIsAlive
                         && GetTargetAction(x, target, player.PlayerName))
                .ToList()
                .ForEach(x =>
                {
+                   if (targetArgument == TargetForArgument.None)
+                   {
+                       Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] Admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncuya {ChatColors.Green}god {ChatColors.White}verdi.");
+                   }
                    if (ActiveGodMode.TryGetValue(x.SteamID, out var god))
                    {
                        ActiveGodMode[x.SteamID] = !god;
@@ -37,7 +42,10 @@ public partial class JailbreakExtras
                    }
                    RefreshPawn(x);
                });
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] Admin, {ChatColors.Green}{player.PlayerName} {ChatColors.White}adlı oyuncuya {ChatColors.Green}god {ChatColors.White}verdi.");
+        if (targetArgument != TargetForArgument.None)
+        {
+            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] Admin, {ChatColors.Green}{target} {ChatColors.White}hedefine {ChatColors.Green}god {ChatColors.White}verdi.");
+        }
     }
 
     [ConsoleCommand("q", "godmode ct player")]
