@@ -1,6 +1,7 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
+using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
 
@@ -13,11 +14,15 @@ public partial class JailbreakExtras
     [ConsoleCommand("hook", "af")]
     public void Hook(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false && LatestWCommandUser != player.SteamID)
+        if (LatestWCommandUser != player.SteamID)
         {
             if (HookPlayers.TryGetValue(player.SteamID, out bool canUse) == false)
             {
-                return;
+                if (!AdminManager.PlayerHasPermissions(player, "@css/admin1"))
+                {
+                    player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+                    return;
+                }
             }
         }
         AllowLaserForWarden(player);
@@ -27,8 +32,9 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<oyuncu ismi>")]
     public void HookVer(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         if (info.ArgCount != 2) return;
@@ -48,8 +54,9 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<oyuncu ismi>")]
     public void HookAl(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         if (info.ArgCount != 2) return;

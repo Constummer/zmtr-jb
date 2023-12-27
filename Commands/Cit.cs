@@ -21,10 +21,7 @@ public partial class JailbreakExtras
     {
         if (ValidateCallerPlayer(player) == false && LatestWCommandUser != player.SteamID)
         {
-            if (!AdminManager.PlayerHasPermissions(player, "@css/test22"))
-            {
-                return;
-            }
+            return;
         }
         player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Ateş ettiğin yere çit oluşacak.");
         player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Kapatmak için !citkapat yaz.");
@@ -56,16 +53,13 @@ public partial class JailbreakExtras
     {
         if (ValidateCallerPlayer(player) == false && LatestWCommandUser != player.SteamID)
         {
-            if (!AdminManager.PlayerHasPermissions(player, "@css/test22"))
-            {
-                return;
-            }
+            return;
         }
         ClearCits();
         return;
     }
 
-    private static void ClearCits()
+    private static void ClearCits(bool displayMsg = false)
     {
         if (Cits != null)
         {
@@ -77,7 +71,10 @@ public partial class JailbreakExtras
                 }
             }
             Cits.Clear();
-            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR]{ChatColors.Darkred} Tüm çitler silindi.");
+            if (displayMsg)
+            {
+                Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR]{ChatColors.Darkred} Tüm çitler silindi.");
+            }
         }
     }
 

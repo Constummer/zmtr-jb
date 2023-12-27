@@ -34,7 +34,7 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
 
     private static readonly string[] BaseRequiresPermissions = new[]
     {
-        "@css/root"
+        "@css/admin1"
     };
 
     public override void Load(bool hotReload)

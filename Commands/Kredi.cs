@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
@@ -24,7 +25,7 @@ public partial class JailbreakExtras
                 amount = item.Credit;
             }
         }
-        player!.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName} {ChatColors.White}adlı oyuncunun {ChatColors.LightBlue}{amount} {ChatColors.White}kredisi var!");
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName} {ChatColors.White}adlı oyuncunun {ChatColors.LightBlue}{amount} {ChatColors.White}kredisi var!");
     }
 
     #endregion Kredi

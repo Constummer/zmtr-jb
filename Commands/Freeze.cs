@@ -1,5 +1,7 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
+using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
 
@@ -44,6 +46,8 @@ public partial class JailbreakExtras
                     QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
                     x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
                 });
+                FreezeOrUnfreezeSound();
+                Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}mahkûmları {ChatColors.Blue}dondurdu{ChatColors.White}.");
             });
         }
     }
@@ -52,14 +56,15 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<playerismi-@all-@t-@ct-@me-@alive-@random-@randomt-@randomct>")]
     public void OnFreezeCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye4"))
         {
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         if (info.ArgCount != 2) return;
         var target = info.GetArg(1);
         FreezeTarget(target, player!.PlayerName);
-        player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Admin, {ChatColors.Blue}{player!.PlayerName} {ChatColors.White}adlı oyuncuyu dondurdu.");
+        FreezeOrUnfreezeSound();
     }
 
     [ConsoleCommand("unfreeze", "Unfreeze a player.")]
@@ -72,20 +77,31 @@ public partial class JailbreakExtras
         }
         if (info.ArgCount != 2) return;
         var target = info.GetArg(1);
+        var targetArgument = GetTargetArgument(target);
+
         bool randomFreeze = false;
         GetPlayers()
             .Where(x => x.PawnIsAlive)
             .ToList()
             .ForEach(x =>
             {
+                if (targetArgument == TargetForArgument.None)
+                {
+                    Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncunun{ChatColors.Blue} donunu bozdu{ChatColors.White}.");
+                }
                 UnfreezeX(player, x, target, randomFreeze);
             });
-        player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}{player.PlayerName}, {ChatColors.Blue}{target} {ChatColors.White}adlı oyuncunun donunu kaldırdı.");
+        FreezeOrUnfreezeSound();
+        if (targetArgument != TargetForArgument.None)
+        {
+            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{target} {ChatColors.White}hedefinin {ChatColors.Blue}donunu {ChatColors.White}bozdu.");
+        }
     }
 
-    private void FreezeTarget(string target, string self)
+    private void FreezeTarget(string target, string self, bool displayMessage = true)
     {
         bool randomFreeze = false;
+        var targetArgument = GetTargetArgument(target);
 
         GetPlayers()
               .Where(x => x != null
@@ -96,8 +112,16 @@ public partial class JailbreakExtras
               .ToList()
         .ForEach(x =>
         {
+            if (displayMessage && targetArgument == TargetForArgument.None)
+            {
+                Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{self}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncuyu {ChatColors.Blue}dondurdu{ChatColors.White}.");
+            }
             Freeze(target, x, self, ref randomFreeze);
         });
+        if (displayMessage && targetArgument != TargetForArgument.None)
+        {
+            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{self}{ChatColors.White} adlı admin, {ChatColors.Green}{target} {ChatColors.White}hedefinin {ChatColors.Blue}donunu {ChatColors.White}dondurdu.");
+        }
     }
 
     private static void Freeze(string target, CCSPlayerController x, string self, ref bool randomFreeze)

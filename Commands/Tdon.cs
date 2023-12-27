@@ -2,7 +2,6 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Commands.Targeting;
 using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
@@ -17,7 +16,8 @@ public partial class JailbreakExtras
             return;
         }
 
-        FreezeTarget("@t", "");
+        FreezeTarget("@t", "", false);
+        FreezeOrUnfreezeSound();
         Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}mahkûmları {ChatColors.Blue}dondurdu{ChatColors.White}.");
     }
 
@@ -36,6 +36,7 @@ public partial class JailbreakExtras
            {
                randomFreeze = UnfreezeX(player, x, "@t", randomFreeze);
            });
+        FreezeOrUnfreezeSound();
         Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}mahkûmların {ChatColors.Blue}donunu kaldırdı{ChatColors.White}.");
     }
 }

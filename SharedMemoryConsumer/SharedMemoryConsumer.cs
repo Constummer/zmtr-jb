@@ -78,10 +78,16 @@ public partial class JailbreakExtras
                         {
                             Server.NextFrame(() =>
                             {
+                                var temp = LatestWCommandUser;
                                 LatestWCommandUser = parsed;
+                                WardenRefreshPawn();
                                 ClearLasers();
                                 CoinAfterNewCommander();
                                 CoinGoWanted = true;
+                                if (temp != LatestWCommandUser)
+                                {
+                                    WardenEnterSound();
+                                }
                             });
                         }
                     }
@@ -92,18 +98,17 @@ public partial class JailbreakExtras
                     {
                         if (ulong.TryParse(splitted[1] ?? "", out var parsed))
                         {
-                            Server.NextFrame(() =>
-                            {
-                                LatestWCommandUser = null;
-                                ClearLasers();
-                                CoinRemove();
-                            });
+                            RemoveWarden();
                         }
                     }
                     break;
 
                 case SharedMemoryDataTypes.LrActive:
-                    LrActive = true;
+                    Server.NextFrame(() =>
+                    {
+                        LrActive = true;
+                        LrStartSound();
+                    });
                     break;
 
                 case SharedMemoryDataTypes.None:

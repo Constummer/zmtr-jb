@@ -12,6 +12,10 @@ public partial class JailbreakExtras
         {
             if (info.ArgString != null)
             {
+                if (player.SteamID == LatestWCommandUser)
+                {
+                    RemoveWarden();
+                }
                 if (info.ArgString.Contains("0")
                  || info.ArgString.Contains("1")
                  || info.ArgString.Contains("3"))

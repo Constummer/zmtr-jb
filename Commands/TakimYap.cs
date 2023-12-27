@@ -188,8 +188,8 @@ public partial class JailbreakExtras
             3 => ($"{ChatColors.Green} Yeşil", Color.FromArgb(0, 128, 0)),
             4 => ($"{ChatColors.LightYellow} Açık Sarı", Color.FromArgb(255, 255, 224)),
             5 => ($"{ChatColors.LightBlue} Açık Mavi", Color.FromArgb(173, 216, 230)),
-            6 => ($"{ChatColors.Olive} Zeytin Yeşili", Color.FromArgb(128, 128, 0)),
-            7 => ($"{ChatColors.Lime} Lime Yeşili", Color.FromArgb(0, 255, 0)),
+            6 => ($"{ChatColors.Olive} Koyu Yeşil", Color.FromArgb(128, 128, 0)),
+            7 => ($"{ChatColors.Lime} Açık Yeşil", Color.FromArgb(0, 255, 0)),
             8 => ($"{ChatColors.LightPurple} Açık Mor", Color.FromArgb(221, 160, 221)),
             9 => ($"{ChatColors.Purple} Mor", Color.FromArgb(128, 0, 128)),
             10 => ($"{ChatColors.Grey} Gri", Color.FromArgb(128, 128, 128)),
@@ -203,6 +203,50 @@ public partial class JailbreakExtras
             18 => ($"{ChatColors.Orange} Turuncu", Color.FromArgb(255, 165, 0)),
             _ => (null, Color.Black),
         };
+    }
+
+    public static int GetTeamIndexByColor(char color)
+    {
+        if (color == ChatColors.Red)
+            return 0;
+        else if (color == ChatColors.Blue)
+            return 1;
+        else if (color == ChatColors.Darkred)
+            return 2;
+        else if (color == ChatColors.Green)
+            return 3;
+        else if (color == ChatColors.LightYellow)
+            return 4;
+        else if (color == ChatColors.LightBlue)
+            return 5;
+        else if (color == ChatColors.Olive)
+            return 6;
+        else if (color == ChatColors.Lime)
+            return 7;
+        else if (color == ChatColors.LightPurple)
+            return 8;
+        else if (color == ChatColors.Purple)
+            return 9;
+        else if (color == ChatColors.Grey)
+            return 10;
+        else if (color == ChatColors.Yellow)
+            return 11;
+        else if (color == ChatColors.Gold)
+            return 12;
+        else if (color == ChatColors.Silver)
+            return 13;
+        else if (color == ChatColors.DarkBlue)
+            return 14;
+        else if (color == ChatColors.BlueGrey)
+            return 15;
+        else if (color == ChatColors.Magenta)
+            return 16;
+        else if (color == ChatColors.LightRed)
+            return 17;
+        else if (color == ChatColors.Orange)
+            return 18;
+        else
+            return -1;
     }
 
     #endregion TakimYap
