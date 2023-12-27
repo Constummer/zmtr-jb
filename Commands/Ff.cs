@@ -48,12 +48,19 @@ public partial class JailbreakExtras
 
         if (int.TryParse(target, out int value))
         {
-            BasicCountdown.CommandStartTextCountDown(this, $"FF'in açılmasına {value} saniye kaldı!");
-
-            _ = AddTimer(value, () =>
+            if (value > 120)
             {
-                Ff(true);
-            });
+                player.PrintToChat("Max 120 sn girebilirsin");
+            }
+            else
+            {
+                BasicCountdown.CommandStartTextCountDown(this, $"FF'in açılmasına {value} saniye kaldı!");
+
+                _ = AddTimer(value, () =>
+                {
+                    Ff(true);
+                });
+            }
         }
     }
 
@@ -81,29 +88,36 @@ public partial class JailbreakExtras
 
         if (int.TryParse(target, out int value))
         {
-            BasicCountdown.CommandStartTextCountDown(this, $"[{msg}] {Environment.NewLine}Donmak için {value} saniye!");
-            _ = AddTimer(value, () =>
+            if (value > 120)
             {
-                GetPlayers()
-                .Where(x => x != null
-                     && x.PlayerPawn.IsValid
-                     && x.PawnIsAlive
-                     && x.IsValid
-                     && x?.PlayerPawn?.Value != null
-                     && GetTeam(x) == CsTeam.Terrorist)
-                .ToList()
-                .ForEach(x =>
+                player.PrintToChat("Max 120 sn girebilirsin");
+            }
+            else
+            {
+                BasicCountdown.CommandStartTextCountDown(this, $"[{msg}] {Environment.NewLine}Donmak için {value} saniye!");
+                _ = AddTimer(value, () =>
                 {
-                    SetColour(x, Config.BuryColor);
+                    GetPlayers()
+                    .Where(x => x != null
+                         && x.PlayerPawn.IsValid
+                         && x.PawnIsAlive
+                         && x.IsValid
+                         && x?.PlayerPawn?.Value != null
+                         && GetTeam(x) == CsTeam.Terrorist)
+                    .ToList()
+                    .ForEach(x =>
+                    {
+                        SetColour(x, Config.BuryColor);
 
-                    x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
-                    Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
-                    Vector currentSpeed = new Vector(0, 0, 0);
-                    QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
-                    x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
+                        x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
+                        Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
+                        Vector currentSpeed = new Vector(0, 0, 0);
+                        QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
+                        x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
+                    });
+                    Ff(false);
                 });
-                Ff(false);
-            });
+            }
         }
     }
 
@@ -120,27 +134,34 @@ public partial class JailbreakExtras
 
         if (int.TryParse(target, out int value))
         {
-            BasicCountdown.CommandStartTextCountDown(this, $"FF açılmasına {value} saniye kaldı");
-            GetPlayers(CsTeam.Terrorist)
-             .Where(x => x.PawnIsAlive && ValidateCallerPlayer(x, false))
-             .ToList()
-             .ForEach(x =>
-             {
-                 x.GiveNamedItem("weapon_ak47");
-                 x.GiveNamedItem("weapon_deagle");
-                 x.GiveNamedItem("weapon_hegrenade");
-
-                 var gunMenu = new ChatMenu("Silah Menu");
-                 MenuHelper.GetGuns(gunMenu);
-                 ChatMenus.OpenMenu(x, gunMenu);
-                 x.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}FF başlayana kadar veya FF boyunca silah değiştirebilirsin, !guns");
-             });
-            FFMenuCheck = true;
-
-            _ = AddTimer(value, () =>
+            if (value > 120)
             {
-                Ff(true);
-            });
+                player.PrintToChat("Max 120 sn girebilirsin");
+            }
+            else
+            {
+                BasicCountdown.CommandStartTextCountDown(this, $"FF açılmasına {value} saniye kaldı");
+                GetPlayers(CsTeam.Terrorist)
+                 .Where(x => x.PawnIsAlive && ValidateCallerPlayer(x, false))
+                 .ToList()
+                 .ForEach(x =>
+                 {
+                     x.GiveNamedItem("weapon_ak47");
+                     x.GiveNamedItem("weapon_deagle");
+                     x.GiveNamedItem("weapon_hegrenade");
+
+                     var gunMenu = new ChatMenu("Silah Menu");
+                     MenuHelper.GetGuns(gunMenu);
+                     ChatMenus.OpenMenu(x, gunMenu);
+                     x.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}FF başlayana kadar veya FF boyunca silah değiştirebilirsin, !guns");
+                 });
+                FFMenuCheck = true;
+
+                _ = AddTimer(value, () =>
+                {
+                    Ff(true);
+                });
+            }
         }
     }
 
