@@ -16,6 +16,8 @@ public partial class JailbreakExtras
             }
 
             bool changed = false;
+
+            CoinMoveOnTick(GetWarden());
             for (int i = 1; i < Server.MaxPlayers; i++)
             {
                 var ent = NativeAPI.GetEntityFromIndex(i);
@@ -25,7 +27,6 @@ public partial class JailbreakExtras
                 var player = new CCSPlayerController(ent);
                 if (player == null || !player.IsValid)
                     continue;
-                CoinMoveOnTick(player);
 
                 ParachuteOnTick(player);
 

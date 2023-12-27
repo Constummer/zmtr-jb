@@ -7,7 +7,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static CFuncWall Coin { get; set; } = null;
+    private static CPhysicsPropMultiplayer Coin { get; set; } = null;
     private static bool CoinSpawned { get; set; } = false;
     private static float CoinAngleY { get; set; } = 0.0f;
     private static bool CoinAngleYUpdaterActive { get; set; } = false;
@@ -32,31 +32,35 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (x.SteamID == LatestWCommandUser)
+        CoinSpawn();
+    }
+
+    private static void CoinSpawn()
+    {
+        CoinRemove();
+        //if (GetTeam(x) != CsTeam.CounterTerrorist)
+        //{
+        //    return;
+        //}
+
+        Coin = Utilities.CreateEntityByName<CPhysicsPropMultiplayer>("prop_physics_multiplayer");
+        if (Coin == null)
         {
-            CoinRemove();
-            //if (GetTeam(x) != CsTeam.CounterTerrorist)
-            //{
-            //    return;
-            //}
-
-            Coin = Utilities.CreateEntityByName<CFuncWall>("func_plat");
-            if (Coin == null)
-            {
-                return;
-            }
-
-            //var playerAbs = x.PlayerPawn.Value.AbsOrigin;
-            //var vector = new Vector(playerAbs.X, playerAbs.Y, playerAbs.Z + 100);
-            var vector = VEC_ZERO;
-            //var vector = new Vector(-718, -765, 24);
-            Coin.Teleport(vector, new QAngle(0.0f, 0.0f, 0.0f), VEC_ZERO);
-            Coin.DispatchSpawn();
-            Coin.SetModel("models/coop/challenge_coin.vmdl");
-
-            CoinSpawned = true;
-            CoinAngleYUpdaterActive = true;
+            return;
         }
+
+        //var playerAbs = x.PlayerPawn.Value.AbsOrigin;
+        //var vector = new Vector(playerAbs.X, playerAbs.Y, playerAbs.Z + 100);
+        //var vector = VEC_ZERO;
+        var vector = new Vector(-718, -765, 24);
+
+        Coin.Teleport(vector, new QAngle(0.0f, 0.0f, 0.0f), VEC_ZERO);
+        Coin.DispatchSpawn();
+        Coin.SetModel("models/coop/challenge_coin.vmdl");
+
+        CoinGoWanted = true;
+        CoinSpawned = true;
+        CoinAngleYUpdaterActive = true;
     }
 
     private static void CoinMoveOnTick(CCSPlayerController player)
@@ -159,12 +163,6 @@ public partial class JailbreakExtras
             case TargetForArgument.Random:
             case TargetForArgument.RandomT:
             case TargetForArgument.RandomCt:
-                if (team != CsTeam.CounterTerrorist)
-                {
-                    CoinRemove();
-                }
-                break;
-
             case TargetForArgument.None:
             case TargetForArgument.Alive:
             case TargetForArgument.Dead:

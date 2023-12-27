@@ -24,10 +24,6 @@ public partial class JailbreakExtras
         {
             if (player?.SteamID != null && player!.SteamID != 0)
             {
-                if (player?.SteamID == LatestWCommandUser)
-                {
-                    CoinRemove();
-                }
                 Task.Run(async () =>
                 {
                     await UpdatePlayerMarketData(player!.SteamID);

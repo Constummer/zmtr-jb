@@ -7,5 +7,6 @@ public partial class JailbreakExtras
         GiveCreditTimer();
         SaveCreditTimer();
         CoinGoWantedTimer();
+        CoinRespawnTimer();
     }
 }
