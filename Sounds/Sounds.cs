@@ -19,12 +19,11 @@ public partial class JailbreakExtras
 
     private static void WardenEnterSound()
     {
-        return;
-        //var players = GetPlayers();
-        //foreach (var player in players)
-        //{
-        //    player.ExecuteClientCommand($"play {_Config.Sounds.WardenEnterSound}");
-        //}
+        var players = GetPlayers();
+        foreach (var player in players)
+        {
+            player.ExecuteClientCommand($"play {_Config.Sounds.WardenEnterSound}");
+        }
     }
 
     private static void WardenLeaveSound()
