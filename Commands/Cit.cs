@@ -55,11 +55,11 @@ public partial class JailbreakExtras
         {
             return;
         }
-        ClearCits();
+        ClearCits(true);
         return;
     }
 
-    private static void ClearCits()
+    private static void ClearCits(bool displayMsg = false)
     {
         if (Cits != null)
         {
@@ -71,7 +71,10 @@ public partial class JailbreakExtras
                 }
             }
             Cits.Clear();
-            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR]{ChatColors.Darkred} Tüm çitler silindi.");
+            if (displayMsg)
+            {
+                Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR]{ChatColors.Darkred} Tüm çitler silindi.");
+            }
         }
     }
 

@@ -118,7 +118,7 @@ public partial class JailbreakExtras
         });
         if (displayMessage && targetArgument != TargetForArgument.None)
         {
-            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{self}{ChatColors.White} adlı admin, {ChatColors.Green}{target} {ChatColors.White}hedefinin {ChatColors.Blue}donunu {ChatColors.White}bozdu.");
+            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{self}{ChatColors.White} adlı admin, {ChatColors.Green}{target} {ChatColors.White}hedefinin {ChatColors.Blue}donunu {ChatColors.White}dondurdu.");
         }
     }
 

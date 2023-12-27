@@ -1,4 +1,5 @@
 ﻿using CounterStrikeSharp.API.Modules.Utils;
+using Serilog.Core;
 
 namespace JailbreakExtras;
 
@@ -18,11 +19,12 @@ public partial class JailbreakExtras
 
     private static void WardenEnterSound()
     {
-        var players = GetPlayers();
-        foreach (var player in players)
-        {
-            player.ExecuteClientCommand($"play {_Config.Sounds.WardenEnterSound}");
-        }
+        return;
+        //var players = GetPlayers();
+        //foreach (var player in players)
+        //{
+        //    player.ExecuteClientCommand($"play {_Config.Sounds.WardenEnterSound}");
+        //}
     }
 
     private static void WardenLeaveSound()

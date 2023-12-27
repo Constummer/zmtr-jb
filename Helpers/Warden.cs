@@ -6,8 +6,9 @@ public partial class JailbreakExtras
 {
     private static void WardenRefreshPawn()
     {
+        return;
         var warden = GetWarden();
-        if (warden != null)
+        if (warden != null && warden.PawnIsAlive)
         {
             RefreshPawn(warden);
         }
