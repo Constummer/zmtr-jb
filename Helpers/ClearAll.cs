@@ -13,8 +13,6 @@ public partial class JailbreakExtras
         DeathLocations?.Clear();
         KilledPlayers?.Clear();
         LatestHediyeCommandCalls?.Clear();
-        KomAdays?.Clear();
-
         ClearCits();
         ClearLasers();
     }
