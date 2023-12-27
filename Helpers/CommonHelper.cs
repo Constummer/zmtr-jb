@@ -47,7 +47,7 @@ public partial class JailbreakExtras
         {
             if (CheckPermission(player) == false)
             {
-                player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Bu komutu kullanamazsın!");
+                player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komutu kullanamazsın!");
                 return false;
             }
         }
