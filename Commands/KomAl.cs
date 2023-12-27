@@ -1,6 +1,7 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
+using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Timers;
@@ -21,8 +22,9 @@ public partial class JailbreakExtras
     [ConsoleCommand("domal")]
     public void KomAl(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye10"))
         {
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         KomActive = false;
@@ -30,7 +32,7 @@ public partial class JailbreakExtras
         KomAlAnswers?.Clear();
         Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}Komutçu alımı başladı! Komutçu adayı olmak için !komaday yazın.");
         Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}Komutçu alımı başladı! Komutçu adayı olmak için !komaday yazın.");
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}Komutçu alımı başladı! Komutçu adayı olmak için !komaday yazın.");
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}Komutçu adaylığından ayrılmak için !komadayiptal yazın.");
         KomActive = true;
         var now = DateTime.UtcNow;
         AddTimer(20f, () =>
@@ -55,38 +57,39 @@ public partial class JailbreakExtras
             if (KomAdays.Count > 6)
             {
                 KomActive = false;
-                player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green} coktan 6 kisi katildi");
+                player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Komaday doldu.");
             }
             else
             {
                 if (KomAdays.Any(x => x == player.SteamID))
                 {
-                    player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green} zaten katildin, tekrar yazma knk");
+                    player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Zaten katıldın!");
                 }
                 else
                 {
                     KomAdays.Add(player.SteamID);
                     player.VoiceFlags &= ~VoiceFlags.Muted;
-                    Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName} komutçu adayı oldu.");
+                    Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName} {ChatColors.White}komutçu adayı oldu.");
                 }
             }
         }
         else
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green} komaday aktif deil");
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Darkred}Komutçu alımı aktif değil.");
         }
     }
 
     [ConsoleCommand("komadayiptal")]
     public void KomAdayIptal(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player, false) == false)
+        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye10"))
         {
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         player.VoiceFlags |= VoiceFlags.Muted;
         KomAdays = KomAdays.Where(x => x != player.SteamID).ToList();
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName} komutçu adayligindan ciktı.");
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Darkred}{player.PlayerName} {ChatColors.White}Komutçu adaylığından ayrıldı.");
     }
 
     private void KomAlStartVote()
