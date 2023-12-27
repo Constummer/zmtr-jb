@@ -24,31 +24,38 @@ public partial class JailbreakExtras
 
         if (int.TryParse(target, out int value))
         {
-            BasicCountdown.CommandStartTextCountDown(this, $"Mahkûmların donmasına {value} saniye kaldı!");
-
-            _ = AddTimer(value, () =>
+            if (value > 120)
             {
-                GetPlayers()
-                .Where(x => x != null
-                     && x.PlayerPawn.IsValid
-                     && x.PawnIsAlive
-                     && x.IsValid
-                     && x?.PlayerPawn?.Value != null
-                     && GetTeam(x) == CsTeam.Terrorist)
-                .ToList()
-                .ForEach(x =>
-                {
-                    SetColour(x, Config.BuryColor);
+                player.PrintToChat("Max 120 sn girebilirsin");
+            }
+            else
+            {
+                BasicCountdown.CommandStartTextCountDown(this, $"Mahkûmların donmasına {value} saniye kaldı!");
 
-                    x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
-                    Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
-                    Vector currentSpeed = new Vector(0, 0, 0);
-                    QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
-                    x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
+                _ = AddTimer(value, () =>
+                {
+                    GetPlayers()
+                    .Where(x => x != null
+                         && x.PlayerPawn.IsValid
+                         && x.PawnIsAlive
+                         && x.IsValid
+                         && x?.PlayerPawn?.Value != null
+                         && GetTeam(x) == CsTeam.Terrorist)
+                    .ToList()
+                    .ForEach(x =>
+                    {
+                        SetColour(x, Config.BuryColor);
+
+                        x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
+                        Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
+                        Vector currentSpeed = new Vector(0, 0, 0);
+                        QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
+                        x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
+                    });
+                    FreezeOrUnfreezeSound();
+                    Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}mahkûmları {ChatColors.Blue}dondurdu{ChatColors.White}.");
                 });
-                FreezeOrUnfreezeSound();
-                Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}mahkûmları {ChatColors.Blue}dondurdu{ChatColors.White}.");
-            });
+            }
         }
     }
 

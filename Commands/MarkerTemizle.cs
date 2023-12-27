@@ -8,9 +8,9 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    #region RR
+    #region MarkerTemizle
 
-    [ConsoleCommand("markertemizle", "Eli yeniden baslatir")]
+    [ConsoleCommand("markertemizle")]
     public void MarkerTemizle(CCSPlayerController? player, CommandInfo info)
     {
         if (player!.SteamID != LatestWCommandUser ||
@@ -22,5 +22,5 @@ public partial class JailbreakExtras
         ClearLasers();
     }
 
-    #endregion RR
+    #endregion MarkerTemizle
 }

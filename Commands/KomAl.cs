@@ -19,7 +19,6 @@ public partial class JailbreakExtras
     public static bool KomAlVoteInProgress = false;
 
     [ConsoleCommand("komal")]
-    [ConsoleCommand("domal")]
     public void KomAl(CCSPlayerController? player, CommandInfo info)
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye10"))
