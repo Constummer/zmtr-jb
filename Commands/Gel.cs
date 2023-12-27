@@ -18,6 +18,10 @@ public partial class JailbreakExtras
         {
             return;
         }
+        if (player.PawnIsAlive == false)
+        {
+            return;
+        }
         GetPlayers()
               .Where(x => x.PawnIsAlive
                           && GetTargetAction(x, "@t", player.PlayerName))
@@ -26,7 +30,8 @@ public partial class JailbreakExtras
               {
                   if (x.SteamID != player.SteamID)
                   {
-                      x.Teleport(player.PlayerPawn.Value.AbsOrigin, new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
+                      var playerAbs = player.PlayerPawn.Value.AbsOrigin;
+                      x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 100, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
         Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, tüm {ChatColors.Darkred}Mahkûmları {ChatColors.White}yanına ışınladı.");
@@ -39,6 +44,10 @@ public partial class JailbreakExtras
         {
             return;
         }
+        if (player.PawnIsAlive == false)
+        {
+            return;
+        }
         GetPlayers()
               .Where(x => x.PawnIsAlive
                           && GetTargetAction(x, "@ct", player!.PlayerName))
@@ -47,7 +56,8 @@ public partial class JailbreakExtras
               {
                   if (x.SteamID != player!.SteamID)
                   {
-                      x.Teleport(player.PlayerPawn.Value!.AbsOrigin!, new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
+                      var playerAbs = player.PlayerPawn.Value.AbsOrigin;
+                      x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 100, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
         Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, tüm {ChatColors.Blue}Gardiyanları {ChatColors.White}yanına ışınladı.");
@@ -60,6 +70,10 @@ public partial class JailbreakExtras
         {
             return;
         }
+        if (player.PawnIsAlive == false)
+        {
+            return;
+        }
         GetPlayers()
               .Where(x => x.PawnIsAlive
                           && GetTargetAction(x, "@all", player!.PlayerName))
@@ -68,7 +82,8 @@ public partial class JailbreakExtras
               {
                   if (x.SteamID != player!.SteamID)
                   {
-                      x.Teleport(player.PlayerPawn.Value!.AbsOrigin!, new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
+                      var playerAbs = player.PlayerPawn.Value.AbsOrigin;
+                      x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 100, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
         Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, tüm {ChatColors.Green}herkesi {ChatColors.White}yanına ışınladı.");
@@ -276,27 +291,37 @@ public partial class JailbreakExtras
 
     private static void GelTeam(CCSPlayerController? player, char color)
     {
+        if (player.PawnIsAlive == false)
+        {
+            return;
+        }
+
         var index = GetTeamIndexByColor(color);
+
         if (index == -1)
         {
             return;
         }
-        _ = TeamSteamIds.TryGetValue(index, out var plist);
-        var res = GetTeamColorAndTextByIndex(index);
-        GetPlayers(CsTeam.Terrorist)
-              .Where(x => x.PawnIsAlive)
-              .ToList()
-              .ForEach(x =>
-              {
-                  if (plist != null)
+
+        if (TeamSteamIds.TryGetValue(index, out var plist))
+        {
+            var res = GetTeamColorAndTextByIndex(index);
+            GetPlayers(CsTeam.Terrorist)
+                  .Where(x => x.PawnIsAlive)
+                  .ToList()
+                  .ForEach(x =>
                   {
-                      if (plist.Contains(x.SteamID))
+                      if (plist != null)
                       {
-                          x.Teleport(player.PlayerPawn.Value.AbsOrigin, new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
+                          if (plist.Contains(x.SteamID))
+                          {
+                              var playerAbs = player.PlayerPawn.Value.AbsOrigin;
+                              x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 100, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
+                          }
                       }
-                  }
-              });
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, tüm {res.Msg} Takımındaki Mahkûmları {ChatColors.White}yanına ışınladı.");
+                  });
+            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, tüm {res.Msg} Takımındaki Mahkûmları {ChatColors.White}yanına ışınladı.");
+        }
     }
 
     #endregion Gel

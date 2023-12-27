@@ -129,12 +129,26 @@ public partial class JailbreakExtras
         }
         if (warden.PlayerName.ToLower().Contains(pname.ToLower()))
         {
-            RemoveWarden();
+            Server.NextFrame(() =>
+            {
+                WardenRefreshPawn();
+                LatestWCommandUser = null;
+                ClearLasers();
+                CoinRemove();
+                WardenLeaveSound();
+            });
         }
         else if (pname == "@me"
             && warden.PlayerName == player.PlayerName)
         {
-            RemoveWarden();
+            Server.NextFrame(() =>
+          {
+              WardenRefreshPawn();
+              LatestWCommandUser = null;
+              ClearLasers();
+              CoinRemove();
+              WardenLeaveSound();
+          });
         }
         var target = GetTargetArgument(pname);
         switch (target)

@@ -31,16 +31,30 @@ public partial class JailbreakExtras
                .ToList()
                .ForEach(x =>
                {
-                   if (targetArgument == TargetForArgument.None)
-                   {
-                       Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncuya {ChatColors.Blue}god {ChatColors.White}verdi.");
-                   }
                    if (ActiveGodMode.TryGetValue(x.SteamID, out var god))
                    {
+                       if (god)
+                       {
+                           if (targetArgument == TargetForArgument.None)
+                           {
+                               Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncuya {ChatColors.Blue}godunu {ChatColors.White} kaldırdı.");
+                           }
+                       }
+                       else
+                       {
+                           if (targetArgument == TargetForArgument.None)
+                           {
+                               Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncuya {ChatColors.Blue}god {ChatColors.White}verdi.");
+                           }
+                       }
                        ActiveGodMode[x.SteamID] = !god;
                    }
                    else
                    {
+                       if (targetArgument == TargetForArgument.None)
+                       {
+                           Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncuya {ChatColors.Blue}god {ChatColors.White}verdi.");
+                       }
                        ActiveGodMode.TryAdd(x.SteamID, true);
                    }
                    RefreshPawn(x);

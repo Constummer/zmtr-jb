@@ -98,7 +98,14 @@ public partial class JailbreakExtras
                     {
                         if (ulong.TryParse(splitted[1] ?? "", out var parsed))
                         {
-                            RemoveWarden();
+                            Server.NextFrame(() =>
+                            {
+                                WardenRefreshPawn();
+                                LatestWCommandUser = null;
+                                ClearLasers();
+                                CoinRemove();
+                                WardenLeaveSound();
+                            });
                         }
                     }
                     break;

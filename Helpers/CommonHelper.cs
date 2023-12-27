@@ -205,19 +205,19 @@ public partial class JailbreakExtras
         //{
         //    throw new ArgumentException("The product of numLists and elementsPerList must equal the count of the input list.");
         //}
-        int elementsPerList = (int)Math.Ceiling((double)source.Count / chunkSize);
-        return Enumerable.Range(0, chunkSize)
-                        .Select(i => source.Skip(i * elementsPerList).Take(elementsPerList).ToList())
-                        .ToList();
+        //int elementsPerList = (int)Math.Ceiling((double)source.Count / chunkSize);
+        //return Enumerable.Range(0, chunkSize)
+        //                .Select(i => source.Skip(i * elementsPerList).Take(elementsPerList).ToList())
+        //                .ToList();
         //return Enumerable.Range(0, (int)Math.Ceiling(source.Count / (double)chunkSize))
         //               .Select(i => source.Skip(i * chunkSize).Take(chunkSize).ToList())
         //               .ToList();
 
-        //return source
-        //    .Select((x, i) => new { Index = i, Value = x })
-        //    .GroupBy(x => x.Index / chunkSize)
-        //    .Select(x => x.Select(v => v.Value).ToList())
-        //    .ToList();
+        return source
+            .Select((x, i) => new { Index = i, Value = x })
+            .GroupBy(x => x.Index / chunkSize)
+            .Select(x => x.Select(v => v.Value).ToList())
+            .ToList();
     }
 
     private void LoadCredit()
