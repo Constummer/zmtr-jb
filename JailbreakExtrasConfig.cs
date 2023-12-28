@@ -18,7 +18,7 @@ public partial class JailbreakExtras
         public string WardenLeaveSound { get; set; } = "sounds/zmtr_warden/wzleave.vsnd_c";
 
         [JsonPropertyName("LastAliveTSound")]
-        public string LastAliveTSound { get; set; } = "sounds/lr/lr1.vsnd_c";
+        public string LastAliveTSound { get; set; } = "sounds/zmtr_lr/lr1.vsnd_c";
 
         [JsonPropertyName("FreezeOrUnfreezeSound")]
         public string FreezeOrUnfreezeSound { get; set; } = "sounds/zmtr_freeze/freeze.vsnd_c";
