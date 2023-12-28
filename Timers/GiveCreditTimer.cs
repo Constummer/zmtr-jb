@@ -27,7 +27,7 @@ public partial class JailbreakExtras
                                item.Credit = Config.RetrieveCreditEveryXMinReward;
                            }
                            PlayerMarketModels[x.SteamID] = item;
-                           x.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Bu sunucuda {ChatColors.LightBlue}{Config.RetrieveCreditEveryXMin / 60} {ChatColors.White}dakika zaman geçirdiğin için {ChatColors.Green}{Config.RetrieveCreditEveryXMinReward} kredi kazandın!");
+                           x.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Bu sunucuda {ChatColors.Green}{Config.RetrieveCreditEveryXMin / 60} {ChatColors.White}dakika zaman geçirdiğin için {ChatColors.LightBlue}{Config.RetrieveCreditEveryXMinReward} {ChatColors.White}kredi kazandın!");
                        }
                    });
         }, TimerFlags.REPEAT);
