@@ -83,6 +83,7 @@ public partial class JailbreakExtras
                                 WardenRefreshPawn();
                                 ClearLasers();
                                 CoinAfterNewCommander();
+
                                 CoinGoWanted = true;
                                 if (temp != LatestWCommandUser)
                                 {

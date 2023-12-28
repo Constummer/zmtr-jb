@@ -6,10 +6,12 @@ public partial class JailbreakExtras
 {
     private static void WardenRefreshPawn()
     {
-        return;
         var warden = GetWarden();
         if (warden != null && warden.PawnIsAlive)
         {
+            warden.VoiceFlags &= ~VoiceFlags.Muted;
+
+            return;
             RefreshPawn(warden);
         }
     }

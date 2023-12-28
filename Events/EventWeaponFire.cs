@@ -22,10 +22,10 @@ public partial class JailbreakExtras
             return HookResult.Continue;
         }
         var player = @event!.Userid;
-        if (GetTeam(player) != CsTeam.CounterTerrorist)
-        {
-            return HookResult.Continue;
-        }
+        //if (GetTeam(player) != CsTeam.CounterTerrorist)
+        //{
+        //    return HookResult.Continue;
+        //}
         var weaponServices = player.PlayerPawn.Value!.WeaponServices;
         if (weaponServices == null || weaponServices.MyWeapons == null)
         {

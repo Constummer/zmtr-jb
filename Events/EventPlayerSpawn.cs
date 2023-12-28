@@ -15,23 +15,21 @@ public partial class JailbreakExtras
             && x?.SteamID != null
                 && x!.SteamID != 0)
             {
-                AddTimer(2f, () =>
+                if (HideFoots.TryGetValue(x.SteamID, out var _) == false && Config.HideFootsOnConnect)
                 {
-                    Server.NextFrame(() =>
-                    {
-                        @event.Userid.VoiceFlags |= VoiceFlags.Muted;
-                    });
-                });
-                if (HideFoots.TryGetValue(@event.Userid.SteamID, out var _) == false && Config.HideFootsOnConnect)
+                    AddTimer(2f, () =>
+                   {
+                       AyakGizle(x, true);
+                   });
+                }
+                if (x?.SteamID != LatestWCommandUser)
                 {
                     AddTimer(2f, () =>
                     {
-                        Server.NextFrame(() =>
-                        {
-                            AyakGizle(@event.Userid, true);
-                        });
+                        x.VoiceFlags |= VoiceFlags.Muted;
                     });
                 }
+
                 var data = GetPlayerMarketModel(x?.SteamID);
                 if (data.Model == null || data.ChooseRandom)
                 {
