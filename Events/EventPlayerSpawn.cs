@@ -10,71 +10,68 @@ public partial class JailbreakExtras
     {
         RegisterEventHandler((GameEventHandler<EventPlayerSpawn>)((@event, _) =>
         {
-            foreach (var x in GetPlayers())
+            var x = @event.Userid;
+            if (ValidateCallerPlayer(x, false)
+            && x?.SteamID != null
+                && x!.SteamID != 0)
             {
-                if (ValidateCallerPlayer(x, false)
-                && x?.SteamID != null
-                    && x!.SteamID != 0)
+                AddTimer(2f, () =>
                 {
-                    if (HideFoots.TryGetValue(x.SteamID, out var _) == false && Config.HideFootsOnConnect)
+                    Server.NextFrame(() =>
                     {
-                        AddTimer(2f, () =>
-                       {
-                           Server.NextFrame(() =>
-                           {
-                               AyakGizle(x, true);
-                           });
-                       });
-                    }
+                        @event.Userid.VoiceFlags |= VoiceFlags.Muted;
+                    });
+                });
+                if (HideFoots.TryGetValue(@event.Userid.SteamID, out var _) == false && Config.HideFootsOnConnect)
+                {
                     AddTimer(2f, () =>
                     {
                         Server.NextFrame(() =>
                         {
-                            x.VoiceFlags |= VoiceFlags.Muted;
+                            AyakGizle(@event.Userid, true);
                         });
                     });
-
-                    var data = GetPlayerMarketModel(x?.SteamID);
-                    if (data.Model == null || data.ChooseRandom)
+                }
+                var data = GetPlayerMarketModel(x?.SteamID);
+                if (data.Model == null || data.ChooseRandom)
+                {
+                    GiveRandomSkin(x);
+                }
+                else
+                {
+                    PlayerModel? model;
+                    switch (GetTeam(x!))
                     {
-                        GiveRandomSkin(x);
-                    }
-                    else
-                    {
-                        PlayerModel? model;
-                        switch (GetTeam(x!))
-                        {
-                            case CsTeam.Terrorist:
-                                if (data.Model.DefaultIdT.HasValue == true)
+                        case CsTeam.Terrorist:
+                            if (data.Model.DefaultIdT.HasValue == true)
+                            {
+                                if (PlayerModels.TryGetValue(data.Model.DefaultIdT.Value, out model))
                                 {
-                                    if (PlayerModels.TryGetValue(data.Model.DefaultIdT.Value, out model))
-                                    {
-                                        SetModelNextServerFrame(x!.PlayerPawn.Value!, model.PathToModel);
-                                    }
+                                    SetModelNextServerFrame(x!.PlayerPawn.Value!, model.PathToModel);
                                 }
-                                else
-                                {
-                                    GiveRandomSkin(x);
-                                }
-                                break;
+                            }
+                            else
+                            {
+                                GiveRandomSkin(x);
+                            }
+                            break;
 
-                            case CsTeam.CounterTerrorist:
-                                if (data.Model.DefaultIdCT.HasValue == true)
+                        case CsTeam.CounterTerrorist:
+                            if (data.Model.DefaultIdCT.HasValue == true)
+                            {
+                                if (PlayerModels.TryGetValue(data.Model.DefaultIdCT.Value, out model))
                                 {
-                                    if (PlayerModels.TryGetValue(data.Model.DefaultIdCT.Value, out model))
-                                    {
-                                        SetModelNextServerFrame(x!.PlayerPawn.Value!, model.PathToModel);
-                                    }
+                                    SetModelNextServerFrame(x!.PlayerPawn.Value!, model.PathToModel);
                                 }
-                                else
-                                {
-                                    GiveRandomSkin(x);
-                                }
-                                break;
+                            }
+                            else
+                            {
+                                GiveRandomSkin(x);
+                            }
+                            break;
 
-                            default:
-                                break;
-                        }
+                        default:
+                            break;
                     }
                 }
             }
