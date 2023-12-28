@@ -43,7 +43,7 @@ public partial class JailbreakExtras
                        case 0:
                            if (targetArgument == TargetForArgument.None)
                            {
-                               Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncuya {ChatColors.Blue}god {ChatColors.White}verdi.");
+                               Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncuya {ChatColors.Blue}godunu {ChatColors.White}kaldirdi.");
                            }
                            if (ActiveGodMode.TryGetValue(x.SteamID, out _))
                            {
