@@ -43,12 +43,5 @@ public partial class JailbreakExtras
                 Server.PrecacheModel(item);
             }
         }
-        if (Config.PreCacheModels != null)
-        {
-            foreach (var item in Config.PreCacheModels)
-            {
-                Server.PrecacheModel(item);
-            }
-        }
     }
 }
