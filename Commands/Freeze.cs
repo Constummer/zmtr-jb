@@ -60,7 +60,7 @@ public partial class JailbreakExtras
     }
 
     [ConsoleCommand("freeze", "Freeze a player.")]
-    [CommandHelper(1, "<playerismi-@all-@t-@ct-@me-@alive-@random-@randomt-@randomct>")]
+    [CommandHelper(1, "<playerismi-@all-@t-@ct-@me>")]
     public void OnFreezeCommand(CCSPlayerController? player, CommandInfo info)
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye4"))
@@ -70,12 +70,34 @@ public partial class JailbreakExtras
         }
         if (info.ArgCount != 2) return;
         var target = info.GetArg(1);
-        FreezeTarget(target, player!.PlayerName);
+        var targetArgument = GetTargetArgument(target);
+
+        GetPlayers()
+                   .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player.PlayerName))
+                   .ToList()
+                   .ForEach(x =>
+                   {
+                       if (targetArgument == TargetForArgument.None)
+                       {
+                           Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncuyu{ChatColors.Blue} dondurdu{ChatColors.White}.");
+                       }
+                       SetColour(x, Config.BuryColor);
+
+                       x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
+                       Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
+                       Vector currentSpeed = new Vector(0, 0, 0);
+                       QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
+                       x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
+                   });
         FreezeOrUnfreezeSound();
+        if (targetArgument != TargetForArgument.None)
+        {
+            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{target} {ChatColors.White}hedefini {ChatColors.Blue}dondurdu");
+        }
     }
 
     [ConsoleCommand("unfreeze", "Unfreeze a player.")]
-    [CommandHelper(1, "<playerismi-@all-@t-@ct-@me-@alive-@random-@randomt-@randomct>")]
+    [CommandHelper(1, "<playerismi-@all-@t-@ct-@me>")]
     public void OnUnfreezeCommand(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)
@@ -96,7 +118,10 @@ public partial class JailbreakExtras
                 {
                     Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncunun{ChatColors.Blue} donunu bozdu{ChatColors.White}.");
                 }
-                UnfreezeX(player, x, target, randomFreeze);
+                SetColour(x, DefaultPlayerColor);
+                RefreshPawn(x);
+
+                x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
             });
         FreezeOrUnfreezeSound();
         if (targetArgument != TargetForArgument.None)

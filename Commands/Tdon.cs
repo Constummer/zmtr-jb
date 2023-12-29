@@ -16,7 +16,19 @@ public partial class JailbreakExtras
             return;
         }
 
-        FreezeTarget("@t", "", false);
+        GetPlayers(CsTeam.Terrorist)
+                         .Where(x => x.PawnIsAlive)
+                         .ToList()
+                         .ForEach(x =>
+                         {
+                             SetColour(x, Config.BuryColor);
+
+                             x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
+                             Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
+                             Vector currentSpeed = new Vector(0, 0, 0);
+                             QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
+                             x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
+                         });
         FreezeOrUnfreezeSound();
         Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}mahkûmları {ChatColors.Blue}dondurdu{ChatColors.White}.");
     }
@@ -28,14 +40,16 @@ public partial class JailbreakExtras
         {
             return;
         }
-        bool randomFreeze = false;
         GetPlayers(CsTeam.Terrorist)
-           .Where(x => x.PawnIsAlive)
-           .ToList()
-           .ForEach(x =>
-           {
-               randomFreeze = UnfreezeX(player, x, "@t", randomFreeze);
-           });
+                        .Where(x => x.PawnIsAlive)
+                        .ToList()
+                        .ForEach(x =>
+                        {
+                            SetColour(x, DefaultPlayerColor);
+                            RefreshPawn(x);
+
+                            x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
+                        });
         FreezeOrUnfreezeSound();
         Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}mahkûmların {ChatColors.Blue}donunu kaldırdı{ChatColors.White}.");
     }

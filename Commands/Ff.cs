@@ -15,6 +15,35 @@ public partial class JailbreakExtras
 
     #region Ff
 
+    [ConsoleCommand("ff")]
+    [CommandHelper(1, "<0/1>")]
+    public void Ff(CCSPlayerController? player, CommandInfo info)
+    {
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        if (info.ArgCount < 2) return;
+
+        var oneZeroStr = info.ArgCount > 1 ? info.GetArg(1) : null;
+        int.TryParse(oneZeroStr, out var oneZero);
+        if (oneZero < 0 || oneZero > 1)
+        {
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} 0 = kapatmak icin, 1 = acmak icin.");
+            return;
+        }
+        switch (oneZero)
+        {
+            case 0:
+                Ff(false);
+                break;
+
+            case 1:
+                Ff(true);
+                break;
+        }
+    }
+
     [ConsoleCommand("ffac", "ff acar")]
     public void FfAc(CCSPlayerController? player, CommandInfo info)
     {
