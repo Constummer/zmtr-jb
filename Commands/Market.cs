@@ -30,7 +30,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("market")]
     public void Market(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (ValidateCallerPlayer(player, false) == false)
         {
             return;
         }
