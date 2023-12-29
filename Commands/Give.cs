@@ -9,7 +9,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-     #region Give
+    #region Give
 
     [ConsoleCommand("give", "Silah Verir")]
     [CommandHelper(2, "<oyuncu ismi,@t,@ct,@all,@me> <silah kisa ismi>")]
@@ -40,6 +40,24 @@ public partial class JailbreakExtras
         {
             Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{target} {ChatColors.White}hedefine {ChatColors.Blue}{weapon} {ChatColors.White}adlı silahı verdi.");
         }
+    }
+
+    [ConsoleCommand("gk", "bicak Verir")]
+    public void GiveKnife(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye9"))
+        {
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        GetPlayers()
+               .Where(x => x.PawnIsAlive)
+               .ToList()
+               .ForEach(x =>
+               {
+                   x.GiveNamedItem($"weapon_knife");
+               });
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}@all {ChatColors.White}hedefine {ChatColors.Blue}knife {ChatColors.White}adlı silahı verdi.");
     }
 
     #endregion Give

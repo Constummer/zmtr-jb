@@ -126,6 +126,22 @@ public partial class JailbreakExtras
             "characters\\models\\ctm_gendarmerie\\ctm_gendarmerie_variantd.vmdl",
         };
 
+        [JsonPropertyName("PreCacheModels")]
+        public List<string> PreCacheModels { get; set; } = new()
+        {
+            "models/props/de_nuke/hr_nuke/chainlink_fence_001/chainlink_fence_001_256_capped.vmdl",
+            "models/coop/challenge_coin.vmdl",
+            "characters/models/kaesar/mapper/mapper.vmdl",
+            "characters/models/nozb1/cardboard_man_player_model/cardboard_man_player_model.vmdl",
+            "characters/models/nozb1/freddy_icebear_player_model/freddy_icebear_player_model.vmdl",
+            "characters/models/nozb1/huggy_male_player_model/huggy_male_player_model.vmdl",
+            "characters/models/nozb1/maalik_infernal_player_model/maalik_infernal_player_model.vmdl",
+            "characters/models/nozb1/pepe_player_model/pepe_player_model.vmdl",
+            "characters/models/kolka/yoru/yoru.vmdl",
+            "characters/models/stepanof/stalker_shrek/shrek.vmdl",
+            "characters/models/nozb1/santa_player_model/santa_player_model.vmdl"
+        };
+
         #endregion Models
 
         #region BlockedRadioCommands
