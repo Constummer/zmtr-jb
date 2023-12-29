@@ -16,7 +16,6 @@ public partial class JailbreakExtras
             }
 
             bool changed = false;
-
             CoinMoveOnTick(GetWarden());
             for (int i = 1; i < Server.MaxPlayers; i++)
             {
@@ -27,7 +26,6 @@ public partial class JailbreakExtras
                 var player = new CCSPlayerController(ent);
                 if (player == null || !player.IsValid)
                     continue;
-
                 ParachuteOnTick(player);
 
                 changed = BasicCountdown.CountdownEnableTextHandler(changed, player);
