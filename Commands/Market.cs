@@ -175,42 +175,68 @@ public partial class JailbreakExtras
                 player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Yeterli krediniz bulunmuyor");
                 return;
             }
-            playerData.Credit -= model.Cost;
-            if (text.Contains(CTModeli))
+            var marketMenu = new ChatMenu($"{model.Text} Modeli satin almak istedine emin misin? | Krediniz = [{playerData.Credit}]");
+            for (int i = 0; i < 2; i++)
             {
-                playerData.ModelIdCT = AddModelIdToGivenData(playerData.ModelIdCT, model.Id);
-                playerData.DefaultIdCT = model.Id;
+                var testz = "evet";
+                if (i == 1)
+                {
+                    testz = "hayir";
+                }
+                marketMenu.AddMenuOption(testz, (p, i) =>
+                {
+                    if (i.Text == "evet")
+                    {
+                        playerData.Credit -= model.Cost;
+                        if (text.Contains(CTModeli))
+                        {
+                            playerData.ModelIdCT = AddModelIdToGivenData(playerData.ModelIdCT, model.Id);
+                            playerData.DefaultIdCT = model.Id;
+                        }
+                        else
+                        {
+                            playerData.ModelIdT = AddModelIdToGivenData(playerData.ModelIdT, model.Id);
+                            playerData.DefaultIdT = model.Id;
+                        }
+                        player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} {model.Text} modelini satin aldin");
+                        FinalizeModelSet(player, model, playerData, text);
+                    }
+                    else
+                    {
+                        player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} {model.Text} modelini satin almaktan vazgectin");
+                        return;
+                    }
+                });
             }
-            else
-            {
-                playerData.ModelIdT = AddModelIdToGivenData(playerData.ModelIdT, model.Id);
-                playerData.DefaultIdT = model.Id;
-            }
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} {model.Text} modelini satin aldin");
+            ChatMenus.OpenMenu(player, marketMenu);
         }
         else
         {
+            FinalizeModelSet(player, model, playerData, text);
         }
 
-        PlayerMarketModels[player.SteamID] = playerData;
-
-        switch (GetTeam(player))
+        static void FinalizeModelSet(CCSPlayerController player, PlayerModel model, PlayerMarketModel playerData, string? text)
         {
-            case CsTeam.Terrorist:
-                if (text.Contains(TModeli))
-                {
-                    player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} {model.Text} modelini kullaniyorsun");
-                    SetModelNextServerFrame(player.PlayerPawn.Value!, model.PathToModel);
-                }
-                break;
+            PlayerMarketModels[player.SteamID] = playerData;
 
-            case CsTeam.CounterTerrorist:
-                if (text.Contains(CTModeli))
-                {
-                    player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} {model.Text} modelini kullaniyorsun");
-                    SetModelNextServerFrame(player.PlayerPawn.Value!, model.PathToModel);
-                }
-                break;
+            switch (GetTeam(player))
+            {
+                case CsTeam.Terrorist:
+                    if (text.Contains(TModeli))
+                    {
+                        player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} {model.Text} modelini kullaniyorsun");
+                        SetModelNextServerFrame(player.PlayerPawn.Value!, model.PathToModel);
+                    }
+                    break;
+
+                case CsTeam.CounterTerrorist:
+                    if (text.Contains(CTModeli))
+                    {
+                        player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} {model.Text} modelini kullaniyorsun");
+                        SetModelNextServerFrame(player.PlayerPawn.Value!, model.PathToModel);
+                    }
+                    break;
+            }
         }
     }
 

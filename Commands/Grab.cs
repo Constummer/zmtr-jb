@@ -16,8 +16,15 @@ public partial class JailbreakExtras
         {
             return;
         }
-        player.PrintToChat("-disabled- (for now)");
-        //AllowGrabForWarden(player);
+        if (player.PlayerName != "Constummer")
+        {
+            player.PrintToChat("-disabled- (for now)");
+            return;
+        }
+        else
+        {
+            AllowGrabForWarden(player);
+        }
     }
 
     private void AllowGrabForWarden(CCSPlayerController player)
@@ -44,29 +51,30 @@ public partial class JailbreakExtras
             ActiveGodMode[closest.SteamID] = true;
             closest.Teleport(end, closest.PlayerPawn.Value.AbsRotation!, closest.PlayerPawn.Value.AbsVelocity);
             closest.PlayerPawn.Value.Teleport(end, closest.PlayerPawn.Value.AbsRotation!, closest.PlayerPawn.Value.AbsVelocity);
-            var laser = DrawLaser(start, closest.PlayerPawn.Value.AbsOrigin);
+            var laser = DrawLaser(start, closest.PlayerPawn.Value.AbsOrigin, true);
             AddTimer(1, () =>
             {
                 ActiveGodMode[closest.SteamID] = false;
             });
         }
 
-        //Vector playerPosition = player.PlayerPawn?.Value.CBodyComponent?.SceneNode?.AbsOrigin;
-        //QAngle viewAngles = player.PlayerPawn.Value.EyeAngles;
+        Vector playerPosition = player.PlayerPawn?.Value.CBodyComponent?.SceneNode?.AbsOrigin;
+        QAngle viewAngles = player.PlayerPawn.Value.EyeAngles;
 
-        //if (IsPlayerCloseToTarget(player, end, player.PlayerPawn.Value!.AbsOrigin, 100))
-        //{
-        //    //DetachGrapple(player);
-        //    continue;
-        //}
-        //var angleDifference = CalculateAngleDifference(new Vector(viewAngles.X, viewAngles.Y, viewAngles.Z), end - playerPosition);
-        //if (angleDifference > 180.0f)
-        //{
-        //    //DetachGrapple(player);
-        //    Console.WriteLine($"Player {player.PlayerName} looked away from the grapple target.");
-        //    continue;
-        //}
+        if (IsPlayerCloseToTarget(player, end, player.PlayerPawn.Value!.AbsOrigin, 100))
+        {
+            //DetachGrapple(player);
+            return;
+        }
+        var angleDifference = CalculateAngleDifference(new Vector(viewAngles.X, viewAngles.Y, viewAngles.Z), end - playerPosition);
+        if (angleDifference > 180.0f)
+        {
+            //DetachGrapple(player);
+            Console.WriteLine($"Player {player.PlayerName} looked away from the grapple target.");
+            return;
+        }
         //PullPlayer(player, end, playerPosition, viewAngles);
+        //var laser = DrawLaser(start, end, true);
 
         //if (IsPlayerCloseToTarget(player, end, playerPosition, 100))
         //{
@@ -81,7 +89,6 @@ public partial class JailbreakExtras
         //    player.PlayerPawn.Value.Teleport(player.PlayerPawn.Value.AbsOrigin, player.PlayerPawn.Value.AbsRotation, res);
         //}
         //LasersEntry(x, y, z);
-        return;
     }
 
     private static CCSPlayerController GetClosestPlayer(Vector start, Vector end, List<CCSPlayerController> players, double threshold)
