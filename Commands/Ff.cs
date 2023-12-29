@@ -13,6 +13,8 @@ public partial class JailbreakExtras
 {
     private static bool FFMenuCheck = false;
 
+    private static CounterStrikeSharp.API.Modules.Timers.Timer FFTimer { get; set; } = null;
+
     #region Ff
 
     [ConsoleCommand("ff")]
@@ -42,6 +44,19 @@ public partial class JailbreakExtras
                 Ff(true);
                 break;
         }
+    }
+
+    [ConsoleCommand("ffiptal")]
+    public void Ffiptal(CCSPlayerController? player, CommandInfo info)
+    {
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        BasicCountdown.StopCountdown();
+
+        FFTimer?.Kill();
+        Ff(false);
     }
 
     [ConsoleCommand("ffac", "ff acar")]
@@ -86,7 +101,8 @@ public partial class JailbreakExtras
             {
                 BasicCountdown.CommandStartTextCountDown(this, $"FF'in açılmasına {value} saniye kaldı!");
 
-                _ = AddTimer(value, () =>
+                FFTimer?.Kill();
+                FFTimer = AddTimer(value, () =>
                 {
                     Ff(true);
                 });
@@ -126,7 +142,8 @@ public partial class JailbreakExtras
             else
             {
                 BasicCountdown.CommandStartTextCountDown(this, $"[{msg}] {Environment.NewLine}Donmak için {value} saniye!");
-                _ = AddTimer(value, () =>
+                FFTimer?.Kill();
+                FFTimer = AddTimer(value, () =>
                 {
                     GetPlayers()
                     .Where(x => x != null
@@ -189,7 +206,8 @@ public partial class JailbreakExtras
                  });
                 FFMenuCheck = true;
 
-                _ = AddTimer(value, () =>
+                FFTimer?.Kill();
+                FFTimer = AddTimer(value, () =>
                 {
                     Ff(true);
                 });

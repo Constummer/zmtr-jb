@@ -10,8 +10,7 @@ public partial class JailbreakExtras
     private static float CountdownTime;
     private static string CountdownText = "";
     private static bool Countdown_enable_text;
-    private static CounterStrikeSharp.API.Modules.Timers.Timer? timer_1;
-    private static CounterStrikeSharp.API.Modules.Timers.Timer? timer_2;
+    private static CounterStrikeSharp.API.Modules.Timers.Timer? timer;
     private static string Pattern = @"(\d+)\s*(saniye|sn|second|se|s.)";
 
     internal static class BasicCountdown
@@ -64,7 +63,7 @@ public partial class JailbreakExtras
                 if (match.Success)
                 {
                     // Mevcut bir zamanlayıcı varsa sonlandır
-                    timer_2?.Kill();
+                    timer?.Kill();
                     var TimeSec = match.Groups[1].Value;
 
                     var time_convert = Convert.ToInt32(TimeSec);
@@ -73,12 +72,12 @@ public partial class JailbreakExtras
                     Countdown_enable_text = true;
 
                     // Yeni bir zamanlayıcı ekle
-                    timer_2 = jailbreakExtras.AddTimer(1.0f, () =>
+                    timer = jailbreakExtras.AddTimer(1.0f, () =>
                     {
                         if (CountdownTime == 0.0)
                         {
                             Countdown_enable_text = false;
-                            timer_2?.Kill();
+                            timer?.Kill();
                             return;
                         }
 
@@ -89,6 +88,12 @@ public partial class JailbreakExtras
             catch
             {
             }
+        }
+
+        internal static void StopCountdown()
+        {
+            timer?.Kill();
+            Countdown_enable_text = false;
         }
     }
 }

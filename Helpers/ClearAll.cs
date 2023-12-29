@@ -7,8 +7,7 @@ public partial class JailbreakExtras
         CountdownText = "";
         CountdownTime = 0;
         Countdown_enable_text = false;
-        timer_2?.Kill();
-        timer_1?.Kill();
+        timer?.Kill();
         ActiveGodMode?.Clear();
         DeathLocations?.Clear();
         KilledPlayers?.Clear();
