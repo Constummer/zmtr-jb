@@ -15,7 +15,6 @@ public partial class JailbreakExtras
             {
                 return HookResult.Continue;
             }
-            LastAliveTSound();
 
             if (@event.Attacker != null
                     && ((CEntityInstance)@event.Attacker).IsValid == true
@@ -34,6 +33,10 @@ public partial class JailbreakExtras
                         { @event.Userid.SteamID, @event.Userid.PlayerName }
                     });
                     }
+                }
+                if (GetTeam(@event.Userid) == CsTeam.Terrorist)
+                {
+                    LastAliveTSound();
                 }
                 if (@event?.Attacker.UserId != @event?.Userid.UserId && GetTeam(@event?.Attacker!) != GetTeam(@event!.Userid))
                 {

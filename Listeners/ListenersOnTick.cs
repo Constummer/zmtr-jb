@@ -28,7 +28,7 @@ public partial class JailbreakExtras
                     continue;
                 ParachuteOnTick(player);
 
-                //   changed = BasicCountdown.CountdownEnableTextHandler(changed, player);
+                changed = BasicCountdown.CountdownEnableTextHandler(changed, player);
             }
         }));
     }
