@@ -97,7 +97,7 @@ public partial class JailbreakExtras
         {
             if (ValidateCallerPlayer(x, false) == false)
                 return;
-            Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
+            Vector currentPosition = x.PlayerPawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
             Vector currentSpeed = new Vector(0, 0, 0);
             QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
             x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);

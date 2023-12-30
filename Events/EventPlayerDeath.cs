@@ -43,13 +43,9 @@ public partial class JailbreakExtras
                     AddCreditToAttacker(@event?.Attacker, GetTeam(@event!.Userid));
                 }
 
-                if (@event?.Userid != null
-                    && @event?.Userid.PlayerPawn != null
-                    && (@event?.Userid.PlayerPawn.IsValid ?? false)
-                    && @event?.Userid.PlayerPawn.Value != null
-                    && @event?.Userid.PlayerPawn.Value.AbsOrigin != null)
+                if (ValidateCallerPlayer(@event?.Userid, false))
                 {
-                    Vector? currentPosition = @event?.Userid.PlayerPawn.Value.AbsOrigin;
+                    Vector? currentPosition = @event?.Userid.PlayerPawn.Value!.AbsOrigin;
                     if (currentPosition != null)
                     {
                         DeathLocations.TryAdd(@event!.Userid.SteamID, currentPosition);
