@@ -16,6 +16,10 @@ public partial class JailbreakExtras
         Server.ExecuteCommand("C_reload_admins");
         Server.ExecuteCommand("css_admins_reload");
         Server.PrintToChatAll("Yetkiler yenilendi");
+        if (false)
+        {
+            ReloadAllPlayerPermissions();
+        }
     }
 
     #endregion AdminRefresh
