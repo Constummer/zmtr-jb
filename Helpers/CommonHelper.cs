@@ -181,7 +181,9 @@ public partial class JailbreakExtras
         };
     }
 
-    private static CsTeam GetTeam(CCSPlayerController x) => x.PendingTeamNum != x.TeamNum ? (CsTeam)x.PendingTeamNum : (CsTeam)x.TeamNum;
+    private static CsTeam GetTeamOld(CCSPlayerController x) => x.PendingTeamNum != x.TeamNum ? (CsTeam)x.PendingTeamNum : (CsTeam)x.TeamNum;
+
+    private static CsTeam GetTeam(CCSPlayerController x) => (CsTeam)x.TeamNum;
 
     private static TargetForArgument GetTargetArgument(string target) => target switch
     {

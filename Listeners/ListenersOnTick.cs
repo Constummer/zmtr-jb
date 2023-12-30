@@ -1,6 +1,5 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
@@ -16,7 +15,7 @@ public partial class JailbreakExtras
             }
 
             bool changed = false;
-            // CoinMoveOnTick(GetWarden());
+            CoinMoveOnTick(GetWarden());
             for (int i = 1; i < Server.MaxPlayers; i++)
             {
                 var ent = NativeAPI.GetEntityFromIndex(i);
