@@ -1,3 +1,4 @@
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
@@ -12,16 +13,21 @@ public partial class JailbreakExtras
         {
             if (info.ArgString != null)
             {
-                if (player.SteamID == LatestWCommandUser)
+                if (ValidateCallerPlayer(player, false) == true)
                 {
-                    RemoveWarden();
-                }
-                if (info.ArgString.Contains("0")
-                 || info.ArgString.Contains("1")
-                 || info.ArgString.Contains("3"))
-                {
-                    player!.ChangeTeam(CsTeam.Terrorist);
-                    return HookResult.Stop;
+                    if (player.SteamID == LatestWCommandUser)
+                    {
+                        RemoveWarden();
+                    }
+                    if (info.ArgString.Contains("0")
+                     || info.ArgString.Contains("1")
+                     || info.ArgString.Contains("3"))
+                    {
+                        player.VoiceFlags |= VoiceFlags.Muted;
+
+                        player!.ChangeTeam(CsTeam.Terrorist);
+                        return HookResult.Stop;
+                    }
                 }
             }
             return HookResult.Continue;
