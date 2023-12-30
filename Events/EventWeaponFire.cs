@@ -8,7 +8,14 @@ public partial class JailbreakExtras
 {
     private void EventWeaponFire()
     {
-        RegisterEventHandler<EventWeaponFire>(UnlimitedReserverAmmo);
+        RegisterEventHandler<EventWeaponFire>((@event, info) =>
+        {
+            if (LrActive == false)
+            {
+                UnlimitedReserverAmmo(@event, info);
+            }
+            return HookResult.Continue;
+        });
     }
 
     private static HookResult UnlimitedReserverAmmo(EventWeaponFire @event, GameEventInfo info)
@@ -21,6 +28,7 @@ public partial class JailbreakExtras
         {
             return HookResult.Continue;
         }
+
         var player = @event!.Userid;
         //if (GetTeam(player) != CsTeam.CounterTerrorist)
         //{
