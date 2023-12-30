@@ -16,7 +16,7 @@ public partial class JailbreakExtras
             }
 
             bool changed = false;
-            CoinMoveOnTick(GetWarden());
+            // CoinMoveOnTick(GetWarden());
             for (int i = 1; i < Server.MaxPlayers; i++)
             {
                 var ent = NativeAPI.GetEntityFromIndex(i);
@@ -28,7 +28,7 @@ public partial class JailbreakExtras
                     continue;
                 ParachuteOnTick(player);
 
-                changed = BasicCountdown.CountdownEnableTextHandler(changed, player);
+                //   changed = BasicCountdown.CountdownEnableTextHandler(changed, player);
             }
         }));
     }
