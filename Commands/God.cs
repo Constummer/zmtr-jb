@@ -104,7 +104,16 @@ public partial class JailbreakExtras
                });
         if (targetArgument != TargetForArgument.None)
         {
-            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{target} {ChatColors.White}hedefine {ChatColors.Blue}god {ChatColors.White}verdi.");
+            switch (godOneTwo)
+            {
+                case 0:
+                    Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{target} {ChatColors.White}hedefine {ChatColors.Blue}godunu {ChatColors.White}kaldirdi.");
+                    break;
+
+                case 1:
+                    Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{target} {ChatColors.White}hedefine {ChatColors.Blue}god {ChatColors.White}verdi.");
+                    break;
+            }
         }
     }
 
