@@ -13,6 +13,8 @@ public partial class JailbreakExtras
 
     private HookResult EXTRAOnPlayerPing(EventPlayerPing @event, GameEventInfo info)
     {
+        if (@event == null)
+            return HookResult.Continue;
         var player = @event.Userid;
         if (player.SteamID != LatestWCommandUser)
         {

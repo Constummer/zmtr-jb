@@ -8,6 +8,8 @@ public partial class JailbreakExtras
     {
         RegisterEventHandler((GameEventHandler<EventPlayerHurt>)((@event, info) =>
         {
+            if (@event == null)
+                return HookResult.Continue;
             if (@event.Userid.IsBot == true)
             {
                 return HookResult.Continue;

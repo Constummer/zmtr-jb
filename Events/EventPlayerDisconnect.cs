@@ -8,6 +8,8 @@ public partial class JailbreakExtras
     {
         RegisterEventHandler<EventPlayerDisconnect>((@event, _) =>
         {
+            if (@event == null)
+                return HookResult.Continue;
             if (@event?.Userid?.SteamID == LatestWCommandUser)
             {
                 CoinRemove();

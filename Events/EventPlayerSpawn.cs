@@ -10,6 +10,8 @@ public partial class JailbreakExtras
     {
         RegisterEventHandler((GameEventHandler<EventPlayerSpawn>)((@event, _) =>
         {
+            if (@event == null)
+                return HookResult.Continue;
             var x = @event.Userid;
             if (ValidateCallerPlayer(x, false)
             && x?.SteamID != null

@@ -10,6 +10,8 @@ public partial class JailbreakExtras
     {
         RegisterEventHandler<EventWeaponFire>((@event, info) =>
         {
+            if (@event == null)
+                return HookResult.Continue;
             if (LrActive == false)
             {
                 UnlimitedReserverAmmo(@event, info);

@@ -9,6 +9,8 @@ public partial class JailbreakExtras
     {
         RegisterEventHandler<EventPlayerDeath>((@event, info) =>
         {
+            if (@event == null)
+                return HookResult.Continue;
             if (@event.Userid.IsBot == true)
             {
                 return HookResult.Continue;
@@ -33,7 +35,7 @@ public partial class JailbreakExtras
                     });
                     }
                 }
-                if (@event?.Attacker.UserId != @event?.Userid.UserId)
+                if (@event?.Attacker.UserId != @event?.Userid.UserId && GetTeam(@event?.Attacker!) != GetTeam(@event!.Userid))
                 {
                     AddCreditToAttacker(@event?.Attacker, GetTeam(@event!.Userid));
                 }
