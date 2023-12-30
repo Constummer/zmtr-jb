@@ -1,4 +1,5 @@
 using CounterStrikeSharp.API.Core;
+using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
 
@@ -10,7 +11,12 @@ public partial class JailbreakExtras
         {
             if (@event == null)
                 return HookResult.Continue;
-            if (@event.Userid.IsBot == true)
+            if (ValidateCallerPlayer(@event.Userid, false) == false)
+            {
+                return HookResult.Continue;
+            }
+
+            if (@event.Userid?.IsBot == true)
             {
                 return HookResult.Continue;
             }
