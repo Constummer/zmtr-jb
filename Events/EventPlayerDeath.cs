@@ -42,10 +42,18 @@ public partial class JailbreakExtras
                 {
                     AddCreditToAttacker(@event?.Attacker, GetTeam(@event!.Userid));
                 }
-                Vector? currentPosition = @event?.Userid?.Pawn?.Value?.CBodyComponent?.SceneNode?.AbsOrigin;
-                if (currentPosition != null)
+
+                if (@event?.Userid != null
+                    && @event?.Userid.PlayerPawn != null
+                    && (@event?.Userid.PlayerPawn.IsValid ?? false)
+                    && @event?.Userid.PlayerPawn.Value != null
+                    && @event?.Userid.PlayerPawn.Value.AbsOrigin != null)
                 {
-                    DeathLocations.TryAdd(@event!.Userid.SteamID, currentPosition);
+                    Vector? currentPosition = @event?.Userid.PlayerPawn.Value.AbsOrigin;
+                    if (currentPosition != null)
+                    {
+                        DeathLocations.TryAdd(@event!.Userid.SteamID, currentPosition);
+                    }
                 }
                 if (@event?.Userid?.SteamID == LatestWCommandUser)
                 {
