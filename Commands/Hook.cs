@@ -25,6 +25,7 @@ public partial class JailbreakExtras
                 }
             }
         }
+        return;
         AllowLaserForWarden(player);
     }
 
@@ -73,16 +74,11 @@ public partial class JailbreakExtras
 
     private void AllowLaserForWarden(CCSPlayerController player)
     {
-        //foreach (var c in player.Pawn.Value!.MovementServices!.Buttons.ButtonStates)
-        //{
-        //    if (c == FButtonIndex)
-        //    {
         if (ValidateCallerPlayer(player, false) == false
             || player.PlayerPawn.Value!.AbsOrigin == null)
         {
             return;
         }
-        //Logger.LogInformation("af");
 
         float x, y, z;
         x = player.PlayerPawn.Value!.AbsOrigin!.X;
@@ -96,35 +92,17 @@ public partial class JailbreakExtras
 
         if (IsPlayerCloseToTarget(player, end, player.PlayerPawn.Value!.AbsOrigin, 40))
         {
-            //DetachGrapple(player);
             return;
         }
         var angleDifference = CalculateAngleDifference(new Vector(viewAngles.X, viewAngles.Y, viewAngles.Z), end - playerPosition);
         if (angleDifference > 180.0f)
         {
-            //DetachGrapple(player);
-            Console.WriteLine($"Player {player.PlayerName} looked away from the grapple target.");
             return;
         }
         var laser = DrawLaser(start, end);
         PullPlayer(player, end, playerPosition, viewAngles);
 
-        //if (IsPlayerCloseToTarget(player, end, playerPosition, 40))
-        //{
-        //    //DetachGrapple(player);
-        //}
-        //if (laser != null)
-        //{
-        //    var velocity = player.PlayerPawn.Value.AbsVelocity;
-        //    var res = HookThere(start, end, velocity);
-
-        //    //player.Teleport(res.Position, player.PlayerPawn.Value.AbsRotation, res.Velocity);
-        //    player.PlayerPawn.Value.Teleport(player.PlayerPawn.Value.AbsOrigin, player.PlayerPawn.Value.AbsRotation, res);
-        //}
-        //LasersEntry(x, y, z);
         return;
-        //}
-        //}
     }
 
     private void PullPlayer(CCSPlayerController player, Vector grappleTarget, Vector playerPosition, QAngle viewAngles)
