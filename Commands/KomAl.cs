@@ -34,7 +34,7 @@ public partial class JailbreakExtras
         Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}Komutçu adaylığından ayrılmak için !komadayiptal yazın.");
         KomActive = true;
         var now = DateTime.UtcNow;
-        AddTimer(20f, () =>
+        AddTimer(30f, () =>
         {
             if (KomActive)
             {
@@ -97,19 +97,15 @@ public partial class JailbreakExtras
         {
             if (KomAdays.Count == 1)
             {
-                Console.WriteLine(1);
                 var kvp = KomAdays[0];
-                Console.WriteLine(2);
+
                 var winner = Utilities.GetPlayerFromSteamId(kvp);
-                Console.WriteLine(3);
+
                 if (ValidateCallerPlayer(winner, false))
                 {
-                    Console.WriteLine(4);
                     AddTimer(1, () =>
                     {
-                        Console.WriteLine(5);
                         winner.SwitchTeam(CsTeam.CounterTerrorist);
-                        Console.WriteLine(6);
                     });
                 }
             }
@@ -143,7 +139,7 @@ public partial class JailbreakExtras
                     ChatMenus.OpenMenu(x, komalVoteMenu);
                 }
 
-                AddTimer(20, () =>
+                AddTimer(15, () =>
                 {
                     if (KomAlVoteInProgress)
                     {
@@ -161,9 +157,7 @@ public partial class JailbreakExtras
                                 {
                                     AddTimer(1, () =>
                                     {
-                                        Console.WriteLine(55);
                                         winner.SwitchTeam(CsTeam.CounterTerrorist);
-                                        Console.WriteLine(66);
                                     });
                                 }
                             }
