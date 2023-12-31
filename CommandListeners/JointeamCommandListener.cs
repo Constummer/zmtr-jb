@@ -1,3 +1,4 @@
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
@@ -12,6 +13,7 @@ public partial class JailbreakExtras
         {
             if (info.ArgString != null)
             {
+                player.VoiceFlags |= VoiceFlags.Muted;
                 if (player.SteamID == LatestWCommandUser)
                 {
                     RemoveWarden();
