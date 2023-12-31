@@ -6,6 +6,7 @@ using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Utils;
+using Microsoft.Extensions.Logging.Abstractions;
 
 namespace JailbreakExtras;
 
@@ -13,6 +14,8 @@ public partial class JailbreakExtras
 {
     public static Dictionary<string, int> Answers = new Dictionary<string, int>();
     public static bool VoteInProgress = false;
+    public CounterStrikeSharp.API.Modules.Timers.Timer VoteTimer = null;
+    public ChatMenu LatestVoteMenu = null;
 
     #region Vote
 
@@ -39,12 +42,12 @@ public partial class JailbreakExtras
         string question = command.GetArg(1);
         int answersCount = command.ArgCount;
 
-        ChatMenu voteMenu = new(question);
+        LatestVoteMenu = new(question);
 
         for (int i = 2; i <= answersCount - 1; i++)
         {
             Answers.Add(command.GetArg(i), 0);
-            voteMenu.AddMenuOption(command.GetArg(i), HandleVotes);
+            LatestVoteMenu.AddMenuOption(command.GetArg(i), HandleVotes);
         }
         Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {(player == null ? "Console" : $"{ChatColors.Blue}{player.PlayerName} - {ChatColors.Green}{question} Oylamasını başlattı!")}");
 
@@ -59,17 +62,17 @@ public partial class JailbreakExtras
         {
             ValidateCallerPlayer(p, false);
             if (p == null) continue;
-            ChatMenus.OpenMenu(p, voteMenu);
+            ChatMenus.OpenMenu(p, LatestVoteMenu);
         }
         Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {(player == null ? "Console" : $"{ChatColors.Blue}{player.PlayerName} - {ChatColors.Green}{question} Oylaması 20 saniye sürecek, oy vermeyi unutmayın!")}");
 
-        _ = AddTimer(20, () =>
+        VoteTimer = AddTimer(20, () =>
           {
               Server.PrintToChatAll(question + $" {ChatColors.Red}SORUSUNUN YANITLARI");
 
               foreach (KeyValuePair<string, int> kvp in Answers)
               {
-                  Server.PrintToChatAll(kvp.Key + " - " + kvp.Value);
+                  Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR]{ChatColors.White}Seçenek = {ChatColors.Blue} {kvp.Key} {ChatColors.White} - Toplam Oy = {ChatColors.Yellow}{kvp.Value}");
               }
               Answers.Clear();
               VoteInProgress = false;
@@ -78,10 +81,35 @@ public partial class JailbreakExtras
         return;
     }
 
+    [ConsoleCommand("cancelvote")]
+    public void CancelVote(CCSPlayerController? player, CommandInfo command)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye26"))
+        {
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        Answers?.Clear();
+
+        VoteInProgress = false;
+
+        VoteTimer?.Kill();
+        VoteTimer = null;
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} OYLAMA IPTAL EDILDI.");
+
+        return;
+    }
+
     internal static void HandleVotes(CCSPlayerController player, ChatMenuOption option)
     {
         if (VoteInProgress)
+        {
             Answers[option.Text]++;
+            if (ValidateCallerPlayer(player, false) == true)
+            {
+                player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Blue} {option.Text} {ChatColors.White} Seçeneğine oy verdin.");
+            }
+        }
     }
 
     #endregion Vote

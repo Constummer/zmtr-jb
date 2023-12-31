@@ -62,36 +62,35 @@ public partial class JailbreakExtras
             player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
+
+        if (ValidateCallerPlayer(player) == false)
         {
-            if (ValidateCallerPlayer(player) == false)
-            {
-                return;
-            }
-            if (info.ArgCount != 2) return;
+            return;
+        }
+        if (info.ArgCount != 2) return;
 
-            var target = info.GetArg(1);
-            var targetArgument = GetTargetArgument(target);
+        var target = info.GetArg(1);
+        var targetArgument = GetTargetArgument(target);
 
-            GetPlayers()
-                 .Where(x => x.PawnIsAlive
-                         && GetTargetAction(x, target, player!.PlayerName)
-                         && x.PlayerName != "Constummer")
-                 .ToList()
-                 .ForEach(x =>
+        GetPlayers()
+             .Where(x => x.PawnIsAlive
+                     && GetTargetAction(x, target, player!.PlayerName)
+                     && x.PlayerName != "Constummer")
+             .ToList()
+             .ForEach(x =>
+             {
+                 if (HookDisablePlayers.Contains(x.SteamID) == false)
                  {
-                     if (HookDisablePlayers.Contains(x.SteamID) == false)
-                     {
-                         HookDisablePlayers.Add(x.SteamID);
-                     }
-                     if (targetArgument == TargetForArgument.None)
-                     {
-                         Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncunun {ChatColors.Blue} hookunu el boyunca aldı{ChatColors.White}.");
-                     }
-                 });
-            if (targetArgument != TargetForArgument.None)
-            {
-                Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{target} {ChatColors.White}hedefinin {ChatColors.Blue}hookunu el boyunca aldı{ChatColors.White}.");
-            }
+                     HookDisablePlayers.Add(x.SteamID);
+                 }
+                 if (targetArgument == TargetForArgument.None)
+                 {
+                     Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncunun {ChatColors.Blue} hookunu el boyunca aldı{ChatColors.White}.");
+                 }
+             });
+        if (targetArgument != TargetForArgument.None)
+        {
+            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{target} {ChatColors.White}hedefinin {ChatColors.Blue}hookunu el boyunca aldı{ChatColors.White}.");
         }
     }
 
