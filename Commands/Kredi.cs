@@ -16,7 +16,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("kredim")]
     public void Kredi(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (ValidateCallerPlayer(player, false) == false)
         {
             return;
         }

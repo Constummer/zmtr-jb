@@ -7,7 +7,7 @@ public partial class JailbreakExtras
 {
     private static void LastAliveTSound()
     {
-        if (GetPlayers(CsTeam.Terrorist).Where(x => x.PawnIsAlive).Count() == 1)
+        if (GetPlayers(CsTeam.Terrorist).Where(x => x.PawnIsAlive).Count() == 2)
         {
             var players = GetPlayers();
             foreach (var player in players)
