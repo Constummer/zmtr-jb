@@ -34,6 +34,7 @@ public partial class JailbreakExtras
     }
 
     [ConsoleCommand("tdonboz", "Unfreeze t.")]
+    [ConsoleCommand("tdb", "Unfreeze t.")]
     public void TDonbozCommand(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)

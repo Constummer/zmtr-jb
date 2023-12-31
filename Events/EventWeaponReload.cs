@@ -1,14 +1,13 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private void EventWeaponFire()
+    private void EventWeaponReload()
     {
-        RegisterEventHandler<EventWeaponFire>((@event, info) =>
+        RegisterEventHandler<EventWeaponReload>((@event, info) =>
         {
             if (@event == null)
                 return HookResult.Continue;
@@ -20,22 +19,14 @@ public partial class JailbreakExtras
         });
     }
 
-    private static HookResult UnlimitedReserverAmmo(EventWeaponFire @event, GameEventInfo info)
+    private static HookResult UnlimitedReserverAmmo(EventWeaponReload @event, GameEventInfo info)
     {
-        if (@event.Weapon?.Contains("knife") ?? true)
-        {
-            return HookResult.Continue;
-        }
         if (ValidateCallerPlayer(@event?.Userid, false) == false)
         {
             return HookResult.Continue;
         }
-
         var player = @event!.Userid;
-        //if (GetTeam(player) != CsTeam.CounterTerrorist)
-        //{
-        //    return HookResult.Continue;
-        //}
+
         var weaponServices = player.PlayerPawn.Value!.WeaponServices;
         if (weaponServices == null || weaponServices.MyWeapons == null)
         {
@@ -43,7 +34,7 @@ public partial class JailbreakExtras
         }
         foreach (var weapon in weaponServices.MyWeapons)
         {
-            if (weapon != null && weapon.IsValid && weapon.Value!.DesignerName == @event.Weapon)
+            if (weapon != null && weapon.IsValid)
             {
                 var clip1 = weapon.Value.Clip1;
                 var reservedAmmo = weapon.Value.ReserveAmmo[0];
