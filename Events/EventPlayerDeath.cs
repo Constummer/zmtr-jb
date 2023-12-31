@@ -20,27 +20,27 @@ public partial class JailbreakExtras
             {
                 return HookResult.Continue;
             }
-            if (@event.Attacker == null
-                    || ((CEntityInstance)@event.Attacker).IsValid != true
-                    || ((CEntityInstance)@event.Attacker).Index == 32767)
-            {
-                return HookResult.Continue;
-            }
-
-            //if (GetTeam(@event.Attacker) == CsTeam.CounterTerrorist)
+            //if (@event.Attacker == null
+            //        || ((CEntityInstance)@event.Attacker).IsValid != true
+            //        || ((CEntityInstance)@event.Attacker).Index == 32767)
             //{
-            //    if (KilledPlayers.TryGetValue(@event.Attacker.SteamID, out var kilList))
-            //    {
-            //        kilList.TryAdd(@event.Userid.SteamID, @event.Userid.PlayerName);
-            //    }
-            //    else
-            //    {
-            //        KilledPlayers.TryAdd(@event.Attacker.SteamID, new Dictionary<ulong, string>()
-            //        {
-            //            { @event.Userid.SteamID, @event.Userid.PlayerName }
-            //        });
-            //    }
+            //    return HookResult.Continue;
             //}
+
+            if (GetTeam(@event.Attacker) == CsTeam.CounterTerrorist)
+            {
+                if (KilledPlayers.TryGetValue(@event.Attacker.SteamID, out var kilList))
+                {
+                    kilList.TryAdd(@event.Userid.SteamID, @event.Userid.PlayerName);
+                }
+                else
+                {
+                    KilledPlayers.TryAdd(@event.Attacker.SteamID, new Dictionary<ulong, string>()
+                    {
+                        { @event.Userid.SteamID, @event.Userid.PlayerName }
+                    });
+                }
+            }
             if (GetTeam(@event.Userid) == CsTeam.Terrorist)
             {
                 LastAliveTSound();
@@ -51,15 +51,14 @@ public partial class JailbreakExtras
                 AddCreditToAttacker(@event?.Attacker, GetTeam(@event!.Userid));
             }
 
-            //if (ValidateCallerPlayer(@event?.Userid, false))
-            //{
-            //    Vector? currentPosition = @event?.Userid.PlayerPawn.Value!.AbsOrigin;
-            //    if (currentPosition != null)
-            //    {
-            //        DeathLocations.TryAdd(@event!.Userid.SteamID, currentPosition);
-            //    }
-            //}
-            Logger.LogInformation("f");
+            if (ValidateCallerPlayer(@event?.Userid, false))
+            {
+                Vector? currentPosition = @event?.Userid.PlayerPawn.Value!.AbsOrigin;
+                if (currentPosition != null)
+                {
+                    DeathLocations.TryAdd(@event!.Userid.SteamID, currentPosition);
+                }
+            }
             if (@event?.Userid?.SteamID == LatestWCommandUser)
             {
                 CoinRemove();
