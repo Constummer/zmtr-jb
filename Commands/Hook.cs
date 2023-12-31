@@ -9,11 +9,18 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    public bool HookDisabled { get; set; } = false;
+
     #region Hook
 
     [ConsoleCommand("hook", "af")]
     public void Hook(CCSPlayerController? player, CommandInfo info)
     {
+        if (HookDisabled)
+        {
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Hook el boyunca kapalı.");
+        }
+
         if (LatestWCommandUser != player.SteamID)
         {
             if (HookPlayers.TryGetValue(player.SteamID, out bool canUse) == false)
@@ -115,12 +122,44 @@ public partial class JailbreakExtras
               });
     }
 
+    [ConsoleCommand("hookac")]
+    public void HookAc(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Hook açıldı.");
+
+        HookDisabled = false;
+    }
+
+    [ConsoleCommand("hookkapat")]
+    [ConsoleCommand("hookkapa")]
+    public void HookKapat(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Hook el boyunca kapalı.");
+
+        HookDisabled = true;
+    }
+
     private void AllowLaserForWarden(CCSPlayerController player)
     {
         if (ValidateCallerPlayer(player, false) == false
             || player.PlayerPawn.Value!.AbsOrigin == null)
         {
             return;
+        }
+        var warden = GetWarden();
+        if (warden != null)
+        {
+            warden.PrintToConsole($" {ChatColors.LightRed}[ZMTR] {ChatColors.Blue}{player.PlayerName} {ChatColors.White} Hook bastı");
         }
 
         float x, y, z;
