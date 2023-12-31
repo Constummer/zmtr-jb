@@ -12,6 +12,7 @@ public partial class JailbreakExtras
         DeathLocations?.Clear();
         KilledPlayers?.Clear();
         LatestHediyeCommandCalls?.Clear();
+        HookDisablePlayers?.Clear();
         ClearCits();
         ClearLasers();
     }

@@ -23,6 +23,7 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
     private static readonly Dictionary<ulong, Vector> DeathLocations = new();
     private static readonly Dictionary<ulong, bool> HideFoots = new();
     private static readonly Dictionary<ulong, bool> HookPlayers = new();
+    private static readonly List<ulong> HookDisablePlayers = new();
     private static readonly Dictionary<ulong, Dictionary<ulong, string>> KilledPlayers = new();
     private static readonly Dictionary<CCSPlayerController, bool> bUsingPara = new();
 

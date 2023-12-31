@@ -12,6 +12,7 @@ public partial class JailbreakExtras
     #region Give
 
     [ConsoleCommand("give", "Silah Verir")]
+    [ConsoleCommand("weapon", "Silah Verir")]
     [CommandHelper(2, "<oyuncu ismi,@t,@ct,@all,@me> <silah kisa ismi>")]
     public void Give(CCSPlayerController? player, CommandInfo info)
     {

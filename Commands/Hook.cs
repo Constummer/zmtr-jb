@@ -25,8 +25,10 @@ public partial class JailbreakExtras
                 }
             }
         }
-        return;
-        AllowLaserForWarden(player);
+        if (!HookDisablePlayers.Contains(player.SteamID))
+        {
+            AllowLaserForWarden(player);
+        }
     }
 
     [ConsoleCommand("hookver")]
@@ -49,6 +51,48 @@ public partial class JailbreakExtras
 
                   HookPlayers[x.SteamID] = true;
               });
+    }
+
+    [ConsoleCommand("hookdisable")]
+    [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me> [el boyunca hooku iptal eder]")]
+    public void HookDisable(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        {
+            if (ValidateCallerPlayer(player) == false)
+            {
+                return;
+            }
+            if (info.ArgCount != 2) return;
+
+            var target = info.GetArg(1);
+            var targetArgument = GetTargetArgument(target);
+
+            GetPlayers()
+                 .Where(x => x.PawnIsAlive
+                         && GetTargetAction(x, target, player!.PlayerName)
+                         && x.PlayerName != "Constummer")
+                 .ToList()
+                 .ForEach(x =>
+                 {
+                     if (HookDisablePlayers.Contains(x.SteamID) == false)
+                     {
+                         HookDisablePlayers.Add(x.SteamID);
+                     }
+                     if (targetArgument == TargetForArgument.None)
+                     {
+                         Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncunun {ChatColors.Blue} hookunu el boyunca aldı{ChatColors.White}.");
+                     }
+                 });
+            if (targetArgument != TargetForArgument.None)
+            {
+                Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{target} {ChatColors.White}hedefinin {ChatColors.Blue}hookunu el boyunca aldı{ChatColors.White}.");
+            }
+        }
     }
 
     [ConsoleCommand("hookal")]
