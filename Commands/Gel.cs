@@ -31,7 +31,7 @@ public partial class JailbreakExtras
                   if (x.SteamID != player.SteamID)
                   {
                       var playerAbs = player.PlayerPawn.Value.AbsOrigin;
-                      x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 100, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
+                      x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 50, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
         Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, tüm {ChatColors.Darkred}Mahkûmları {ChatColors.White}yanına ışınladı.");
@@ -57,7 +57,7 @@ public partial class JailbreakExtras
                   if (x.SteamID != player!.SteamID)
                   {
                       var playerAbs = player.PlayerPawn.Value.AbsOrigin;
-                      x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 100, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
+                      x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 50, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
         Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, tüm {ChatColors.Blue}Gardiyanları {ChatColors.White}yanına ışınladı.");
@@ -83,7 +83,7 @@ public partial class JailbreakExtras
                   if (x.SteamID != player!.SteamID)
                   {
                       var playerAbs = player.PlayerPawn.Value.AbsOrigin;
-                      x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 100, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
+                      x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 50, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
         Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, tüm {ChatColors.Green}herkesi {ChatColors.White}yanına ışınladı.");
