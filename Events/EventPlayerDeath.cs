@@ -20,12 +20,12 @@ public partial class JailbreakExtras
             {
                 return HookResult.Continue;
             }
-            //if (@event.Attacker == null
-            //        || ((CEntityInstance)@event.Attacker).IsValid != true
-            //        || ((CEntityInstance)@event.Attacker).Index == 32767)
-            //{
-            //    return HookResult.Continue;
-            //}
+            if (@event.Attacker == null
+                    || ((CEntityInstance)@event.Attacker).IsValid != true
+                    || ((CEntityInstance)@event.Attacker).Index == 32767)
+            {
+                return HookResult.Continue;
+            }
 
             if (GetTeam(@event.Attacker) == CsTeam.CounterTerrorist)
             {

@@ -76,6 +76,7 @@ public partial class JailbreakExtras
                     {
                         if (ulong.TryParse(splitted[1] ?? "", out var parsed))
                         {
+                            Console.WriteLine("wardenSet");
                             Server.NextFrame(() =>
                             {
                                 var temp = LatestWCommandUser;

@@ -1,5 +1,4 @@
 using CounterStrikeSharp.API.Core;
-using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
 
@@ -20,17 +19,19 @@ public partial class JailbreakExtras
             {
                 return HookResult.Continue;
             }
+            if (@event.Attacker == null
+                 || ((CEntityInstance)@event.Attacker).IsValid != true
+                 || ((CEntityInstance)@event.Attacker).Index == 32767)
+            {
+                return HookResult.Continue;
+            }
 
             CCSPlayerController? player = @event.Userid;
             if (LrActive == false)
             {
                 GodHurtCover(@event, player);
-                if (@event.Attacker != null
-                && ((CEntityInstance)@event.Attacker).IsValid == true
-                && ((CEntityInstance)@event.Attacker).Index != 32767)
-                {
-                    TeamYapActive(@event.Attacker, player, @event.DmgHealth, @event.DmgArmor);
-                }
+
+                TeamYapActive(@event.Attacker, player, @event.DmgHealth, @event.DmgArmor);
             }
 
             return HookResult.Continue;
