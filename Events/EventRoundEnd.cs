@@ -22,6 +22,7 @@ public partial class JailbreakExtras
             Server.ExecuteCommand(item);
         }
         LrActive = false;
+        UnlimitedReserverAmmoDisabled = false;
         CoinAngleYUpdaterActive = false;
         CoinSpawned = false;
         _Config.ParachuteEnabled = true;

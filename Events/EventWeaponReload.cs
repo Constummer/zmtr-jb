@@ -13,7 +13,10 @@ public partial class JailbreakExtras
                 return HookResult.Continue;
             if (LrActive == false)
             {
-                UnlimitedReserverAmmo(@event, info);
+                if (!UnlimitedReserverAmmoDisabled)
+                {
+                    UnlimitedReserverAmmo(@event, info);
+                }
             }
             return HookResult.Continue;
         });
