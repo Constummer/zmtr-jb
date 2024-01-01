@@ -45,7 +45,7 @@ public partial class JailbreakExtras
             skzMenu.AddMenuOption(k.Key, (p, t) =>
             {
                 Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Mahkûmlar {ChatColors.Blue}{k.Key} {ChatColors.White} ışınlanıyor");
-                BasicCountdown.CommandStartTextCountDown(this, $" {ChatColors.LightRed}[ZMTR] {ChatColors.White} Mahkûmların donmasina {ChatColors.Blue}{value} {ChatColors.White} saniye");
+                BasicCountdown.CommandStartTextCountDown(this, $"[ZMTR] Mahkûmların donmasina {value} saniye");
 
                 GetPlayers(CsTeam.Terrorist)
                     .Where(x => x.PawnIsAlive == true)
