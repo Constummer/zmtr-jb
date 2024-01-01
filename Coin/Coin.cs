@@ -154,20 +154,5 @@ public partial class JailbreakExtras
               WardenLeaveSound();
           });
         }
-        var target = GetTargetArgument(pname);
-        switch (target)
-        {
-            case TargetForArgument.All:
-            case TargetForArgument.T:
-            case TargetForArgument.Ct:
-            case TargetForArgument.Random:
-            case TargetForArgument.RandomT:
-            case TargetForArgument.RandomCt:
-            case TargetForArgument.None:
-            case TargetForArgument.Alive:
-            case TargetForArgument.Dead:
-            default:
-                break;
-        }
     }
 }

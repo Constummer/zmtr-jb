@@ -34,6 +34,7 @@ public partial class JailbreakExtras
                 TargetForArgument.Alive => x.PawnIsAlive,
                 TargetForArgument.Dead => x.PawnIsAlive == false,
                 TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target) ?? false,
+                TargetForArgument.UserIdIndex => GetUserIdIndex(target) == x.UserId,
                 _ => false
             }
             && ValidateCallerPlayer(x, false))
@@ -74,6 +75,7 @@ public partial class JailbreakExtras
                 TargetForArgument.Alive => x.PawnIsAlive,
                 TargetForArgument.Dead => x.PawnIsAlive == false,
                 TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target) ?? false,
+                TargetForArgument.UserIdIndex => GetUserIdIndex(target) == x.UserId,
                 _ => false
             }
             && ValidateCallerPlayer(x, false))

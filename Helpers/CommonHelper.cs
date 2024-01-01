@@ -157,6 +157,7 @@ public partial class JailbreakExtras
             TargetForArgument.Ct => GetTeam(x) == CsTeam.CounterTerrorist,
             TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target) ?? false,
             TargetForArgument.Me => x.PlayerName == self,
+            TargetForArgument.UserIdIndex => GetUserIdIndex(target) == x.UserId,
             _ => false
         };
     }
@@ -177,6 +178,7 @@ public partial class JailbreakExtras
             TargetForArgument.Alive => true,
             TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target) ?? false,
             TargetForArgument.Me => x.PlayerName == self,
+            TargetForArgument.UserIdIndex => GetUserIdIndex(target) == x.UserId,
             _ => false,
         };
     }
@@ -212,8 +214,33 @@ public partial class JailbreakExtras
         "@RANDOMCT" => TargetForArgument.RandomCt,
         "@me" => TargetForArgument.Me,
         "@ME" => TargetForArgument.Me,
+        _ when IsUserIdIndexChecker(target, out var userId) && userId != null => TargetForArgument.UserIdIndex,
         _ => TargetForArgument.None,
     };
+
+    private static bool IsUserIdIndexChecker(string target, out int? userId)
+    {
+        userId = GetUserIdIndex(target);
+        return userId.HasValue;
+    }
+
+    private static int? GetUserIdIndex(string target)
+    {
+        if (string.IsNullOrWhiteSpace(target)) return null;
+        target = target.Trim();
+        if (target.StartsWith("#"))
+        {
+            var split = target.Split("#");
+            if (split.Length == 2)
+            {
+                if (int.TryParse(split[1], out var userIdout))
+                {
+                    return userIdout;
+                }
+            }
+        }
+        return null;
+    }
 
     private static List<List<T>> ChunkBy<T>(List<T> source, int chunkSize)
     {

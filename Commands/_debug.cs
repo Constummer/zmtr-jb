@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
+using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
 
@@ -29,6 +30,19 @@ public partial class JailbreakExtras
             return;
         }
         CoinAfterNewCommander();
+    }
+
+    [ConsoleCommand("c2")]
+    public void c2(CCSPlayerController? player, CommandInfo info)
+    {
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        GetPlayers().ToList().ForEach(x =>
+        {
+            Logger.LogInformation("{0},{1}", x.Index, x.UserId);
+        });
     }
 
     [ConsoleCommand("ts")]

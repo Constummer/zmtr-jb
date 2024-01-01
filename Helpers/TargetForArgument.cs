@@ -13,6 +13,7 @@ public partial class JailbreakExtras
         RandomT,
         RandomCt,
         Me,
-        Dead
+        Dead,
+        UserIdIndex
     }
 }
