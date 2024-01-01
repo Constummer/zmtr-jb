@@ -6,16 +6,20 @@ public partial class JailbreakExtras
 {
     private void EventPlayerDisconnect()
     {
-        return;
         //disabled, was causing crash
         RegisterEventHandler<EventPlayerDisconnect>((@event, _) =>
         {
             if (@event == null)
                 return HookResult.Continue;
-            if (@event?.Userid?.SteamID == LatestWCommandUser)
+            if (ValidateCallerPlayer(@event.Userid, false) == false)
             {
-                CoinRemove();
+                return HookResult.Continue;
             }
+            ClearOnDisconnect(@event.Userid.SteamID);
+            //if (@event?.Userid?.SteamID == LatestWCommandUser)
+            //{
+            //    CoinRemove();
+            //}
             return HookResult.Continue;
         });
     }

@@ -19,12 +19,12 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
     public static JailbreakExtrasConfig _Config { get; set; } = new JailbreakExtrasConfig();
 
     private static bool LrActive = false;
-    private static readonly Dictionary<ulong, bool> ActiveGodMode = new();
-    private static readonly Dictionary<ulong, Vector> DeathLocations = new();
-    private static readonly Dictionary<ulong, bool> HideFoots = new();
-    private static readonly Dictionary<ulong, bool> HookPlayers = new();
-    private static readonly List<ulong> HookDisablePlayers = new();
-    private static readonly Dictionary<ulong, Dictionary<ulong, string>> KilledPlayers = new();
+    private static Dictionary<ulong, bool> ActiveGodMode = new();
+    private static Dictionary<ulong, Vector> DeathLocations = new();
+    private static Dictionary<ulong, bool> HideFoots = new();
+    private static Dictionary<ulong, bool> HookPlayers = new();
+    private static List<ulong> HookDisablePlayers = new();
+    private static Dictionary<ulong, Dictionary<ulong, string>> KilledPlayers = new();
     private static readonly Dictionary<CCSPlayerController, bool> bUsingPara = new();
 
     private static Color DefaultPlayerColor = Color.FromArgb(255, 255, 255, 255);

@@ -51,29 +51,12 @@ public partial class JailbreakExtras
 
     private void StartParachute(CCSPlayerController player)
     {
-        var fallspeed = Config.ParachuteFallSpeed * (-1.0f);
-        var isFallSpeed = false;
+        var fallspeed = 100 * (-1.0f);
         var velocity = player.PlayerPawn.Value.AbsVelocity;
-        if (velocity.Z >= fallspeed)
-        {
-            isFallSpeed = true;
-        }
 
         if (velocity.Z < 0.0f)
         {
-            if (isFallSpeed && Config.ParachuteLinear || Config.ParachuteDecreaseVec == 0.0)
-            {
-                velocity.Z = fallspeed;
-            }
-            else
-            {
-                velocity.Z = velocity.Z + Config.ParachuteDecreaseVec;
-            }
-
-            var position = player.PlayerPawn.Value.AbsOrigin!;
-            var angle = player.PlayerPawn.Value.AbsRotation!;
-            player.Teleport(position, angle, velocity);
-            player.GravityScale = 0.1f;
+            player.PlayerPawn.Value.AbsVelocity.Z = fallspeed;
         }
     }
 }
