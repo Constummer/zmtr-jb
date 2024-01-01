@@ -20,6 +20,30 @@ public partial class JailbreakExtras
             {
                 return HookResult.Continue;
             }
+
+            if (GetTeam(@event.Userid) == CsTeam.Terrorist)
+            {
+                LastAliveTSound();
+            }
+
+            if (ValidateCallerPlayer(@event?.Userid, false))
+            {
+                Vector? currentPosition = @event?.Userid.PlayerPawn.Value!.AbsOrigin;
+                if (currentPosition != null)
+                {
+                    DeathLocations.TryAdd(@event!.Userid.SteamID, currentPosition);
+                }
+            }
+            if (@event?.Userid?.SteamID == LatestWCommandUser)
+            {
+                CoinRemove();
+            }
+            //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
+            //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
+            //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
+            //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
+            //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
+            //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
             if (@event.Attacker == null
                     || ((CEntityInstance)@event.Attacker).IsValid != true
                     || ((CEntityInstance)@event.Attacker).Index == 32767)
@@ -41,27 +65,10 @@ public partial class JailbreakExtras
                     });
                 }
             }
-            if (GetTeam(@event.Userid) == CsTeam.Terrorist)
-            {
-                LastAliveTSound();
-            }
 
             if (@event?.Attacker.UserId != @event?.Userid.UserId && GetTeam(@event?.Attacker!) != GetTeam(@event!.Userid))
             {
                 AddCreditToAttacker(@event?.Attacker, GetTeam(@event!.Userid));
-            }
-
-            if (ValidateCallerPlayer(@event?.Userid, false))
-            {
-                Vector? currentPosition = @event?.Userid.PlayerPawn.Value!.AbsOrigin;
-                if (currentPosition != null)
-                {
-                    DeathLocations.TryAdd(@event!.Userid.SteamID, currentPosition);
-                }
-            }
-            if (@event?.Userid?.SteamID == LatestWCommandUser)
-            {
-                CoinRemove();
             }
 
             return HookResult.Continue;

@@ -19,6 +19,18 @@ public partial class JailbreakExtras
             {
                 return HookResult.Continue;
             }
+            CCSPlayerController? player = @event.Userid;
+
+            if (LrActive == false)
+            {
+                GodHurtCover(@event, player);
+            }
+            //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
+            //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
+            //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
+            //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
+            //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
+            //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
             if (@event.Attacker == null
                  || ((CEntityInstance)@event.Attacker).IsValid != true
                  || ((CEntityInstance)@event.Attacker).Index == 32767)
@@ -26,11 +38,8 @@ public partial class JailbreakExtras
                 return HookResult.Continue;
             }
 
-            CCSPlayerController? player = @event.Userid;
             if (LrActive == false)
             {
-                GodHurtCover(@event, player);
-
                 TeamYapActive(@event.Attacker, player, @event.DmgHealth, @event.DmgArmor);
             }
 
