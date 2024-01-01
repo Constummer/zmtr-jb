@@ -12,7 +12,7 @@ public partial class JailbreakExtras
     #region SonKalan
 
     [ConsoleCommand("sonkalan")]
-    [CommandHelper(0, "<nick>")]
+    [CommandHelper(1, "<nick>")]
     public void SonKalan(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)

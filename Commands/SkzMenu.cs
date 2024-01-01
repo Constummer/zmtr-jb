@@ -11,14 +11,14 @@ public partial class JailbreakExtras
 {
     private Dictionary<string, Vector> skzCoordinates = new()
     {
-        {"Hücre",new Vector(0,0,0) },
-        {"KZ",new Vector(0,0,0) },
+        {"Hücre",   new Vector(-535,345,-27) },
+        {"KZ",      new Vector(2139,1095,-250) },
     };
 
     #region SKZ
 
     [ConsoleCommand("skz")]
-    [CommandHelper(0, "<saniye>")]
+    [CommandHelper(1, "<saniye>")]
     public void SkzMenu(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)

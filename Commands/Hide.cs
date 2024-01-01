@@ -11,14 +11,18 @@ public partial class JailbreakExtras
     #region Hide
 
     [ConsoleCommand("hide")]
-    [CommandHelper(0, "<0/1>")]
+    [CommandHelper(1, "<0/1>")]
     public void Hide(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)
         {
             return;
         }
-        var target = info.ArgCount > 1 ? info.GetArg(1) : "1";
+        if (info.ArgCount != 2)
+        {
+            return;
+        }
+        var target = info.GetArg(1);
         int.TryParse(target, out var godOneTwo);
         if (godOneTwo < 0 || godOneTwo > 1)
         {
@@ -32,13 +36,14 @@ public partial class JailbreakExtras
                 switch (godOneTwo)
                 {
                     case 0:
-                        SetColour(x, Color.FromArgb(0, 0, 0, 0));
+                        SetColour(x, DefaultPlayerColor);
                         break;
 
                     case 1:
-                        SetColour(x, DefaultPlayerColor);
+                        SetColour(x, Color.FromArgb(0, 0, 0, 0));
                         break;
                 }
+                RefreshPawn(x);
             });
     }
 

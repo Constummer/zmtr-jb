@@ -36,21 +36,29 @@ public partial class JailbreakExtras
         {
             if (weapon != null && weapon.IsValid)
             {
-                var clip1 = weapon.Value.Clip1;
-                var reservedAmmo = weapon.Value.ReserveAmmo[0];
-
-                Server.NextFrame(() =>
+                if (weapon.Value == null ||
+                  string.IsNullOrWhiteSpace(weapon.Value.DesignerName) != false ||
+                  weapon.Value.DesignerName == "[null]")
                 {
-                    if (weapon.Value == null) return;
-                    try
+                    continue;
+                }
+                try
+                {
+                    if (MenuHelper.ValidWeaponChecker(weapon.Value.DesignerName) == false)
                     {
-                        //weapon.Value.Clip1 = clip1;
-                        weapon.Value.ReserveAmmo[0] = reservedAmmo + clip1;
+                        continue;
                     }
-                    catch (Exception)
-                    { }
-                });
-                break;
+                    var clip1 = weapon.Value.Clip1;
+                    var reservedAmmo = weapon.Value.ReserveAmmo[0];
+                    Server.NextFrame(() =>
+                    {
+                        weapon.Value.ReserveAmmo[0] = reservedAmmo + clip1;
+                    });
+                }
+                catch (Exception e)
+                {
+                    Console.WriteLine(e.Message);
+                }
             }
         }
         return HookResult.Continue;

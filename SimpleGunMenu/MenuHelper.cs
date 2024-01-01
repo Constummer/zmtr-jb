@@ -1,5 +1,6 @@
 ﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Menu;
+using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
 
@@ -29,6 +30,11 @@ public partial class JailbreakExtras
             {
                 gunMenu.AddMenuOption(item.Key, GiveSelectedItem);
             }
+        }
+
+        public static bool ValidWeaponChecker(string designerName)
+        {
+            return _weaponCheckers.TryGetValue(designerName, out _);
         }
 
         private static void GiveSelectedItem(CCSPlayerController player, ChatMenuOption option)
