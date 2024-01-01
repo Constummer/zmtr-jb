@@ -3,7 +3,6 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
@@ -11,7 +10,7 @@ namespace JailbreakExtras;
 public partial class JailbreakExtras
 {
     private static readonly List<CFuncWall> Cits = new();
-    private static bool CitEnable { get; set; } = false;
+    private static List<ulong> CitEnabledPlayers = new();
 
     [ConsoleCommand("citac")]
     [ConsoleCommand("citolustur")]
@@ -23,10 +22,11 @@ public partial class JailbreakExtras
         {
             return;
         }
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR]{ChatColors.Darkred} Çit oluşturma {ChatColors.Blue}{player.PlayerName} {ChatColors.White}'a açıldı.");
         player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Ateş ettiğin yere çit oluşacak.");
         player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Kapatmak için !citkapat yaz.");
         player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Çitleri silmek çin !cittemizle yaz.");
-        CitEnable = true;
+        CitEnabledPlayers.Add(player.SteamID);
         return;
     }
 
@@ -41,8 +41,8 @@ public partial class JailbreakExtras
                 return;
             }
         }
-        player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Darkred} Çit oluşturma kapandı.");
-        CitEnable = false;
+        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR]{ChatColors.Darkred} Çit oluşturma {ChatColors.Blue}{player.PlayerName} {ChatColors.White}'a kapandı.");
+        CitEnabledPlayers = CitEnabledPlayers.Where(x => x != player.SteamID).ToList();
 
         return;
     }
@@ -80,9 +80,9 @@ public partial class JailbreakExtras
 
     private void CitEkle(EventBulletImpact @event)
     {
-        if (CitEnable == false)
-            return;
         if (ValidateCallerPlayer(@event.Userid) == false && LatestWCommandUser != @event.Userid.SteamID)
+            return;
+        if (CitEnabledPlayers.Contains(@event.Userid.SteamID) == false)
             return;
 
         CFuncWall? cit = Utilities.CreateEntityByName<CFuncWall>("func_wall");

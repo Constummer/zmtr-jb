@@ -21,7 +21,6 @@ public partial class JailbreakExtras
         {
             Server.ExecuteCommand(item);
         }
-        CitEnable = false;
         LrActive = false;
         CoinAngleYUpdaterActive = false;
         CoinSpawned = false;

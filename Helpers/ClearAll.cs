@@ -14,6 +14,7 @@ public partial class JailbreakExtras
         LatestHediyeCommandCalls?.Clear();
         HookDisablePlayers?.Clear();
         HookDisabled = false;
+        CitEnabledPlayers?.Clear();
         ClearCits();
         ClearLasers();
     }
