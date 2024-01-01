@@ -28,7 +28,7 @@ public partial class JailbreakExtras
         .ToList()
         .ForEach(x =>
         {
-            RemoveWeapons(x, true);
+            RemoveWeapons(x, false);
             Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı oyuncu, {ChatColors.LightPurple}süt oldu.");
         });
     }
