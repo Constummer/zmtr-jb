@@ -12,6 +12,7 @@ public partial class JailbreakExtras
     #region Respawn
 
     [ConsoleCommand("hrespawn", "öldüğü yerde canlanır")]
+    [ConsoleCommand("1up", "öldüğü yerde canlanır")]
     [CommandHelper(1, "<playerismi>")]
     public void hRespawn(CCSPlayerController? player, CommandInfo info)
     {

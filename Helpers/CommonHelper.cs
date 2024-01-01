@@ -148,6 +148,7 @@ public partial class JailbreakExtras
 
     private void CheckIfHasKnife(CCSPlayerController x)
     {
+        return;
         if (x?.PlayerPawn?.Value?.WeaponServices?.MyWeapons != null)
         {
             foreach (var weapon in x.PlayerPawn.Value.WeaponServices!.MyWeapons)
@@ -158,9 +159,9 @@ public partial class JailbreakExtras
                 {
                     if (weapon.Value.DesignerName.Contains("knife") == true)
                     {
-                        _ = AddTimer(2f, () =>
+                        _ = AddTimer(0.5f, () =>
                         {
-                            Console.WriteLine(x.PlayerPawn + "'a bic verildi");
+                            Console.WriteLine(x.PlayerName + "'a bic verildi");
                             x.GiveNamedItem("weapon_knife");
                         });
                     }

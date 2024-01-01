@@ -21,6 +21,7 @@ public partial class JailbreakExtras
         {
             Server.ExecuteCommand(item);
         }
+        CurrentCtRespawns = 0;
         LrActive = false;
         UnlimitedReserverAmmoDisabled = false;
         CoinAngleYUpdaterActive = false;
