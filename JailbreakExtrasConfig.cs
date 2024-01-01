@@ -34,6 +34,9 @@ public partial class JailbreakExtras
         [JsonPropertyName("HideFootsOnConnect")]
         public bool HideFootsOnConnect { get; set; } = true;
 
+        [JsonPropertyName("CustomRespawnEnabled")]
+        public bool CustomRespawnEnabled { get; set; } = false;
+
         [JsonPropertyName("GrappleSpeed")]
         public float GrappleSpeed { get; set; } = 1500.0f;
 

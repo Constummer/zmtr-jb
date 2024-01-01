@@ -34,7 +34,7 @@ public partial class JailbreakExtras
                 revmenu.AddMenuOption(x.PlayerName, (p, t) =>
                 {
                     Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Blue}{x.PlayerName} {ChatColors.White} Rev menüden revlendi");
-                    x.Respawn();
+                    CustomRespawn(x);
                 });
             });
         ChatMenus.OpenMenu(player, revmenu);

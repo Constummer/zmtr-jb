@@ -72,7 +72,7 @@ public partial class JailbreakExtras
             var tempY = position.Y;
             var tempZ = position.Z;
             var tpPlayer = x;
-            x.Respawn();
+            CustomRespawn(x);
             AddTimer(0.5f, () =>
             {
                 tpPlayer.PlayerPawn.Value!.Teleport(new(tempX, tempY, tempZ), new(0, 0, 0), new(0, 0, 0));
@@ -81,7 +81,7 @@ public partial class JailbreakExtras
         }
         else
         {
-            x.Respawn();
+            CustomRespawn(x);
         }
     }
 
