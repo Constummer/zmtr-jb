@@ -9,7 +9,7 @@ public partial class JailbreakExtras
         EventPlayerDeath();
         EventPlayerHurt();
         EventPlayerSpawn();
-        EventWeaponFire();
+        EventWeaponReload();
         EventPlayerPing();
         EventBulletImpact();
         EventPlayerDisconnect();
