@@ -96,16 +96,16 @@ public partial class JailbreakExtras
         public int LaserEdgeCount { get; set; } = 100;
 
         [JsonIgnore]
-        public Color LaserColor { get; set; } = Color.FromArgb(255, 153, 255, 255);//when commander places marker etc, it will be this color
+        public Color LaserColor { get; set; } = Color.FromArgb(255, 255, 0, 0);//when commander places marker etc, it will be this color
 
         [JsonPropertyName("LaserColorR"), Range(0, 255)]
-        public short LaserColorR { get; set; } = 153;
+        public short LaserColorR { get; set; } = 255;
 
         [JsonPropertyName("LaserColorG"), Range(0, 255)]
-        public short LaserColorG { get; set; } = 255;
+        public short LaserColorG { get; set; } = 0;
 
         [JsonPropertyName("LaserColorB"), Range(0, 255)]
-        public short LaserColorB { get; set; } = 255;
+        public short LaserColorB { get; set; } = 0;
 
         #endregion Laser
 
