@@ -31,7 +31,7 @@ public partial class JailbreakExtras
                         x.VoiceFlags |= VoiceFlags.Muted;
                     });
                 }
-
+                CheckIfHasKnife(x);
                 var data = GetPlayerMarketModel(x?.SteamID);
                 if (data.Model == null || data.ChooseRandom)
                 {

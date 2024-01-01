@@ -146,6 +146,29 @@ public partial class JailbreakExtras
         }
     }
 
+    private void CheckIfHasKnife(CCSPlayerController x)
+    {
+        if (x?.PlayerPawn?.Value?.WeaponServices?.MyWeapons != null)
+        {
+            foreach (var weapon in x.PlayerPawn.Value.WeaponServices!.MyWeapons)
+            {
+                if (weapon.Value != null
+                    && string.IsNullOrWhiteSpace(weapon.Value.DesignerName) == false
+                    && weapon.Value.DesignerName != "[null]")
+                {
+                    if (weapon.Value.DesignerName.Contains("knife") == true)
+                    {
+                        _ = AddTimer(2f, () =>
+                        {
+                            Console.WriteLine(x.PlayerPawn + "'a bic verildi");
+                            x.GiveNamedItem("weapon_knife");
+                        });
+                    }
+                }
+            }
+        }
+    }
+
     private static bool GetTargetAction(CCSPlayerController x, string target, string self)
     {
         var targetArgument = GetTargetArgument(target);

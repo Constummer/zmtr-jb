@@ -6,7 +6,6 @@ using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Utils;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace JailbreakExtras;
 
@@ -72,7 +71,7 @@ public partial class JailbreakExtras
 
               foreach (KeyValuePair<string, int> kvp in Answers)
               {
-                  Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR]{ChatColors.White}Seçenek = {ChatColors.Blue} {kvp.Key} {ChatColors.White} - Toplam Oy = {ChatColors.Yellow}{kvp.Value}");
+                  Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR]{ChatColors.Blue} {kvp.Key} {ChatColors.White} - {ChatColors.Yellow}{kvp.Value}");
               }
               Answers.Clear();
               VoteInProgress = false;
