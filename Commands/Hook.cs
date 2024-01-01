@@ -9,7 +9,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    public bool HookDisabled { get; set; } = false;
+    public static bool HookDisabled { get; set; } = false;
 
     #region Hook
 
@@ -19,6 +19,7 @@ public partial class JailbreakExtras
         if (HookDisabled)
         {
             player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Hook el boyunca kapalı.");
+            return;
         }
 
         if (LatestWCommandUser != player.SteamID)
