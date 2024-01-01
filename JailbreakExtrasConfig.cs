@@ -31,6 +31,11 @@ public partial class JailbreakExtras
 
     public class JailbreakExtrasConfig : BasePluginConfig
     {
+        public JailbreakExtrasConfig()
+        {
+            Version = 2;
+        }
+
         [JsonPropertyName("HideFootsOnConnect")]
         public bool HideFootsOnConnect { get; set; } = true;
 
