@@ -1,6 +1,7 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Utils;
+using System.Drawing;
 
 namespace JailbreakExtras;
 
@@ -10,6 +11,13 @@ public partial class JailbreakExtras
 
     private static readonly Vector VEC_ZERO = new Vector(0.0f, 0.0f, 0.0f);
     private static readonly QAngle ANGLE_ZERO = new QAngle(0.0f, 0.0f, 0.0f);
+
+    private enum LaserType
+    {
+        Hook,
+        Grab,
+        Marker
+    }
 
     private HookResult EXTRAOnPlayerPing(EventPlayerPing @event, GameEventInfo info)
     {
@@ -69,11 +77,11 @@ public partial class JailbreakExtras
             Vector start = new Vector((float)startX, (float)startY, (float)centerZ);
             Vector end = new Vector((float)endX, (float)endY, (float)centerZ);
 
-            DrawLaser(start, end, false);
+            DrawLaser(start, end, LaserType.Marker, false);
         }
     }
 
-    private CEnvBeam DrawLaser(Vector start, Vector end, bool clearAfter = true)
+    private CEnvBeam DrawLaser(Vector start, Vector end, LaserType laserType, bool clearAfter = true)
     {
         CEnvBeam? laser = Utilities.CreateEntityByName<CEnvBeam>("env_beam");
 
@@ -81,8 +89,23 @@ public partial class JailbreakExtras
         {
             return null;
         }
+        switch (laserType)
+        {
+            case LaserType.Hook:
+                laser.Render = Color.Red;
+                break;
 
-        laser.Render = Config.LaserColor;
+            case LaserType.Grab:
+                laser.Render = Color.Pink;
+                break;
+
+            case LaserType.Marker:
+                laser.Render = Color.Cyan;
+                break;
+
+            default:
+                break;
+        }
         laser.Width = Config.LaserWidth;
 
         laser.Teleport(start, ANGLE_ZERO, VEC_ZERO);

@@ -80,7 +80,10 @@ public partial class JailbreakExtras
                             playerAbs.X,
                             playerAbs.Y,
                             playerAbs.Z + 100);
-
+                    //Coin.AbsOrigin.X = vector.X;
+                    //Coin.AbsOrigin.Y = vector.Y;
+                    //Coin.AbsOrigin.Z = vector.Z;
+                    //Coin.AbsRotation.Y = CoinAngleY;
                     Coin.Teleport(vector, new QAngle(0.0f, CoinAngleY, 0.0f), VEC_ZERO);
                 }
             }

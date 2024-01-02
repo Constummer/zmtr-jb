@@ -182,7 +182,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var laser = DrawLaser(start, end);
+        var laser = DrawLaser(start, end, LaserType.Hook);
         PullPlayer(player, end, playerPosition, viewAngles);
 
         return;

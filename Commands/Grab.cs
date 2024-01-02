@@ -51,7 +51,7 @@ public partial class JailbreakExtras
             ActiveGodMode[closest.SteamID] = true;
             closest.Teleport(end, closest.PlayerPawn.Value.AbsRotation!, closest.PlayerPawn.Value.AbsVelocity);
             closest.PlayerPawn.Value.Teleport(end, closest.PlayerPawn.Value.AbsRotation!, closest.PlayerPawn.Value.AbsVelocity);
-            var laser = DrawLaser(start, closest.PlayerPawn.Value.AbsOrigin, true);
+            var laser = DrawLaser(start, closest.PlayerPawn.Value.AbsOrigin, LaserType.Grab, true);
             AddTimer(1, () =>
             {
                 ActiveGodMode[closest.SteamID] = false;
