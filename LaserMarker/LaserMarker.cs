@@ -52,8 +52,8 @@ public partial class JailbreakExtras
     {
         ClearLasers();
 
-        double radius = Config.LaserRadius;
-        int edgeCount = Config.LaserEdgeCount;
+        double radius = Config.Laser.MarkerRadius;
+        int edgeCount = Config.Laser.MarkerEdgeCount;
 
         CalculateAndPrintEdges(x, y, z, radius, edgeCount);
     }
@@ -106,7 +106,7 @@ public partial class JailbreakExtras
             default:
                 break;
         }
-        laser.Width = Config.LaserWidth;
+        laser.Width = Config.Laser.LaserWidth;
 
         laser.Teleport(start, ANGLE_ZERO, VEC_ZERO);
         laser.EndPos.X = end.X;

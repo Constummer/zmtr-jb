@@ -211,7 +211,7 @@ public partial class JailbreakExtras
         var direction = grappleTarget - playerPosition;
         var distance = direction.Length();
         direction = new Vector(direction.X / distance, direction.Y / distance, direction.Z / distance); // Normalize manually
-        float grappleSpeed = Config.GrappleSpeed;
+        float grappleSpeed = Config.Additional.GrappleSpeed;
 
         var buttons = player.Buttons;
         if (buttons == null) return;

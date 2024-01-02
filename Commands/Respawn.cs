@@ -9,6 +9,8 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    private bool RespawnAcActive = false;
+
     #region Respawn
 
     [ConsoleCommand("hrespawn", "öldüğü yerde canlanır")]
@@ -49,6 +51,7 @@ public partial class JailbreakExtras
         Server.ExecuteCommand("mp_respawn_on_death_ct 1");
         Server.ExecuteCommand("mp_respawn_on_death_t 1");
         Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Respawn açıldı.");
+        RespawnAcActive = true;
     }
 
     [ConsoleCommand("respawnkapa")]
@@ -63,6 +66,7 @@ public partial class JailbreakExtras
         Server.ExecuteCommand("mp_respawn_on_death_ct 0");
         Server.ExecuteCommand("mp_respawn_on_death_t 0");
         Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Respawn kapandı.");
+        RespawnAcActive = false;
     }
 
     private void RespawnPlayer(CCSPlayerController x)

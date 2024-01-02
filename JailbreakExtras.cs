@@ -83,8 +83,7 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
     public void OnConfigParsed(JailbreakExtrasConfig config)
     {
         _Config = Config = config;
-        config.BuryColor = Color.FromArgb(config.BurryColorR, config.BurryColorG, config.BurryColorB);
-        config.LaserColor = Color.FromArgb(config.LaserColorR, config.LaserColorG, config.LaserColorB);
+        config.Burry.BuryColor = Color.FromArgb(config.Burry.BurryColorR, config.Burry.BurryColorG, config.Burry.BurryColorB);
         //Re-assign after adjustments
         _Config = Config = config;
     }

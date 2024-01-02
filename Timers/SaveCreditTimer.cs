@@ -8,7 +8,7 @@ public partial class JailbreakExtras
 
     public void SaveCreditTimer()
     {
-        AddTimer(Config.SaveCreditTimerEveryXSecond, () =>
+        AddTimer(Config.Credit.SaveCreditTimerEveryXSecond, () =>
         {
             UpdateAllModels();
         }, TimerFlags.REPEAT);

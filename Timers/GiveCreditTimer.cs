@@ -9,7 +9,7 @@ public partial class JailbreakExtras
 
     public void GiveCreditTimer()
     {
-        AddTimer(Config.RetrieveCreditEveryXMin, () =>
+        AddTimer(Config.Credit.RetrieveCreditEveryXMin, () =>
         {
             GetPlayers()
                    .ToList()
@@ -19,15 +19,15 @@ public partial class JailbreakExtras
                        {
                            if (PlayerMarketModels.TryGetValue(x.SteamID, out var item))
                            {
-                               item.Credit += Config.RetrieveCreditEveryXMinReward;
+                               item.Credit += Config.Credit.RetrieveCreditEveryXMinReward;
                            }
                            else
                            {
                                item = new(x.SteamID);
-                               item.Credit = Config.RetrieveCreditEveryXMinReward;
+                               item.Credit = Config.Credit.RetrieveCreditEveryXMinReward;
                            }
                            PlayerMarketModels[x.SteamID] = item;
-                           x.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Bu sunucuda {ChatColors.Green}{Config.RetrieveCreditEveryXMin / 60} {ChatColors.White}dakika zaman geçirdiğin için {ChatColors.LightBlue}{Config.RetrieveCreditEveryXMinReward} {ChatColors.White}kredi kazandın!");
+                           x.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Bu sunucuda {ChatColors.Green}{Config.Credit.RetrieveCreditEveryXMin / 60} {ChatColors.White}dakika zaman geçirdiğin için {ChatColors.LightBlue}{Config.Credit.RetrieveCreditEveryXMinReward} {ChatColors.White}kredi kazandın!");
                        }
                    });
         }, TimerFlags.REPEAT);

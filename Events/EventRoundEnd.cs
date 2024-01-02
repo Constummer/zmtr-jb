@@ -17,7 +17,7 @@ public partial class JailbreakExtras
 
     private static void PrepareRoundDefaults()
     {
-        foreach (var item in _Config.RoundEndStartCommands)
+        foreach (var item in _Config.Additional.RoundEndStartCommands)
         {
             Server.ExecuteCommand(item);
         }
@@ -26,7 +26,7 @@ public partial class JailbreakExtras
         UnlimitedReserverAmmoActive = false;
         CoinAngleYUpdaterActive = false;
         CoinSpawned = false;
-        _Config.ParachuteEnabled = true;
+        _Config.Additional.ParachuteEnabled = true;
         TeamSteamIds?.Clear();
         TeamActive = false;
         GetPlayers()

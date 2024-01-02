@@ -9,7 +9,7 @@ public partial class JailbreakExtras
 {
     private void CustomRespawn(CCSPlayerController x)
     {
-        if (Config.CustomRespawnEnabled)
+        if (Config.Additional.CustomRespawnEnabled)
         {
             if (ValidateCallerPlayer(x, false) == false)
             {

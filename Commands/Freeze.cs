@@ -44,7 +44,7 @@ public partial class JailbreakExtras
                     .ToList()
                     .ForEach(x =>
                     {
-                        SetColour(x, Config.BuryColor);
+                        SetColour(x, Config.Burry.BuryColor);
 
                         x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
                         Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
@@ -81,7 +81,7 @@ public partial class JailbreakExtras
                        {
                            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncuyu{ChatColors.Blue} dondurdu{ChatColors.White}.");
                        }
-                       SetColour(x, Config.BuryColor);
+                       SetColour(x, Config.Burry.BuryColor);
 
                        x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
                        Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
@@ -162,7 +162,7 @@ public partial class JailbreakExtras
         && x?.PlayerPawn?.Value != null
             && ExecuteFreezeOrUnfreeze(x, target, self, out randomFreeze))
         {
-            SetColour(x, _Config.BuryColor);
+            SetColour(x, _Config.Burry.BuryColor);
             RefreshPawn(x);
 
             //Vector currentPosition = x.Pawn.Value.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);

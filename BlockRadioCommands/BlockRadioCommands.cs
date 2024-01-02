@@ -7,7 +7,7 @@ public partial class JailbreakExtras
 {
     public void BlockRadioCommandsLoad()
     {
-        foreach (var command in Config.BlockedRadioCommands)
+        foreach (var command in Config.BlockedRadio.BlockedRadioCommands)
         {
             AddCommandListener(command, (player, info) =>
             {
@@ -19,7 +19,7 @@ public partial class JailbreakExtras
                 if (player!.SteamID == LatestWCommandUser
                     && GetTeam(player) == CsTeam.CounterTerrorist)
                 {
-                    if (Config.WardenAllowedRadioCommands.Contains(info.GetCommandString))
+                    if (Config.BlockedRadio.WardenAllowedRadioCommands.Contains(info.GetCommandString))
                     {
                         return HookResult.Continue;
                     }

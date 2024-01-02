@@ -85,8 +85,8 @@ public partial class JailbreakExtras
         {
             var amount = teamNum switch
             {
-                CsTeam.Terrorist => Config.RetrieveCreditEveryTKill,
-                CsTeam.CounterTerrorist => Config.RetrieveCreditEveryCTKill,
+                CsTeam.Terrorist => Config.Credit.RetrieveCreditEveryTKill,
+                CsTeam.CounterTerrorist => Config.Credit.RetrieveCreditEveryCTKill,
                 _ => 0
             };
 

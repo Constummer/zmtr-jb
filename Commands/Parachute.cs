@@ -19,7 +19,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        _Config.ParachuteEnabled = false;
+        _Config.Additional.ParachuteEnabled = false;
         Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Paraşüt kapandı.");
     }
 
@@ -31,7 +31,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        _Config.ParachuteEnabled = true;
+        _Config.Additional.ParachuteEnabled = true;
         Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Paraşüt açıldı.");
     }
 

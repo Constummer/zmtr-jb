@@ -17,7 +17,7 @@ public partial class JailbreakExtras
                 && x?.SteamID != null
                 && x!.SteamID != 0)
             {
-                if (HideFoots.TryGetValue(x.SteamID, out var _) == false && Config.HideFootsOnConnect)
+                if (HideFoots.TryGetValue(x.SteamID, out var _) == false && Config.Additional.HideFootsOnConnect)
                 {
                     AddTimer(2f, () =>
                    {
@@ -88,7 +88,7 @@ public partial class JailbreakExtras
         switch (GetTeam(item!))
         {
             case CsTeam.Terrorist:
-                randomModel = GetRandomItem(_Config.RandomTModels);
+                randomModel = GetRandomItem(_Config.Model.RandomTModels);
                 if (string.IsNullOrWhiteSpace(randomModel))
                 {
                     return;
@@ -97,7 +97,7 @@ public partial class JailbreakExtras
                 break;
 
             case CsTeam.CounterTerrorist:
-                randomModel = GetRandomItem(_Config.RandomCTModels);
+                randomModel = GetRandomItem(_Config.Model.RandomCTModels);
                 if (string.IsNullOrWhiteSpace(randomModel))
                 {
                     return;
