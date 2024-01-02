@@ -23,7 +23,7 @@ public partial class JailbreakExtras
         }
         CurrentCtRespawns = 0;
         LrActive = false;
-        UnlimitedReserverAmmoDisabled = false;
+        UnlimitedReserverAmmoActive = false;
         CoinAngleYUpdaterActive = false;
         CoinSpawned = false;
         _Config.ParachuteEnabled = true;

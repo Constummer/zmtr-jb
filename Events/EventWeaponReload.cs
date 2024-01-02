@@ -5,6 +5,25 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    private Dictionary<nint, WeaponDefaults> weaponDefaults = new();
+
+    public class WeaponDefaults
+    {
+        public WeaponDefaults(int maxClip1, int defaultClip1, int maxClip2, int defaultClip2)
+        {
+            MaxClip1 = maxClip1;
+            DefaultClip1 = defaultClip1;
+            MaxClip2 = maxClip2;
+            DefaultClip2 = defaultClip2;
+        }
+
+        public int MaxClip1 { get; set; }
+
+        public int DefaultClip1 { get; set; }
+        public int MaxClip2 { get; set; }
+        public int DefaultClip2 { get; set; }
+    }
+
     private void EventWeaponReload()
     {
         RegisterEventHandler<EventWeaponReload>((@event, info) =>
@@ -13,13 +32,60 @@ public partial class JailbreakExtras
                 return HookResult.Continue;
             if (LrActive == false)
             {
-                if (!UnlimitedReserverAmmoDisabled)
-                {
-                    UnlimitedReserverAmmo(@event, info);
-                }
+                UnlimitedReserverAmmo(@event, info);
             }
             return HookResult.Continue;
         });
+
+        //RegisterListener<Listeners.OnEntityCreated>(entity =>
+        //{
+        //    if (UnlimitedReserverAmmoActive == false)
+        //    {
+        //        return;
+        //    }
+        //    else
+        //    {
+        //        if (entity == null || entity.Entity == null || !entity.IsValid || !entity.DesignerName.Contains("weapon_")) return;
+        //        var weapon = new CBasePlayerWeapon(entity.Handle);
+        //        Server.NextFrame(() =>
+        //        {
+        //            try
+        //            {
+        //                if (UnlimitedReserverAmmoActive == false)
+        //                {
+        //                    return;
+        //                }
+        //                else
+        //                {
+        //                    if (!weapon.IsValid) return;
+
+        //                    CCSWeaponBaseVData? _weapon = weapon.As<CCSWeaponBase>().VData;
+        //                    if (_weapon == null) return;
+        //                    if (_weapon.GearSlot != gear_slot_t.GEAR_SLOT_KNIFE &&
+        //                        _weapon.GearSlot != gear_slot_t.GEAR_SLOT_GRENADES &&
+        //                        _weapon.GearSlot != gear_slot_t.GEAR_SLOT_INVALID &&
+        //                        _weapon.GearSlot != gear_slot_t.GEAR_SLOT_BOOSTS &&
+        //                        _weapon.GearSlot != gear_slot_t.GEAR_SLOT_UTILITY &&
+        //                        _weapon.GearSlot != gear_slot_t.GEAR_SLOT_C4)
+        //                    {
+        //                        weaponDefaults.Add(entity.Handle, new(
+        //                            _weapon.MaxClip1,
+        //                            _weapon.MaxClip2,
+        //                            _weapon.DefaultClip1,
+        //                            _weapon.DefaultClip2)
+        //                        {
+        //                        });
+        //                        _weapon.MaxClip1 = 999;
+        //                        _weapon.MaxClip2 = 999;
+        //                        _weapon.DefaultClip1 = 999;
+        //                        _weapon.DefaultClip2 = 999;
+        //                    }
+        //                }
+        //            }
+        //            catch (Exception) { }
+        //        });
+        //    }
+        //});
     }
 
     private static HookResult UnlimitedReserverAmmo(EventWeaponReload @event, GameEventInfo info)
