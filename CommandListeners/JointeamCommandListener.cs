@@ -29,5 +29,26 @@ public partial class JailbreakExtras
             }
             return HookResult.Continue;
         });
+        AddCommandListener("iseli", (player, info) =>
+        {
+            IsEliWardenNotify();
+            return HookResult.Continue;
+        });
+
+        AddCommandListener("kapilariac", (player, info) =>
+        {
+            IsEliWardenNotify();
+            return HookResult.Continue;
+        });
+    }
+
+    private static void IsEliWardenNotify()
+    {
+        var warden = GetWarden();
+        if (warden != null)
+        {
+            warden.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Red} EÐER ÝSELÝ {ChatColors.White} ise");
+            warden.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Blue} !rm {ChatColors.White}veya {ChatColors.Blue}!revmenu {ChatColors.White} yazarak ölen ctleri 3 kere revleyebilirsin");
+        }
     }
 }

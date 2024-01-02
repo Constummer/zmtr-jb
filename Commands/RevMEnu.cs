@@ -14,6 +14,7 @@ public partial class JailbreakExtras
     #region RevMenu
 
     [ConsoleCommand("revmenu")]
+    [ConsoleCommand("rm")]
     public void RevMenu(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player, false) == false)
