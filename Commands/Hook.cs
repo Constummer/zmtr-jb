@@ -26,7 +26,7 @@ public partial class JailbreakExtras
         {
             if (HookPlayers.TryGetValue(player.SteamID, out bool canUse) == false)
             {
-                if (!AdminManager.PlayerHasPermissions(player, "@css/admin1"))
+                if (!AdminManager.PlayerHasPermissions(player, "@css/seviye30"))
                 {
                     player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
                     return;
@@ -126,7 +126,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("hookac")]
     public void HookAc(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
         {
             player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
             return;
@@ -140,7 +140,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("hookkapa")]
     public void HookKapat(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
         {
             player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
             return;
