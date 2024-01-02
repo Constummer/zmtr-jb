@@ -15,7 +15,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("freekill", "herkesi durdurma")]
     public void FreeKill(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (ValidateCallerPlayer(player, false) == false)
         {
             return;
         }
