@@ -1,6 +1,7 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
+using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
@@ -12,6 +13,11 @@ public partial class JailbreakExtras
     [ConsoleCommand("takim")]
     public void takim(CCSPlayerController? player, CommandInfo info)
     {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
         if (ValidateCallerPlayer(player) == false)
         {
             return;
@@ -25,6 +31,11 @@ public partial class JailbreakExtras
     [ConsoleCommand("c")]
     public void c(CCSPlayerController? player, CommandInfo info)
     {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
         if (ValidateCallerPlayer(player) == false)
         {
             return;
@@ -35,6 +46,11 @@ public partial class JailbreakExtras
     [ConsoleCommand("c2")]
     public void c2(CCSPlayerController? player, CommandInfo info)
     {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
         if (ValidateCallerPlayer(player) == false)
         {
             return;
@@ -45,9 +61,65 @@ public partial class JailbreakExtras
         });
     }
 
+    [ConsoleCommand("csay")]
+    public void csay(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        Server.PrintToChatAll(info.ArgString);
+    }
+
+    [ConsoleCommand("hsay")]
+    public void hsay(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        foreach (var item in GetPlayers().ToList())
+        {
+            item.PrintToCenter(info.ArgString);
+        }
+    }
+
+    [ConsoleCommand("hsay2")]
+    public void hsay2(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        foreach (var item in GetPlayers().ToList())
+        {
+            item.PrintToCenterHtml(info.ArgString);
+        }
+    }
+
     [ConsoleCommand("ts")]
     public void testses(CCSPlayerController? player, CommandInfo info)
     {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
         if (ValidateCallerPlayer(player) == false)
         {
             return;

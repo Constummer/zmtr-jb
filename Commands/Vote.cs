@@ -19,6 +19,7 @@ public partial class JailbreakExtras
     #region Vote
 
     [ConsoleCommand("vote")]
+    [ConsoleCommand("oyla")]
     [ConsoleCommand("oylama")]
     [CommandHelper(minArgs: 2, usage: "<soru> [... şıklar ...]", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnVoteCommand(CCSPlayerController? player, CommandInfo command)

@@ -14,7 +14,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("sutol")]
     public void Sut(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (ValidateCallerPlayer(player, false) == false)
         {
             return;
         }
