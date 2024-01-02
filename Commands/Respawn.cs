@@ -20,7 +20,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye8"))
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         if (info.ArgCount != 2) return;
@@ -35,7 +35,7 @@ public partial class JailbreakExtras
                   RespawnPlayer(x);
                   if (targetArgument == TargetForArgument.None)
                   {
-                      Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncuyu öldüğü yerde {ChatColors.Blue}canlandırdı{ChatColors.White}.");
+                      Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu öldüğü yerde {CC.B}canlandırdı{CC.W}.");
                   }
               });
     }
@@ -45,12 +45,12 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye27"))
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         Server.ExecuteCommand("mp_respawn_on_death_ct 1");
         Server.ExecuteCommand("mp_respawn_on_death_t 1");
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Respawn açıldı.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Respawn açıldı.");
         RespawnAcActive = true;
     }
 
@@ -60,12 +60,12 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye27"))
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         Server.ExecuteCommand("mp_respawn_on_death_ct 0");
         Server.ExecuteCommand("mp_respawn_on_death_t 0");
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Respawn kapandı.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Respawn kapandı.");
         RespawnAcActive = false;
     }
 

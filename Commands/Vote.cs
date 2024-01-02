@@ -26,7 +26,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye26"))
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         if (command.GetArg(1) == null || command.GetArg(1).Length < 0 || command.ArgCount < 2)
@@ -34,7 +34,7 @@ public partial class JailbreakExtras
 
         if (command.ArgCount > 7)
         {
-            player!.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Maximum 5 adet şık belirleyebilirsin");
+            player!.PrintToChat($" {CC.LR}[ZMTR]{CC.G} Maximum 5 adet şık belirleyebilirsin");
             return;
         }
         Answers.Clear();
@@ -49,11 +49,11 @@ public partial class JailbreakExtras
             Answers.Add(command.GetArg(i), 0);
             LatestVoteMenu.AddMenuOption(command.GetArg(i), HandleVotes);
         }
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {(player == null ? "Console" : $"{ChatColors.Blue}{player.PlayerName} - {ChatColors.Green}{question} Oylamasını başlattı!")}");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {(player == null ? "Console" : $"{CC.B}{player.PlayerName} - {CC.G}{question} Oylamasını başlattı!")}");
 
         GetPlayers().ToList().ForEach(x =>
         {
-            x.PrintToCenter(player == null ? "Console" : $"{ChatColors.Blue}{player.PlayerName} - {ChatColors.Green}{question} Oylaması 20 saniye sürecek, oy vermeyi unutmayın!");
+            x.PrintToCenter(player == null ? "Console" : $"{CC.B}{player.PlayerName} - {CC.G}{question} Oylaması 20 saniye sürecek, oy vermeyi unutmayın!");
         });
 
         VoteInProgress = true;
@@ -64,15 +64,15 @@ public partial class JailbreakExtras
             if (p == null) continue;
             ChatMenus.OpenMenu(p, LatestVoteMenu);
         }
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {(player == null ? "Console" : $"{ChatColors.Blue}{player.PlayerName} - {ChatColors.Green}{question} Oylaması 20 saniye sürecek, oy vermeyi unutmayın!")}");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {(player == null ? "Console" : $"{CC.B}{player.PlayerName} - {CC.G}{question} Oylaması 20 saniye sürecek, oy vermeyi unutmayın!")}");
 
         VoteTimer = AddTimer(20, () =>
           {
-              Server.PrintToChatAll(question + $" {ChatColors.Red}SORUSUNUN YANITLARI");
+              Server.PrintToChatAll(question + $" {CC.R}SORUSUNUN YANITLARI");
 
               foreach (KeyValuePair<string, int> kvp in Answers)
               {
-                  Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR]{ChatColors.Blue} {kvp.Key} {ChatColors.White} - {ChatColors.Yellow}{kvp.Value}");
+                  Server.PrintToChatAll($" {CC.LR}[ZMTR]{CC.B} {kvp.Key} {CC.W} - {CC.Y}{kvp.Value}");
               }
               Answers.Clear();
               VoteInProgress = false;
@@ -86,7 +86,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye26"))
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         Answers?.Clear();
@@ -95,7 +95,7 @@ public partial class JailbreakExtras
 
         VoteTimer?.Kill();
         VoteTimer = null;
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} OYLAMA IPTAL EDILDI.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR]{CC.W} OYLAMA IPTAL EDILDI.");
 
         return;
     }
@@ -107,7 +107,7 @@ public partial class JailbreakExtras
             Answers[option.Text]++;
             if (ValidateCallerPlayer(player, false) == true)
             {
-                player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Blue} {option.Text} {ChatColors.White} Seçeneğine oy verdin.");
+                player.PrintToChat($" {CC.LR}[ZMTR]{CC.B} {option.Text} {CC.W} Seçeneğine oy verdin.");
             }
         }
     }

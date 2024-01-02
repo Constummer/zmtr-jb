@@ -24,12 +24,12 @@ public partial class JailbreakExtras
 
         if (LatestWCommandUser != player.SteamID)
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Blue}Sadece {ChatColors.White} Komutçu bu menüyü açabilir");
+            player.PrintToChat($" {CC.LR}[ZMTR] {CC.B}Sadece {CC.W} Komutçu bu menüyü açabilir");
             return;
         }
         if (CurrentCtRespawns >= 3)
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Blue}En Fazla {ChatColors.Red}3 kere {ChatColors.White} respawn atabilirsin");
+            player.PrintToChat($" {CC.LR}[ZMTR] {CC.B}En Fazla {CC.R}3 kere {CC.W} respawn atabilirsin");
             return;
         }
         var revmenu = new ChatMenu("Rev Menü");
@@ -39,7 +39,7 @@ public partial class JailbreakExtras
             .ToList();
         if (players == null || players.Count == 0)
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White} Revlenecek Hiç Ölü CT yok");
+            player.PrintToChat($" {CC.LR}[ZMTR] {CC.W} Revlenecek Hiç Ölü CT yok");
         }
         else
         {
@@ -47,7 +47,7 @@ public partial class JailbreakExtras
                {
                    revmenu.AddMenuOption(x.PlayerName, (p, t) =>
                    {
-                       Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Blue}{x.PlayerName} {ChatColors.White} Rev menüden revlendi");
+                       Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.B}{x.PlayerName} {CC.W} Rev menüden revlendi");
                        CustomRespawn(x);
                        CurrentCtRespawns++;
                    });

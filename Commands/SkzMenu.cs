@@ -44,7 +44,7 @@ public partial class JailbreakExtras
         {
             skzMenu.AddMenuOption(k.Key, (p, t) =>
             {
-                Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Mahkûmlar {ChatColors.Blue}{k.Key} {ChatColors.White} ışınlanıyor");
+                Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Mahkûmlar {CC.B}{k.Key} {CC.W} ışınlanıyor");
                 BasicCountdown.CommandStartTextCountDown(this, $"[ZMTR] Mahkûmların donmasina {value} saniye");
 
                 GetPlayers(CsTeam.Terrorist)
@@ -76,7 +76,7 @@ public partial class JailbreakExtras
                         x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
                     });
                     FreezeOrUnfreezeSound();
-                    Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}mahkûmları {ChatColors.Blue}dondurdu{ChatColors.White}.");
+                    Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}mahkûmları {CC.B}dondurdu{CC.W}.");
                 });
             });
         }

@@ -28,7 +28,7 @@ public partial class JailbreakExtras
         int.TryParse(oneTwoStr, out var oneTwo);
         if (oneTwo < 0 || oneTwo > 1)
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} 0 = kapatmak icin, 1 = acmak icin.");
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} 0 = kapatmak icin, 1 = acmak icin.");
             return;
         }
         SinirsizBombaTimer = GiveSinirsizCustomNade(oneTwo, SinirsizBombaTimer, "weapon_hegrenade");
@@ -49,7 +49,7 @@ public partial class JailbreakExtras
         int.TryParse(oneTwoStr, out var oneTwo);
         if (oneTwo < 0 || oneTwo > 1)
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} 0 = kapatmak icin, 1 = acmak icin.");
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} 0 = kapatmak icin, 1 = acmak icin.");
             return;
         }
         SinirsizMolyTimer = GiveSinirsizCustomNade(oneTwo, SinirsizMolyTimer, "weapon_incgrenade");

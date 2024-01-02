@@ -20,7 +20,7 @@ public partial class JailbreakExtras
         }
         if (GetTeam(player) != CsTeam.Terrorist)
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Sadece T ler bu komutu kullanabilir.");
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Sadece T ler bu komutu kullanabilir.");
             return;
         }
         GetPlayers()
@@ -29,7 +29,7 @@ public partial class JailbreakExtras
         .ForEach(x =>
         {
             RemoveWeapons(x, false);
-            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı oyuncu, {ChatColors.LightPurple}süt oldu.");
+            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı oyuncu, {CC.LP}süt oldu.");
         });
     }
 

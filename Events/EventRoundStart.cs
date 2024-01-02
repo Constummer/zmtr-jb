@@ -22,12 +22,12 @@ public partial class JailbreakExtras
                 CoinGo = true;
             });
             HookDisabled = true;
-            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}Hook 5 sn boyunca kapalý");
+            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}Hook 5 sn boyunca kapalý");
 
             AddTimer(5.0f, () =>
             {
                 HookDisabled = false;
-                Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}Hook açýk");
+                Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}Hook açýk");
             });
             foreach (var x in GetPlayers())
             {

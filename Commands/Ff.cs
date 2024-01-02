@@ -31,7 +31,7 @@ public partial class JailbreakExtras
         int.TryParse(oneZeroStr, out var oneZero);
         if (oneZero < 0 || oneZero > 1)
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} 0 = kapatmak icin, 1 = acmak icin.");
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} 0 = kapatmak icin, 1 = acmak icin.");
             return;
         }
         switch (oneZero)
@@ -116,7 +116,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye25"))
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         if (info.ArgCount < 3) return;
@@ -175,7 +175,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye22"))
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         if (info.ArgCount != 2) return;
@@ -189,6 +189,11 @@ public partial class JailbreakExtras
             }
             else
             {
+                if (value >= 20)
+                {
+                    RespawnAcActive = true;
+                }
+
                 BasicCountdown.CommandStartTextCountDown(this, $"FF açılmasına {value} saniye kaldı");
                 GetPlayers(CsTeam.Terrorist)
                  .Where(x => x.PawnIsAlive && ValidateCallerPlayer(x, false))
@@ -196,7 +201,6 @@ public partial class JailbreakExtras
                  .ForEach(x =>
                  {
                      SetHp(x, 100);
-                     RespawnAcActive = true;
                      x.GiveNamedItem("weapon_ak47");
                      x.GiveNamedItem("weapon_deagle");
                      x.GiveNamedItem("weapon_hegrenade");
@@ -204,7 +208,7 @@ public partial class JailbreakExtras
                      var gunMenu = new ChatMenu("Silah Menu");
                      MenuHelper.GetGuns(gunMenu);
                      ChatMenus.OpenMenu(x, gunMenu);
-                     x.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}FF başlayana kadar veya FF boyunca silah değiştirebilirsin, !guns");
+                     x.PrintToChat($" {CC.LR}[ZMTR] {CC.W}FF başlayana kadar veya FF boyunca silah değiştirebilirsin, !guns");
                  });
                 FFMenuCheck = true;
 
@@ -236,7 +240,7 @@ public partial class JailbreakExtras
         }
         else
         {
-            player!.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}FF açık olmadığı için silah menüsüne erişemezsin.");
+            player!.PrintToChat($" {CC.LR}[ZMTR] {CC.W}FF açık olmadığı için silah menüsüne erişemezsin.");
             return;
         }
     }
@@ -246,13 +250,13 @@ public partial class JailbreakExtras
         if (ac)
         {
             Server.ExecuteCommand("mp_teammates_are_enemies 1");
-            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Darkred}FF {ChatColors.White}açıldı.");
+            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.DR}FF {CC.W}açıldı.");
         }
         else
         {
             FFMenuCheck = false;
             Server.ExecuteCommand("mp_teammates_are_enemies 0");
-            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Darkred}FF {ChatColors.White}kapandı.");
+            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.DR}FF {CC.W}kapandı.");
         }
     }
 

@@ -23,15 +23,15 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye10"))
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         KomActive = false;
         KomAdays?.Clear();
         KomAlAnswers?.Clear();
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}Komutçu alımı başladı! Komutçu adayı olmak için !komaday yazın.");
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}Komutçu alımı başladı! Komutçu adayı olmak için !komaday yazın.");
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}Komutçu adaylığından ayrılmak için !komadayiptal yazın.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}Komutçu alımı başladı! Komutçu adayı olmak için !komaday yazın.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}Komutçu alımı başladı! Komutçu adayı olmak için !komaday yazın.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}Komutçu adaylığından ayrılmak için !komadayiptal yazın.");
         KomActive = true;
         var now = DateTime.UtcNow;
         AddTimer(30f, () =>
@@ -56,25 +56,25 @@ public partial class JailbreakExtras
             if (KomAdays.Count > 6)
             {
                 KomActive = false;
-                player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Komaday doldu.");
+                player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Komaday doldu.");
             }
             else
             {
                 if (KomAdays.Any(x => x == player.SteamID))
                 {
-                    player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Zaten katıldın!");
+                    player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Zaten katıldın!");
                 }
                 else
                 {
                     KomAdays.Add(player.SteamID);
                     player.VoiceFlags &= ~VoiceFlags.Muted;
-                    Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName} {ChatColors.White}komutçu adayı oldu.");
+                    Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName} {CC.W}komutçu adayı oldu.");
                 }
             }
         }
         else
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Darkred}Komutçu alımı aktif değil.");
+            player.PrintToChat($" {CC.LR}[ZMTR] {CC.DR}Komutçu alımı aktif değil.");
         }
     }
 
@@ -83,12 +83,12 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye10"))
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         player.VoiceFlags |= VoiceFlags.Muted;
         KomAdays = KomAdays.Where(x => x != player.SteamID).ToList();
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Darkred}{player.PlayerName} {ChatColors.White}Komutçu adaylığından ayrıldı.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.DR}{player.PlayerName} {CC.W}Komutçu adaylığından ayrıldı.");
     }
 
     private void KomAlStartVote()
@@ -113,7 +113,7 @@ public partial class JailbreakExtras
             {
                 var voters = GetPlayers().Where(x => KomAdays.Contains(x.SteamID));
 
-                Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green} komaday sure bitti, oylama basladi.");
+                Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G} komaday sure bitti, oylama basladi.");
                 var komalVoteMenu = new ChatMenu("KomAl aday oylamasi");
                 KomAlVoteInProgress = true;
                 foreach (var voter in voters)
@@ -143,7 +143,7 @@ public partial class JailbreakExtras
                 {
                     if (KomAlVoteInProgress)
                     {
-                        Server.PrintToChatAll($" {ChatColors.Red} Komaday sonuclari");
+                        Server.PrintToChatAll($" {CC.R} Komaday sonuclari");
 
                         var list = KomAlAnswers.OrderByDescending(x => x.Value).ToList();
 
@@ -176,7 +176,7 @@ public partial class JailbreakExtras
         }
         else
         {
-            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green} oylama yapilamiyor, yeterli aday yok .");
+            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G} oylama yapilamiyor, yeterli aday yok .");
         }
     }
 

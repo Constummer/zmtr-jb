@@ -44,7 +44,7 @@ public partial class JailbreakExtras
 
     private void DelayCt(int value)
     {
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Gardiyanlar, {value} saniye mutelendi.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Gardiyanlar, {value} saniye mutelendi.");
 
         GetPlayers(CsTeam.CounterTerrorist)
             .ToList()
@@ -64,7 +64,7 @@ public partial class JailbreakExtras
                 x.VoiceFlags &= ~VoiceFlags.Muted;
             });
             FreezeOrUnfreezeSound();
-            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Gardiyanların, mutesi kaldırıldı.");
+            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Gardiyanların, mutesi kaldırıldı.");
         });
     }
 

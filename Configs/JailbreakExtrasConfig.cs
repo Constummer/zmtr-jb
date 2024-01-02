@@ -9,7 +9,7 @@ public partial class JailbreakExtras
     {
         public JailbreakExtrasConfig()
         {
-            Version = 3;
+            Version = 4;
         }
 
         [JsonPropertyName("Additional")]

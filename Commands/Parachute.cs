@@ -20,7 +20,7 @@ public partial class JailbreakExtras
             return;
         }
         _Config.Additional.ParachuteEnabled = false;
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Paraşüt kapandı.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Paraşüt kapandı.");
     }
 
     [ConsoleCommand("pa")]
@@ -32,7 +32,7 @@ public partial class JailbreakExtras
             return;
         }
         _Config.Additional.ParachuteEnabled = true;
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Paraşüt açıldı.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Paraşüt açıldı.");
     }
 
     #endregion Parachute

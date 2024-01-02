@@ -17,14 +17,14 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         if (info.ArgCount != 3) return;
         var target = info.GetArg(1);
         if (!int.TryParse(info.GetArg(2), out var miktar))
         {
-            player!.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Miktar duzgun deil!");
+            player!.PrintToChat($" {CC.LR}[ZMTR]{CC.G} Miktar duzgun deil!");
             return;
         }
         GetPlayers()
@@ -44,7 +44,7 @@ public partial class JailbreakExtras
                            item.Credit = miktar;
                        }
                        PlayerMarketModels[x.SteamID] = item;
-                       Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Red}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncuya {ChatColors.LightBlue}{miktar} {ChatColors.White}kredi verdi!");
+                       Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.R}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.LB}{miktar} {CC.W}kredi verdi!");
                    }
                });
     }

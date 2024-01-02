@@ -33,12 +33,12 @@ public partial class JailbreakExtras
             playerPawn!.CommitSuicide(false, true);
             if (targetArgument == TargetForArgument.None)
             {
-                Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncuyu {ChatColors.LightRed}öldürdü{ChatColors.White}.");
+                Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu {CC.LR}öldürdü{CC.W}.");
             }
         });
         if (targetArgument != TargetForArgument.None)
         {
-            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{target} {ChatColors.White}hedefini {ChatColors.LightRed}öldürdü{ChatColors.White}.");
+            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefini {CC.LR}öldürdü{CC.W}.");
         }
     }
 
@@ -56,7 +56,7 @@ public partial class JailbreakExtras
               var playerPawn = x.PlayerPawn.Value;
               playerPawn!.CommitSuicide(false, true);
           });
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}herkesi {ChatColors.LightRed}öldürdü{ChatColors.White}.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}herkesi {CC.LR}öldürdü{CC.W}.");
     }
 
     [ConsoleCommand("slayct", "slay ct")]
@@ -73,7 +73,7 @@ public partial class JailbreakExtras
                var playerPawn = x.PlayerPawn.Value;
                playerPawn.CommitSuicide(false, true);
            });
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}gardiyanları {ChatColors.LightRed}öldürdü{ChatColors.White}.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}gardiyanları {CC.LR}öldürdü{CC.W}.");
     }
 
     [ConsoleCommand("slayt", "slay t")]
@@ -90,7 +90,7 @@ public partial class JailbreakExtras
                var playerPawn = x.PlayerPawn.Value;
                playerPawn.CommitSuicide(false, true);
            });
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}mahkûmları {ChatColors.LightRed}öldürdü{ChatColors.White}.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}mahkûmları {CC.LR}öldürdü{CC.W}.");
     }
 
     #endregion Slay

@@ -93,7 +93,7 @@ public partial class JailbreakExtras
         var models = PlayerModels.ToList().Where(x => x.Value.TeamNo == team).ToList();
         if (onlyBoughtOnes && models.Count == 0)
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Satın aldığınız hiç eşya yok");
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} Satın aldığınız hiç eşya yok");
         }
         else
         {
@@ -143,19 +143,19 @@ public partial class JailbreakExtras
         var modelName = option.Text?.Split(" | (")?[0];
         if (string.IsNullOrWhiteSpace(modelName))
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Admin ile irtibata geçin");
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} Admin ile irtibata geçin");
             return;
         }
         var models = PlayerModels.Where(x => x.Value.Text.Equals(modelName)).ToList();
         if (models.Count != 1)
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Admin ile irtibata geçin");
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} Admin ile irtibata geçin");
             return;
         }
         var model = models.Select(x => x.Value).FirstOrDefault();
         if (model == null)
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Admin ile irtibata geçin");
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} Admin ile irtibata geçin");
             return;
         }
         SetModel(player, model!, data.Model, option.Text, option.Text!.EndsWith(" | [SATIN ALINDI]"));
@@ -172,7 +172,7 @@ public partial class JailbreakExtras
             if (playerData.Credit < model.Cost
                 || playerData.Credit - model.Cost < 0)
             {
-                player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} Yeterli krediniz bulunmuyor");
+                player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} Yeterli krediniz bulunmuyor");
                 return;
             }
             var marketMenu = new ChatMenu($"{model.Text} Modeli satin almak istedine emin misin? | Krediniz = [{playerData.Credit}]");
@@ -198,12 +198,12 @@ public partial class JailbreakExtras
                             playerData.ModelIdT = AddModelIdToGivenData(playerData.ModelIdT, model.Id);
                             playerData.DefaultIdT = model.Id;
                         }
-                        player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} {model.Text} modelini satin aldin");
+                        player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} {model.Text} modelini satin aldin");
                         FinalizeModelSet(player, model, playerData, text);
                     }
                     else
                     {
-                        player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} {model.Text} modelini satin almaktan vazgectin");
+                        player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} {model.Text} modelini satin almaktan vazgectin");
                         return;
                     }
                 });
@@ -224,7 +224,7 @@ public partial class JailbreakExtras
                 case CsTeam.Terrorist:
                     if (text.Contains(TModeli))
                     {
-                        player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} {model.Text} modelini kullaniyorsun");
+                        player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} {model.Text} modelini kullaniyorsun");
                         SetModelNextServerFrame(player.PlayerPawn.Value!, model.PathToModel);
                     }
                     break;
@@ -232,7 +232,7 @@ public partial class JailbreakExtras
                 case CsTeam.CounterTerrorist:
                     if (text.Contains(CTModeli))
                     {
-                        player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} {model.Text} modelini kullaniyorsun");
+                        player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} {model.Text} modelini kullaniyorsun");
                         SetModelNextServerFrame(player.PlayerPawn.Value!, model.PathToModel);
                     }
                     break;

@@ -27,7 +27,7 @@ public partial class JailbreakExtras
 
         if (PlayerMarketModels.TryGetValue(player.SteamID, out var item))
         {
-            var marketMenu = new ChatMenu($" {ChatColors.LightBlue}Envanter {ChatColors.White}| {ChatColors.Green}Kredin = {ChatColors.White}[{ChatColors.Green}{item.Credit}{ChatColors.White}]");
+            var marketMenu = new ChatMenu($" {CC.LB}Envanter {CC.W}| {CC.G}Kredin = {CC.W}[{CC.G}{item.Credit}{CC.W}]");
             marketMenu.AddMenuOption(CTOyuncuModeli, OpenSelectedModelEnv);
             marketMenu.AddMenuOption(TOyuncuModeli, OpenSelectedModelEnv);
 
@@ -37,7 +37,7 @@ public partial class JailbreakExtras
         {
             item = new(player.SteamID);
             PlayerMarketModels[player.SteamID] = item;
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.LightBlue}Envanterinde hiç eşya yok");
+            player.PrintToChat($" {CC.LR}[ZMTR] {CC.LB}Envanterinde hiç eşya yok");
         }
     }
 

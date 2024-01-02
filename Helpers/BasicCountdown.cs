@@ -46,8 +46,8 @@ public partial class JailbreakExtras
                         CountdownText = tempText;
                     }
 
-                    client.PrintToCenter($"{ChatColors.Green}{CountdownText}");
-                    client.PrintToCenterHtml($"{ChatColors.Green}{CountdownText}");
+                    client.PrintToCenter($"{CC.G}{CountdownText}");
+                    client.PrintToCenterHtml($"{CC.G}{CountdownText}");
                 }
             }
 

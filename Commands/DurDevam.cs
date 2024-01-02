@@ -18,7 +18,7 @@ public partial class JailbreakExtras
             return;
         }
         Server.ExecuteCommand($"sv_maxspeed 0");
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Herkes durduruldu.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Herkes durduruldu.");
     }
 
     [ConsoleCommand("devam", "herkesi durdurma")]
@@ -29,7 +29,7 @@ public partial class JailbreakExtras
             return;
         }
         Server.ExecuteCommand($"sv_maxspeed 320");
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Yürüme düzeltildi.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Yürüme düzeltildi.");
     }
 
     #endregion Dur-Devam

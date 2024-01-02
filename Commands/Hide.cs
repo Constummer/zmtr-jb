@@ -26,7 +26,7 @@ public partial class JailbreakExtras
         int.TryParse(target, out var godOneTwo);
         if (godOneTwo < 0 || godOneTwo > 1)
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} 0 = kapatmak icin, 1 = acmak icin.");
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} 0 = kapatmak icin, 1 = acmak icin.");
             return;
         }
         GetPlayers(CsTeam.Terrorist)

@@ -32,12 +32,12 @@ public partial class JailbreakExtras
             RemoveWeapons(x, false);
             if (targetArgument == TargetForArgument.None)
             {
-                Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncunun {ChatColors.Blue}silahlarını {ChatColors.White}sildi.");
+                Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun {CC.B}silahlarını {CC.W}sildi.");
             }
         });
         if (targetArgument != TargetForArgument.None)
         {
-            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{target} {ChatColors.White}hedefinin {ChatColors.Blue}silahlarını {ChatColors.White}sildi.");
+            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefinin {CC.B}silahlarını {CC.W}sildi.");
         }
     }
 
@@ -56,7 +56,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, false);
         });
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}mahkûmların {ChatColors.Blue}silahlarını {ChatColors.White}sildi.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}mahkûmların {CC.B}silahlarını {CC.W}sildi.");
     }
 
     [ConsoleCommand("stripct", "Bicak dahil silme")]
@@ -74,7 +74,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, false);
         });
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}gardiyanların {ChatColors.Blue}silahlarını {ChatColors.White}sildi.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}gardiyanların {CC.B}silahlarını {CC.W}sildi.");
     }
 
     [ConsoleCommand("stripall", "Bicak dahil silme")]
@@ -92,7 +92,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, false);
         });
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}herkesin {ChatColors.Blue}silahlarını {ChatColors.White}sildi.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}herkesin {CC.B}silahlarını {CC.W}sildi.");
     }
 
     #endregion Strip

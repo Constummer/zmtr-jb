@@ -20,5 +20,11 @@ public partial class JailbreakExtras
 
         [JsonPropertyName("RetrieveCreditEveryXMinReward")]
         public short RetrieveCreditEveryXMinReward { get; set; } = 5;
+
+        [JsonPropertyName("RetrieveCreditEvery5MinRewardCssAdmin1")]
+        public short RetrieveCreditEvery5MinRewardCssAdmin1 { get; set; } = 1;
+
+        [JsonPropertyName("RetrieveCreditEvery5MinRewardCssLider")]
+        public short RetrieveCreditEvery5MinRewardCssLider { get; set; } = 2;
     }
 }

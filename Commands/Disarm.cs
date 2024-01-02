@@ -30,13 +30,13 @@ public partial class JailbreakExtras
         {
             if (targetArgument == TargetForArgument.None)
             {
-                Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{x.PlayerName} {ChatColors.White}adlı oyuncuyu {ChatColors.LightRed}disarmladı{ChatColors.White}.");
+                Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu {CC.LR}disarmladı{CC.W}.");
             }
             RemoveWeapons(x, true);
         });
         if (targetArgument != TargetForArgument.None)
         {
-            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}{target} {ChatColors.White}hedefini {ChatColors.LightRed}disarmladı{ChatColors.White}.");
+            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefini {CC.LR}disarmladı{CC.W}.");
         }
     }
 
@@ -55,7 +55,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, true);
         });
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Mahkûmların silahları silindi.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Mahkûmların silahları silindi.");
     }
 
     [ConsoleCommand("disarmct", "Bicak dahil silme")]
@@ -73,7 +73,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, true);
         });
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Gardiyanların silahları silindi.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Gardiyanların silahları silindi.");
     }
 
     [ConsoleCommand("disarmall", "Bicak dahil silme")]
@@ -91,7 +91,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, true);
         });
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Herkesin silahları silindi.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Herkesin silahları silindi.");
     }
 
     #endregion Disarm

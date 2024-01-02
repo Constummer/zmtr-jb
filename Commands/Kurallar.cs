@@ -16,7 +16,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var prefix = $"{ChatColors.Green}[ZMTR]{ChatColors.White}";
+        var prefix = $"{CC.G}[ZMTR]{CC.W}";
         player.PrintToConsole(@$"{prefix}             --------------------------------------------");
         player.PrintToConsole(@$"{prefix}");
         player.PrintToConsole(@$"{prefix}               ________  __       __  ________  _______  ");

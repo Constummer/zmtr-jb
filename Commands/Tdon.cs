@@ -30,7 +30,7 @@ public partial class JailbreakExtras
                              x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
                          });
         FreezeOrUnfreezeSound();
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}mahkûmları {ChatColors.Blue}dondurdu{ChatColors.White}.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}mahkûmları {CC.B}dondurdu{CC.W}.");
     }
 
     [ConsoleCommand("tdonboz", "Unfreeze t.")]
@@ -52,6 +52,6 @@ public partial class JailbreakExtras
                             x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
                         });
         FreezeOrUnfreezeSound();
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, {ChatColors.Green}mahkûmların {ChatColors.Blue}donunu kaldırdı{ChatColors.White}.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}mahkûmların {CC.B}donunu kaldırdı{CC.W}.");
     }
 }

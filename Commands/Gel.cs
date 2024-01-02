@@ -4,6 +4,7 @@ using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Utils;
+using System;
 
 namespace JailbreakExtras;
 
@@ -18,10 +19,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (player.PawnIsAlive == false)
-        {
-            return;
-        }
+
         GetPlayers()
               .Where(x => x.PawnIsAlive
                           && GetTargetAction(x, "@t", player.PlayerName))
@@ -34,7 +32,7 @@ public partial class JailbreakExtras
                       x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 50, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, tüm {ChatColors.Darkred}Mahkûmları {ChatColors.White}yanına ışınladı.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.DR}Mahkûmları {CC.W}yanına ışınladı.");
     }
 
     [ConsoleCommand("gelct")]
@@ -44,10 +42,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (player.PawnIsAlive == false)
-        {
-            return;
-        }
+
         GetPlayers()
               .Where(x => x.PawnIsAlive
                           && GetTargetAction(x, "@ct", player!.PlayerName))
@@ -60,7 +55,7 @@ public partial class JailbreakExtras
                       x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 50, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, tüm {ChatColors.Blue}Gardiyanları {ChatColors.White}yanına ışınladı.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.B}Gardiyanları {CC.W}yanına ışınladı.");
     }
 
     [ConsoleCommand("gelall")]
@@ -70,10 +65,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (player.PawnIsAlive == false)
-        {
-            return;
-        }
+
         GetPlayers()
               .Where(x => x.PawnIsAlive
                           && GetTargetAction(x, "@all", player!.PlayerName))
@@ -86,7 +78,40 @@ public partial class JailbreakExtras
                       x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 50, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, tüm {ChatColors.Green}herkesi {ChatColors.White}yanına ışınladı.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.G}herkesi {CC.W}yanına ışınladı.");
+    }
+
+    [ConsoleCommand("geltakim")]
+    [CommandHelper(1, "<takimno>")]
+    public void geltakim(CCSPlayerController? player, CommandInfo info)
+    {
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        var target = info.ArgCount > 1 ? info.GetArg(1) : "0";
+
+        if (int.TryParse(target, out var value))
+        {
+            if (value > 18)
+            {
+                player.PrintToChat("Max 18 girebilirsin");
+                return;
+            }
+            else if (value < 0)
+            {
+                player.PrintToChat("Min 0 girebilirsin");
+                return;
+            }
+            else
+            {
+                GelTeam(player, value);
+            }
+        }
+        else
+        {
+            GelTeam(player, value);
+        }
     }
 
     [ConsoleCommand("gelkirmizi")]
@@ -96,7 +121,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        GelTeam(player, ChatColors.Red);
+        GelTeam(player, CC.R);
     }
 
     [ConsoleCommand("gelmavi")]
@@ -106,7 +131,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        GelTeam(player, ChatColors.Blue);
+        GelTeam(player, CC.B);
     }
 
     [ConsoleCommand("gelkoyukirmizi")]
@@ -117,7 +142,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        GelTeam(player, ChatColors.Darkred);
+        GelTeam(player, CC.DR);
     }
 
     [ConsoleCommand("gelyesil")]
@@ -127,7 +152,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        GelTeam(player, ChatColors.Green);
+        GelTeam(player, CC.G);
     }
 
     [ConsoleCommand("gelaciksari")]
@@ -138,7 +163,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        GelTeam(player, ChatColors.LightYellow);
+        GelTeam(player, CC.LY);
     }
 
     [ConsoleCommand("gelacikmavi")]
@@ -149,7 +174,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        GelTeam(player, ChatColors.LightBlue);
+        GelTeam(player, CC.LB);
     }
 
     [ConsoleCommand("gelkoyuyesil")]
@@ -160,7 +185,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        GelTeam(player, ChatColors.Olive);
+        GelTeam(player, CC.Ol);
     }
 
     [ConsoleCommand("gelacikyesil")]
@@ -171,7 +196,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        GelTeam(player, ChatColors.Lime);
+        GelTeam(player, CC.L);
     }
 
     [ConsoleCommand("gelacikmor")]
@@ -182,7 +207,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        GelTeam(player, ChatColors.LightPurple);
+        GelTeam(player, CC.LP);
     }
 
     [ConsoleCommand("gelmor")]
@@ -192,7 +217,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        GelTeam(player, ChatColors.Purple);
+        GelTeam(player, CC.P);
     }
 
     [ConsoleCommand("gelgri")]
@@ -202,7 +227,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        GelTeam(player, ChatColors.Grey);
+        GelTeam(player, CC.Gr);
     }
 
     [ConsoleCommand("gelsari")]
@@ -212,7 +237,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        GelTeam(player, ChatColors.Yellow);
+        GelTeam(player, CC.Y);
     }
 
     [ConsoleCommand("gelaltin")]
@@ -223,7 +248,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        GelTeam(player, ChatColors.Gold);
+        GelTeam(player, CC.Go);
     }
 
     [ConsoleCommand("gelgumus")]
@@ -233,7 +258,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        GelTeam(player, ChatColors.Silver);
+        GelTeam(player, CC.S);
     }
 
     [ConsoleCommand("gelkoyumavi")]
@@ -244,7 +269,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        GelTeam(player, ChatColors.DarkBlue);
+        GelTeam(player, CC.DB);
     }
 
     [ConsoleCommand("gelmavigri")]
@@ -255,7 +280,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        GelTeam(player, ChatColors.BlueGrey);
+        GelTeam(player, CC.BG);
     }
 
     [ConsoleCommand("gelbordo")]
@@ -265,7 +290,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        GelTeam(player, ChatColors.Magenta);
+        GelTeam(player, CC.M);
     }
 
     [ConsoleCommand("gelacikkirmizi")]
@@ -276,7 +301,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        GelTeam(player, ChatColors.LightRed);
+        GelTeam(player, CC.LR);
     }
 
     [ConsoleCommand("gelturuncu")]
@@ -286,7 +311,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        GelTeam(player, ChatColors.Orange);
+        GelTeam(player, CC.Or);
     }
 
     private static void GelTeam(CCSPlayerController? player, char color)
@@ -320,7 +345,30 @@ public partial class JailbreakExtras
                           }
                       }
                   });
-            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName}{ChatColors.White} adlı admin, tüm {res.Msg} Takımındaki Mahkûmları {ChatColors.White}yanına ışınladı.");
+            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {res.Msg} Takımındaki Mahkûmları {CC.W}yanına ışınladı.");
+        }
+    }
+
+    private void GelTeam(CCSPlayerController? player, int index)
+    {
+        if (TeamSteamIds.TryGetValue(index, out var plist))
+        {
+            var res = GetTeamColorAndTextByIndex(index);
+            GetPlayers(CsTeam.Terrorist)
+                  .Where(x => x.PawnIsAlive)
+                  .ToList()
+                  .ForEach(x =>
+                  {
+                      if (plist != null)
+                      {
+                          if (plist.Contains(x.SteamID))
+                          {
+                              var playerAbs = player.PlayerPawn.Value.AbsOrigin;
+                              x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 100, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
+                          }
+                      }
+                  });
+            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {res.Msg} Takımındaki Mahkûmları {CC.W}yanına ışınladı.");
         }
     }
 

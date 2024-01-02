@@ -119,7 +119,7 @@ public partial class JailbreakExtras
                 CsTeam.CounterTerrorist => "CT",
                 _ => ""
             };
-            attacker!.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.LightBlue}{teamShortName} Oldurdugun için, {amount} kredi kazandýn!");
+            attacker!.PrintToChat($" {CC.LR}[ZMTR] {CC.LB}{teamShortName} Oldurdugun için, {amount} kredi kazandýn!");
         }
     }
 }

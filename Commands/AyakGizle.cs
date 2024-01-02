@@ -1,7 +1,6 @@
 ﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Utils;
 using System.Drawing;
 
 namespace JailbreakExtras;
@@ -31,7 +30,7 @@ public partial class JailbreakExtras
         HideFoots[player.SteamID] = false;
         player!.PlayerPawn.Value!.Render = DefaultPlayerColor;
         RefreshPawn(player);
-        player!.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}Ayakların artık gözüküyor!");
+        player!.PrintToChat($" {CC.LR}[ZMTR] {CC.G}Ayakların artık gözüküyor!");
     }
 
     private void AyakGizle(CCSPlayerController player, bool refreshTp = false)
@@ -41,12 +40,12 @@ public partial class JailbreakExtras
         if (refreshTp == false)
         {
             RefreshPawn(player);
-            player!.PrintToChat($" {ChatColors.Green}[ZMTR] {ChatColors.Darkred}Ayaklarını gizledin!");
+            player!.PrintToChat($" {CC.G}[ZMTR] {CC.DR}Ayaklarını gizledin!");
         }
         else
         {
             RefreshPawnTP(player);
-            player!.PrintToChat($" {ChatColors.Green}[ZMTR] {ChatColors.Darkred}Ayakların otomatik olarak gizlendi. !ayakgoster ile tekrar gösterebilirsin");
+            player!.PrintToChat($" {CC.G}[ZMTR] {CC.DR}Ayakların otomatik olarak gizlendi. !ayakgoster ile tekrar gösterebilirsin");
         }
     }
 

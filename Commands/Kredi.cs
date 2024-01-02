@@ -26,7 +26,7 @@ public partial class JailbreakExtras
         {
             if (DateTime.UtcNow < call.AddSeconds(5))
             {
-                player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Tekrar kredi yazabilmek için {ChatColors.Darkred}5 {ChatColors.White}saniye beklemelisin!");
+                player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Tekrar kredi yazabilmek için {CC.DR}5 {CC.W}saniye beklemelisin!");
                 return;
             }
         }
@@ -39,7 +39,7 @@ public partial class JailbreakExtras
                 amount = item.Credit;
             }
         }
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{player.PlayerName} {ChatColors.White}adlı oyuncunun {ChatColors.LightBlue}{amount} {ChatColors.White}kredisi var!");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName} {CC.W}adlı oyuncunun {CC.LB}{amount} {CC.W}kredisi var!");
         LatestKredimCommandCalls[player.SteamID] = DateTime.UtcNow;
     }
 
@@ -48,7 +48,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         if (ValidateCallerPlayer(player, false) == false)
@@ -65,10 +65,10 @@ public partial class JailbreakExtras
                     {
                         _ = PlayerMarketModels.TryGetValue(x.SteamID, out item);
                     }
-                    player.PrintToConsole($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}{x.PlayerName} - {ChatColors.Blue}{(item?.Credit ?? 0)}");
+                    player.PrintToConsole($" {CC.LR}[ZMTR] {CC.G}{x.PlayerName} - {CC.B}{(item?.Credit ?? 0)}");
                 });
 
-        player.PrintToChat($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}Konsoluna bak");
+        player.PrintToChat($" {CC.LR}[ZMTR] {CC.G}Konsoluna bak");
         LatestKredimCommandCalls[player.SteamID] = DateTime.UtcNow;
     }
 

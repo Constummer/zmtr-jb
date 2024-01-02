@@ -16,11 +16,11 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye28"))
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         Server.ExecuteCommand("sv_gravity 150");
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Gravity açıldı.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Gravity açıldı.");
     }
 
     [ConsoleCommand("gravitykapa")]
@@ -29,11 +29,11 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye28"))
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         Server.ExecuteCommand("sv_gravity 800");
-        Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.White}Gravity kapandı.");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Gravity kapandı.");
     }
 
     #endregion Gravity

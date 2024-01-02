@@ -16,7 +16,7 @@ public partial class JailbreakExtras
         if (player!.SteamID != LatestWCommandUser ||
             ValidateCallerPlayer(player) == false)
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.Green} sen bunu temizleyemezsin :}}");
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} sen bunu temizleyemezsin :}}");
             return;
         }
         ClearLasers();
