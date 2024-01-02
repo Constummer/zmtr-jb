@@ -47,9 +47,9 @@ public partial class JailbreakExtras
                {
                    revmenu.AddMenuOption(x.PlayerName, (p, t) =>
                    {
-                       Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.B}{x.PlayerName} {CC.W} Rev menüden revlendi");
                        CustomRespawn(x);
                        CurrentCtRespawns++;
+                       Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.B}{x.PlayerName} {CC.W} Rev menüden revlendi | Son {3 - CurrentCtRespawns} rev");
                    });
                });
             ChatMenus.OpenMenu(player, revmenu);
