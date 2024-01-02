@@ -17,6 +17,21 @@ public partial class JailbreakExtras
 
     #region Ff
 
+    [ConsoleCommand("ffler")]
+    public void Ffler(CCSPlayerController? player, CommandInfo info)
+    {
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} ff{CC.R} <0/1>{CC.B} = Ff acar veya kapatir, 0 ve 1");
+        player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} ffac{CC.B} = ff acar");
+        player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} ffkapa / ffkapat{CC.B} = ff kapar");
+        player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} ffsure{CC.R} <saniye>{CC.B} = sure sonunda ff acar");
+        player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} ffdondur{CC.R} <saniye> <mesaj>{CC.B} = sure bitince ff kapar, mesajla birlikte geri sayim baslatir");
+        player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} ffmenu{CC.R} <saniye>{CC.B} = silahli ff, silahlari hemen verir, sure sonunda ff acar");
+    }
+
     [ConsoleCommand("ff")]
     [CommandHelper(1, "<0/1>")]
     public void Ff(CCSPlayerController? player, CommandInfo info)
