@@ -195,6 +195,8 @@ public partial class JailbreakExtras
                  .ToList()
                  .ForEach(x =>
                  {
+                     SetHp(x, 100);
+                     RespawnAcActive = true;
                      x.GiveNamedItem("weapon_ak47");
                      x.GiveNamedItem("weapon_deagle");
                      x.GiveNamedItem("weapon_hegrenade");
@@ -209,6 +211,7 @@ public partial class JailbreakExtras
                 FFTimer?.Kill();
                 FFTimer = AddTimer(value, () =>
                 {
+                    RespawnAcActive = false;
                     Ff(true);
                 });
             }

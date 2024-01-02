@@ -1,4 +1,5 @@
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
 
@@ -37,6 +38,17 @@ public partial class JailbreakExtras
             if (@event?.Userid?.SteamID == LatestWCommandUser)
             {
                 CoinRemove();
+            }
+            //todo ins cokertmez
+            if (RespawnAcActive)
+            {
+                if (@event?.Userid.Connected == PlayerConnectedState.PlayerConnected)
+                {
+                    if (ValidateCallerPlayer(@event?.Userid, false))
+                    {
+                        CustomRespawn(@event?.Userid);
+                    }
+                }
             }
             //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
             //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------

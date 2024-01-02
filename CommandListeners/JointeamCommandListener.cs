@@ -1,7 +1,6 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Utils;
-using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
 
@@ -26,13 +25,6 @@ public partial class JailbreakExtras
                 {
                     player!.ChangeTeam(CsTeam.Terrorist);
                     return HookResult.Stop;
-                }
-                if (RespawnAcActive)
-                {
-                    if (player.Connected == PlayerConnectedState.PlayerConnected)
-                    {
-                        CustomRespawn(player);
-                    }
                 }
             }
             return HookResult.Continue;

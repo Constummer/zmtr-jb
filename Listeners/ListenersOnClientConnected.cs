@@ -20,6 +20,17 @@ public partial class JailbreakExtras
                     await GetPlayerMarketData(player!.SteamID);
                 });
             }
+            //todo ins cokertmez
+            if (RespawnAcActive)
+            {
+                if (player.Connected == PlayerConnectedState.PlayerConnected)
+                {
+                    if (ValidateCallerPlayer(player, false))
+                    {
+                        CustomRespawn(player);
+                    }
+                }
+            }
         });
     }
 }
