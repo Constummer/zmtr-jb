@@ -188,6 +188,9 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<saniye>")]
     public void FfMenu(CCSPlayerController? player, CommandInfo info)
     {
+        player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} 20 Saniye üstünde respawn açılır. Respawn açılmaması için 20 sn altı saniye ver.");
+        player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} 20 Saniye üstünde respawn açılır. Respawn açılmaması için 20 sn altı saniye ver.");
+        player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} 20 Saniye üstünde respawn açılır. Respawn açılmaması için 20 sn altı saniye ver.");
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye22"))
         {
             player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
@@ -206,15 +209,21 @@ public partial class JailbreakExtras
             {
                 if (value >= 20)
                 {
-                    RespawnAcActive = true;
+                    RespawnAcAction();
                 }
-
                 BasicCountdown.CommandStartTextCountDown(this, $"FF açılmasına {value} saniye kaldı");
                 GetPlayers(CsTeam.Terrorist)
-                 .Where(x => x.PawnIsAlive && ValidateCallerPlayer(x, false))
+                 .Where(x => ValidateCallerPlayer(x, false))
                  .ToList()
                  .ForEach(x =>
                  {
+                     if (value >= 20)
+                     {
+                         if (x.PawnIsAlive == false)
+                         {
+                             CustomRespawn(x);
+                         }
+                     }
                      SetHp(x, 100);
                      x.GiveNamedItem("weapon_ak47");
                      x.GiveNamedItem("weapon_deagle");
@@ -230,7 +239,7 @@ public partial class JailbreakExtras
                 FFTimer?.Kill();
                 FFTimer = AddTimer(value, () =>
                 {
-                    RespawnAcActive = false;
+                    RespawnKapatAction();
                     Ff(true);
                 });
             }

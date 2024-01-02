@@ -2,6 +2,7 @@ using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Utils;
+using System.Collections.Generic;
 using System.Drawing;
 
 namespace JailbreakExtras;
@@ -242,7 +243,7 @@ public partial class JailbreakExtras
         return null;
     }
 
-    private static List<List<T>> ChunkBy<T>(List<T> source, int chunkSize)
+    private static List<List<T>> ChunkBy<T>(List<T> list, int numberOfLists)
     {
         //if (numLists * elementsPerList != list.Count)
         //{
@@ -255,12 +256,47 @@ public partial class JailbreakExtras
         //return Enumerable.Range(0, (int)Math.Ceiling(source.Count / (double)chunkSize))
         //               .Select(i => source.Skip(i * chunkSize).Take(chunkSize).ToList())
         //               .ToList();
+        //}
 
-        return source
-            .Select((x, i) => new { Index = i, Value = x })
-            .GroupBy(x => x.Index / chunkSize)
-            .Select(x => x.Select(v => v.Value).ToList())
-            .ToList();
+        int totalItems = list.Count;
+        int itemsPerList = totalItems / numberOfLists;
+        int remainder = totalItems % numberOfLists;
+
+        List<List<T>> result = new List<List<T>>();
+
+        int startIndex = 0;
+
+        for (int i = 0; i < numberOfLists; i++)
+        {
+            int sublistSize = itemsPerList + (i < remainder ? 1 : 0);
+
+            if (sublistSize > 0)
+            {
+                result.Add(list.GetRange(startIndex, sublistSize));
+                startIndex += sublistSize;
+            }
+        }
+
+        return result;
+        //int totalItems = source.Count;
+        //int chunks = (int)Math.Ceiling((double)totalItems / chunkSize);
+
+        //List<List<T>> result = new List<List<T>>();
+
+        //for (int i = 0; i < chunks; i++)
+        //{
+        //    int startIndex = i * chunkSize;
+        //    int endIndex = Math.Min((i + 1) * chunkSize, totalItems);
+
+        //    result.Add(source.GetRange(startIndex, endIndex - startIndex));
+        //}
+
+        //return result;
+        //return source
+        //    .Select((x, i) => new { Index = i, Value = x })
+        //    .GroupBy(x => x.Index / chunkSize)
+        //    .Select(x => x.Select(v => v.Value).ToList())
+        //    .ToList();
     }
 
     private void LoadCredit()

@@ -131,6 +131,36 @@ public partial class JailbreakExtras
         }
     }
 
+    [ConsoleCommand("cons1")]
+    public void cons1(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        Console.WriteLine("wardenSet");
+        Server.NextFrame(() =>
+        {
+            var temp = LatestWCommandUser;
+            LatestWCommandUser = player.SteamID;
+            WardenRefreshPawn();
+            ClearLasers();
+            CoinAfterNewCommander();
+            WardenUnmute();
+
+            CoinGoWanted = true;
+            if (temp != LatestWCommandUser)
+            {
+                WardenEnterSound();
+            }
+        });
+    }
+
     [ConsoleCommand("ts")]
     public void testses(CCSPlayerController? player, CommandInfo info)
     {

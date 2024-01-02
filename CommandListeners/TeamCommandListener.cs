@@ -9,6 +9,17 @@ public partial class JailbreakExtras
     {
         AddCommandListener("team", (player, info) =>
         {
+            if (RespawnAcActive)
+            {
+                AddTimer(1, () =>
+                {
+                    if (ValidateCallerPlayer(player, false) == true)
+                    {
+                        CustomRespawn(player);
+                    }
+                });
+            }
+
             Unmuteds = Unmuteds.Where(X => X != player.SteamID).ToList();
             player.VoiceFlags |= VoiceFlags.Muted;
             CoinRemoveOnWardenTeamChange(player, info);

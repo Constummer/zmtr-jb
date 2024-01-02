@@ -134,16 +134,16 @@ public partial class JailbreakExtras
         GelTeam(player, CC.B);
     }
 
-    [ConsoleCommand("gelkoyukirmizi")]
-    [ConsoleCommand("gelkirmizi2")]
-    public void gelkoyukirmizi(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        GelTeam(player, CC.DR);
-    }
+    //[ConsoleCommand("gelkoyukirmizi")]
+    //[ConsoleCommand("gelkirmizi2")]
+    //public void gelkoyukirmizi(CCSPlayerController? player, CommandInfo info)
+    //{
+    //    if (ValidateCallerPlayer(player) == false)
+    //    {
+    //        return;
+    //    }
+    //    GelTeam(player, CC.DR);
+    //}
 
     [ConsoleCommand("gelyesil")]
     public void gelyesil(CCSPlayerController? player, CommandInfo info)
@@ -155,70 +155,70 @@ public partial class JailbreakExtras
         GelTeam(player, CC.G);
     }
 
-    [ConsoleCommand("gelaciksari")]
-    [ConsoleCommand("gelsari2")]
-    public void gelaciksari(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        GelTeam(player, CC.LY);
-    }
+    //[ConsoleCommand("gelaciksari")]
+    //[ConsoleCommand("gelsari2")]
+    //public void gelaciksari(CCSPlayerController? player, CommandInfo info)
+    //{
+    //    if (ValidateCallerPlayer(player) == false)
+    //    {
+    //        return;
+    //    }
+    //    GelTeam(player, CC.LY);
+    //}
 
-    [ConsoleCommand("gelacikmavi")]
-    [ConsoleCommand("gelmavi2")]
-    public void gelacikmavi(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        GelTeam(player, CC.LB);
-    }
+    //[ConsoleCommand("gelacikmavi")]
+    //[ConsoleCommand("gelmavi2")]
+    //public void gelacikmavi(CCSPlayerController? player, CommandInfo info)
+    //{
+    //    if (ValidateCallerPlayer(player) == false)
+    //    {
+    //        return;
+    //    }
+    //    GelTeam(player, CC.LB);
+    //}
 
-    [ConsoleCommand("gelkoyuyesil")]
-    [ConsoleCommand("gelyesil3")]
-    public void gelkoyuyesil(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        GelTeam(player, CC.Ol);
-    }
+    //[ConsoleCommand("gelkoyuyesil")]
+    //[ConsoleCommand("gelyesil3")]
+    //public void gelkoyuyesil(CCSPlayerController? player, CommandInfo info)
+    //{
+    //    if (ValidateCallerPlayer(player) == false)
+    //    {
+    //        return;
+    //    }
+    //    GelTeam(player, CC.Ol);
+    //}
 
-    [ConsoleCommand("gelacikyesil")]
-    [ConsoleCommand("gelyesil2")]
-    public void gelacikyesil(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        GelTeam(player, CC.L);
-    }
+    //[ConsoleCommand("gelacikyesil")]
+    //[ConsoleCommand("gelyesil2")]
+    //public void gelacikyesil(CCSPlayerController? player, CommandInfo info)
+    //{
+    //    if (ValidateCallerPlayer(player) == false)
+    //    {
+    //        return;
+    //    }
+    //    GelTeam(player, CC.L);
+    //}
 
-    [ConsoleCommand("gelacikmor")]
-    [ConsoleCommand("gelmor2")]
-    public void gelacikmor(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        GelTeam(player, CC.LP);
-    }
+    //[ConsoleCommand("gelacikmor")]
+    //[ConsoleCommand("gelmor2")]
+    //public void gelacikmor(CCSPlayerController? player, CommandInfo info)
+    //{
+    //    if (ValidateCallerPlayer(player) == false)
+    //    {
+    //        return;
+    //    }
+    //    GelTeam(player, CC.LP);
+    //}
 
-    [ConsoleCommand("gelmor")]
-    public void gelmor(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        GelTeam(player, CC.P);
-    }
+    //[ConsoleCommand("gelmor")]
+    //public void gelmor(CCSPlayerController? player, CommandInfo info)
+    //{
+    //    if (ValidateCallerPlayer(player) == false)
+    //    {
+    //        return;
+    //    }
+    //    GelTeam(player, CC.P);
+    //}
 
     [ConsoleCommand("gelgri")]
     public void gelgri(CCSPlayerController? player, CommandInfo info)
@@ -230,89 +230,89 @@ public partial class JailbreakExtras
         GelTeam(player, CC.Gr);
     }
 
-    [ConsoleCommand("gelsari")]
-    public void gelsari(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        GelTeam(player, CC.Y);
-    }
+    //[ConsoleCommand("gelsari")]
+    //public void gelsari(CCSPlayerController? player, CommandInfo info)
+    //{
+    //    if (ValidateCallerPlayer(player) == false)
+    //    {
+    //        return;
+    //    }
+    //    GelTeam(player, CC.Y);
+    //}
 
-    [ConsoleCommand("gelaltin")]
-    [ConsoleCommand("gelsari3")]
-    public void gelaltin(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        GelTeam(player, CC.Go);
-    }
+    //[ConsoleCommand("gelaltin")]
+    //[ConsoleCommand("gelsari3")]
+    //public void gelaltin(CCSPlayerController? player, CommandInfo info)
+    //{
+    //    if (ValidateCallerPlayer(player) == false)
+    //    {
+    //        return;
+    //    }
+    //    GelTeam(player, CC.Go);
+    //}
 
-    [ConsoleCommand("gelgumus")]
-    public void gelgumus(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        GelTeam(player, CC.S);
-    }
+    //[ConsoleCommand("gelgumus")]
+    //public void gelgumus(CCSPlayerController? player, CommandInfo info)
+    //{
+    //    if (ValidateCallerPlayer(player) == false)
+    //    {
+    //        return;
+    //    }
+    //    GelTeam(player, CC.S);
+    //}
 
-    [ConsoleCommand("gelkoyumavi")]
-    [ConsoleCommand("gelmavi3")]
-    public void gelkoyumavi(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        GelTeam(player, CC.DB);
-    }
+    //[ConsoleCommand("gelkoyumavi")]
+    //[ConsoleCommand("gelmavi3")]
+    //public void gelkoyumavi(CCSPlayerController? player, CommandInfo info)
+    //{
+    //    if (ValidateCallerPlayer(player) == false)
+    //    {
+    //        return;
+    //    }
+    //    GelTeam(player, CC.DB);
+    //}
 
-    [ConsoleCommand("gelmavigri")]
-    [ConsoleCommand("gelmavi4")]
-    public void gelmavi4(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        GelTeam(player, CC.BG);
-    }
+    //[ConsoleCommand("gelmavigri")]
+    //[ConsoleCommand("gelmavi4")]
+    //public void gelmavi4(CCSPlayerController? player, CommandInfo info)
+    //{
+    //    if (ValidateCallerPlayer(player) == false)
+    //    {
+    //        return;
+    //    }
+    //    GelTeam(player, CC.BG);
+    //}
 
-    [ConsoleCommand("gelbordo")]
-    public void gelbordo(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        GelTeam(player, CC.M);
-    }
+    //[ConsoleCommand("gelbordo")]
+    //public void gelbordo(CCSPlayerController? player, CommandInfo info)
+    //{
+    //    if (ValidateCallerPlayer(player) == false)
+    //    {
+    //        return;
+    //    }
+    //    GelTeam(player, CC.M);
+    //}
 
-    [ConsoleCommand("gelacikkirmizi")]
-    [ConsoleCommand("gelkirmizi2")]
-    public void gelacikkirmizi(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        GelTeam(player, CC.LR);
-    }
+    //[ConsoleCommand("gelacikkirmizi")]
+    //[ConsoleCommand("gelkirmizi2")]
+    //public void gelacikkirmizi(CCSPlayerController? player, CommandInfo info)
+    //{
+    //    if (ValidateCallerPlayer(player) == false)
+    //    {
+    //        return;
+    //    }
+    //    GelTeam(player, CC.LR);
+    //}
 
-    [ConsoleCommand("gelturuncu")]
-    public void gelturuncu(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        GelTeam(player, CC.Or);
-    }
+    //[ConsoleCommand("gelturuncu")]
+    //public void gelturuncu(CCSPlayerController? player, CommandInfo info)
+    //{
+    //    if (ValidateCallerPlayer(player) == false)
+    //    {
+    //        return;
+    //    }
+    //    GelTeam(player, CC.Or);
+    //}
 
     private static void GelTeam(CCSPlayerController? player, char color)
     {

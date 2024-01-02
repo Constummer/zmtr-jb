@@ -7,10 +7,11 @@ public partial class JailbreakExtras
 {
     private void ListenersOnClientVoice()
     {
-        RegisterListener((Listeners.OnClientVoice)((playerSlot) =>
-        {
-            //CCSPlayerController? player = Utilities.GetPlayerFromSlot(playerSlot);
-            Console.WriteLine(playerSlot);
-        }));
+        //biri mic basarsa, muteli olsa bile triggerlanio
+        //RegisterListener((Listeners.OnClientVoice)((playerSlot) =>
+        //{
+        //    //CCSPlayerController? player = Utilities.GetPlayerFromSlot(playerSlot);
+        //    //Console.WriteLine(playerSlot);
+        //}));
     }
 }

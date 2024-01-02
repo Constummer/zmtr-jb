@@ -24,7 +24,31 @@ public partial class JailbreakExtras
                  || info.ArgString.Contains("3"))
                 {
                     player!.ChangeTeam(CsTeam.Terrorist);
+                    if (RespawnAcActive)
+                    {
+                        AddTimer(1, () =>
+                        {
+                            if (ValidateCallerPlayer(player, false) == true)
+                            {
+                                CustomRespawn(player);
+                            }
+                        });
+                    }
+
                     return HookResult.Stop;
+                }
+                else
+                {
+                    if (RespawnAcActive)
+                    {
+                        AddTimer(1, () =>
+                        {
+                            if (ValidateCallerPlayer(player, false) == true)
+                            {
+                                CustomRespawn(player);
+                            }
+                        });
+                    }
                 }
             }
             return HookResult.Continue;

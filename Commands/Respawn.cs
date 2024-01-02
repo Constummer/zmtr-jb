@@ -9,7 +9,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private bool RespawnAcActive = false;
+    private static bool RespawnAcActive = false;
 
     #region Respawn
 
@@ -26,18 +26,60 @@ public partial class JailbreakExtras
         if (info.ArgCount != 2) return;
         var target = info.GetArg(1);
         var targetArgument = GetTargetArgument(target);
-        GetPlayers()
-              .Where(x => (x.PlayerName?.ToLower()?.Contains(target) ?? false)
-                          && x.PawnIsAlive == false)
-              .ToList()
-              .ForEach(x =>
-              {
-                  RespawnPlayer(x);
-                  if (targetArgument == TargetForArgument.None)
-                  {
-                      Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu öldüğü yerde {CC.B}canlandırdı{CC.W}.");
-                  }
-              });
+
+        switch (targetArgument)
+        {
+            case TargetForArgument.None:
+                {
+                    var ps = GetPlayers()
+                            .Where(x => (x.PlayerName?.ToLower()?.Contains(target) ?? false)
+                                       && x.PawnIsAlive == false)
+                            .ToList();
+                    if (ps.Count > 1)
+                    {
+                        player.PrintToChat($" {CC.LR}[ZMTR] {CC.W} Birden fazla eşleşme bulundu, eğer isim veremiyorsanız #1 gibi oyuncu id ile deneyebilirsin.");
+                    }
+                    ps.ForEach(x =>
+                    {
+                        RespawnPlayer(x);
+                        if (targetArgument == TargetForArgument.None)
+                        {
+                            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu öldüğü yerde {CC.B}canlandırdı{CC.W}.");
+                        }
+                    });
+                }
+                break;
+
+            case TargetForArgument.Me:
+                RespawnPlayer(player);
+                Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{player.PlayerName} {CC.W}adlı oyuncuyu öldüğü yerde {CC.B}canlandırdı{CC.W}.");
+
+                break;
+
+            case TargetForArgument.UserIdIndex:
+                {
+                    var ps = GetPlayers()
+                            .Where(x => GetUserIdIndex(target) == x.UserId
+                                       && x.PawnIsAlive == false)
+                            .ToList();
+                    if (ps.Count > 1)
+                    {
+                        player.PrintToChat($" {CC.LR}[ZMTR] {CC.W} Birden fazla eşleşme bulundu, eğer isim veremiyorsanız #1 gibi oyuncu id ile deneyebilirsin.");
+                    }
+                    ps.ForEach(x =>
+                    {
+                        RespawnPlayer(x);
+                        if (targetArgument == TargetForArgument.None)
+                        {
+                            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu öldüğü yerde {CC.B}canlandırdı{CC.W}.");
+                        }
+                    });
+                }
+                break;
+
+            default:
+                break;
+        }
     }
 
     [ConsoleCommand("respawnac")]
@@ -48,10 +90,14 @@ public partial class JailbreakExtras
             player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
-        Server.ExecuteCommand("mp_respawn_on_death_ct 1");
-        Server.ExecuteCommand("mp_respawn_on_death_t 1");
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Respawn açıldı.");
-        RespawnAcActive = true;
+        GetPlayers()
+            .Where(x => x.PawnIsAlive == false)
+            .ToList()
+            .ForEach(x =>
+            {
+                CustomRespawn(x);
+            });
+        RespawnAcAction();
     }
 
     [ConsoleCommand("respawnkapa")]
@@ -63,6 +109,19 @@ public partial class JailbreakExtras
             player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
+        RespawnKapatAction();
+    }
+
+    private static void RespawnAcAction()
+    {
+        Server.ExecuteCommand("mp_respawn_on_death_ct 1");
+        Server.ExecuteCommand("mp_respawn_on_death_t 1");
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Respawn açıldı.");
+        RespawnAcActive = true;
+    }
+
+    private static void RespawnKapatAction()
+    {
         Server.ExecuteCommand("mp_respawn_on_death_ct 0");
         Server.ExecuteCommand("mp_respawn_on_death_t 0");
         Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Respawn kapandı.");

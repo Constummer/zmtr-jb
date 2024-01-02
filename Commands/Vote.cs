@@ -29,25 +29,55 @@ public partial class JailbreakExtras
             player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
-        if (command.GetArg(1) == null || command.GetArg(1).Length < 0 || command.ArgCount < 2)
-            return;
-
-        if (command.ArgCount > 7)
+        if (LatestVoteMenu != null)
         {
-            player!.PrintToChat($" {CC.LR}[ZMTR]{CC.G} Maximum 5 adet şık belirleyebilirsin");
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Mevcut oylama bitmeden yeni oylama açamazsın.");
+            return;
+        }
+
+        if (string.IsNullOrWhiteSpace(command.ArgString))
+        {
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} En az 2 şık ve 1 soru belirlemelisin, şıklar arası boşluk bırakmalısın.");
+            return;
+        }
+        var argCount = command.ArgString.Split(" ");
+        argCount = argCount.Select(x => x.Trim()).Where(x => string.IsNullOrWhiteSpace(x) == false).ToArray();
+
+        if (argCount.Length == 0)
+        {
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} En az 2 şık ve 1 soru belirlemelisin, şıklar arası boşluk bırakmalısın.");
+            return;
+        }
+        if (argCount?.Length < 3)
+        {
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} En az 2 şık ve 1 soru belirlemelisin, şıklar arası boşluk bırakmalısın.");
+            return;
+        }
+        if (argCount?.Length > 7)
+        {
+            player!.PrintToChat($" {CC.LR}[ZMTR]{CC.R} Maximum 5 adet şık belirleyebilirsin");
             return;
         }
         Answers.Clear();
 
-        string question = command.GetArg(1);
-        int answersCount = command.ArgCount;
-
+        string question = argCount.FirstOrDefault();
+        var answers = argCount.Skip(1).Distinct();
         LatestVoteMenu = new(question);
 
-        for (int i = 2; i <= answersCount - 1; i++)
+        foreach (var item in answers)
         {
-            Answers.Add(command.GetArg(i), 0);
-            LatestVoteMenu.AddMenuOption(command.GetArg(i), HandleVotes);
+            Answers.Add(item, 0);
+            LatestVoteMenu.AddMenuOption(item, (x, option) =>
+            {
+                if (VoteInProgress)
+                {
+                    Answers[option.Text]++;
+                    if (ValidateCallerPlayer(x, false) == true)
+                    {
+                        x.PrintToChat($" {CC.LR}[ZMTR]{CC.B} {option.Text} {CC.W} Seçeneğine oy verdin.");
+                    }
+                }
+            });
         }
         Server.PrintToChatAll($" {CC.LR}[ZMTR] {(player == null ? "Console" : $"{CC.B}{player.PlayerName} - {CC.G}{question} Oylamasını başlattı!")}");
 
@@ -76,6 +106,7 @@ public partial class JailbreakExtras
               }
               Answers.Clear();
               VoteInProgress = false;
+              LatestVoteMenu = null;
           }, TimerFlags.STOP_ON_MAPCHANGE);
 
         return;
@@ -98,18 +129,6 @@ public partial class JailbreakExtras
         Server.PrintToChatAll($" {CC.LR}[ZMTR]{CC.W} OYLAMA IPTAL EDILDI.");
 
         return;
-    }
-
-    internal static void HandleVotes(CCSPlayerController player, ChatMenuOption option)
-    {
-        if (VoteInProgress)
-        {
-            Answers[option.Text]++;
-            if (ValidateCallerPlayer(player, false) == true)
-            {
-                player.PrintToChat($" {CC.LR}[ZMTR]{CC.B} {option.Text} {CC.W} Seçeneğine oy verdin.");
-            }
-        }
     }
 
     #endregion Vote

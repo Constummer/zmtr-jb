@@ -39,17 +39,7 @@ public partial class JailbreakExtras
             {
                 CoinRemove();
             }
-            //todo ins cokertmez
-            if (RespawnAcActive)
-            {
-                if (@event?.Userid.Connected == PlayerConnectedState.PlayerConnected)
-                {
-                    if (ValidateCallerPlayer(@event?.Userid, false))
-                    {
-                        CustomRespawn(@event?.Userid);
-                    }
-                }
-            }
+
             //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
             //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
             //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
