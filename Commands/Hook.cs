@@ -18,7 +18,7 @@ public partial class JailbreakExtras
     {
         if (HookDisabled)
         {
-            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Hook el boyunca kapalı.");
+            player.PrintToChat($" {ChatColors.LightRed}[ZMTR]{ChatColors.White} Hook kapalı.");
             return;
         }
 

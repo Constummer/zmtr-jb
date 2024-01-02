@@ -1,5 +1,8 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Commands.Targeting;
+using CounterStrikeSharp.API.Modules.Entities;
+using CounterStrikeSharp.API.Modules.Utils;
 using System.Drawing;
 
 namespace JailbreakExtras;
@@ -17,6 +20,14 @@ public partial class JailbreakExtras
             AddTimer(1.0f, () =>
             {
                 CoinGo = true;
+            });
+            HookDisabled = true;
+            Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}Hook 5 sn boyunca kapalý");
+
+            AddTimer(5.0f, () =>
+            {
+                HookDisabled = false;
+                Server.PrintToChatAll($" {ChatColors.LightRed}[ZMTR] {ChatColors.Green}Hook açýk");
             });
             foreach (var x in GetPlayers())
             {
