@@ -100,7 +100,7 @@ public partial class JailbreakExtras
                 break;
 
             case LaserType.Marker:
-                laser.Render = Color.Cyan;
+                laser.Render = Color.FromArgb(255, 153, 255, 255);
                 break;
 
             default:
