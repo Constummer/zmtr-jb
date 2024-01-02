@@ -9,6 +9,8 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    private static List<ulong> Unmuteds = new List<ulong>();
+
     #region Mute
 
     [ConsoleCommand("mute")]
@@ -82,6 +84,7 @@ public partial class JailbreakExtras
             .ToList()
             .ForEach(x =>
             {
+                Unmuteds.Add(x.SteamID);
                 x.VoiceFlags &= ~VoiceFlags.Muted;
                 if (targetArgument == TargetForArgument.None)
                 {

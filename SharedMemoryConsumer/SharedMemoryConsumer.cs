@@ -1,4 +1,5 @@
 ﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Modules.Entities;
 using Microsoft.Extensions.Logging;
 using Serilog.Core;
 using System.Net;
@@ -84,6 +85,7 @@ public partial class JailbreakExtras
                                 WardenRefreshPawn();
                                 ClearLasers();
                                 CoinAfterNewCommander();
+                                WardenUnmute();
 
                                 CoinGoWanted = true;
                                 if (temp != LatestWCommandUser)

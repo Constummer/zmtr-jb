@@ -13,6 +13,8 @@ public partial class JailbreakExtras
         {
             if (info.ArgString != null)
             {
+                Unmuteds = Unmuteds.Where(X => X != player.SteamID).ToList();
+
                 player.VoiceFlags |= VoiceFlags.Muted;
                 if (player.SteamID == LatestWCommandUser)
                 {

@@ -14,7 +14,7 @@ public partial class JailbreakExtras
                 return HookResult.Continue;
             var x = @event.Userid;
             if (ValidateCallerPlayer(x, false)
-            && x?.SteamID != null
+                && x?.SteamID != null
                 && x!.SteamID != 0)
             {
                 if (HideFoots.TryGetValue(x.SteamID, out var _) == false && Config.HideFootsOnConnect)
@@ -24,14 +24,17 @@ public partial class JailbreakExtras
                        AyakGizle(x, true);
                    });
                 }
-                if (x?.SteamID != LatestWCommandUser)
+                if (x.SteamID != LatestWCommandUser)
                 {
-                    AddTimer(2f, () =>
+                    if (Unmuteds.Contains(x.SteamID) == false)
                     {
-                        x.VoiceFlags |= VoiceFlags.Muted;
-                    });
+                        AddTimer(2f, () =>
+                        {
+                            x.VoiceFlags |= VoiceFlags.Muted;
+                        });
+                    }
                 }
-                CheckIfHasKnife(x);
+
                 var data = GetPlayerMarketModel(x?.SteamID);
                 if (data.Model == null || data.ChooseRandom)
                 {

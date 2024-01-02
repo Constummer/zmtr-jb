@@ -1,4 +1,5 @@
 ﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Modules.Entities;
 
 namespace JailbreakExtras;
 
@@ -14,15 +15,34 @@ public partial class JailbreakExtras
         }
     }
 
+    private static void WardenUnmute()
+    {
+        var warden = GetWarden();
+        if (warden != null)
+        {
+            warden.VoiceFlags &= ~VoiceFlags.Muted;
+        }
+    }
+
+    private static void LastWardenMute()
+    {
+        var warden = GetWarden();
+        if (warden != null)
+        {
+            warden.VoiceFlags |= VoiceFlags.Muted;
+        }
+    }
+
     private static void RemoveWarden()
     {
         Server.NextFrame(() =>
         {
             WardenRefreshPawn();
-            LatestWCommandUser = null;
+            LastWardenMute();
             ClearLasers();
             CoinRemove();
             WardenLeaveSound();
+            LatestWCommandUser = null;
         });
     }
 }

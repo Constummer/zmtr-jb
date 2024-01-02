@@ -135,11 +135,7 @@ public partial class JailbreakExtras
         {
             Server.NextFrame(() =>
             {
-                WardenRefreshPawn();
-                LatestWCommandUser = null;
-                ClearLasers();
                 CoinRemove();
-                WardenLeaveSound();
             });
         }
         else if (pname == "@me"
@@ -147,11 +143,7 @@ public partial class JailbreakExtras
         {
             Server.NextFrame(() =>
           {
-              WardenRefreshPawn();
-              LatestWCommandUser = null;
-              ClearLasers();
               CoinRemove();
-              WardenLeaveSound();
           });
         }
     }

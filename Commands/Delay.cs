@@ -60,6 +60,7 @@ public partial class JailbreakExtras
             .ToList()
             .ForEach(x =>
             {
+                Unmuteds.Add(x.SteamID);
                 x.VoiceFlags &= ~VoiceFlags.Muted;
             });
             FreezeOrUnfreezeSound();

@@ -9,6 +9,7 @@ public partial class JailbreakExtras
     {
         AddCommandListener("team", (player, info) =>
         {
+            Unmuteds = Unmuteds.Where(X => X != player.SteamID).ToList();
             player.VoiceFlags |= VoiceFlags.Muted;
             CoinRemoveOnWardenTeamChange(player, info);
             return HookResult.Continue;

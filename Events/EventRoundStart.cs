@@ -1,3 +1,4 @@
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using System.Drawing;
 
@@ -19,6 +20,17 @@ public partial class JailbreakExtras
             });
             foreach (var x in GetPlayers())
             {
+                if (x.SteamID == LatestWCommandUser)
+                {
+                    x.VoiceFlags &= ~VoiceFlags.Muted;
+                }
+                else
+                {
+                    if (Unmuteds.Contains(x.SteamID) == false)
+                    {
+                        x.VoiceFlags |= VoiceFlags.Muted;
+                    }
+                }
                 if (HideFoots.TryGetValue(x.SteamID, out bool hideFoot))
                 {
                     if (hideFoot)

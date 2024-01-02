@@ -13,6 +13,7 @@ public partial class JailbreakExtras
             HideFoots?.Clear();
             HookPlayers?.Clear();
             bUsingPara?.Clear();
+            Unmuteds?.Clear();
             LoadAllModels();
         });
     }
