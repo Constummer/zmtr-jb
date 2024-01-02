@@ -8,5 +8,6 @@ public partial class JailbreakExtras
         ListenersOnTick();
         ListenersOnClientConnected();
         ListenersOnClientDisconnect();
+        ListenersOnClientVoice();
     }
 }
