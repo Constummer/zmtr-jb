@@ -1,7 +1,6 @@
 ﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 

@@ -1,5 +1,4 @@
 ﻿using CounterStrikeSharp.API.Modules.Utils;
-using Serilog.Core;
 
 namespace JailbreakExtras;
 

@@ -105,7 +105,6 @@ public partial class JailbreakExtras
                    RefreshPawn(x);
                });
         Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}herkesin canını {CC.B}100 {CC.W}olarak ayarladı.");
-
     }
 
     public static void SetHp(CCSPlayerController controller, int health = 100)
