@@ -73,7 +73,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        Server.PrintToChatAll(info.ArgString);
+        Server.PrintToChatAll($"{player.PlayerName}: {info.ArgString}");
     }
 
     [ConsoleCommand("hsay")]
@@ -127,6 +127,26 @@ public partial class JailbreakExtras
         foreach (var item in GetPlayers().ToList())
         {
             item.PrintToCenterHtml(info.ArgString);
+            item.PrintToCenter(info.ArgString);
+        }
+    }
+
+    [ConsoleCommand("hsay4")]
+    public void hsay4(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        foreach (var item in GetPlayers().ToList())
+        {
+            item.PrintToCenterHtml(info.ArgString);
+            item.PrintToCenter(info.ArgString);
             item.PrintToCenter(info.ArgString);
         }
     }
