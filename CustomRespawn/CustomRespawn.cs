@@ -27,6 +27,20 @@ public partial class JailbreakExtras
         }
     }
 
+    private void CustomRespawnIfActive(CCSPlayerController? player)
+    {
+        if (RespawnAcActive)
+        {
+            AddTimer(1, () =>
+            {
+                if (ValidateCallerPlayer(player, false) == true)
+                {
+                    CustomRespawn(player);
+                }
+            });
+        }
+    }
+
     private string GetRespawnSignature()
     {
         string signature;

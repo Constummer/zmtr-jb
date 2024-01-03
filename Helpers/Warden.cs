@@ -44,4 +44,14 @@ public partial class JailbreakExtras
             LatestWCommandUser = null;
         });
     }
+
+    private static void IsEliWardenNotify()
+    {
+        var warden = GetWarden();
+        if (warden != null)
+        {
+            warden.PrintToChat($" {CC.LR}[ZMTR] {CC.R} EĞER İSELİ {CC.W} ise");
+            warden.PrintToChat($" {CC.LR}[ZMTR] {CC.B} !rm {CC.W}veya {CC.B}!revmenu {CC.W} yazarak ölen ctleri 3 kere revleyebilirsin");
+        }
+    }
 }

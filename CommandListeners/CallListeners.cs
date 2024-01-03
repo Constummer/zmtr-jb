@@ -6,5 +6,7 @@ public partial class JailbreakExtras
     {
         JointeamCommandListener();
         TeamCommandListener();
+        IseliCommandListener();
+        KapilariAcCommandListener();
     }
 }
