@@ -6,7 +6,7 @@ public partial class JailbreakExtras
     {
         GiveCreditTimer();
         GiveCreditToCssAdmin1Timer();
-        GiveCreditTimer();
+        GiveCreditToCssLiderTimer();
         SaveCreditTimer();
         CoinGoWantedTimer();
         CoinRespawnTimer();
