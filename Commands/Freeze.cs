@@ -9,6 +9,8 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    private CounterStrikeSharp.API.Modules.Timers.Timer fzTimer = null;
+
     #region Freeze-Unfreeze
 
     [ConsoleCommand("fz", "Freeze a player.")]
@@ -31,8 +33,8 @@ public partial class JailbreakExtras
             else
             {
                 BasicCountdown.CommandStartTextCountDown(this, $"Mahkûmların donmasına {value} saniye kaldı!");
-
-                _ = AddTimer(value, () =>
+                fzTimer?.Kill();
+                fzTimer = AddTimer(value, () =>
                 {
                     GetPlayers()
                     .Where(x => x != null
