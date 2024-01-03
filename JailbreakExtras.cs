@@ -45,7 +45,7 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
 
         LoadCredit();
         CreateDataFolder();
-        DatabaseInit();
+        Database();
         LoadPlayerModels();
         Task.Run(() => { SharedMemoryConsumer.StartListenerData(); });
 

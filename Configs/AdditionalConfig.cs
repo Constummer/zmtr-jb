@@ -29,6 +29,7 @@ public partial class JailbreakExtras
             "sv_autobunnyhopping 1",
             "sv_maxspeed 320",
             "mp_teammates_are_enemies 0",
+            "sv_gravity 800"
         };
     }
 }

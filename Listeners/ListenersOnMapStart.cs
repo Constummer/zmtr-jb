@@ -26,7 +26,8 @@ public partial class JailbreakExtras
             {
                 if (string.IsNullOrWhiteSpace(model.Value?.PathToModel) == false)
                 {
-                    Server.PrecacheModel(model.Value.PathToModel);
+                    Server.PrecacheModel(model.Value.PathToModel.Replace('\\', Path.DirectorySeparatorChar));
+                    Server.PrecacheModel(model.Value.PathToModel.Replace('\\', Path.AltDirectorySeparatorChar));
                 }
             }
         }

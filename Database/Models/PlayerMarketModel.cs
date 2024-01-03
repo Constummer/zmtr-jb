@@ -18,7 +18,7 @@ public class PlayerMarketModel
 
     public string? ModelIdT { get; set; }
 
-    public int? DefaultIdCT { get; set; }
+    public string? DefaultIdCT { get; set; }
 
-    public int? DefaultIdT { get; set; }
+    public string? DefaultIdT { get; set; }
 }

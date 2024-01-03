@@ -9,8 +9,11 @@ public partial class JailbreakExtras
     {
         public JailbreakExtrasConfig()
         {
-            Version = 4;
+            Version = 5;
         }
+
+        [JsonPropertyName("Database")]
+        public DatabaseConfig Database { get; set; } = new DatabaseConfig();
 
         [JsonPropertyName("Additional")]
         public AdditionalConfig Additional { get; set; } = new AdditionalConfig();

@@ -46,9 +46,10 @@ public partial class JailbreakExtras
                     switch (GetTeam(x!))
                     {
                         case CsTeam.Terrorist:
-                            if (data.Model.DefaultIdT.HasValue == true)
+                            if (string.IsNullOrWhiteSpace(data.Model.DefaultIdT) == false)
                             {
-                                if (PlayerModels.TryGetValue(data.Model.DefaultIdT.Value, out model))
+                                if (int.TryParse(data.Model.DefaultIdT, out var modelId)
+                                    && PlayerModels.TryGetValue(modelId, out model))
                                 {
                                     SetModelNextServerFrame(x!.PlayerPawn.Value!, model.PathToModel);
                                 }
@@ -60,9 +61,10 @@ public partial class JailbreakExtras
                             break;
 
                         case CsTeam.CounterTerrorist:
-                            if (data.Model.DefaultIdCT.HasValue == true)
+                            if (string.IsNullOrWhiteSpace(data.Model.DefaultIdCT) == false)
                             {
-                                if (PlayerModels.TryGetValue(data.Model.DefaultIdCT.Value, out model))
+                                if (int.TryParse(data.Model.DefaultIdCT, out var modelId)
+                                    && PlayerModels.TryGetValue(modelId, out model))
                                 {
                                     SetModelNextServerFrame(x!.PlayerPawn.Value!, model.PathToModel);
                                 }

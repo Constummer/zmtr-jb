@@ -2,10 +2,13 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
-using Dapper;
-using Microsoft.Data.Sqlite;
+using Microsoft.Extensions.Logging;
+using MySqlConnector;
+
+//using Microsoft.Data.Sqlite;
 
 namespace JailbreakExtras;
 
@@ -191,12 +194,12 @@ public partial class JailbreakExtras
                         if (text.Contains(CTModeli))
                         {
                             playerData.ModelIdCT = AddModelIdToGivenData(playerData.ModelIdCT, model.Id);
-                            playerData.DefaultIdCT = model.Id;
+                            playerData.DefaultIdCT = model.Id.ToString();
                         }
                         else
                         {
                             playerData.ModelIdT = AddModelIdToGivenData(playerData.ModelIdT, model.Id);
-                            playerData.DefaultIdT = model.Id;
+                            playerData.DefaultIdT = model.Id.ToString();
                         }
                         player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} {model.Text} modelini satin aldin");
                         FinalizeModelSet(player, model, playerData, text);
@@ -265,7 +268,7 @@ public partial class JailbreakExtras
         return modelId;
     }
 
-    private async Task<PlayerMarketModel> GetPlayerMarketData(ulong steamID)
+    private async Task<PlayerMarketModel?> GetPlayerMarketData(ulong steamID)
     {
         if (PlayerMarketModels == null)
         {
@@ -274,45 +277,48 @@ public partial class JailbreakExtras
 
         if (PlayerMarketModels.ContainsKey(steamID))
         {
-            return null!;
+            return null;
         }
 
-        var command = DbConnection.CreateCommand();
-        command.CommandText = @$"
-                SELECT `{nameof(PlayerMarketModel.ModelIdCT)}`,
-                       `{nameof(PlayerMarketModel.ModelIdT)}`,
-                       `{nameof(PlayerMarketModel.DefaultIdCT)}`,
-                       `{nameof(PlayerMarketModel.DefaultIdT)}`,
-                       `{nameof(PlayerMarketModel.Credit)}`
-                FROM `{nameof(PlayerMarketModel)}`
-                WHERE `{nameof(PlayerMarketModel.SteamId)}` = @SteamId";
-        command.Parameters.AddWithValue("@SteamId", steamID);
+        var con = Connection();
+        if (con == null)
+        {
+            return null;
+        }
+        var cmd = new MySqlCommand(@$"
+                SELECT `ModelIdCT`,
+                       `ModelIdT`,
+                       `DefaultIdCT`,
+                       `DefaultIdT`,
+                       `Credit`
+                FROM `PlayerMarketModel`
+                WHERE `SteamId` = @SteamId", con);
+        cmd.Parameters.AddWithValue("@SteamId", steamID);
 
         PlayerMarketModel data = null!;
 
-        using (var reader = await command.ExecuteReaderAsync())
+        using (var reader = await cmd.ExecuteReaderAsync())
         {
             if (reader.Read())
             {
                 data = new PlayerMarketModel(steamID);
                 data.ModelIdCT = reader.IsDBNull(0) ? null : reader.GetString(0);
                 data.ModelIdT = reader.IsDBNull(1) ? null : reader.GetString(1);
-                data.DefaultIdCT = reader.IsDBNull(2) ? null : reader.GetInt32(2);
-                data.DefaultIdT = reader.IsDBNull(3) ? null : reader.GetInt32(3);
+                data.DefaultIdCT = reader.IsDBNull(2) ? null : reader.GetString(2);
+                data.DefaultIdT = reader.IsDBNull(3) ? null : reader.GetString(3);
                 data.Credit = reader.IsDBNull(4) ? 0 : reader.GetInt32(4);
             }
         }
 
         if (data == null)
         {
-            await DbConnection.ExecuteAsync($@"
-                INSERT INTO `{nameof(PlayerMarketModel)}`
-                    (`{nameof(PlayerMarketModel.SteamId)}`)
-                VALUES (@SteamId)",
-            new
-            {
-                SteamId = steamID
-            });
+            cmd = new MySqlCommand($@"
+                INSERT INTO `PlayerMarketModel`
+                    (`SteamId`)
+                VALUES (@SteamId)", con);
+            cmd.Parameters.AddWithValue("@SteamId", steamID);
+            await cmd.ExecuteNonQueryAsync();
+
             data = new(steamID);
         }
 
@@ -325,25 +331,64 @@ public partial class JailbreakExtras
         var data = GetPlayerMarketModel(steamID);
         if (data.Model == null) return;
 
-        var command = DbConnection.CreateCommand();
-        command.CommandText = @$"
-                INSERT OR REPLACE INTO `{nameof(PlayerMarketModel)}`
-                (`{nameof(PlayerMarketModel.SteamId)}`,
-                 `{nameof(PlayerMarketModel.ModelIdCT)}`,
-                 `{nameof(PlayerMarketModel.ModelIdT)}`,
-                 `{nameof(PlayerMarketModel.DefaultIdCT)}`,
-                 `{nameof(PlayerMarketModel.DefaultIdT)}`,
-                 `{nameof(PlayerMarketModel.Credit)}`)
-                VALUES (@SteamId,@ModelNameCT,@ModelNameT,@defaultCT,@defaultT,@Credit)";
+        var con = Connection();
+        if (con == null)
+        {
+            return;
+        }
+        try
+        {
+            var cmd = new MySqlCommand(@$"SELECT 1 FROM `PlayerMarketModel` WHERE `SteamId` = @SteamId;", con);
+            cmd.Parameters.AddWithValue("@SteamId", steamID);
+            bool exist = false;
+            using (var reader = await cmd.ExecuteReaderAsync())
+            {
+                if (reader.Read())
+                {
+                    exist = true;
+                }
+            }
+            if (exist)
+            {
+                cmd = new MySqlCommand(@$"UPDATE `PlayerMarketModel`
+                                          SET
+                                              `ModelIdCT` = @ModelIdCT,
+                                              `ModelIdT` = @ModelIdT,
+                                              `DefaultIdCT` = @DefaultIdCT,
+                                              `DefaultIdT` = @DefaultIdT,
+                                              `Credit` = @Credit
+                                          WHERE `SteamId` = @SteamId;", con);
 
-        command.Parameters.Add(new SqliteParameter("@SteamId", data.Model.SteamId));
-        command.Parameters.Add(new SqliteParameter("@ModelNameCT", data.Model.ModelIdCT.GetDbValue()));
-        command.Parameters.Add(new SqliteParameter("@ModelNameT", data.Model.ModelIdT.GetDbValue()));
-        command.Parameters.Add(new SqliteParameter("@defaultCT", data.Model.DefaultIdCT.GetDbValue()));
-        command.Parameters.Add(new SqliteParameter("@defaultT", data.Model.DefaultIdT.GetDbValue()));
-        command.Parameters.Add(new SqliteParameter("@Credit", data.Model.Credit.GetDbValue()));
+                cmd.Parameters.AddWithValue("@SteamId", data.Model.SteamId);
+                cmd.Parameters.AddWithValue("@ModelIdCT", data.Model.ModelIdCT.GetDbValue());
+                cmd.Parameters.AddWithValue("@ModelIdT", data.Model.ModelIdT.GetDbValue());
+                cmd.Parameters.AddWithValue("@DefaultIdCT", data.Model.DefaultIdCT.GetDbValue());
+                cmd.Parameters.AddWithValue("@DefaultIdT", data.Model.DefaultIdT.GetDbValue());
+                cmd.Parameters.AddWithValue("@Credit", data.Model.Credit.GetDbValue());
 
-        await command.ExecuteNonQueryAsync();
+                await cmd.ExecuteNonQueryAsync();
+            }
+            else
+            {
+                cmd = new MySqlCommand(@$"INSERT INTO `PlayerMarketModel`
+                                          (`SteamId`, `ModelIdCT`, `ModelIdT`, `DefaultIdCT`, `DefaultIdT`, `Credit`)
+                                          Values
+                                          (@SteamId,@ModelIdCT,@ModelIdT,@DefaultIdCT,@DefaultIdT,@Credit);", con);
+
+                cmd.Parameters.AddWithValue("@SteamId", data.Model.SteamId);
+                cmd.Parameters.AddWithValue("@ModelIdCT", data.Model.ModelIdCT.GetDbValue());
+                cmd.Parameters.AddWithValue("@ModelIdT", data.Model.ModelIdT.GetDbValue());
+                cmd.Parameters.AddWithValue("@DefaultIdCT", data.Model.DefaultIdCT.GetDbValue());
+                cmd.Parameters.AddWithValue("@DefaultIdT", data.Model.DefaultIdT.GetDbValue());
+                cmd.Parameters.AddWithValue("@Credit", data.Model.Credit.GetDbValue());
+
+                await cmd.ExecuteNonQueryAsync();
+            }
+        }
+        catch (Exception e)
+        {
+            Logger.LogError(e, "hata");
+        }
     }
 
     private (PlayerMarketModel Model, bool ChooseRandom) GetPlayerMarketModel(ulong? steamId)
