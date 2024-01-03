@@ -18,6 +18,7 @@ public partial class JailbreakExtras
         HookDisablePlayers?.Clear();
         HookDisabled = false;
         CitEnabledPlayers?.Clear();
+        FFMenuCheck = false;
         ClearParachutes();
         ClearCits();
         ClearLasers();
