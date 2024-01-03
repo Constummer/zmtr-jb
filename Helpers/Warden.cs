@@ -32,7 +32,7 @@ public partial class JailbreakExtras
         }
     }
 
-    private static void RemoveWarden()
+    private void RemoveWarden()
     {
         Server.NextFrame(() =>
         {
@@ -42,6 +42,7 @@ public partial class JailbreakExtras
             CoinRemove();
             WardenLeaveSound();
             LatestWCommandUser = null;
+            CleanTagOnKomutcuAdmin();
         });
     }
 

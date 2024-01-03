@@ -8,5 +8,6 @@ public partial class JailbreakExtras
         TeamCommandListener();
         IseliCommandListener();
         KapilariAcCommandListener();
+        SayAndSayTeamCommandListener();
     }
 }

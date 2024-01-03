@@ -104,6 +104,7 @@ public partial class JailbreakExtras
                                 ClearLasers();
                                 CoinRemove();
                                 WardenLeaveSound();
+                                CleanTagOnKomutcuAdmin();
                             });
                         }
                     }

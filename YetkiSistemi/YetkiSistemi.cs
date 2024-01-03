@@ -8,6 +8,14 @@ public partial class JailbreakExtras
 
     public void YetkiSistemi()
     {
+        //if (AdminManager.GetPlayerAdminData(sid) != null)
+        //{
+        //    foreach (var group in AdminManager.GetPlayerAdminData(sid).Groups)
+        //    {
+        //        pGroup = group;
+        //    }
+        //}
+        //TOOD: burdan geliyor css yetkileri Xd
     }
 
     private void ReloadAllPlayerPermissions()

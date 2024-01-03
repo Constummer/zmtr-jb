@@ -14,6 +14,7 @@ public partial class JailbreakExtras
     public void AdminYetki(CCSPlayerController? player, CommandInfo info)
     {
         return;
+
         Server.ExecuteCommand("C_reload_admins");
         Server.ExecuteCommand("css_admins_reload");
         Server.PrintToChatAll("Yetkiler yenilendi");
