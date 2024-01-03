@@ -1,5 +1,6 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Commands;
+using System.ComponentModel.Design;
 
 namespace JailbreakExtras;
 
@@ -13,6 +14,20 @@ public partial class JailbreakExtras
 
     private HookResult OnSayOrSayTeam(CCSPlayerController? player, CommandInfo info)
     {
+        if (player == null) return HookResult.Continue;
+        var arg = info.GetArg(1);
+        if (arg.StartsWith("!") || arg.StartsWith("/"))
+        {
+            if (VoteInProgressIntercepter(player, arg) == true)
+            {
+                return HookResult.Handled;
+            }
+            return HookResult.Continue;
+        }
+        if (ValidateCallerPlayer(player, false) == false)
+        {
+            return HookResult.Continue;
+        }
         if (KomutcuAdminSay(player, info) == true)
         {
             return HookResult.Handled;

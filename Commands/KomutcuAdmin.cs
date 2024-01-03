@@ -11,6 +11,7 @@ namespace JailbreakExtras;
 public partial class JailbreakExtras
 {
     private static ulong? KomutcuAdminId = null;
+
     #region KomutcuAdmin
 
     [ConsoleCommand("ka")]
@@ -71,17 +72,9 @@ public partial class JailbreakExtras
         }
         KomutcuAdminId = null;
     }
+
     public static bool KomutcuAdminSay(CCSPlayerController? player, CommandInfo info)
     {
-        if (player == null) return false;
-        if (info.GetArg(1).StartsWith("!") || info.GetArg(1).StartsWith("/"))
-        {
-            return false;
-        }
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return false;
-        }
         var teamColor = GetTeam(player) switch
         {
             CsTeam.CounterTerrorist => CC.BG,
@@ -103,5 +96,6 @@ public partial class JailbreakExtras
         }
         return false;
     }
+
     #endregion KomutcuAdmin
 }

@@ -131,5 +131,45 @@ public partial class JailbreakExtras
         return;
     }
 
+    private bool VoteInProgressIntercepter(CCSPlayerController player, string arg)
+    {
+        if (VoteInProgress)
+        {
+            Console.WriteLine("a====" + arg);
+            var voteNoStr = arg.Substring(1);
+            Console.WriteLine("b====" + voteNoStr);
+
+            if (int.TryParse(voteNoStr, out var voteNo))
+            {
+                if (voteNo < 1 || voteNo > 5)
+                {
+                    return false;
+                }
+                Console.WriteLine("c====" + voteNo);
+
+                if (Answers.Count > voteNo)
+                {
+                    Console.WriteLine("d====" + Answers.Count);
+
+                    return false;
+                }
+                Console.WriteLine("e====" + true);
+
+                var answers = Answers.ToList();
+
+                var data = answers[voteNo - 1];
+                Console.WriteLine("f====" + data.Key);
+                Answers[data.Key]++;
+
+                if (ValidateCallerPlayer(player, false) == true)
+                {
+                    player.PrintToChat($" {CC.LR}[ZMTR]{CC.B} {data.Key} {CC.W} Seçeneğine oy verdin.");
+                }
+                return true;
+            }
+        }
+        return false;
+    }
+
     #endregion Vote
 }
