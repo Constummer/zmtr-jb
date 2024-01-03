@@ -36,10 +36,12 @@ public partial class JailbreakExtras
                 switch (godOneTwo)
                 {
                     case 0:
+                        Config.Additional.ParachuteModelEnabled = true;
                         SetColour(x, DefaultPlayerColor);
                         break;
 
                     case 1:
+                        Config.Additional.ParachuteModelEnabled = false;
                         SetColour(x, Color.FromArgb(0, 0, 0, 0));
                         break;
                 }

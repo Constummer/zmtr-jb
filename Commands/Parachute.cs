@@ -19,7 +19,9 @@ public partial class JailbreakExtras
         {
             return;
         }
+        ClearParachutes();
         _Config.Additional.ParachuteEnabled = false;
+        _Config.Additional.ParachuteModelEnabled = false;
         Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Paraşüt kapandı.");
     }
 
@@ -32,6 +34,8 @@ public partial class JailbreakExtras
             return;
         }
         _Config.Additional.ParachuteEnabled = true;
+        _Config.Additional.ParachuteModelEnabled = true;
+
         Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Paraşüt açıldı.");
     }
 

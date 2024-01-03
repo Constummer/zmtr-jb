@@ -18,16 +18,21 @@ public partial class JailbreakExtras
         HookDisablePlayers?.Clear();
         HookDisabled = false;
         CitEnabledPlayers?.Clear();
+        ClearParachutes();
         ClearCits();
         ClearLasers();
     }
 
-    private void ClearOnDisconnect(ulong steamId)
+    private void ClearOnDisconnect(ulong steamId, int? userId)
     {
         _ = ActiveGodMode?.Remove(steamId, out _);
         _ = DeathLocations?.Remove(steamId, out _);
         _ = KilledPlayers?.Remove(steamId, out _);
         _ = LatestHediyeCommandCalls?.Remove(steamId, out _);
+        if (userId != null && userId != -1)
+        {
+            RemoveGivenParachute(userId.Value);
+        }
         HookDisablePlayers = HookDisablePlayers?.Where(x => x != steamId).ToList() ?? new();
         CitEnabledPlayers = CitEnabledPlayers?.Where(x => x != steamId).ToList() ?? new();
     }

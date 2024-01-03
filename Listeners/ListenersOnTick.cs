@@ -25,7 +25,7 @@ public partial class JailbreakExtras
                 var player = new CCSPlayerController(ent);
                 if (player == null || !player.IsValid)
                     continue;
-                ParachuteOnTick(player);
+                ParachuteOnTick(player, i);
 
                 changed = BasicCountdown.CountdownEnableTextHandler(changed, player);
             }

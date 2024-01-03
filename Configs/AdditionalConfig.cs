@@ -9,6 +9,9 @@ public partial class JailbreakExtras
         [JsonPropertyName("ParachuteEnabled")]
         public bool ParachuteEnabled { get; set; } = true;
 
+        [JsonPropertyName("ParachuteModelEnabled")]
+        public bool ParachuteModelEnabled { get; set; } = true;
+
         [JsonPropertyName("HideFootsOnConnect")]
         public bool HideFootsOnConnect { get; set; } = true;
 

@@ -53,6 +53,10 @@ public partial class JailbreakExtras
                         RefreshPawn(x);
                     }
                 }
+                AddTimer(0.5f, () =>
+                {
+                    CreateParachute(x);
+                });
             }
             return HookResult.Continue;
         });

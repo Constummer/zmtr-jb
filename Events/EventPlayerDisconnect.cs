@@ -15,7 +15,7 @@ public partial class JailbreakExtras
             {
                 return HookResult.Continue;
             }
-            ClearOnDisconnect(@event.Userid.SteamID);
+            ClearOnDisconnect(@event.Userid.SteamID, @event.Userid.UserId);
             //if (@event?.Userid?.SteamID == LatestWCommandUser)
             //{
             //    CoinRemove();

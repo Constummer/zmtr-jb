@@ -39,7 +39,10 @@ public partial class JailbreakExtras
             {
                 CoinRemove();
             }
-
+            if (@event.Userid.UserId != null && @event.Userid.UserId != -1)
+            {
+                RemoveGivenParachute(@event.Userid.UserId.Value);
+            }
             //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
             //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
             //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
@@ -109,6 +112,7 @@ public partial class JailbreakExtras
                 CsTeam.CounterTerrorist => "CT",
                 _ => ""
             };
+
             attacker!.PrintToChat($" {CC.LR}[ZMTR] {CC.LB}{teamShortName} Oldurdugun için, {amount} kredi kazandýn!");
         }
     }
