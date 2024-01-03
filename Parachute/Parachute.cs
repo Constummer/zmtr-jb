@@ -115,7 +115,7 @@ public partial class JailbreakExtras
 
     private void RemoveGivenParachute(int userId)
     {
-        if (gParaModel[userId] != null && gParaModel[userId].IsValid)
+        if (gParaModel.ContainsKey(userId) && gParaModel[userId] != null && gParaModel[userId].IsValid)
         {
             _ = AddTimer(0.1f, () =>
                {
