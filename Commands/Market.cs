@@ -449,6 +449,27 @@ public partial class JailbreakExtras
             chooseRandom = true;
         }
 
+        if (string.IsNullOrWhiteSpace(data.DefaultIdCT) == false)
+        {
+            if (int.TryParse(data.DefaultIdCT, out var parsed))
+            {
+                if (parsed < 0)
+                {
+                    return (data, true);
+                }
+            }
+        }
+
+        if (string.IsNullOrWhiteSpace(data.DefaultIdT) == false)
+        {
+            if (int.TryParse(data.DefaultIdT, out var parsed))
+            {
+                if (parsed < 0)
+                {
+                    return (data, true);
+                }
+            }
+        }
         return (data, chooseRandom);
     }
 

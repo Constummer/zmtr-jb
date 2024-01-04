@@ -49,14 +49,20 @@ public partial class JailbreakExtras
         {
             return;
         }
+        SlayAllAction();
+        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}herkesi {CC.LR}öldürdü{CC.W}.");
+    }
+
+    private static void SlayAllAction()
+    {
         GetPlayers()
+          .Where(x => x.PawnIsAlive)
           .ToList()
           .ForEach(x =>
           {
               var playerPawn = x.PlayerPawn.Value;
               playerPawn!.CommitSuicide(false, true);
           });
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}herkesi {CC.LR}öldürdü{CC.W}.");
     }
 
     [ConsoleCommand("sct", "slay ct")]
@@ -68,6 +74,7 @@ public partial class JailbreakExtras
             return;
         }
         GetPlayers(CsTeam.CounterTerrorist)
+           .Where(x => x.PawnIsAlive)
            .ToList()
            .ForEach(x =>
            {
@@ -86,6 +93,7 @@ public partial class JailbreakExtras
             return;
         }
         GetPlayers(CsTeam.Terrorist)
+           .Where(x => x.PawnIsAlive)
            .ToList()
            .ForEach(x =>
            {

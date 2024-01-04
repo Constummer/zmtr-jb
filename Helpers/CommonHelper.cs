@@ -40,14 +40,17 @@ public partial class JailbreakExtras
         return res;
     }
 
-    private static bool ValidateCallerPlayer(CCSPlayerController? player, bool checkPermission = true)
+    private static bool ValidateCallerPlayer(CCSPlayerController? player, bool checkPermission = true, bool printMsg = true)
     {
         if (player == null) return false;
         if (checkPermission)
         {
             if (CheckPermission(player) == false)
             {
-                player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+                if (printMsg)
+                {
+                    player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+                }
                 return false;
             }
         }

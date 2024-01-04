@@ -24,7 +24,67 @@ public partial class JailbreakExtras
         }
         if (info.ArgCount != 2) return;
         var target = info.GetArg(1);
+        MuteAction(player, target);
+    }
 
+    [ConsoleCommand("mt")]
+    public void MuteT(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye10"))
+        {
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        MuteAction(player, "@t");
+    }
+
+    [ConsoleCommand("mct")]
+    public void MuteCT(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye10"))
+        {
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        MuteAction(player, "@ct");
+    }
+
+    [ConsoleCommand("unmute")]
+    [CommandHelper(1, "<playerismi-@all-@t-@ct-@me-@alive-@dead>")]
+    public void UnMute(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye15"))
+        {
+            return;
+        }
+        if (info.ArgCount != 2) return;
+        var target = info.GetArg(1);
+
+        UnMuteAction(player, target);
+    }
+
+    [ConsoleCommand("ut")]
+    public void UnMuteT(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye15"))
+        {
+            return;
+        }
+        UnMuteAction(player, "@t");
+    }
+
+    [ConsoleCommand("uct")]
+    public void UnMuteCT(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye15"))
+        {
+            return;
+        }
+        UnMuteAction(player, "@ct");
+    }
+
+    private static void MuteAction(CCSPlayerController? player, string target)
+    {
         var targetArgument = GetTargetArgument(target);
         GetPlayers()
             .Where(x => targetArgument switch
@@ -55,17 +115,8 @@ public partial class JailbreakExtras
         }
     }
 
-    [ConsoleCommand("unmute")]
-    [CommandHelper(1, "<playerismi-@all-@t-@ct-@me-@alive-@dead>")]
-    public void UnMute(CCSPlayerController? player, CommandInfo info)
+    private static void UnMuteAction(CCSPlayerController? player, string target)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye15"))
-        {
-            return;
-        }
-        if (info.ArgCount != 2) return;
-        var target = info.GetArg(1);
-
         var targetArgument = GetTargetArgument(target);
         GetPlayers()
             .Where(x => targetArgument switch

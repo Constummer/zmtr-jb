@@ -15,6 +15,8 @@ public partial class JailbreakExtras
         {"KZ",      new Vector(2102,812,-357) },
     };
 
+    private Vector Hucre = new Vector(-535, 345, -27);
+
     #region SKZ
 
     [ConsoleCommand("skz")]
@@ -52,6 +54,9 @@ public partial class JailbreakExtras
                     .ToList()
                     .ForEach(x =>
                     {
+                        SetColour(x, DefaultPlayerColor);
+                        x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
+
                         x.PlayerPawn.Value.Teleport(k.Value, new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                     });
 
