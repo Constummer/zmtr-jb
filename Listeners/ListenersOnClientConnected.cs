@@ -16,10 +16,13 @@ public partial class JailbreakExtras
 
             if (player?.SteamID != null && player!.SteamID != 0)
             {
-                Server.NextFrame(async () =>
+                _ = Task.Run(async () =>
+                {
+                    await AddOrUpdatePlayerToPlayerNameTable(player!.SteamID, player.PlayerName);
+                });
+                _ = Task.Run(async () =>
                 {
                     await GetPlayerMarketData(player!.SteamID);
-                    await AddOrUpdatePlayerToPlayerNameTable(player!.SteamID, player.PlayerName);
                 });
             }
         });
