@@ -135,9 +135,7 @@ public partial class JailbreakExtras
     {
         if (VoteInProgress)
         {
-            Console.WriteLine("a====" + arg);
             var voteNoStr = arg.Substring(1);
-            Console.WriteLine("b====" + voteNoStr);
 
             if (int.TryParse(voteNoStr, out var voteNo))
             {
@@ -145,25 +143,27 @@ public partial class JailbreakExtras
                 {
                     return false;
                 }
-                Console.WriteLine("c====" + voteNo);
 
-                if (Answers.Count > voteNo)
+                if (Answers.Count < voteNo)
                 {
-                    Console.WriteLine("d====" + Answers.Count);
-
                     return false;
                 }
-                Console.WriteLine("e====" + true);
 
                 var answers = Answers.ToList();
 
                 var data = answers[voteNo - 1];
-                Console.WriteLine("f====" + data.Key);
                 Answers[data.Key]++;
 
                 if (ValidateCallerPlayer(player, false) == true)
                 {
                     player.PrintToChat($" {CC.LR}[ZMTR]{CC.B} {data.Key} {CC.W} Seçeneğine oy verdin.");
+                    GetPlayers()
+                        .Where(x => x.SteamID != player.SteamID)
+                        .ToList()
+                        .ForEach(x =>
+                        {
+                            x.PrintToChat($" {CC.LR}[ZMTR]{CC.B} {player.PlayerName} {CC.W} Oyunu kullandı.");
+                        });
                 }
                 return true;
             }

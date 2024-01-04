@@ -32,8 +32,6 @@ public partial class JailbreakExtras
                         TeamNo = reader.IsDBNull(3) ? 0 : (CsTeam)reader.GetInt32(3),
                         Cost = reader.IsDBNull(4) ? 0 : reader.GetInt32(4),
                     };
-                    Logger.LogInformation("------------------------------------------------model.Text = " + model.Text);
-                    Logger.LogInformation("------------------------------------------------model.PathToModel = " + model.PathToModel);
 
                     PlayerModels.Add(model.Id, model);
                 }
