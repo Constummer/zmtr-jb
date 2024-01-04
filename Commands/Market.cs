@@ -222,7 +222,7 @@ public partial class JailbreakExtras
                     if (text.Contains(TModeli))
                     {
                         player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} {model.Text} modelini kullaniyorsun");
-                        if (model.Id < 0)
+                        if (model.Cost == 0 && model.Id < 0)
                         {
                             GiveRandomSkin(player);
                         }
@@ -237,7 +237,7 @@ public partial class JailbreakExtras
                     if (text.Contains(CTModeli))
                     {
                         player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} {model.Text} modelini kullaniyorsun");
-                        if (model.Id < 0)
+                        if (model.Cost == 0 && model.Id < 0)
                         {
                             GiveRandomSkin(player);
                         }
@@ -282,7 +282,6 @@ public partial class JailbreakExtras
         {
             PlayerMarketModels = new();
         }
-
         if (PlayerMarketModels.ContainsKey(steamID))
         {
             return null;
@@ -293,6 +292,9 @@ public partial class JailbreakExtras
         {
             return null;
         }
+
+        PlayerMarketModel data = null!;
+
         var cmd = new MySqlCommand(@$"
                 SELECT `ModelIdCT`,
                        `ModelIdT`,
@@ -303,21 +305,25 @@ public partial class JailbreakExtras
                 WHERE `SteamId` = @SteamId", con);
         cmd.Parameters.AddWithValue("@SteamId", steamID);
 
-        PlayerMarketModel data = null!;
-
-        using (var reader = await cmd.ExecuteReaderAsync())
+        try
         {
-            if (reader.Read())
+            using (var reader = await cmd.ExecuteReaderAsync())
             {
-                data = new PlayerMarketModel(steamID);
-                data.ModelIdCT = reader.IsDBNull(0) ? null : reader.GetString(0);
-                data.ModelIdT = reader.IsDBNull(1) ? null : reader.GetString(1);
-                data.DefaultIdCT = reader.IsDBNull(2) ? null : reader.GetString(2);
-                data.DefaultIdT = reader.IsDBNull(3) ? null : reader.GetString(3);
-                data.Credit = reader.IsDBNull(4) ? 0 : reader.GetInt32(4);
+                if (reader.Read())
+                {
+                    data = new PlayerMarketModel(steamID);
+                    data.ModelIdCT = reader.IsDBNull(0) ? null : reader.GetString(0);
+                    data.ModelIdT = reader.IsDBNull(1) ? null : reader.GetString(1);
+                    data.DefaultIdCT = reader.IsDBNull(2) ? null : reader.GetString(2);
+                    data.DefaultIdT = reader.IsDBNull(3) ? null : reader.GetString(3);
+                    data.Credit = reader.IsDBNull(4) ? 0 : reader.GetInt32(4);
+                }
             }
         }
-
+        catch (Exception e)
+        {
+            Logger.LogInformation(e, "hata");
+        }
         if (data == null)
         {
             cmd = new MySqlCommand($@"

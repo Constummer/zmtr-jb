@@ -30,6 +30,7 @@ public partial class JailbreakExtras
         _ = DeathLocations?.Remove(steamId, out _);
         _ = KilledPlayers?.Remove(steamId, out _);
         _ = LatestHediyeCommandCalls?.Remove(steamId, out _);
+        _ = PlayerMarketModels?.Remove(steamId, out _);
         if (userId != null && userId != -1)
         {
             RemoveGivenParachute(userId.Value);
