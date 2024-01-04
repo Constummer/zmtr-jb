@@ -19,5 +19,11 @@ public partial class JailbreakExtras
         CoinRespawnTimer();
 
         #endregion Coin
+
+        #region Level
+
+        GiveAndSaveTPToAll();
+
+        #endregion Level
     }
 }

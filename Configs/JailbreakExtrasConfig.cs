@@ -15,6 +15,9 @@ public partial class JailbreakExtras
         [JsonPropertyName("Database")]
         public DatabaseConfig Database { get; set; } = new DatabaseConfig();
 
+        [JsonPropertyName("Level")]
+        public LevelConfig Level { get; set; } = new LevelConfig();
+
         [JsonPropertyName("Additional")]
         public AdditionalConfig Additional { get; set; } = new AdditionalConfig();
 

@@ -47,16 +47,19 @@ public partial class JailbreakExtras
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
             await cmd.ExecuteNonQueryAsync();
 
-            //cmd = new MySqlCommand(
-            // @"CREATE TABLE IF NOT EXISTS `PlayerModel` (
-            //     `Id` INT DEFAULT NULL,
-            //     `Text` VARCHAR(14) DEFAULT NULL,
-            //     `PathToModel` VARCHAR(86) DEFAULT NULL,
-            //     `TeamNo` TINYINT DEFAULT NULL,
-            //     `Cost` MEDIUMINT DEFAULT NULL,
-            //     `Enable` TINYINT DEFAULT NULL
-            //   ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4", con);
-            //await cmd.ExecuteNonQueryAsync();
+            cmd = new MySqlCommand(
+             @"CREATE TABLE IF NOT EXISTS `PlayerLevel` (
+               `SteamId` bigint(20) DEFAULT NULL,
+               `Xp` mediumint(9) DEFAULT NULL
+               ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
+            await cmd.ExecuteNonQueryAsync();
+
+            cmd = new MySqlCommand(
+             @"CREATE TABLE IF NOT EXISTS `PlayerName` (
+               `SteamId` bigint(20) DEFAULT NULL,
+               `Name` TEXT DEFAULT NULL
+               ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
+            await cmd.ExecuteNonQueryAsync();
         });
     }
 }
