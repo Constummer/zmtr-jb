@@ -5,16 +5,16 @@ using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Timers;
-using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    public static Dictionary<string, int> Answers = new Dictionary<string, int>();
-    public static bool VoteInProgress = false;
-    public CounterStrikeSharp.API.Modules.Timers.Timer VoteTimer = null;
-    public ChatMenu LatestVoteMenu = null;
+    private static Dictionary<string, int> Answers = new();
+    private static bool VoteInProgress = false;
+    private CounterStrikeSharp.API.Modules.Timers.Timer VoteTimer = null;
+    private ChatMenu LatestVoteMenu = null;
+    private List<ulong> AlreadyVotedPlayers = new();
 
     #region Vote
 
@@ -59,7 +59,7 @@ public partial class JailbreakExtras
             return;
         }
         Answers.Clear();
-
+        AlreadyVotedPlayers.Clear();
         string question = argCount.FirstOrDefault();
         var answers = argCount.Skip(1).Distinct();
         LatestVoteMenu = new(question);
@@ -69,14 +69,15 @@ public partial class JailbreakExtras
             Answers.Add(item, 0);
             LatestVoteMenu.AddMenuOption(item, (x, option) =>
             {
-                if (VoteInProgress)
-                {
-                    Answers[option.Text]++;
-                    if (ValidateCallerPlayer(x, false) == true)
-                    {
-                        x.PrintToChat($" {CC.LR}[ZMTR]{CC.B} {option.Text} {CC.W} Seçeneğine oy verdin.");
-                    }
-                }
+                ///<see cref="VoteInProgressIntercepter(CCSPlayerController, string)"/>
+                ///if (VoteInProgress)
+                ///{
+                ///    Answers[option.Text]++;
+                ///    if (ValidateCallerPlayer(x, false) == true)
+                ///    {
+                ///        x.PrintToChat($" {CC.LR}[ZMTR]{CC.B} {option.Text} {CC.W} Seçeneğine oy verdin.");
+                ///    }
+                ///}
             });
         }
         Server.PrintToChatAll($" {CC.LR}[ZMTR] {(player == null ? "Console" : $"{CC.B}{player.PlayerName} - {CC.G}{question} Oylamasını başlattı!")}");
@@ -148,6 +149,12 @@ public partial class JailbreakExtras
                 {
                     return false;
                 }
+                if (AlreadyVotedPlayers.Contains(player.SteamID))
+                {
+                    player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Yalnızca bir seçeneğe oy verebilirsin.");
+
+                    return true;
+                }
 
                 var answers = Answers.ToList();
 
@@ -156,6 +163,7 @@ public partial class JailbreakExtras
 
                 if (ValidateCallerPlayer(player, false) == true)
                 {
+                    AlreadyVotedPlayers.Add(player.SteamID);
                     player.PrintToChat($" {CC.LR}[ZMTR]{CC.B} {data.Key} {CC.W} Seçeneğine oy verdin.");
                     GetPlayers()
                         .Where(x => x.SteamID != player.SteamID)
