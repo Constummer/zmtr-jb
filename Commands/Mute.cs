@@ -74,6 +74,7 @@ public partial class JailbreakExtras
     }
 
     [ConsoleCommand("uct")]
+    [ConsoleCommand("umct")]
     public void UnMuteCT(CCSPlayerController? player, CommandInfo info)
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye15"))
