@@ -4,6 +4,12 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    public class PlayerPermission
+    {
+        public string SteamId { get; set; }
+        public string Flags { get; set; }
+    }
+
     private static Dictionary<string, PlayerPermission> PlayerCs2Permissions { get; set; } = new();
 
     public void YetkiSistemi()
