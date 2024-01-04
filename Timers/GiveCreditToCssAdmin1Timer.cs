@@ -17,7 +17,7 @@ public partial class JailbreakExtras
             .ToList()
             .ForEach(x =>
               {
-                  if (AdminManager.PlayerHasPermissions(x, "@css/admin1"))
+                  if (AdminManager.PlayerHasPermissions(x, "@css/adminkredi"))
                   {
                       if (x?.SteamID != null && x!.SteamID != 0)
                       {
