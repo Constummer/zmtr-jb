@@ -9,14 +9,11 @@ public partial class JailbreakExtras
     {
         public JailbreakExtrasConfig()
         {
-            Version = 6;
+            Version = 7;
         }
 
         [JsonPropertyName("Database")]
         public DatabaseConfig Database { get; set; } = new DatabaseConfig();
-
-        [JsonPropertyName("Level")]
-        public LevelConfig Level { get; set; } = new LevelConfig();
 
         [JsonPropertyName("Additional")]
         public AdditionalConfig Additional { get; set; } = new AdditionalConfig();
@@ -41,5 +38,8 @@ public partial class JailbreakExtras
 
         [JsonPropertyName("BlockedRadio")]
         public BlockedRadioConfig BlockedRadio { get; set; } = new BlockedRadioConfig();
+
+        [JsonPropertyName("Level")]
+        public LevelConfig Level { get; set; } = new LevelConfig();
     }
 }
