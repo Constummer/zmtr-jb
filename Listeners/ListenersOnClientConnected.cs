@@ -18,6 +18,7 @@ public partial class JailbreakExtras
                 Task.Run(async () =>
                 {
                     await GetPlayerMarketData(player!.SteamID);
+                    await AddOrUpdatePlayerToPlayerNameTable(player!.SteamID, player.PlayerName);
                 });
             }
         });
