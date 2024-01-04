@@ -9,7 +9,7 @@ public partial class JailbreakExtras
     {
         public JailbreakExtrasConfig()
         {
-            Version = 5;
+            Version = 6;
         }
 
         [JsonPropertyName("Database")]
@@ -29,6 +29,9 @@ public partial class JailbreakExtras
 
         [JsonPropertyName("Burry")]
         public BurryConfig Burry { get; set; } = new BurryConfig();
+
+        [JsonPropertyName("Market")]
+        public MarketConfig Market { get; set; } = new MarketConfig();
 
         [JsonPropertyName("Model")]
         public ModelConfig Model { get; set; } = new ModelConfig();

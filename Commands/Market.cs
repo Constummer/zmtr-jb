@@ -2,7 +2,6 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
@@ -128,40 +127,18 @@ public partial class JailbreakExtras
                 {
                     text += " | [SATIN ALINDI]";
                 }
-                marketMenu.AddMenuOption(text, OpenSelectedModel);
+                marketMenu.AddMenuOption(text, (p, i) =>
+                {
+                    if (ValidateCallerPlayer(player, false) == false) return;
+                    if (player?.SteamID == null || player!.SteamID == 0) return;
+
+                    if (data.Model == null) return;
+
+                    SetModel(player, item.Value, data.Model, i.Text, i.Text!.EndsWith(" | [SATIN ALINDI]"));
+                });
             }
         }
         ChatMenus.OpenMenu(player, marketMenu);
-    }
-
-    private void OpenSelectedModel(CCSPlayerController player, ChatMenuOption option)
-    {
-        if (ValidateCallerPlayer(player, false) == false) return;
-        if (player?.SteamID == null || player!.SteamID == 0) return;
-        if (string.IsNullOrWhiteSpace(option.Text)) return;
-
-        var data = GetPlayerMarketModel(player.SteamID);
-        if (data.Model == null) return;
-
-        var modelName = option.Text?.Split(" | (")?[0];
-        if (string.IsNullOrWhiteSpace(modelName))
-        {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} Admin ile irtibata geçin");
-            return;
-        }
-        var models = PlayerModels.Where(x => x.Value.Text.Equals(modelName)).ToList();
-        if (models.Count != 1)
-        {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} Admin ile irtibata geçin");
-            return;
-        }
-        var model = models.Select(x => x.Value).FirstOrDefault();
-        if (model == null)
-        {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} Admin ile irtibata geçin");
-            return;
-        }
-        SetModel(player, model!, data.Model, option.Text, option.Text!.EndsWith(" | [SATIN ALINDI]"));
     }
 
     private void SetModel(CCSPlayerController player, PlayerModel model, PlayerMarketModel playerData, string? text, bool isBoughtAlready)
@@ -172,46 +149,64 @@ public partial class JailbreakExtras
         }
         if (!isBoughtAlready)
         {
-            if (playerData.Credit < model.Cost
-                || playerData.Credit - model.Cost < 0)
+            if (model.Cost == 0 && model.Id < 0)
             {
-                player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} Yeterli krediniz bulunmuyor");
-                return;
-            }
-            var marketMenu = new ChatMenu($"{model.Text} Modeli satin almak istedine emin misin? | Krediniz = [{playerData.Credit}]");
-            for (int i = 0; i < 2; i++)
-            {
-                var testz = "evet";
-                if (i == 1)
+                if (text.Contains(CTModeli))
                 {
-                    testz = "hayir";
+                    playerData.ModelIdCT = AddModelIdToGivenData(playerData.ModelIdCT, model.Id);
+                    playerData.DefaultIdCT = model.Id.ToString();
                 }
-                marketMenu.AddMenuOption(testz, (p, i) =>
+                else
                 {
-                    if (i.Text == "evet")
+                    playerData.ModelIdT = AddModelIdToGivenData(playerData.ModelIdT, model.Id);
+                    playerData.DefaultIdT = model.Id.ToString();
+                }
+
+                FinalizeModelSet(player, model, playerData, text);
+            }
+            else
+            {
+                if (playerData.Credit < model.Cost
+                    || playerData.Credit - model.Cost < 0)
+                {
+                    player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} Yeterli krediniz bulunmuyor");
+                    return;
+                }
+                var marketMenu = new ChatMenu($"{model.Text} Modeli satin almak istedine emin misin? | Krediniz = [{playerData.Credit}]");
+                for (int i = 0; i < 2; i++)
+                {
+                    var testz = "Evet";
+                    if (i == 1)
                     {
-                        playerData.Credit -= model.Cost;
-                        if (text.Contains(CTModeli))
+                        testz = "Hayır";
+                    }
+                    marketMenu.AddMenuOption(testz, (p, i) =>
+                    {
+                        if (i.Text == "Evet")
                         {
-                            playerData.ModelIdCT = AddModelIdToGivenData(playerData.ModelIdCT, model.Id);
-                            playerData.DefaultIdCT = model.Id.ToString();
+                            playerData.Credit -= model.Cost;
+                            if (text.Contains(CTModeli))
+                            {
+                                playerData.ModelIdCT = AddModelIdToGivenData(playerData.ModelIdCT, model.Id);
+                                playerData.DefaultIdCT = model.Id.ToString();
+                            }
+                            else
+                            {
+                                playerData.ModelIdT = AddModelIdToGivenData(playerData.ModelIdT, model.Id);
+                                playerData.DefaultIdT = model.Id.ToString();
+                            }
+                            player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} {model.Text} modelini satin aldin.");
+                            FinalizeModelSet(player, model, playerData, text);
                         }
                         else
                         {
-                            playerData.ModelIdT = AddModelIdToGivenData(playerData.ModelIdT, model.Id);
-                            playerData.DefaultIdT = model.Id.ToString();
+                            player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} {model.Text} modelini satin almaktan vazgeçtin.");
+                            return;
                         }
-                        player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} {model.Text} modelini satin aldin");
-                        FinalizeModelSet(player, model, playerData, text);
-                    }
-                    else
-                    {
-                        player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} {model.Text} modelini satin almaktan vazgectin");
-                        return;
-                    }
-                });
+                    });
+                }
+                ChatMenus.OpenMenu(player, marketMenu);
             }
-            ChatMenus.OpenMenu(player, marketMenu);
         }
         else
         {
@@ -221,14 +216,20 @@ public partial class JailbreakExtras
         static void FinalizeModelSet(CCSPlayerController player, PlayerModel model, PlayerMarketModel playerData, string? text)
         {
             PlayerMarketModels[player.SteamID] = playerData;
-
             switch (GetTeam(player))
             {
                 case CsTeam.Terrorist:
                     if (text.Contains(TModeli))
                     {
                         player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} {model.Text} modelini kullaniyorsun");
-                        SetModelNextServerFrame(player.PlayerPawn.Value!, model.PathToModel);
+                        if (model.Id < 0)
+                        {
+                            GiveRandomSkin(player);
+                        }
+                        else
+                        {
+                            SetModelNextServerFrame(player.PlayerPawn.Value!, model.PathToModel);
+                        }
                     }
                     break;
 
@@ -236,7 +237,14 @@ public partial class JailbreakExtras
                     if (text.Contains(CTModeli))
                     {
                         player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} {model.Text} modelini kullaniyorsun");
-                        SetModelNextServerFrame(player.PlayerPawn.Value!, model.PathToModel);
+                        if (model.Id < 0)
+                        {
+                            GiveRandomSkin(player);
+                        }
+                        else
+                        {
+                            SetModelNextServerFrame(player.PlayerPawn.Value!, model.PathToModel);
+                        }
                     }
                     break;
             }
