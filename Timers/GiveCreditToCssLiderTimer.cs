@@ -30,7 +30,7 @@ public partial class JailbreakExtras
                             item.Credit = Config.Credit.RetrieveCreditEvery5MinRewardCssAdmin1;
                         }
                         PlayerMarketModels[x.SteamID] = item;
-                        x.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Bu sunucuda {CC.R}[Lider]{CC.W} olarak {CC.G}5 {CC.W}dakika zaman geçirdiğin için {CC.LB}{Config.Credit.RetrieveCreditEvery5MinRewardCssLider} {CC.W}kredi kazandın!");
+                        x.PrintToChat($" {CC.LR}[ZMTR] {CC.R}Lider{CC.W} olduğun için {CC.LB}{Config.Credit.RetrieveCreditEvery5MinRewardCssLider} {CC.W}kredi kazandın!");
                     }
                 }
             });

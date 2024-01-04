@@ -12,7 +12,7 @@ public partial class JailbreakExtras
     private Dictionary<string, Vector> skzCoordinates = new()
     {
         {"Hücre",   new Vector(-535,345,-27) },
-        {"KZ",      new Vector(2139,1095,-250) },
+        {"KZ",      new Vector(2102,812,-357) },
     };
 
     #region SKZ

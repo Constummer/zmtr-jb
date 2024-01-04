@@ -41,6 +41,7 @@ public partial class JailbreakExtras
         }
     }
 
+    [ConsoleCommand("sall", "slay all")]
     [ConsoleCommand("slayall", "slay all")]
     public void SlayAll(CCSPlayerController? player, CommandInfo info)
     {
@@ -58,6 +59,7 @@ public partial class JailbreakExtras
         Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}herkesi {CC.LR}öldürdü{CC.W}.");
     }
 
+    [ConsoleCommand("sct", "slay ct")]
     [ConsoleCommand("slayct", "slay ct")]
     public void SlayCT(CCSPlayerController? player, CommandInfo info)
     {
@@ -75,6 +77,7 @@ public partial class JailbreakExtras
         Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}gardiyanları {CC.LR}öldürdü{CC.W}.");
     }
 
+    [ConsoleCommand("st", "slay t")]
     [ConsoleCommand("slayt", "slay t")]
     public void SlayT(CCSPlayerController? player, CommandInfo info)
     {
