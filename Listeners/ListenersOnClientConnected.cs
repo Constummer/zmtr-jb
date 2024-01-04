@@ -1,3 +1,4 @@
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 
 namespace JailbreakExtras;
@@ -15,7 +16,7 @@ public partial class JailbreakExtras
 
             if (player?.SteamID != null && player!.SteamID != 0)
             {
-                Task.Run(async () =>
+                Server.NextFrame(async () =>
                 {
                     await GetPlayerMarketData(player!.SteamID);
                     await AddOrUpdatePlayerToPlayerNameTable(player!.SteamID, player.PlayerName);
