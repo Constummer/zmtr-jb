@@ -8,11 +8,21 @@ public partial class JailbreakExtras
 {
     private void SayAndSayTeamCommandListener()
     {
-        AddCommandListener("say", OnSayOrSayTeam);
-        AddCommandListener("say_team", OnSayOrSayTeam);
+        AddCommandListener("say", OnSay);
+        AddCommandListener("say_team", OnSayTeam);
     }
 
-    private HookResult OnSayOrSayTeam(CCSPlayerController? player, CommandInfo info)
+    private HookResult OnSayTeam(CCSPlayerController? player, CommandInfo commandInfo)
+    {
+        return OnSayOrSayTeam(player, commandInfo, true);
+    }
+
+    private HookResult OnSay(CCSPlayerController? player, CommandInfo commandInfo)
+    {
+        return OnSayOrSayTeam(player, commandInfo, false);
+    }
+
+    private HookResult OnSayOrSayTeam(CCSPlayerController? player, CommandInfo info, bool isSayTeam)
     {
         if (player == null) return HookResult.Continue;
         var arg = info.GetArg(1);
@@ -21,6 +31,10 @@ public partial class JailbreakExtras
         if (arg.StartsWith("!") || arg.StartsWith("/"))
         {
             if (VoteInProgressIntercepter(player, arg) == true)
+            {
+                return HookResult.Handled;
+            }
+            if (GagChecker(player, arg))
             {
                 return HookResult.Handled;
             }
@@ -35,11 +49,15 @@ public partial class JailbreakExtras
         {
             return HookResult.Continue;
         }
-        if (KomutcuAdminSay(player, info) == true)
+        if (GagChecker(player, arg))
         {
             return HookResult.Handled;
         }
-        if (LevelSystemPlayer(player, info) == true)
+        if (KomutcuAdminSay(player, info))
+        {
+            return HookResult.Handled;
+        }
+        if (LevelSystemPlayer(player, info, isSayTeam))
         {
             return HookResult.Handled;
         }

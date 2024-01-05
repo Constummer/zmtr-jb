@@ -23,7 +23,7 @@ public partial class JailbreakExtras
                     {
                         await GetPlayerMarketData(player!.SteamID);
                     });
-
+                    GetPGagData(player.SteamID);
                     InsertAndGetPlayerLevelData(player.SteamID, true);
                 });
             }

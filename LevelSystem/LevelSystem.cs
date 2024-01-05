@@ -52,7 +52,7 @@ public partial class JailbreakExtras
         return pairsUpTo;
     }
 
-    private bool LevelSystemPlayer(CCSPlayerController player, CommandInfo info)
+    private bool LevelSystemPlayer(CCSPlayerController player, CommandInfo info, bool isSayTeam)
     {
         if (LevelTagDisabledPlayers.Contains(player.SteamID))
         {
@@ -64,11 +64,36 @@ public partial class JailbreakExtras
             var config = GetPlayerLevelConfig(item.Xp);
             if (config != null)
             {
-                Server.PrintToChatAll($" {CC.Ol}{config.ClanTag} {CC.Gr}{player.PlayerName} {CC.W}: {info.GetArg(1)}");
+                var deadStr = player.PawnIsAlive == false ? "*ÖLÜ*" : "";
+                var teamSayStr = isSayTeam ? "[TAKIM]" : "";
+                var teamStr = GetTeam(player) switch
+                {
+                    CounterStrikeSharp.API.Modules.Utils.CsTeam.CounterTerrorist => "[GARDİYAN]",
+                    CounterStrikeSharp.API.Modules.Utils.CsTeam.Terrorist => "[MAHKÛM]",
+                    CounterStrikeSharp.API.Modules.Utils.CsTeam.Spectator => "[SPEC]",
+                    _ => ""
+                };
+                Server.PrintToChatAll($" {CC.Ol}{deadStr}{teamSayStr}{teamStr}{config.ClanTag} {CC.Gr}{player.PlayerName} {CC.W}: {info.GetArg(1)}");
                 return true;
             }
         }
         return false;
+    }
+
+    private void RemoveFromLevelSystem(CCSPlayerController? player)
+    {
+        if (PlayerLevels.TryGetValue(player.SteamID, out var level))
+        {
+            PlayerLevels.Remove(player.SteamID);
+            DeletePlayerLevelData(player.SteamID);
+            LevelTagDisabledPlayers = LevelTagDisabledPlayers.Where(x => x != player.SteamID).ToList();
+            player.Clan = null;
+            AddTimer(0.2f, () =>
+            {
+                Utilities.SetStateChanged(player, "CCSPlayerController", "m_szClan");
+                Utilities.SetStateChanged(player, "CBasePlayerController", "m_iszPlayerName");
+            });
+        }
     }
 
     private void CheckAllLevelTags()
@@ -104,11 +129,24 @@ public partial class JailbreakExtras
         }
     }
 
-    private void AddPlayerLevelData(ulong steamId)
+    private void DeletePlayerLevelData(ulong steamId)
     {
-        if (PlayerLevels.ContainsKey(steamId) == false)
+        var con = Connection();
+        if (con == null)
         {
-            InsertAndGetPlayerLevelData(steamId);
+            return;
+        }
+
+        try
+        {
+            var cmd = new MySqlCommand(@$"Delete From `PlayerLevel` WHERE `SteamId` = @SteamId;", con);
+
+            cmd.Parameters.AddWithValue("@SteamId", steamId);
+            cmd.ExecuteNonQuery();
+        }
+        catch (Exception e)
+        {
+            Logger.LogError(e, "hata");
         }
     }
 

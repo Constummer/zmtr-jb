@@ -7,7 +7,7 @@ namespace JailbreakExtras
         [JsonPropertyName("Level")]
         public List<LevelGiftConfig> LevelGifts { get; set; } = new()
         {
-            new (-1, 0,   null, null, null, null),
+            new (-1, 0,   "Seviye 0", null, "[NOOB]", null),
             new (1, 1,       "Seviye 1" , "@css/seviye1","[Seviye 1]","olive tag sadece"),
             new (2, 1000,    "Seviye 2" , "@css/seviye2", "[Seviye 2]","revote"),
             new (3, 2000,    "Seviye 3" , "@css/seviye3", "[Seviye 3]","500 kredi"),
