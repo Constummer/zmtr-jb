@@ -36,6 +36,7 @@ public partial class JailbreakExtras
         {
             RemoveGivenParachute(userId.Value);
         }
+        _ = SpeedoMeterActive?.RemoveAll(x => x == steamId);
         _ = LevelTagDisabledPlayers?.RemoveAll(x => x == steamId);
         _ = HookDisablePlayers?.RemoveAll(x => x == steamId);
         _ = CitEnabledPlayers?.RemoveAll(x => x == steamId);
