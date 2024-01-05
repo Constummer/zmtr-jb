@@ -129,7 +129,10 @@ public partial class JailbreakExtras
                     {
                         Xp = reader.IsDBNull(1) ? 0 : reader.GetInt32(1)
                     };
-                    PlayerLevels.Add(steamId, data);
+                    if (PlayerLevels.TryGetValue(steamId, out var old) == false)
+                    {
+                        PlayerLevels.Add(steamId, data);
+                    }
 
                     return;
                 }
