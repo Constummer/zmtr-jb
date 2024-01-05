@@ -16,12 +16,19 @@ public partial class JailbreakExtras
     {
         if (player == null) return HookResult.Continue;
         var arg = info.GetArg(1);
+        if (string.IsNullOrWhiteSpace(arg) || arg.Replace(" ", string.Empty) == string.Empty)
+            return HookResult.Handled;
         if (arg.StartsWith("!") || arg.StartsWith("/"))
         {
             if (VoteInProgressIntercepter(player, arg) == true)
             {
                 return HookResult.Handled;
             }
+            if (KomutcuAdminSay(player, info) == true)
+            {
+                return HookResult.Handled;
+            }
+
             return HookResult.Continue;
         }
         if (ValidateCallerPlayer(player, false) == false)
@@ -29,6 +36,10 @@ public partial class JailbreakExtras
             return HookResult.Continue;
         }
         if (KomutcuAdminSay(player, info) == true)
+        {
+            return HookResult.Handled;
+        }
+        if (LevelSystemPlayer(player, info) == true)
         {
             return HookResult.Handled;
         }

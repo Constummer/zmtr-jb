@@ -36,6 +36,10 @@ public partial class JailbreakExtras
             {
                 amount = item.Xp;
             }
+            else
+            {
+                player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Seviyen yok, seviye alabilmek için  {CC.DR}!slotol {CC.W},{CC.DR} !seviyeol {CC.W}yazabilirsin!");
+            }
         }
         Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName} {CC.W}adlı oyuncunun {CC.LB}{amount} {CC.W}TP'si var!");
         LatestSeviyemCommandCalls[player.SteamID] = DateTime.UtcNow;

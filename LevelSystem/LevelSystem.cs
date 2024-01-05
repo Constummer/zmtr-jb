@@ -1,4 +1,7 @@
 ﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
@@ -50,25 +53,35 @@ public partial class JailbreakExtras
         return pairsUpTo;
     }
 
+    private bool LevelSystemPlayer(CCSPlayerController player, CommandInfo info)
+    {
+        if (PlayerLevels.TryGetValue(player.SteamID, out var item))
+        {
+            var config = GetPlayerLevelConfig(item.Xp);
+            if (config != null)
+            {
+                Server.PrintToChatAll($" {CC.Ol}{config.ClanTag} {CC.Gr}{player.PlayerName} {CC.W}: {info.GetArg(1)}");
+                return true;
+            }
+        }
+        return false;
+    }
+
     private void CheckAllLevelTags()
     {
         foreach (var item in PlayerLevels.ToList())
         {
-            item.Value.Xp++;
-            Logger.LogInformation(item.Value.Xp.ToString());
-
             var player = GetPlayers().Where(x => x.SteamID == item.Key).FirstOrDefault();
             if (player != null)
             {
-                Logger.LogInformation(player.PlayerName);
+                if (player.SteamID == KomutcuAdminId)
+                {
+                    return;
+                }
 
                 var config = GetPlayerLevelConfig(item.Value.Xp);
                 if (config != null)
                 {
-                    Logger.LogInformation(config.ClanTag);
-                    Logger.LogInformation(config.ClanTag);
-                    Logger.LogInformation(config.ClanTag);
-                    Logger.LogInformation(config.ClanTag);
                     if (config.ClanTag != player.Clan)
                     {
                         player.Clan = config.ClanTag;
@@ -77,7 +90,10 @@ public partial class JailbreakExtras
                             Utilities.SetStateChanged(player, "CCSPlayerController", "m_szClan");
                             Utilities.SetStateChanged(player, "CBasePlayerController", "m_iszPlayerName");
                         });
-                        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.B}{player.PlayerName} {CC.P} {config.ClanTag}{CC.W} Olarak seviye atladi");
+                        if (player.Clan != null)
+                        {
+                            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.B}{player.PlayerName} {CC.P} {config.ClanTag}{CC.W} Olarak Seviye Atladı");
+                        }
                     }
                 }
             }

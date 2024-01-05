@@ -13,11 +13,6 @@ public partial class JailbreakExtras
     [ConsoleCommand("seviyeol")]
     public void SeviyeOl(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
-        {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
-            return;
-        }
         if (ValidateCallerPlayer(player, false) == false)
         {
             return;
