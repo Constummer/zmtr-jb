@@ -1,5 +1,4 @@
-﻿using CounterStrikeSharp.API;
-using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
@@ -8,10 +7,10 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    #region Krediler
+    #region SeviyeOl
 
-    [ConsoleCommand("krediler")]
-    public void Krediler(CCSPlayerController? player, CommandInfo info)
+    [ConsoleCommand("seviyeler")]
+    public void Seviyeler(CCSPlayerController? player, CommandInfo info)
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
@@ -27,16 +26,16 @@ public partial class JailbreakExtras
                 .ToList()
                 .ForEach(x =>
                 {
-                    PlayerMarketModel item = null;
+                    PlayerLevel item = null;
                     if (x?.SteamID != null && x!.SteamID != 0)
                     {
-                        _ = PlayerMarketModels.TryGetValue(x.SteamID, out item);
+                        _ = PlayerLevels.TryGetValue(x.SteamID, out item);
                     }
-                    player.PrintToConsole($" {CC.LR}[ZMTR] {CC.G}{x.PlayerName} - {CC.B}{(item?.Credit ?? 0)}");
+                    player.PrintToConsole($" {CC.LR}[ZMTR] {CC.G}{x.PlayerName} - {CC.B}{(item?.Xp ?? 0)}");
                 });
 
         player.PrintToChat($" {CC.LR}[ZMTR] {CC.G}Konsoluna bak");
     }
 
-    #endregion Krediler
+    #endregion SeviyeOl
 }
