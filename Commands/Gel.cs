@@ -2,9 +2,7 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Utils;
-using System;
 
 namespace JailbreakExtras;
 
@@ -29,7 +27,7 @@ public partial class JailbreakExtras
                   if (x.SteamID != player.SteamID)
                   {
                       var playerAbs = player.PlayerPawn.Value.AbsOrigin;
-                      x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 50, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
+                      x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 1, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
         Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.DR}Mahkûmları {CC.W}yanına ışınladı.");
@@ -52,7 +50,7 @@ public partial class JailbreakExtras
                   if (x.SteamID != player!.SteamID)
                   {
                       var playerAbs = player.PlayerPawn.Value.AbsOrigin;
-                      x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 50, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
+                      x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 1, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
         Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.B}Gardiyanları {CC.W}yanına ışınladı.");
@@ -75,7 +73,7 @@ public partial class JailbreakExtras
                   if (x.SteamID != player!.SteamID)
                   {
                       var playerAbs = player.PlayerPawn.Value.AbsOrigin;
-                      x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 50, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
+                      x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 1, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
         Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.G}herkesi {CC.W}yanına ışınladı.");
@@ -134,6 +132,26 @@ public partial class JailbreakExtras
         GelTeam(player, CC.B);
     }
 
+    [ConsoleCommand("gelyesil")]
+    public void gelyesil(CCSPlayerController? player, CommandInfo info)
+    {
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        GelTeam(player, CC.G);
+    }
+
+    [ConsoleCommand("gelgri")]
+    public void gelgri(CCSPlayerController? player, CommandInfo info)
+    {
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        GelTeam(player, CC.Gr);
+    }
+
     //[ConsoleCommand("gelkoyukirmizi")]
     //[ConsoleCommand("gelkirmizi2")]
     //public void gelkoyukirmizi(CCSPlayerController? player, CommandInfo info)
@@ -144,16 +162,6 @@ public partial class JailbreakExtras
     //    }
     //    GelTeam(player, CC.DR);
     //}
-
-    [ConsoleCommand("gelyesil")]
-    public void gelyesil(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        GelTeam(player, CC.G);
-    }
 
     //[ConsoleCommand("gelaciksari")]
     //[ConsoleCommand("gelsari2")]
@@ -219,16 +227,6 @@ public partial class JailbreakExtras
     //    }
     //    GelTeam(player, CC.P);
     //}
-
-    [ConsoleCommand("gelgri")]
-    public void gelgri(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        GelTeam(player, CC.Gr);
-    }
 
     //[ConsoleCommand("gelsari")]
     //public void gelsari(CCSPlayerController? player, CommandInfo info)
