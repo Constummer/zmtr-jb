@@ -15,6 +15,16 @@ public partial class JailbreakExtras
         {
             return;
         }
+
+        var amount = 0;
+        if (player?.SteamID != null && player!.SteamID != 0)
+        {
+            if (PlayerTimeTracking.TryGetValue(player.SteamID, out var item))
+            {
+                amount = item.Total;
+            }
+        }
+        player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Toplam {CC.G}{amount} {CC.W}dakikadır sunucudasın!");
     }
 
     #endregion Surem

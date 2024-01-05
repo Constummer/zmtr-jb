@@ -66,6 +66,16 @@ public partial class JailbreakExtras
                   `SteamId` bigint(20) DEFAULT NULL
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
             await cmd.ExecuteNonQueryAsync();
+
+            cmd = new MySqlCommand(
+            @"CREATE TABLE IF NOT EXISTS `PlayerTime` (
+                  `SteamId` bigint(20) DEFAULT NULL,
+                  `Total` mediumint(9) DEFAULT NULL,
+                  `CTTime` mediumint(9) DEFAULT NULL,
+                  `TTime` mediumint(9) DEFAULT NULL,
+                  `WTime` mediumint(9) DEFAULT NULL
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
+            await cmd.ExecuteNonQueryAsync();
         });
     }
 }

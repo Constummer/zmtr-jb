@@ -10,6 +10,7 @@ public partial class JailbreakExtras
     {
         AddTimer(60f, () =>
         {
+            UpdatePlayerTimeDataBulk();
         }, TimerFlags.REPEAT);
     }
 

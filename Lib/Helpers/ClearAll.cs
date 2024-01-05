@@ -18,6 +18,7 @@ public partial class JailbreakExtras
         HookDisablePlayers?.Clear();
         HookDisabled = false;
         CitEnabledPlayers?.Clear();
+        TeamSteamIds?.Clear();
         FFMenuCheck = false;
         ClearParachutes();
         ClearCits();
@@ -29,9 +30,14 @@ public partial class JailbreakExtras
         _ = ActiveGodMode?.Remove(steamId, out _);
         _ = DeathLocations?.Remove(steamId, out _);
         _ = KilledPlayers?.Remove(steamId, out _);
+        _ = LatestKredimCommandCalls?.Remove(steamId, out _);
+        _ = LatestSeviyemCommandCalls?.Remove(steamId, out _);
         _ = LatestHediyeCommandCalls?.Remove(steamId, out _);
         _ = PlayerMarketModels?.Remove(steamId, out _);
         _ = PlayerLevels?.Remove(steamId, out _);
+        _ = Gags?.Remove(steamId, out _);
+        _ = HideFoots?.Remove(steamId, out _);
+        _ = HookPlayers?.Remove(steamId, out _);
         if (userId != null && userId != -1)
         {
             RemoveGivenParachute(userId.Value);
