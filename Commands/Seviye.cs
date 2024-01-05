@@ -12,6 +12,7 @@ public partial class JailbreakExtras
     private static Dictionary<ulong, DateTime> LatestSeviyemCommandCalls = new Dictionary<ulong, DateTime>();
 
     [ConsoleCommand("seviye")]
+    [ConsoleCommand("tp")]
     [ConsoleCommand("seviyem")]
     public void Seviye(CCSPlayerController? player, CommandInfo info)
     {

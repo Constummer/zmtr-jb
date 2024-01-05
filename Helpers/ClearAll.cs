@@ -36,7 +36,8 @@ public partial class JailbreakExtras
         {
             RemoveGivenParachute(userId.Value);
         }
-        HookDisablePlayers = HookDisablePlayers?.Where(x => x != steamId).ToList() ?? new();
-        CitEnabledPlayers = CitEnabledPlayers?.Where(x => x != steamId).ToList() ?? new();
+        _ = LevelTagDisabledPlayers?.RemoveAll(x => x == steamId);
+        _ = HookDisablePlayers?.RemoveAll(x => x == steamId);
+        _ = CitEnabledPlayers?.RemoveAll(x => x == steamId);
     }
 }

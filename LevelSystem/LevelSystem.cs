@@ -1,8 +1,6 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Utils;
-using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
 
@@ -13,6 +11,7 @@ public partial class JailbreakExtras
     private Dictionary<ulong, PlayerLevel> PlayerLevels = new();
     private Dictionary<int, string> LevelPermissions = new();
     private Dictionary<string, int> LevelPermissionsChecker = new();
+    private List<ulong> LevelTagDisabledPlayers = new();
 
     //++ biri sunucuya girince dbye bakilcak kaydi var mi diye, varsa playerLevels modeline eklenecek
     //++ yoksa player !seviyeal, !slotol gibi bisi yazana kadar playerLevels'e eklenmicek, yazinca database e kaydi atilcak
@@ -55,6 +54,11 @@ public partial class JailbreakExtras
 
     private bool LevelSystemPlayer(CCSPlayerController player, CommandInfo info)
     {
+        if (LevelTagDisabledPlayers.Contains(player.SteamID))
+        {
+            return false;
+        }
+
         if (PlayerLevels.TryGetValue(player.SteamID, out var item))
         {
             var config = GetPlayerLevelConfig(item.Xp);
@@ -76,7 +80,11 @@ public partial class JailbreakExtras
             {
                 if (player.SteamID == KomutcuAdminId)
                 {
-                    return;
+                    continue;
+                }
+                if (LevelTagDisabledPlayers.Contains(item.Key))
+                {
+                    continue;
                 }
 
                 var config = GetPlayerLevelConfig(item.Value.Xp);
@@ -90,10 +98,6 @@ public partial class JailbreakExtras
                             Utilities.SetStateChanged(player, "CCSPlayerController", "m_szClan");
                             Utilities.SetStateChanged(player, "CBasePlayerController", "m_iszPlayerName");
                         });
-                        if (player.Clan != null)
-                        {
-                            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.B}{player.PlayerName} {CC.P} {config.ClanTag}{CC.W} Olarak Seviye Atladı");
-                        }
                     }
                 }
             }
