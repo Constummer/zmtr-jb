@@ -16,9 +16,9 @@ public partial class JailbreakExtras
     //++ biri sunucuya girince dbye bakilcak kaydi var mi diye, varsa playerLevels modeline eklenecek
     //++ yoksa player !seviyeal, !slotol gibi bisi yazana kadar playerLevels'e eklenmicek, yazinca database e kaydi atilcak
     //++ 60 snde bir playerlevels lere 1 xp eklencek ve en son dbye kaydedilcek
-    //biri disconnect atinca son datasi kaydedilip playerLevelsten silincek
-    //markete YEni secenek eklenecek ve tp alabilecek ratio configten okunacak, ornegin 10_000 kredi = 100 tp
-    //++60 sndebir tp vermede, hediyetp de,seviyever de configdeki datalara gore playerin xpsine uyan admin permission verecek veya alacak
+    //++ biri disconnect atinca son datasi kaydedilip playerLevelsten silincek
+    //++ markete YEni secenek eklenecek ve tp alabilecek ratio configten okunacak, ornegin 10_000 kredi = 100 tp
+    //++ 60 sndebir tp vermede, hediyetp de,seviyever de configdeki datalara gore playerin xpsine uyan admin permission verecek veya alacak
     //tum komutlara seviyelere gore permission check eklenecek
 
     private bool HasLevelPermissionToActivate(ulong steamId, string perm)
