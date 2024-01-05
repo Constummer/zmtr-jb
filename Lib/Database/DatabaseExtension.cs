@@ -1,6 +1,6 @@
 ﻿using CounterStrikeSharp.API.Modules.Utils;
 
-namespace JailbreakExtras;
+namespace JailbreakExtras.Lib.Database;
 
 internal static class JailbreakExtrasDatabaseExtension
 {
@@ -11,7 +11,7 @@ internal static class JailbreakExtrasDatabaseExtension
         return data;
     }
 
-    internal static object GetDbValue(this int data) => GetDbValue((int?)data);
+    internal static object GetDbValue(this int data) => ((int?)data).GetDbValue();
 
     internal static object GetDbValue(this int? data)
     {
@@ -20,7 +20,7 @@ internal static class JailbreakExtrasDatabaseExtension
         return data;
     }
 
-    internal static object GetDbValue(this long data) => GetDbValue((long?)data);
+    internal static object GetDbValue(this long data) => ((long?)data).GetDbValue();
 
     internal static object GetDbValue(this long? data)
     {

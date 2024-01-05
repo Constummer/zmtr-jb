@@ -25,5 +25,11 @@ public partial class JailbreakExtras
         GiveAndSaveTPToAll();
 
         #endregion Level
+
+        #region TimeTracking
+
+        SaveTimeTrackingDatas();
+
+        #endregion TimeTracking
     }
 }

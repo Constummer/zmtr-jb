@@ -1,4 +1,5 @@
 ﻿using CounterStrikeSharp.API.Core;
+using JailbreakExtras.Lib.Configs;
 using System.Text.Json.Serialization;
 
 namespace JailbreakExtras;

@@ -1,7 +1,7 @@
 ﻿using CounterStrikeSharp.API.Modules.Utils;
 using System.ComponentModel.DataAnnotations;
 
-namespace JailbreakExtras;
+namespace JailbreakExtras.Lib.Database.Models;
 
 public class PlayerModel
 {

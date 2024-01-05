@@ -1,6 +1,8 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Commands;
+using JailbreakExtras.Lib.Configs;
+using JailbreakExtras.Lib.Database.Models;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
 

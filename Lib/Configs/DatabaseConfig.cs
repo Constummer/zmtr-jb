@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace JailbreakExtras
+namespace JailbreakExtras.Lib.Configs
 {
     public class DatabaseConfig
     {
@@ -9,18 +9,18 @@ namespace JailbreakExtras
         }
 
         [JsonPropertyName("Username")]
-        public String Username { get; set; } = "root";
+        public string Username { get; set; } = "root";
 
         [JsonPropertyName("Password")]
-        public String Password { get; set; } = "sikimdedeil";
+        public string Password { get; set; } = "sikimdedeil";
 
         [JsonPropertyName("Server")]
-        public String Server { get; set; } = "127.0.0.1";
+        public string Server { get; set; } = "127.0.0.1";
 
         [JsonPropertyName("Port")]
-        public String Port { get; set; } = "3306";
+        public string Port { get; set; } = "3306";
 
         [JsonPropertyName("Database")]
-        public String Database { get; set; } = "cs2_extras";
+        public string Database { get; set; } = "cs2_extras";
     }
 }

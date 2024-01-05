@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace JailbreakExtras
+namespace JailbreakExtras.Lib.Configs
 {
     public class LevelConfig
     {
