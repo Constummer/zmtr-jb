@@ -473,5 +473,19 @@ public partial class JailbreakExtras
         return (data, chooseRandom);
     }
 
+    private void UpdateAllModels()
+    {
+        foreach (var player in GetPlayers())
+        {
+            if (player?.SteamID != null && player!.SteamID != 0)
+            {
+                Task.Run(async () =>
+                {
+                    await UpdatePlayerMarketData(player!.SteamID);
+                });
+            }
+        }
+    }
+
     #endregion Market
 }

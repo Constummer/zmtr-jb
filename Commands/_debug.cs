@@ -10,6 +10,28 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    [ConsoleCommand("cyet1")]
+    public void cyet1(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        if (ValidateCallerPlayer(player, false) == false)
+        {
+            return;
+        }
+        if (HasLevelPermissionToActivate(player.SteamID, "@css/seviye15"))
+        {
+            Server.PrintToChatAll("yep");
+        }
+        else
+        {
+            Server.PrintToChatAll("nop");
+        }
+    }
+
     [ConsoleCommand("takim")]
     public void takim(CCSPlayerController? player, CommandInfo info)
     {

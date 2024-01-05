@@ -11,6 +11,8 @@ public partial class JailbreakExtras
         {
             PrepareRoundDefaults();
             CoinRemove();
+            CheckAllLevelTags();
+
             return HookResult.Continue;
         });
     }

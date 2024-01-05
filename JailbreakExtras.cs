@@ -83,6 +83,7 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
     public void OnConfigParsed(JailbreakExtrasConfig config)
     {
         _Config = Config = config;
+        SetLevelPermissionDictionary();
         config.Burry.BuryColor = Color.FromArgb(config.Burry.BurryColorR, config.Burry.BurryColorG, config.Burry.BurryColorB);
         //Re-assign after adjustments
         _Config = Config = config;
