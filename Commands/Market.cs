@@ -47,6 +47,7 @@ public partial class JailbreakExtras
         var marketMenu = new ChatMenu($"Market | Krediniz = [{data.Model.Credit}]");
         marketMenu.AddMenuOption(CTOyuncuModeli, OpenSelectedModelMarket);
         marketMenu.AddMenuOption(TOyuncuModeli, OpenSelectedModelMarket);
+        marketMenu.AddMenuOption("TP Market", TPMarketSelected);
 
         ChatMenus.OpenMenu(player, marketMenu);
     }
