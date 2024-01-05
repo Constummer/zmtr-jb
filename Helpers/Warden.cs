@@ -51,8 +51,10 @@ public partial class JailbreakExtras
         var warden = GetWarden();
         if (warden != null)
         {
-            warden.PrintToChat($" {CC.LR}[ZMTR] {CC.R} EĞER İSELİ {CC.W} ise");
-            warden.PrintToChat($" {CC.LR}[ZMTR] {CC.B} !rm {CC.W}veya {CC.B}!revmenu {CC.W} yazarak ölen ctleri 3 kere revleyebilirsin");
+            warden.PrintToChat($" {CC.LR}[ZMTR] {CC.W} eğer {CC.R}İSELİ {CC.W} ise");
+            warden.PrintToChat($" {CC.LR}[ZMTR] {CC.B} !rm {CC.W}veya {CC.B}!revmenu {CC.W} ile menüden seçerek veya");
+            warden.PrintToChat($" {CC.LR}[ZMTR] {CC.B} !rmf {CC.W} HIZLICA ");
+            warden.PrintToChat($" {CC.LR}[ZMTR] {CC.W} Ölen ctleri 3 kere revleyebilirsin");
         }
     }
 }
