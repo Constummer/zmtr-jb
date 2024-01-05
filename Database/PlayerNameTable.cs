@@ -5,7 +5,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private async Task AddOrUpdatePlayerToPlayerNameTable(ulong steamId, string playerName)
+    private void AddOrUpdatePlayerToPlayerNameTable(ulong steamId, string playerName)
     {
         var con = Connection();
         if (con == null)
@@ -17,13 +17,14 @@ public partial class JailbreakExtras
             var cmd = new MySqlCommand(@$"SELECT 1 FROM `PlayerName` WHERE `SteamId` = @SteamId;", con);
             cmd.Parameters.AddWithValue("@SteamId", steamId);
             bool exist = false;
-            using (var reader = await cmd.ExecuteReaderAsync())
+            using (var reader = cmd.ExecuteReader())
             {
                 if (reader.Read())
                 {
                     exist = true;
                 }
             }
+
             if (exist)
             {
                 cmd = new MySqlCommand(@$"UPDATE `PlayerName`
@@ -33,7 +34,7 @@ public partial class JailbreakExtras
                 cmd.Parameters.AddWithValue("@SteamId", steamId);
                 cmd.Parameters.AddWithValue("@Name", playerName);
 
-                await cmd.ExecuteNonQueryAsync();
+                cmd.ExecuteNonQuery();
             }
             else
             {
@@ -45,7 +46,7 @@ public partial class JailbreakExtras
                 cmd.Parameters.AddWithValue("@SteamId", steamId);
                 cmd.Parameters.AddWithValue("@Name", playerName);
 
-                await cmd.ExecuteNonQueryAsync();
+                cmd.ExecuteNonQuery();
             }
         }
         catch (Exception e)
