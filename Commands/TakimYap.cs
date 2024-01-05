@@ -81,6 +81,8 @@ public partial class JailbreakExtras
     }
 
     [ConsoleCommand("takimboz")]
+    [ConsoleCommand("takimiptal")]
+    [ConsoleCommand("takimsil")]
     public void TakimBoz(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)

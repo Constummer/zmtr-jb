@@ -46,8 +46,10 @@ public partial class JailbreakExtras
                     .ToList()
                     .ForEach(x =>
                     {
-                        SetColour(x, Config.Burry.BuryColor);
-
+                        if (TeamActive == false)
+                        {
+                            SetColour(x, Config.Burry.BuryColor);
+                        }
                         x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
                         Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                         Vector currentSpeed = new Vector(0, 0, 0);
@@ -83,7 +85,10 @@ public partial class JailbreakExtras
                        {
                            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} dondurdu{CC.W}.");
                        }
-                       SetColour(x, Config.Burry.BuryColor);
+                       if (TeamActive == false)
+                       {
+                           SetColour(x, Config.Burry.BuryColor);
+                       }
 
                        x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
                        Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
@@ -120,7 +125,10 @@ public partial class JailbreakExtras
                 {
                     Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun{CC.B} donunu bozdu{CC.W}.");
                 }
-                SetColour(x, DefaultPlayerColor);
+                if (TeamActive == false)
+                {
+                    SetColour(x, DefaultPlayerColor);
+                }
                 RefreshPawn(x);
 
                 x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
@@ -130,70 +138,6 @@ public partial class JailbreakExtras
         {
             Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefinin {CC.B}donunu {CC.W}bozdu.");
         }
-    }
-
-    private void FreezeTarget(string target, string self, bool displayMessage = true)
-    {
-        bool randomFreeze = false;
-        var targetArgument = GetTargetArgument(target);
-
-        GetPlayers()
-              .Where(x => x != null
-                   && x.PlayerPawn.IsValid
-                   && x.PawnIsAlive
-                   && x.IsValid
-                   && GetTargetAction(x, target, self))
-              .ToList()
-        .ForEach(x =>
-        {
-            if (displayMessage && targetArgument == TargetForArgument.None)
-            {
-                Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{self}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu {CC.B}dondurdu{CC.W}.");
-            }
-            Freeze(target, x, self, ref randomFreeze);
-        });
-        if (displayMessage && targetArgument != TargetForArgument.None)
-        {
-            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{self}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefinin {CC.B}donunu {CC.W}dondurdu.");
-        }
-    }
-
-    private static void Freeze(string target, CCSPlayerController x, string self, ref bool randomFreeze)
-    {
-        if (randomFreeze == false
-        && x?.PlayerPawn?.Value != null
-            && ExecuteFreezeOrUnfreeze(x, target, self, out randomFreeze))
-        {
-            SetColour(x, _Config.Burry.BuryColor);
-            RefreshPawn(x);
-
-            //Vector currentPosition = x.Pawn.Value.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
-            //Vector currentSpeed = new Vector(0, 0, 0);
-            //QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
-            //x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
-            x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
-        }
-    }
-
-    private static bool UnfreezeX(CCSPlayerController? player, CCSPlayerController x, string target, bool randomFreeze)
-    {
-        if (randomFreeze == false
-                     && x?.PlayerPawn?.Value != null
-                     && ExecuteFreezeOrUnfreeze(x, target, player!.PlayerName, out randomFreeze))
-        {
-            //Server.NextFrame(() =>
-            //{
-            SetColour(x, DefaultPlayerColor);
-            RefreshPawn(x);
-
-            //Vector currentPosition = x.Pawn.Value.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
-            //Vector currentSpeed = new Vector(0, 0, 0);
-            //QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
-            //x.PlayerPawn.Value.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z + 100), currentRotation, currentSpeed);
-            x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
-            //});
-        }
-        return randomFreeze;
     }
 
     #endregion Freeze-Unfreeze
