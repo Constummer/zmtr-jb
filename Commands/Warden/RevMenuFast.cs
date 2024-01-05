@@ -2,20 +2,16 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static int CurrentCtRespawns = 0;
+    #region RevMenuFast
 
-    #region RevMenu
-
-    [ConsoleCommand("revmenu")]
-    [ConsoleCommand("rm")]
-    public void RevMenu(CCSPlayerController? player, CommandInfo info)
+    [ConsoleCommand("rmf")]
+    public void RevMenuFast(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player, false) == false)
         {
@@ -40,7 +36,7 @@ public partial class JailbreakExtras
         {
             player.PrintToChat($" {CC.LR}[ZMTR] {CC.W} Revlenecek Hiç Ölü CT yok");
         }
-        else if (players.Count == 1)
+        else
         {
             var fastRev = players.FirstOrDefault();
             if (fastRev != null)
@@ -50,22 +46,7 @@ public partial class JailbreakExtras
                 Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.B}{fastRev.PlayerName} {CC.W} Rev menüden revlendi | Son {3 - CurrentCtRespawns} rev");
             }
         }
-        else
-        {
-            var revmenu = new ChatMenu("Rev Menü");
-
-            players.ForEach(x =>
-               {
-                   revmenu.AddMenuOption(x.PlayerName, (p, t) =>
-                   {
-                       CustomRespawn(x);
-                       CurrentCtRespawns++;
-                       Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.B}{x.PlayerName} {CC.W} Rev menüden revlendi | Son {3 - CurrentCtRespawns} rev");
-                   });
-               });
-            ChatMenus.OpenMenu(player, revmenu);
-        }
     }
 
-    #endregion RevMenu
+    #endregion RevMenuFast
 }
