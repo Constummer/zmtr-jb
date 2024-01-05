@@ -55,7 +55,7 @@ public partial class JailbreakExtras
                     if (player != null)
                     {
                         RespawnPlayer(player);
-                        player.PrintToChat($" {CC.LR}[ZMTR] {CC.G}{player} {CC.W}adlı oyuncuyu canlandırdın.");
+                        player.PrintToChat($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName} {CC.W}adlı oyuncuyu canlandırdın.");
                     }
                 }
             }
