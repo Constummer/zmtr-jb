@@ -10,7 +10,7 @@ public partial class JailbreakExtras
     {
         public JailbreakExtrasConfig()
         {
-            Version = 7;
+            Version = 8;
         }
 
         [JsonPropertyName("Database")]
@@ -33,6 +33,9 @@ public partial class JailbreakExtras
 
         [JsonPropertyName("Market")]
         public MarketConfig Market { get; set; } = new MarketConfig();
+
+        [JsonPropertyName("SteamGroup")]
+        public SteamGroupConfig SteamGroup { get; set; } = new SteamGroupConfig();
 
         [JsonPropertyName("Model")]
         public ModelConfig Model { get; set; } = new ModelConfig();

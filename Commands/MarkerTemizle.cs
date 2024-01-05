@@ -11,8 +11,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("markertemizle")]
     public void MarkerTemizle(CCSPlayerController? player, CommandInfo info)
     {
-        if (player!.SteamID != LatestWCommandUser ||
-            ValidateCallerPlayer(player) == false)
+        if (ValidateCallerPlayer(player) == false)
         {
             player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} sen bunu temizleyemezsin :}}");
             return;

@@ -1,6 +1,7 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
 using CounterStrikeSharp.API.Modules.Utils;
+using Microsoft.Extensions.Logging;
 using System.Drawing;
 using static JailbreakExtras.JailbreakExtras;
 
@@ -9,10 +10,19 @@ namespace JailbreakExtras;
 [MinimumApiVersion(128)]
 public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtrasConfig>
 {
+    private static HttpClient _httpClient;
+
+    static JailbreakExtras()
+    {
+        _httpClient = new HttpClient();
+    }
+
     public override string ModuleName => "JailbreakExtras";
     public override string ModuleAuthor => "Constummer";
     public override string ModuleDescription => "Extra jailbreak plugins";
     public override string ModuleVersion => "V.1.0.1";
+
+    private int ModuleConfigVersion => 8;
 
     private static readonly Random _random = new Random();
     public JailbreakExtrasConfig Config { get; set; } = new JailbreakExtrasConfig();
@@ -54,6 +64,7 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
         #region OtherPlugins
 
         BlockRadioCommandsLoad();
+        BlockGroupCommandsLoad();
 
         #endregion OtherPlugins
 
@@ -82,6 +93,23 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
 
     public void OnConfigParsed(JailbreakExtrasConfig config)
     {
+        if (config.Version < ModuleConfigVersion)
+        {
+            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
+            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
+            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
+            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
+            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
+            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
+            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
+            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
+            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
+            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
+            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
+            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
+            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
+            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
+        }
         _Config = Config = config;
         SetLevelPermissionDictionary();
         config.Burry.BuryColor = Color.FromArgb(config.Burry.BurryColorR, config.Burry.BurryColorG, config.Burry.BurryColorB);

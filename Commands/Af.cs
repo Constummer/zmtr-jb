@@ -30,6 +30,10 @@ public partial class JailbreakExtras
 
                  RefreshPawn(x);
              }
+             else
+             {
+                 CustomRespawn(x);
+             }
          });
     }
 

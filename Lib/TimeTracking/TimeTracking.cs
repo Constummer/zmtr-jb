@@ -100,9 +100,8 @@ public partial class JailbreakExtras
             {
                 return;
             }
+            List<MySqlParameter> parameters = new List<MySqlParameter>();
 
-            var cmd = new MySqlCommand();
-            cmd.Connection = con;
             var cmdText = "";
             var i = 0;
             GetPlayers()
@@ -133,11 +132,11 @@ public partial class JailbreakExtras
                          value.WTime++;
                      }
 
-                     cmd.Parameters.AddWithValue($"@SteamId_{i}", x.SteamID);
-                     cmd.Parameters.AddWithValue($"@Total_{i}", value.Total);
-                     cmd.Parameters.AddWithValue($"@CTTime_{i}", value.CTTime);
-                     cmd.Parameters.AddWithValue($"@TTime_{i}", value.TTime);
-                     cmd.Parameters.AddWithValue($"@WTime_{i}", value.WTime);
+                     parameters.Add(new MySqlParameter($"@SteamId_{i}", x.SteamID));
+                     parameters.Add(new MySqlParameter($"@Total_{i}", value.Total));
+                     parameters.Add(new MySqlParameter($"@CTTime_{i}", value.CTTime));
+                     parameters.Add(new MySqlParameter($"@TTime_{i}", value.TTime));
+                     parameters.Add(new MySqlParameter($"@WTime_{i}", value.WTime));
                      PlayerTimeTracking[x.SteamID] = value;
                  }
                  else
@@ -147,7 +146,8 @@ public partial class JailbreakExtras
                  }
                  i++;
              });
-            cmd.CommandText = cmdText;
+            var cmd = new MySqlCommand(cmdText, con);
+
             cmd.ExecuteNonQuery();
         }
         catch (Exception e)

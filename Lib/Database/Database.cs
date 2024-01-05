@@ -33,9 +33,15 @@ public partial class JailbreakExtras
 
         _ = Task.Run(async () =>
         {
-            var cmd = new MySqlCommand("CREATE DATABASE IF NOT EXISTS cs2_extras", con);
-            await cmd.ExecuteNonQueryAsync();
-
+            var cmd = (MySqlCommand)null;
+            try
+            {
+                cmd = new MySqlCommand("CREATE DATABASE IF NOT EXISTS cs2_extras", con);
+                await cmd.ExecuteNonQueryAsync();
+            }
+            catch
+            {
+            }
             cmd = new MySqlCommand(
                 @"CREATE TABLE IF NOT EXISTS `PlayerMarketModel` (
                   `SteamId` bigint(20) DEFAULT NULL,

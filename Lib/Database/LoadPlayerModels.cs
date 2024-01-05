@@ -1,4 +1,6 @@
-﻿namespace JailbreakExtras;
+﻿using JailbreakExtras.Lib.Database.Models;
+
+namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {

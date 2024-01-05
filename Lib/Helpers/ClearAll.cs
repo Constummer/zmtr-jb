@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Modules.Entities;
+﻿using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Entities;
 
 namespace JailbreakExtras;
 
@@ -42,6 +43,7 @@ public partial class JailbreakExtras
         {
             RemoveGivenParachute(userId.Value);
         }
+        _ = PlayerSteamGroup?.RemoveAll(x => x == steamId);
         _ = SpeedoMeterActive?.RemoveAll(x => x == steamId);
         _ = LevelTagDisabledPlayers?.RemoveAll(x => x == steamId);
         _ = HookDisablePlayers?.RemoveAll(x => x == steamId);

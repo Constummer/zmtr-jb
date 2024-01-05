@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
+using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
 
@@ -25,7 +26,7 @@ public partial class JailbreakExtras
         var target = info.ArgCount > 2 ? info.GetArg(2) : "0";
         if (int.TryParse(target, out var value))
         {
-            if (value <= 1)
+            if (value < 1)
             {
                 player.PrintToChat("Minimum 1 girebilirsin");
                 return;
@@ -42,7 +43,7 @@ public partial class JailbreakExtras
         {
             playerStr = info.GetArg(1);
         }
-
+        Logger.LogInformation(playerStr);
         var players = GetPlayers()
                .Where(x => x.PlayerName.ToLower().Contains(playerStr.ToLower()))
                .ToList();
@@ -93,6 +94,8 @@ public partial class JailbreakExtras
     {
         if (Gags.TryGetValue(player.SteamID, out var call))
         {
+            Logger.LogInformation($"{call.ToString()}");
+            Logger.LogInformation($"{DateTime.UtcNow.ToString()}");
             if (call > DateTime.UtcNow)
             {
                 player.PrintToChat($" {CC.LR}[ZMTR] {CC.W} GAGLISIN!");

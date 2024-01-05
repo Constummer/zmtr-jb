@@ -28,6 +28,11 @@ public partial class JailbreakExtras
         var arg = info.GetArg(1);
         if (string.IsNullOrWhiteSpace(arg) || arg.Replace(" ", string.Empty) == string.Empty)
             return HookResult.Handled;
+
+        if (ValidateCallerPlayer(player, false) == false)
+        {
+            return HookResult.Continue;
+        }
         if (arg.StartsWith("!") || arg.StartsWith("/"))
         {
             if (VoteInProgressIntercepter(player, arg) == true)
@@ -38,15 +43,10 @@ public partial class JailbreakExtras
             {
                 return HookResult.Handled;
             }
-            if (KomutcuAdminSay(player, info) == true)
+            if (OnSteamGroupPlayerChat(player, arg))
             {
                 return HookResult.Handled;
             }
-
-            return HookResult.Continue;
-        }
-        if (ValidateCallerPlayer(player, false) == false)
-        {
             return HookResult.Continue;
         }
         if (GagChecker(player, arg))
