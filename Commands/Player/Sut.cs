@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
+using System.Drawing;
 
 namespace JailbreakExtras;
 
@@ -28,6 +29,7 @@ public partial class JailbreakExtras
         .ToList()
         .ForEach(x =>
         {
+            SetColour(x, Color.FromArgb(128, 0, 128));
             RemoveWeapons(x, false);
             Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı oyuncu, {CC.LP}süt oldu.");
         });
