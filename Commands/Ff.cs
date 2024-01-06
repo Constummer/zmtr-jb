@@ -256,8 +256,6 @@ public partial class JailbreakExtras
             return;
         }
 
-        var mp_teammates_are_enemies = ConVar.Find("mp_teammates_are_enemies")?.GetPrimitiveValue<bool>();
-
         if (FFMenuCheck == true)
         {
             var gunMenu = new ChatMenu("Silah Menu");
