@@ -66,16 +66,26 @@ public partial class JailbreakExtras
             var config = GetPlayerLevelConfig(item.Xp);
             if (config != null)
             {
-                var deadStr = player.PawnIsAlive == false ? "*ÖLÜ*" : "";
-                var teamSayStr = isSayTeam ? "[TAKIM]" : "";
-                var teamStr = GetTeam(player) switch
+                var deadStr = player.PawnIsAlive == false ? $"{CC.R}*ÖLÜ*" : "";
+                var team = GetTeam(player);
+                var teamStr = isSayTeam ? team switch
                 {
-                    CounterStrikeSharp.API.Modules.Utils.CsTeam.CounterTerrorist => "[GARDİYAN]",
-                    CounterStrikeSharp.API.Modules.Utils.CsTeam.Terrorist => "[MAHKÛM]",
-                    CounterStrikeSharp.API.Modules.Utils.CsTeam.Spectator => "[SPEC]",
+                    CounterStrikeSharp.API.Modules.Utils.CsTeam.CounterTerrorist => $"{CC.B}[GARDİYAN]",
+                    CounterStrikeSharp.API.Modules.Utils.CsTeam.Terrorist => $"{CC.R}[MAHKÛM]",
+                    CounterStrikeSharp.API.Modules.Utils.CsTeam.Spectator => $"{CC.P}[SPEC]",
                     _ => ""
-                };
-                Server.PrintToChatAll($" {CC.Ol}{deadStr}{teamSayStr}{teamStr}{config.ClanTag} {CC.Gr}{player.PlayerName} {CC.W}: {info.GetArg(1)}");
+                } : "";
+                var msg = $" {deadStr} {teamStr} {CC.Ol}{config.ClanTag} {CC.Gr}{player.PlayerName} {CC.W}: {info.GetArg(1)}";
+                Server.PrintToConsole(msg);
+                if (isSayTeam)
+                {
+                    GetPlayers(team).ToList()
+                        .ForEach(x => x.PrintToChat(msg));
+                }
+                else
+                {
+                    Server.PrintToChatAll(msg);
+                }
                 return true;
             }
         }

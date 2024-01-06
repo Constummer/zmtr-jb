@@ -1,7 +1,9 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
 
@@ -15,7 +17,7 @@ public partial class JailbreakExtras
 
     [ConsoleCommand("pgag")]
     [RequiresPermissions("@css/chat")]
-    [CommandHelper(1, "<playerismi>")]
+    [CommandHelper(1, "<playerismi-@all-@t-@ct-@me-@alive-@dead>")]
     public void OnPGagCommand(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)
@@ -23,33 +25,45 @@ public partial class JailbreakExtras
             return;
         }
 
-        var playerStr = string.Empty;
-        if (info.ArgCount <= 1)
+        if (ValidateCallerPlayer(player) == false)
         {
-            playerStr = info.GetArg(1);
+            return;
         }
 
-        var players = GetPlayers()
-               .Where(x => x.PlayerName.ToLower().Contains(playerStr.ToLower()))
-               .ToList();
-        if (players.Count == 0)
+        var target = info.ArgCount > 1 ? info.GetArg(1) : null;
+        if (target == null)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Eşleşen oyuncu bulunamadı!");
             return;
         }
-        if (players.Count != 1)
+        var targetArgument = GetTargetArgument(target);
+        GetPlayers()
+            .Where(x => targetArgument switch
+            {
+                TargetForArgument.All => true,
+                TargetForArgument.T => GetTeam(x) == CsTeam.Terrorist,
+                TargetForArgument.Ct => GetTeam(x) == CsTeam.CounterTerrorist,
+                TargetForArgument.Me => player.PlayerName == x.PlayerName,
+                TargetForArgument.Alive => x.PawnIsAlive,
+                TargetForArgument.Dead => x.PawnIsAlive == false,
+                TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target) ?? false,
+                TargetForArgument.UserIdIndex => GetUserIdIndex(target) == x.UserId,
+                _ => false
+            }
+            && ValidateCallerPlayer(x, false))
+            .ToList()
+            .ForEach(gagPlayer =>
+            {
+                AddPGagData(gagPlayer.SteamID);
+                PGags.Add(gagPlayer.SteamID);
+                if (targetArgument == TargetForArgument.None)
+                {
+                    Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{gagPlayer.PlayerName} {CC.W}adlı oyuncuyu {CC.B}sonsuz gagladı{CC.W}.");
+                }
+            });
+        if (targetArgument != TargetForArgument.None)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Birden fazla oyuncu bulundu.");
-            return;
+            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefini {CC.B}gagladı{CC.W}.");
         }
-        var gagPlayer = players.FirstOrDefault();
-        if (gagPlayer == null)
-        {
-            player.PrintToChat($" {CC.LR}[ZMTR] {CC.W} Oyuncu bulunamadı!");
-            return;
-        }
-        AddPGagData(gagPlayer.SteamID);
-        PGags.Add(gagPlayer.SteamID);
     }
 
     private void RemoveFromPGag(ulong steamID)

@@ -1,5 +1,8 @@
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
+using CounterStrikeSharp.API.Modules.Memory;
+using CounterStrikeSharp.API.Modules.Memory.DynamicFunctions;
 using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
 using System.Drawing;
@@ -77,13 +80,39 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
 
         #endregion CSS releated
 
-        //HookEntityOutput("*", "*", (output, name, activator, caller, value, delay) =>
-        //{
-        //    Console.WriteLine(name);
-        //    return HookResult.Continue;
-        //});
+        HookEntityOutput("*", "*", (output, name, activator, caller, value, delay) =>
+        {
+            if (name == "OnUnblockedClosing" || name == "OnBlockedOpening")
+            {
+                force_open();
+            }
+            return HookResult.Continue;
+        });
 
         base.Load(hotReload);
+    }
+
+    private void force_ent_input(String name, String input)
+    {
+        var target = Utilities.FindAllEntitiesByDesignerName<CBaseEntity>(name);
+
+        foreach (var ent in target)
+        {
+            if (!ent.IsValid)
+            {
+                continue;
+            }
+            ent.AcceptInput(input);
+        }
+    }
+
+    public void force_open()
+    {
+        force_ent_input("func_door", "Open");
+        force_ent_input("func_movelinear", "Open");
+        force_ent_input("func_door_rotating", "Open");
+        force_ent_input("prop_door_rotating", "Open");
+        force_ent_input("func_breakable", "Break");
     }
 
     public override void Unload(bool hotReload)

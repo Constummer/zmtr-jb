@@ -13,8 +13,10 @@ public partial class JailbreakExtras
     private static Dictionary<string, int> Answers = new();
     private static bool VoteInProgress = false;
     private CounterStrikeSharp.API.Modules.Timers.Timer VoteTimer = null;
+    private CounterStrikeSharp.API.Modules.Timers.Timer VotePrintTimer = null;
     private ChatMenu LatestVoteMenu = null;
     private List<ulong> AlreadyVotedPlayers = new();
+    private string LatestVoteName = null;
 
     #region Vote
 
@@ -60,7 +62,7 @@ public partial class JailbreakExtras
         }
         Answers.Clear();
         AlreadyVotedPlayers.Clear();
-        string question = argCount.FirstOrDefault();
+        string question = LatestVoteName = argCount.FirstOrDefault();
         var answers = argCount.Skip(1).Distinct();
         LatestVoteMenu = new(question);
 
@@ -97,6 +99,19 @@ public partial class JailbreakExtras
         }
         Server.PrintToChatAll($" {CC.LR}[ZMTR] {(player == null ? "Console" : $"{CC.B}{player.PlayerName} - {CC.G}{question} Oylaması 20 saniye sürecek, oy vermeyi unutmayın!")}");
 
+        var i = 0;
+        VotePrintTimer = AddTimer(0.1f, () =>
+        {
+            i++;
+            var hmtl = $"<pre><b>Oylama: <font color='#00FF00'>{LatestVoteName}</font><br> Kalan Süre : {(int)((200 - i) / 10)}<br>" +
+        string.Join("<br>", Answers.Select(x => $"{x.Key} - {x.Value}")) +
+                           $"</b></pre>";
+
+            GetPlayers()
+            .ToList()
+            .ForEach(x => x.PrintToCenterHtml(hmtl));
+        }, TimerFlags.REPEAT);
+
         VoteTimer = AddTimer(20, () =>
           {
               Server.PrintToChatAll(question + $" {CC.R}SORUSUNUN YANITLARI");
@@ -108,6 +123,8 @@ public partial class JailbreakExtras
               Answers.Clear();
               VoteInProgress = false;
               LatestVoteMenu = null;
+              VotePrintTimer?.Kill();
+              VotePrintTimer = null;
           }, TimerFlags.STOP_ON_MAPCHANGE);
 
         return;
@@ -127,6 +144,8 @@ public partial class JailbreakExtras
 
         VoteTimer?.Kill();
         VoteTimer = null;
+        VotePrintTimer?.Kill();
+        VotePrintTimer = null;
         Server.PrintToChatAll($" {CC.LR}[ZMTR]{CC.W} OYLAMA IPTAL EDILDI.");
 
         return;
@@ -164,6 +183,7 @@ public partial class JailbreakExtras
                 if (ValidateCallerPlayer(player, false) == true)
                 {
                     AlreadyVotedPlayers.Add(player.SteamID);
+
                     player.PrintToChat($" {CC.LR}[ZMTR]{CC.B} {data.Key} {CC.W} Seçeneğine oy verdin.");
                     GetPlayers()
                         .Where(x => x.SteamID != player.SteamID)

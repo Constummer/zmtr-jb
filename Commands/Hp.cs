@@ -20,7 +20,7 @@ public partial class JailbreakExtras
         }
         if (info.ArgCount != 3) return;
         var target = info.GetArg(1);
-        if (!int.TryParse(info.GetArg(2), out var health))
+        if (!int.TryParse(info.GetArg(2), out var health) || health < 1)
         {
             player!.PrintToChat($" {CC.LR}[ZMTR]{CC.G} Can değeri yanlış!");
             return;

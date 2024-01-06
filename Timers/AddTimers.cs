@@ -7,6 +7,7 @@ public partial class JailbreakExtras
         #region Credit
 
         GiveCreditTimer();
+        GiveCreditToGroupTimer();
         GiveCreditToCssAdmin1Timer();
         GiveCreditToCssLiderTimer();
         SaveCreditTimer();

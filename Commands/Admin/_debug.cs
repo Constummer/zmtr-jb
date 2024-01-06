@@ -18,7 +18,7 @@ public partial class JailbreakExtras
             player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
-        if (ValidateCallerPlayer(player, false) == false)
+        if (ValidateCallerPlayer(player) == false)
         {
             return;
         }
@@ -32,6 +32,45 @@ public partial class JailbreakExtras
         }
     }
 
+    [ConsoleCommand("consjoy")]
+    public void consjoy(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        RespawnAc(player, info);
+        FfAc(player, info);
+        God(player, info);
+    }
+
+    [ConsoleCommand("css_slot1")]
+    public void css_slot1(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        Server.PrintToChatAll("css_slot1");
+    }
+
+    [ConsoleCommand("slot1")]
+    public void slot1(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        Server.PrintToChatAll("slot1");
+    }
+
     [ConsoleCommand("csayte")]
     public void csayte(CCSPlayerController? player, CommandInfo info)
     {
@@ -40,7 +79,7 @@ public partial class JailbreakExtras
             player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
-        if (ValidateCallerPlayer(player, false) == false)
+        if (ValidateCallerPlayer(player) == false)
         {
             return;
         }

@@ -71,7 +71,7 @@ public partial class JailbreakExtras
                 }
             }
 
-            cmd = new MySqlCommand(@$"INSERT INTO `PlayerLevel`
+            cmd = new MySqlCommand(@$"INSERT INTO `PlayerTime`
                                           (`SteamId`,`Total`,`CTTime`,`TTime`,`WTime`)
                                           VALUES
                                           (@SteamId, 0, 0, 0, 0);", con);
@@ -110,7 +110,7 @@ public partial class JailbreakExtras
              {
                  if (PlayerTimeTracking.TryGetValue(x.SteamID, out var value))
                  {
-                     cmdText += @$"UPDATE `PlayerLevel`
+                     cmdText += @$"UPDATE `PlayerTime`
                                          SET
                                             `Total` = @Total_{i},
                                             `CTTime` = @CTTime_{i},
@@ -147,7 +147,7 @@ public partial class JailbreakExtras
                  i++;
              });
             var cmd = new MySqlCommand(cmdText, con);
-
+            cmd.Parameters.AddRange(parameters.ToArray());
             cmd.ExecuteNonQuery();
         }
         catch (Exception e)

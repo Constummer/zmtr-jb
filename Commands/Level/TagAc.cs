@@ -16,6 +16,7 @@ public partial class JailbreakExtras
             return;
         }
         LevelTagDisabledPlayers = LevelTagDisabledPlayers.Where(x => x != player.SteamID).ToList();
+        player.PrintToChat($" {CC.LR}[ZMTR]{CC.B} !tagkaldir{CC.W} ile tagini tekrardan kaldirabilirsin.");
     }
 
     #endregion TagAc

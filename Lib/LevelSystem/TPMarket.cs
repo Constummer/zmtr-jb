@@ -7,9 +7,9 @@ public partial class JailbreakExtras
 {
     private readonly Dictionary<string, TPMarketItem> TPMarketDatas = new()
     {
-        {"1000 TP",new (5000, 1000)},
-        {"2000 TP",new (10000, 2000)},
-        {"5000 TP",new (25000, 5000)},
+        {"1000 TP | 5000 Kredi",new (5000, 1000)},
+        {"2000 TP | 10000 Kredi",new (10000, 2000)},
+        {"5000 TP | 25000 Kredi",new (25000, 5000)},
     };
 
     public class TPMarketItem

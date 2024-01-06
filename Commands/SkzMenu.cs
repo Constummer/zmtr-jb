@@ -54,7 +54,10 @@ public partial class JailbreakExtras
                     .ToList()
                     .ForEach(x =>
                     {
-                        SetColour(x, DefaultPlayerColor);
+                        if (TeamActive == false)
+                        {
+                            SetColour(x, DefaultPlayerColor);
+                        }
                         x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
 
                         x.PlayerPawn.Value.Teleport(k.Value, new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
@@ -72,8 +75,10 @@ public partial class JailbreakExtras
                     .ToList()
                     .ForEach(x =>
                     {
-                        SetColour(x, Config.Burry.BuryColor);
-
+                        if (TeamActive == false)
+                        {
+                            SetColour(x, Config.Burry.BuryColor);
+                        }
                         x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
                         Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                         Vector currentSpeed = new Vector(0, 0, 0);

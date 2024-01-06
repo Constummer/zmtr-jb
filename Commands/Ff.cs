@@ -170,8 +170,10 @@ public partial class JailbreakExtras
                     .ToList()
                     .ForEach(x =>
                     {
-                        SetColour(x, Config.Burry.BuryColor);
-
+                        if (TeamActive == false)
+                        {
+                            SetColour(x, Config.Burry.BuryColor);
+                        }
                         x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
                         Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                         Vector currentSpeed = new Vector(0, 0, 0);

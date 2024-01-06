@@ -40,9 +40,10 @@ public partial class JailbreakExtras
         .ForEach(x =>
         {
             SetColour(x, Color.FromArgb(128, 0, 128));
+            RefreshPawnTP(x);
             RemoveWeapons(x, false);
 
-            LatestSutolCommandCalls[player.SteamID] = DateTime.UtcNow;
+            LatestSutolCommandCalls[x.SteamID] = DateTime.UtcNow;
             Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı oyuncu, {CC.LP}süt oldu.");
         });
     }

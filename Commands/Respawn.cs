@@ -116,6 +116,7 @@ public partial class JailbreakExtras
     {
         Server.ExecuteCommand("mp_respawn_on_death_ct 1");
         Server.ExecuteCommand("mp_respawn_on_death_t 1");
+        Server.ExecuteCommand("mp_ignore_round_win_conditions 1");
         Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Respawn açıldı.");
         RespawnAcActive = true;
     }
@@ -124,6 +125,7 @@ public partial class JailbreakExtras
     {
         Server.ExecuteCommand("mp_respawn_on_death_ct 0");
         Server.ExecuteCommand("mp_respawn_on_death_t 0");
+        Server.ExecuteCommand("mp_ignore_round_win_conditions 0");
         Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Respawn kapandı.");
         RespawnAcActive = false;
     }

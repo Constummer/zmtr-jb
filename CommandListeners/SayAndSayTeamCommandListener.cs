@@ -41,7 +41,14 @@ public partial class JailbreakExtras
             }
             if (GagChecker(player, arg))
             {
-                return HookResult.Handled;
+                if (arg.Contains("ungag"))
+                {
+                    return HookResult.Continue;
+                }
+                else
+                {
+                    return HookResult.Handled;
+                }
             }
             if (OnSteamGroupPlayerChat(player, arg))
             {

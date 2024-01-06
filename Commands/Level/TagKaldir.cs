@@ -26,6 +26,7 @@ public partial class JailbreakExtras
                 Utilities.SetStateChanged(player, "CCSPlayerController", "m_szClan");
                 Utilities.SetStateChanged(player, "CBasePlayerController", "m_iszPlayerName");
             });
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.B} !tagac{CC.W} ile tagini tekrardan acabilirsin.");
         }
     }
 
