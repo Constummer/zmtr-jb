@@ -17,6 +17,7 @@ public partial class JailbreakExtras
     private static List<ulong> KomAdays = new List<ulong>();
     public static Dictionary<ulong, int> KomAlAnswers = new Dictionary<ulong, int>();
     public static bool KomAlVoteInProgress = false;
+    public CounterStrikeSharp.API.Modules.Timers.Timer KomalPrintTimer = null;
 
     [ConsoleCommand("komal")]
     public void KomAl(CCSPlayerController? player, CommandInfo info)
@@ -116,6 +117,7 @@ public partial class JailbreakExtras
                 Server.PrintToChatAll($"{Prefix} {CC.G} komaday sure bitti, oylama basladi.");
                 var komalVoteMenu = new ChatMenu("KomAl aday oylamasi");
                 KomAlVoteInProgress = true;
+                AlreadyVotedPlayers?.Clear();
                 foreach (var voter in voters)
                 {
                     komalVoteMenu.AddMenuOption(voter.PlayerName, (x, i) =>
@@ -138,6 +140,21 @@ public partial class JailbreakExtras
                 {
                     ChatMenus.OpenMenu(x, komalVoteMenu);
                 }
+                var i = 0;
+                KomalPrintTimer?.Kill();
+
+                KomalPrintTimer = AddTimer(0.1f, () =>
+                {
+                    i++;
+                    var hmtl = $"<pre><b>Oylama: <font color='#00FF00'>Komutçu Al Oylaması</font><br>" +
+                                $" Kalan Süre : <font color='{((int)((150 - i) / 10) > 3 ? "#00FF00" : "#FF0000")}'> {(int)((150 - i) / 10)}</font><br>" +
+                string.Join("<br>", KomAlAnswers.Select((x, i) => $"!{i} - {x.Key} - {x.Value}")) +
+                                   $"</b></pre>";
+
+                    GetPlayers()
+                    .ToList()
+                    .ForEach(x => x.PrintToCenterHtml(hmtl));
+                }, TimerFlags.REPEAT);
 
                 AddTimer(15, () =>
                 {
@@ -168,6 +185,9 @@ public partial class JailbreakExtras
                                 Server.PrintToChatAll($"{voter.PlayerName} - {kvp.Value}");
                             }
                         }
+                        KomalPrintTimer?.Kill();
+                        KomalPrintTimer = null;
+                        AlreadyVotedPlayers?.Clear();
                         KomAlAnswers.Clear();
                         KomAlVoteInProgress = false;
                     }

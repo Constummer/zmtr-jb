@@ -31,7 +31,7 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
     private static List<ulong> HookDisablePlayers = new();
     private static Dictionary<ulong, Dictionary<ulong, string>> KilledPlayers = new();
     private static readonly Dictionary<CCSPlayerController, bool> bUsingPara = new();
-
+    private static Dictionary<ulong, string> PlayerNamesDatas = new();
     private static ulong? LatestWCommandUser { get; set; }
 
     private static readonly string[] BaseRequiresPermissions = new[]
@@ -73,7 +73,7 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
         {
             if (name == "OnUnblockedClosing" || name == "OnBlockedOpening")
             {
-                ForceOpen();
+                //ForceOpen();
             }
             return HookResult.Continue;
         });

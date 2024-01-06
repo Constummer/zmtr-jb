@@ -5,6 +5,7 @@ using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Timers;
+using System.Diagnostics.Metrics;
 
 namespace JailbreakExtras;
 
@@ -103,8 +104,9 @@ public partial class JailbreakExtras
         VotePrintTimer = AddTimer(0.1f, () =>
         {
             i++;
-            var hmtl = $"<pre><b>Oylama: <font color='#00FF00'>{LatestVoteName}</font><br> Kalan Süre : {(int)((200 - i) / 10)}<br>" +
-        string.Join("<br>", Answers.Select(x => $"{x.Key} - {x.Value}")) +
+            var hmtl = $"<pre><b>Oylama: <font color='#00FF00'>{LatestVoteName}</font><br>" +
+                        $" Kalan Süre : <font color='{((int)((200 - i) / 10) > 3 ? "#00FF00" : "#FF0000")}'> {(int)((200 - i) / 10)}</font><br>" +
+        string.Join("<br>", Answers.Select((x, i) => $"!{i} - {x.Key} - {x.Value}")) +
                            $"</b></pre>";
 
             GetPlayers()
@@ -125,6 +127,7 @@ public partial class JailbreakExtras
               LatestVoteMenu = null;
               VotePrintTimer?.Kill();
               VotePrintTimer = null;
+              AlreadyVotedPlayers.Clear();
           }, TimerFlags.STOP_ON_MAPCHANGE);
 
         return;
@@ -179,6 +182,49 @@ public partial class JailbreakExtras
 
                 var data = answers[voteNo - 1];
                 Answers[data.Key]++;
+
+                if (ValidateCallerPlayer(player, false) == true)
+                {
+                    AlreadyVotedPlayers.Add(player.SteamID);
+
+                    player.PrintToChat($"{Prefix}{CC.B} {data.Key} {CC.W} Seçeneğine oy verdin.");
+                    GetPlayers()
+                        .Where(x => x.SteamID != player.SteamID)
+                        .ToList()
+                        .ForEach(x =>
+                        {
+                            x.PrintToChat($"{Prefix}{CC.B} {player.PlayerName} {CC.W} Oyunu kullandı.");
+                        });
+                }
+                return true;
+            }
+        }
+        else if (KomAlVoteInProgress)
+        {
+            var voteNoStr = arg.Substring(1);
+
+            if (int.TryParse(voteNoStr, out var voteNo))
+            {
+                if (voteNo < 1 || voteNo > 5)
+                {
+                    return false;
+                }
+
+                if (KomAlAnswers.Count < voteNo)
+                {
+                    return false;
+                }
+                if (AlreadyVotedPlayers.Contains(player.SteamID))
+                {
+                    player.PrintToChat($"{Prefix}{CC.W} Yalnızca bir seçeneğe oy verebilirsin.");
+
+                    return true;
+                }
+
+                var answers = KomAlAnswers.ToList();
+
+                var data = answers[voteNo - 1];
+                KomAlAnswers[data.Key]++;
 
                 if (ValidateCallerPlayer(player, false) == true)
                 {

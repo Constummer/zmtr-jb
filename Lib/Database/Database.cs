@@ -1,4 +1,6 @@
-﻿using MySqlConnector;
+﻿using CounterStrikeSharp.API.Modules.Entities;
+using JailbreakExtras.Lib.Database.Models;
+using MySqlConnector;
 
 namespace JailbreakExtras;
 
@@ -82,6 +84,25 @@ public partial class JailbreakExtras
                   `WTime` mediumint(9) DEFAULT NULL
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
             await cmd.ExecuteNonQueryAsync();
+
+            cmd = new MySqlCommand(@$"SELECT `SteamId`, `Name` FROM `PlayerName`", con);
+
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var steamId = reader.IsDBNull(0) ? 0 : reader.GetInt64(0);
+
+                    if (PlayerNamesDatas.ContainsKey((ulong)steamId) == false)
+                    {
+                        var total = reader.IsDBNull(1) ? "" : reader.GetString(1);
+
+                        PlayerNamesDatas.Add((ulong)steamId, total);
+                    }
+
+                    return;
+                }
+            }
         });
     }
 }

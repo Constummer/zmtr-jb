@@ -1,6 +1,7 @@
 ﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Menu;
 
 namespace JailbreakExtras;
 
@@ -16,18 +17,19 @@ public partial class JailbreakExtras
         {
             return;
         }
-        player.PrintToChat($"{Prefix} {CC.W}TOP SURELER SUAN DISABLE DURUMDA, YAKINDA ACILACAK!");
 
-        //var amount = 0;
-        //var ordered=PlayerTimeTracking.OrderBy(x=>x.)
-        //if (player?.SteamID != null && player!.SteamID != 0)
-        //{
-        //    if (PlayerTimeTracking.TryGetValue(player.SteamID, out var item))
-        //    {
-        //        amount = item.Total;
-        //    }
-        //}
-        //player.PrintToChat($"{Prefix} {CC.W}Toplam {CC.G}{amount} {CC.W}dakikadır sunucudasın!");
+        var ordered = PlayerTimeTracking.Where(x => PlayerNamesDatas.ContainsKey(x.Key))
+                                        .OrderByDescending(x => x.Value.Total)
+                                        .Take(10);
+
+        player.PrintToChat($"{Prefix} {CC.W} TOP 10 Süreler");
+        foreach (var item in ordered)
+        {
+            if (PlayerNamesDatas.TryGetValue(item.Key, out var name))
+            {
+                player.PrintToChat($"{Prefix} {CC.R}{name} {CC.W}| {CC.B}{(item.Value.Total / 60)} {CC.Ol}Saat");
+            }
+        }
     }
 
     #endregion TopTime
