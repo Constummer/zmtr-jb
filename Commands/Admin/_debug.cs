@@ -10,6 +10,20 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    [ConsoleCommand("parasutsifirla")]
+    public void ParachuteSifirla(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+    }
+
     [ConsoleCommand("cyet1")]
     public void cyet1(CCSPlayerController? player, CommandInfo info)
     {

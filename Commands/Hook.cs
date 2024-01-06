@@ -26,7 +26,7 @@ public partial class JailbreakExtras
         {
             if (HookPlayers.TryGetValue(player.SteamID, out bool canUse) == false)
             {
-                if (!AdminManager.PlayerHasPermissions(player, "@css/seviye30"))
+                if (AdminManager.PlayerHasPermissions(player, "@css/seviye30") == false)
                 {
                     player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
                     return;

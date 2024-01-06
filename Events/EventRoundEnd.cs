@@ -30,6 +30,7 @@ public partial class JailbreakExtras
         CoinSpawned = false;
         _Config.Additional.ParachuteEnabled = true;
         TeamSteamIds?.Clear();
+        RuletActivate();
         TeamActive = false;
         GetPlayers()
          .Where(x => ValidateCallerPlayer(x, false) == true && x.SteamID != LatestWCommandUser)

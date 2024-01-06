@@ -70,43 +70,6 @@ public partial class JailbreakExtras
         return player != null && player.IsValid && player.PlayerPawn.IsValid;
     }
 
-    private static void RefreshPawn(CCSPlayerController player)
-    {
-        if (player != null)
-        {
-            if (ValidateCallerPlayer(player, false) == false)
-                return;
-            var weaponServices = player.PlayerPawn.Value!.WeaponServices;
-            if (weaponServices == null) return;
-
-            player.GiveNamedItem("weapon_healthshot");
-            if (weaponServices.MyWeapons != null)
-            {
-                foreach (var weapon in weaponServices.MyWeapons)
-                {
-                    if (weapon != null && weapon.IsValid && weapon.Value != null && weapon.Value!.DesignerName == "weapon_healthshot")
-                    {
-                        weapon.Value.Remove();
-                        break;
-                    }
-                }
-            }
-        }
-    }
-
-    private static void RefreshPawnTP(CCSPlayerController x)
-    {
-        if (x != null)
-        {
-            if (ValidateCallerPlayer(x, false) == false)
-                return;
-            Vector currentPosition = x.PlayerPawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
-            Vector currentSpeed = new Vector(0, 0, 0);
-            QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
-            x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
-        }
-    }
-
     private static void SetColour(CCSPlayerController? player, Color colour)
     {
         if (player == null || !IsValid(player))
@@ -299,22 +262,5 @@ public partial class JailbreakExtras
         //    .GroupBy(x => x.Index / chunkSize)
         //    .Select(x => x.Select(v => v.Value).ToList())
         //    .ToList();
-    }
-
-    private void LoadCredit()
-    {
-        Console.WriteLine(@"
-
-         _______  _______  _        _______ _________          _______  _______  _______  _______
-        (  ____ \(  ___  )( (    /|(  ____ \\__   __/|\     /|(       )(       )(  ____ \(  ____ )
-        | (    \/| (   ) ||  \  ( || (    \/   ) (   | )   ( || () () || () () || (    \/| (    )|
-        | |      | |   | ||   \ | || (_____    | |   | |   | || || || || || || || (__    | (____)|
-        | |      | |   | || (\ \) |(_____  )   | |   | |   | || |(_)| || |(_)| ||  __)   |     __)
-        | |      | |   | || | \   |      ) |   | |   | |   | || |   | || |   | || (      | (\ (
-        | (____/\| (___) || )  \  |/\____) |   | |   | (___) || )   ( || )   ( || (____/\| ) \ \__
-        (_______/(_______)|/    )_)\_______)   )_(   (_______)|/     \||/     \|(_______/|/   \__/
-
-        Jailbreak Extras Plugin is loading, almost ready to go :}
-        ");
     }
 }
