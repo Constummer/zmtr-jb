@@ -21,6 +21,7 @@ public partial class JailbreakExtras
         CitEnabledPlayers?.Clear();
         TeamSteamIds?.Clear();
         FFMenuCheck = false;
+        FFTimer?.Kill();
         ClearParachutes();
         ClearCits();
         ClearLasers();

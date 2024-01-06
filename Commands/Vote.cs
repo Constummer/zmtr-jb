@@ -106,7 +106,7 @@ public partial class JailbreakExtras
             i++;
             var hmtl = $"<pre><b>Oylama: <font color='#00FF00'>{LatestVoteName}</font><br>" +
                         $" Kalan Süre : <font color='{((int)((200 - i) / 10) > 3 ? "#00FF00" : "#FF0000")}'> {(int)((200 - i) / 10)}</font><br>" +
-        string.Join("<br>", Answers.Select((x, i) => $"!{i} - {x.Key} - {x.Value}")) +
+        string.Join("<br>", Answers.Select((x, i) => $"!{i + 1} - {x.Key} - {x.Value}")) +
                            $"</b></pre>";
 
             GetPlayers()

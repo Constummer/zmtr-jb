@@ -148,7 +148,7 @@ public partial class JailbreakExtras
                     i++;
                     var hmtl = $"<pre><b>Oylama: <font color='#00FF00'>Komutçu Al Oylaması</font><br>" +
                                 $" Kalan Süre : <font color='{((int)((150 - i) / 10) > 3 ? "#00FF00" : "#FF0000")}'> {(int)((150 - i) / 10)}</font><br>" +
-                string.Join("<br>", KomAlAnswers.Select((x, i) => $"!{i} - {x.Key} - {x.Value}")) +
+                string.Join("<br>", KomAlAnswers.Select((x, i) => $"!{i + 1} - {x.Key} - {x.Value}")) +
                                    $"</b></pre>";
 
                     GetPlayers()
