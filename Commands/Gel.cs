@@ -30,7 +30,7 @@ public partial class JailbreakExtras
                       x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 1, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.DR}Mahkûmları {CC.W}yanına ışınladı.");
+        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.DR}Mahkûmları {CC.W}yanına ışınladı.");
     }
 
     [ConsoleCommand("gelct")]
@@ -53,7 +53,7 @@ public partial class JailbreakExtras
                       x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 1, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.B}Gardiyanları {CC.W}yanına ışınladı.");
+        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.B}Gardiyanları {CC.W}yanına ışınladı.");
     }
 
     [ConsoleCommand("gelall")]
@@ -76,7 +76,7 @@ public partial class JailbreakExtras
                       x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 1, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.G}herkesi {CC.W}yanına ışınladı.");
+        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.G}herkesi {CC.W}yanına ışınladı.");
     }
 
     [ConsoleCommand("geltakim")]
@@ -343,7 +343,7 @@ public partial class JailbreakExtras
                           }
                       }
                   });
-            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {res.Msg} Takımındaki Mahkûmları {CC.W}yanına ışınladı.");
+            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {res.Msg} Takımındaki Mahkûmları {CC.W}yanına ışınladı.");
         }
     }
 
@@ -366,7 +366,7 @@ public partial class JailbreakExtras
                           }
                       }
                   });
-            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {res.Msg} Takımındaki Mahkûmları {CC.W}yanına ışınladı.");
+            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {res.Msg} Takımındaki Mahkûmları {CC.W}yanına ışınladı.");
         }
     }
 

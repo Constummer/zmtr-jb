@@ -15,7 +15,7 @@ public partial class JailbreakExtras
         {
             player.PrintToConsole($" [ZMTR] alttaki komut ile K duck toggle, eğilip kalkabilirsin");
             player.PrintToConsole($" [ZMTR] alias test \"bind k test2; +duck\";alias test2 \"bind k test; -duck\";bind k test");
-            player.PrintToChat($" {CC.LR}[ZMTR] {CC.G}Konsoluna bak.");
+            player.PrintToChat($"{Prefix} {CC.G}Konsoluna bak.");
         }
     }
 

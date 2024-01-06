@@ -24,19 +24,19 @@ public partial class JailbreakExtras
         }
         if (info.ArgCount != 2)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} 2-4 arası bir değer girmelisiniz, 2 derseniz 64 kişiyi 2ye bölerek 32-32 yapar gibi ");
+            player.PrintToChat($"{Prefix}{CC.W} 2-4 arası bir değer girmelisiniz, 2 derseniz 64 kişiyi 2ye bölerek 32-32 yapar gibi ");
             return;
         }
         if (int.TryParse(info.GetArg(1), out var chunk) == false)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} 2-4 arası bir değer girmelisiniz, 2 derseniz 64 kişiyi 2ye bölerek 32-32 yapar gibi ");
+            player.PrintToChat($"{Prefix}{CC.W} 2-4 arası bir değer girmelisiniz, 2 derseniz 64 kişiyi 2ye bölerek 32-32 yapar gibi ");
             return;
         }
         else
         {
             if (chunk < 2 || chunk > 4)
             {
-                player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} 2-4 arası bir değer girmelisiniz, 2 derseniz 64 kişiyi 2ye bölerek 32-32 yapar gibi ");
+                player.PrintToChat($"{Prefix}{CC.W} 2-4 arası bir değer girmelisiniz, 2 derseniz 64 kişiyi 2ye bölerek 32-32 yapar gibi ");
                 return;
             }
         }
@@ -66,8 +66,8 @@ public partial class JailbreakExtras
             plist.ForEach(x =>
             {
                 SetColour(x, res.Color);
-                x.PrintToChat($" {CC.LR}[ZMTR] {CC.P}{res.Msg} {CC.W}Takıma girdin!");
-                x.PrintToCenter($" {CC.LR}[ZMTR] {CC.P}{res.Msg} {CC.W}Takıma girdin!");
+                x.PrintToChat($"{Prefix} {CC.P}{res.Msg} {CC.W}Takıma girdin!");
+                x.PrintToCenter($"{Prefix} {CC.P}{res.Msg} {CC.W}Takıma girdin!");
 
                 Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                 Vector currentSpeed = new Vector(0, 0, 0);
@@ -77,7 +77,7 @@ public partial class JailbreakExtras
             TeamSteamIds.Add(i, plist.Select(x => x.SteamID).ToList());
             olusanTakimlar.Add(res.Msg);
         }
-        Server.PrintToChatAll($" {CC.LR}[ZMTR]{CC.G} Oluşturulan takımlar = {(string.Join(",", olusanTakimlar))}");
+        Server.PrintToChatAll($"{Prefix}{CC.G} Oluşturulan takımlar = {(string.Join(",", olusanTakimlar))}");
     }
 
     [ConsoleCommand("takimboz")]

@@ -22,10 +22,10 @@ public partial class JailbreakExtras
         {
             return;
         }
-        Server.PrintToChatAll($" {CC.LR}[ZMTR]{CC.DR} Çit oluşturma {CC.B}{player.PlayerName} {CC.W}'a açıldı.");
-        player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} Ateş ettiğin yere çit oluşacak.");
-        player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} Kapatmak için !citkapat yaz.");
-        player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} Çitleri silmek çin !cittemizle yaz.");
+        Server.PrintToChatAll($"{Prefix}{CC.DR} Çit oluşturma {CC.B}{player.PlayerName} {CC.W}'a açıldı.");
+        player.PrintToChat($"{Prefix}{CC.G} Ateş ettiğin yere çit oluşacak.");
+        player.PrintToChat($"{Prefix}{CC.G} Kapatmak için !citkapat yaz.");
+        player.PrintToChat($"{Prefix}{CC.G} Çitleri silmek çin !cittemizle yaz.");
         CitEnabledPlayers.Add(player.SteamID);
         return;
     }
@@ -41,7 +41,7 @@ public partial class JailbreakExtras
                 return;
             }
         }
-        Server.PrintToChatAll($" {CC.LR}[ZMTR]{CC.DR} Çit oluşturma {CC.B}{player.PlayerName} {CC.W}'a kapandı.");
+        Server.PrintToChatAll($"{Prefix}{CC.DR} Çit oluşturma {CC.B}{player.PlayerName} {CC.W}'a kapandı.");
         CitEnabledPlayers = CitEnabledPlayers.Where(x => x != player.SteamID).ToList();
 
         return;
@@ -73,7 +73,7 @@ public partial class JailbreakExtras
             Cits.Clear();
             if (displayMsg)
             {
-                Server.PrintToChatAll($" {CC.LR}[ZMTR]{CC.DR} Tüm çitler silindi.");
+                Server.PrintToChatAll($"{Prefix}{CC.DR} Tüm çitler silindi.");
             }
         }
     }

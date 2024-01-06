@@ -23,7 +23,7 @@ public partial class JailbreakExtras
         ClearParachutes();
         _Config.Additional.ParachuteEnabled = false;
         _Config.Additional.ParachuteModelEnabled = false;
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Paraşüt kapandı.");
+        Server.PrintToChatAll($"{Prefix} {CC.W}Paraşüt kapandı.");
     }
 
     [ConsoleCommand("pa")]
@@ -37,7 +37,7 @@ public partial class JailbreakExtras
         _Config.Additional.ParachuteEnabled = true;
         _Config.Additional.ParachuteModelEnabled = true;
 
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Paraşüt açıldı.");
+        Server.PrintToChatAll($"{Prefix} {CC.W}Paraşüt açıldı.");
     }
 
     #endregion Parachute

@@ -19,7 +19,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye10"))
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         if (info.ArgCount != 2) return;
@@ -32,7 +32,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye10"))
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         MuteAction(player, "@t");
@@ -43,7 +43,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye10"))
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         MuteAction(player, "@ct");
@@ -107,12 +107,12 @@ public partial class JailbreakExtras
                 x.VoiceFlags |= VoiceFlags.Muted;
                 if (targetArgument == TargetForArgument.None)
                 {
-                    Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu {CC.B}susturdu{CC.W}.");
+                    Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu {CC.B}susturdu{CC.W}.");
                 }
             });
         if (targetArgument != TargetForArgument.None)
         {
-            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefini {CC.B}susturdu{CC.W}.");
+            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefini {CC.B}susturdu{CC.W}.");
         }
     }
 
@@ -140,12 +140,12 @@ public partial class JailbreakExtras
                 x.VoiceFlags &= ~VoiceFlags.Muted;
                 if (targetArgument == TargetForArgument.None)
                 {
-                    Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun {CC.B}susturmasını{CC.W} kaldırdı.");
+                    Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun {CC.B}susturmasını{CC.W} kaldırdı.");
                 }
             });
         if (targetArgument != TargetForArgument.None)
         {
-            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefinin {CC.B}susturmasını{CC.W} kaldırdı.");
+            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefinin {CC.B}susturmasını{CC.W} kaldırdı.");
         }
     }
 

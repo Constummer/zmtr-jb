@@ -35,7 +35,7 @@ public partial class JailbreakExtras
                       x.PlayerPawn.Value.Teleport(new Vector(res.Vector.X, res.Vector.Y + 1, res.Vector.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.G}@t'yi {CC.R}{res.PlayerName}{CC.W} adlı oyunun yanına ışınladı.");
+        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.G}@t'yi {CC.R}{res.PlayerName}{CC.W} adlı oyunun yanına ışınladı.");
     }
 
     [ConsoleCommand("gonderct")]
@@ -63,7 +63,7 @@ public partial class JailbreakExtras
                       x.PlayerPawn.Value.Teleport(new Vector(res.Vector.X, res.Vector.Y + 1, res.Vector.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.G}@ct'yi {CC.R}{res.PlayerName}{CC.W} adlı oyunun yanına ışınladı.");
+        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.G}@ct'yi {CC.R}{res.PlayerName}{CC.W} adlı oyunun yanına ışınladı.");
     }
 
     [ConsoleCommand("gonderall")]
@@ -91,7 +91,7 @@ public partial class JailbreakExtras
                       x.PlayerPawn.Value.Teleport(new Vector(res.Vector.X, res.Vector.Y + 1, res.Vector.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.G}herkesi {CC.R}{res.PlayerName}{CC.W} adlı oyunun yanına ışınladı.");
+        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.G}herkesi {CC.R}{res.PlayerName}{CC.W} adlı oyunun yanına ışınladı.");
     }
 
     private (Vector? Vector, string PlayerName) GonderGetVector(CCSPlayerController player, CommandInfo info)
@@ -104,12 +104,12 @@ public partial class JailbreakExtras
                .ToList();
         if (players.Count == 0)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Eşleşen oyuncu bulunamadı!");
+            player.PrintToChat($"{Prefix} {CC.W}Eşleşen oyuncu bulunamadı!");
             return (null, null);
         }
         if (players.Count != 1)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Birden fazla oyuncu bulundu.");
+            player.PrintToChat($"{Prefix} {CC.W}Birden fazla oyuncu bulundu.");
             return (null, null);
         }
         var x = players.FirstOrDefault();

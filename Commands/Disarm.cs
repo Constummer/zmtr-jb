@@ -30,13 +30,13 @@ public partial class JailbreakExtras
         {
             if (targetArgument == TargetForArgument.None)
             {
-                Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu {CC.LR}disarmladı{CC.W}.");
+                Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu {CC.LR}disarmladı{CC.W}.");
             }
             RemoveWeapons(x, true);
         });
         if (targetArgument != TargetForArgument.None)
         {
-            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefini {CC.LR}disarmladı{CC.W}.");
+            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefini {CC.LR}disarmladı{CC.W}.");
         }
     }
 
@@ -55,7 +55,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, true);
         });
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Mahkûmların silahları silindi.");
+        Server.PrintToChatAll($"{Prefix} {CC.W}Mahkûmların silahları silindi.");
     }
 
     [ConsoleCommand("disarmct", "Bicak dahil silme")]
@@ -73,7 +73,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, true);
         });
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Gardiyanların silahları silindi.");
+        Server.PrintToChatAll($"{Prefix} {CC.W}Gardiyanların silahları silindi.");
     }
 
     [ConsoleCommand("disarmall", "Bicak dahil silme")]
@@ -91,7 +91,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, true);
         });
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Herkesin silahları silindi.");
+        Server.PrintToChatAll($"{Prefix} {CC.W}Herkesin silahları silindi.");
     }
 
     #endregion Disarm

@@ -32,7 +32,7 @@ public partial class JailbreakExtras
         var godOneTwoStr = info.ArgCount > 2 ? info.GetArg(2) : "0";
         if (int.TryParse(godOneTwoStr, out var value) == false)
         {
-            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}geçersiz süre.");
+            Server.PrintToChatAll($"{Prefix} {CC.G}geçersiz süre.");
 
             return;
         }
@@ -67,7 +67,7 @@ public partial class JailbreakExtras
                     }
                     if (targetArgument == TargetForArgument.None)
                     {
-                        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{gagPlayer.PlayerName} {CC.B}Sınırsız{CC.W} gagladı.");
+                        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{gagPlayer.PlayerName} {CC.B}Sınırsız{CC.W} gagladı.");
                     }
                 }
                 else
@@ -82,13 +82,13 @@ public partial class JailbreakExtras
                     }
                     if (targetArgument == TargetForArgument.None)
                     {
-                        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{gagPlayer.PlayerName} {CC.B}{value}{CC.W} dakika boyunca gagladı.");
+                        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{gagPlayer.PlayerName} {CC.B}{value}{CC.W} dakika boyunca gagladı.");
                     }
                 }
             });
         if (targetArgument != TargetForArgument.None)
         {
-            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefini {CC.B}gagladı{CC.W}.");
+            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefini {CC.B}gagladı{CC.W}.");
         }
     }
 
@@ -100,13 +100,13 @@ public partial class JailbreakExtras
             Logger.LogInformation($"{DateTime.UtcNow.ToString()}");
             if (call > DateTime.UtcNow)
             {
-                player.PrintToChat($" {CC.LR}[ZMTR] {CC.W} GAGLISIN!");
+                player.PrintToChat($"{Prefix} {CC.W} GAGLISIN!");
                 return true;
             }
         }
         if (PGags.Contains(player.SteamID))
         {
-            player.PrintToChat($" {CC.LR}[ZMTR] {CC.W} SINIRSIZ GAGLISIN!");
+            player.PrintToChat($"{Prefix} {CC.W} SINIRSIZ GAGLISIN!");
             return true;
         }
         return false;

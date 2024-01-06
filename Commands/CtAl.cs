@@ -27,7 +27,7 @@ public partial class JailbreakExtras
            });
         SlayAllAction();
 
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Yaşayan Mahkûmlar, Gardiyan takımına atıldı.");
+        Server.PrintToChatAll($"{Prefix} {CC.W}Yaşayan Mahkûmlar, Gardiyan takımına atıldı.");
     }
 
     #endregion CT AL

@@ -17,7 +17,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye30"))
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         if (info.ArgCount < 2) return;
@@ -26,7 +26,7 @@ public partial class JailbreakExtras
         int.TryParse(godOneTwoStr, out var godOneTwo);
         if (godOneTwo < 0 || godOneTwo > 1)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} 0 = kapatmak icin, 1 = acmak icin.");
+            player.PrintToChat($"{Prefix}{CC.W} 0 = kapatmak icin, 1 = acmak icin.");
             return;
         }
 
@@ -42,7 +42,7 @@ public partial class JailbreakExtras
                        case 0:
                            if (targetArgument == TargetForArgument.None)
                            {
-                               Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}godunu {CC.W}kaldirdi.");
+                               Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}godunu {CC.W}kaldirdi.");
                            }
                            if (ActiveGodMode.TryGetValue(x.SteamID, out _))
                            {
@@ -57,7 +57,7 @@ public partial class JailbreakExtras
                        case 1:
                            if (targetArgument == TargetForArgument.None)
                            {
-                               Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}god {CC.W}verdi.");
+                               Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}god {CC.W}verdi.");
                            }
                            if (ActiveGodMode.TryGetValue(x.SteamID, out _))
                            {
@@ -77,14 +77,14 @@ public partial class JailbreakExtras
                                {
                                    if (targetArgument == TargetForArgument.None)
                                    {
-                                       Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}godunu {CC.W} kaldırdı.");
+                                       Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}godunu {CC.W} kaldırdı.");
                                    }
                                }
                                else
                                {
                                    if (targetArgument == TargetForArgument.None)
                                    {
-                                       Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}god {CC.W}verdi.");
+                                       Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}god {CC.W}verdi.");
                                    }
                                }
                                ActiveGodMode[x.SteamID] = !god;
@@ -93,7 +93,7 @@ public partial class JailbreakExtras
                            {
                                if (targetArgument == TargetForArgument.None)
                                {
-                                   Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}god {CC.W}verdi.");
+                                   Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}god {CC.W}verdi.");
                                }
                                ActiveGodMode.TryAdd(x.SteamID, true);
                            }
@@ -106,11 +106,11 @@ public partial class JailbreakExtras
             switch (godOneTwo)
             {
                 case 0:
-                    Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefine {CC.B}godunu {CC.W}kaldirdi.");
+                    Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefine {CC.B}godunu {CC.W}kaldirdi.");
                     break;
 
                 case 1:
-                    Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefine {CC.B}god {CC.W}verdi.");
+                    Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefine {CC.B}god {CC.W}verdi.");
                     break;
             }
         }
@@ -130,7 +130,7 @@ public partial class JailbreakExtras
                    ActiveGodMode[x.SteamID] = true;
                    RefreshPawn(x);
                });
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.B}gardiyanlara {CC.G}god {CC.W}verdi.");
+        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.B}gardiyanlara {CC.G}god {CC.W}verdi.");
     }
 
     [ConsoleCommand("qq", "remove godmode ct player")]
@@ -147,7 +147,7 @@ public partial class JailbreakExtras
                    ActiveGodMode.Remove(x.SteamID);
                    RefreshPawn(x);
                });
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.B}gardiyanların {CC.G}godunu {CC.W}kaldırdı.");
+        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.B}gardiyanların {CC.G}godunu {CC.W}kaldırdı.");
     }
 
     private static void GodHurtCover(EventPlayerHurt @event, CCSPlayerController player)

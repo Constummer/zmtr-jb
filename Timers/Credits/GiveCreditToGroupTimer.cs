@@ -28,7 +28,7 @@ public partial class JailbreakExtras
                               item.Credit = 2;
                           }
                           PlayerMarketModels[x.SteamID] = item;
-                          x.PrintToChat($" {CC.LR}[ZMTR] {CC.R}Steam Grubunda{CC.W} olduğun için {CC.LB}2 {CC.W}kredi kazandın!");
+                          x.PrintToChat($"{Prefix} {CC.R}Steam Grubunda{CC.W} olduğun için {CC.LB}2 {CC.W}kredi kazandın!");
                       }
                   }
               });

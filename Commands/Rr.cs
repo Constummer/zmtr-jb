@@ -16,7 +16,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         var target = info.ArgCount > 1 ? info.GetArg(1) : "1";

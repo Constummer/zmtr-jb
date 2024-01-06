@@ -20,12 +20,12 @@ public partial class JailbreakExtras
 
         if (LatestWCommandUser != player.SteamID)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR] {CC.B}Sadece {CC.W} Komutçu bu menüyü açabilir");
+            player.PrintToChat($"{Prefix} {CC.B}Sadece {CC.W} Komutçu bu menüyü açabilir");
             return;
         }
         if (CurrentCtRespawns >= 3)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR] {CC.B}En Fazla {CC.R}3 kere {CC.W} respawn atabilirsin");
+            player.PrintToChat($"{Prefix} {CC.B}En Fazla {CC.R}3 kere {CC.W} respawn atabilirsin");
             return;
         }
 
@@ -34,7 +34,7 @@ public partial class JailbreakExtras
             .ToList();
         if (players == null || players.Count == 0)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR] {CC.W} Revlenecek Hiç Ölü CT yok");
+            player.PrintToChat($"{Prefix} {CC.W} Revlenecek Hiç Ölü CT yok");
         }
         else
         {
@@ -43,7 +43,7 @@ public partial class JailbreakExtras
             {
                 CustomRespawn(fastRev);
                 CurrentCtRespawns++;
-                Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.B}{fastRev.PlayerName} {CC.W} Rev menüden revlendi | Son {3 - CurrentCtRespawns} rev");
+                Server.PrintToChatAll($"{Prefix} {CC.B}{fastRev.PlayerName} {CC.W} Rev menüden revlendi | Son {3 - CurrentCtRespawns} rev");
             }
         }
     }

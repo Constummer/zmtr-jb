@@ -28,18 +28,18 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye26"))
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         if (LatestVoteMenu != null)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Mevcut oylama bitmeden yeni oylama açamazsın.");
+            player.PrintToChat($"{Prefix}{CC.W} Mevcut oylama bitmeden yeni oylama açamazsın.");
             return;
         }
 
         if (string.IsNullOrWhiteSpace(command.ArgString))
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} En az 2 şık ve 1 soru belirlemelisin, şıklar arası boşluk bırakmalısın.");
+            player.PrintToChat($"{Prefix}{CC.W} En az 2 şık ve 1 soru belirlemelisin, şıklar arası boşluk bırakmalısın.");
             return;
         }
         var argCount = command.ArgString.Split(" ");
@@ -47,17 +47,17 @@ public partial class JailbreakExtras
 
         if (argCount.Length == 0)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} En az 2 şık ve 1 soru belirlemelisin, şıklar arası boşluk bırakmalısın.");
+            player.PrintToChat($"{Prefix}{CC.W} En az 2 şık ve 1 soru belirlemelisin, şıklar arası boşluk bırakmalısın.");
             return;
         }
         if (argCount?.Length < 3)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} En az 2 şık ve 1 soru belirlemelisin, şıklar arası boşluk bırakmalısın.");
+            player.PrintToChat($"{Prefix}{CC.W} En az 2 şık ve 1 soru belirlemelisin, şıklar arası boşluk bırakmalısın.");
             return;
         }
         if (argCount?.Length > 7)
         {
-            player!.PrintToChat($" {CC.LR}[ZMTR]{CC.R} Maximum 5 adet şık belirleyebilirsin");
+            player!.PrintToChat($"{Prefix}{CC.R} Maximum 5 adet şık belirleyebilirsin");
             return;
         }
         Answers.Clear();
@@ -77,12 +77,12 @@ public partial class JailbreakExtras
                 ///    Answers[option.Text]++;
                 ///    if (ValidateCallerPlayer(x, false) == true)
                 ///    {
-                ///        x.PrintToChat($" {CC.LR}[ZMTR]{CC.B} {option.Text} {CC.W} Seçeneğine oy verdin.");
+                ///        x.PrintToChat($"{Prefix}{CC.B} {option.Text} {CC.W} Seçeneğine oy verdin.");
                 ///    }
                 ///}
             });
         }
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {(player == null ? "Console" : $"{CC.B}{player.PlayerName} - {CC.G}{question} Oylamasını başlattı!")}");
+        Server.PrintToChatAll($"{Prefix} {(player == null ? "Console" : $"{CC.B}{player.PlayerName} - {CC.G}{question} Oylamasını başlattı!")}");
 
         GetPlayers().ToList().ForEach(x =>
         {
@@ -97,7 +97,7 @@ public partial class JailbreakExtras
             if (p == null) continue;
             ChatMenus.OpenMenu(p, LatestVoteMenu);
         }
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {(player == null ? "Console" : $"{CC.B}{player.PlayerName} - {CC.G}{question} Oylaması 20 saniye sürecek, oy vermeyi unutmayın!")}");
+        Server.PrintToChatAll($"{Prefix} {(player == null ? "Console" : $"{CC.B}{player.PlayerName} - {CC.G}{question} Oylaması 20 saniye sürecek, oy vermeyi unutmayın!")}");
 
         var i = 0;
         VotePrintTimer = AddTimer(0.1f, () =>
@@ -118,7 +118,7 @@ public partial class JailbreakExtras
 
               foreach (KeyValuePair<string, int> kvp in Answers)
               {
-                  Server.PrintToChatAll($" {CC.LR}[ZMTR]{CC.B} {kvp.Key} {CC.W} - {CC.Y}{kvp.Value}");
+                  Server.PrintToChatAll($"{Prefix}{CC.B} {kvp.Key} {CC.W} - {CC.Y}{kvp.Value}");
               }
               Answers.Clear();
               VoteInProgress = false;
@@ -135,7 +135,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye26"))
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         Answers?.Clear();
@@ -146,7 +146,7 @@ public partial class JailbreakExtras
         VoteTimer = null;
         VotePrintTimer?.Kill();
         VotePrintTimer = null;
-        Server.PrintToChatAll($" {CC.LR}[ZMTR]{CC.W} OYLAMA IPTAL EDILDI.");
+        Server.PrintToChatAll($"{Prefix}{CC.W} OYLAMA IPTAL EDILDI.");
 
         return;
     }
@@ -170,7 +170,7 @@ public partial class JailbreakExtras
                 }
                 if (AlreadyVotedPlayers.Contains(player.SteamID))
                 {
-                    player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Yalnızca bir seçeneğe oy verebilirsin.");
+                    player.PrintToChat($"{Prefix}{CC.W} Yalnızca bir seçeneğe oy verebilirsin.");
 
                     return true;
                 }
@@ -184,13 +184,13 @@ public partial class JailbreakExtras
                 {
                     AlreadyVotedPlayers.Add(player.SteamID);
 
-                    player.PrintToChat($" {CC.LR}[ZMTR]{CC.B} {data.Key} {CC.W} Seçeneğine oy verdin.");
+                    player.PrintToChat($"{Prefix}{CC.B} {data.Key} {CC.W} Seçeneğine oy verdin.");
                     GetPlayers()
                         .Where(x => x.SteamID != player.SteamID)
                         .ToList()
                         .ForEach(x =>
                         {
-                            x.PrintToChat($" {CC.LR}[ZMTR]{CC.B} {player.PlayerName} {CC.W} Oyunu kullandı.");
+                            x.PrintToChat($"{Prefix}{CC.B} {player.PlayerName} {CC.W} Oyunu kullandı.");
                         });
                 }
                 return true;

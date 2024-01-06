@@ -29,8 +29,8 @@ public partial class JailbreakExtras
                 }
                 else
                 {
-                    player.PrintToChat($" {CC.LR}[ZMTR] Bu komutu kullanabilmek icin {CC.B}Steam Grubumuza {CC.G}katilmalisin!!!!!!!");
-                    player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Katildiysan {CC.B}!grup {CC.W}yaz");
+                    player.PrintToChat($"{Prefix} Bu komutu kullanabilmek icin {CC.B}Steam Grubumuza {CC.G}katilmalisin!!!!!!!");
+                    player.PrintToChat($"{Prefix} {CC.W}Katildiysan {CC.B}!grup {CC.W}yaz");
                     return true;
                 }
             }
@@ -102,13 +102,13 @@ public partial class JailbreakExtras
             {
                 if (CheckPlayerGroups(player))
                 {
-                    player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Steam grubumuza katıldığın için teşekkurler. Artık komutları kullanabilirsin");
+                    player.PrintToChat($"{Prefix} {CC.W}Steam grubumuza katıldığın için teşekkurler. Artık komutları kullanabilirsin");
                 }
                 else
                 {
-                    player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Steam grubumuza katılmamışsın.");
-                    player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Katılarak {CC.B}!knife {CC.W},{CC.B}!ws {CC.W},{CC.B}!skinler {CC.W},{CC.B}!yenile");
-                    player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Komutlarını kullanabilirsin");
+                    player.PrintToChat($"{Prefix} {CC.W}Steam grubumuza katılmamışsın.");
+                    player.PrintToChat($"{Prefix} {CC.W}Katılarak {CC.B}!knife {CC.W},{CC.B}!ws {CC.W},{CC.B}!skinler {CC.W},{CC.B}!yenile");
+                    player.PrintToChat($"{Prefix} {CC.W}Komutlarını kullanabilirsin");
                 }
             });
 

@@ -39,8 +39,8 @@ public partial class JailbreakExtras
 
         if (PlayerLevels.TryGetValue(player.SteamID, out _) == false)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Bu ürünü alabilmek için seviyen yok.");
-            player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Seviye alabilmek için  {CC.DR}!slotol {CC.W},{CC.DR} !seviyeol {CC.W}yazabilirsin!");
+            player.PrintToChat($"{Prefix} {CC.W}Bu ürünü alabilmek için seviyen yok.");
+            player.PrintToChat($"{Prefix} {CC.W}Seviye alabilmek için  {CC.DR}!slotol {CC.W},{CC.DR} !seviyeol {CC.W}yazabilirsin!");
             return;
         }
 
@@ -56,7 +56,7 @@ public partial class JailbreakExtras
                     || data.Model.Credit < item.Value.CreditCost
                     || data.Model.Credit - item.Value.CreditCost < 0)
                 {
-                    player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Yetersiz Bakiye!");
+                    player.PrintToChat($"{Prefix} {CC.W}Yetersiz Bakiye!");
                     return;
                 }
                 if (PlayerLevels.TryGetValue(player.SteamID, out var level))
@@ -65,7 +65,7 @@ public partial class JailbreakExtras
                 }
                 else
                 {
-                    player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Seviyen yok, seviye alabilmek için  {CC.DR}!slotol {CC.W},{CC.DR} !seviyeol {CC.W}yazabilirsin!");
+                    player.PrintToChat($"{Prefix} {CC.W}Seviyen yok, seviye alabilmek için  {CC.DR}!slotol {CC.W},{CC.DR} !seviyeol {CC.W}yazabilirsin!");
                     return;
                 }
 

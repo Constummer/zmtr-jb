@@ -16,7 +16,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -33,10 +33,10 @@ public partial class JailbreakExtras
                     {
                         _ = PlayerMarketModels.TryGetValue(x.SteamID, out item);
                     }
-                    player.PrintToConsole($" {CC.LR}[ZMTR] {CC.G}{x.PlayerName} - {CC.B}{(item?.Credit ?? 0)}");
+                    player.PrintToConsole($"{Prefix} {CC.G}{x.PlayerName} - {CC.B}{(item?.Credit ?? 0)}");
                 });
 
-        player.PrintToChat($" {CC.LR}[ZMTR] {CC.G}Konsoluna bak");
+        player.PrintToChat($"{Prefix} {CC.G}Konsoluna bak");
     }
 
     #endregion Krediler

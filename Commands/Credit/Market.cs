@@ -98,7 +98,7 @@ public partial class JailbreakExtras
         var models = PlayerModels.ToList().Where(x => x.Value.TeamNo == team).ToList();
         if (onlyBoughtOnes && models.Count == 0)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} Satın aldığınız hiç eşya yok");
+            player.PrintToChat($"{Prefix}{CC.G} Satın aldığınız hiç eşya yok");
         }
         else
         {
@@ -172,7 +172,7 @@ public partial class JailbreakExtras
                 if (playerData.Credit < model.Cost
                     || playerData.Credit - model.Cost < 0)
                 {
-                    player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} Yeterli krediniz bulunmuyor");
+                    player.PrintToChat($"{Prefix}{CC.G} Yeterli krediniz bulunmuyor");
                     return;
                 }
                 var marketMenu = new ChatMenu($"{model.Text} Modeli satin almak istedine emin misin? | Krediniz = [{playerData.Credit}]");
@@ -198,12 +198,12 @@ public partial class JailbreakExtras
                                 playerData.ModelIdT = AddModelIdToGivenData(playerData.ModelIdT, model.Id);
                                 playerData.DefaultIdT = model.Id.ToString();
                             }
-                            player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} {model.Text} modelini satin aldin.");
+                            player.PrintToChat($"{Prefix}{CC.G} {model.Text} modelini satin aldin.");
                             FinalizeModelSet(player, model, playerData, text);
                         }
                         else
                         {
-                            player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} {model.Text} modelini satin almaktan vazgeçtin.");
+                            player.PrintToChat($"{Prefix}{CC.G} {model.Text} modelini satin almaktan vazgeçtin.");
                             return;
                         }
                     });
@@ -224,7 +224,7 @@ public partial class JailbreakExtras
                 case CsTeam.Terrorist:
                     if (text.Contains(TModeli))
                     {
-                        player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} {model.Text} modelini kullaniyorsun");
+                        player.PrintToChat($"{Prefix}{CC.G} {model.Text} modelini kullaniyorsun");
                         if (model.Cost == 0 && model.Id < 0)
                         {
                             GiveRandomSkin(player);
@@ -239,7 +239,7 @@ public partial class JailbreakExtras
                 case CsTeam.CounterTerrorist:
                     if (text.Contains(CTModeli))
                     {
-                        player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} {model.Text} modelini kullaniyorsun");
+                        player.PrintToChat($"{Prefix}{CC.G} {model.Text} modelini kullaniyorsun");
                         if (model.Cost == 0 && model.Id < 0)
                         {
                             GiveRandomSkin(player);

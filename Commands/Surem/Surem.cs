@@ -24,7 +24,7 @@ public partial class JailbreakExtras
                 amount = item.Total;
             }
         }
-        player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Toplam {CC.G}{amount} {CC.W}dakikadır sunucudasın!");
+        player.PrintToChat($"{Prefix} {CC.W}Toplam {CC.G}{amount} {CC.W}dakikadır sunucudasın!");
     }
 
     #endregion Surem

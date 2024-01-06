@@ -13,7 +13,7 @@ public partial class JailbreakExtras
     {
         if (ValidateCallerPlayer(player) == false)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} sen bunu temizleyemezsin :}}");
+            player.PrintToChat($"{Prefix}{CC.G} sen bunu temizleyemezsin :}}");
             return;
         }
         ClearLasers();

@@ -15,7 +15,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye9"))
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         GetPlayers()
@@ -25,7 +25,7 @@ public partial class JailbreakExtras
                {
                    x.GiveNamedItem($"weapon_deagle");
                });
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}@all {CC.W}hedefine {CC.B}deagle {CC.W}adlı silahı verdi.");
+        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}@all {CC.W}hedefine {CC.B}deagle {CC.W}adlı silahı verdi.");
     }
 
     #endregion GD

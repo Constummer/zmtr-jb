@@ -113,7 +113,7 @@ public partial class JailbreakExtras
                 _ => ""
             };
 
-            attacker!.PrintToChat($" {CC.LR}[ZMTR] {CC.LB}{teamShortName} Oldurdugun için, {amount} kredi kazandýn!");
+            attacker!.PrintToChat($"{Prefix} {CC.LB}{teamShortName} Oldurdugun için, {amount} kredi kazandýn!");
         }
     }
 }

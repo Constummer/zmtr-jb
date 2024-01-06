@@ -22,7 +22,7 @@ public partial class JailbreakExtras
 
         if (cvar == null)
         {
-            command.ReplyToCommand($" {CC.LR}[ZMTR] {CC.W}\"{command.GetArg(1)}\" ayarı bulunamadı.");
+            command.ReplyToCommand($"{Prefix} {CC.W}\"{command.GetArg(1)}\" ayarı bulunamadı.");
             return;
         }
 
@@ -36,7 +36,7 @@ public partial class JailbreakExtras
 
         Server.ExecuteCommand($"{cvar.Name} {value}");
 
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}{playerName} adlı admin, {cvar.Name} ayarını {value} olarak değiştirdi.");
+        Server.PrintToChatAll($"{Prefix} {CC.W}{playerName} adlı admin, {cvar.Name} ayarını {value} olarak değiştirdi.");
         Logger.LogInformation($" {playerName} cvar ayarini {cvar.Name} dan {value} a degistirdi.");
     }
 

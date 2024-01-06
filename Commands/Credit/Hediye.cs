@@ -23,7 +23,7 @@ public partial class JailbreakExtras
         {
             if (DateTime.UtcNow < call.AddSeconds(10))
             {
-                player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Tekrar kredi hediye edebilmek için {CC.DR}10 {CC.W}saniye beklemelisin!");
+                player.PrintToChat($"{Prefix} {CC.W}Tekrar kredi hediye edebilmek için {CC.DR}10 {CC.W}saniye beklemelisin!");
                 return;
             }
         }
@@ -32,13 +32,13 @@ public partial class JailbreakExtras
         var target = info.GetArg(1);
         if (!int.TryParse(info.GetArg(2), out var miktar) || miktar <= 0)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Miktar yanlış!");
+            player.PrintToChat($"{Prefix} {CC.W}Miktar yanlış!");
             return;
         }
         var data = GetPlayerMarketModel(player.SteamID);
         if (data.Model == null || data.Model.Credit < miktar || data.Model.Credit - miktar < 0)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Yetersiz Bakiye!");
+            player.PrintToChat($"{Prefix} {CC.W}Yetersiz Bakiye!");
             return;
         }
         var players = GetPlayers()
@@ -46,12 +46,12 @@ public partial class JailbreakExtras
                .ToList();
         if (players.Count == 0)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Eşleşen oyuncu bulunamadı!");
+            player.PrintToChat($"{Prefix} {CC.W}Eşleşen oyuncu bulunamadı!");
             return;
         }
         if (players.Count != 1)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Birden fazla oyuncu bulundu.");
+            player.PrintToChat($"{Prefix} {CC.W}Birden fazla oyuncu bulundu.");
             return;
         }
         var x = players.FirstOrDefault();
@@ -72,7 +72,7 @@ public partial class JailbreakExtras
             data.Model!.Credit -= miktar;
             PlayerMarketModels[player.SteamID] = data.Model;
             LatestHediyeCommandCalls[player.SteamID] = DateTime.UtcNow;
-            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}{player.PlayerName}, {x.PlayerName} adlı oyuncuya {CC.G}{miktar} {CC.W}kredi yolladı!");
+            Server.PrintToChatAll($"{Prefix} {CC.W}{player.PlayerName}, {x.PlayerName} adlı oyuncuya {CC.G}{miktar} {CC.W}kredi yolladı!");
         }
     }
 

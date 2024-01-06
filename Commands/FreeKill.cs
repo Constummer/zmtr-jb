@@ -38,7 +38,7 @@ public partial class JailbreakExtras
         }
         else
         {
-            player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Zaten kimseyi öldürmedin.");
+            player.PrintToChat($"{Prefix} {CC.W}Zaten kimseyi öldürmedin.");
         }
     }
 
@@ -55,7 +55,7 @@ public partial class JailbreakExtras
                     if (player != null)
                     {
                         RespawnPlayer(player);
-                        player.PrintToChat($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName} {CC.W}adlı oyuncuyu canlandırdın.");
+                        player.PrintToChat($"{Prefix} {CC.G}{player.PlayerName} {CC.W}adlı oyuncuyu canlandırdın.");
                     }
                 }
             }

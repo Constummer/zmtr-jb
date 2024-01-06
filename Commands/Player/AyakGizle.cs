@@ -30,7 +30,7 @@ public partial class JailbreakExtras
         HideFoots[player.SteamID] = false;
         player!.PlayerPawn.Value!.Render = DefaultPlayerColor;
         RefreshPawn(player);
-        player!.PrintToChat($" {CC.LR}[ZMTR] {CC.G}Ayakların artık gözüküyor!");
+        player!.PrintToChat($"{Prefix} {CC.G}Ayakların artık gözüküyor!");
     }
 
     private void AyakGizle(CCSPlayerController player, bool refreshTp = false)

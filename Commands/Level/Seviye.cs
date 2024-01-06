@@ -25,7 +25,7 @@ public partial class JailbreakExtras
         {
             if (DateTime.UtcNow < call.AddSeconds(5))
             {
-                player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Tekrar seviye yazabilmek için {CC.DR}5 {CC.W}saniye beklemelisin!");
+                player.PrintToChat($"{Prefix} {CC.W}Tekrar seviye yazabilmek için {CC.DR}5 {CC.W}saniye beklemelisin!");
                 return;
             }
         }
@@ -39,10 +39,10 @@ public partial class JailbreakExtras
             }
             else
             {
-                player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Seviyen yok, seviye alabilmek için  {CC.DR}!slotol {CC.W},{CC.DR} !seviyeol {CC.W}yazabilirsin!");
+                player.PrintToChat($"{Prefix} {CC.W}Seviyen yok, seviye alabilmek için  {CC.DR}!slotol {CC.W},{CC.DR} !seviyeol {CC.W}yazabilirsin!");
             }
         }
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName} {CC.W}adlı oyuncunun {CC.LB}{amount} {CC.W}TP'si var!");
+        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName} {CC.W}adlı oyuncunun {CC.LB}{amount} {CC.W}TP'si var!");
         LatestSeviyemCommandCalls[player.SteamID] = DateTime.UtcNow;
     }
 

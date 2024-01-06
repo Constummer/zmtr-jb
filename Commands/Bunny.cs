@@ -16,11 +16,11 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye29"))
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         Server.ExecuteCommand($"sv_enablebunnyhopping 1;sv_autobunnyhopping 1");
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Bunny açıldı.");
+        Server.PrintToChatAll($"{Prefix} {CC.W}Bunny açıldı.");
     }
 
     [ConsoleCommand("bk", "bunny kapar")]
@@ -30,11 +30,11 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye29"))
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         Server.ExecuteCommand($"sv_enablebunnyhopping 0;sv_autobunnyhopping 0");
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Bunny kapandı.");
+        Server.PrintToChatAll($"{Prefix} {CC.W}Bunny kapandı.");
     }
 
     #endregion Bunny

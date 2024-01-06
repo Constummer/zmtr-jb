@@ -25,7 +25,7 @@ public partial class JailbreakExtras
 
         if (LatestWCommandUser != player.SteamID)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR] {CC.B}Sadece {CC.W} Komutçu bu menüyü açabilir");
+            player.PrintToChat($"{Prefix} {CC.B}Sadece {CC.W} Komutçu bu menüyü açabilir");
             return;
         }
         var players = GetPlayers()
@@ -34,7 +34,7 @@ public partial class JailbreakExtras
 
         if (players.Count == 0)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Aktif hiç admin bulunamadı");
+            player.PrintToChat($"{Prefix} {CC.W}Aktif hiç admin bulunamadı");
             return;
         }
         var kaMenu = new ChatMenu("Komutçu Admin Menü");
@@ -50,7 +50,7 @@ public partial class JailbreakExtras
                     Utilities.SetStateChanged(x, "CCSPlayerController", "m_szClan");
                     Utilities.SetStateChanged(x, "CBasePlayerController", "m_iszPlayerName");
                 });
-                Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.B}{x.PlayerName} {CC.P} [Komutçu Admin]{CC.W} Olarak seçildi");
+                Server.PrintToChatAll($"{Prefix} {CC.B}{x.PlayerName} {CC.P} [Komutçu Admin]{CC.W} Olarak seçildi");
             });
         });
         ChatMenus.OpenMenu(player, kaMenu);

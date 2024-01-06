@@ -37,7 +37,7 @@ public partial class JailbreakExtras
         {
             item = new(player.SteamID);
             PlayerMarketModels[player.SteamID] = item;
-            player.PrintToChat($" {CC.LR}[ZMTR] {CC.LB}Envanterinde hiç eşya yok");
+            player.PrintToChat($"{Prefix} {CC.LB}Envanterinde hiç eşya yok");
         }
     }
 

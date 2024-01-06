@@ -25,7 +25,7 @@ public partial class JailbreakExtras
                x.PlayerPawn.Value!.CommitSuicide(false, true);
                x!.ChangeTeam(CsTeam.Terrorist);
            });
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Gardiyanlar, Mahkûmlar takımına atıldı.");
+        Server.PrintToChatAll($"{Prefix} {CC.W}Gardiyanlar, Mahkûmlar takımına atıldı.");
     }
 
     #endregion CT Kov

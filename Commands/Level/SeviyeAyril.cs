@@ -52,11 +52,11 @@ public partial class JailbreakExtras
                             if (opt2.Text == "Evet")
                             {
                                 RemoveFromLevelSystem(player);
-                                player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} Seviye sisteminden ayrıldın.");
+                                player.PrintToChat($"{Prefix}{CC.G} Seviye sisteminden ayrıldın.");
                             }
                             else
                             {
-                                player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} Vazgeçtin, bir şey değişmedi.");
+                                player.PrintToChat($"{Prefix}{CC.G} Vazgeçtin, bir şey değişmedi.");
                                 return;
                             }
                         });
@@ -65,7 +65,7 @@ public partial class JailbreakExtras
                 }
                 else
                 {
-                    player.PrintToChat($" {CC.LR}[ZMTR]{CC.G} Vazgeçtin, bir şey değişmedi.");
+                    player.PrintToChat($"{Prefix}{CC.G} Vazgeçtin, bir şey değişmedi.");
                     return;
                 }
             });

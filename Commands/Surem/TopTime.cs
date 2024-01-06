@@ -16,7 +16,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}TOP SURELER SUAN DISABLE DURUMDA, YAKINDA ACILACAK!");
+        player.PrintToChat($"{Prefix} {CC.W}TOP SURELER SUAN DISABLE DURUMDA, YAKINDA ACILACAK!");
 
         //var amount = 0;
         //var ordered=PlayerTimeTracking.OrderBy(x=>x.)
@@ -27,7 +27,7 @@ public partial class JailbreakExtras
         //        amount = item.Total;
         //    }
         //}
-        //player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Toplam {CC.G}{amount} {CC.W}dakikadır sunucudasın!");
+        //player.PrintToChat($"{Prefix} {CC.W}Toplam {CC.G}{amount} {CC.W}dakikadır sunucudasın!");
     }
 
     #endregion TopTime

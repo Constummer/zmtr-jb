@@ -20,7 +20,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye8"))
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         if (info.ArgCount != 2) return;
@@ -37,14 +37,14 @@ public partial class JailbreakExtras
                             .ToList();
                     if (ps.Count > 1)
                     {
-                        player.PrintToChat($" {CC.LR}[ZMTR] {CC.W} Birden fazla eşleşme bulundu, eğer isim veremiyorsanız #1 gibi oyuncu id ile deneyebilirsin.");
+                        player.PrintToChat($"{Prefix} {CC.W} Birden fazla eşleşme bulundu, eğer isim veremiyorsanız #1 gibi oyuncu id ile deneyebilirsin.");
                     }
                     ps.ForEach(x =>
                     {
                         RespawnPlayer(x);
                         if (targetArgument == TargetForArgument.None)
                         {
-                            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu öldüğü yerde {CC.B}canlandırdı{CC.W}.");
+                            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu öldüğü yerde {CC.B}canlandırdı{CC.W}.");
                         }
                     });
                 }
@@ -52,7 +52,7 @@ public partial class JailbreakExtras
 
             case TargetForArgument.Me:
                 RespawnPlayer(player);
-                Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{player.PlayerName} {CC.W}adlı oyuncuyu öldüğü yerde {CC.B}canlandırdı{CC.W}.");
+                Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{player.PlayerName} {CC.W}adlı oyuncuyu öldüğü yerde {CC.B}canlandırdı{CC.W}.");
 
                 break;
 
@@ -64,14 +64,14 @@ public partial class JailbreakExtras
                             .ToList();
                     if (ps.Count > 1)
                     {
-                        player.PrintToChat($" {CC.LR}[ZMTR] {CC.W} Birden fazla eşleşme bulundu, eğer isim veremiyorsanız #1 gibi oyuncu id ile deneyebilirsin.");
+                        player.PrintToChat($"{Prefix} {CC.W} Birden fazla eşleşme bulundu, eğer isim veremiyorsanız #1 gibi oyuncu id ile deneyebilirsin.");
                     }
                     ps.ForEach(x =>
                     {
                         RespawnPlayer(x);
                         if (targetArgument == TargetForArgument.None)
                         {
-                            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu öldüğü yerde {CC.B}canlandırdı{CC.W}.");
+                            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu öldüğü yerde {CC.B}canlandırdı{CC.W}.");
                         }
                     });
                 }
@@ -87,7 +87,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye27"))
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         GetPlayers()
@@ -106,7 +106,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye27"))
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         RespawnKapatAction();
@@ -117,7 +117,7 @@ public partial class JailbreakExtras
         Server.ExecuteCommand("mp_respawn_on_death_ct 1");
         Server.ExecuteCommand("mp_respawn_on_death_t 1");
         Server.ExecuteCommand("mp_ignore_round_win_conditions 1");
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Respawn açıldı.");
+        Server.PrintToChatAll($"{Prefix} {CC.W}Respawn açıldı.");
         RespawnAcActive = true;
     }
 
@@ -126,7 +126,7 @@ public partial class JailbreakExtras
         Server.ExecuteCommand("mp_respawn_on_death_ct 0");
         Server.ExecuteCommand("mp_respawn_on_death_t 0");
         Server.ExecuteCommand("mp_ignore_round_win_conditions 0");
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Respawn kapandı.");
+        Server.PrintToChatAll($"{Prefix} {CC.W}Respawn kapandı.");
         RespawnAcActive = false;
     }
 

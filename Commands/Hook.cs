@@ -18,7 +18,7 @@ public partial class JailbreakExtras
     {
         if (HookDisabled)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Hook kapalı.");
+            player.PrintToChat($"{Prefix}{CC.W} Hook kapalı.");
             return;
         }
 
@@ -28,7 +28,7 @@ public partial class JailbreakExtras
             {
                 if (AdminManager.PlayerHasPermissions(player, "@css/seviye30") == false)
                 {
-                    player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+                    player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
                     return;
                 }
             }
@@ -45,7 +45,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         if (info.ArgCount != 2) return;
@@ -55,7 +55,7 @@ public partial class JailbreakExtras
               .ToList()
               .ForEach(x =>
               {
-                  x.PrintToChat($" {CC.LR}[ZMTR]{CC.G} Konsolunuza `bind x hook` hazarak hook kullanmaya başlayabilirsiniz!");
+                  x.PrintToChat($"{Prefix}{CC.G} Konsolunuza `bind x hook` hazarak hook kullanmaya başlayabilirsiniz!");
 
                   HookPlayers[x.SteamID] = true;
               });
@@ -67,7 +67,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
 
@@ -93,12 +93,12 @@ public partial class JailbreakExtras
                  }
                  if (targetArgument == TargetForArgument.None)
                  {
-                     Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun {CC.B} hookunu el boyunca aldı{CC.W}.");
+                     Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun {CC.B} hookunu el boyunca aldı{CC.W}.");
                  }
              });
         if (targetArgument != TargetForArgument.None)
         {
-            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefinin {CC.B}hookunu el boyunca aldı{CC.W}.");
+            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefinin {CC.B}hookunu el boyunca aldı{CC.W}.");
         }
     }
 
@@ -108,7 +108,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         if (info.ArgCount != 2) return;
@@ -118,7 +118,7 @@ public partial class JailbreakExtras
               .ToList()
               .ForEach(x =>
               {
-                  x.PrintToChat($" {CC.LR}[ZMTR]{CC.G} Hookunuz alındı!");
+                  x.PrintToChat($"{Prefix}{CC.G} Hookunuz alındı!");
                   HookPlayers.Remove(x.SteamID, out _);
               });
     }
@@ -128,10 +128,10 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
-        Server.PrintToChatAll($" {CC.LR}[ZMTR]{CC.W} Hook açıldı.");
+        Server.PrintToChatAll($"{Prefix}{CC.W} Hook açıldı.");
 
         HookDisabled = false;
     }
@@ -142,10 +142,10 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
-        Server.PrintToChatAll($" {CC.LR}[ZMTR]{CC.W} Hook el boyunca kapalı.");
+        Server.PrintToChatAll($"{Prefix}{CC.W} Hook el boyunca kapalı.");
 
         HookDisabled = true;
     }
@@ -160,7 +160,7 @@ public partial class JailbreakExtras
         var warden = GetWarden();
         if (warden != null)
         {
-            warden.PrintToConsole($" {CC.LR}[ZMTR] {CC.B}{player.PlayerName} {CC.W} Hook bastı");
+            warden.PrintToConsole($"{Prefix} {CC.B}{player.PlayerName} {CC.W} Hook bastı");
         }
 
         float x, y, z;

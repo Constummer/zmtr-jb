@@ -24,12 +24,12 @@ public partial class JailbreakExtras
         {
             return;
         }
-        player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} ff{CC.R} <0/1>{CC.B} = Ff acar veya kapatir, 0 ve 1");
-        player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} ffac{CC.B} = ff acar");
-        player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} ffkapa / ffkapat{CC.B} = ff kapar");
-        player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} ffsure{CC.R} <saniye>{CC.B} = sure sonunda ff acar");
-        player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} ffdondur{CC.R} <saniye> <mesaj>{CC.B} = sure bitince ff kapar, mesajla birlikte geri sayim baslatir");
-        player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} ffmenu{CC.R} <saniye>{CC.B} = silahli ff, silahlari hemen verir, sure sonunda ff acar");
+        player.PrintToChat($"{Prefix}{CC.W} ff{CC.R} <0/1>{CC.B} = Ff acar veya kapatir, 0 ve 1");
+        player.PrintToChat($"{Prefix}{CC.W} ffac{CC.B} = ff acar");
+        player.PrintToChat($"{Prefix}{CC.W} ffkapa / ffkapat{CC.B} = ff kapar");
+        player.PrintToChat($"{Prefix}{CC.W} ffsure{CC.R} <saniye>{CC.B} = sure sonunda ff acar");
+        player.PrintToChat($"{Prefix}{CC.W} ffdondur{CC.R} <saniye> <mesaj>{CC.B} = sure bitince ff kapar, mesajla birlikte geri sayim baslatir");
+        player.PrintToChat($"{Prefix}{CC.W} ffmenu{CC.R} <saniye>{CC.B} = silahli ff, silahlari hemen verir, sure sonunda ff acar");
     }
 
     [ConsoleCommand("ff")]
@@ -46,7 +46,7 @@ public partial class JailbreakExtras
         int.TryParse(oneZeroStr, out var oneZero);
         if (oneZero < 0 || oneZero > 1)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} 0 = kapatmak icin, 1 = acmak icin.");
+            player.PrintToChat($"{Prefix}{CC.W} 0 = kapatmak icin, 1 = acmak icin.");
             return;
         }
         switch (oneZero)
@@ -131,7 +131,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye25"))
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         if (info.ArgCount < 3) return;
@@ -190,12 +190,12 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<saniye>")]
     public void FfMenu(CCSPlayerController? player, CommandInfo info)
     {
-        player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} 20 Saniye üstünde respawn açılır. Respawn açılmaması için 20 sn altı saniye ver.");
-        player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} 20 Saniye üstünde respawn açılır. Respawn açılmaması için 20 sn altı saniye ver.");
-        player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} 20 Saniye üstünde respawn açılır. Respawn açılmaması için 20 sn altı saniye ver.");
+        player.PrintToChat($"{Prefix}{CC.W} 20 Saniye üstünde respawn açılır. Respawn açılmaması için 20 sn altı saniye ver.");
+        player.PrintToChat($"{Prefix}{CC.W} 20 Saniye üstünde respawn açılır. Respawn açılmaması için 20 sn altı saniye ver.");
+        player.PrintToChat($"{Prefix}{CC.W} 20 Saniye üstünde respawn açılır. Respawn açılmaması için 20 sn altı saniye ver.");
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye22"))
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         if (info.ArgCount != 2) return;
@@ -234,7 +234,7 @@ public partial class JailbreakExtras
                      var gunMenu = new ChatMenu("Silah Menu");
                      MenuHelper.GetGuns(gunMenu);
                      ChatMenus.OpenMenu(x, gunMenu);
-                     x.PrintToChat($" {CC.LR}[ZMTR] {CC.W}FF başlayana kadar veya FF boyunca silah değiştirebilirsin, !guns");
+                     x.PrintToChat($"{Prefix} {CC.W}FF başlayana kadar veya FF boyunca silah değiştirebilirsin, !guns");
                  });
                 FFMenuCheck = true;
 
@@ -266,7 +266,7 @@ public partial class JailbreakExtras
         }
         else
         {
-            player!.PrintToChat($" {CC.LR}[ZMTR] {CC.W}FF açık olmadığı için silah menüsüne erişemezsin.");
+            player!.PrintToChat($"{Prefix} {CC.W}FF açık olmadığı için silah menüsüne erişemezsin.");
             return;
         }
     }
@@ -276,13 +276,13 @@ public partial class JailbreakExtras
         if (ac)
         {
             Server.ExecuteCommand("mp_teammates_are_enemies 1");
-            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.DR}FF {CC.W}açıldı.");
+            Server.PrintToChatAll($"{Prefix} {CC.DR}FF {CC.W}açıldı.");
         }
         else
         {
             FFMenuCheck = false;
             Server.ExecuteCommand("mp_teammates_are_enemies 0");
-            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.DR}FF {CC.W}kapandı.");
+            Server.PrintToChatAll($"{Prefix} {CC.DR}FF {CC.W}kapandı.");
         }
     }
 

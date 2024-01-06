@@ -16,7 +16,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -24,7 +24,7 @@ public partial class JailbreakExtras
             return;
         }
         GetTDairePoints(player);
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.G}@t'yi {CC.W} daire biçiminde ışınladı.");
+        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.G}@t'yi {CC.W} daire biçiminde ışınladı.");
     }
 
     private void GetTDairePoints(CCSPlayerController? player)

@@ -45,7 +45,7 @@ public partial class JailbreakExtras
     {
         if (sendMsg)
         {
-            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Tüm kapılar kapandı!");
+            Server.PrintToChatAll($"{Prefix} {CC.W}Tüm kapılar kapandı!");
         }
 
         ForceEntInput("func_door", "Close");
@@ -58,7 +58,7 @@ public partial class JailbreakExtras
     {
         if (sendMsg)
         {
-            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.W}Tüm kapılar açıldı!");
+            Server.PrintToChatAll($"{Prefix} {CC.W}Tüm kapılar açıldı!");
         }
 
         ForceEntInput("func_door", "Open");

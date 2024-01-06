@@ -23,14 +23,14 @@ public partial class JailbreakExtras
         }
         if (GetTeam(player) != CsTeam.Terrorist)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR]{CC.W} Sadece T ler bu komutu kullanabilir.");
+            player.PrintToChat($"{Prefix}{CC.W} Sadece T ler bu komutu kullanabilir.");
             return;
         }
         if (LatestSutolCommandCalls.TryGetValue(player.SteamID, out var call))
         {
             if (DateTime.UtcNow < call.AddMinutes(1))
             {
-                player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Tekrar sutol diyebilmek için {CC.DR}60 {CC.W}saniye beklemelisin!");
+                player.PrintToChat($"{Prefix} {CC.W}Tekrar sutol diyebilmek için {CC.DR}60 {CC.W}saniye beklemelisin!");
                 return;
             }
         }
@@ -44,7 +44,7 @@ public partial class JailbreakExtras
             RemoveWeapons(x, false);
 
             LatestSutolCommandCalls[x.SteamID] = DateTime.UtcNow;
-            Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName}{CC.W} adlı oyuncu, {CC.LP}süt oldu.");
+            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı oyuncu, {CC.LP}süt oldu.");
         });
     }
 

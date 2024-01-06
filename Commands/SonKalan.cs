@@ -25,12 +25,12 @@ public partial class JailbreakExtras
                 .ToList();
         if (players.Count == 0)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Eşleşen oyuncu bulunamadı!");
+            player.PrintToChat($"{Prefix} {CC.W}Eşleşen oyuncu bulunamadı!");
             return;
         }
         else if (players.Count > 1)
         {
-            player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Eşleşen birden fazla oyuncu bulundu!");
+            player.PrintToChat($"{Prefix} {CC.W}Eşleşen birden fazla oyuncu bulundu!");
             return;
         }
 

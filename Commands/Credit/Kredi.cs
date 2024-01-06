@@ -25,7 +25,7 @@ public partial class JailbreakExtras
         {
             if (DateTime.UtcNow < call.AddSeconds(5))
             {
-                player.PrintToChat($" {CC.LR}[ZMTR] {CC.W}Tekrar kredi yazabilmek için {CC.DR}5 {CC.W}saniye beklemelisin!");
+                player.PrintToChat($"{Prefix} {CC.W}Tekrar kredi yazabilmek için {CC.DR}5 {CC.W}saniye beklemelisin!");
                 return;
             }
         }
@@ -38,7 +38,7 @@ public partial class JailbreakExtras
                 amount = item.Credit;
             }
         }
-        Server.PrintToChatAll($" {CC.LR}[ZMTR] {CC.G}{player.PlayerName} {CC.W}adlı oyuncunun {CC.LB}{amount} {CC.W}kredisi var!");
+        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName} {CC.W}adlı oyuncunun {CC.LB}{amount} {CC.W}kredisi var!");
         LatestKredimCommandCalls[player.SteamID] = DateTime.UtcNow;
     }
 
