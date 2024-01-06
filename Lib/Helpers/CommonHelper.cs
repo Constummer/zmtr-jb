@@ -164,6 +164,8 @@ public partial class JailbreakExtras
         "@TERRORIST" => TargetForArgument.T,
         "@TERORIST" => TargetForArgument.T,
         "@ct" => TargetForArgument.Ct,
+        "@Ct" => TargetForArgument.Ct,
+        "@cT" => TargetForArgument.Ct,
         "@CT" => TargetForArgument.Ct,
         "@counterstrike" => TargetForArgument.Ct,
         "@COUNTERSTRIKE" => TargetForArgument.Ct,

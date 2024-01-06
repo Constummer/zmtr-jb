@@ -16,7 +16,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("kapilariac")]
     public void KapiAc(CCSPlayerController? invoke, CommandInfo command)
     {
-        ForceOpen();
+        ForceOpen(true);
     }
 
     [RequiresPermissions("@css/lider")]
@@ -24,7 +24,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("kapilarikapat")]
     public void KapiKapat(CCSPlayerController? invoke, CommandInfo command)
     {
-        ForceClose();
+        ForceClose(true);
     }
 
     private static void ForceEntInput(String name, String input)
@@ -41,7 +41,7 @@ public partial class JailbreakExtras
         }
     }
 
-    public static void ForceClose(bool sendMsg = true)
+    public static void ForceClose(bool sendMsg = false)
     {
         if (sendMsg)
         {
@@ -54,7 +54,7 @@ public partial class JailbreakExtras
         ForceEntInput("prop_door_rotating", "Close");
     }
 
-    public static void ForceOpen(bool sendMsg = true)
+    public static void ForceOpen(bool sendMsg = false)
     {
         if (sendMsg)
         {
