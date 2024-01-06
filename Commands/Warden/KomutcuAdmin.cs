@@ -15,7 +15,7 @@ public partial class JailbreakExtras
     #region KomutcuAdmin
 
     [ConsoleCommand("ka")]
-    [ConsoleCommand("komutcuadmin ")]
+    [ConsoleCommand("komutcuadmin")]
     public void KomutcuAdmin(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player, false) == false)

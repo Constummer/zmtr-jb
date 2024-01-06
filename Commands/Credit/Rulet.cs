@@ -12,7 +12,7 @@ public partial class JailbreakExtras
     #region Rulet
 
     [ConsoleCommand("rulet")]
-    [CommandHelper(1, "<kredi>")]
+    [CommandHelper(1, "<kredi> <yeşil/siyah/kırmızı>")]
     public void Rulet(CCSPlayerController? player, CommandInfo info)
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
@@ -20,14 +20,27 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
-        if (info.ArgCount != 2) return;
+        if (info.ArgCount != 3)
+        {
+            player.PrintToChat($"{Prefix} {CC.W}Ruletini hangi renge vereceğini yazman lazım.");
+            player.PrintToChat($"{Prefix} {CC.R}Kirmizi{CC.W}/{CC.R}K");
+            player.PrintToChat($"{Prefix} {CC.G}Yeşil{CC.W}/{CC.G}Y");
+            player.PrintToChat($"{Prefix} {CC.DB}Siyah{CC.W}/{CC.DB}S");
+            return;
+        }
+
         var target = info.GetArg(1);
 
-        if (int.TryParse(target, out int value))
+        if (!int.TryParse(target, out int value))
+        {
+            player.PrintToChat($"{Prefix} {CC.R}GEÇERSİZ MİKTAR");
+            return;
+        }
+        else
         {
             if (value < 100 || value > 5000)
             {
-                player.PrintToChat("Min 100, Max 5000 kredi girebilirsin");
+                player.PrintToChat($"{Prefix} {CC.R}Min 100, Max 5000 kredi girebilirsin");
                 return;
             }
             else
@@ -58,11 +71,11 @@ public partial class JailbreakExtras
                     return;
                 }
                 // Kazanan renk ve sonuç bildirilir
-                x.PrintToChat($"[ZMTR] Kazanan renk: {kazananRenk}");
+                x.PrintToChat($"{Prefix} Kazanan renk: {kazananRenk}");
 
                 if (kazananRenk == "yeşil")
                 {
-                    x.PrintToChat($"[ZMTR] Tebrikler {kazananRenk} kazandın! Ruletten {enteredCredit * 14} kredi kazandın!");
+                    x.PrintToChat($"{Prefix} Tebrikler {kazananRenk} kazandın! Ruletten {enteredCredit * 14} kredi kazandın!");
                 }
                 else
                 {
@@ -72,11 +85,11 @@ public partial class JailbreakExtras
                     if (kazandiMi)
                     {
                         var win = enteredCredit * 2;
-                        x.PrintToChat($"[ZMTR] Tebrikler {kazananRenk} kazandın! Ruletten {win} kredi kazandın!");
+                        x.PrintToChat($"{Prefix} Tebrikler {kazananRenk} kazandın! Ruletten {win} kredi kazandın!");
                     }
                     else
                     {
-                        x.PrintToChat($"[ZMTR] Üzgünüm, {kazananRenk} kazandı! {enteredCredit} kredi kaybettin!");
+                        x.PrintToChat($"{Prefix} Üzgünüm, {kazananRenk} kazandı! {enteredCredit} kredi kaybettin!");
                     }
                 }
             });

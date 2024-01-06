@@ -16,8 +16,9 @@ public partial class JailbreakExtras
     private CounterStrikeSharp.API.Modules.Timers.Timer VoteTimer = null;
     private CounterStrikeSharp.API.Modules.Timers.Timer VotePrintTimer = null;
     private ChatMenu LatestVoteMenu = null;
-    private List<ulong> AlreadyVotedPlayers = new();
+    private Dictionary<ulong, string> AlreadyVotedPlayers = new();
     private string LatestVoteName = null;
+    private static Dictionary<ulong, DateTime> LatestVoteAnswerCommandCalls = new Dictionary<ulong, DateTime>();
 
     #region Vote
 
@@ -106,7 +107,7 @@ public partial class JailbreakExtras
             i++;
             var hmtl = $"<pre><b>Oylama: <font color='#00FF00'>{LatestVoteName}</font><br>" +
                         $" Kalan Süre : <font color='{((int)((200 - i) / 10) > 3 ? "#00FF00" : "#FF0000")}'> {(int)((200 - i) / 10)}</font><br>" +
-        string.Join("<br>", Answers.Select((x, i) => $"!{i + 1} - {x.Key} - {x.Value}")) +
+        string.Join("<br>", Answers.Select((x, i) => $"!{i + 1} || {x.Key} - {x.Value}")) +
                            $"</b></pre>";
 
             GetPlayers()
@@ -134,6 +135,7 @@ public partial class JailbreakExtras
     }
 
     [ConsoleCommand("cancelvote")]
+    [ConsoleCommand("oylamaiptal")]
     public void CancelVote(CCSPlayerController? player, CommandInfo command)
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye26"))
@@ -171,30 +173,57 @@ public partial class JailbreakExtras
                 {
                     return false;
                 }
-                if (AlreadyVotedPlayers.Contains(player.SteamID))
+                if (AlreadyVotedPlayers.TryGetValue(player.SteamID, out string votedKey))
                 {
-                    player.PrintToChat($"{Prefix}{CC.W} Yalnızca bir seçeneğe oy verebilirsin.");
+                    if (LatestVoteAnswerCommandCalls.TryGetValue(player.SteamID, out var call))
+                    {
+                        if (DateTime.UtcNow < call.AddSeconds(3))
+                        {
+                            player.PrintToChat($"{Prefix} {CC.W}Oy değiştirebilmek için {CC.DR}3 {CC.W}saniye beklemelisin!");
+                            return true;
+                        }
+                    }
+                    var answers = Answers.ToList();
+
+                    var data = answers[voteNo - 1];
+                    Answers[data.Key]++;
+                    Answers[votedKey]--;
+
+                    if (ValidateCallerPlayer(player, false) == true)
+                    {
+                        player.PrintToChat($"{Prefix}{CC.W}Oyunu{CC.B} {data.Key} {CC.W} olarak değiştirdin verdin.");
+                        GetPlayers()
+                            .Where(x => x.SteamID != player.SteamID)
+                            .ToList()
+                            .ForEach(x =>
+                            {
+                                x.PrintToChat($"{Prefix}{CC.B} {player.PlayerName} {CC.W} Oyunu değiştirdi.");
+                            });
+                    }
+                    LatestVoteAnswerCommandCalls[player.SteamID] = DateTime.UtcNow;
 
                     return true;
                 }
-
-                var answers = Answers.ToList();
-
-                var data = answers[voteNo - 1];
-                Answers[data.Key]++;
-
-                if (ValidateCallerPlayer(player, false) == true)
+                else
                 {
-                    AlreadyVotedPlayers.Add(player.SteamID);
+                    var answers = Answers.ToList();
 
-                    player.PrintToChat($"{Prefix}{CC.B} {data.Key} {CC.W} Seçeneğine oy verdin.");
-                    GetPlayers()
-                        .Where(x => x.SteamID != player.SteamID)
-                        .ToList()
-                        .ForEach(x =>
-                        {
-                            x.PrintToChat($"{Prefix}{CC.B} {player.PlayerName} {CC.W} Oyunu kullandı.");
-                        });
+                    var data = answers[voteNo - 1];
+                    Answers[data.Key]++;
+
+                    if (ValidateCallerPlayer(player, false) == true)
+                    {
+                        AlreadyVotedPlayers.Add(player.SteamID, data.Key);
+
+                        player.PrintToChat($"{Prefix}{CC.B} {data.Key} {CC.W} Seçeneğine oy verdin.");
+                        GetPlayers()
+                            .Where(x => x.SteamID != player.SteamID)
+                            .ToList()
+                            .ForEach(x =>
+                            {
+                                x.PrintToChat($"{Prefix}{CC.B} {player.PlayerName} {CC.W} Oyunu kullandı.");
+                            });
+                    }
                 }
                 return true;
             }
@@ -214,30 +243,57 @@ public partial class JailbreakExtras
                 {
                     return false;
                 }
-                if (AlreadyVotedPlayers.Contains(player.SteamID))
+                if (AlreadyVotedPlayers.TryGetValue(player.SteamID, out string votedKey))
                 {
-                    player.PrintToChat($"{Prefix}{CC.W} Yalnızca bir seçeneğe oy verebilirsin.");
-
-                    return true;
-                }
-
-                var answers = KomAlAnswers.ToList();
-
-                var data = answers[voteNo - 1];
-                KomAlAnswers[data.Key]++;
-
-                if (ValidateCallerPlayer(player, false) == true)
-                {
-                    AlreadyVotedPlayers.Add(player.SteamID);
-
-                    player.PrintToChat($"{Prefix}{CC.B} {data.Key} {CC.W} Seçeneğine oy verdin.");
-                    GetPlayers()
-                        .Where(x => x.SteamID != player.SteamID)
-                        .ToList()
-                        .ForEach(x =>
+                    if (LatestVoteAnswerCommandCalls.TryGetValue(player.SteamID, out var call))
+                    {
+                        if (DateTime.UtcNow < call.AddSeconds(3))
                         {
-                            x.PrintToChat($"{Prefix}{CC.B} {player.PlayerName} {CC.W} Oyunu kullandı.");
-                        });
+                            player.PrintToChat($"{Prefix} {CC.W}Oy değiştirebilmek için {CC.DR}3 {CC.W}saniye beklemelisin!");
+                            return true;
+                        }
+                    }
+                    var answers = KomAlAnswers.ToList();
+
+                    var data = answers[voteNo - 1];
+                    KomAlAnswers[data.Key]++;
+                    KomAlAnswers[ulong.Parse(votedKey)]--;
+
+                    if (ValidateCallerPlayer(player, false) == true)
+                    {
+                        var voted = GetPlayers().Where(x => x.SteamID == data.Key).Select(x => x.PlayerName).FirstOrDefault();
+                        player.PrintToChat($"{Prefix}{CC.W}Oyunu{CC.B} {voted} {CC.W} olarak değiştirdin verdin.");
+                        GetPlayers()
+                            .Where(x => x.SteamID != player.SteamID)
+                            .ToList()
+                            .ForEach(x =>
+                            {
+                                x.PrintToChat($"{Prefix}{CC.B} {player.PlayerName} {CC.W} Oyunu değiştirdi.");
+                            });
+                    }
+                    LatestVoteAnswerCommandCalls[player.SteamID] = DateTime.UtcNow;
+                }
+                else
+                {
+                    var answers = KomAlAnswers.ToList();
+
+                    var data = answers[voteNo - 1];
+                    KomAlAnswers[data.Key]++;
+
+                    if (ValidateCallerPlayer(player, false) == true)
+                    {
+                        AlreadyVotedPlayers.Add(player.SteamID, data.Key.ToString());
+                        var voted = GetPlayers().Where(x => x.SteamID == data.Key).Select(x => x.PlayerName).FirstOrDefault();
+
+                        player.PrintToChat($"{Prefix}{CC.B} {voted} {CC.W} Seçeneğine oy verdin.");
+                        GetPlayers()
+                            .Where(x => x.SteamID != player.SteamID)
+                            .ToList()
+                            .ForEach(x =>
+                            {
+                                x.PrintToChat($"{Prefix}{CC.B} {player.PlayerName} {CC.W} Oyunu kullandı.");
+                            });
+                    }
                 }
                 return true;
             }

@@ -1,7 +1,6 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
-using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 
 namespace JailbreakExtras;
@@ -14,12 +13,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me> <0/1>")]
     public void Noclip(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye30"))
-        {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
-            return;
-        }
-        if (ValidateCallerPlayer(player))
+        if (ValidateCallerPlayer(player) == false)
         {
             return;
         }

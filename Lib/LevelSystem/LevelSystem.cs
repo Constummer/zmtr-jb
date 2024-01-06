@@ -23,9 +23,11 @@ public partial class JailbreakExtras
     //++ 60 sndebir tp vermede, hediyetp de,seviyever de configdeki datalara gore playerin xpsine uyan admin permission verecek veya alacak
     //tum komutlara seviyelere gore permission check eklenecek
 
-    private bool HasLevelPermissionToActivate(ulong steamId, string perm)
+    private bool HasLevelPermissionToActivate(ulong? steamId, string perm)
     {
-        return PlayerLevels.TryGetValue(steamId, out var playerLevel)
+        if (steamId.HasValue == false || steamId.Value == 0)
+            return false;
+        return PlayerLevels.TryGetValue(steamId.Value, out var playerLevel)
             && LevelPermissionsChecker.TryGetValue(perm, out int requiredXp) && playerLevel.Xp >= requiredXp;
     }
 
@@ -172,7 +174,7 @@ public partial class JailbreakExtras
 
         try
         {
-            var cmd = new MySqlCommand(@$"SELECT `SteamId`, `Xp` FROM `PlayerLevel` WHERE `SteamId` = @SteamId;", con);
+            var cmd = new MySqlCommand(@$"SELECT `SteamId`, `Xp`,`TagDisable` FROM `PlayerLevel` WHERE `SteamId` = @SteamId;", con);
             cmd.Parameters.AddWithValue("@SteamId", steamId);
 
             using (var reader = cmd.ExecuteReader())
@@ -187,6 +189,10 @@ public partial class JailbreakExtras
                     {
                         PlayerLevels.Add(steamId, data);
                     }
+                    if ((reader.IsDBNull(2) ? false : reader.GetBoolean(2)) == true)
+                    {
+                        LevelTagDisabledPlayers.Add(steamId);
+                    }
 
                     return;
                 }
@@ -197,36 +203,11 @@ public partial class JailbreakExtras
             }
             PlayerLevels.Add(steamId, new(steamId) { Xp = 0 });
             cmd = new MySqlCommand(@$"INSERT INTO `PlayerLevel`
-                                          (SteamId, Xp)
-                                          VALUES (@SteamId, 0);", con);
+                                          (SteamId, Xp,TagDisable)
+                                          VALUES (@SteamId, 0, 0);", con);
 
             cmd.Parameters.AddWithValue("@SteamId", steamId);
             cmd.ExecuteNonQuery();
-        }
-        catch (Exception e)
-        {
-            Logger.LogError(e, "hata");
-        }
-    }
-
-    private async Task UpdatePlayerLevelData(PlayerLevel item)
-    {
-        var con = Connection();
-        if (con == null)
-        {
-            return;
-        }
-
-        try
-        {
-            var cmd = new MySqlCommand(@$"UPDATE `PlayerLevel`
-                                          SET `Xp` = @Xp
-                                          WHERE `SteamId` = @SteamId;", con);
-
-            cmd.Parameters.AddWithValue("@SteamId", item.SteamId);
-            cmd.Parameters.AddWithValue("@Xp", item.Xp);
-
-            await cmd.ExecuteNonQueryAsync();
         }
         catch (Exception e)
         {
@@ -252,6 +233,31 @@ public partial class JailbreakExtras
             cmd.Parameters.AddWithValue("@Xp", xp);
 
             await cmd.ExecuteNonQueryAsync();
+        }
+        catch (Exception e)
+        {
+            Logger.LogError(e, "hata");
+        }
+    }
+
+    private void UpdatePlayerLevelTagDisableData(ulong steamId, bool disable)
+    {
+        var con = Connection();
+        if (con == null)
+        {
+            return;
+        }
+
+        try
+        {
+            var cmd = new MySqlCommand(@$"UPDATE `PlayerLevel`
+                                          SET `TagDisable` = @TagDisable
+                                          WHERE `SteamId` = @SteamId;", con);
+
+            cmd.Parameters.AddWithValue("@SteamId", steamId);
+            cmd.Parameters.AddWithValue("@TagDisable", disable);
+
+            cmd.ExecuteNonQuery();
         }
         catch (Exception e)
         {

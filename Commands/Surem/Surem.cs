@@ -16,15 +16,26 @@ public partial class JailbreakExtras
             return;
         }
 
-        var amount = 0;
+        var item = (PlayerTime)null;
         if (player?.SteamID != null && player!.SteamID != 0)
         {
-            if (PlayerTimeTracking.TryGetValue(player.SteamID, out var item))
+            if (PlayerTimeTracking.TryGetValue(player.SteamID, out item) == false)
             {
-                amount = item.Total;
             }
         }
-        player.PrintToChat($"{Prefix} {CC.W}Toplam {CC.G}{amount} {CC.W}dakikadır sunucudasın!");
+        if (item == null)
+        {
+            player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
+            player.PrintToChat($"{Prefix} {CC.W}Toplam {CC.G}1 {CC.W}saattir sunucudasın!");
+            player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
+            return;
+        }
+        player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
+        player.PrintToChat($"{Prefix} {CC.W}Toplam {CC.G}{item.Total / 60} {CC.W}saattir sunucudasın!");
+        player.PrintToChat($"{Prefix} {CC.W}Toplam {CC.G}{item.CTTime / 60} {CC.W}saattir gardiyansın!");
+        player.PrintToChat($"{Prefix} {CC.W}Toplam {CC.G}{item.TTime / 60} {CC.W}saattir teroristsin!");
+        player.PrintToChat($"{Prefix} {CC.W}Toplam {CC.G}{item.WTime / 60} {CC.W}saattir komutçusun!");
+        player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
     }
 
     #endregion Surem

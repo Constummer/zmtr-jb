@@ -163,6 +163,11 @@ public partial class JailbreakExtras
             warden.PrintToConsole($"{Prefix} {CC.B}{player.PlayerName} {CC.W} Hook bastı");
         }
 
+        GetPlayers()
+         .Where(x => AdminManager.PlayerHasPermissions(x, "@css/admin1"))
+         .ToList()
+         .ForEach(x => x.PrintToConsole($"{Prefix} {CC.B}{player.PlayerName} {CC.W} Hook bastı"));
+
         float x, y, z;
         x = player.PlayerPawn.Value!.AbsOrigin!.X;
         y = player.PlayerPawn.Value!.AbsOrigin!.Y;

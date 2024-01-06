@@ -5,13 +5,6 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private readonly Dictionary<string, TPMarketItem> TPMarketDatas = new()
-    {
-        {"1000 TP | 5000 Kredi",new (5000, 1000)},
-        {"2000 TP | 10000 Kredi",new (10000, 2000)},
-        {"5000 TP | 25000 Kredi",new (25000, 5000)},
-    };
-
     public class TPMarketItem
     {
         public TPMarketItem(int creditCost, int tPReward)
@@ -45,7 +38,7 @@ public partial class JailbreakExtras
         }
 
         var marketMenu = new ChatMenu($"TP Market | Krediniz = [{data.Model.Credit}]");
-        foreach (var item in TPMarketDatas)
+        foreach (var item in Config.Credit.TPMarketDatas)
         {
             marketMenu.AddMenuOption(item.Key, (p, i) =>
             {
@@ -61,15 +54,19 @@ public partial class JailbreakExtras
                 }
                 if (PlayerLevels.TryGetValue(player.SteamID, out var level))
                 {
+                    data.Model.Credit -= item.Value.CreditCost;
+                    PlayerMarketModels[player.SteamID] = data.Model;
+
                     level.Xp += item.Value.TPReward;
+                    PlayerLevels[player.SteamID] = level;
+                    player.PrintToChat($"{Prefix} {CC.B}{item.Value.CreditCost} {CC.W}Kredi Karşılığında {CC.B}{item.Value.TPReward} {CC.W}TP Satın Aldın!");
+                    player.PrintToChat($"{Prefix} {CC.W}Mevcut Kredin = {CC.B}{data.Model.Credit}{CC.R} |{CC.W} Mevcut TP = {level.Xp}");
                 }
                 else
                 {
                     player.PrintToChat($"{Prefix} {CC.W}Seviyen yok, seviye alabilmek için  {CC.DR}!slotol {CC.W},{CC.DR} !seviyeol {CC.W}yazabilirsin!");
                     return;
                 }
-
-                PlayerLevels[player.SteamID] = level;
             });
         }
         ChatMenus.OpenMenu(player, marketMenu);

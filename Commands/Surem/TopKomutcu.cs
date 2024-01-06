@@ -6,12 +6,14 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    #region TopTime
+    #region TopKomutcu
 
-    [ConsoleCommand("toptime")]
-    [ConsoleCommand("topsure")]
-    [ConsoleCommand("top10")]
-    public void TopTime(CCSPlayerController? player, CommandInfo info)
+    [ConsoleCommand("topwarden")]
+    [ConsoleCommand("topkomutcu")]
+    [ConsoleCommand("topkom")]
+    [ConsoleCommand("topk")]
+    [ConsoleCommand("topw")]
+    public void TopKomutcu(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player, false) == false)
         {
@@ -19,11 +21,11 @@ public partial class JailbreakExtras
         }
 
         var ordered = PlayerTimeTracking.Where(x => PlayerNamesDatas.ContainsKey(x.Key))
-                                        .OrderByDescending(x => x.Value.Total)
+                                        .OrderByDescending(x => x.Value.WTime)
                                         .Take(10);
 
         player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
-        player.PrintToChat($"{Prefix} {CC.W} TOP 10 Süreler");
+        player.PrintToChat($"{Prefix} {CC.W} TOP 10 Komutçu Süreler");
         foreach (var item in ordered)
         {
             if (PlayerNamesDatas.TryGetValue(item.Key, out var name))
@@ -35,5 +37,5 @@ public partial class JailbreakExtras
         player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
     }
 
-    #endregion TopTime
+    #endregion TopKomutcu
 }

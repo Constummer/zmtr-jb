@@ -117,7 +117,7 @@ public partial class JailbreakExtras
 
         bool randomFreeze = false;
         GetPlayers()
-            .Where(x => x.PawnIsAlive)
+            .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player.PlayerName))
             .ToList()
             .ForEach(x =>
             {

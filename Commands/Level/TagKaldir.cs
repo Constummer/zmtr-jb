@@ -19,7 +19,7 @@ public partial class JailbreakExtras
         if (LevelTagDisabledPlayers.Any(x => x == player.SteamID) == false)
         {
             LevelTagDisabledPlayers.Add(player.SteamID);
-
+            UpdatePlayerLevelTagDisableData(player.SteamID, true);
             player.Clan = null;
             AddTimer(0.2f, () =>
             {

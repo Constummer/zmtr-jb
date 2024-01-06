@@ -12,7 +12,7 @@ public partial class JailbreakExtras
     {
         public JailbreakExtrasConfig()
         {
-            Version = 8;
+            Version = 9;
         }
 
         [JsonPropertyName("Database")]

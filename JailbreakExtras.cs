@@ -17,7 +17,7 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
         _httpClient = new HttpClient();
     }
 
-    private int ModuleConfigVersion => 8;
+    private int ModuleConfigVersion => 9;
 
     private static readonly Random _random = new Random();
     public JailbreakExtrasConfig Config { get; set; } = new JailbreakExtrasConfig();

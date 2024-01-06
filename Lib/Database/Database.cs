@@ -58,7 +58,8 @@ public partial class JailbreakExtras
             cmd = new MySqlCommand(
              @"CREATE TABLE IF NOT EXISTS `PlayerLevel` (
                `SteamId` bigint(20) DEFAULT NULL,
-               `Xp` mediumint(9) DEFAULT NULL
+               `Xp` mediumint(9) DEFAULT NULL,
+               `TagDisable` bit DEFAULT 0
                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
             await cmd.ExecuteNonQueryAsync();
 
@@ -95,12 +96,10 @@ public partial class JailbreakExtras
 
                     if (PlayerNamesDatas.ContainsKey((ulong)steamId) == false)
                     {
-                        var total = reader.IsDBNull(1) ? "" : reader.GetString(1);
+                        var pname = reader.IsDBNull(1) ? "" : reader.GetString(1);
 
-                        PlayerNamesDatas.Add((ulong)steamId, total);
+                        PlayerNamesDatas.Add((ulong)steamId, pname);
                     }
-
-                    return;
                 }
             }
         });
