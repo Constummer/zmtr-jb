@@ -25,7 +25,7 @@ public partial class JailbreakExtras
                x.PlayerPawn.Value!.CommitSuicide(false, true);
                x!.ChangeTeam(CsTeam.CounterTerrorist);
            });
-        SlayAllAction();
+        //SlayAllAction();
 
         Server.PrintToChatAll($"{Prefix} {CC.W}Yaşayan Mahkûmlar, Gardiyan takımına atıldı.");
     }

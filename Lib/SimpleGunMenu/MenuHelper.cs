@@ -45,10 +45,13 @@ public partial class JailbreakExtras
             {
                 return;
             }
-            if (_weapons.TryGetValue(option.Text, out var selectedWeapon))
+            if (FFMenuCheck == true)
             {
-                RemoveCurrentWeapon(player, selectedWeapon);
-                player.GiveNamedItem(selectedWeapon.GiveName);
+                if (_weapons.TryGetValue(option.Text, out var selectedWeapon))
+                {
+                    RemoveCurrentWeapon(player, selectedWeapon);
+                    player.GiveNamedItem(selectedWeapon.GiveName);
+                }
             }
         }
 
