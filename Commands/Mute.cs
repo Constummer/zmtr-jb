@@ -53,7 +53,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<playerismi-@all-@t-@ct-@me-@alive-@dead>")]
     public void UnMute(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye15"))
+        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye10"))
         {
             return;
         }
@@ -66,7 +66,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("ut")]
     public void UnMuteT(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye15"))
+        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye10"))
         {
             return;
         }
@@ -77,7 +77,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("umct")]
     public void UnMuteCT(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye15"))
+        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye10"))
         {
             return;
         }
