@@ -24,6 +24,24 @@ public partial class JailbreakExtras
         }
     }
 
+    [ConsoleCommand("cdeath")]
+    public void cdeath(CCSPlayerController? player, CommandInfo info)
+    {
+        //if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        //{
+        //    player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+        //    return;
+        //}
+        //if (ValidateCallerPlayer(player) == false)
+        //{
+        //    return;
+        //}
+        Logger.LogInformation(player.AbsOrigin.ToString());
+        Logger.LogInformation(player.Pawn.Value.AbsOrigin.ToString());
+        Logger.LogInformation(player.PlayerPawn.Value.AbsOrigin.ToString());
+        Logger.LogInformation(player.PlayerPawn.Value.CameraServices.Pawn.Value.AbsOrigin.ToString());
+    }
+
     [ConsoleCommand("ckapi")]
     public void ckapi(CCSPlayerController? player, CommandInfo info)
     {
