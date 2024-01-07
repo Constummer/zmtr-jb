@@ -11,10 +11,10 @@ public partial class JailbreakExtras
 {
     #region UnGag
 
-    [ConsoleCommand("ungag")]
+    [ConsoleCommand("pungag")]
     [RequiresPermissions("@css/chat")]
     [CommandHelper(1, "<playerismi-@all-@t-@ct-@me-@alive-@dead>")]
-    public void OnUnGagCommand(CCSPlayerController? player, CommandInfo info)
+    public void OnPunGagCommand(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)
         {
@@ -49,16 +49,17 @@ public partial class JailbreakExtras
             .ToList()
             .ForEach(gagPlayer =>
             {
-                Gags.Remove(gagPlayer.SteamID);
+                PGags = PGags.Where(x => x != gagPlayer.SteamID).ToList();
+                RemoveFromPGag(gagPlayer.SteamID);
 
                 if (targetArgument == TargetForArgument.None)
                 {
-                    Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{gagPlayer.PlayerName} {CC.W}gagını kaldırdı.");
+                    Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{gagPlayer.PlayerName} {CC.W}pgagını kaldırdı.");
                 }
             });
         if (targetArgument != TargetForArgument.None)
         {
-            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}gagını kaldırdı.");
+            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}pgagını kaldırdı.");
         }
     }
 

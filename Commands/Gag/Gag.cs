@@ -4,7 +4,6 @@ using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
-using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
 
@@ -79,12 +78,14 @@ public partial class JailbreakExtras
     {
         if (Gags.TryGetValue(player.SteamID, out var call))
         {
-            Logger.LogInformation($"{call.ToString()}");
-            Logger.LogInformation($"{DateTime.UtcNow.ToString()}");
             if (call > DateTime.UtcNow)
             {
                 player.PrintToChat($"{Prefix} {CC.W} GAGLISIN!");
                 return true;
+            }
+            else
+            {
+                Gags.Remove(player.SteamID);
             }
         }
         if (PGags.Contains(player.SteamID))

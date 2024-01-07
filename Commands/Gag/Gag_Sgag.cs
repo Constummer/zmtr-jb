@@ -4,23 +4,19 @@ using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
+using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    #region UnGag
+    #region Gag
 
-    [ConsoleCommand("ungag")]
+    [ConsoleCommand("sgag")]
     [RequiresPermissions("@css/chat")]
-    [CommandHelper(1, "<playerismi-@all-@t-@ct-@me-@alive-@dead>")]
-    public void OnUnGagCommand(CCSPlayerController? player, CommandInfo info)
+    [CommandHelper(2, "<playerismi-@all-@t-@ct-@me-@alive-@dead> [dakika]")]
+    public void OnSGagCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-
         if (ValidateCallerPlayer(player) == false)
         {
             return;
@@ -31,6 +27,14 @@ public partial class JailbreakExtras
         {
             return;
         }
+        var godOneTwoStr = info.ArgCount > 2 ? info.GetArg(2) : "0";
+        if (int.TryParse(godOneTwoStr, out var value) == false || value <= 0)
+        {
+            Server.PrintToChatAll($"{Prefix} {CC.G}geçersiz süre.");
+
+            return;
+        }
+
         var targetArgument = GetTargetArgument(target);
         GetPlayers()
             .Where(x => targetArgument switch
@@ -49,18 +53,24 @@ public partial class JailbreakExtras
             .ToList()
             .ForEach(gagPlayer =>
             {
-                Gags.Remove(gagPlayer.SteamID);
-
+                if (Gags.TryGetValue(gagPlayer.SteamID, out var dateTime))
+                {
+                    Gags[gagPlayer.SteamID] = DateTime.UtcNow.AddMinutes(value);
+                }
+                else
+                {
+                    Gags.Add(gagPlayer.SteamID, DateTime.UtcNow.AddMinutes(value));
+                }
                 if (targetArgument == TargetForArgument.None)
                 {
-                    Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{gagPlayer.PlayerName} {CC.W}gagını kaldırdı.");
+                    Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{gagPlayer.PlayerName} {CC.B}{value}{CC.W} dakika boyunca gagladı.");
                 }
             });
         if (targetArgument != TargetForArgument.None)
         {
-            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}gagını kaldırdı.");
+            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefini {CC.B} {value}{CC.W} dakika gagladı.");
         }
     }
 
-    #endregion UnGag
+    #endregion Gag
 }
