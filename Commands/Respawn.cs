@@ -104,8 +104,7 @@ public partial class JailbreakExtras
                        {
                            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} revledi{CC.W}.");
                        }
-                       var playerAbs = player.PlayerPawn.Value.AbsOrigin;
-                       x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 1, playerAbs.Z), ANGLE_ZERO, VEC_ZERO);
+                       RespawnPlayer(x);
                    });
         if (targetArgument != TargetForArgument.None)
         {
