@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
@@ -32,6 +33,7 @@ public partial class JailbreakExtras
                  CustomRespawn(x);
              }
          });
+        Server.PrintToChatAll($"{Prefix}{CC.W}{player.PlayerName} {CC.W} adlı admin {CC.B}AF {CC.W}verdi.");
     }
 
     #endregion Af

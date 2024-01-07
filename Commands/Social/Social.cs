@@ -15,8 +15,20 @@ public partial class JailbreakExtras
         {
             return;
         }
-        player!.PrintToChat($"{Prefix} {CC.W}IP: 185.118.141.160");
-        player!.PrintToChat($"{Prefix} {CC.W}IP: jb.zmtr.org");
+        player!.PrintToChat($"{Prefix} {CC.W}IP: {CC.M}185.118.141.160 {CC.W}veya {CC.M}jb.zmtr.org");
+    }
+
+    [ConsoleCommand("grup", "steam grup")]
+    [ConsoleCommand("grub", "steam grup")]
+    [ConsoleCommand("steam", "steam grup")]
+    [ConsoleCommand("steamgrup", "steam grup")]
+    public void Grup(CCSPlayerController? player, CommandInfo info)
+    {
+        if (ValidateCallerPlayer(player, false) == false)
+        {
+            return;
+        }
+        PlayerGroupCheck(player, info);
     }
 
     [ConsoleCommand("discord", "discord server")]

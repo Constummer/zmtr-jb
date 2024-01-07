@@ -6,20 +6,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static bool UnlimitedReserverAmmoActive = false;
-
-    #region SinirsizMermi
-
-    [ConsoleCommand("sinirsizmermiac")]
-    [ConsoleCommand("smac")]
-    public void SinirsizMermiAc(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        UnlimitedReserverAmmoActive = true;
-    }
+    #region SinirsizMermiKapa
 
     [ConsoleCommand("sinirsizmermikapa")]
     [ConsoleCommand("sinirsizmermikapat")]
@@ -35,6 +22,7 @@ public partial class JailbreakExtras
 
         SinirsizMolyTimer = GiveSinirsizCustomNade(0, SinirsizMolyTimer, "weapon_incgrenade");
         SinirsizBombaTimer = GiveSinirsizCustomNade(0, SinirsizBombaTimer, "weapon_hegrenade");
+        SinirsizXTimer = GiveSinirsizCustomNade(0, SinirsizXTimer, "weapon_hegrenade");
 
         //foreach (var item in weaponDefaults.ToList())
         //{
@@ -65,5 +53,5 @@ public partial class JailbreakExtras
         //}
     }
 
-    #endregion SinirsizMermi
+    #endregion SinirsizMermiKapa
 }

@@ -96,19 +96,16 @@ public partial class JailbreakExtras
         var targetArgument = GetTargetArgument(target);
 
         GetPlayers()
-                   .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player.PlayerName))
+                   .Where(x => x.PawnIsAlive == false && GetTargetAction(x, target, player.PlayerName))
                    .ToList()
                    .ForEach(x =>
                    {
-                       if (x.SteamID != player.SteamID)
+                       if (targetArgument == TargetForArgument.None)
                        {
-                           if (targetArgument == TargetForArgument.None)
-                           {
-                               Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} revledi{CC.W}.");
-                           }
-                           var playerAbs = player.PlayerPawn.Value.AbsOrigin;
-                           x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 1, playerAbs.Z), ANGLE_ZERO, VEC_ZERO);
+                           Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} revledi{CC.W}.");
                        }
+                       var playerAbs = player.PlayerPawn.Value.AbsOrigin;
+                       x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 1, playerAbs.Z), ANGLE_ZERO, VEC_ZERO);
                    });
         if (targetArgument != TargetForArgument.None)
         {

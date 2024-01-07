@@ -103,6 +103,7 @@ public partial class JailbreakExtras
                 if (CheckPlayerGroups(player))
                 {
                     player.PrintToChat($"{Prefix} {CC.W}Steam grubumuza katıldığın için teşekkurler. Artık komutları kullanabilirsin");
+                    player.PrintToChat($"{Prefix} {CC.W}Steam Grup: steamcommunity.com/groups/zombieturkeyclan/");
                 }
                 else
                 {

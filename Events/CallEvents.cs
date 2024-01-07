@@ -13,5 +13,6 @@ public partial class JailbreakExtras
         EventPlayerPing();
         EventBulletImpact();
         EventPlayerDisconnect();
+        EventPlayerConnectFull();
     }
 }
