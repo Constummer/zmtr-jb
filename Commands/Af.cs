@@ -33,7 +33,7 @@ public partial class JailbreakExtras
                  CustomRespawn(x);
              }
          });
-        Server.PrintToChatAll($"{Prefix}{CC.W}{player.PlayerName} {CC.W} adlı admin {CC.B}AF {CC.W}verdi.");
+        Server.PrintToChatAll($"{Prefix}{CC.Ol}{player.PlayerName} {CC.W} adlı admin {CC.B}AF {CC.W}verdi.");
     }
 
     #endregion Af
