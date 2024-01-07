@@ -61,6 +61,11 @@ public partial class JailbreakExtras
             || player.PlayerPawn.Value == null
             || !player.PlayerPawn.Value.IsValid
             ) return false;
+        //if (player.AuthorizedSteamID == null
+        //    || player.AuthorizedSteamID.SteamId64 != player.SteamID)
+        //{
+        //    return false;
+        //}
         //if (player.AuthorizedSteamID.IsValid() == false) return false;//todo chjeck
         if (player.IsBot) return false;
         return true;

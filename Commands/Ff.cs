@@ -3,7 +3,6 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Cvars;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 
@@ -71,6 +70,7 @@ public partial class JailbreakExtras
         BasicCountdown.StopCountdown();
 
         FFTimer?.Kill();
+        fzTimer?.Kill();
         Ff(false);
     }
 

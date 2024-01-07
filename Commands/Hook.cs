@@ -59,7 +59,7 @@ public partial class JailbreakExtras
               .ForEach(x =>
               {
                   x.PrintToChat($"{Prefix}{CC.G} Konsolunuza `bind x hook` hazarak hook kullanmaya başlayabilirsiniz!");
-
+                  _ = HookDisablePlayers.RemoveAll(y => y == x.SteamID);
                   HookPlayers[x.SteamID] = true;
               });
     }
@@ -121,6 +121,10 @@ public partial class JailbreakExtras
               .ToList()
               .ForEach(x =>
               {
+                  if (HookDisablePlayers.Contains(x.SteamID) == false)
+                  {
+                      HookDisablePlayers.Add(x.SteamID);
+                  }
                   x.PrintToChat($"{Prefix}{CC.G} Hookunuz alındı!");
                   HookPlayers.Remove(x.SteamID, out _);
               });

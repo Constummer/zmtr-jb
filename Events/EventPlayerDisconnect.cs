@@ -11,7 +11,11 @@ public partial class JailbreakExtras
         {
             if (@event == null)
                 return HookResult.Continue;
-            if (@event?.Userid?.AuthorizedSteamID?.IsValid() == false)
+            if (@event?.Userid?.AuthorizedSteamID?.SteamId64 != @event?.Userid?.SteamID)
+            {
+                return HookResult.Continue;
+            }
+            if (@event?.Userid?.AuthorizedSteamID?.SteamId64 == null)
             {
                 return HookResult.Continue;
             }
