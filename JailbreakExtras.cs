@@ -1,8 +1,6 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
 using CounterStrikeSharp.API.Modules.Utils;
-using Microsoft.Extensions.Logging;
-using System.Drawing;
 using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
@@ -69,14 +67,15 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
 
         #endregion CSS releated
 
-        HookEntityOutput("*", "*", (output, name, activator, caller, value, delay) =>
-        {
-            if (name == "OnUnblockedClosing" || name == "OnBlockedOpening")
-            {
-                //ForceOpen();
-            }
-            return HookResult.Continue;
-        });
+        //HookEntityOutput("*", "*", (output, name, activator, caller, value, delay) =>
+        //{
+        //    if (name == "OnUnblockedClosing" || name == "OnBlockedOpening")
+        //    {
+        //        //ForceOpenDoor();
+        //        //kapi2
+        //    }
+        //    return HookResult.Continue;
+        //});
 
         base.Load(hotReload);
     }

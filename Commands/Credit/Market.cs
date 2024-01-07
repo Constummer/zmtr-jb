@@ -213,6 +213,17 @@ public partial class JailbreakExtras
         }
         else
         {
+            if (text.Contains(CTModeli))
+            {
+                playerData.ModelIdCT = AddModelIdToGivenData(playerData.ModelIdCT, model.Id);
+                playerData.DefaultIdCT = model.Id.ToString();
+            }
+            else
+            {
+                playerData.ModelIdT = AddModelIdToGivenData(playerData.ModelIdT, model.Id);
+                playerData.DefaultIdT = model.Id.ToString();
+            }
+
             FinalizeModelSet(player, model, playerData, text);
         }
 

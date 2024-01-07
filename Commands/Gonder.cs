@@ -24,16 +24,12 @@ public partial class JailbreakExtras
             return;
         }
 
-        GetPlayers()
-              .Where(x => x.PawnIsAlive
-                          && GetTargetAction(x, "@t", player!.PlayerName))
+        GetPlayers(CsTeam.Terrorist)
+              .Where(x => x.PawnIsAlive)
               .ToList()
               .ForEach(x =>
               {
-                  if (x.SteamID != player!.SteamID)
-                  {
-                      x.PlayerPawn.Value.Teleport(new Vector(res.Vector.X, res.Vector.Y + 1, res.Vector.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
-                  }
+                  x.PlayerPawn.Value.Teleport(new Vector(res.Vector.X, res.Vector.Y + 1, res.Vector.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
               });
         Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.G}@t'yi {CC.R}{res.PlayerName}{CC.W} adlı oyunun yanına ışınladı.");
     }
@@ -52,16 +48,12 @@ public partial class JailbreakExtras
             return;
         }
 
-        GetPlayers()
-              .Where(x => x.PawnIsAlive
-                          && GetTargetAction(x, "@ct", player!.PlayerName))
+        GetPlayers(CsTeam.CounterTerrorist)
+              .Where(x => x.PawnIsAlive)
               .ToList()
               .ForEach(x =>
               {
-                  if (x.SteamID != player!.SteamID)
-                  {
-                      x.PlayerPawn.Value.Teleport(new Vector(res.Vector.X, res.Vector.Y + 1, res.Vector.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
-                  }
+                  x.PlayerPawn.Value.Teleport(new Vector(res.Vector.X, res.Vector.Y + 1, res.Vector.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
               });
         Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.G}@ct'yi {CC.R}{res.PlayerName}{CC.W} adlı oyunun yanına ışınladı.");
     }
@@ -81,15 +73,11 @@ public partial class JailbreakExtras
         }
 
         GetPlayers()
-              .Where(x => x.PawnIsAlive
-                          && GetTargetAction(x, "@all", player!.PlayerName))
+              .Where(x => x.PawnIsAlive)
               .ToList()
               .ForEach(x =>
               {
-                  if (x.SteamID != player!.SteamID)
-                  {
-                      x.PlayerPawn.Value.Teleport(new Vector(res.Vector.X, res.Vector.Y + 1, res.Vector.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
-                  }
+                  x.PlayerPawn.Value.Teleport(new Vector(res.Vector.X, res.Vector.Y + 1, res.Vector.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
               });
         Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.G}herkesi {CC.R}{res.PlayerName}{CC.W} adlı oyunun yanına ışınladı.");
     }

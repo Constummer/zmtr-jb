@@ -17,9 +17,8 @@ public partial class JailbreakExtras
             return;
         }
 
-        var ordered = PlayerTimeTracking.Where(x => PlayerNamesDatas.ContainsKey(x.Key))
-                                        .OrderByDescending(x => x.Value.CTTime)
-                                        .Take(10);
+        var ordered = AllPlayerTimeTracking.OrderByDescending(x => x.Value.CTTime)
+                                           .Take(10);
 
         player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
         player.PrintToChat($"{Prefix} {CC.W} TOP 10 Gardiyan Süreler");
@@ -27,7 +26,7 @@ public partial class JailbreakExtras
         {
             if (PlayerNamesDatas.TryGetValue(item.Key, out var name))
             {
-                player.PrintToChat($"{Prefix} {CC.G}{name} {CC.W}| {CC.B}{(item.Value.Total / 60)} {CC.Ol}Saat");
+                player.PrintToChat($"{Prefix} {CC.G}{name} {CC.W}| {CC.B}{(item.Value.CTTime / 60)} {CC.Ol}Saat");
             }
         }
         player.PrintToChat($"{Prefix} {CC.B}!surem {CC.W}yazarak kendi süreni görebilirsin");

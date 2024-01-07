@@ -51,7 +51,7 @@ public partial class JailbreakExtras
             {
                 Gags.Remove(gagPlayer.SteamID);
                 PGags = PGags.Where(x => x != gagPlayer.SteamID).ToList();
-                RemoveFromPGag(player.SteamID);
+                RemoveFromPGag(gagPlayer.SteamID);
 
                 if (targetArgument == TargetForArgument.None)
                 {

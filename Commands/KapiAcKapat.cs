@@ -68,5 +68,10 @@ public partial class JailbreakExtras
         ForceEntInput("func_breakable", "Break");
     }
 
+    public static void ForceOpenDoor()
+    {
+        ForceEntInput("func_door", "Open");
+    }
+
     #endregion KapiAcKapat
 }

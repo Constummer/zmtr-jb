@@ -2,6 +2,7 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Commands.Targeting;
 using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
@@ -11,7 +12,7 @@ public partial class JailbreakExtras
     #region OnTeamCommand
 
     [ConsoleCommand("team")]
-    [CommandHelper(0, "<nick> <ct-t-spec-1-2-3>")]
+    [CommandHelper(0, "<nick-#userid> <ct-t-spec-1-2-3>")]
     public void OnTeamCommand(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)
@@ -21,7 +22,8 @@ public partial class JailbreakExtras
         if (info.ArgCount != 3) return;
         var targetPlayer = info.GetArg(1);
         var targetArgument = GetTargetArgument(targetPlayer);
-        var targetTeam = info.GetArg(2) switch
+        var arg = info.GetArg(2);
+        var targetTeam = arg switch
         {
             "ct" => CsTeam.CounterTerrorist,
             "CT" => CsTeam.CounterTerrorist,
@@ -43,7 +45,8 @@ public partial class JailbreakExtras
             return;
         }
         var players = GetPlayers()
-               .Where(x => x.PlayerName.ToLower().Contains(targetPlayer.ToLower()))
+               .Where(x => (targetArgument == TargetForArgument.UserIdIndex ? GetUserIdIndex(targetPlayer) == x.UserId : false)
+                            || x.PlayerName.ToLower().Contains(targetPlayer.ToLower()))
                .ToList();
         if (players.Count == 0)
         {

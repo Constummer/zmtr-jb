@@ -46,6 +46,48 @@ public partial class JailbreakExtras
         }
     }
 
+    [ConsoleCommand("cAllPlayerTimeTracking")]
+    public void cAllPlayerTimeTracking(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        foreach (var item in AllPlayerTimeTracking)
+        {
+            player.PrintToConsole($"{item.Key}|{item.Value.Total}|{item.Value.CTTime}|{item.Value.TTime}|{item.Value.WTime}|{item.Value.CTTime}");
+        }
+    }
+
+    [ConsoleCommand("cPlayerTimeTracking")]
+    public void cPlayerTimeTracking(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        foreach (var item in PlayerTimeTracking)
+        {
+            player.PrintToConsole($"{item.Key}|{item.Value.Total}|{item.Value.CTTime}|{item.Value.TTime}|{item.Value.WTime}|{item.Value.CTTime}");
+        }
+    }
+
+    [ConsoleCommand("cPlayerNamesDatas")]
+    public void cPlayerNamesDatas(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        foreach (var item in PlayerNamesDatas)
+        {
+            player.PrintToConsole($"{item.Key}|{item.Value}");
+        }
+    }
+
     [ConsoleCommand("consjoy")]
     public void consjoy(CCSPlayerController? player, CommandInfo info)
     {
@@ -60,7 +102,7 @@ public partial class JailbreakExtras
         }
         RespawnAc(player, info);
         FfAc(player, info);
-        God(player, info);
+        Noclip(player, info);
     }
 
     [ConsoleCommand("css_slot1")]

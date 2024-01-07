@@ -31,10 +31,10 @@ public partial class JailbreakExtras
             return;
         }
         player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
-        player.PrintToChat($"{Prefix} {CC.W}Toplam {CC.G}{item.Total / 60} {CC.W}saattir sunucudasın!");
-        player.PrintToChat($"{Prefix} {CC.W}Toplam {CC.G}{item.CTTime / 60} {CC.W}saattir gardiyansın!");
-        player.PrintToChat($"{Prefix} {CC.W}Toplam {CC.G}{item.TTime / 60} {CC.W}saattir teroristsin!");
-        player.PrintToChat($"{Prefix} {CC.W}Toplam {CC.G}{item.WTime / 60} {CC.W}saattir komutçusun!");
+        player.PrintToChat($"{Prefix} {CC.W}Toplam {CC.G}{(item.Total < 120 ? item.Total : item.Total / 60)} {CC.W}{(item.Total < 120 ? "dakikadir" : "saattir")} sunucudasın!");
+        player.PrintToChat($"{Prefix} {CC.W}Toplam {CC.G}{(item.CTTime < 120 ? item.CTTime : item.CTTime / 60)} {CC.W}{(item.CTTime < 120 ? "dakikadir" : "saattir")} gardiyansın!");
+        player.PrintToChat($"{Prefix} {CC.W}Toplam {CC.G}{(item.TTime < 120 ? item.TTime : item.TTime / 60)} {CC.W}{(item.TTime < 120 ? "dakikadir" : "saattir")} mahkûmsun!");
+        player.PrintToChat($"{Prefix} {CC.W}Toplam {CC.G}{(item.WTime < 120 ? item.WTime : item.WTime / 60)} {CC.W}{(item.WTime < 120 ? "dakikadir" : "saattir")} komutçusun!");
         player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
     }
 

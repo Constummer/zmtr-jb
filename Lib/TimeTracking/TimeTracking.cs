@@ -1,15 +1,13 @@
-﻿using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Entities;
-using CounterStrikeSharp.API.Modules.Utils;
+﻿using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
-using System.Reflection.PortableExecutable;
 
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
     public Dictionary<ulong, PlayerTime> PlayerTimeTracking { get; set; } = new();
+    public Dictionary<ulong, PlayerTime> AllPlayerTimeTracking { get; set; } = new();
 
     public class PlayerTime
     {
@@ -36,6 +34,45 @@ public partial class JailbreakExtras
                   `WTime` mediumint(9) DEFAULT NULL
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
     */
+
+    private void GetAllTimeTrackingData(MySqlConnection con)
+    {
+        if (con == null)
+        {
+            return;
+        }
+
+        try
+        {
+            PlayerTime data = null;
+            var cmd = new MySqlCommand(@$"SELECT `Total`,`CTTime`,`TTime`,`WTime`,`SteamId`
+                                          FROM `PlayerTime`;", con);
+
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    data = new PlayerTime(
+                       reader.IsDBNull(0) ? 0 : reader.GetInt32(0),
+                       reader.IsDBNull(1) ? 0 : reader.GetInt32(1),
+                       reader.IsDBNull(2) ? 0 : reader.GetInt32(2),
+                       reader.IsDBNull(3) ? 0 : reader.GetInt32(3));
+                    var steamid = reader.IsDBNull(4) ? 0 : reader.GetInt64(4);
+                    if (steamid != 0)
+                    {
+                        if (AllPlayerTimeTracking.ContainsKey((ulong)steamid) == false)
+                        {
+                            AllPlayerTimeTracking.Add((ulong)steamid, data);
+                        }
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Logger.LogError(e, "hata");
+        }
+    }
 
     private void InsertAndGetTimeTrackingData(ulong steamID)
     {

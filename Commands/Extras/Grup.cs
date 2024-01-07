@@ -8,7 +8,10 @@ public partial class JailbreakExtras
 {
     #region Grup
 
-    [ConsoleCommand("grup")]
+    [ConsoleCommand("grup", "steam grup")]
+    [ConsoleCommand("grub", "steam grup")]
+    [ConsoleCommand("steam", "steam grup")]
+    [ConsoleCommand("steamgrup", "steam grup")]
     public void Grup(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player, false) == false)

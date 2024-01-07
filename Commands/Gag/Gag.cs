@@ -16,7 +16,7 @@ public partial class JailbreakExtras
 
     [ConsoleCommand("gag")]
     [RequiresPermissions("@css/chat")]
-    [CommandHelper(1, "<playerismi-@all-@t-@ct-@me-@alive-@dead> [dakika/0 sinirsiz]")]
+    [CommandHelper(1, "<playerismi-@all-@t-@ct-@me-@alive-@dead>")]
     public void OnGagCommand(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)
@@ -29,11 +29,9 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var godOneTwoStr = info.ArgCount > 2 ? info.GetArg(2) : "0";
+        var godOneTwoStr = "0";
         if (int.TryParse(godOneTwoStr, out var value) == false)
         {
-            Server.PrintToChatAll($"{Prefix} {CC.G}geçersiz süre.");
-
             return;
         }
 
@@ -68,21 +66,6 @@ public partial class JailbreakExtras
                     if (targetArgument == TargetForArgument.None)
                     {
                         Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{gagPlayer.PlayerName} {CC.B}Sınırsız{CC.W} gagladı.");
-                    }
-                }
-                else
-                {
-                    if (Gags.TryGetValue(gagPlayer.SteamID, out var dateTime))
-                    {
-                        Gags[gagPlayer.SteamID] = DateTime.UtcNow.AddMinutes(value);
-                    }
-                    else
-                    {
-                        Gags.Add(gagPlayer.SteamID, DateTime.UtcNow.AddMinutes(value));
-                    }
-                    if (targetArgument == TargetForArgument.None)
-                    {
-                        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{gagPlayer.PlayerName} {CC.B}{value}{CC.W} dakika boyunca gagladı.");
                     }
                 }
             });

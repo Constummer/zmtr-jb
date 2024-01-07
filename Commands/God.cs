@@ -20,65 +20,95 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
-        if (info.ArgCount < 2) return;
-        var target = info.ArgCount > 1 ? info.GetArg(1) : null;
-        var godOneTwoStr = info.ArgCount > 2 ? info.GetArg(2) : null;
-        int.TryParse(godOneTwoStr, out var godOneTwo);
-        if (godOneTwo < 0 || godOneTwo > 1)
+        if (info.ArgCount < 2)
         {
-            player.PrintToChat($"{Prefix}{CC.W} 0 = kapatmak icin, 1 = acmak icin.");
-            return;
+            if (ActiveGodMode.TryGetValue(player.SteamID, out var val))
+            {
+                if (val == true)
+                {
+                    Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.W}kendi {CC.B}godunu {CC.W}kaldirdi.");
+                }
+                else
+                {
+                    Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.W}kendine {CC.B}god {CC.W}verdi.");
+                }
+                ActiveGodMode[player.SteamID] = !val;
+            }
+            else
+            {
+                Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.W}kendine {CC.B}god {CC.W}verdi.");
+                ActiveGodMode.TryAdd(player.SteamID, true);
+            }
         }
+        else
+        {
+            var target = info.ArgCount > 1 ? info.GetArg(1) : null;
+            var godOneTwoStr = info.ArgCount > 2 ? info.GetArg(2) : null;
+            int.TryParse(godOneTwoStr, out var godOneTwo);
+            if (godOneTwo < 0 || godOneTwo > 1)
+            {
+                player.PrintToChat($"{Prefix}{CC.W} 0 = kapatmak icin, 1 = acmak icin.");
+                return;
+            }
 
-        var targetArgument = GetTargetArgument(target);
-        GetPlayers()
-               .Where(x => x.PawnIsAlive
-                        && GetTargetAction(x, target, player.PlayerName))
-               .ToList()
-               .ForEach(x =>
-               {
-                   switch (godOneTwo)
+            var targetArgument = GetTargetArgument(target);
+            GetPlayers()
+                   .Where(x => x.PawnIsAlive
+                            && GetTargetAction(x, target, player.PlayerName))
+                   .ToList()
+                   .ForEach(x =>
                    {
-                       case 0:
-                           if (targetArgument == TargetForArgument.None)
-                           {
-                               Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}godunu {CC.W}kaldirdi.");
-                           }
-                           if (ActiveGodMode.TryGetValue(x.SteamID, out _))
-                           {
-                               ActiveGodMode[x.SteamID] = false;
-                           }
-                           else
-                           {
-                               ActiveGodMode.TryAdd(x.SteamID, false);
-                           }
-                           break;
-
-                       case 1:
-                           if (targetArgument == TargetForArgument.None)
-                           {
-                               Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}god {CC.W}verdi.");
-                           }
-                           if (ActiveGodMode.TryGetValue(x.SteamID, out _))
-                           {
-                               ActiveGodMode[x.SteamID] = true;
-                           }
-                           else
-                           {
-                               ActiveGodMode.TryAdd(x.SteamID, true);
-                           }
-                           break;
-
-                       default:
-
-                           if (ActiveGodMode.TryGetValue(x.SteamID, out var god))
-                           {
-                               if (god)
+                       switch (godOneTwo)
+                       {
+                           case 0:
+                               if (targetArgument == TargetForArgument.None)
                                {
-                                   if (targetArgument == TargetForArgument.None)
+                                   Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}godunu {CC.W}kaldirdi.");
+                               }
+                               if (ActiveGodMode.TryGetValue(x.SteamID, out _))
+                               {
+                                   ActiveGodMode[x.SteamID] = false;
+                               }
+                               else
+                               {
+                                   ActiveGodMode.TryAdd(x.SteamID, false);
+                               }
+                               break;
+
+                           case 1:
+                               if (targetArgument == TargetForArgument.None)
+                               {
+                                   Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}god {CC.W}verdi.");
+                               }
+                               if (ActiveGodMode.TryGetValue(x.SteamID, out _))
+                               {
+                                   ActiveGodMode[x.SteamID] = true;
+                               }
+                               else
+                               {
+                                   ActiveGodMode.TryAdd(x.SteamID, true);
+                               }
+                               break;
+
+                           default:
+
+                               if (ActiveGodMode.TryGetValue(x.SteamID, out var god))
+                               {
+                                   if (god)
                                    {
-                                       Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}godunu {CC.W} kaldırdı.");
+                                       if (targetArgument == TargetForArgument.None)
+                                       {
+                                           Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}godunu {CC.W} kaldırdı.");
+                                       }
                                    }
+                                   else
+                                   {
+                                       if (targetArgument == TargetForArgument.None)
+                                       {
+                                           Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}god {CC.W}verdi.");
+                                       }
+                                   }
+                                   ActiveGodMode[x.SteamID] = !god;
                                }
                                else
                                {
@@ -86,32 +116,24 @@ public partial class JailbreakExtras
                                    {
                                        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}god {CC.W}verdi.");
                                    }
+                                   ActiveGodMode.TryAdd(x.SteamID, true);
                                }
-                               ActiveGodMode[x.SteamID] = !god;
-                           }
-                           else
-                           {
-                               if (targetArgument == TargetForArgument.None)
-                               {
-                                   Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}god {CC.W}verdi.");
-                               }
-                               ActiveGodMode.TryAdd(x.SteamID, true);
-                           }
-                           break;
-                   }
-                   RefreshPawn(x);
-               });
-        if (targetArgument != TargetForArgument.None)
-        {
-            switch (godOneTwo)
+                               break;
+                       }
+                       RefreshPawn(x);
+                   });
+            if (targetArgument != TargetForArgument.None)
             {
-                case 0:
-                    Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefine {CC.B}godunu {CC.W}kaldirdi.");
-                    break;
+                switch (godOneTwo)
+                {
+                    case 0:
+                        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefine {CC.B}godunu {CC.W}kaldirdi.");
+                        break;
 
-                case 1:
-                    Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefine {CC.B}god {CC.W}verdi.");
-                    break;
+                    case 1:
+                        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefine {CC.B}god {CC.W}verdi.");
+                        break;
+                }
             }
         }
     }

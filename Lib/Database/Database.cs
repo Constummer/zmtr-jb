@@ -1,5 +1,6 @@
 ﻿using CounterStrikeSharp.API.Modules.Entities;
 using JailbreakExtras.Lib.Database.Models;
+using Microsoft.Extensions.Logging;
 using MySqlConnector;
 
 namespace JailbreakExtras;
@@ -40,12 +41,9 @@ public partial class JailbreakExtras
             {
                 cmd = new MySqlCommand("CREATE DATABASE IF NOT EXISTS cs2_extras", con);
                 await cmd.ExecuteNonQueryAsync();
-            }
-            catch
-            {
-            }
-            cmd = new MySqlCommand(
-                @"CREATE TABLE IF NOT EXISTS `PlayerMarketModel` (
+
+                cmd = new MySqlCommand(
+                    @"CREATE TABLE IF NOT EXISTS `PlayerMarketModel` (
                   `SteamId` bigint(20) DEFAULT NULL,
                   `ModelIdCT` varchar(0) DEFAULT NULL,
                   `ModelIdT` varchar(1) DEFAULT NULL,
@@ -53,55 +51,71 @@ public partial class JailbreakExtras
                   `DefaultIdT` varchar(1) DEFAULT NULL,
                   `Credit` mediumint(9) DEFAULT NULL
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-            await cmd.ExecuteNonQueryAsync();
+                await cmd.ExecuteNonQueryAsync();
 
-            cmd = new MySqlCommand(
-             @"CREATE TABLE IF NOT EXISTS `PlayerLevel` (
+                cmd = new MySqlCommand(
+                 @"CREATE TABLE IF NOT EXISTS `PlayerLevel` (
                `SteamId` bigint(20) DEFAULT NULL,
                `Xp` mediumint(9) DEFAULT NULL,
                `TagDisable` bit DEFAULT 0
                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-            await cmd.ExecuteNonQueryAsync();
+                await cmd.ExecuteNonQueryAsync();
 
-            cmd = new MySqlCommand(
-             @"CREATE TABLE IF NOT EXISTS `PlayerName` (
+                cmd = new MySqlCommand(
+                 @"CREATE TABLE IF NOT EXISTS `PlayerName` (
                `SteamId` bigint(20) DEFAULT NULL,
                `Name` TEXT DEFAULT NULL
                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-            await cmd.ExecuteNonQueryAsync();
+                await cmd.ExecuteNonQueryAsync();
 
-            cmd = new MySqlCommand(
-             @"CREATE TABLE IF NOT EXISTS `PlayerGag` (
+                cmd = new MySqlCommand(
+                 @"CREATE TABLE IF NOT EXISTS `PlayerGag` (
                   `SteamId` bigint(20) DEFAULT NULL
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-            await cmd.ExecuteNonQueryAsync();
+                await cmd.ExecuteNonQueryAsync();
 
-            cmd = new MySqlCommand(
-            @"CREATE TABLE IF NOT EXISTS `PlayerTime` (
+                cmd = new MySqlCommand(
+                @"CREATE TABLE IF NOT EXISTS `PlayerTime` (
                   `SteamId` bigint(20) DEFAULT NULL,
                   `Total` mediumint(9) DEFAULT NULL,
                   `CTTime` mediumint(9) DEFAULT NULL,
                   `TTime` mediumint(9) DEFAULT NULL,
                   `WTime` mediumint(9) DEFAULT NULL
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-            await cmd.ExecuteNonQueryAsync();
+                await cmd.ExecuteNonQueryAsync();
 
-            cmd = new MySqlCommand(@$"SELECT `SteamId`, `Name` FROM `PlayerName`", con);
-
-            using (var reader = cmd.ExecuteReader())
+                GetAllPlayerNameData(con);
+                GetAllTimeTrackingData(con);
+            }
+            catch (Exception ex)
             {
-                while (reader.Read())
-                {
-                    var steamId = reader.IsDBNull(0) ? 0 : reader.GetInt64(0);
-
-                    if (PlayerNamesDatas.ContainsKey((ulong)steamId) == false)
-                    {
-                        var pname = reader.IsDBNull(1) ? "" : reader.GetString(1);
-
-                        PlayerNamesDatas.Add((ulong)steamId, pname);
-                    }
-                }
+                Logger.LogError(ex, "hata");
             }
         });
+    }
+
+    private static MySqlCommand GetAllPlayerNameData(MySqlConnection con)
+    {
+        if (con == null)
+        {
+            return null;
+        }
+        MySqlCommand? cmd = new MySqlCommand(@$"SELECT `SteamId`, `Name` FROM `PlayerName`", con);
+        using (var reader = cmd.ExecuteReader())
+        {
+            while (reader.Read())
+            {
+                var steamId = reader.IsDBNull(0) ? 0 : reader.GetInt64(0);
+
+                if (PlayerNamesDatas.ContainsKey((ulong)steamId) == false)
+                {
+                    var pname = reader.IsDBNull(1) ? "" : reader.GetString(1);
+
+                    PlayerNamesDatas.Add((ulong)steamId, pname);
+                }
+            }
+        }
+
+        return cmd;
     }
 }

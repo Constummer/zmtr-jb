@@ -60,7 +60,7 @@ public partial class JailbreakExtras
                     level.Xp += item.Value.TPReward;
                     PlayerLevels[player.SteamID] = level;
                     player.PrintToChat($"{Prefix} {CC.B}{item.Value.CreditCost} {CC.W}Kredi Karşılığında {CC.B}{item.Value.TPReward} {CC.W}TP Satın Aldın!");
-                    player.PrintToChat($"{Prefix} {CC.W}Mevcut Kredin = {CC.B}{data.Model.Credit}{CC.R} |{CC.W} Mevcut TP = {level.Xp}");
+                    player.PrintToChat($"{Prefix} {CC.W}Mevcut Kredin = {CC.B}{data.Model.Credit}{CC.R} |{CC.W} Mevcut TP ={CC.B} {level.Xp}");
                 }
                 else
                 {

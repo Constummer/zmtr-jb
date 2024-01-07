@@ -31,6 +31,9 @@ public partial class JailbreakExtras
                     player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
                     return;
                 }
+                else
+                {
+                }
             }
         }
         if (!HookDisablePlayers.Contains(player.SteamID))

@@ -18,9 +18,8 @@ public partial class JailbreakExtras
             return;
         }
 
-        var ordered = PlayerTimeTracking.Where(x => PlayerNamesDatas.ContainsKey(x.Key))
-                                        .OrderByDescending(x => x.Value.Total)
-                                        .Take(10);
+        var ordered = AllPlayerTimeTracking.OrderByDescending(x => x.Value.Total)
+                                           .Take(10);
 
         player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
         player.PrintToChat($"{Prefix} {CC.W} TOP 10 Süreler");

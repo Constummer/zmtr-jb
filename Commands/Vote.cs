@@ -175,6 +175,15 @@ public partial class JailbreakExtras
                 }
                 if (AlreadyVotedPlayers.TryGetValue(player.SteamID, out string votedKey))
                 {
+                    if (HasLevelPermissionToActivate(player.SteamID, "@css/seviye2") == false)
+                    {
+                        if (ValidateCallerPlayer(player) == false)
+                        {
+                            player.PrintToChat($"{Prefix}{CC.W} Yalnızca bir seçeneğe oy verebilirsin.");
+                            return true;
+                        }
+                    }
+
                     if (LatestVoteAnswerCommandCalls.TryGetValue(player.SteamID, out var call))
                     {
                         if (DateTime.UtcNow < call.AddSeconds(3))
@@ -245,6 +254,15 @@ public partial class JailbreakExtras
                 }
                 if (AlreadyVotedPlayers.TryGetValue(player.SteamID, out string votedKey))
                 {
+                    if (HasLevelPermissionToActivate(player.SteamID, "@css/seviye2") == false)
+                    {
+                        if (ValidateCallerPlayer(player) == false)
+                        {
+                            player.PrintToChat($"{Prefix}{CC.W} Yalnızca bir seçeneğe oy verebilirsin.");
+                            return true;
+                        }
+                    }
+
                     if (LatestVoteAnswerCommandCalls.TryGetValue(player.SteamID, out var call))
                     {
                         if (DateTime.UtcNow < call.AddSeconds(3))
