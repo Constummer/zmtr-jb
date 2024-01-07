@@ -44,6 +44,10 @@ public partial class JailbreakExtras
         {
             RemoveGivenParachute(userId.Value);
         }
+        Task.Run(async () =>
+        {
+            await UpdatePlayerMarketData(steamId);
+        });
         _ = PlayerSteamGroup?.RemoveAll(x => x == steamId);
         _ = SpeedoMeterActive?.RemoveAll(x => x == steamId);
         _ = LevelTagDisabledPlayers?.RemoveAll(x => x == steamId);

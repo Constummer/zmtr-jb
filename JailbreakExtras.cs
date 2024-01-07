@@ -67,15 +67,14 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
 
         #endregion CSS releated
 
-        //HookEntityOutput("*", "*", (output, name, activator, caller, value, delay) =>
-        //{
-        //    if (name == "OnUnblockedClosing" || name == "OnBlockedOpening")
-        //    {
-        //        //ForceOpenDoor();
-        //        //kapi2
-        //    }
-        //    return HookResult.Continue;
-        //});
+        HookEntityOutput("*", "*", (output, name, activator, caller, value, delay) =>
+        {
+            if (name == "OnUnblockedClosing" || name == "OnBlockedOpening")
+            {
+                ForceOpenDoor();
+            }
+            return HookResult.Continue;
+        });
 
         base.Load(hotReload);
     }

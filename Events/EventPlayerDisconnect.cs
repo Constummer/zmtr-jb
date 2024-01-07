@@ -1,5 +1,4 @@
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Entities;
 
 namespace JailbreakExtras;
 
@@ -12,15 +11,20 @@ public partial class JailbreakExtras
         {
             if (@event == null)
                 return HookResult.Continue;
-            //if (ValidateCallerPlayer(@event.Userid, false) == false)
-            //{
-            //    return HookResult.Continue;
-            //}
-            //ClearOnDisconnect(@event.Userid.SteamID, @event.Userid.UserId);
-            //if (@event?.Userid?.SteamID == LatestWCommandUser)
-            //{
-            //    CoinRemove();
-            //}
+            if (@event?.Userid?.AuthorizedSteamID?.IsValid() == false)
+            {
+                return HookResult.Continue;
+            }
+
+            if (ValidateCallerPlayer(@event.Userid, false) == false)
+            {
+                return HookResult.Continue;
+            }
+            ClearOnDisconnect(@event.Userid.SteamID, @event.Userid.UserId);
+            if (@event?.Userid?.SteamID == LatestWCommandUser)
+            {
+                CoinRemove();
+            }
             return HookResult.Continue;
         });
     }

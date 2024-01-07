@@ -24,6 +24,106 @@ public partial class JailbreakExtras
         }
     }
 
+    [ConsoleCommand("ckapi")]
+    public void ckapi(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        var tarEnt = info.ArgString;
+
+        var target = Utilities.FindAllEntitiesByDesignerName<CBaseEntity>("func_door");
+        var index = uint.Parse(tarEnt);
+
+        foreach (var ent in target)
+        {
+            if (!ent.IsValid)
+            {
+                continue;
+            }
+            if (ent.Index != index)
+            {
+                continue;
+            }
+            Logger.LogInformation("----------------------------------------");
+            Logger.LogInformation($"DamageFilterName = {ent.DamageFilterName}");
+            Logger.LogInformation($"DesignerName = {ent.DesignerName}");
+            Logger.LogInformation($"Globalname = {ent.Globalname}");
+            Logger.LogInformation($"UniqueHammerID = {ent.UniqueHammerID}");
+            Logger.LogInformation($"Index = {ent.Index}");
+            if (ent.Blocker.IsValid)
+            {
+                var bl = ent.Blocker.Value;
+                Logger.LogInformation($"bl DamageFilterName = {bl.DamageFilterName}");
+                Logger.LogInformation($"bl DesignerName = {bl.DesignerName}");
+                Logger.LogInformation($"bl Globalname = {bl.Globalname}");
+            }
+            if (ent.OwnerEntity.IsValid)
+            {
+                var bl = ent.OwnerEntity.Value;
+                Logger.LogInformation($"bl DamageFilterName = {bl.DamageFilterName}");
+                Logger.LogInformation($"bl DesignerName = {bl.DesignerName}");
+                Logger.LogInformation($"bl Globalname = {bl.Globalname}");
+            }
+            Logger.LogInformation($"Entity.Name = {ent.Entity.Name}");
+            Logger.LogInformation($"Entity.DesignerName = {ent.Entity.DesignerName}");
+
+            Logger.LogInformation($"GetHashCode = {ent.GetHashCode()}");
+            Logger.LogInformation("----------------------------------------");
+            ent.AcceptInput("Open");
+            AddTimer(1, () => ent.AcceptInput("Close"));
+        }
+    }
+
+    [ConsoleCommand("cpi")]
+    public void cpi(CCSPlayerController? player, CommandInfo inof)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        a?.Kill();
+        a = null;
+    }
+
+    private CounterStrikeSharp.API.Modules.Timers.Timer a;
+
+    [ConsoleCommand("cp")]
+    public void cinput(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        var target = Utilities.FindAllEntitiesByDesignerName<CBaseEntity>("func_door");
+
+        var queue = new Queue<CBaseEntity?>();
+        foreach (var item in target)
+        {
+            queue.Enqueue(item);
+        }
+        a = AddTimer(1, () =>
+        {
+            if (queue.TryDequeue(out var item))
+            {
+                if (!item.IsValid)
+                {
+                    return;
+                }
+                //
+                //
+                //rr
+                Server.PrintToChatAll(item.Index.ToString());
+                item.AcceptInput("Open");
+                AddTimer(1, () => item.AcceptInput("Close"));
+            }
+        }, CounterStrikeSharp.API.Modules.Timers.TimerFlags.REPEAT);
+    }
+
     [ConsoleCommand("cyet1")]
     public void cyet1(CCSPlayerController? player, CommandInfo info)
     {

@@ -3,7 +3,6 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Entities;
 
 namespace JailbreakExtras;
 
@@ -20,14 +19,22 @@ public partial class JailbreakExtras
     }
 
     [RequiresPermissions("@css/lider")]
+    [ConsoleCommand("hucrekapiac")]
+    public void Kapi2Ac(CCSPlayerController? invoke, CommandInfo command)
+    {
+        ForceOpenDoor();
+    }
+
+    [RequiresPermissions("@css/lider")]
     [ConsoleCommand("kapikapat")]
+    [ConsoleCommand("kapikapa")]
     [ConsoleCommand("kapilarikapat")]
     public void KapiKapat(CCSPlayerController? invoke, CommandInfo command)
     {
         ForceClose(true);
     }
 
-    private static void ForceEntInput(String name, String input)
+    private void ForceEntInput(String name, String input, string entityName = null)
     {
         var target = Utilities.FindAllEntitiesByDesignerName<CBaseEntity>(name);
 
@@ -37,11 +44,19 @@ public partial class JailbreakExtras
             {
                 continue;
             }
+            if (string.IsNullOrEmpty(entityName) == false)
+            {
+                if (ent.Entity != null
+                && ent.Entity.Name != entityName)
+                {
+                    continue;
+                }
+            }
             ent.AcceptInput(input);
         }
     }
 
-    public static void ForceClose(bool sendMsg = false)
+    public void ForceClose(bool sendMsg = false)
     {
         if (sendMsg)
         {
@@ -54,7 +69,7 @@ public partial class JailbreakExtras
         ForceEntInput("prop_door_rotating", "Close");
     }
 
-    public static void ForceOpen(bool sendMsg = false)
+    public void ForceOpen(bool sendMsg = false)
     {
         if (sendMsg)
         {
@@ -68,9 +83,9 @@ public partial class JailbreakExtras
         ForceEntInput("func_breakable", "Break");
     }
 
-    public static void ForceOpenDoor()
+    public void ForceOpenDoor()
     {
-        ForceEntInput("func_door", "Open");
+        ForceEntInput("func_door", "Open", "kapi2");
     }
 
     #endregion KapiAcKapat
