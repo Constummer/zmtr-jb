@@ -43,6 +43,13 @@ public partial class JailbreakExtras
         {
             return;
         }
+        TdonbozAction();
+        FreezeOrUnfreezeSound();
+        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}mahkûmların {CC.B}donunu kaldırdı{CC.W}.");
+    }
+
+    private static void TdonbozAction()
+    {
         GetPlayers(CsTeam.Terrorist)
                         .Where(x => x.PawnIsAlive)
                         .ToList()
@@ -56,7 +63,5 @@ public partial class JailbreakExtras
 
                             x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
                         });
-        FreezeOrUnfreezeSound();
-        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}mahkûmların {CC.B}donunu kaldırdı{CC.W}.");
     }
 }

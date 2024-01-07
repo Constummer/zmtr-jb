@@ -11,15 +11,15 @@ public partial class JailbreakExtras
 {
     #region TDaireOlustur
 
-    [ConsoleCommand("tdaireolustur")]
+    [ConsoleCommand("daire")]
     public void TDaireOlustur(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
         {
             player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
-        if (ValidateCallerPlayer(player) == false)
+        if (ValidateCallerPlayer(player, false) == false)
         {
             return;
         }

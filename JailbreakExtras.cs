@@ -67,13 +67,22 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
 
         #endregion CSS releated
 
-        HookEntityOutput("*", "*", (output, name, activator, caller, value, delay) =>
+        HookEntityOutput("*", "*", (output, name, activator, ent, value, delay) =>
         {
             if (name == "OnUnblockedClosing" || name == "OnBlockedOpening")
             {
                 if (KapiAcIptal == false)
                 {
-                    ForceOpenDoor();
+                    if (ent?.IsValid != true)
+                    {
+                        return HookResult.Continue;
+                    }
+                    if (ent.Entity != null
+                        && ent.Entity.Name != "kapi2")
+                    {
+                        return HookResult.Continue;
+                    }
+                    ent.AcceptInput("Open");
                 }
             }
             return HookResult.Continue;

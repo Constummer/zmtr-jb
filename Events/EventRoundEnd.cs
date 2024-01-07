@@ -12,7 +12,7 @@ public partial class JailbreakExtras
             PrepareRoundDefaults();
             CoinRemove();
             CheckAllLevelTags();
-
+            TdonbozAction();
             return HookResult.Continue;
         });
     }

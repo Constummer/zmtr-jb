@@ -31,6 +31,7 @@ public partial class JailbreakExtras
                 Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.W}kendine {CC.B}noclip {CC.W}verdi.");
                 player.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_NOCLIP;
             }
+            RefreshPawn(player);
         }
         else
         {
@@ -76,6 +77,7 @@ public partial class JailbreakExtras
 
                                break;
                        }
+                       RefreshPawn(x);
                    });
             if (targetArgument != TargetForArgument.None)
             {
