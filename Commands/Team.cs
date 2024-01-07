@@ -1,8 +1,8 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
+using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Commands.Targeting;
 using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
@@ -44,6 +44,14 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.W}HEDEF yanlış!");
             return;
         }
+        if (targetTeam == CsTeam.Spectator)
+        {
+            if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+            {
+                player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor, Spec yasakli.");
+                return;
+            }
+        }
         var players = GetPlayers()
                .Where(x => (targetArgument == TargetForArgument.UserIdIndex ? GetUserIdIndex(targetPlayer) == x.UserId : false)
                             || x.PlayerName.ToLower().Contains(targetPlayer.ToLower()))
@@ -62,7 +70,16 @@ public partial class JailbreakExtras
 
         if (x?.SteamID != null && x!.SteamID != 0)
         {
-            x.SwitchTeam(targetTeam);
+            switch (targetTeam)
+            {
+                case CsTeam.Spectator:
+                    x.ChangeTeam(targetTeam);
+                    break;
+
+                default:
+                    x.SwitchTeam(targetTeam);
+                    break;
+            }
         }
         Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}hedefi {CC.B}{targetTeam.ToString()} {CC.W}takimina gönderdi.");
     }
