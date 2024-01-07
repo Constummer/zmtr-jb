@@ -19,7 +19,6 @@ public partial class JailbreakExtras
 
         var ordered = AllPlayerTimeTracking.OrderByDescending(x => x.Value.CTTime)
                                            .Take(10);
-
         player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
         player.PrintToChat($"{Prefix} {CC.W} TOP 10 Gardiyan Süreler");
         foreach (var item in ordered)

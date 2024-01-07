@@ -26,7 +26,7 @@ public partial class JailbreakExtras
                 if (player == null || !player.IsValid)
                     continue;
                 ParachuteOnTick(player, i);
-                SpeedoMeterOnTick(player);
+                //SpeedoMeterOnTick(player);
                 changed = BasicCountdown.CountdownEnableTextHandler(changed, player);
             }
         }));

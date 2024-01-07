@@ -20,38 +20,40 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
-        if (info.ArgCount != 3)
-        {
-            player.PrintToChat($"{Prefix} {CC.W}Ruletini hangi renge vereceğini yazman lazım.");
-            player.PrintToChat($"{Prefix} {CC.R}Kirmizi{CC.W}/{CC.R}K");
-            player.PrintToChat($"{Prefix} {CC.G}Yeşil{CC.W}/{CC.G}Y");
-            player.PrintToChat($"{Prefix} {CC.DB}Siyah{CC.W}/{CC.DB}S");
-            return;
-        }
 
-        var target = info.GetArg(1);
+        var creditStr = info.GetArg(1);
 
-        if (!int.TryParse(target, out int value))
+        if (!int.TryParse(creditStr, out int credit))
         {
             player.PrintToChat($"{Prefix} {CC.R}GEÇERSİZ MİKTAR");
             return;
         }
         else
         {
-            if (value < 100 || value > 5000)
+            if (credit < 100 || credit > 5000)
             {
                 player.PrintToChat($"{Prefix} {CC.R}Min 100, Max 5000 kredi girebilirsin");
                 return;
             }
             else
             {
+                if (info.ArgCount != 3)
+                {
+                    player.PrintToChat($"{Prefix} {CC.W}Ruletini hangi renge vereceğini yazman lazım.");
+                    player.PrintToChat($"{Prefix} {CC.R}Kirmizi{CC.W}/{CC.R}K");
+                    player.PrintToChat($"{Prefix} {CC.G}Yeşil{CC.W}/{CC.G}Y");
+                    player.PrintToChat($"{Prefix} {CC.DB}Siyah{CC.W}/{CC.DB}S");
+                    return;
+                }
+                var target = info.GetArg(1);
+
                 if (RuletPlayers.TryGetValue(player.SteamID, out var enteredCredit))
                 {
-                    RuletPlayers[player.SteamID] = value;
+                    RuletPlayers[player.SteamID] = credit;
                 }
                 else
                 {
-                    RuletPlayers.Add(player.SteamID, value);
+                    RuletPlayers.Add(player.SteamID, credit);
                 }
             }
         }

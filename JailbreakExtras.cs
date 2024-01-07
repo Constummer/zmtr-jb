@@ -71,7 +71,10 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
         {
             if (name == "OnUnblockedClosing" || name == "OnBlockedOpening")
             {
-                ForceOpenDoor();
+                if (KapiAcIptal == false)
+                {
+                    ForceOpenDoor();
+                }
             }
             return HookResult.Continue;
         });

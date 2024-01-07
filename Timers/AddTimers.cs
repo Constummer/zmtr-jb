@@ -29,6 +29,7 @@ public partial class JailbreakExtras
 
         #region TimeTracking
 
+        UpdateAllTimeTrackingDatas();
         SaveTimeTrackingDatas();
 
         #endregion TimeTracking

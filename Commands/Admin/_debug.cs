@@ -24,18 +24,35 @@ public partial class JailbreakExtras
         }
     }
 
+    private bool KapiAcIptal = false;
+
+    [ConsoleCommand("kapiaciptal")]
+    public void kapiaciptal(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        KapiAcIptal = !KapiAcIptal;
+    }
+
     [ConsoleCommand("csteamid")]
     public void csteamid(CCSPlayerController? player, CommandInfo info)
     {
-        //if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
-        //{
-        //    player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
-        //    return;
-        //}
-        //if (ValidateCallerPlayer(player) == false)
-        //{
-        //    return;
-        //}
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
         Logger.LogInformation(player.SteamID.ToString());
         Logger.LogInformation(player.AuthorizedSteamID?.SteamId64.ToString());
     }

@@ -35,6 +35,17 @@ public partial class JailbreakExtras
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
     */
 
+    private void UpdateAllTimeTrackingData()
+    {
+        var con = Connection();
+
+        if (con == null)
+        {
+            return;
+        }
+        GetAllTimeTrackingData(con);
+    }
+
     private void GetAllTimeTrackingData(MySqlConnection con)
     {
         if (con == null)
@@ -63,6 +74,10 @@ public partial class JailbreakExtras
                         if (AllPlayerTimeTracking.ContainsKey((ulong)steamid) == false)
                         {
                             AllPlayerTimeTracking.Add((ulong)steamid, data);
+                        }
+                        else
+                        {
+                            AllPlayerTimeTracking[(ulong)steamid] = data;
                         }
                     }
                 }

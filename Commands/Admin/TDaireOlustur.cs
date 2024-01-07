@@ -23,11 +23,20 @@ public partial class JailbreakExtras
         {
             return;
         }
-        GetTDairePoints(player);
-        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.G}@t'yi {CC.W} daire biçiminde ışınladı.");
+        var target = info.ArgCount > 1 ? info.GetArg(1) : "100";
+        if (int.TryParse(target, out var godOneTwo))
+        {
+            GetTDairePoints(player, godOneTwo);
+            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.G}@t'yi {CC.W} daire biçiminde ışınladı.");
+        }
+        else
+        {
+            GetTDairePoints(player, 100);
+            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.G}@t'yi {CC.W} daire biçiminde ışınladı.");
+        }
     }
 
-    private void GetTDairePoints(CCSPlayerController? player)
+    private void GetTDairePoints(CCSPlayerController? player, int maxRad)
     {
         float middleX = player.PlayerPawn.Value.AbsOrigin.X;
         float middleY = player.PlayerPawn.Value.AbsOrigin.Y;
@@ -97,7 +106,7 @@ public partial class JailbreakExtras
         //    Console.WriteLine($"Player {i + 1}: X={x}, Y={y}");
         //}
         // Calculate maximum radius based on the number of points
-        int maxRadius = 100;
+        int maxRadius = maxRad;
 
         // Calculate angle between each point
         double angleIncrement = 2 * Math.PI / numberOfPoints;

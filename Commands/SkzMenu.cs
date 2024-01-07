@@ -4,6 +4,7 @@ using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
+using System.Drawing;
 
 namespace JailbreakExtras;
 
@@ -16,6 +17,7 @@ public partial class JailbreakExtras
     };
 
     private Vector Hucre = new Vector(-535, 345, -27);
+    private CounterStrikeSharp.API.Modules.Timers.Timer SkzTimer = null;
 
     #region SKZ
 
@@ -49,21 +51,29 @@ public partial class JailbreakExtras
                 Server.PrintToChatAll($"{Prefix} {CC.W}Mahkûmlar {CC.B}{k.Key} {CC.W} ışınlanıyor");
                 BasicCountdown.CommandStartTextCountDown(this, $"[ZMTR] Mahkûmların donmasina {value} saniye");
 
-                GetPlayers(CsTeam.Terrorist)
+                var players = GetPlayers(CsTeam.Terrorist)
                     .Where(x => x.PawnIsAlive == true)
-                    .ToList()
-                    .ForEach(x =>
+                    .ToList();
+
+                players.ForEach(x =>
+                {
+                    if (TeamActive == false)
                     {
-                        if (TeamActive == false)
+                        if (players.Count < 6)
                         {
                             SetColour(x, DefaultPlayerColor);
                         }
-                        x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
+                        else
+                        {
+                            SetColour(x, Color.FromArgb(0, 0, 0, 0));
+                        }
+                    }
+                    x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
 
-                        x.PlayerPawn.Value.Teleport(k.Value, new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
-                    });
+                    x.PlayerPawn.Value.Teleport(k.Value, new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
+                });
 
-                _ = AddTimer(value, () =>
+                SkzTimer = AddTimer(value, () =>
                 {
                     GetPlayers()
                     .Where(x => x != null
