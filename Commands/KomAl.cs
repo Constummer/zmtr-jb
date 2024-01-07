@@ -120,19 +120,19 @@ public partial class JailbreakExtras
                 AlreadyVotedPlayers?.Clear();
                 foreach (var voter in voters)
                 {
+                    KomAlAnswers.Add(voter.SteamID, 0);
+
                     komalVoteMenu.AddMenuOption(voter.PlayerName, (x, i) =>
                     {
-                        if (KomAlVoteInProgress)
-                        {
-                            if (KomAlAnswers.TryGetValue(voter.SteamID, out var answer))
-                            {
-                                KomAlAnswers[voter.SteamID] = answer + 1;
-                            }
-                            else
-                            {
-                                KomAlAnswers.Add(voter.SteamID, 1);
-                            }
-                        }
+                        ///<see cref="VoteInProgressIntercepter(CCSPlayerController, string)"/>
+                        ///if (VoteInProgress)
+                        ///{
+                        ///    Answers[option.Text]++;
+                        ///    if (ValidateCallerPlayer(x, false) == true)
+                        ///    {
+                        ///        x.PrintToChat($"{Prefix}{CC.B} {option.Text} {CC.W} Seçeneğine oy verdin.");
+                        ///    }
+                        ///}
                     });
                 }
                 var players = GetPlayers();

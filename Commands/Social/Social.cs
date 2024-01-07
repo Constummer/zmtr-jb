@@ -16,6 +16,7 @@ public partial class JailbreakExtras
             return;
         }
         player!.PrintToChat($"{Prefix} {CC.W}IP: 185.118.141.160");
+        player!.PrintToChat($"{Prefix} {CC.W}IP: jb.zmtr.org");
     }
 
     [ConsoleCommand("discord", "discord server")]
