@@ -62,9 +62,9 @@ public partial class JailbreakExtras
 
         if (x?.SteamID != null && x!.SteamID != 0)
         {
-            x.ChangeTeam(targetTeam);
+            x.SwitchTeam(targetTeam);
         }
-        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{player.PlayerName} {CC.W}hedefi {CC.B}{targetTeam.ToString()} {CC.W}takimina gönderdi.");
+        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}hedefi {CC.B}{targetTeam.ToString()} {CC.W}takimina gönderdi.");
     }
 
     #endregion OnTeamCommand

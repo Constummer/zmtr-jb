@@ -18,6 +18,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+
         var target = info.GetArg(1);
 
         var players = GetPlayers()

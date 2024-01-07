@@ -82,6 +82,40 @@ public partial class JailbreakExtras
         }
     }
 
+    [ConsoleCommand("respawn")]
+    [ConsoleCommand("rev")]
+    [ConsoleCommand("revive")]
+    public void Respawn(CCSPlayerController? player, CommandInfo info)
+    {
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        if (info.ArgCount != 2) return;
+        var target = info.GetArg(1);
+        var targetArgument = GetTargetArgument(target);
+
+        GetPlayers()
+                   .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player.PlayerName))
+                   .ToList()
+                   .ForEach(x =>
+                   {
+                       if (x.SteamID != player.SteamID)
+                       {
+                           if (targetArgument == TargetForArgument.None)
+                           {
+                               Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} revledi{CC.W}.");
+                           }
+                           var playerAbs = player.PlayerPawn.Value.AbsOrigin;
+                           x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 1, playerAbs.Z), ANGLE_ZERO, VEC_ZERO);
+                       }
+                   });
+        if (targetArgument != TargetForArgument.None)
+        {
+            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefini {CC.B}revledi");
+        }
+    }
+
     [ConsoleCommand("respawnac")]
     public void RespawnAc(CCSPlayerController? player, CommandInfo info)
     {

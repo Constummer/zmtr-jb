@@ -146,7 +146,7 @@ public partial class JailbreakExtras
         Answers?.Clear();
 
         VoteInProgress = false;
-
+        LatestVoteMenu = null;
         VoteTimer?.Kill();
         VoteTimer = null;
         VotePrintTimer?.Kill();
@@ -224,7 +224,7 @@ public partial class JailbreakExtras
                     {
                         AlreadyVotedPlayers.Add(player.SteamID, data.Key);
 
-                        player.PrintToChat($"{Prefix}{CC.B} {data.Key} {CC.W} Seçeneğine oy verdin.");
+                        player.PrintToChat($"{Prefix}{CC.Ol} {data.Key} {CC.G} Seçeneğine oy verdin.");
                         GetPlayers()
                             .Where(x => x.SteamID != player.SteamID)
                             .ToList()
