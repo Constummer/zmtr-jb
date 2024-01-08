@@ -42,7 +42,7 @@ public partial class JailbreakExtras
             {
                 var playerAbs = x.PlayerPawn.Value.AbsOrigin;
                 player.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 1, playerAbs.Z), ANGLE_ZERO, VEC_ZERO);
-                Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.DR}{x.PlayerName}'in {CC.W}yanına ışınladı.");
+                Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.DR}{x.PlayerName} {CC.W} adlı oyuncunun yanına ışınladı.");
             }
         }
     }
