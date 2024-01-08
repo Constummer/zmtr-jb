@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
+using Microsoft.Extensions.Logging;
 using MySqlConnector;
 
 namespace JailbreakExtras;
@@ -11,6 +12,12 @@ public partial class JailbreakExtras
 {
     #region RR
 
+    /*
+         @"CREATE TABLE IF NOT EXISTS `PlayerCTBan` (
+                  `SteamId` bigint(20) DEFAULT NULL,
+                  `BannedBySteamId` bigint(20) DEFAULT NULL,
+                  `Time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+    */
     private static Dictionary<ulong, DateTime> CTBans = new Dictionary<ulong, DateTime>();
 
     [ConsoleCommand("ctban")]
@@ -59,6 +66,7 @@ public partial class JailbreakExtras
                     {
                         CTBans.Add(gagPlayer.SteamID, DateTime.UtcNow.AddYears(1));
                     }
+                    AddCTBanData(gagPlayer.SteamID, player.SteamID, DateTime.UtcNow.AddYears(1));
                     Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{gagPlayer.PlayerName} {CC.B}Sınırsız{CC.W} ct banladı.");
                 }
                 else
@@ -71,6 +79,7 @@ public partial class JailbreakExtras
                     {
                         CTBans.Add(gagPlayer.SteamID, DateTime.UtcNow.AddMinutes(value));
                     }
+                    AddCTBanData(gagPlayer.SteamID, player.SteamID, DateTime.UtcNow.AddMinutes(value));
                     Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{gagPlayer.PlayerName} {CC.B}{value}{CC.W} dakika boyunca ct banladı.");
                 }
             });
@@ -115,6 +124,39 @@ public partial class JailbreakExtras
             }
         }
         return true;
+    }
+
+    private void AddCTBanData(ulong steamId, ulong bannerId, DateTime time)
+    {
+        var con = Connection();
+        if (con == null)
+        {
+            return;
+        }
+
+        try
+        {
+            var cmd = new MySqlCommand(@$"INSERT INTO `PlayerCTBan`
+                                      (SteamId,BannedBySteamId,Time)
+                                      VALUES (@SteamId,@BannedBySteamId,@Time);", con);
+
+            cmd.Parameters.AddWithValue("@SteamId", steamId);
+            cmd.Parameters.AddWithValue("@BannedBySteamId", bannerId);
+            cmd.Parameters.AddWithValue("@Time", time);
+            cmd.ExecuteNonQuery();
+
+            using (var reader = cmd.ExecuteReader())
+            {
+                if (reader.Read())
+                {
+                    return;
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Logger.LogError(e, "hata");
+        }
     }
 
     #endregion RR

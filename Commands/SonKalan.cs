@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
@@ -10,6 +11,7 @@ public partial class JailbreakExtras
     #region SonKalan
 
     [ConsoleCommand("sonkalan")]
+    [ConsoleCommand("sonakalan")]
     [CommandHelper(1, "<nick>")]
     public void SonKalan(CCSPlayerController? player, CommandInfo info)
     {
@@ -41,12 +43,13 @@ public partial class JailbreakExtras
         }
         var team = sk.TeamNum;
         GetPlayers((CsTeam)team)
-          .Where(x => x.PlayerName != sk.PlayerName)
+          .Where(x => x.SteamID != sk.SteamID)
           .ToList()
           .ForEach(x =>
           {
               x.CommitSuicide(false, true);
           });
+        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{sk.PlayerName} {CC.W} adlı oyuncuyu son kalan olarak işaretledi.");
     }
 
     #endregion SonKalan

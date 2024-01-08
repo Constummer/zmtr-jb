@@ -3,9 +3,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Commands.Targeting;
 using CounterStrikeSharp.API.Modules.Utils;
-using System.Text;
 
 namespace JailbreakExtras;
 
@@ -40,7 +38,7 @@ public partial class JailbreakExtras
                    {
                        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.B}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}{damage} {CC.W}slapledi.");
                    }
-                   PerformSlap(player!.Pawn.Value!, damage);
+                   PerformSlap(x!.Pawn.Value!, damage);
                });
         if (targetArgument != TargetForArgument.None)
         {
