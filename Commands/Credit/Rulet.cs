@@ -1,11 +1,8 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
-using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Entities;
-using System.Numerics;
-using System.Runtime.CompilerServices;
+using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
 
@@ -57,10 +54,20 @@ public partial class JailbreakExtras
     }
 
     [ConsoleCommand("rulet")]
-    [CommandHelper(1, "<kredi> <yeşil/siyah/kırmızı>")]
+    [CommandHelper(0, "<kredi> <yeşil/siyah/kırmızı>")]
     public void Rulet(CCSPlayerController? player, CommandInfo info)
     {
+        if (RuletPlayers.TryGetValue(player.SteamID, out var ruletPlayCheck))
+        {
+            player.PrintToChat($"{Prefix} {CcOfRulet(ruletPlayCheck.Option)}{ruletPlayCheck.Option} {CC.W}rengine {CC.G}{ruletPlayCheck.Credit} {CC.W}kredi bastın!");
+            return;
+        }
         var creditStr = info.GetArg(1);
+        if (string.IsNullOrWhiteSpace(creditStr) || new String(creditStr.Where(Char.IsDigit).ToArray()).Length == 0)
+        {
+            player.PrintToChat($"{Prefix} {CC.W}Kullanım = <kredi> <yeşil/siyah/kırmızı>!");
+            return;
+        }
 
         if (!int.TryParse(creditStr, out int credit))
         {
@@ -76,7 +83,7 @@ public partial class JailbreakExtras
             }
             else
             {
-                if (info.ArgCount != 3)
+                if (info.ArgCount < 3)
                 {
                     player.PrintToChat($"{Prefix} {CC.W}Rulete katılmak için bir renk seçmelisin.");
                     player.PrintToChat($"{Prefix} {CC.R}Kirmizi{CC.W}/{CC.R}K {CC.Ol}x2");
@@ -105,6 +112,19 @@ public partial class JailbreakExtras
                     "k" => RuletOptions.Kirmizi,
                     _ => RuletOptions.None,
                 };
+                if (opt == RuletOptions.None && target.StartsWith("s"))
+                {
+                    opt = RuletOptions.Siyah;
+                }
+                else if (opt == RuletOptions.None && target.StartsWith("y"))
+                {
+                    opt = RuletOptions.Yesil;
+                }
+                else if (opt == RuletOptions.None && target.StartsWith("k"))
+                {
+                    opt = RuletOptions.Kirmizi;
+                }
+
                 if (opt == RuletOptions.None)
                 {
                     player.PrintToChat($"{Prefix} {CC.W}HATALI RENK.");

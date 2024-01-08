@@ -104,7 +104,7 @@ public partial class JailbreakExtras
                        {
                            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} revledi{CC.W}.");
                        }
-                       RespawnPlayer(x);
+                       CustomRespawn(x);
                    });
         if (targetArgument != TargetForArgument.None)
         {
