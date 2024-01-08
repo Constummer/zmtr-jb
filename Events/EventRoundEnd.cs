@@ -33,6 +33,12 @@ public partial class JailbreakExtras
         _Config.Additional.ParachuteEnabled = true;
         TeamSteamIds?.Clear();
         TeamActive = false;
+        SinirsizMolyTimer?.Kill();
+        SinirsizMolyTimer = null;
+        SinirsizBombaTimer?.Kill();
+        SinirsizBombaTimer = null;
+        SinirsizXTimer?.Kill();
+        SinirsizXTimer = null;
         GetPlayers()
          .Where(x => ValidateCallerPlayer(x, false) == true && x.SteamID != LatestWCommandUser)
          .ToList()
