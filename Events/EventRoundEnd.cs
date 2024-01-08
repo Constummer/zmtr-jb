@@ -14,7 +14,7 @@ public partial class JailbreakExtras
             CheckAllLevelTags();
             TdonbozAction();
             RuletActivate();
-| PiyangoKazananSonuc();
+            PiyangoKazananSonuc();
             return HookResult.Continue;
         });
     }
