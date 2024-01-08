@@ -41,9 +41,15 @@ public partial class JailbreakExtras
                 Logger.LogInformation("i");
 
                 //if (player.EverFullyConnected == false) return;
-                //Logger.LogInformation("j");
+                Logger.LogInformation($"j {player.EverFullyConnected}");
 
                 //if (player.Connected != PlayerConnectedState.PlayerConnected) return;
+                Logger.LogInformation($"k {player.Connected}");
+                Logger.LogInformation($"k {player.Ping}");
+                Logger.LogInformation($"l {player.AuthorizedSteamID.AccountId}");
+                Logger.LogInformation($"m {player.AuthorizedSteamID.AccountType}");
+                Logger.LogInformation($"n {player.AuthorizedSteamID.AccountInstance}");
+                Logger.LogInformation($"o {player.AuthorizedSteamID.AccountUniverse}");
                 //Logger.LogInformation("k");
 
                 if (ValidateCallerPlayer(player, false) == false)
