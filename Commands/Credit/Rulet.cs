@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using Microsoft.Extensions.Logging;
+using System.Linq;
 
 namespace JailbreakExtras;
 
@@ -44,12 +45,12 @@ public partial class JailbreakExtras
             PlayerMarketModels[player.SteamID] = data.Model;
 
             RuletPlayers.Remove(player.SteamID, out _);
-            player.PrintToChat($"{Prefix} {CC.W}Yatırdığınız {CC.R}{amount}{CC.W} kredi vergisi kesilerek edildi");
+            player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Yatırdığınız {CC.R}{amount}{CC.W} kredi vergisi kesilerek iade edildi");
             return;
         }
         else
         {
-            player.PrintToChat($"{Prefix} {CC.W}Rulet oynamamışsın. {CC.B}!rulet <kredi> <yeşil/siyah/kırmızı> {CC.W}yazarak oynayabilirsiniz.");
+            player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Rulet oynamamışsın. {CC.B}!rulet <kredi> <yeşil/siyah/kırmızı> {CC.W}yazarak oynayabilirsiniz.");
         }
     }
 
@@ -59,36 +60,39 @@ public partial class JailbreakExtras
     {
         if (RuletPlayers.TryGetValue(player.SteamID, out var ruletPlayCheck))
         {
-            player.PrintToChat($"{Prefix} {CcOfRulet(ruletPlayCheck.Option)}{ruletPlayCheck.Option} {CC.W}rengine {CC.G}{ruletPlayCheck.Credit} {CC.W}kredi bastın!");
+            player.PrintToChat($" {CC.Ol}[RULET] {CcOfRulet(ruletPlayCheck.Option)}{ruletPlayCheck.Option} {CC.W}rengine {CC.G}{ruletPlayCheck.Credit} {CC.W}kredi bastın!");
             return;
         }
         var creditStr = info.GetArg(1);
         if (string.IsNullOrWhiteSpace(creditStr) || new String(creditStr.Where(Char.IsDigit).ToArray()).Length == 0)
         {
-            player.PrintToChat($"{Prefix} {CC.W}Kullanım = <kredi> <yeşil/siyah/kırmızı>!");
+            player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Kullanım = <kredi> <yeşil/siyah/kırmızı>!");
+            var total = RuletPlayers.ToList().Select(x => x.Value.Credit).Sum();
+            player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Kasa = {total}");
+
             return;
         }
 
         if (!int.TryParse(creditStr, out int credit))
         {
-            player.PrintToChat($"{Prefix} {CC.DR}GEÇERSİZ MİKTAR!");
+            player.PrintToChat($" {CC.Ol}[RULET] {CC.DR}GEÇERSİZ MİKTAR!");
             return;
         }
         else
         {
-            if (credit < 100 || credit > 5000)
+            if (credit < 100 || credit > 2500)
             {
-                player.PrintToChat($"{Prefix} {CC.R}Min 100, Max 5000 kredi girebilirsin.");
+                player.PrintToChat($" {CC.Ol}[RULET] {CC.R}Min 100, Max 2500 kredi girebilirsin.");
                 return;
             }
             else
             {
                 if (info.ArgCount < 3)
                 {
-                    player.PrintToChat($"{Prefix} {CC.W}Rulete katılmak için bir renk seçmelisin.");
-                    player.PrintToChat($"{Prefix} {CC.R}Kirmizi{CC.W}/{CC.R}K {CC.Ol}x2");
-                    player.PrintToChat($"{Prefix} {CC.G}Yeşil{CC.W}/{CC.G}Y {CC.Ol}x14");
-                    player.PrintToChat($"{Prefix} {CC.Gr}Siyah{CC.W}/{CC.Gr}S {CC.Ol}x2");
+                    player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Rulete katılmak için bir renk seçmelisin.");
+                    player.PrintToChat($" {CC.Ol}[RULET] {CC.R}Kirmizi{CC.W}/{CC.R}K {CC.Ol}x2");
+                    player.PrintToChat($" {CC.Ol}[RULET] {CC.G}Yeşil{CC.W}/{CC.G}Y {CC.Ol}x14");
+                    player.PrintToChat($" {CC.Ol}[RULET] {CC.Gr}Siyah{CC.W}/{CC.Gr}S {CC.Ol}x2");
                     return;
                 }
                 var target = info.ArgString?.Split(credit.ToString())?[1]?.Trim() ?? "";
@@ -127,16 +131,16 @@ public partial class JailbreakExtras
 
                 if (opt == RuletOptions.None)
                 {
-                    player.PrintToChat($"{Prefix} {CC.W}HATALI RENK.");
-                    player.PrintToChat($"{Prefix} {CC.R}Kirmizi{CC.W}/{CC.R}K {CC.Ol}x2");
-                    player.PrintToChat($"{Prefix} {CC.G}Yeşil{CC.W}/{CC.G}Y {CC.Ol}x14");
-                    player.PrintToChat($"{Prefix} {CC.Gr}Siyah{CC.W}/{CC.Gr}S {CC.Ol}x2");
+                    player.PrintToChat($" {CC.Ol}[RULET] {CC.W}HATALI RENK.");
+                    player.PrintToChat($" {CC.Ol}[RULET] {CC.R}Kirmizi{CC.W}/{CC.R}K {CC.Ol}x2");
+                    player.PrintToChat($" {CC.Ol}[RULET] {CC.G}Yeşil{CC.W}/{CC.G}Y {CC.Ol}x14");
+                    player.PrintToChat($" {CC.Ol}[RULET] {CC.Gr}Siyah{CC.W}/{CC.Gr}S {CC.Ol}x2");
                     return;
                 }
 
                 if (RuletPlayers.TryGetValue(player.SteamID, out var ruletPlay))
                 {
-                    player.PrintToChat($"{Prefix} {CcOfRulet(ruletPlay.Option)}{ruletPlay.Option} {CC.W}rengine {CC.G}{ruletPlay.Credit} {CC.W}kredi bastın, değiştiremezsin!");
+                    player.PrintToChat($" {CC.Ol}[RULET] {CcOfRulet(ruletPlay.Option)}{ruletPlay.Option} {CC.W}rengine {CC.G}{ruletPlay.Credit} {CC.W}kredi bastın, değiştiremezsin!");
                     return;
                 }
                 else
@@ -145,7 +149,7 @@ public partial class JailbreakExtras
 
                     if (data.Model == null || data.Model.Credit < credit || data.Model.Credit - credit < 0)
                     {
-                        player.PrintToChat($"{Prefix} {CC.W}Yetersiz Bakiye!");
+                        player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Yetersiz Bakiye!");
                         return;
                     }
 
@@ -153,9 +157,9 @@ public partial class JailbreakExtras
                     RuletPlayers.Add(player.SteamID, ruletPlay);
                     data.Model!.Credit -= credit;
                     PlayerMarketModels[player.SteamID] = data.Model;
-                    Server.PrintToChatAll($"{Prefix} {CC.W}Rulet: {player.PlayerName} {CcOfRulet(opt)}{opt} {CC.W}rengine {CC.G}{credit} {CC.W}kredi bastı!");
-                    player.PrintToChat($"{Prefix} {CcOfRulet(opt)}{opt} {CC.W}rengine {CC.G}{credit} {CC.W}kredi bastın!");
-                    player.PrintToChat($"{Prefix} {CC.W}Güncel Kredin: {CC.G}{data.Model!.Credit}");
+                    Server.PrintToChatAll($" {CC.Ol}[RULET] {CC.Ol}{player.PlayerName} {CcOfRulet(opt)}{opt} {CC.W}rengine {CC.G}{credit} {CC.W}kredi bastı!");
+                    player.PrintToChat($" {CC.Ol}[RULET] {CcOfRulet(opt)}{opt} {CC.W}rengine {CC.G}{credit} {CC.W}kredi bastın!");
+                    player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Güncel Kredin: {CC.G}{data.Model!.Credit}");
                 }
             }
         }
@@ -164,8 +168,8 @@ public partial class JailbreakExtras
     private void RuletActivate()
     {
         var kazananRenk = RuletDondur();
-        Server.PrintToChatAll($"{Prefix} {CC.W}Rulet Dönüyor...");
-        Server.PrintToChatAll($"{Prefix} {CC.W}Ruleti Kazanan Renk: {CcOfRulet(kazananRenk)}{kazananRenk}");
+        Server.PrintToChatAll($" {CC.Ol}[RULET] {CC.W}Rulet Dönüyor...");
+        Server.PrintToChatAll($" {CC.Ol}[RULET] {CC.W}Ruleti Kazanan Renk: {CcOfRulet(kazananRenk)}{kazananRenk}");
 
         GetPlayers()
             .Where(x => RuletPlayers.ContainsKey(x.SteamID))
@@ -179,20 +183,21 @@ public partial class JailbreakExtras
                 // Kazanan renk ve sonuç bildirilir
                 if (enteredCredit.Option != kazananRenk)
                 {
-                    x.PrintToChat($"{Prefix} {CC.DR}Üzgünüm, {CcOfRulet(kazananRenk)}{kazananRenk} kazandı. {CC.G}{enteredCredit.Credit} {CC.W}kredi kaybettin!");
+                    x.PrintToChat($" {CC.Ol}[RULET] {CC.DR}Üzgünüm, {CcOfRulet(kazananRenk)}{kazananRenk} kazandı. {CC.G}{enteredCredit.Credit} {CC.W}kredi kaybettin!");
                 }
                 else
                 {
                     if (kazananRenk == RuletOptions.Yesil)
                     {
-                        x.PrintToChat($"{Prefix}{CC.G} Tebrikler! {CcOfRulet(kazananRenk)}{kazananRenk} {CC.G}kazandı.{CC.W} Ruletten {CC.B}{enteredCredit.Credit * 14}{CC.W} kredi kazandın!");
+                        var win = (int)((enteredCredit.Credit * 14) * 0.9);
+                        x.PrintToChat($" {CC.Ol}[RULET]{CC.G} Tebrikler! {CcOfRulet(kazananRenk)}{kazananRenk} {CC.G}kazandı.{CC.W} Ruletten {CC.B}{win}{CC.W} kredi kazandın!");
                         var data = GetPlayerMarketModel(x.SteamID);
                         if (data.Model == null)
                         {
                             return;
                         }
 
-                        data.Model!.Credit += enteredCredit.Credit * 14;
+                        data.Model!.Credit += win;
                         PlayerMarketModels[x.SteamID] = data.Model;
                     }
                     else
@@ -201,8 +206,8 @@ public partial class JailbreakExtras
 
                         if (kazandiMi)
                         {
-                            var win = enteredCredit.Credit * 2;
-                            x.PrintToChat($"{Prefix}{CC.G} Tebrikler! {CcOfRulet(kazananRenk)}{kazananRenk} {CC.G}kazandı.{CC.W} Ruletten {CC.B}{win}{CC.W} kredi kazandın!");
+                            var win = (int)((enteredCredit.Credit * 2) * 0.9);
+                            x.PrintToChat($" {CC.Ol}[RULET]{CC.G} Tebrikler! {CcOfRulet(kazananRenk)}{kazananRenk} {CC.G}kazandı.{CC.W} Ruletten {CC.B}{win}{CC.W} kredi kazandın!");
                             var data = GetPlayerMarketModel(x.SteamID);
                             if (data.Model == null)
                             {
@@ -214,7 +219,7 @@ public partial class JailbreakExtras
                         }
                         else
                         {
-                            x.PrintToChat($"{Prefix} {CC.DR}Üzgünüm, {CcOfRulet(kazananRenk)}{kazananRenk} kazandı. {CC.G}{enteredCredit.Credit} {CC.W}kredi kaybettin!");
+                            x.PrintToChat($" {CC.Ol}[RULET] {CC.DR}Üzgünüm, {CcOfRulet(kazananRenk)}{kazananRenk} kazandı. {CC.G}{enteredCredit.Credit} {CC.W}kredi kaybettin!");
                         }
                     }
                 }

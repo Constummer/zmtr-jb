@@ -14,6 +14,7 @@ public partial class JailbreakExtras
             CheckAllLevelTags();
             TdonbozAction();
             RuletActivate();
+| PiyangoKazananSonuc();
             return HookResult.Continue;
         });
     }
@@ -31,6 +32,7 @@ public partial class JailbreakExtras
         CoinAngleYUpdaterActive = false;
         CoinSpawned = false;
         _Config.Additional.ParachuteEnabled = true;
+        _Config.Additional.ParachuteModelEnabled = true;
         TeamSteamIds?.Clear();
         TeamActive = false;
         SinirsizMolyTimer?.Kill();

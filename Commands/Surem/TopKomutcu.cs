@@ -30,11 +30,11 @@ public partial class JailbreakExtras
             if (PlayerNamesDatas.TryGetValue(item.Key, out var name))
             {
                 var tempName = name;
-                if (tempName?.Length > 30)
+                if (tempName?.Length > 20)
                 {
-                    tempName = tempName.Substring(0, 27) + "...";
+                    tempName = tempName.Substring(0, 17) + "...";
                 }
-                tempName = tempName?.PadRight(30, '_');
+                tempName = tempName?.PadRight(20, '_');
                 player.PrintToChat($"{Prefix} {CC.G}{tempName} {CC.W}| {CC.B}{(item.Value.WTime / 60)} {CC.Ol}Saat");
             }
         }

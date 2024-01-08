@@ -84,6 +84,7 @@ public partial class JailbreakExtras
 
     [ConsoleCommand("respawn")]
     [ConsoleCommand("rev")]
+    [ConsoleCommand("res")]
     [ConsoleCommand("revive")]
     public void Respawn(CCSPlayerController? player, CommandInfo info)
     {
