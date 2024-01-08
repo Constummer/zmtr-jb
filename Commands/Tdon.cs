@@ -64,4 +64,21 @@ public partial class JailbreakExtras
                             x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
                         });
     }
+
+    private static void AllDonbozAction()
+    {
+        GetPlayers()
+           .Where(x => x.PawnIsAlive)
+           .ToList()
+           .ForEach(x =>
+           {
+               if (TeamActive == false)
+               {
+                   SetColour(x, DefaultPlayerColor);
+               }
+               RefreshPawn(x);
+
+               x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
+           });
+    }
 }

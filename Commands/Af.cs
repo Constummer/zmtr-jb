@@ -34,7 +34,7 @@ public partial class JailbreakExtras
              }
          });
         Server.PrintToChatAll($"{Prefix} {CC.Ol}{player.PlayerName} {CC.W}adlı admin herkesi yeniden canlandırdı.");
-        Server.PrintToChatAll($"{Prefix} {CC.Ol}{player.PlayerName} {CC.W}adlı admin herkesin canını {CC.G}100 olarak ayarladı.");
+        Server.PrintToChatAll($"{Prefix} {CC.Ol}{player.PlayerName} {CC.W}adlı admin herkesin canını {CC.G}100{CC.W} olarak ayarladı.");
     }
 
     #endregion Af

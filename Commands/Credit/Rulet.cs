@@ -172,7 +172,7 @@ public partial class JailbreakExtras
                     Server.PrintToChatAll($" {CC.Ol}[RULET] {CC.Ol}{player.PlayerName} {CcOfRulet(opt)}{opt} {CC.W}rengine {CC.G}{credit} {CC.W}kredi bastı!");
                     player.PrintToChat($" {CC.Ol}[RULET] {CcOfRulet(opt)}{opt} {CC.W}rengine {CC.G}{credit} {CC.W}kredi bastın!");
                     player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Güncel Kredin: {CC.G}{data.Model!.Credit}");
-                    player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Kasa = {total}");
+                    player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Kasa = {total + credit}");
                 }
             }
         }
@@ -184,30 +184,47 @@ public partial class JailbreakExtras
         Server.PrintToChatAll($" {CC.Ol}[RULET] {CC.W}Rulet Dönüyor...");
         Server.PrintToChatAll($" {CC.Ol}[RULET] {CC.W}Ruleti Kazanan Renk: {CcOfRulet(kazananRenk)}{kazananRenk}");
 
-        GetPlayers()
+        var players = GetPlayers()
             .Where(x => RuletPlayers.ContainsKey(x.SteamID))
-            .ToList()
-            .ForEach(x =>
+            .ToList();
+        foreach (var x in players)
+        {
+            if (RuletPlayers.TryGetValue(x.SteamID, out var enteredCredit) == false)
             {
-                if (RuletPlayers.TryGetValue(x.SteamID, out var enteredCredit) == false)
+                continue;
+            }
+            // Kazanan renk ve sonuç bildirilir
+            if (enteredCredit.Option != kazananRenk)
+            {
+                x.PrintToChat($" {CC.Ol}[RULET] {CC.DR}Üzgünüm, {CcOfRulet(kazananRenk)}{kazananRenk} kazandı. {CC.G}{enteredCredit.Credit} {CC.W}kredi kaybettin!");
+            }
+            else
+            {
+                if (kazananRenk == RuletOptions.Yesil)
                 {
-                    return;
-                }
-                // Kazanan renk ve sonuç bildirilir
-                if (enteredCredit.Option != kazananRenk)
-                {
-                    x.PrintToChat($" {CC.Ol}[RULET] {CC.DR}Üzgünüm, {CcOfRulet(kazananRenk)}{kazananRenk} kazandı. {CC.G}{enteredCredit.Credit} {CC.W}kredi kaybettin!");
+                    var win = (int)((enteredCredit.Credit * 14) * 0.9);
+                    x.PrintToChat($" {CC.Ol}[RULET]{CC.G} Tebrikler! {CcOfRulet(kazananRenk)}{kazananRenk} {CC.G}kazandı.{CC.W} Ruletten {CC.B}{win}{CC.W} kredi kazandın!");
+                    var data = GetPlayerMarketModel(x.SteamID);
+                    if (data.Model == null)
+                    {
+                        continue;
+                    }
+
+                    data.Model!.Credit += win;
+                    PlayerMarketModels[x.SteamID] = data.Model;
                 }
                 else
                 {
-                    if (kazananRenk == RuletOptions.Yesil)
+                    bool kazandiMi = RuletSonucunuKontrolEt(kazananRenk);
+
+                    if (kazandiMi)
                     {
-                        var win = (int)((enteredCredit.Credit * 14) * 0.9);
+                        var win = (int)((enteredCredit.Credit * 2) * 0.9);
                         x.PrintToChat($" {CC.Ol}[RULET]{CC.G} Tebrikler! {CcOfRulet(kazananRenk)}{kazananRenk} {CC.G}kazandı.{CC.W} Ruletten {CC.B}{win}{CC.W} kredi kazandın!");
                         var data = GetPlayerMarketModel(x.SteamID);
                         if (data.Model == null)
                         {
-                            return;
+                            continue;
                         }
 
                         data.Model!.Credit += win;
@@ -215,28 +232,11 @@ public partial class JailbreakExtras
                     }
                     else
                     {
-                        bool kazandiMi = RuletSonucunuKontrolEt(kazananRenk);
-
-                        if (kazandiMi)
-                        {
-                            var win = (int)((enteredCredit.Credit * 2) * 0.9);
-                            x.PrintToChat($" {CC.Ol}[RULET]{CC.G} Tebrikler! {CcOfRulet(kazananRenk)}{kazananRenk} {CC.G}kazandı.{CC.W} Ruletten {CC.B}{win}{CC.W} kredi kazandın!");
-                            var data = GetPlayerMarketModel(x.SteamID);
-                            if (data.Model == null)
-                            {
-                                return;
-                            }
-
-                            data.Model!.Credit += win;
-                            PlayerMarketModels[x.SteamID] = data.Model;
-                        }
-                        else
-                        {
-                            x.PrintToChat($" {CC.Ol}[RULET] {CC.DR}Üzgünüm, {CcOfRulet(kazananRenk)}{kazananRenk} kazandı. {CC.G}{enteredCredit.Credit} {CC.W}kredi kaybettin!");
-                        }
+                        x.PrintToChat($" {CC.Ol}[RULET] {CC.DR}Üzgünüm, {CcOfRulet(kazananRenk)}{kazananRenk} kazandı. {CC.G}{enteredCredit.Credit} {CC.W}kredi kaybettin!");
                     }
                 }
-            });
+            }
+        };
         RuletPlayers.Clear();
 
         static bool RuletSonucunuKontrolEt(RuletOptions kazananRenk)

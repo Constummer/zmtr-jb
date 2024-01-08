@@ -108,7 +108,7 @@ public partial class JailbreakExtras
                     Server.PrintToChatAll($" {CC.Ol}[PİYANGO] {CC.Ol}{player.PlayerName} {CC.G}{credit} {CC.W}kredi bastı!");
                     player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.G}{credit} {CC.W}kredi bastın!");
                     player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.W}Güncel Kredin: {CC.G}{data.Model!.Credit}");
-                    player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.W}Kasa = {total}");
+                    player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.W}Kasa = {total + credit}");
                 }
             }
         }
@@ -119,10 +119,9 @@ public partial class JailbreakExtras
         var piyangoKazanan = PiyangoKazanan();
         if (piyangoKazanan == 0)
         {
-            Server.PrintToChatAll($" {CC.Ol}[PİYANGO] {CC.W}Piyango katılım yetersiz olduğundan bu el oynanmadı...");
             return;
         }
-        double total = PiyangoPlayers.ToList().Select(x => x.Value).Sum();
+        int total = (int)(PiyangoPlayers.ToList().Select(x => x.Value).Sum() * 0.9);
 
         Server.PrintToChatAll($" {CC.Ol}[PİYANGO] {CC.W}Piyango Açıklanıyor...");
         _ = PiyangoPlayers.TryGetValue(piyangoKazanan, out var amount);
@@ -143,7 +142,7 @@ public partial class JailbreakExtras
             return;
         }
 
-        data.Model!.Credit += (int)(amount * 0.9);
+        data.Model!.Credit += total;
         PlayerMarketModels[piyangoKazanan] = data.Model;
         PiyangoPlayers.Clear();
 
