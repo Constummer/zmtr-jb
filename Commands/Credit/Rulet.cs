@@ -5,6 +5,7 @@ using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Entities;
 using System.Numerics;
+using System.Runtime.CompilerServices;
 
 namespace JailbreakExtras;
 
@@ -47,12 +48,12 @@ public partial class JailbreakExtras
             {
                 return;
             }
-
-            data.Model!.Credit += ruletPlay.Credit;
+            var amount = (int)(ruletPlay.Credit * 0.9);
+            data.Model!.Credit += amount;
             PlayerMarketModels[player.SteamID] = data.Model;
 
             RuletPlayers.Remove(player.SteamID, out _);
-            player.PrintToChat($"{Prefix} {CC.W}Yatırdığınız {CC.R}{ruletPlay.Credit}{CC.W} kredi iade edildi");
+            player.PrintToChat($"{Prefix} {CC.W}Yatırdığınız {CC.R}{amount}{CC.W} kredi vergili iade edildi");
             return;
         }
         else
@@ -124,20 +125,16 @@ public partial class JailbreakExtras
                     player.PrintToChat($"{Prefix} {CC.DB}Siyah{CC.W}/{CC.DB}S");
                     return;
                 }
-                var data = GetPlayerMarketModel(player.SteamID);
 
                 if (RuletPlayers.TryGetValue(player.SteamID, out var ruletPlay))
                 {
-                    if (data.Model == null || (data.Model.Credit + ruletPlay.Credit) < credit || data.Model.Credit + ruletPlay.Credit - credit < 0)
-                    {
-                        player.PrintToChat($"{Prefix} {CC.W}Yetersiz Bakiye!");
-                        return;
-                    }
-
-                    RuletPlayers[player.SteamID] = ruletPlay;
+                    player.PrintToChat($"{Prefix} {CcOfRulet(ruletPlay.Option)}{ruletPlay.Option} {CC.W} seçeneğine {CC.B}{ruletPlay.Credit} {CC.W}kredi oynamıştın, değiştiremezsin!");
+                    return;
                 }
                 else
                 {
+                    var data = GetPlayerMarketModel(player.SteamID);
+
                     if (data.Model == null || data.Model.Credit < credit || data.Model.Credit - credit < 0)
                     {
                         player.PrintToChat($"{Prefix} {CC.W}Yetersiz Bakiye!");
@@ -146,11 +143,12 @@ public partial class JailbreakExtras
 
                     ruletPlay = new() { Option = opt, Credit = credit };
                     RuletPlayers.Add(player.SteamID, ruletPlay);
+                    data.Model!.Credit -= credit;
+                    PlayerMarketModels[player.SteamID] = data.Model;
+                    Server.PrintToChatAll($"{Prefix} {CC.W}Rulet: {player.PlayerName} {CcOfRulet(opt)}{opt} {CC.W} seçeneğine {CC.B}{credit} {CC.W}kredi oynadı!");
+                    player.PrintToChat($"{Prefix} {CcOfRulet(opt)}{opt} {CC.W} seçeneğine {CC.B}{credit} {CC.W}kredi oynadın!");
+                    player.PrintToChat($"{Prefix} {CC.W} Kalan Kredin = {CC.B}{data.Model!.Credit}");
                 }
-                data.Model!.Credit -= credit;
-                PlayerMarketModels[player.SteamID] = data.Model;
-                player.PrintToChat($"{Prefix} {CC.B}{opt} {CC.W} seçeneğine {CC.B}{credit} {CC.W}kredi oynadın!");
-                player.PrintToChat($"{Prefix} {CC.W} Kalan Kredin = {CC.B}{data.Model!.Credit}");
             }
         }
     }
@@ -158,7 +156,7 @@ public partial class JailbreakExtras
     private void RuletActivate()
     {
         var kazananRenk = RuletDondur();
-        Server.PrintToChatAll($"{Prefix} Rulet Kazanan renk: {kazananRenk}");
+        Server.PrintToChatAll($"{Prefix} {CC.W}Rulet Kazanan renk: {CcOfRulet(kazananRenk)}{kazananRenk}");
 
         GetPlayers()
             .Where(x => RuletPlayers.ContainsKey(x.SteamID))
@@ -172,13 +170,13 @@ public partial class JailbreakExtras
                 // Kazanan renk ve sonuç bildirilir
                 if (enteredCredit.Option != kazananRenk)
                 {
-                    x.PrintToChat($"{Prefix} Üzgünüm, {kazananRenk} kazandı! {enteredCredit.Credit} kredi kaybettin!");
+                    x.PrintToChat($"{Prefix} Üzgünüm, {CcOfRulet(kazananRenk)}{kazananRenk} kazandı! {enteredCredit.Credit} kredi kaybettin!");
                 }
                 else
                 {
                     if (kazananRenk == RuletOptions.Yesil)
                     {
-                        x.PrintToChat($"{Prefix}{CC.W} Tebrikler {CC.B}{kazananRenk} {CC.G}kazandın!{CC.W} Ruletten {CC.B}{enteredCredit.Credit * 14}{CC.W} kredi kazandın!");
+                        x.PrintToChat($"{Prefix}{CC.W} Tebrikler {CcOfRulet(kazananRenk)}{kazananRenk} {CC.G}kazandın!{CC.W} Ruletten {CC.B}{enteredCredit.Credit * 14}{CC.W} kredi kazandın!");
                         var data = GetPlayerMarketModel(x.SteamID);
                         if (data.Model == null)
                         {
@@ -195,7 +193,7 @@ public partial class JailbreakExtras
                         if (kazandiMi)
                         {
                             var win = enteredCredit.Credit * 2;
-                            x.PrintToChat($"{Prefix}{CC.W} Tebrikler {CC.B}{kazananRenk} {CC.G}kazandın!{CC.W} Ruletten {CC.B}{win}{CC.W} kredi kazandın!");
+                            x.PrintToChat($"{Prefix}{CC.W} Tebrikler {CcOfRulet(kazananRenk)}{kazananRenk} {CC.G}kazandın!{CC.W} Ruletten {CC.B}{win}{CC.W} kredi kazandın!");
                             var data = GetPlayerMarketModel(x.SteamID);
                             if (data.Model == null)
                             {
@@ -207,7 +205,7 @@ public partial class JailbreakExtras
                         }
                         else
                         {
-                            x.PrintToChat($"{Prefix} Üzgünüm, {kazananRenk} kazandı! {enteredCredit.Credit} kredi kaybettin!");
+                            x.PrintToChat($"{Prefix} Üzgünüm, {CcOfRulet(kazananRenk)}{kazananRenk} kazandı! {enteredCredit.Credit} kredi kaybettin!");
                         }
                     }
                 }
@@ -246,6 +244,14 @@ public partial class JailbreakExtras
             }
         }
     }
+
+    private char CcOfRulet(RuletOptions data) => data switch
+    {
+        RuletOptions.Yesil => CC.G,
+        RuletOptions.Kirmizi => CC.R,
+        RuletOptions.Siyah => CC.DB,
+        _ => CC.B
+    };
 
     #endregion Rulet
 }

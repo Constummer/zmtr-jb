@@ -40,8 +40,11 @@ public partial class JailbreakExtras
                 if (player.UserId == 0) return;
                 Logger.LogInformation("i");
 
-                if (player.EverFullyConnected == false) return;
-                Logger.LogInformation("j");
+                //if (player.EverFullyConnected == false) return;
+                //Logger.LogInformation("j");
+
+                //if (player.Connected != PlayerConnectedState.PlayerConnected) return;
+                //Logger.LogInformation("k");
 
                 if (ValidateCallerPlayer(player, false) == false)
                 {
