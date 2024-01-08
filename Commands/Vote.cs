@@ -304,7 +304,7 @@ public partial class JailbreakExtras
                         AlreadyVotedPlayers.Add(player.SteamID, data.Key.ToString());
                         var voted = GetPlayers().Where(x => x.SteamID == data.Key).Select(x => x.PlayerName).FirstOrDefault();
 
-                        player.PrintToChat($"{Prefix}{CC.B} {voted} {CC.W} Seçeneğine oy verdin.");
+                        player.PrintToChat($"{Prefix}{CC.Ol} {voted} {CC.G} Seçeneğine oy verdin.");
                         GetPlayers()
                             .Where(x => x.SteamID != player.SteamID)
                             .ToList()
