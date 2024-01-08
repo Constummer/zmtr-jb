@@ -11,7 +11,8 @@ public partial class JailbreakExtras
 
     #region SinirsizX
 
-    [ConsoleCommand("sinirsizx")]
+    [ConsoleCommand("sinirsizxac")]
+    [ConsoleCommand("smxac")]
     [ConsoleCommand("smx")]
     [CommandHelper(1, "<playerismi-@all-@t-@ct-@me-@alive-@dead> [weapon]")]
     public void SinirsizX(CCSPlayerController? player, CommandInfo info)
@@ -36,6 +37,7 @@ public partial class JailbreakExtras
                 SinirsizXTimer?.Kill();
                 SinirsizXTimer = null;
                 SinirsizXTimer = GiveSinirsizCustomNade(1, SinirsizXTimer, $"weapon_{weapon}", target, player.PlayerName);
+                Server.PrintToChatAll($"{Prefix} {CC.B}{player.PlayerName}{CC.W} adlı admin {CC.Ol}{target}{CC.W} hedefine {CC.P}{weapon} {CC.W} silahıyla {CC.DB}SMX{CC.W} başlattı.");
             }
         }
         else

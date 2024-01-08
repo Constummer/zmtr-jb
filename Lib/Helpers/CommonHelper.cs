@@ -118,6 +118,24 @@ public partial class JailbreakExtras
         }
     }
 
+    private static List<uint> PlayerWeaponIndexes(CCSPlayerController x)
+    {
+        var res = new List<uint>();
+        if (x?.PlayerPawn?.Value?.WeaponServices?.MyWeapons != null)
+        {
+            foreach (var weapon in x.PlayerPawn.Value.WeaponServices!.MyWeapons)
+            {
+                if (weapon.Value != null
+                    && string.IsNullOrWhiteSpace(weapon.Value.DesignerName) == false
+                    && weapon.Value.DesignerName != "[null]")
+                {
+                    res.Add(weapon.Index);
+                }
+            }
+        }
+        return res;
+    }
+
     private static bool GetTargetAction(CCSPlayerController x, string target, string self)
     {
         var targetArgument = GetTargetArgument(target);

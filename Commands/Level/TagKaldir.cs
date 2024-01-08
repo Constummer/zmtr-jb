@@ -10,6 +10,8 @@ public partial class JailbreakExtras
     #region TagKaldir
 
     [ConsoleCommand("tagkaldir")]
+    [ConsoleCommand("tagkapat")]
+    [ConsoleCommand("tagsil")]
     public void TagKaldir(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player, false) == false)

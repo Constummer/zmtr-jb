@@ -198,6 +198,10 @@ public partial class JailbreakExtras
                  }
                  i++;
              });
+            if (string.IsNullOrWhiteSpace(cmdText))
+            {
+                return;
+            }
             var cmd = new MySqlCommand(cmdText, con);
             cmd.Parameters.AddRange(parameters.ToArray());
             cmd.ExecuteNonQuery();

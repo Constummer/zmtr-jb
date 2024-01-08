@@ -6,6 +6,10 @@ public partial class JailbreakExtras
 {
     private static void LastAliveTSound()
     {
+        if (LastRSoundDisable)
+        {
+            return;
+        }
         if (GetPlayers(CsTeam.Terrorist).Where(x => x.PawnIsAlive).Count() == 2)
         {
             var players = GetPlayers();

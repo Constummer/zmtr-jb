@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Memory;
 using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
 
@@ -225,6 +226,21 @@ public partial class JailbreakExtras
         }
     }
 
+    [ConsoleCommand("ctparty")]
+    public void ctparty(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        //player.PlayerPawn.Value.ObserverServices.ObserverMode = 3;
+        //player.PlayerPawn.Value.ObserverServices.ForcedObserverMode = true;
+        //Schema.SetSchemaValue<int>(player.PlayerPawn.Value!.ObserverServices!.Handle, "CPlayer_ObserverServices", "m_hObserverTarget", 3);
+        //Schema.SetSchemaValue<int>(player.PlayerPawn.Value!.CameraServices!.Handle, "CCSPlayerBase_CameraServices", "m_iFOV", 120);
+        //Schema.SetSchemaValue<int>(player.PlayerPawn.Value.ObserverServices.Handle, "CPlayer_ObserverServices", "m_iObserverMode", 1);
+    }
+
     [ConsoleCommand("cPlayerNamesDatas")]
     public void cPlayerNamesDatas(CCSPlayerController? player, CommandInfo info)
     {
@@ -239,6 +255,8 @@ public partial class JailbreakExtras
         }
     }
 
+    private static bool LastRSoundDisable = false;
+
     [ConsoleCommand("consjoy")]
     public void consjoy(CCSPlayerController? player, CommandInfo info)
     {
@@ -251,6 +269,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LastRSoundDisable = true;
         RespawnAc(player, info);
         FfAc(player, info);
         Noclip(player, info);

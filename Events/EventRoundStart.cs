@@ -1,8 +1,5 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Commands.Targeting;
-using CounterStrikeSharp.API.Modules.Entities;
-using CounterStrikeSharp.API.Modules.Utils;
 using System.Drawing;
 
 namespace JailbreakExtras;
@@ -15,7 +12,8 @@ public partial class JailbreakExtras
         {
             PrepareRoundDefaults();
             ClearAll();
-
+            Server.PrintToChatAll($"{Prefix} {CC.W}Rulet aktif. {CC.B} !rulet {CC.W} yazarak rulet oynayabilirsiniz.");
+            Server.PrintToChatAll($"{Prefix} {CC.W}Rulet sonuçlarý {CC.R}EL SONU {CC.W} açýklanacaktýr.");
             CoinAfterNewCommander();
             AddTimer(1.0f, () =>
             {

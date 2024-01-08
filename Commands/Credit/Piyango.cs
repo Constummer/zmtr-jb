@@ -37,13 +37,13 @@ public partial class JailbreakExtras
             }
             else
             {
-                if (RuletPlayers.TryGetValue(player.SteamID, out var enteredCredit))
+                if (PiyangoPlayers.TryGetValue(player.SteamID, out var enteredCredit))
                 {
-                    RuletPlayers[player.SteamID] = credit;
+                    PiyangoPlayers[player.SteamID] = credit;
                 }
                 else
                 {
-                    RuletPlayers.Add(player.SteamID, credit);
+                    PiyangoPlayers.Add(player.SteamID, credit);
                 }
             }
         }

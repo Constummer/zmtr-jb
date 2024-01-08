@@ -17,12 +17,13 @@ public partial class JailbreakExtras
         });
     }
 
-    private static void PrepareRoundDefaults()
+    private void PrepareRoundDefaults()
     {
         foreach (var item in _Config.Additional.RoundEndStartCommands)
         {
             Server.ExecuteCommand(item);
         }
+        LastRSoundDisable = false;
         CurrentCtRespawns = 0;
         LrActive = false;
         UnlimitedReserverAmmoActive = false;
