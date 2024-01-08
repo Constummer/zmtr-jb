@@ -58,16 +58,22 @@ public partial class JailbreakExtras
     [CommandHelper(0, "<kredi> <yeşil/siyah/kırmızı>")]
     public void Rulet(CCSPlayerController? player, CommandInfo info)
     {
+        if (IsGameBannedToday())
+        {
+            player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.W}Bu mübarek günde, yakışıyor mu müslüman din kardeşim.");
+            return;
+        }
+        var total = RuletPlayers.ToList().Select(x => x.Value.Credit).Sum();
         if (RuletPlayers.TryGetValue(player.SteamID, out var ruletPlayCheck))
         {
             player.PrintToChat($" {CC.Ol}[RULET] {CcOfRulet(ruletPlayCheck.Option)}{ruletPlayCheck.Option} {CC.W}rengine {CC.G}{ruletPlayCheck.Credit} {CC.W}kredi bastın!");
+            player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Kasa = {total}");
             return;
         }
         var creditStr = info.GetArg(1);
         if (string.IsNullOrWhiteSpace(creditStr) || new String(creditStr.Where(Char.IsDigit).ToArray()).Length == 0)
         {
-            player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Kullanım = <kredi> <yeşil/siyah/kırmızı>!");
-            var total = RuletPlayers.ToList().Select(x => x.Value.Credit).Sum();
+            player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Kullanım ={CC.G} !rulet <kredi> <yeşil/siyah/kırmızı>");
             player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Kasa = {total}");
 
             return;
@@ -76,6 +82,7 @@ public partial class JailbreakExtras
         if (!int.TryParse(creditStr, out int credit))
         {
             player.PrintToChat($" {CC.Ol}[RULET] {CC.DR}GEÇERSİZ MİKTAR!");
+            player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Kasa = {total}");
             return;
         }
         else
@@ -83,6 +90,7 @@ public partial class JailbreakExtras
             if (credit < 100 || credit > 2500)
             {
                 player.PrintToChat($" {CC.Ol}[RULET] {CC.R}Min 100, Max 2500 kredi girebilirsin.");
+                player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Kasa = {total}");
                 return;
             }
             else
@@ -93,6 +101,7 @@ public partial class JailbreakExtras
                     player.PrintToChat($" {CC.Ol}[RULET] {CC.R}Kirmizi{CC.W}/{CC.R}K {CC.Ol}x2");
                     player.PrintToChat($" {CC.Ol}[RULET] {CC.G}Yeşil{CC.W}/{CC.G}Y {CC.Ol}x14");
                     player.PrintToChat($" {CC.Ol}[RULET] {CC.Gr}Siyah{CC.W}/{CC.Gr}S {CC.Ol}x2");
+                    player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Kasa = {total}");
                     return;
                 }
                 var target = info.ArgString?.Split(credit.ToString())?[1]?.Trim() ?? "";
@@ -135,12 +144,14 @@ public partial class JailbreakExtras
                     player.PrintToChat($" {CC.Ol}[RULET] {CC.R}Kirmizi{CC.W}/{CC.R}K {CC.Ol}x2");
                     player.PrintToChat($" {CC.Ol}[RULET] {CC.G}Yeşil{CC.W}/{CC.G}Y {CC.Ol}x14");
                     player.PrintToChat($" {CC.Ol}[RULET] {CC.Gr}Siyah{CC.W}/{CC.Gr}S {CC.Ol}x2");
+                    player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Kasa = {total}");
                     return;
                 }
 
                 if (RuletPlayers.TryGetValue(player.SteamID, out var ruletPlay))
                 {
                     player.PrintToChat($" {CC.Ol}[RULET] {CcOfRulet(ruletPlay.Option)}{ruletPlay.Option} {CC.W}rengine {CC.G}{ruletPlay.Credit} {CC.W}kredi bastın, değiştiremezsin!");
+                    player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Kasa = {total}");
                     return;
                 }
                 else
@@ -150,6 +161,7 @@ public partial class JailbreakExtras
                     if (data.Model == null || data.Model.Credit < credit || data.Model.Credit - credit < 0)
                     {
                         player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Yetersiz Bakiye!");
+                        player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Kasa = {total}");
                         return;
                     }
 
@@ -160,6 +172,7 @@ public partial class JailbreakExtras
                     Server.PrintToChatAll($" {CC.Ol}[RULET] {CC.Ol}{player.PlayerName} {CcOfRulet(opt)}{opt} {CC.W}rengine {CC.G}{credit} {CC.W}kredi bastı!");
                     player.PrintToChat($" {CC.Ol}[RULET] {CcOfRulet(opt)}{opt} {CC.W}rengine {CC.G}{credit} {CC.W}kredi bastın!");
                     player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Güncel Kredin: {CC.G}{data.Model!.Credit}");
+                    player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Kasa = {total}");
                 }
             }
         }

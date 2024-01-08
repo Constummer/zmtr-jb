@@ -12,7 +12,6 @@ public partial class JailbreakExtras
         {
             PrepareRoundDefaults();
             ClearAll();
-            Server.PrintToChatAll($"{Prefix} {CC.W}Rulet aktif. {CC.B} !rulet {CC.W} yazarak rulet oynayabilirsiniz.");
             CoinAfterNewCommander();
             AddTimer(1.0f, () =>
             {

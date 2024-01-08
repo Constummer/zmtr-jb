@@ -77,13 +77,10 @@ public partial class JailbreakExtras
                     break;
 
                 case CsTeam.CounterTerrorist:
+                    if (CTBanCheck(x) == false)
                     {
-                        //if (CTBanCheck(x) == false)
-                        //{
-                        //    x.PrintToChat($"{Prefix} {CC.W} CT banın var, geçemezsin!");
-                        //    player.PrintToChat($"{Prefix} {CC.W}{} CT banın var, geçemezsin!");
-                        //    return;
-                        //}
+                        Server.PrintToChatAll($"{Prefix} {CC.W}{x.PlayerName} CT banı olduğu için CT atılamadı!");
+                        return;
                     }
                     x.ChangeTeam(targetTeam);
                     break;
