@@ -13,7 +13,7 @@ public partial class JailbreakExtras
     private Dictionary<string, Vector> skzCoordinates = new()
     {
         {"Hücre",   new Vector(-535,345,-27) },
-        {"KZ",      new Vector(2102,812,-357) },
+        {"KZ",      new Vector(2102,739,-357) },
     };
 
     private Vector Hucre = new Vector(-535, 345, -27);

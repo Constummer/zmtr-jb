@@ -45,7 +45,7 @@ public partial class JailbreakExtras
             PlayerMarketModels[player.SteamID] = data.Model;
 
             RuletPlayers.Remove(player.SteamID, out _);
-            player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Yatırdığınız {CC.R}{amount}{CC.W} kredi vergisi kesilerek iade edildi");
+            player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Yatırdığınız {CC.R}{amount}{CC.W} kredi vergisi kesilerek iade edildi.");
             return;
         }
         else

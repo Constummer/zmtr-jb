@@ -34,7 +34,7 @@ public partial class JailbreakExtras
             PlayerMarketModels[player.SteamID] = data.Model;
 
             PiyangoPlayers.Remove(player.SteamID, out _);
-            player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.W}Yatırdığınız {CC.R}{amount}{CC.W} kredi vergisi kesilerek iade edildi");
+            player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.W}Yatırdığınız {CC.R}{amount}{CC.W} kredi vergisi kesilerek iade edildi.");
             return;
         }
         else
@@ -48,12 +48,6 @@ public partial class JailbreakExtras
     [CommandHelper(0, "<kredi>")]
     public void Piyango(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
-        {
-            player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.W}Bu komut için yeterli yetkin bulunmuyor.");
-            return;
-        }
-
         if (IsGameBannedToday())
         {
             player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.W}Bu mübarek günde, yakışıyor mu müslüman din kardeşim.");
@@ -77,9 +71,9 @@ public partial class JailbreakExtras
         }
         else
         {
-            if (credit < 10 || credit > 100)
+            if (credit < 10 || credit > 50)
             {
-                player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.R}Min 10, Max 100 kredi girebilirsin");
+                player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.R}Min 10, Max 50 kredi girebilirsin");
                 player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.W}Kasa = {total}");
                 return;
             }
@@ -105,7 +99,7 @@ public partial class JailbreakExtras
                     PiyangoPlayers.Add(player.SteamID, credit);
                     data.Model!.Credit -= credit;
                     PlayerMarketModels[player.SteamID] = data.Model;
-                    Server.PrintToChatAll($" {CC.Ol}[PİYANGO] {CC.Ol}{player.PlayerName} {CC.G}{credit} {CC.W}kredi bastı!");
+                    Server.PrintToChatAll($" {CC.Ol}[PİYANGO] {CC.Ol}{player.PlayerName} {CC.W}Piyango'ya{CC.G}{credit} {CC.W}kredi ile katıldı!");
                     player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.G}{credit} {CC.W}kredi bastın!");
                     player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.W}Güncel Kredin: {CC.G}{data.Model!.Credit}");
                     player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.W}Kasa = {total + credit}");

@@ -13,12 +13,12 @@ public partial class JailbreakExtras
     #region Gag
 
     [ConsoleCommand("sgag")]
-    [RequiresPermissions("@css/chat")]
     [CommandHelper(2, "<playerismi-@all-@t-@ct-@me-@alive-@dead> [dakika]")]
     public void OnSGagCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (!AdminManager.PlayerHasPermissions(player, "@css/admin1"))
         {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
 

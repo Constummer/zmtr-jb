@@ -36,7 +36,7 @@ public partial class JailbreakExtras
     {
         if (ValidateCallerPlayer(player) == false && LatestWCommandUser != player.SteamID)
         {
-            if (!AdminManager.PlayerHasPermissions(player, "@css/test22"))
+            if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
             {
                 return;
             }

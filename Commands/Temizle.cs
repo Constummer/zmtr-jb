@@ -37,6 +37,7 @@ public partial class JailbreakExtras
             if (playerWeaponIndexes.Contains(ent.Index) == false)
             {
                 ent.Remove();
+                Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.W}yerdeki tüm silahları sildi.");
             }
         }
     }

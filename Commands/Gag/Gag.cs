@@ -14,12 +14,12 @@ public partial class JailbreakExtras
     #region Gag
 
     [ConsoleCommand("gag")]
-    [RequiresPermissions("@css/chat")]
     [CommandHelper(1, "<playerismi-@all-@t-@ct-@me-@alive-@dead>")]
     public void OnGagCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (!AdminManager.PlayerHasPermissions(player, "@css/admin1"))
         {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
 
@@ -64,13 +64,13 @@ public partial class JailbreakExtras
                     }
                     if (targetArgument == TargetForArgument.None)
                     {
-                        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{gagPlayer.PlayerName} {CC.B}Sınırsız{CC.W} gagladı.");
+                        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{gagPlayer.PlayerName} {CC.W}gagladı.");
                     }
                 }
             });
         if (targetArgument != TargetForArgument.None)
         {
-            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefini {CC.B}gagladı{CC.W}.");
+            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefini gagladı.");
         }
     }
 
@@ -80,7 +80,7 @@ public partial class JailbreakExtras
         {
             if (call > DateTime.UtcNow)
             {
-                player.PrintToChat($"{Prefix} {CC.W} GAGLISIN!");
+                player.PrintToChat($"{Prefix} {CC.W}GAGLISIN!");
                 return true;
             }
             else
@@ -90,7 +90,7 @@ public partial class JailbreakExtras
         }
         if (PGags.Contains(player.SteamID))
         {
-            player.PrintToChat($"{Prefix} {CC.W} SINIRSIZ GAGLISIN!");
+            player.PrintToChat($"{Prefix} {CC.W}SINIRSIZ GAGLISIN!");
             return true;
         }
         return false;

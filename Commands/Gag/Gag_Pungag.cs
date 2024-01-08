@@ -12,17 +12,12 @@ public partial class JailbreakExtras
     #region UnGag
 
     [ConsoleCommand("pungag")]
-    [RequiresPermissions("@css/chat")]
     [CommandHelper(1, "<playerismi-@all-@t-@ct-@me-@alive-@dead>")]
     public void OnPunGagCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
         {
-            return;
-        }
-
-        if (ValidateCallerPlayer(player) == false)
-        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
 
