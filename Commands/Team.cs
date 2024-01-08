@@ -73,12 +73,25 @@ public partial class JailbreakExtras
             switch (targetTeam)
             {
                 case CsTeam.Spectator:
+                    x.SwitchTeam(targetTeam);
+                    break;
+
+                case CsTeam.CounterTerrorist:
+                    {
+                        //if (CTBanCheck(x) == false)
+                        //{
+                        //    x.PrintToChat($"{Prefix} {CC.W} CT banın var, geçemezsin!");
+                        //    player.PrintToChat($"{Prefix} {CC.W}{} CT banın var, geçemezsin!");
+                        //    return;
+                        //}
+                    }
                     x.ChangeTeam(targetTeam);
                     break;
 
-                default:
-                    x.SwitchTeam(targetTeam);
-                    break;
+                case CsTeam.Terrorist:
+                    x.ChangeTeam(targetTeam); break;
+
+                default: break;
             }
         }
         Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}hedefi {CC.B}{targetTeam.ToString()} {CC.W}takimina gönderdi.");

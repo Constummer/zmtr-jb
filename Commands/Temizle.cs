@@ -1,10 +1,7 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
-using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
-using Microsoft.Extensions.Logging;
-using System.Xml.Linq;
 
 namespace JailbreakExtras;
 
@@ -15,9 +12,8 @@ public partial class JailbreakExtras
     [ConsoleCommand("temizle")]
     public void Temizle(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (ValidateCallerPlayer(player) == false)
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         var target = Utilities.FindAllEntitiesByDesignerName<CBaseEntity>("weapon_");

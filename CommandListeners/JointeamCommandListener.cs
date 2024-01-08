@@ -30,6 +30,11 @@ public partial class JailbreakExtras
                 }
                 else
                 {
+                    if (CTBanCheck(player) == false)
+                    {
+                        player.PrintToChat($"{Prefix} {CC.W} CT banýn var, geçemezsin!");
+                        player!.ChangeTeam(CsTeam.Terrorist);
+                    }
                     CustomRespawnIfActive(player);
                 }
             }

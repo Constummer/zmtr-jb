@@ -84,8 +84,17 @@ public partial class JailbreakExtras
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
                 await cmd.ExecuteNonQueryAsync();
 
+                cmd = new MySqlCommand(
+                @"CREATE TABLE IF NOT EXISTS `PlayerCTBan` (
+                  `SteamId` bigint(20) DEFAULT NULL,
+                  `BannedBySteamId` bigint(20) DEFAULT NULL,
+                  `Time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
+                await cmd.ExecuteNonQueryAsync();
+
                 GetAllPlayerNameData(con);
                 GetAllTimeTrackingData(con);
+                GetAllCTBanData(con);
             }
             catch (Exception ex)
             {
@@ -94,11 +103,11 @@ public partial class JailbreakExtras
         });
     }
 
-    private static MySqlCommand GetAllPlayerNameData(MySqlConnection con)
+    private static void GetAllPlayerNameData(MySqlConnection con)
     {
         if (con == null)
         {
-            return null;
+            return;
         }
         MySqlCommand? cmd = new MySqlCommand(@$"SELECT `SteamId`, `Name` FROM `PlayerName`", con);
         using (var reader = cmd.ExecuteReader())
@@ -116,6 +125,6 @@ public partial class JailbreakExtras
             }
         }
 
-        return cmd;
+        return;
     }
 }

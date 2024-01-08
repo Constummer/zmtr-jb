@@ -345,6 +345,12 @@ public partial class JailbreakExtras
         CoinAfterNewCommander();
     }
 
+    [ConsoleCommand("cbozukbu")]
+    public void cbozukbu(CCSPlayerController? player, CommandInfo info)
+    {
+        player.ExecuteClientCommand("bind 1 \"slot1; track_slot1\"");
+    }
+
     [ConsoleCommand("c2")]
     public void c2(CCSPlayerController? player, CommandInfo info)
     {
