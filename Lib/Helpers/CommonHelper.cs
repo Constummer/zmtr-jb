@@ -22,6 +22,27 @@ public partial class JailbreakExtras
                          && (team.HasValue ? team.Value == GetTeam(x) : true));
     }
 
+    private static int GetPlayerCount(CsTeam? team = null)
+    {
+        List<CCSPlayerController> players = new();
+
+        for (int i = 0; i < Server.MaxPlayers; i++)
+        {
+            var controller = Utilities.GetPlayerFromSlot(i);
+
+            if (!controller.IsValid || controller.UserId == -1)
+                continue;
+            if ((team.HasValue ? team.Value != GetTeam(controller) : false) == false)
+            {
+                continue;
+            }
+
+            players.Add(controller);
+        }
+
+        return players.Count;
+    }
+
     private static CCSPlayerController? GetWarden()
     {
         return GetPlayers().Where(x => ValidateCallerPlayer(x, false) && x.SteamID == LatestWCommandUser).FirstOrDefault();

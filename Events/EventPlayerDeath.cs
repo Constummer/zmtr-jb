@@ -73,14 +73,17 @@ public partial class JailbreakExtras
 
             if (@event?.Attacker.UserId != @event?.Userid.UserId && GetTeam(@event?.Attacker!) != GetTeam(@event!.Userid))
             {
-                AddCreditToAttacker(@event?.Attacker, GetTeam(@event!.Userid));
+                if (GetPlayerCount() > 8)
+                {
+                    AddCreditToAttacker(@event?.Attacker, GetTeam(@event!.Userid));
+                }
             }
 
             return HookResult.Continue;
         }, HookMode.Pre);
     }
 
-    private void AddCreditToAttacker(CCSPlayerController? attacker, CsTeam teamNum)
+    private void AddCreditToAttacker(CCSPlayerController? attacker, CsTeam victimTeamNo)
     {
         if (ValidateCallerPlayer(attacker, false) == false)
         {
@@ -88,13 +91,16 @@ public partial class JailbreakExtras
         }
         if (attacker?.SteamID != null && attacker.SteamID != 0)
         {
-            var amount = teamNum switch
+            var amount = victimTeamNo switch
             {
                 CsTeam.Terrorist => Config.Credit.RetrieveCreditEveryTKill,
                 CsTeam.CounterTerrorist => Config.Credit.RetrieveCreditEveryCTKill,
                 _ => 0
             };
-
+            if (amount <= 0)
+            {
+                return;
+            }
             if (PlayerMarketModels.TryGetValue(attacker!.SteamID, out var item))
             {
                 item.Credit += amount;
@@ -106,13 +112,12 @@ public partial class JailbreakExtras
             }
             PlayerMarketModels[attacker!.SteamID] = item;
 
-            var teamShortName = teamNum switch
+            var teamShortName = victimTeamNo switch
             {
                 CsTeam.Terrorist => "T",
                 CsTeam.CounterTerrorist => "CT",
                 _ => ""
             };
-
             attacker!.PrintToChat($"{Prefix} {CC.LB}{teamShortName} Oldurdugun için, {amount} kredi kazandýn!");
         }
     }
