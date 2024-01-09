@@ -41,7 +41,7 @@ public partial class JailbreakExtras
             "kurucu",
             "owner",
             "adminlik",
-            "ip"
+            "css_ip"
         };
     }
 }
