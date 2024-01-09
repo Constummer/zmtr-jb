@@ -7,6 +7,15 @@ public partial class JailbreakExtras
 {
     private void AddOrUpdatePlayerToPlayerNameTable(ulong steamId, string playerName)
     {
+        if (PlayerNamesDatas.ContainsKey(steamId))
+        {
+            PlayerNamesDatas[steamId] = playerName;
+        }
+        else
+        {
+            PlayerNamesDatas.Add(steamId, playerName);
+        }
+
         var con = Connection();
         if (con == null)
         {

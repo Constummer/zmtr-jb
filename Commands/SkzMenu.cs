@@ -49,7 +49,6 @@ public partial class JailbreakExtras
             skzMenu.AddMenuOption(k.Key, (p, t) =>
             {
                 Server.PrintToChatAll($"{Prefix} {CC.W}Mahkûmlar {CC.B}{k.Key} {CC.W} ışınlanıyor");
-                BasicCountdown.CommandStartTextCountDown(this, $"[ZMTR] Mahkûmların donmasina {value} saniye");
 
                 var players = GetPlayers(CsTeam.Terrorist)
                     .Where(x => x.PawnIsAlive == true)
@@ -57,22 +56,38 @@ public partial class JailbreakExtras
 
                 players.ForEach(x =>
                 {
-                    if (TeamActive == false)
-                    {
-                        if (players.Count < 6)
-                        {
-                            SetColour(x, DefaultPlayerColor);
-                        }
-                        else
-                        {
-                            SetColour(x, Color.FromArgb(0, 0, 0, 0));
-                        }
-                    }
-                    x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
-
-                    x.PlayerPawn.Value.Teleport(k.Value, new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
+                    x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
+                    x.PlayerPawn.Value.Teleport(k.Value, x.PlayerPawn.Value.AbsRotation, new Vector(0f, 0f, 0f));
                 });
+                BasicCountdown.CommandStartTextCountDown(this, $"[ZMTR] SKZ 3 SANİYE SONRA BAŞLIYOR");
 
+                SkzTimer = AddTimer(3, () =>
+                {
+                    GetPlayers()
+                    .Where(x => x != null
+                         && x.PlayerPawn.IsValid
+                         && x.PawnIsAlive
+                         && x.IsValid
+                         && x?.PlayerPawn?.Value != null
+                         && GetTeam(x) == CsTeam.Terrorist)
+                    .ToList()
+                    .ForEach(x =>
+                    {
+                        if (TeamActive == false)
+                        {
+                            if (players.Count < 6)
+                            {
+                                SetColour(x, DefaultPlayerColor);
+                            }
+                            else
+                            {
+                                SetColour(x, Color.FromArgb(0, 0, 0, 0));
+                            }
+                        }
+                        x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_WALK;
+                    });
+                    FreezeOrUnfreezeSound();
+                });
                 SkzTimer = AddTimer(value, () =>
                 {
                     GetPlayers()
@@ -94,8 +109,8 @@ public partial class JailbreakExtras
                         x.PlayerPawn.Value.Teleport(currentPosition, new QAngle(0, 0, 0), new Vector(0, 0, 0));
                     });
                     FreezeOrUnfreezeSound();
-                    Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}mahkûmları {CC.B}dondurdu{CC.W}.");
                 });
+                Server.PrintToChatAll($"{Prefix} {CC.Ol}{value} {CC.W} süren {CC.Ol}SKZ{CC.W} bitti, {CC.G}mahkûmları {CC.B}dondurdu{CC.W}.");
             });
         }
         ChatMenus.OpenMenu(player, skzMenu);

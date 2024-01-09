@@ -20,6 +20,45 @@ public partial class JailbreakExtras
     */
     private static Dictionary<ulong, DateTime> CTBans = new Dictionary<ulong, DateTime>();
 
+    [ConsoleCommand("ctunban")]
+    [ConsoleCommand("unctban")]
+    [ConsoleCommand("ctbankaldir")]
+    [CommandHelper(1, "<playerismi>")]
+    public void CTUnBan(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+
+        var target = info.ArgCount > 1 ? info.GetArg(1) : null;
+        if (target == null)
+        {
+            return;
+        }
+
+        var targetArgument = GetTargetArgument(target);
+        GetPlayers()
+            .Where(x => targetArgument switch
+            {
+                TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target) ?? false,
+                TargetForArgument.UserIdIndex => GetUserIdIndex(target) == x.UserId,
+                _ => false
+            })
+            .ToList()
+            .ForEach(gagPlayer =>
+            {
+                CTBans.Remove(player.SteamID, out var _);
+                RemoveCTBanData(gagPlayer.SteamID);
+                Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{gagPlayer.PlayerName} {CC.W} CT banını kaldırdı.");
+            });
+    }
+
     [ConsoleCommand("ctban")]
     [CommandHelper(2, "<playerismi> <dakika/0 süresiz>")]
     public void CTBan(CCSPlayerController? player, CommandInfo info)
@@ -136,22 +175,61 @@ public partial class JailbreakExtras
 
         try
         {
-            var cmd = new MySqlCommand(@$"INSERT INTO `PlayerCTBan`
-                                      (SteamId,BannedBySteamId,Time)
-                                      VALUES (@SteamId,@BannedBySteamId,@Time);", con);
-
+            var cmd = new MySqlCommand(@$"SELECT 1 FROM `PlayerCTBan` WHERE `SteamId` = @SteamId;", con);
             cmd.Parameters.AddWithValue("@SteamId", steamId);
-            cmd.Parameters.AddWithValue("@BannedBySteamId", bannerId);
-            cmd.Parameters.AddWithValue("@Time", time);
-            cmd.ExecuteNonQuery();
-
+            bool exist = false;
             using (var reader = cmd.ExecuteReader())
             {
                 if (reader.Read())
                 {
-                    return;
+                    exist = true;
                 }
             }
+            if (exist)
+            {
+                cmd = new MySqlCommand(@$"UPDATE `PlayerCTBan`
+                                          SET
+                                              `BannedBySteamId` = @BannedBySteamId,
+                                              `Time` = @Time
+                                          WHERE `SteamId` = @SteamId;
+                ", con);
+
+                cmd.Parameters.AddWithValue("@SteamId", steamId);
+                cmd.Parameters.AddWithValue("@BannedBySteamId", bannerId);
+                cmd.Parameters.AddWithValue("@Time", time);
+
+                cmd.ExecuteNonQuery();
+            }
+            else
+            {
+                cmd = new MySqlCommand(@$"INSERT INTO `PlayerCTBan`
+                                      (SteamId,BannedBySteamId,Time)
+                                      VALUES (@SteamId,@BannedBySteamId,@Time);", con);
+
+                cmd.Parameters.AddWithValue("@SteamId", steamId);
+                cmd.Parameters.AddWithValue("@BannedBySteamId", bannerId);
+                cmd.Parameters.AddWithValue("@Time", time);
+            }
+        }
+        catch (Exception e)
+        {
+            Logger.LogError(e, "hata");
+        }
+    }
+
+    private void RemoveCTBanData(ulong steamId)
+    {
+        var con = Connection();
+        if (con == null)
+        {
+            return;
+        }
+
+        try
+        {
+            var cmd = new MySqlCommand(@$"DELETE FROM `PlayerCTBan` WHERE `SteamId` = @SteamId;", con);
+            cmd.Parameters.AddWithValue("@SteamId", steamId);
+            cmd.ExecuteNonQuery();
         }
         catch (Exception e)
         {

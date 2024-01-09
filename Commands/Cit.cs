@@ -18,10 +18,16 @@ public partial class JailbreakExtras
     [ConsoleCommand("cit")]
     public void CitAc(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false && LatestWCommandUser != player.SteamID)
+        if (ValidateCallerPlayer(player, false) == false)
         {
             return;
         }
+        if (AdminManager.PlayerHasPermissions(player, "@css/lider") == false && LatestWCommandUser != player.SteamID)
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+
         Server.PrintToChatAll($"{Prefix}{CC.DR} Çit oluşturma {CC.B}{player.PlayerName} {CC.W}'a açıldı.");
         player.PrintToChat($"{Prefix}{CC.G} Ateş ettiğin yere çit oluşacak.");
         player.PrintToChat($"{Prefix}{CC.G} Kapatmak için !citkapat yaz.");
@@ -34,13 +40,16 @@ public partial class JailbreakExtras
     [ConsoleCommand("citkapat")]
     public void CitKapa(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false && LatestWCommandUser != player.SteamID)
+        if (ValidateCallerPlayer(player, false) == false)
         {
-            if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
-            {
-                return;
-            }
+            return;
         }
+        if (AdminManager.PlayerHasPermissions(player, "@css/lider") == false && LatestWCommandUser != player.SteamID)
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+
         Server.PrintToChatAll($"{Prefix}{CC.DR} Çit oluşturma {CC.B}{player.PlayerName} {CC.W}'a kapandı.");
         CitEnabledPlayers = CitEnabledPlayers.Where(x => x != player.SteamID).ToList();
 
@@ -51,10 +60,16 @@ public partial class JailbreakExtras
     [ConsoleCommand("citsil")]
     public void CitTemizle(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false && LatestWCommandUser != player.SteamID)
+        if (ValidateCallerPlayer(player, false) == false)
         {
             return;
         }
+        if (AdminManager.PlayerHasPermissions(player, "@css/lider") == false && LatestWCommandUser != player.SteamID)
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+
         ClearCits();
         return;
     }

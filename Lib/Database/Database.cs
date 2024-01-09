@@ -115,12 +115,18 @@ public partial class JailbreakExtras
             while (reader.Read())
             {
                 var steamId = reader.IsDBNull(0) ? 0 : reader.GetInt64(0);
-
+                var pname = reader.IsDBNull(1) ? "" : reader.GetString(1);
+                if (string.IsNullOrWhiteSpace(pname))
+                {
+                    pname = "-";
+                }
                 if (PlayerNamesDatas.ContainsKey((ulong)steamId) == false)
                 {
-                    var pname = reader.IsDBNull(1) ? "" : reader.GetString(1);
-
                     PlayerNamesDatas.Add((ulong)steamId, pname);
+                }
+                else
+                {
+                    PlayerNamesDatas[(ulong)steamId] = pname;
                 }
             }
         }
