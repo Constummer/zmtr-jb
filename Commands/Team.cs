@@ -73,7 +73,8 @@ public partial class JailbreakExtras
             switch (targetTeam)
             {
                 case CsTeam.Spectator:
-                    x.SwitchTeam(targetTeam);
+                    x.CommitSuicide(false, true);
+                    AddTimer(0.3f, () => x.SwitchTeam(targetTeam));
                     break;
 
                 case CsTeam.CounterTerrorist:
@@ -90,8 +91,8 @@ public partial class JailbreakExtras
 
                 default: break;
             }
+            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}hedefi {CC.B}{targetTeam.ToString()} {CC.W}takimina gönderdi.");
         }
-        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}hedefi {CC.B}{targetTeam.ToString()} {CC.W}takimina gönderdi.");
     }
 
     #endregion OnTeamCommand

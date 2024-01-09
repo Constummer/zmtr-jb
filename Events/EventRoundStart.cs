@@ -23,37 +23,55 @@ public partial class JailbreakExtras
             {
                 HookDisabled = false;
             });
-            foreach (var x in GetPlayers())
+            for (int i = 0; i < Server.MaxPlayers; i++)
             {
-                if (x.SteamID == LatestWCommandUser)
-                {
-                    x.VoiceFlags &= ~VoiceFlags.Muted;
-                }
-                else
-                {
-                    if (Unmuteds.Contains(x.SteamID) == false)
-                    {
-                        x.VoiceFlags |= VoiceFlags.Muted;
-                    }
-                }
-                if (HideFoots.TryGetValue(x.SteamID, out bool hideFoot))
-                {
-                    if (hideFoot)
-                    {
-                        x.PlayerPawn.Value.Render = Color.FromArgb(254, 254, 254, 254);
-                        RefreshPawn(x);
-                    }
-                    else
-                    {
-                        x.PlayerPawn.Value.Render = DefaultPlayerColor;
-                        RefreshPawn(x);
-                    }
-                }
+                var x = Utilities.GetPlayerFromSlot(i);
+
+                if (x == null)
+                    continue;
+                if (!x.IsValid || x.UserId == -1)
+                    continue;
                 AddTimer(0.5f, () =>
                 {
                     CreateParachute(x);
                 });
             }
+            //foreach (var x in GetPlayers())
+            //{
+            //if (x.AuthorizedSteamID == null)
+            //{
+            //    continue;
+            //}
+
+            //if (x.SteamID == LatestWCommandUser)
+            //{
+            //    x.VoiceFlags &= ~VoiceFlags.Muted;
+            //}
+            //else
+            //{
+            //    if (Unmuteds.Contains(x.SteamID) == false)
+            //    {
+            //        x.VoiceFlags |= VoiceFlags.Muted;
+            //    }
+            //}
+            //if (HideFoots.TryGetValue(x.SteamID, out bool hideFoot))
+            //{
+            //    if (hideFoot)
+            //    {
+            //        x.PlayerPawn.Value.Render = Color.FromArgb(254, 254, 254, 254);
+            //        RefreshPawn(x);
+            //    }
+            //    else
+            //    {
+            //        x.PlayerPawn.Value.Render = DefaultPlayerColor;
+            //        RefreshPawn(x);
+            //    }
+            //}
+            //AddTimer(0.5f, () =>
+            //{
+            //    CreateParachute(x);
+            //});
+            //}
             return HookResult.Continue;
         });
     }

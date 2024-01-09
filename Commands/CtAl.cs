@@ -22,8 +22,15 @@ public partial class JailbreakExtras
            .ToList()
            .ForEach(x =>
            {
-               x.PlayerPawn.Value!.CommitSuicide(false, true);
-               x!.ChangeTeam(CsTeam.CounterTerrorist);
+               if (CTBanCheck(x) == false)
+               {
+                   Server.PrintToChatAll($"{Prefix} {CC.W}{x.PlayerName} CT banı olduğu için CT atılamadı!");
+               }
+               else
+               {
+                   x.PlayerPawn.Value!.CommitSuicide(false, true);
+                   x!.ChangeTeam(CsTeam.CounterTerrorist);
+               }
            });
         SlayAllAction();
 

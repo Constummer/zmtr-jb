@@ -77,10 +77,10 @@ public partial class JailbreakExtras
         }
         if (player == null
             || !player.IsValid
-            || player.PlayerPawn == null
-            || !player.PlayerPawn.IsValid
-            || player.PlayerPawn.Value == null
-            || !player.PlayerPawn.Value.IsValid
+            //|| player.PlayerPawn == null
+            //|| !player.PlayerPawn.IsValid
+            //|| player.PlayerPawn.Value == null
+            //|| !player.PlayerPawn.Value.IsValid
             ) return false;
         //if (player.AuthorizedSteamID == null
         //    || player.AuthorizedSteamID.SteamId64 != player.SteamID)

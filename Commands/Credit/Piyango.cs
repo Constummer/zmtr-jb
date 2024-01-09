@@ -99,7 +99,7 @@ public partial class JailbreakExtras
                     PiyangoPlayers.Add(player.SteamID, credit);
                     data.Model!.Credit -= credit;
                     PlayerMarketModels[player.SteamID] = data.Model;
-                    Server.PrintToChatAll($" {CC.Ol}[PİYANGO] {CC.Ol}{player.PlayerName} {CC.W}Piyango'ya{CC.G}{credit} {CC.W}kredi ile katıldı!");
+                    Server.PrintToChatAll($" {CC.Ol}[PİYANGO] {CC.Ol}{player.PlayerName} {CC.W}Piyango'ya{CC.G} {credit} {CC.W}kredi ile katıldı!");
                     player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.G} {credit} {CC.W}kredi bastın!");
                     player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.W}Güncel Kredin: {CC.G}{data.Model!.Credit}");
                     player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.W}Kasa = {total + credit}");

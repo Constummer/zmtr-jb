@@ -16,13 +16,15 @@ public partial class JailbreakExtras
 
     private static void CoinAfterNewCommander()
     {
-        var css = GetPlayers(CsTeam.CounterTerrorist)
-            .Where(x => ValidateCallerPlayer(x, false))
-            .Where(x => x.SteamID == LatestWCommandUser)
-            .FirstOrDefault();
+        if (LatestWCommandUser.HasValue == false) return;
+        var css = Utilities.GetPlayerFromSteamId(LatestWCommandUser.Value);
+
         if (css != null)
         {
-            CoinStart(css);
+            if (ValidateCallerPlayer(css, false))
+            {
+                CoinStart(css);
+            }
         }
     }
 
