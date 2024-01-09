@@ -9,7 +9,6 @@ public partial class JailbreakExtras
     {
         JointeamCommandListener();
         TeamCommandListener();
-        IseliCommandListener();
         KapilariAcCommandListener();
         SayAndSayTeamCommandListener();
         AddCommandListener("slot1", (player, info) =>

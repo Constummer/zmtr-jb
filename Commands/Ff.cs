@@ -10,7 +10,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static bool FFMenuCheck = false;
+    private static bool FFMenuCheck { get; set; } = false;
 
     private static CounterStrikeSharp.API.Modules.Timers.Timer FFTimer { get; set; } = null;
 
@@ -246,27 +246,6 @@ public partial class JailbreakExtras
                     Ff(true);
                 });
             }
-        }
-    }
-
-    [ConsoleCommand("guns")]
-    public void FfSilahMenu(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-
-        if (FFMenuCheck == true)
-        {
-            var gunMenu = new ChatMenu("Silah Menu");
-            MenuHelper.GetGuns(gunMenu);
-            ChatMenus.OpenMenu(player!, gunMenu);
-        }
-        else
-        {
-            player!.PrintToChat($"{Prefix} {CC.W}FF açık olmadığı için silah menüsüne erişemezsin.");
-            return;
         }
     }
 

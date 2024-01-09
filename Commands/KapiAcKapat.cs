@@ -15,7 +15,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("kapilariac")]
     public void KapiAc(CCSPlayerController? invoke, CommandInfo command)
     {
-        ForceOpen(true);
+        ForceOpenDoor();
     }
 
     [RequiresPermissions("@css/lider")]

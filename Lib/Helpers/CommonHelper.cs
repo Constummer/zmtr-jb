@@ -32,7 +32,7 @@ public partial class JailbreakExtras
 
             if (!controller.IsValid || controller.UserId == -1)
                 continue;
-            if ((team.HasValue ? team.Value != GetTeam(controller) : false) == false)
+            if ((team.HasValue ? team.Value != GetTeam(controller) : true) == false)
             {
                 continue;
             }

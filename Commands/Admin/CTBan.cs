@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
 
@@ -78,7 +79,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var godOneTwoStr = "0";
+        var godOneTwoStr = info.ArgCount > 2 ? info.GetArg(2) : "0";
         if (int.TryParse(godOneTwoStr, out var value) == false)
         {
             return;
@@ -93,33 +94,37 @@ public partial class JailbreakExtras
                 _ => false
             })
             .ToList()
-            .ForEach(gagPlayer =>
+            .ForEach(x =>
             {
                 if (value <= 0)
                 {
-                    if (CTBans.TryGetValue(gagPlayer.SteamID, out var dateTime))
+                    if (CTBans.TryGetValue(x.SteamID, out var dateTime))
                     {
-                        CTBans[gagPlayer.SteamID] = DateTime.UtcNow.AddYears(1);
+                        CTBans[x.SteamID] = DateTime.UtcNow.AddYears(1);
                     }
                     else
                     {
-                        CTBans.Add(gagPlayer.SteamID, DateTime.UtcNow.AddYears(1));
+                        CTBans.Add(x.SteamID, DateTime.UtcNow.AddYears(1));
                     }
-                    AddCTBanData(gagPlayer.SteamID, player.SteamID, DateTime.UtcNow.AddYears(1));
-                    Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{gagPlayer.PlayerName} {CC.B}Sınırsız{CC.W} ct banladı.");
+                    AddCTBanData(x.SteamID, player.SteamID, DateTime.UtcNow.AddYears(1));
+                    Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.B}Sınırsız{CC.W} ct banladı.");
                 }
                 else
                 {
-                    if (CTBans.TryGetValue(gagPlayer.SteamID, out var dateTime))
+                    if (CTBans.TryGetValue(x.SteamID, out var dateTime))
                     {
-                        CTBans[gagPlayer.SteamID] = DateTime.UtcNow.AddMinutes(value);
+                        CTBans[x.SteamID] = DateTime.UtcNow.AddMinutes(value);
                     }
                     else
                     {
-                        CTBans.Add(gagPlayer.SteamID, DateTime.UtcNow.AddMinutes(value));
+                        CTBans.Add(x.SteamID, DateTime.UtcNow.AddMinutes(value));
                     }
-                    AddCTBanData(gagPlayer.SteamID, player.SteamID, DateTime.UtcNow.AddMinutes(value));
-                    Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{gagPlayer.PlayerName} {CC.B}{value}{CC.W} dakika boyunca ct banladı.");
+                    AddCTBanData(x.SteamID, player.SteamID, DateTime.UtcNow.AddMinutes(value));
+                    Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.B}{value}{CC.W} dakika boyunca ct banladı.");
+                }
+                if (GetTeam(x) == CsTeam.CounterTerrorist)
+                {
+                    x.ChangeTeam(CsTeam.Terrorist);
                 }
             });
     }

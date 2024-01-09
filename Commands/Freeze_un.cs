@@ -49,7 +49,7 @@ public partial class JailbreakExtras
                     {
                         if (TeamActive == false)
                         {
-                            SetColour(x, Config.Burry.BuryColor);
+                            SetColour(x, DefaultPlayerColor);
                         }
                         x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_WALK;
                         Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);

@@ -45,7 +45,7 @@ public partial class JailbreakExtras
             {
                 return;
             }
-            if (FFMenuCheck == true)
+            if (FFMenuCheck == true || IsEliMenuCheck == true)
             {
                 if (_weapons.TryGetValue(option.Text, out var selectedWeapon))
                 {

@@ -18,6 +18,7 @@ public partial class JailbreakExtras
 
     private Vector Hucre = new Vector(-535, 345, -27);
     private CounterStrikeSharp.API.Modules.Timers.Timer SkzTimer = null;
+    private CounterStrikeSharp.API.Modules.Timers.Timer Skz2Timer = null;
 
     #region SKZ
 
@@ -42,6 +43,11 @@ public partial class JailbreakExtras
                 player.PrintToChat("Max 120 sn girebilirsin");
                 return;
             }
+            else if (value < 4)
+            {
+                player.PrintToChat("Min 3 sn girebilirsin");
+                return;
+            }
         }
         var skzMenu = new ChatMenu("SKZ Menü");
         foreach (var k in skzCoordinates.ToList())
@@ -61,14 +67,12 @@ public partial class JailbreakExtras
                 });
                 BasicCountdown.CommandStartTextCountDown(this, $"[ZMTR] SKZ 3 SANİYE SONRA BAŞLIYOR");
 
-                SkzTimer = AddTimer(3, () =>
+                _ = AddTimer(3, () =>
                 {
                     GetPlayers()
                     .Where(x => x != null
-                         && x.PlayerPawn.IsValid
-                         && x.PawnIsAlive
                          && x.IsValid
-                         && x?.PlayerPawn?.Value != null
+                         && x.PawnIsAlive
                          && GetTeam(x) == CsTeam.Terrorist)
                     .ToList()
                     .ForEach(x =>
@@ -85,17 +89,17 @@ public partial class JailbreakExtras
                             }
                         }
                         x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_WALK;
+                        RefreshPawnTP(x);
                     });
                     FreezeOrUnfreezeSound();
                 });
-                SkzTimer = AddTimer(value, () =>
+
+                _ = AddTimer(value + 3, () =>
                 {
                     GetPlayers()
                     .Where(x => x != null
-                         && x.PlayerPawn.IsValid
-                         && x.PawnIsAlive
                          && x.IsValid
-                         && x?.PlayerPawn?.Value != null
+                         && x.PawnIsAlive
                          && GetTeam(x) == CsTeam.Terrorist)
                     .ToList()
                     .ForEach(x =>
@@ -106,11 +110,11 @@ public partial class JailbreakExtras
                         }
                         x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
                         Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
-                        x.PlayerPawn.Value.Teleport(currentPosition, new QAngle(0, 0, 0), new Vector(0, 0, 0));
+                        x.PlayerPawn.Value.Teleport(currentPosition, x.PlayerPawn.Value.AbsRotation, new Vector(0, 0, 0));
                     });
                     FreezeOrUnfreezeSound();
+                    Server.PrintToChatAll($"{Prefix} {CC.Ol}{value} {CC.W} saniye süren {CC.Ol}SKZ{CC.W} bitti, {CC.G}mahkûmlar {CC.B}dondu{CC.W}.");
                 });
-                Server.PrintToChatAll($"{Prefix} {CC.Ol}{value} {CC.W} süren {CC.Ol}SKZ{CC.W} bitti, {CC.G}mahkûmları {CC.B}dondurdu{CC.W}.");
             });
         }
         ChatMenus.OpenMenu(player, skzMenu);

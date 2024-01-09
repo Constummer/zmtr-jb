@@ -10,6 +10,27 @@ public partial class JailbreakExtras
 {
     #region Burn
 
+    private CounterStrikeSharp.API.Modules.Timers.Timer BurnTimer;
+
+    [ConsoleCommand("burniptal")]
+    [ConsoleCommand("burnsil")]
+    public void OnUnBurnCommand(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        BurnTimer?.Kill();
+        BurnTimer = null;
+        return;
+    }
+
     [ConsoleCommand("burn")]
     [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me>")]
     public void OnBurnCommand(CCSPlayerController? player, CommandInfo info)
@@ -41,24 +62,25 @@ public partial class JailbreakExtras
             return;
         }
         var targetArgument = GetTargetArgument(target);
+        var a = 0;
+        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefini {CC.B}burnledi");
 
-        AddTimer(0.3f, () =>
+        BurnTimer = AddTimer(0.3f, () =>
         {
+            a++;
+            if (a >= godOneTwo)
+            {
+                BurnTimer?.Kill();
+                BurnTimer = null;
+                return;
+            }
             GetPlayers()
                        .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player.PlayerName))
                        .ToList()
                        .ForEach(x =>
                        {
-                           if (targetArgument == TargetForArgument.None)
-                           {
-                               Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} burnledi{CC.W}.");
-                           }
                            PerformSlap(x.PlayerPawn.Value, 1);
                        });
-            if (targetArgument != TargetForArgument.None)
-            {
-                Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefini {CC.B}burnledi");
-            }
         }, CounterStrikeSharp.API.Modules.Timers.TimerFlags.REPEAT);
     }
 

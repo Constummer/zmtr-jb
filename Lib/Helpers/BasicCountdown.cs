@@ -14,7 +14,7 @@ public partial class JailbreakExtras
 
     internal static class BasicCountdown
     {
-        internal static bool CountdownEnableTextHandler(bool changed, CCSPlayerController client)
+        internal static bool CountdownEnableTextHandler(bool changed, CCSPlayerController client, bool printToCenterHtml = false)
         {
             if (Countdown_enable_text)
             {
@@ -46,7 +46,10 @@ public partial class JailbreakExtras
                     }
 
                     client.PrintToCenter($"{CC.G}{CountdownText}");
-                    SharpTimerPrintHtml(client, $"{CC.G}{CountdownText}");
+                    if (printToCenterHtml)
+                    {
+                        SharpTimerPrintHtml(client, $"{CC.G}{CountdownText}");
+                    }
                 }
             }
 

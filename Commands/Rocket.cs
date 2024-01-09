@@ -65,10 +65,10 @@ public partial class JailbreakExtras
         Vector playerPosition = player.PlayerPawn?.Value.CBodyComponent?.SceneNode?.AbsOrigin;
         QAngle viewAngles = player.PlayerPawn.Value.EyeAngles;
 
-        if (IsPlayerCloseToTarget(player, end, player.PlayerPawn.Value!.AbsOrigin, 40))
-        {
-            return;
-        }
+        //if (IsPlayerCloseToTarget(player, end, player.PlayerPawn.Value!.AbsOrigin, 40))
+        //{
+        //    return;
+        //}
         PullPlayer(player, end, playerPosition, viewAngles);
 
         return;

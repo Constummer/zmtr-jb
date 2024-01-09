@@ -45,16 +45,4 @@ public partial class JailbreakExtras
             CleanTagOnKomutcuAdmin();
         });
     }
-
-    private static void IsEliWardenNotify()
-    {
-        var warden = GetWarden();
-        if (warden != null)
-        {
-            warden.PrintToChat($"{Prefix} {CC.W} eğer {CC.R}İSELİ {CC.W} ise");
-            warden.PrintToChat($"{Prefix} {CC.B} !rm {CC.W}veya {CC.B}!revmenu {CC.W} ile menüden seçerek veya");
-            warden.PrintToChat($"{Prefix} {CC.B} !rmf {CC.W} HIZLICA ");
-            warden.PrintToChat($"{Prefix} {CC.W} Ölen ctleri 3 kere revleyebilirsin");
-        }
-    }
 }

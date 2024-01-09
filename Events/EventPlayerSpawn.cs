@@ -35,51 +35,53 @@ public partial class JailbreakExtras
                         });
                     }
                 }
-
-                var data = GetPlayerMarketModel(x?.SteamID);
-                if (data.Model == null || data.ChooseRandom)
+                AddTimer(0.5f, () =>
                 {
-                    GiveRandomSkin(x);
-                }
-                else
-                {
-                    PlayerModel? model;
-                    switch (GetTeam(x!))
+                    var data = GetPlayerMarketModel(x?.SteamID);
+                    if (data.Model == null || data.ChooseRandom)
                     {
-                        case CsTeam.Terrorist:
-                            if (string.IsNullOrWhiteSpace(data.Model.DefaultIdT) == false)
-                            {
-                                if (int.TryParse(data.Model.DefaultIdT, out var modelId)
-                                    && PlayerModels.TryGetValue(modelId, out model))
-                                {
-                                    SetModelNextServerFrame(x!.PlayerPawn.Value!, model.PathToModel);
-                                }
-                            }
-                            else
-                            {
-                                GiveRandomSkin(x);
-                            }
-                            break;
-
-                        case CsTeam.CounterTerrorist:
-                            if (string.IsNullOrWhiteSpace(data.Model.DefaultIdCT) == false)
-                            {
-                                if (int.TryParse(data.Model.DefaultIdCT, out var modelId)
-                                    && PlayerModels.TryGetValue(modelId, out model))
-                                {
-                                    SetModelNextServerFrame(x!.PlayerPawn.Value!, model.PathToModel);
-                                }
-                            }
-                            else
-                            {
-                                GiveRandomSkin(x);
-                            }
-                            break;
-
-                        default:
-                            break;
+                        GiveRandomSkin(x);
                     }
-                }
+                    else
+                    {
+                        PlayerModel? model;
+                        switch (GetTeam(x!))
+                        {
+                            case CsTeam.Terrorist:
+                                if (string.IsNullOrWhiteSpace(data.Model.DefaultIdT) == false)
+                                {
+                                    if (int.TryParse(data.Model.DefaultIdT, out var modelId)
+                                        && PlayerModels.TryGetValue(modelId, out model))
+                                    {
+                                        SetModelNextServerFrame(x!.PlayerPawn.Value!, model.PathToModel);
+                                    }
+                                }
+                                else
+                                {
+                                    GiveRandomSkin(x);
+                                }
+                                break;
+
+                            case CsTeam.CounterTerrorist:
+                                if (string.IsNullOrWhiteSpace(data.Model.DefaultIdCT) == false)
+                                {
+                                    if (int.TryParse(data.Model.DefaultIdCT, out var modelId)
+                                        && PlayerModels.TryGetValue(modelId, out model))
+                                    {
+                                        SetModelNextServerFrame(x!.PlayerPawn.Value!, model.PathToModel);
+                                    }
+                                }
+                                else
+                                {
+                                    GiveRandomSkin(x);
+                                }
+                                break;
+
+                            default:
+                                break;
+                        }
+                    }
+                });
             }
             return HookResult.Continue;
         }));

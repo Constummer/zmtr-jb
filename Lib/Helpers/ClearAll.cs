@@ -23,7 +23,12 @@ public partial class JailbreakExtras
         FFMenuCheck = false;
         FFTimer?.Kill();
         fzTimer?.Kill();
+        BurnTimer?.Kill();
         unfzTimer?.Kill();
+        FFTimer = null;
+        fzTimer = null;
+        BurnTimer = null;
+        unfzTimer = null;
         ClearParachutes();
         ClearCits();
         ClearLasers();
