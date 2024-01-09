@@ -71,6 +71,7 @@ public partial class JailbreakExtras
 
         FFTimer?.Kill();
         fzTimer?.Kill();
+        unfzTimer?.Kill();
         Ff(false);
     }
 

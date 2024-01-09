@@ -27,12 +27,12 @@ public partial class JailbreakExtras
         [JsonPropertyName("RetrieveCreditEvery5MinRewardCssLider")]
         public short RetrieveCreditEvery5MinRewardCssLider { get; set; } = 2;
 
-        [JsonIgnore]
-        public Dictionary<string, TPMarketItem> TPMarketDatas { get; set; } = new()
+        [JsonPropertyName("TPMarketDatas")]
+        public List<TPMarketItem> TPMarketDatas { get; set; } = new()
         {
-            {"1000 TP | 5000 Kredi",new (5000, 1000)},
-            {"2000 TP | 10000 Kredi",new (10000, 2000)},
-            {"5000 TP | 25000 Kredi",new (25000, 5000)},
+            {new ("1000 TP | 5000 Kredi",5000, 1000)},
+            {new ("2000 TP | 10000 Kredi",10000, 2000)},
+            {new ("5000 TP | 25000 Kredi",25000, 5000)},
         };
     }
 }
