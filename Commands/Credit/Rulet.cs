@@ -257,11 +257,11 @@ public partial class JailbreakExtras
         {
             int sayi = _random.Next(1, 101);
 
-            if (sayi <= 2)
+            if (sayi <= 4)
             {
                 return RuletOptions.Yesil;
             }
-            else if (sayi <= 51)
+            else if (sayi <= 53)
             {
                 return RuletOptions.Siyah;
             }
