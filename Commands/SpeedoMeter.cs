@@ -38,8 +38,8 @@ public partial class JailbreakExtras
         if (SpeedoMeterActive.Contains(player.SteamID))
         {
             var buttons = player.Buttons;
-            player.PrintToCenterHtml(
-                            $"<pre>Speed: <font color='#00FF00'>{Math.Round(player.PlayerPawn.Value.AbsVelocity.Length2D())}</font><br>" +
+
+            SharpTimerPrintHtml(player, $"<pre>Speed: <font color='#00FF00'>{Math.Round(player.PlayerPawn.Value.AbsVelocity.Length2D())}</font><br>" +
                             $"{((buttons & PlayerButtons.Left) != 0 ? "←" : "_")} " +
                             $"{((buttons & PlayerButtons.Forward) != 0 ? "W" : "_")} " +
                             $"{((buttons & PlayerButtons.Right) != 0 ? "→" : "_")}<br>" +

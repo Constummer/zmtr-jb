@@ -113,7 +113,7 @@ public partial class JailbreakExtras
 
             GetPlayers()
             .ToList()
-            .ForEach(x => x.PrintToCenterHtml(hmtl));
+            .ForEach(x => SharpTimerPrintHtml(x, hmtl));
         }, TimerFlags.REPEAT);
 
         VoteTimer = AddTimer(20, () =>

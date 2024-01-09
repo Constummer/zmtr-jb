@@ -416,7 +416,7 @@ public partial class JailbreakExtras
         }
         foreach (var item in GetPlayers().ToList())
         {
-            item.PrintToCenterHtml(info.ArgString);
+            SharpTimerPrintHtml(item, info.ArgString);
         }
     }
 
@@ -434,7 +434,7 @@ public partial class JailbreakExtras
         }
         foreach (var item in GetPlayers().ToList())
         {
-            item.PrintToCenterHtml(info.ArgString);
+            SharpTimerPrintHtml(item, info.ArgString);
             item.PrintToCenter(info.ArgString);
         }
     }
@@ -453,7 +453,7 @@ public partial class JailbreakExtras
         }
         foreach (var item in GetPlayers().ToList())
         {
-            item.PrintToCenterHtml(info.ArgString);
+            SharpTimerPrintHtml(item, info.ArgString);
             item.PrintToCenter(info.ArgString);
             item.PrintToCenter(info.ArgString);
         }

@@ -46,7 +46,7 @@ public partial class JailbreakExtras
                     }
 
                     client.PrintToCenter($"{CC.G}{CountdownText}");
-                    client.PrintToCenterHtml($"{CC.G}{CountdownText}");
+                    SharpTimerPrintHtml(client, $"{CC.G}{CountdownText}");
                 }
             }
 
