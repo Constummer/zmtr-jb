@@ -47,6 +47,9 @@ public partial class JailbreakExtras
 
         [JsonPropertyName("Level")]
         public LevelConfig Level { get; set; } = new LevelConfig();
+
+        [JsonPropertyName("DontBlockOnGagged")]
+        public DontBlockOnGaggedConfig DontBlockOnGagged { get; set; } = new DontBlockOnGaggedConfig();
     }
 
     public void OnConfigParsed(JailbreakExtrasConfig config)

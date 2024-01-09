@@ -68,30 +68,43 @@ public partial class JailbreakExtras
             var config = GetPlayerLevelConfig(item.Xp);
             if (config != null)
             {
-                var deadStr = player.PawnIsAlive == false ? $"{CC.R}*ÖLÜ*" : "";
-                var team = GetTeam(player);
-                var teamStr = isSayTeam ? team switch
-                {
-                    CounterStrikeSharp.API.Modules.Utils.CsTeam.CounterTerrorist => $"{CC.B}[GARDİYAN]",
-                    CounterStrikeSharp.API.Modules.Utils.CsTeam.Terrorist => $"{CC.R}[MAHKÛM]",
-                    CounterStrikeSharp.API.Modules.Utils.CsTeam.Spectator => $"{CC.P}[SPEC]",
-                    _ => ""
-                } : "";
-                var msg = $" {deadStr} {teamStr} {CC.Ol}{config.ClanTag} {CC.Gr}{player.PlayerName} {CC.W}: {info.GetArg(1)}";
-                Server.PrintToConsole(msg);
-                if (isSayTeam)
-                {
-                    GetPlayers(team).ToList()
-                        .ForEach(x => x.PrintToChat(msg));
-                }
-                else
-                {
-                    Server.PrintToChatAll(msg);
-                }
+                PrintMsgCustom(player, info.GetArg(1), isSayTeam, config);
                 return true;
             }
         }
         return false;
+    }
+
+    private static void PrintMsgCustom(CCSPlayerController player, string requestMsg, bool isSayTeam, LevelGiftConfig? config)
+    {
+        var deadStr = player.PawnIsAlive == false ? $"{CC.R}*ÖLÜ*" : "";
+        var team = GetTeam(player);
+        var teamStr = isSayTeam ? team switch
+        {
+            CounterStrikeSharp.API.Modules.Utils.CsTeam.CounterTerrorist => $"{CC.B}[GARDİYAN]",
+            CounterStrikeSharp.API.Modules.Utils.CsTeam.Terrorist => $"{CC.R}[MAHKÛM]",
+            CounterStrikeSharp.API.Modules.Utils.CsTeam.Spectator => $"{CC.P}[SPEC]",
+            _ => ""
+        } : "";
+        string msg;
+        if (config?.ClanTag != null)
+        {
+            msg = $" {deadStr} {teamStr} {CC.Ol}{config.ClanTag} {CC.Gr}{player.PlayerName} {CC.W}: {requestMsg}";
+        }
+        else
+        {
+            msg = $" {deadStr} {teamStr} {CC.Or}{player.PlayerName} {CC.W}: {requestMsg}";
+        }
+        Server.PrintToConsole(msg);
+        if (isSayTeam)
+        {
+            GetPlayers(team).ToList()
+                .ForEach(x => x.PrintToChat(msg));
+        }
+        else
+        {
+            Server.PrintToChatAll(msg);
+        }
     }
 
     private void RemoveFromLevelSystem(CCSPlayerController? player)

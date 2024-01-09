@@ -33,22 +33,15 @@ public partial class JailbreakExtras
         {
             return HookResult.Continue;
         }
-        if (arg.StartsWith("!") || arg.StartsWith("/"))
+        if (arg.StartsWith("!") || arg.StartsWith("/") || arg.StartsWith("css_"))
         {
             if (VoteInProgressIntercepter(player, arg) == true)
             {
                 return HookResult.Handled;
             }
-            if (GagChecker(player, arg))
+            if (GagChecker(player, arg, true, isSayTeam))
             {
-                if (arg.Contains("ungag"))
-                {
-                    return HookResult.Continue;
-                }
-                else
-                {
-                    return HookResult.Handled;
-                }
+                return HookResult.Handled;
             }
             if (OnSteamGroupPlayerChat(player, arg))
             {

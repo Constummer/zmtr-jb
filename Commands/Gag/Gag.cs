@@ -1,9 +1,9 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
-using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
+using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
 
@@ -73,7 +73,7 @@ public partial class JailbreakExtras
         }
     }
 
-    private bool GagChecker(CCSPlayerController player, string arg)
+    private bool GagChecker(CCSPlayerController player, string arg, bool isArg = false, bool isSayTeam = false)
     {
         if (Gags.TryGetValue(player.SteamID, out var call))
         {
@@ -81,6 +81,24 @@ public partial class JailbreakExtras
             {
                 player.PrintToChat($"{Prefix} {CC.W}GAGLISIN!");
                 return true;
+                if (isArg)
+                {
+                    if (CheckAllowedCommand(player, arg, true, isSayTeam) == false)
+                    {
+                        player.PrintToChat($"{Prefix} {CC.W}GAGLISIN!");
+                        return true;
+                    }
+                    else
+                    {
+                        player.PrintToChat($"{Prefix} {CC.W}GAGLISIN!");
+                        return true;
+                    }
+                }
+                else
+                {
+                    player.PrintToChat($"{Prefix} {CC.W}GAGLISIN!");
+                    return true;
+                }
             }
             else
             {
@@ -93,6 +111,55 @@ public partial class JailbreakExtras
             return true;
         }
         return false;
+    }
+
+    private bool CheckAllowedCommand(CCSPlayerController player, string arg, bool isArg = false, bool isSayTeam = false)
+    {
+        var key = string.IsNullOrWhiteSpace(arg) ? "" : arg.Split(" ")[0];
+        if (key.StartsWith("!") || key.StartsWith("/") || key.StartsWith("css_"))
+        {
+            key = key.Substring(1);
+        }
+
+        if (isArg == true && Config.DontBlockOnGagged.DontBlockOnGaggedCommands.Contains(key))
+        {
+            if (PlayerLevels.TryGetValue(player.SteamID, out var item))
+            {
+                var config = GetPlayerLevelConfig(item.Xp);
+                if (config != null)
+                {
+                    ExecuteCommand(key, player);
+                    PrintMsgCustom(player, $"!{key}", isSayTeam, config);
+                    return false;
+                }
+            }
+            ExecuteCommand(key, player);
+            PrintMsgCustom(player, $"!{key}", isSayTeam, null);
+            return false;
+        }
+        return true;
+    }
+
+    private void ExecuteCommand(string key, CCSPlayerController player)
+    {
+        foreach (var item in base.CommandHandlers.Keys)
+        {
+            if (item.Method.Name?.ToLower() == key?.ToLower())
+            {
+                Logger.LogInformation($"{item.Method.Name} event invoked.");
+
+                if (item is Action<CCSPlayerController?, CommandInfo> customEventHandler)
+                {
+                    customEventHandler.Invoke(player, null);
+                }
+                else
+                {
+                    item.DynamicInvoke(player, null);
+                }
+                break;
+            }
+            //base.CommandHandlers.Keys.FirstOrDefault().Method.Name
+        }
     }
 
     #endregion Gag
