@@ -16,9 +16,8 @@ public partial class JailbreakExtras
     [CommandHelper(2, "<playerismi-@all-@t-@ct-@me-@alive-@dead> [dakika]")]
     public void OnSGagCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/admin1"))
+        if (ValidateCallerPlayer(player) == false)
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
 

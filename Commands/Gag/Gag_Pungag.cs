@@ -20,6 +20,10 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
+        if (ValidateCallerPlayer(player, false) == false)
+        {
+            return;
+        }
 
         var target = info.ArgCount > 1 ? info.GetArg(1) : null;
         if (target == null)
