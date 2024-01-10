@@ -77,9 +77,10 @@ public partial class JailbreakExtras
         RespawnAcAction();
         ForceEntInput("func_breakable", "Break");
         //ForceEntInput("func_breakable", "Break", "DropEldenGidiyeah");
+        IsEliWardenNotify();
         BasicCountdown.CommandStartTextCountDown(this, $"İseli - İsyan Eli | Başlamasına {value} saniye kaldı!");
         ForceCloseDoor();
-
+        AddTimer(2f, () => IsEliTerroristTp());
         GetPlayers(CsTeam.CounterTerrorist)
          .Where(x => ValidateCallerPlayer(x, false))
          .ToList()
@@ -127,24 +128,17 @@ public partial class JailbreakExtras
         }
     }
 
-    private void IsEliTerroristTp(CCSPlayerController? player)
+    private void IsEliTerroristTp()
     {
-        if (ValidateCallerPlayer(player, printMsg: false) == false
-           || GetTeam(player) != CsTeam.CounterTerrorist)
-        {
-            return;
-        }
+        GetPlayers(CsTeam.Terrorist)
+           .Where(x => x.PawnIsAlive)
+                  .ToList()
+                  .ForEach(x =>
+                  {
+                      RemoveWeapons(x, true);
 
-        GetPlayers()
-        .Where(x => x.PawnIsAlive
-                           && GetTargetAction(x, "@t", null))
-               .ToList()
-               .ForEach(x =>
-               {
-                   RemoveWeapons(x, true);
-
-                   x.PlayerPawn.Value.Teleport(Hucre, ANGLE_ZERO, VEC_ZERO);
-               });
+                      x.PlayerPawn.Value.Teleport(Hucre, ANGLE_ZERO, VEC_ZERO);
+                  });
     }
 
     #endregion Delay
