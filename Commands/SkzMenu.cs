@@ -114,7 +114,7 @@ public partial class JailbreakExtras
                         x.PlayerPawn.Value.Teleport(currentPosition, x.PlayerPawn.Value.AbsRotation, new Vector(0, 0, 0));
                     });
                     FreezeOrUnfreezeSound();
-                    Server.PrintToChatAll($"{Prefix} {CC.Ol}{value} {CC.W} saniye süren {CC.Ol}SKZ{CC.W} bitti, {CC.G}mahkûmlar {CC.B}dondu{CC.W}.");
+                    Server.PrintToChatAll($"{Prefix} {CC.Ol}{value}{CC.W} saniye süren {CC.Ol}SKZ{CC.W} bitti, {CC.G}mahkûmlar {CC.B}dondu{CC.W}.");
                 });
             });
         }
