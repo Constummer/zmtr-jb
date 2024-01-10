@@ -76,7 +76,7 @@ public partial class JailbreakExtras
     {
         RespawnAcAction();
         BasicCountdown.CommandStartTextCountDown(this, $"İseli - İsyan Eli | Başlamasına {value} saniye kaldı!");
-        ForceClose(true);
+        ForceCloseDoor();
 
         GetPlayers(CsTeam.CounterTerrorist)
          .Where(x => ValidateCallerPlayer(x, false))

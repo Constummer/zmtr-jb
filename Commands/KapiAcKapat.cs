@@ -13,14 +13,8 @@ public partial class JailbreakExtras
     [RequiresPermissions("@css/lider")]
     [ConsoleCommand("kapiac")]
     [ConsoleCommand("kapilariac")]
-    public void KapiAc(CCSPlayerController? invoke, CommandInfo command)
-    {
-        ForceOpenDoor();
-    }
-
-    [RequiresPermissions("@css/lider")]
     [ConsoleCommand("hucrekapiac")]
-    public void Kapi2Ac(CCSPlayerController? invoke, CommandInfo command)
+    public void KapiAc(CCSPlayerController? invoke, CommandInfo command)
     {
         ForceOpenDoor();
     }
@@ -31,7 +25,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("kapilarikapat")]
     public void KapiKapat(CCSPlayerController? invoke, CommandInfo command)
     {
-        ForceClose(true);
+        ForceCloseDoor();
     }
 
     private void ForceEntInput(String name, String input, string entityName = null)
@@ -86,6 +80,13 @@ public partial class JailbreakExtras
     public void ForceOpenDoor()
     {
         ForceEntInput("func_door", "Open", "kapi2");
+        ForceEntInput("func_door", "Open", "kacak");
+    }
+
+    public void ForceCloseDoor()
+    {
+        ForceEntInput("func_door", "Close", "kapi2");
+        ForceEntInput("func_door", "Close", "kacak");
     }
 
     #endregion KapiAcKapat

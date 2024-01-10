@@ -26,16 +26,16 @@ public partial class JailbreakExtras
 
     private void EventWeaponReload()
     {
-        RegisterEventHandler<EventWeaponReload>((@event, info) =>
-        {
-            if (@event == null)
-                return HookResult.Continue;
-            if (LrActive == false)
-            {
-                UnlimitedReserverAmmo(@event, info);
-            }
-            return HookResult.Continue;
-        });
+        //RegisterEventHandler<EventWeaponReload>((@event, info) =>
+        //{
+        //    if (@event == null)
+        //        return HookResult.Continue;
+        //    if (LrActive == false)
+        //    {
+        //        UnlimitedReserverAmmo(@event, info);
+        //    }
+        //    return HookResult.Continue;
+        //});
 
         //RegisterListener<Listeners.OnEntityCreated>(entity =>
         //{

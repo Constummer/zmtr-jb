@@ -9,5 +9,6 @@ public partial class JailbreakExtras
         ListenersOnClientConnected();
         ListenersOnClientDisconnect();
         ListenersOnClientVoice();
+        ListenersOnEntityCreated();
     }
 }
