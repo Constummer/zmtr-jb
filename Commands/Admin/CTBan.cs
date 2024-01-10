@@ -172,48 +172,50 @@ public partial class JailbreakExtras
 
     private void AddCTBanData(ulong steamId, ulong bannerId, DateTime time)
     {
-        var con = Connection();
-        if (con == null)
-        {
-            return;
-        }
-
         try
         {
-            var cmd = new MySqlCommand(@$"SELECT 1 FROM `PlayerCTBan` WHERE `SteamId` = @SteamId;", con);
-            cmd.Parameters.AddWithValue("@SteamId", steamId);
-            bool exist = false;
-            using (var reader = cmd.ExecuteReader())
+            using (var con = Connection())
             {
-                if (reader.Read())
+                if (con == null)
                 {
-                    exist = true;
+                    return;
                 }
-            }
-            if (exist)
-            {
-                cmd = new MySqlCommand(@$"UPDATE `PlayerCTBan`
+
+                var cmd = new MySqlCommand(@$"SELECT 1 FROM `PlayerCTBan` WHERE `SteamId` = @SteamId;", con);
+                cmd.Parameters.AddWithValue("@SteamId", steamId);
+                bool exist = false;
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        exist = true;
+                    }
+                }
+                if (exist)
+                {
+                    cmd = new MySqlCommand(@$"UPDATE `PlayerCTBan`
                                           SET
                                               `BannedBySteamId` = @BannedBySteamId,
                                               `Time` = @Time
                                           WHERE `SteamId` = @SteamId;
                 ", con);
 
-                cmd.Parameters.AddWithValue("@SteamId", steamId);
-                cmd.Parameters.AddWithValue("@BannedBySteamId", bannerId);
-                cmd.Parameters.AddWithValue("@Time", time);
+                    cmd.Parameters.AddWithValue("@SteamId", steamId);
+                    cmd.Parameters.AddWithValue("@BannedBySteamId", bannerId);
+                    cmd.Parameters.AddWithValue("@Time", time);
 
-                cmd.ExecuteNonQuery();
-            }
-            else
-            {
-                cmd = new MySqlCommand(@$"INSERT INTO `PlayerCTBan`
+                    cmd.ExecuteNonQuery();
+                }
+                else
+                {
+                    cmd = new MySqlCommand(@$"INSERT INTO `PlayerCTBan`
                                       (SteamId,BannedBySteamId,Time)
                                       VALUES (@SteamId,@BannedBySteamId,@Time);", con);
 
-                cmd.Parameters.AddWithValue("@SteamId", steamId);
-                cmd.Parameters.AddWithValue("@BannedBySteamId", bannerId);
-                cmd.Parameters.AddWithValue("@Time", time);
+                    cmd.Parameters.AddWithValue("@SteamId", steamId);
+                    cmd.Parameters.AddWithValue("@BannedBySteamId", bannerId);
+                    cmd.Parameters.AddWithValue("@Time", time);
+                }
             }
         }
         catch (Exception e)
@@ -224,17 +226,19 @@ public partial class JailbreakExtras
 
     private void RemoveCTBanData(ulong steamId)
     {
-        var con = Connection();
-        if (con == null)
-        {
-            return;
-        }
-
         try
         {
-            var cmd = new MySqlCommand(@$"DELETE FROM `PlayerCTBan` WHERE `SteamId` = @SteamId;", con);
-            cmd.Parameters.AddWithValue("@SteamId", steamId);
-            cmd.ExecuteNonQuery();
+            using (var con = Connection())
+            {
+                if (con == null)
+                {
+                    return;
+                }
+
+                var cmd = new MySqlCommand(@$"DELETE FROM `PlayerCTBan` WHERE `SteamId` = @SteamId;", con);
+                cmd.Parameters.AddWithValue("@SteamId", steamId);
+                cmd.ExecuteNonQuery();
+            }
         }
         catch (Exception e)
         {

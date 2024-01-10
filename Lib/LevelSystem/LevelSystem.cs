@@ -158,18 +158,19 @@ public partial class JailbreakExtras
 
     private void DeletePlayerLevelData(ulong steamId)
     {
-        var con = Connection();
-        if (con == null)
-        {
-            return;
-        }
-
         try
         {
-            var cmd = new MySqlCommand(@$"Delete From `PlayerLevel` WHERE `SteamId` = @SteamId;", con);
+            using (var con = Connection())
+            {
+                if (con == null)
+                {
+                    return;
+                }
+                var cmd = new MySqlCommand(@$"Delete From `PlayerLevel` WHERE `SteamId` = @SteamId;", con);
 
-            cmd.Parameters.AddWithValue("@SteamId", steamId);
-            cmd.ExecuteNonQuery();
+                cmd.Parameters.AddWithValue("@SteamId", steamId);
+                cmd.ExecuteNonQuery();
+            }
         }
         catch (Exception e)
         {
@@ -179,48 +180,49 @@ public partial class JailbreakExtras
 
     private void InsertAndGetPlayerLevelData(ulong steamId, bool mustExist = false)
     {
-        var con = Connection();
-        if (con == null)
-        {
-            return;
-        }
-
         try
         {
-            var cmd = new MySqlCommand(@$"SELECT `SteamId`, `Xp`,`TagDisable` FROM `PlayerLevel` WHERE `SteamId` = @SteamId;", con);
-            cmd.Parameters.AddWithValue("@SteamId", steamId);
-
-            using (var reader = cmd.ExecuteReader())
+            using (var con = Connection())
             {
-                if (reader.Read())
+                if (con == null)
                 {
-                    var data = new PlayerLevel(steamId)
-                    {
-                        Xp = reader.IsDBNull(1) ? 0 : reader.GetInt32(1)
-                    };
-                    if (PlayerLevels.TryGetValue(steamId, out var old) == false)
-                    {
-                        PlayerLevels.Add(steamId, data);
-                    }
-                    if ((reader.IsDBNull(2) ? false : reader.GetBoolean(2)) == true)
-                    {
-                        LevelTagDisabledPlayers.Add(steamId);
-                    }
-
                     return;
                 }
-            }
-            if (mustExist)
-            {
-                return;
-            }
-            PlayerLevels.Add(steamId, new(steamId) { Xp = 0 });
-            cmd = new MySqlCommand(@$"INSERT INTO `PlayerLevel`
+                var cmd = new MySqlCommand(@$"SELECT `SteamId`, `Xp`,`TagDisable` FROM `PlayerLevel` WHERE `SteamId` = @SteamId;", con);
+                cmd.Parameters.AddWithValue("@SteamId", steamId);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        var data = new PlayerLevel(steamId)
+                        {
+                            Xp = reader.IsDBNull(1) ? 0 : reader.GetInt32(1)
+                        };
+                        if (PlayerLevels.TryGetValue(steamId, out var old) == false)
+                        {
+                            PlayerLevels.Add(steamId, data);
+                        }
+                        if ((reader.IsDBNull(2) ? false : reader.GetBoolean(2)) == true)
+                        {
+                            LevelTagDisabledPlayers.Add(steamId);
+                        }
+
+                        return;
+                    }
+                }
+                if (mustExist)
+                {
+                    return;
+                }
+                PlayerLevels.Add(steamId, new(steamId) { Xp = 0 });
+                cmd = new MySqlCommand(@$"INSERT INTO `PlayerLevel`
                                           (SteamId, Xp,TagDisable)
                                           VALUES (@SteamId, 0, 0);", con);
 
-            cmd.Parameters.AddWithValue("@SteamId", steamId);
-            cmd.ExecuteNonQuery();
+                cmd.Parameters.AddWithValue("@SteamId", steamId);
+                cmd.ExecuteNonQuery();
+            }
         }
         catch (Exception e)
         {
@@ -230,22 +232,23 @@ public partial class JailbreakExtras
 
     private async Task UpdatePlayerLevelData(ulong steamId, int xp)
     {
-        var con = Connection();
-        if (con == null)
-        {
-            return;
-        }
-
         try
         {
-            var cmd = new MySqlCommand(@$"UPDATE `PlayerLevel`
+            using (var con = Connection())
+            {
+                if (con == null)
+                {
+                    return;
+                }
+                var cmd = new MySqlCommand(@$"UPDATE `PlayerLevel`
                                           SET `Xp` = @Xp
                                           WHERE `SteamId` = @SteamId;", con);
 
-            cmd.Parameters.AddWithValue("@SteamId", steamId);
-            cmd.Parameters.AddWithValue("@Xp", xp);
+                cmd.Parameters.AddWithValue("@SteamId", steamId);
+                cmd.Parameters.AddWithValue("@Xp", xp);
 
-            await cmd.ExecuteNonQueryAsync();
+                await cmd.ExecuteNonQueryAsync();
+            }
         }
         catch (Exception e)
         {
@@ -255,22 +258,23 @@ public partial class JailbreakExtras
 
     private void UpdatePlayerLevelTagDisableData(ulong steamId, bool disable)
     {
-        var con = Connection();
-        if (con == null)
-        {
-            return;
-        }
-
         try
         {
-            var cmd = new MySqlCommand(@$"UPDATE `PlayerLevel`
+            using (var con = Connection())
+            {
+                if (con == null)
+                {
+                    return;
+                }
+                var cmd = new MySqlCommand(@$"UPDATE `PlayerLevel`
                                           SET `TagDisable` = @TagDisable
                                           WHERE `SteamId` = @SteamId;", con);
 
-            cmd.Parameters.AddWithValue("@SteamId", steamId);
-            cmd.Parameters.AddWithValue("@TagDisable", disable);
+                cmd.Parameters.AddWithValue("@SteamId", steamId);
+                cmd.Parameters.AddWithValue("@TagDisable", disable);
 
-            cmd.ExecuteNonQuery();
+                cmd.ExecuteNonQuery();
+            }
         }
         catch (Exception e)
         {

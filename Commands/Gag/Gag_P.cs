@@ -67,18 +67,19 @@ public partial class JailbreakExtras
 
     private void RemoveFromPGag(ulong steamID)
     {
-        var con = Connection();
-        if (con == null)
-        {
-            return;
-        }
-
         try
         {
-            var cmd = new MySqlCommand(@$"Delete From `PlayerGag` WHERE `SteamId` = @SteamId;", con);
+            using (var con = Connection())
+            {
+                if (con == null)
+                {
+                    return;
+                }
+                var cmd = new MySqlCommand(@$"Delete From `PlayerGag` WHERE `SteamId` = @SteamId;", con);
 
-            cmd.Parameters.AddWithValue("@SteamId", steamID);
-            cmd.ExecuteNonQuery();
+                cmd.Parameters.AddWithValue("@SteamId", steamID);
+                cmd.ExecuteNonQuery();
+            }
         }
         catch (Exception e)
         {
@@ -88,23 +89,24 @@ public partial class JailbreakExtras
 
     private void GetPGagData(ulong steamID)
     {
-        var con = Connection();
-        if (con == null)
-        {
-            return;
-        }
-
         try
         {
-            var cmd = new MySqlCommand(@$"SELECT 1 FROM `PlayerGag` WHERE `SteamId` = @SteamId;", con);
-            cmd.Parameters.AddWithValue("@SteamId", steamID);
-
-            using (var reader = cmd.ExecuteReader())
+            using (var con = Connection())
             {
-                if (reader.Read())
+                if (con == null)
                 {
-                    PGags.Add(steamID);
                     return;
+                }
+                var cmd = new MySqlCommand(@$"SELECT 1 FROM `PlayerGag` WHERE `SteamId` = @SteamId;", con);
+                cmd.Parameters.AddWithValue("@SteamId", steamID);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        PGags.Add(steamID);
+                        return;
+                    }
                 }
             }
         }
@@ -116,27 +118,28 @@ public partial class JailbreakExtras
 
     private void AddPGagData(ulong steamID)
     {
-        var con = Connection();
-        if (con == null)
-        {
-            return;
-        }
-
         try
         {
-            var cmd = new MySqlCommand(@$"INSERT INTO `PlayerGag`
+            using (var con = Connection())
+            {
+                if (con == null)
+                {
+                    return;
+                }
+                var cmd = new MySqlCommand(@$"INSERT INTO `PlayerGag`
                                           (SteamId)
                                           VALUES (@SteamId);", con);
 
-            cmd.Parameters.AddWithValue("@SteamId", steamID);
-            cmd.ExecuteNonQuery();
+                cmd.Parameters.AddWithValue("@SteamId", steamID);
+                cmd.ExecuteNonQuery();
 
-            using (var reader = cmd.ExecuteReader())
-            {
-                if (reader.Read())
+                using (var reader = cmd.ExecuteReader())
                 {
-                    PGags.Add(steamID);
-                    return;
+                    if (reader.Read())
+                    {
+                        PGags.Add(steamID);
+                        return;
+                    }
                 }
             }
         }

@@ -39,13 +39,14 @@ public partial class JailbreakExtras
 
     private void UpdateAllTimeTrackingData()
     {
-        var con = Connection();
-
-        if (con == null)
+        using (var con = Connection())
         {
-            return;
+            if (con == null)
+            {
+                return;
+            }
+            GetAllTimeTrackingData(con);
         }
-        GetAllTimeTrackingData(con);
     }
 
     private void GetAllTimeTrackingData(MySqlConnection con)
@@ -94,51 +95,52 @@ public partial class JailbreakExtras
 
     private void InsertAndGetTimeTrackingData(ulong steamID)
     {
-        var con = Connection();
-        if (con == null)
-        {
-            return;
-        }
-
         try
         {
-            PlayerTime data = null;
-            var cmd = new MySqlCommand(@$"SELECT `Total`,`CTTime`,`TTime`,`WTime`,`WeeklyWTime`
-                                          FROM `PlayerTime`
-                                          WHERE `SteamId` = @SteamId;", con);
-            cmd.Parameters.AddWithValue("@SteamId", steamID);
-
-            using (var reader = cmd.ExecuteReader())
+            using (var con = Connection())
             {
-                if (reader.Read())
+                if (con == null)
                 {
-                    data = new PlayerTime(
-                       reader.IsDBNull(0) ? 0 : reader.GetInt32(0),
-                       reader.IsDBNull(1) ? 0 : reader.GetInt32(1),
-                       reader.IsDBNull(2) ? 0 : reader.GetInt32(2),
-                       reader.IsDBNull(3) ? 0 : reader.GetInt32(3),
-                       reader.IsDBNull(4) ? 0 : reader.GetInt32(4));
-
-                    if (PlayerTimeTracking.ContainsKey(steamID) == false)
-                    {
-                        PlayerTimeTracking.Add(steamID, data);
-                    }
                     return;
                 }
-            }
+                PlayerTime data = null;
+                var cmd = new MySqlCommand(@$"SELECT `Total`,`CTTime`,`TTime`,`WTime`,`WeeklyWTime`
+                                          FROM `PlayerTime`
+                                          WHERE `SteamId` = @SteamId;", con);
+                cmd.Parameters.AddWithValue("@SteamId", steamID);
 
-            cmd = new MySqlCommand(@$"INSERT INTO `PlayerTime`
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        data = new PlayerTime(
+                           reader.IsDBNull(0) ? 0 : reader.GetInt32(0),
+                           reader.IsDBNull(1) ? 0 : reader.GetInt32(1),
+                           reader.IsDBNull(2) ? 0 : reader.GetInt32(2),
+                           reader.IsDBNull(3) ? 0 : reader.GetInt32(3),
+                           reader.IsDBNull(4) ? 0 : reader.GetInt32(4));
+
+                        if (PlayerTimeTracking.ContainsKey(steamID) == false)
+                        {
+                            PlayerTimeTracking.Add(steamID, data);
+                        }
+                        return;
+                    }
+                }
+
+                cmd = new MySqlCommand(@$"INSERT INTO `PlayerTime`
                                           (`SteamId`,`Total`,`CTTime`,`TTime`,`WTime`,`WeeklyWTime`)
                                           VALUES
                                           (@SteamId, 0, 0, 0, 0, 0);", con);
 
-            cmd.Parameters.AddWithValue("@SteamId", steamID);
-            cmd.ExecuteNonQuery();
-            data = new PlayerTime(0, 0, 0, 0, 0);
+                cmd.Parameters.AddWithValue("@SteamId", steamID);
+                cmd.ExecuteNonQuery();
+                data = new PlayerTime(0, 0, 0, 0, 0);
 
-            if (PlayerTimeTracking.ContainsKey(steamID) == false)
-            {
-                PlayerTimeTracking.Add(steamID, data);
+                if (PlayerTimeTracking.ContainsKey(steamID) == false)
+                {
+                    PlayerTimeTracking.Add(steamID, data);
+                }
             }
         }
         catch (Exception e)
@@ -151,26 +153,27 @@ public partial class JailbreakExtras
     {
         try
         {
-            var con = Connection();
-            if (con == null)
+            using (var con = Connection())
             {
-                return;
-            }
-            var calcRemainTime = CalculateMinutesUntilSundayMidnight();
+                if (con == null)
+                {
+                    return;
+                }
+                var calcRemainTime = CalculateMinutesUntilSundayMidnight();
 
-            if (calcRemainTime > 2 || calcRemainTime < 10075)
-            {
-                List<MySqlParameter> parameters = new List<MySqlParameter>();
+                if (calcRemainTime > 2 || calcRemainTime < 10075)
+                {
+                    List<MySqlParameter> parameters = new List<MySqlParameter>();
 
-                var cmdText = "";
-                var i = 0;
-                GetPlayers()
-                 .ToList()
-                 .ForEach(x =>
-                 {
-                     if (PlayerTimeTracking.TryGetValue(x.SteamID, out var value))
+                    var cmdText = "";
+                    var i = 0;
+                    GetPlayers()
+                     .ToList()
+                     .ForEach(x =>
                      {
-                         cmdText += @$"UPDATE `PlayerTime`
+                         if (PlayerTimeTracking.TryGetValue(x.SteamID, out var value))
+                         {
+                             cmdText += @$"UPDATE `PlayerTime`
                                          SET
                                             `Total` = @Total_{i},
                                             `CTTime` = @CTTime_{i},
@@ -178,76 +181,77 @@ public partial class JailbreakExtras
                                             `WTime` = @Wtime_{i},
                                             `WeeklyWTime` = @WeeklyWTime_{i}
                                         WHERE `SteamId` = @SteamId_{i};";
-                         value.Total++;
-                         var team = GetTeam(x);
-                         if (team == CsTeam.CounterTerrorist)
-                         {
-                             value.CTTime++;
-                         }
-                         else if (team == CsTeam.Terrorist)
-                         {
-                             value.TTime++;
-                         }
-                         if (LatestWCommandUser == x.SteamID)
-                         {
-                             value.WTime++;
-                             value.WeeklyWTime++;
-                         }
+                             value.Total++;
+                             var team = GetTeam(x);
+                             if (team == CsTeam.CounterTerrorist)
+                             {
+                                 value.CTTime++;
+                             }
+                             else if (team == CsTeam.Terrorist)
+                             {
+                                 value.TTime++;
+                             }
+                             if (LatestWCommandUser == x.SteamID)
+                             {
+                                 value.WTime++;
+                                 value.WeeklyWTime++;
+                             }
 
-                         parameters.Add(new MySqlParameter($"@SteamId_{i}", x.SteamID));
-                         parameters.Add(new MySqlParameter($"@Total_{i}", value.Total));
-                         parameters.Add(new MySqlParameter($"@CTTime_{i}", value.CTTime));
-                         parameters.Add(new MySqlParameter($"@TTime_{i}", value.TTime));
-                         parameters.Add(new MySqlParameter($"@WTime_{i}", value.WTime));
-                         parameters.Add(new MySqlParameter($"@WeeklyWTime_{i}", value.WeeklyWTime));
-                         PlayerTimeTracking[x.SteamID] = value;
-                     }
-                     else
-                     {
-                         value = new(0, 0, 0, 0, 0);
-                         PlayerTimeTracking.Add(x.SteamID, value);
-                     }
-                     i++;
-                 });
-                if (string.IsNullOrWhiteSpace(cmdText))
-                {
-                    return;
+                             parameters.Add(new MySqlParameter($"@SteamId_{i}", x.SteamID));
+                             parameters.Add(new MySqlParameter($"@Total_{i}", value.Total));
+                             parameters.Add(new MySqlParameter($"@CTTime_{i}", value.CTTime));
+                             parameters.Add(new MySqlParameter($"@TTime_{i}", value.TTime));
+                             parameters.Add(new MySqlParameter($"@WTime_{i}", value.WTime));
+                             parameters.Add(new MySqlParameter($"@WeeklyWTime_{i}", value.WeeklyWTime));
+                             PlayerTimeTracking[x.SteamID] = value;
+                         }
+                         else
+                         {
+                             value = new(0, 0, 0, 0, 0);
+                             PlayerTimeTracking.Add(x.SteamID, value);
+                         }
+                         i++;
+                     });
+                    if (string.IsNullOrWhiteSpace(cmdText))
+                    {
+                        return;
+                    }
+                    var cmd = new MySqlCommand(cmdText, con);
+                    cmd.Parameters.AddRange(parameters.ToArray());
+                    cmd.ExecuteNonQuery();
                 }
-                var cmd = new MySqlCommand(cmdText, con);
-                cmd.Parameters.AddRange(parameters.ToArray());
-                cmd.ExecuteNonQuery();
-            }
-            else
-            {
-                if (con == null)
+                else
                 {
-                    return;
-                }
+                    if (con == null)
+                    {
+                        return;
+                    }
 
-                PlayerTime data = null;
-                var cmd = new MySqlCommand(@$"SELECT `Total`,`CTTime`,`TTime`,`WTime`,`WeeklyWTime`,`SteamId`
+                    PlayerTime data = null;
+                    var cmd = new MySqlCommand(@$"SELECT `Total`,`CTTime`,`TTime`,`WTime`,`WeeklyWTime`,`SteamId`
                                           FROM `PlayerTime`;", con);
 
-                using (var reader = cmd.ExecuteReader())
-                {
-                    while (reader.Read())
+                    using (var reader = cmd.ExecuteReader())
                     {
-                        data = new PlayerTime(
-                           reader.IsDBNull(0) ? 0 : reader.GetInt32(0),
-                           reader.IsDBNull(1) ? 0 : reader.GetInt32(1),
-                           reader.IsDBNull(2) ? 0 : reader.GetInt32(2),
-                           reader.IsDBNull(3) ? 0 : reader.GetInt32(3),
-                           reader.IsDBNull(4) ? 0 : reader.GetInt32(4));
-                        var steamid = reader.IsDBNull(5) ? 0 : reader.GetInt64(5);
-                        if (steamid != 0)
+                        while (reader.Read())
                         {
-                            if (PlayerTimeTracking.ContainsKey((ulong)steamid) == false)
+                            data = new PlayerTime(
+                               reader.IsDBNull(0) ? 0 : reader.GetInt32(0),
+                               reader.IsDBNull(1) ? 0 : reader.GetInt32(1),
+                               reader.IsDBNull(2) ? 0 : reader.GetInt32(2),
+                               reader.IsDBNull(3) ? 0 : reader.GetInt32(3),
+                               reader.IsDBNull(4) ? 0 : reader.GetInt32(4));
+                            var steamid = reader.IsDBNull(5) ? 0 : reader.GetInt64(5);
+                            if (steamid != 0)
                             {
-                                PlayerTimeTracking.Add((ulong)steamid, data);
-                            }
-                            else
-                            {
-                                PlayerTimeTracking[(ulong)steamid] = data;
+                                if (PlayerTimeTracking.ContainsKey((ulong)steamid) == false)
+                                {
+                                    PlayerTimeTracking.Add((ulong)steamid, data);
+                                }
+                                else
+                                {
+                                    PlayerTimeTracking[(ulong)steamid] = data;
+                                }
                             }
                         }
                     }

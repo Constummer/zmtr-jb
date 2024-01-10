@@ -16,46 +16,48 @@ public partial class JailbreakExtras
             PlayerNamesDatas.Add(steamId, playerName);
         }
 
-        var con = Connection();
-        if (con == null)
-        {
-            return;
-        }
         try
         {
-            var cmd = new MySqlCommand(@$"SELECT 1 FROM `PlayerName` WHERE `SteamId` = @SteamId;", con);
-            cmd.Parameters.AddWithValue("@SteamId", steamId);
-            bool exist = false;
-            using (var reader = cmd.ExecuteReader())
+            using (var con = Connection())
             {
-                if (reader.Read())
+                if (con == null)
                 {
-                    exist = true;
+                    return;
                 }
-            }
+                var cmd = new MySqlCommand(@$"SELECT 1 FROM `PlayerName` WHERE `SteamId` = @SteamId;", con);
+                cmd.Parameters.AddWithValue("@SteamId", steamId);
+                bool exist = false;
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        exist = true;
+                    }
+                }
 
-            if (exist)
-            {
-                cmd = new MySqlCommand(@$"UPDATE `PlayerName`
+                if (exist)
+                {
+                    cmd = new MySqlCommand(@$"UPDATE `PlayerName`
                                           SET `Name` = @Name
                                           WHERE `SteamId` = @SteamId;", con);
 
-                cmd.Parameters.AddWithValue("@SteamId", steamId);
-                cmd.Parameters.AddWithValue("@Name", playerName);
+                    cmd.Parameters.AddWithValue("@SteamId", steamId);
+                    cmd.Parameters.AddWithValue("@Name", playerName);
 
-                cmd.ExecuteNonQuery();
-            }
-            else
-            {
-                cmd = new MySqlCommand(@$"INSERT INTO `PlayerName`
+                    cmd.ExecuteNonQuery();
+                }
+                else
+                {
+                    cmd = new MySqlCommand(@$"INSERT INTO `PlayerName`
                                           (`SteamId`,`Name`)
                                           Values
                                           (@SteamId,@Name);", con);
 
-                cmd.Parameters.AddWithValue("@SteamId", steamId);
-                cmd.Parameters.AddWithValue("@Name", playerName);
+                    cmd.Parameters.AddWithValue("@SteamId", steamId);
+                    cmd.Parameters.AddWithValue("@Name", playerName);
 
-                cmd.ExecuteNonQuery();
+                    cmd.ExecuteNonQuery();
+                }
             }
         }
         catch (Exception e)
