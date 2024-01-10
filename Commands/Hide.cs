@@ -38,13 +38,13 @@ public partial class JailbreakExtras
                     case 0:
                         Config.Additional.ParachuteModelEnabled = true;
                         SetColour(x, DefaultColor);
-                        ShowWeapons(x);
+                        //ShowWeapons(x);
                         break;
 
                     case 1:
                         Config.Additional.ParachuteModelEnabled = false;
                         SetColour(x, Color.FromArgb(0, 0, 0, 0));
-                        HideWeapons(x);
+                        //HideWeapons(x);
                         break;
                 }
                 RefreshPawn(x);
