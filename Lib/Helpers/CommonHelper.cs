@@ -345,4 +345,20 @@ public partial class JailbreakExtras
         //    .Select(x => x.Select(v => v.Value).ToList())
         //    .ToList();
     }
+
+    private static double CalculateMinutesUntilSundayMidnight()
+    {
+        DateTime now = DateTime.UtcNow.AddHours(3);
+
+        // Calculate the difference in days between today and the next Friday
+        int daysUntilNextFriday = ((int)DayOfWeek.Sunday - (int)now.DayOfWeek + 7) % 7;
+
+        // Calculate the next Friday by adding the difference in days
+        DateTime nextFridayMidnight = now.AddDays(daysUntilNextFriday).Date.AddHours(24);
+
+        // Calculate the milliseconds until the next Friday
+        double millisecondsUntilNextFriday = (nextFridayMidnight - now).TotalMilliseconds;
+
+        return millisecondsUntilNextFriday / 1000 / 60;
+    }
 }
