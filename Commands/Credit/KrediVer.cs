@@ -43,7 +43,7 @@ public partial class JailbreakExtras
                            item.Credit = miktar;
                        }
                        PlayerMarketModels[x.SteamID] = item;
-                       Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.LB}{miktar} {CC.W}kredi verdi!");
+                       Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.LB}{miktar} {CC.W}kredi verdi!");
                    }
                });
     }

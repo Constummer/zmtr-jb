@@ -49,7 +49,7 @@ public partial class JailbreakExtras
           {
               x.CommitSuicide(false, true);
           });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{sk.PlayerName} {CC.W} adlı oyuncuyu son kalan olarak işaretledi.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{sk.PlayerName} {CC.W} adlı oyuncuyu son kalan olarak işaretledi.");
     }
 
     #endregion SonKalan

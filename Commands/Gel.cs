@@ -30,7 +30,7 @@ public partial class JailbreakExtras
                        {
                            if (targetArgument == TargetForArgument.None)
                            {
-                               Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} yanına ışınladı{CC.W}.");
+                               Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} yanına ışınladı{CC.W}.");
                            }
                            var playerAbs = player.PawnIsAlive == false ? player.Pawn.Value.AbsOrigin : player.PlayerPawn.Value.AbsOrigin;
                            x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 1, playerAbs.Z), ANGLE_ZERO, VEC_ZERO);
@@ -38,7 +38,7 @@ public partial class JailbreakExtras
                    });
         if (targetArgument != TargetForArgument.None)
         {
-            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{target} {CC.W}hedefini {CC.B}yanına ışınladı");
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.B}yanına ışınladı");
         }
     }
 
@@ -62,7 +62,7 @@ public partial class JailbreakExtras
                       x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 1, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, tüm {CC.DR}Mahkûmları {CC.W}yanına ışınladı.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} tüm {CC.DR}Mahkûmları {CC.W}yanına ışınladı.");
     }
 
     [ConsoleCommand("gelct")]
@@ -85,7 +85,7 @@ public partial class JailbreakExtras
                       x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 1, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, tüm {CC.B}Gardiyanları {CC.W}yanına ışınladı.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} tüm {CC.B}Gardiyanları {CC.W}yanına ışınladı.");
     }
 
     [ConsoleCommand("gelall")]
@@ -108,7 +108,7 @@ public partial class JailbreakExtras
                       x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 1, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, tüm {CC.G}herkesi {CC.W}yanına ışınladı.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} tüm {CC.G}herkesi {CC.W}yanına ışınladı.");
     }
 
     [ConsoleCommand("geltakim")]
@@ -375,7 +375,7 @@ public partial class JailbreakExtras
                           }
                       }
                   });
-            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, tüm {res.Msg} Takımındaki Mahkûmları {CC.W}yanına ışınladı.");
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} tüm {res.Msg} Takımındaki Mahkûmları {CC.W}yanına ışınladı.");
         }
     }
 
@@ -398,7 +398,7 @@ public partial class JailbreakExtras
                           }
                       }
                   });
-            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, tüm {res.Msg} Takımındaki Mahkûmları {CC.W}yanına ışınladı.");
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} tüm {res.Msg} Takımındaki Mahkûmları {CC.W}yanına ışınladı.");
         }
     }
 

@@ -31,7 +31,7 @@ public partial class JailbreakExtras
               {
                   x.PlayerPawn.Value.Teleport(new Vector(res.Vector.X, res.Vector.Y + 1, res.Vector.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
               });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, tüm {CC.G}@t'yi {CC.R}{res.PlayerName}{CC.W} adlı oyunun yanına ışınladı.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} tüm {CC.G}@t'yi {CC.R}{res.PlayerName}{CC.W} adlı oyunun yanına ışınladı.");
     }
 
     [ConsoleCommand("gonderct")]
@@ -55,7 +55,7 @@ public partial class JailbreakExtras
               {
                   x.PlayerPawn.Value.Teleport(new Vector(res.Vector.X, res.Vector.Y + 1, res.Vector.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
               });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, tüm {CC.G}@ct'yi {CC.R}{res.PlayerName}{CC.W} adlı oyunun yanına ışınladı.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} tüm {CC.G}@ct'yi {CC.R}{res.PlayerName}{CC.W} adlı oyunun yanına ışınladı.");
     }
 
     [ConsoleCommand("gonderall")]
@@ -79,7 +79,7 @@ public partial class JailbreakExtras
               {
                   x.PlayerPawn.Value.Teleport(new Vector(res.Vector.X, res.Vector.Y + 1, res.Vector.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
               });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, tüm {CC.G}herkesi {CC.R}{res.PlayerName}{CC.W} adlı oyunun yanına ışınladı.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} tüm {CC.G}herkesi {CC.R}{res.PlayerName}{CC.W} adlı oyunun yanına ışınladı.");
     }
 
     private (Vector? Vector, string PlayerName) GonderGetVector(CCSPlayerController player, CommandInfo info)

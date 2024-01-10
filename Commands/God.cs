@@ -26,17 +26,17 @@ public partial class JailbreakExtras
             {
                 if (val == true)
                 {
-                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.W}kendi {CC.B}godunu {CC.W}kaldirdi.");
+                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}kendi {CC.B}godunu {CC.W}kaldirdi.");
                 }
                 else
                 {
-                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.W}kendine {CC.B}god {CC.W}verdi.");
+                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}kendine {CC.B}god {CC.W}verdi.");
                 }
                 ActiveGodMode[player.SteamID] = !val;
             }
             else
             {
-                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.W}kendine {CC.B}god {CC.W}verdi.");
+                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}kendine {CC.B}god {CC.W}verdi.");
                 ActiveGodMode.TryAdd(player.SteamID, true);
             }
         }
@@ -63,7 +63,7 @@ public partial class JailbreakExtras
                            case 0:
                                if (targetArgument == TargetForArgument.None)
                                {
-                                   Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}godunu {CC.W}kaldirdi.");
+                                   Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}godunu {CC.W}kaldirdi.");
                                }
                                if (ActiveGodMode.TryGetValue(x.SteamID, out _))
                                {
@@ -78,7 +78,7 @@ public partial class JailbreakExtras
                            case 1:
                                if (targetArgument == TargetForArgument.None)
                                {
-                                   Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}god {CC.W}verdi.");
+                                   Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}god {CC.W}verdi.");
                                }
                                if (ActiveGodMode.TryGetValue(x.SteamID, out _))
                                {
@@ -98,14 +98,14 @@ public partial class JailbreakExtras
                                    {
                                        if (targetArgument == TargetForArgument.None)
                                        {
-                                           Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}godunu {CC.W} kaldırdı.");
+                                           Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}godunu {CC.W} kaldırdı.");
                                        }
                                    }
                                    else
                                    {
                                        if (targetArgument == TargetForArgument.None)
                                        {
-                                           Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}god {CC.W}verdi.");
+                                           Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}god {CC.W}verdi.");
                                        }
                                    }
                                    ActiveGodMode[x.SteamID] = !god;
@@ -114,7 +114,7 @@ public partial class JailbreakExtras
                                {
                                    if (targetArgument == TargetForArgument.None)
                                    {
-                                       Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}god {CC.W}verdi.");
+                                       Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}god {CC.W}verdi.");
                                    }
                                    ActiveGodMode.TryAdd(x.SteamID, true);
                                }
@@ -127,11 +127,11 @@ public partial class JailbreakExtras
                 switch (godOneTwo)
                 {
                     case 0:
-                        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{target} {CC.W}hedefine {CC.B}godunu {CC.W}kaldirdi.");
+                        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefine {CC.B}godunu {CC.W}kaldirdi.");
                         break;
 
                     case 1:
-                        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{target} {CC.W}hedefine {CC.B}god {CC.W}verdi.");
+                        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefine {CC.B}god {CC.W}verdi.");
                         break;
                 }
             }
@@ -152,7 +152,7 @@ public partial class JailbreakExtras
                    ActiveGodMode[x.SteamID] = true;
                    RefreshPawn(x);
                });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.B}gardiyanlara {CC.G}god {CC.W}verdi.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.B}gardiyanlara {CC.G}god {CC.W}verdi.");
     }
 
     [ConsoleCommand("qq", "remove godmode ct player")]
@@ -169,7 +169,7 @@ public partial class JailbreakExtras
                    ActiveGodMode.Remove(x.SteamID);
                    RefreshPawn(x);
                });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.B}gardiyanların {CC.G}godunu {CC.W}kaldırdı.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.B}gardiyanların {CC.G}godunu {CC.W}kaldırdı.");
     }
 
     private static void GodHurtCover(EventPlayerHurt @event, CCSPlayerController player)

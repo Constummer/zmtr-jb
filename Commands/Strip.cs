@@ -31,12 +31,12 @@ public partial class JailbreakExtras
             RemoveWeapons(x, false);
             if (targetArgument == TargetForArgument.None)
             {
-                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun {CC.B}silahlarını {CC.W}sildi.");
+                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun {CC.B}silahlarını {CC.W}sildi.");
             }
         });
         if (targetArgument != TargetForArgument.None)
         {
-            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{target} {CC.W}hedefinin {CC.B}silahlarını {CC.W}sildi.");
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin {CC.B}silahlarını {CC.W}sildi.");
         }
     }
 
@@ -55,7 +55,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, false);
         });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}mahkûmların {CC.B}silahlarını {CC.W}sildi.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}mahkûmların {CC.B}silahlarını {CC.W}sildi.");
     }
 
     [ConsoleCommand("stripct", "Bicak dahil silme")]
@@ -73,7 +73,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, false);
         });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}gardiyanların {CC.B}silahlarını {CC.W}sildi.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}gardiyanların {CC.B}silahlarını {CC.W}sildi.");
     }
 
     [ConsoleCommand("stripall", "Bicak dahil silme")]
@@ -91,7 +91,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, false);
         });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}herkesin {CC.B}silahlarını {CC.W}sildi.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}herkesin {CC.B}silahlarını {CC.W}sildi.");
     }
 
     #endregion Strip

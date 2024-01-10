@@ -58,7 +58,7 @@ public partial class JailbreakExtras
                         x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
                     });
                     FreezeOrUnfreezeSound();
-                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}mahkûmların {CC.B}donunu bozdu{CC.W}.");
+                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}mahkûmların {CC.B}donunu bozdu{CC.W}.");
                 });
             }
         }
@@ -84,7 +84,7 @@ public partial class JailbreakExtras
             {
                 if (targetArgument == TargetForArgument.None)
                 {
-                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun{CC.B} donunu bozdu{CC.W}.");
+                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun{CC.B} donunu bozdu{CC.W}.");
                 }
                 if (TeamActive == false)
                 {
@@ -97,7 +97,7 @@ public partial class JailbreakExtras
         FreezeOrUnfreezeSound();
         if (targetArgument != TargetForArgument.None)
         {
-            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{target} {CC.W}hedefinin {CC.B}donunu {CC.W}bozdu.");
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin {CC.B}donunu {CC.W}bozdu.");
         }
     }
 

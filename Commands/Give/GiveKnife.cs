@@ -25,7 +25,7 @@ public partial class JailbreakExtras
                {
                    x.GiveNamedItem($"weapon_knife");
                });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}@all {CC.W}hedefine {CC.B}knife {CC.W}adlı silahı verdi.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}@all {CC.W}hedefine {CC.B}knife {CC.W}adlı silahı verdi.");
     }
 
     #endregion GK

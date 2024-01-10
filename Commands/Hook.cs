@@ -96,12 +96,12 @@ public partial class JailbreakExtras
                  }
                  if (targetArgument == TargetForArgument.None)
                  {
-                     Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun {CC.B} hookunu el boyunca aldı{CC.W}.");
+                     Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun {CC.B} hookunu el boyunca aldı{CC.W}.");
                  }
              });
         if (targetArgument != TargetForArgument.None)
         {
-            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{target} {CC.W}hedefinin {CC.B}hookunu el boyunca aldı{CC.W}.");
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin {CC.B}hookunu el boyunca aldı{CC.W}.");
         }
     }
 

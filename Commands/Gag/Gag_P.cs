@@ -56,12 +56,12 @@ public partial class JailbreakExtras
                 PGags.Add(gagPlayer.SteamID);
                 if (targetArgument == TargetForArgument.None)
                 {
-                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{gagPlayer.PlayerName} {CC.W}adlı oyuncuyu {CC.B}sonsuz gagladı{CC.W}.");
+                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{gagPlayer.PlayerName} {CC.W}adlı oyuncuyu {CC.B}sonsuz gagladı{CC.W}.");
                 }
             });
         if (targetArgument != TargetForArgument.None)
         {
-            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{target} {CC.W}hedefini {CC.B}gagladı{CC.W}.");
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.B}gagladı{CC.W}.");
         }
     }
 

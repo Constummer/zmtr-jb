@@ -39,7 +39,7 @@ public partial class JailbreakExtras
                         RespawnPlayer(x);
                         if (targetArgument == TargetForArgument.None)
                         {
-                            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu öldüğü yerde {CC.B}canlandırdı{CC.W}.");
+                            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu öldüğü yerde {CC.B}canlandırdı{CC.W}.");
                         }
                     });
                 }
@@ -47,7 +47,7 @@ public partial class JailbreakExtras
 
             case TargetForArgument.Me:
                 RespawnPlayer(player);
-                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{player.PlayerName} {CC.W}adlı oyuncuyu öldüğü yerde {CC.B}canlandırdı{CC.W}.");
+                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{player.PlayerName} {CC.W}adlı oyuncuyu öldüğü yerde {CC.B}canlandırdı{CC.W}.");
 
                 break;
 
@@ -66,7 +66,7 @@ public partial class JailbreakExtras
                         RespawnPlayer(x);
                         if (targetArgument == TargetForArgument.None)
                         {
-                            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu öldüğü yerde {CC.B}canlandırdı{CC.W}.");
+                            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu öldüğü yerde {CC.B}canlandırdı{CC.W}.");
                         }
                     });
                 }

@@ -36,13 +36,13 @@ public partial class JailbreakExtras
                {
                    if (targetArgument == TargetForArgument.None)
                    {
-                       Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.B}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}{damage} {CC.W}slapledi.");
+                       Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.B}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}{damage} {CC.W}slapledi.");
                    }
                    PerformSlap(x!.Pawn.Value!, damage);
                });
         if (targetArgument != TargetForArgument.None)
         {
-            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{target} {CC.W}hedefine {CC.B}{damage} {CC.W}slapledi.");
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefine {CC.B}{damage} {CC.W}slapledi.");
         }
     }
 
