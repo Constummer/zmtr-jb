@@ -43,7 +43,7 @@ public partial class JailbreakExtras
                            item.Xp = miktar;
                        }
                        PlayerLevels[x.SteamID] = item;
-                       Server.PrintToChatAll($"{Prefix} {CC.R}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.LB}{miktar} {CC.W}TP verdi!");
+                       Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.LB}{miktar} {CC.W}TP verdi!");
                    }
                });
     }

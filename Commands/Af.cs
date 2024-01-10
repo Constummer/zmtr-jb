@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
+using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
 
@@ -33,8 +34,8 @@ public partial class JailbreakExtras
                  CustomRespawn(x);
              }
          });
-        Server.PrintToChatAll($"{Prefix} {CC.Ol}{player.PlayerName} {CC.W}adlı admin herkesi yeniden canlandırdı.");
-        Server.PrintToChatAll($"{Prefix} {CC.Ol}{player.PlayerName} {CC.W}adlı admin herkesin canını {CC.G}100{CC.W} olarak ayarladı.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} herkesi yeniden canlandırdı.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} herkesin canını {CC.G}100{CC.W} olarak ayarladı.");
     }
 
     #endregion Af

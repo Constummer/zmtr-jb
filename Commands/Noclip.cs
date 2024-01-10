@@ -23,12 +23,12 @@ public partial class JailbreakExtras
         {
             if (player.PlayerPawn.Value.MoveType == MoveType_t.MOVETYPE_NOCLIP)
             {
-                Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.W}kendi {CC.B}noclip'ini {CC.W}kaldirdi.");
+                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.W}kendi {CC.B}noclip'ini {CC.W}kaldirdi.");
                 player.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
             }
             else
             {
-                Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.W}kendine {CC.B}noclip {CC.W}verdi.");
+                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.W}kendine {CC.B}noclip {CC.W}verdi.");
                 player.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_NOCLIP;
             }
             RefreshPawn(player);
@@ -56,7 +56,7 @@ public partial class JailbreakExtras
                            case 0:
                                if (targetArgument == TargetForArgument.None)
                                {
-                                   Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}noclip'ini {CC.W}kaldirdi.");
+                                   Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}noclip'ini {CC.W}kaldirdi.");
                                }
                                x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_WALK;
 
@@ -65,7 +65,7 @@ public partial class JailbreakExtras
                            case 1:
                                if (targetArgument == TargetForArgument.None)
                                {
-                                   Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}noclip {CC.W}verdi.");
+                                   Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}noclip {CC.W}verdi.");
                                }
                                x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_NOCLIP;
 
@@ -84,11 +84,11 @@ public partial class JailbreakExtras
                 switch (godOneTwo)
                 {
                     case 0:
-                        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefine {CC.B}noclip'ini {CC.W}kaldirdi.");
+                        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{target} {CC.W}hedefine {CC.B}noclip'ini {CC.W}kaldirdi.");
                         break;
 
                     case 1:
-                        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefine {CC.B}noclip {CC.W}verdi.");
+                        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{target} {CC.W}hedefine {CC.B}noclip {CC.W}verdi.");
                         break;
                 }
             }

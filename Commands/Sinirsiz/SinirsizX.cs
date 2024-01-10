@@ -37,7 +37,7 @@ public partial class JailbreakExtras
                 SinirsizXTimer?.Kill();
                 SinirsizXTimer = null;
                 SinirsizXTimer = GiveSinirsizCustomNade(1, SinirsizXTimer, $"weapon_{weapon}", target, player.PlayerName);
-                Server.PrintToChatAll($"{Prefix} {CC.B}{player.PlayerName}{CC.W} adlı admin {CC.Ol}{target}{CC.W} hedefine {CC.P}{weapon} {CC.W} silahıyla {CC.DB}SMX{CC.W} başlattı.");
+                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.Ol}{target}{CC.W} hedefine {CC.P}{weapon} {CC.W} silahıyla {CC.DB}SMX{CC.W} başlattı.");
             }
         }
         else

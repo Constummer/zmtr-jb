@@ -27,12 +27,12 @@ public partial class JailbreakExtras
         if (int.TryParse(target, out var godOneTwo))
         {
             GetTDairePoints(player, godOneTwo);
-            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.G}@t'yi {CC.W} daire biçiminde ışınladı.");
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, tüm {CC.G}@t'yi {CC.W} daire biçiminde ışınladı.");
         }
         else
         {
             GetTDairePoints(player, 100);
-            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, tüm {CC.G}@t'yi {CC.W} daire biçiminde ışınladı.");
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, tüm {CC.G}@t'yi {CC.W} daire biçiminde ışınladı.");
         }
     }
 

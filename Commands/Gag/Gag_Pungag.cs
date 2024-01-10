@@ -53,12 +53,12 @@ public partial class JailbreakExtras
 
                 if (targetArgument == TargetForArgument.None)
                 {
-                    Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{gagPlayer.PlayerName} {CC.W}pgagını kaldırdı.");
+                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{gagPlayer.PlayerName} {CC.W}pgagını kaldırdı.");
                 }
             });
         if (targetArgument != TargetForArgument.None)
         {
-            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}pgagını kaldırdı.");
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{target} {CC.W}pgagını kaldırdı.");
         }
     }
 

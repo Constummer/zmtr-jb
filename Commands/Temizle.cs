@@ -39,7 +39,7 @@ public partial class JailbreakExtras
                 ent.Remove();
             }
         }
-        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.W}yerdeki tüm silahları sildi.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.W}yerdeki tüm silahları sildi.");
     }
 
     #endregion Temizle

@@ -32,12 +32,12 @@ public partial class JailbreakExtras
             playerPawn!.CommitSuicide(false, true);
             if (targetArgument == TargetForArgument.None)
             {
-                Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu {CC.LR}öldürdü{CC.W}.");
+                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu {CC.LR}öldürdü{CC.W}.");
             }
         });
         if (targetArgument != TargetForArgument.None)
         {
-            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefini {CC.LR}öldürdü{CC.W}.");
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{target} {CC.W}hedefini {CC.LR}öldürdü{CC.W}.");
         }
     }
 
@@ -50,7 +50,7 @@ public partial class JailbreakExtras
             return;
         }
         SlayAllAction();
-        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}herkesi {CC.LR}öldürdü{CC.W}.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}herkesi {CC.LR}öldürdü{CC.W}.");
     }
 
     [ConsoleCommand("sct", "slay ct")]
@@ -69,7 +69,7 @@ public partial class JailbreakExtras
                var playerPawn = x.PlayerPawn.Value;
                playerPawn.CommitSuicide(false, true);
            });
-        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}gardiyanları {CC.LR}öldürdü{CC.W}.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}gardiyanları {CC.LR}öldürdü{CC.W}.");
     }
 
     [ConsoleCommand("st", "slay t")]
@@ -88,7 +88,7 @@ public partial class JailbreakExtras
                var playerPawn = x.PlayerPawn.Value;
                playerPawn.CommitSuicide(false, true);
            });
-        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}mahkûmları {CC.LR}öldürdü{CC.W}.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}mahkûmları {CC.LR}öldürdü{CC.W}.");
     }
 
     private static void SlayAllAction()

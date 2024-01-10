@@ -41,12 +41,12 @@ public partial class JailbreakExtras
                    RefreshPawn(x);
                    if (targetArgument == TargetForArgument.None)
                    {
-                       Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun canını {CC.B}{health} {CC.W}olarak ayarladı.");
+                       Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun canını {CC.B}{health} {CC.W}olarak ayarladı.");
                    }
                });
         if (targetArgument != TargetForArgument.None)
         {
-            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefinin canını {CC.B}{health} {CC.W}olarak ayarladı.");
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{target} {CC.W}hedefinin canını {CC.B}{health} {CC.W}olarak ayarladı.");
         }
     }
 
@@ -66,7 +66,7 @@ public partial class JailbreakExtras
 
                    RefreshPawn(x);
                });
-        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}mahkûmların canını {CC.B}100 {CC.W}olarak ayarladı.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}mahkûmların canını {CC.B}100 {CC.W}olarak ayarladı.");
     }
 
     [ConsoleCommand("hpct", "Change ct player's HP.")]
@@ -85,7 +85,7 @@ public partial class JailbreakExtras
 
                    RefreshPawn(x);
                });
-        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}gardiyanların canını {CC.B}100 {CC.W}olarak ayarladı.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}gardiyanların canını {CC.B}100 {CC.W}olarak ayarladı.");
     }
 
     [ConsoleCommand("hpall", "Change all player's HP.")]
@@ -104,7 +104,7 @@ public partial class JailbreakExtras
 
                    RefreshPawn(x);
                });
-        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}herkesin canını {CC.B}100 {CC.W}olarak ayarladı.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}herkesin canını {CC.B}100 {CC.W}olarak ayarladı.");
     }
 
     public static void SetHp(CCSPlayerController controller, int health = 100)

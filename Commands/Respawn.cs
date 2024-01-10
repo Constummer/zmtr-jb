@@ -34,13 +34,13 @@ public partial class JailbreakExtras
                    {
                        if (targetArgument == TargetForArgument.None)
                        {
-                           Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} revledi{CC.W}.");
+                           Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} revledi{CC.W}.");
                        }
                        CustomRespawn(x);
                    });
         if (targetArgument != TargetForArgument.None)
         {
-            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefini {CC.B}revledi");
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{target} {CC.W}hedefini {CC.B}revledi");
         }
     }
 
@@ -62,7 +62,7 @@ public partial class JailbreakExtras
                    {
                        CustomRespawn(x);
                    });
-        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}@t {CC.W}hedefini {CC.B}revledi");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}@t {CC.W}hedefini {CC.B}revledi");
     }
 
     [ConsoleCommand("respawnct")]
@@ -83,7 +83,7 @@ public partial class JailbreakExtras
                    {
                        CustomRespawn(x);
                    });
-        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}@ct {CC.W}hedefini {CC.B}revledi");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}@ct {CC.W}hedefini {CC.B}revledi");
     }
 
     [ConsoleCommand("respawnall")]
@@ -104,7 +104,7 @@ public partial class JailbreakExtras
                    {
                        CustomRespawn(x);
                    });
-        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}@all {CC.W}hedefini {CC.B}revledi");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}@all {CC.W}hedefini {CC.B}revledi");
     }
 
     [ConsoleCommand("respawnac")]

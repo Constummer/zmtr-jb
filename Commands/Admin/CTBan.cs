@@ -56,7 +56,7 @@ public partial class JailbreakExtras
             {
                 CTBans.Remove(x.SteamID, out var _);
                 RemoveCTBanData(x.SteamID);
-                Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W} CT banını kaldırdı.");
+                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{x.PlayerName} {CC.W} CT banını kaldırdı.");
             });
     }
 
@@ -107,7 +107,7 @@ public partial class JailbreakExtras
                         CTBans.Add(x.SteamID, DateTime.UtcNow.AddYears(1));
                     }
                     AddCTBanData(x.SteamID, player.SteamID, DateTime.UtcNow.AddYears(1));
-                    Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.B}Sınırsız{CC.W} ct banladı.");
+                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{x.PlayerName} {CC.B}Sınırsız{CC.W} ct banladı.");
                 }
                 else
                 {
@@ -120,7 +120,7 @@ public partial class JailbreakExtras
                         CTBans.Add(x.SteamID, DateTime.UtcNow.AddMinutes(value));
                     }
                     AddCTBanData(x.SteamID, player.SteamID, DateTime.UtcNow.AddMinutes(value));
-                    Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.B}{value}{CC.W} dakika boyunca ct banladı.");
+                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{x.PlayerName} {CC.B}{value}{CC.W} dakika boyunca ct banladı.");
                 }
                 if (GetTeam(x) == CsTeam.CounterTerrorist)
                 {

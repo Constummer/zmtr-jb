@@ -51,7 +51,7 @@ public partial class JailbreakExtras
             {
                 Bans.Remove(x.SteamID, out var _);
                 RemoveBanData(x.SteamID);
-                Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W} Banını kaldırdı.");
+                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{x.PlayerName} {CC.W} Banını kaldırdı.");
             });
     }
 
@@ -110,7 +110,7 @@ public partial class JailbreakExtras
                 Bans.Add(x.SteamID, DateTime.UtcNow.AddYears(1));
             }
             AddBanData(x.SteamID, player.SteamID, DateTime.UtcNow.AddYears(1));
-            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.B}Sınırsız{CC.W} banladı.");
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{x.PlayerName} {CC.B}Sınırsız{CC.W} banladı.");
         }
         else
         {
@@ -123,7 +123,7 @@ public partial class JailbreakExtras
                 Bans.Add(x.SteamID, DateTime.UtcNow.AddMinutes(value));
             }
             AddBanData(x.SteamID, player.SteamID, DateTime.UtcNow.AddMinutes(value));
-            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.B}{value}{CC.W} dakika boyunca banladı.");
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{x.PlayerName} {CC.B}{value}{CC.W} dakika boyunca banladı.");
         }
         Server.ExecuteCommand($"kickid {x.UserId}");
     }

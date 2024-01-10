@@ -64,7 +64,7 @@ public partial class JailbreakExtras
         }
         var targetArgument = GetTargetArgument(target);
         var counter = 0;
-        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefini {CC.B}burnledi");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}{target} {CC.W}hedefini {CC.B}burnledi");
 
         BurnTimer = AddTimer(0.3f, () =>
         {

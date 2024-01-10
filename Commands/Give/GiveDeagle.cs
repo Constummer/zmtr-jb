@@ -25,7 +25,7 @@ public partial class JailbreakExtras
                {
                    x.GiveNamedItem($"weapon_deagle");
                });
-        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}@all {CC.W}hedefine {CC.B}deagle {CC.W}adlı silahı verdi.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}, {CC.G}@all {CC.W}hedefine {CC.B}deagle {CC.W}adlı silahı verdi.");
     }
 
     #endregion GD

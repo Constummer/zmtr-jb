@@ -4,6 +4,7 @@ using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Cvars;
+using CounterStrikeSharp.API.Modules.Entities;
 using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
@@ -36,7 +37,7 @@ public partial class JailbreakExtras
 
         Server.ExecuteCommand($"{cvar.Name} {value}");
 
-        Server.PrintToChatAll($"{Prefix} {CC.W}{playerName} adlı admin, {cvar.Name} ayarını {value} olarak değiştirdi.");
+        Server.PrintToChatAll($"{AdliAdmin(playerName)} {cvar.Name} ayarını {value} olarak değiştirdi.");
         Logger.LogInformation($" {playerName} cvar ayarini {cvar.Name} dan {value} a degistirdi.");
     }
 

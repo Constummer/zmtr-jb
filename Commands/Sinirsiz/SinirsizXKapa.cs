@@ -22,7 +22,7 @@ public partial class JailbreakExtras
         var target = info.ArgCount > 1 ? info.GetArg(1) : null;
 
         SinirsizXTimer = GiveSinirsizCustomNade(0, SinirsizXTimer, null, target, player.PlayerName);
-        Server.PrintToChatAll($"{Prefix} {CC.B}{player.PlayerName}{CC.W} adlı admin {CC.Ol}{target} {CC.W} hedefinin {CC.DB}SMX{CC.W}'ini kapattı.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.Ol}{target} {CC.W} hedefinin {CC.DB}SMX{CC.W}'ini kapattı.");
     }
 
     #endregion SinirsizX

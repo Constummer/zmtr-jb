@@ -72,7 +72,7 @@ public partial class JailbreakExtras
             data.Model!.Credit -= miktar;
             PlayerMarketModels[player.SteamID] = data.Model;
             LatestHediyeCommandCalls[player.SteamID] = DateTime.UtcNow;
-            Server.PrintToChatAll($"{Prefix} {CC.W}{player.PlayerName}, {x.PlayerName} adlı oyuncuya {CC.G}{miktar} {CC.W}kredi yolladı!");
+            Server.PrintToChatAll($"{Prefix} {CC.Ol}{player.PlayerName}{CC.W},{CC.Ol} {x.PlayerName} adlı oyuncuya {CC.G}{miktar} {CC.W}kredi yolladı!");
         }
     }
 
