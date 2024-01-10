@@ -18,7 +18,7 @@ public partial class JailbreakExtras
     private ChatMenu LatestVoteMenu = null;
     private Dictionary<ulong, string> AlreadyVotedPlayers = new();
     private string LatestVoteName = null;
-    private static Dictionary<ulong, DateTime> LatestVoteAnswerCommandCalls = new Dictionary<ulong, DateTime>();
+    private static List<ulong> LatestVoteAnswerCommandCalls = new();
 
     #region Vote
 
@@ -129,6 +129,7 @@ public partial class JailbreakExtras
               LatestVoteMenu = null;
               VotePrintTimer?.Kill();
               VotePrintTimer = null;
+              LatestVoteAnswerCommandCalls?.Clear();
               AlreadyVotedPlayers.Clear();
           }, TimerFlags.STOP_ON_MAPCHANGE);
 
@@ -185,13 +186,10 @@ public partial class JailbreakExtras
                         }
                     }
 
-                    if (LatestVoteAnswerCommandCalls.TryGetValue(player.SteamID, out var call))
+                    if (LatestVoteAnswerCommandCalls.Contains(player.SteamID))
                     {
-                        if (DateTime.UtcNow < call.AddSeconds(3))
-                        {
-                            player.PrintToChat($"{Prefix} {CC.W}Oy değiştirebilmek için {CC.DR}3 {CC.W}saniye beklemelisin!");
-                            return true;
-                        }
+                        player.PrintToChat($"{Prefix} {CC.W}Tekrar oy değiştiremezsin!");
+                        return true;
                     }
                     var answers = Answers.ToList();
 
@@ -210,7 +208,7 @@ public partial class JailbreakExtras
                                 x.PrintToChat($"{Prefix}{CC.B} {player.PlayerName} {CC.W} Oyunu değiştirdi.");
                             });
                     }
-                    LatestVoteAnswerCommandCalls[player.SteamID] = DateTime.UtcNow;
+                    LatestVoteAnswerCommandCalls.Add(player.SteamID);
 
                     return true;
                 }
@@ -264,13 +262,10 @@ public partial class JailbreakExtras
                         }
                     }
 
-                    if (LatestVoteAnswerCommandCalls.TryGetValue(player.SteamID, out var call))
+                    if (LatestVoteAnswerCommandCalls.Contains(player.SteamID))
                     {
-                        if (DateTime.UtcNow < call.AddSeconds(3))
-                        {
-                            player.PrintToChat($"{Prefix} {CC.W}Oy değiştirebilmek için {CC.DR}3 {CC.W}saniye beklemelisin!");
-                            return true;
-                        }
+                        player.PrintToChat($"{Prefix} {CC.W}Tekrar oy değiştiremezsin!");
+                        return true;
                     }
                     var answers = KomAlAnswers.ToList();
 
@@ -290,7 +285,7 @@ public partial class JailbreakExtras
                                 x.PrintToChat($"{Prefix}{CC.B} {player.PlayerName} {CC.W} Oyunu değiştirdi.");
                             });
                     }
-                    LatestVoteAnswerCommandCalls[player.SteamID] = DateTime.UtcNow;
+                    LatestVoteAnswerCommandCalls.Add(player.SteamID);
                 }
                 else
                 {

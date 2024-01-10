@@ -145,14 +145,19 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.W}halihazirda komutçu bulunmuyor!");
             return;
         }
+        RemoveWardenAction(warden);
+    }
+
+    private void RemoveWardenAction(CCSPlayerController? warden)
+    {
         LatestWCommandUser = null;
         ClearLasers();
         CoinRemove();
         WardenLeaveSound();
         CleanTagOnKomutcuAdmin();
         warden.VoiceFlags |= VoiceFlags.Muted;
-        SetColour(player, DefaultColor);
-        RefreshPawn(player);
+        SetColour(warden, DefaultColor);
+        RefreshPawn(warden);
 
         Server.PrintToChatAll($"{Prefix} {CC.W}{warden.PlayerName} artık komutçu değil!");
 

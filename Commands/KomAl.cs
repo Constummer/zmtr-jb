@@ -190,6 +190,7 @@ public partial class JailbreakExtras
                         AlreadyVotedPlayers?.Clear();
                         KomAlAnswers.Clear();
                         KomAlVoteInProgress = false;
+                        LatestVoteAnswerCommandCalls?.Clear();
                     }
                 }, TimerFlags.STOP_ON_MAPCHANGE);
             }

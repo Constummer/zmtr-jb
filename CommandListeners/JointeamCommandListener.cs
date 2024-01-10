@@ -38,7 +38,7 @@ public partial class JailbreakExtras
                     CustomRespawnIfActive(player);
                 }
             }
-            return HookResult.Continue;
+            return HookResult.Stop;
         });
     }
 }

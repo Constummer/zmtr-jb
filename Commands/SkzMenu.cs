@@ -92,7 +92,7 @@ public partial class JailbreakExtras
                         RefreshPawnTP(x);
                     });
                     FreezeOrUnfreezeSound();
-                    BasicCountdown.CommandStartTextCountDown(this, $"[ZMTR] SKZ {value} SANİYE SONRA BAŞLIYOR");
+                    BasicCountdown.CommandStartTextCountDown(this, $"mahkûmlar {value} saniye sonra donacak");
                 });
 
                 _ = AddTimer(value + 3, () =>

@@ -49,75 +49,79 @@ public partial class JailbreakExtras
         }
         DizPlayerId = player.SteamID;
         DizActive = true;
-        player.PrintToChat($"{Prefix}{CC.W} ATEŞ ETTİĞİN 2 NOKTA ARASINA TÜM T'LER DİZİLECEK.");
-        player.PrintToChat($"{Prefix}{CC.W} ATEŞ ETTİĞİN 2 NOKTA ARASINA TÜM T'LER DİZİLECEK.");
-        player.PrintToChat($"{Prefix}{CC.W} ATEŞ ETTİĞİN 2 NOKTA ARASINA TÜM T'LER DİZİLECEK.");
-        player.PrintToChat($"{Prefix}{CC.W} ATEŞ ETTİĞİN 2 NOKTA ARASINA TÜM T'LER DİZİLECEK.");
-        player.PrintToChat($"{Prefix}{CC.W} ATEŞ ETTİĞİN 2 NOKTA ARASINA TÜM T'LER DİZİLECEK.");
-        player.PrintToChat($"{Prefix}{CC.W} ATEŞ ETTİĞİN 2 NOKTA ARASINA TÜM T'LER DİZİLECEK.");
-        player.PrintToChat($"{Prefix}{CC.W} ATEŞ ETTİĞİN 2 NOKTA ARASINA TÜM T'LER DİZİLECEK.");
+        player.PrintToChat($"{Prefix}{CC.W} Ateş Ettiğin 2 Nokta Arasına Tüm Mahkûmlar Dizilecek.");
+        player.PrintToChat($"{Prefix}{CC.W} Ateş Ettiğin 2 Nokta Arasına Tüm Mahkûmlar Dizilecek.");
+        player.PrintToChat($"{Prefix}{CC.W} Ateş Ettiğin 2 Nokta Arasına Tüm Mahkûmlar Dizilecek.");
+        player.PrintToChat($"{Prefix}{CC.W} Ateş Ettiğin 2 Nokta Arasına Tüm Mahkûmlar Dizilecek.");
     }
 
     private void DizAction(EventBulletImpact @event)
     {
-        Logger.LogInformation("0");
-
         if (DizActive == false)
         {
             return;
         }
-        Logger.LogInformation("1");
+
         if (DizPlayerId == 0)
         {
             return;
         }
-        Logger.LogInformation("2");
 
         var player = GetPlayers().Where(x => x.SteamID == DizPlayerId).FirstOrDefault();
         if (player == null)
         {
             return;
         }
-        Logger.LogInformation("3");
 
         if (DizStart == null)
         {
-            player.PrintToChat($"{Prefix}{CC.W} ATEŞ ETTİĞİN İLK NOKTA ALINDI.");
-            player.PrintToChat($"{Prefix}{CC.W} ATEŞ ETTİĞİN İLK NOKTA ALINDI.");
-            player.PrintToChat($"{Prefix}{CC.W} ATEŞ ETTİĞİN İLK NOKTA ALINDI.");
             DizStart = new Tuple<float, float>(@event.X, @event.Y);
             return;
         }
-        Logger.LogInformation("4");
 
         if (DizEnd == null)
         {
-            player.PrintToChat($"{Prefix}{CC.W} ATEŞ ETTİĞİN İKİNCİ NOKTA ALINDI.");
-            player.PrintToChat($"{Prefix}{CC.W} ATEŞ ETTİĞİN İKİNCİ NOKTA ALINDI.");
-            player.PrintToChat($"{Prefix}{CC.W} ATEŞ ETTİĞİN İKİNCİ NOKTA ALINDI.");
-            player.PrintToChat($"{Prefix}{CC.W} OYUNCULAR DİZİLİYOR.");
             DizEnd = new Tuple<float, float>(@event.X, @event.Y);
         }
-        Logger.LogInformation("5");
 
         var players = GetPlayers(CsTeam.Terrorist).Where(x => x.PawnIsAlive).ToList();
         if (players.Count > 0)
         {
-            Logger.LogInformation("7");
-
             var res = InterpolatePoints(DizStart, DizEnd, players.Count);
-            Logger.LogInformation("8");
-            Logger.LogInformation($"res.Count={res.Count}");
-            Logger.LogInformation($"players.Count={players.Count}");
 
-            if (res.Count == players.Count)
+            if (players.Count == 1)
             {
-                Logger.LogInformation("9");
-
                 for (int i = 0; i < players.Count; i++)
                 {
-                    Logger.LogInformation("10");
+                    var x = players[i];
+                    if (ValidateCallerPlayer(x, false) == false)
+                    {
+                        continue;
+                    }
 
+                    x.PlayerPawn.Value.Teleport(
+                        new Vector(DizStart.Item1, DizStart.Item2, player.PlayerPawn.Value.AbsOrigin.Z),
+                        x.PlayerPawn.Value.AbsRotation ?? ANGLE_ZERO,
+                        VEC_ZERO);
+                }
+            }
+            else if (players.Count == 2)
+            {
+                var first = players[0];
+                var second = players[1];
+                first.PlayerPawn.Value.Teleport(
+                    new Vector(DizStart.Item1, DizStart.Item2, player.PlayerPawn.Value.AbsOrigin.Z),
+                    first.PlayerPawn.Value.AbsRotation ?? ANGLE_ZERO,
+                    VEC_ZERO);
+                second.PlayerPawn.Value.Teleport(
+                  new Vector(DizEnd.Item1, DizEnd.Item2, player.PlayerPawn.Value.AbsOrigin.Z),
+                  second.PlayerPawn.Value.AbsRotation ?? ANGLE_ZERO,
+                  VEC_ZERO);
+            }
+            else if (res.Count == players.Count)
+            {
+                for (int i = 0; i < players.Count; i++)
+                {
                     var x = players[i];
                     var coord = res[i];
                     if (ValidateCallerPlayer(x, false) == false)
@@ -128,7 +132,6 @@ public partial class JailbreakExtras
                     {
                         continue;
                     }
-                    Logger.LogInformation("11");
 
                     x.PlayerPawn.Value.Teleport(
                         new Vector(coord.Item1, coord.Item2, player.PlayerPawn.Value.AbsOrigin.Z),
@@ -137,7 +140,6 @@ public partial class JailbreakExtras
                 }
             }
         }
-        Logger.LogInformation("6");
 
         DizPlayerId = 0;
         DizActive = false;
@@ -149,7 +151,7 @@ public partial class JailbreakExtras
     {
         List<Tuple<float, float>> points = new List<Tuple<float, float>>();
 
-        for (int i = 0; i <= dataCount; i++)
+        for (int i = 0; i < dataCount; i++)
         {
             float t = (float)i / dataCount;
             float interpolatedX = Interpolate(start.Item1, end.Item1, t);

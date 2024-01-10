@@ -74,13 +74,13 @@ public partial class JailbreakExtras
 
     private void IsEliStart(int value)
     {
+        ForceCloseDoor();
         RespawnAcAction();
         ForceEntInput("func_breakable", "Break");
         //ForceEntInput("func_breakable", "Break", "DropEldenGidiyeah");
         IsEliWardenNotify();
         BasicCountdown.CommandStartTextCountDown(this, $"İseli - İsyan Eli | Başlamasına {value} saniye kaldı!");
-        ForceCloseDoor();
-        AddTimer(2f, () => IsEliTerroristTp());
+        IsEliTerroristTp();
         GetPlayers(CsTeam.CounterTerrorist)
          .Where(x => ValidateCallerPlayer(x, false))
          .ToList()

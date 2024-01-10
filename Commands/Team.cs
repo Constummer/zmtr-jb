@@ -12,7 +12,7 @@ public partial class JailbreakExtras
     #region OnTeamCommand
 
     [ConsoleCommand("team")]
-    [CommandHelper(0, "<nick-#userid> <ct-t-spec-1-2-3>")]
+    [CommandHelper(0, "<nick-#userid-@me> <ct-t-spec-1-2-3>")]
     public void OnTeamCommand(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)
@@ -53,7 +53,9 @@ public partial class JailbreakExtras
             }
         }
         var players = GetPlayers()
-               .Where(x => (targetArgument == TargetForArgument.UserIdIndex ? GetUserIdIndex(targetPlayer) == x.UserId : false)
+               .Where(x =>
+               (targetArgument == TargetForArgument.UserIdIndex
+               ? GetUserIdIndex(targetPlayer) == x.UserId : targetArgument == TargetForArgument.Me ? x.SteamID == player.SteamID : false)
                             || x.PlayerName.ToLower().Contains(targetPlayer.ToLower()))
                .ToList();
         if (players.Count == 0)
@@ -87,6 +89,10 @@ public partial class JailbreakExtras
                     break;
 
                 case CsTeam.Terrorist:
+                    if (x.SteamID == LatestWCommandUser)
+                    {
+                        RemoveWardenAction(x);
+                    }
                     x.ChangeTeam(targetTeam); break;
 
                 default: break;
