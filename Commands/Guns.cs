@@ -8,6 +8,8 @@ namespace JailbreakExtras;
 public partial class JailbreakExtras
 {
     [ConsoleCommand("guns")]
+    [ConsoleCommand("silah")]
+    [ConsoleCommand("silahlar")]
     public void FfSilahMenu(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player, false) == false)

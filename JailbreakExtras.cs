@@ -30,7 +30,6 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
     private static Dictionary<ulong, Dictionary<ulong, string>> KilledPlayers = new();
     private static readonly Dictionary<CCSPlayerController, bool> bUsingPara = new();
     private static Dictionary<ulong, string> PlayerNamesDatas = new();
-    private static ulong? LatestWCommandUser { get; set; }
 
     private static readonly string[] BaseRequiresPermissions = new[]
     {

@@ -9,43 +9,44 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    [ConsoleCommand("mute")]
+    private static List<ulong> Unmuteds = new List<ulong>();
+
+    [ConsoleCommand("unmute")]
     [CommandHelper(1, "<playerismi-@all-@t-@ct-@me-@alive-@dead>")]
-    public void Mute(CCSPlayerController? player, CommandInfo info)
+    public void UnMute(CCSPlayerController? player, CommandInfo info)
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye10"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         if (info.ArgCount != 2) return;
         var target = info.GetArg(1);
-        MuteAction(player, target);
+
+        UnMuteAction(player, target);
     }
 
-    [ConsoleCommand("mt")]
-    public void MuteT(CCSPlayerController? player, CommandInfo info)
+    [ConsoleCommand("ut")]
+    public void UnMuteT(CCSPlayerController? player, CommandInfo info)
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye10"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
-        MuteAction(player, "@t");
+        UnMuteAction(player, "@t");
     }
 
-    [ConsoleCommand("mct")]
-    public void MuteCT(CCSPlayerController? player, CommandInfo info)
+    [ConsoleCommand("uct")]
+    [ConsoleCommand("umct")]
+    public void UnMuteCT(CCSPlayerController? player, CommandInfo info)
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye10"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
-        MuteAction(player, "@ct");
+        UnMuteAction(player, "@ct");
     }
 
-    private static void MuteAction(CCSPlayerController? player, string target)
+    private static void UnMuteAction(CCSPlayerController? player, string target)
     {
         var targetArgument = GetTargetArgument(target);
         GetPlayers()
@@ -65,15 +66,16 @@ public partial class JailbreakExtras
             .ToList()
             .ForEach(x =>
             {
-                x.VoiceFlags |= VoiceFlags.Muted;
+                Unmuteds.Add(x.SteamID);
+                x.VoiceFlags &= ~VoiceFlags.Muted;
                 if (targetArgument == TargetForArgument.None)
                 {
-                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu {CC.B}susturdu{CC.W}.");
+                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun {CC.B}susturmasını{CC.W} kaldırdı.");
                 }
             });
         if (targetArgument != TargetForArgument.None)
         {
-            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.B}susturdu{CC.W}.");
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin {CC.B}susturmasını{CC.W} kaldırdı.");
         }
     }
 }

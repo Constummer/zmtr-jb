@@ -11,12 +11,13 @@ public partial class JailbreakExtras
     [ConsoleCommand("toggleduck")]
     public void ToggleDuck(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player, false))
+        if (ValidateCallerPlayer(player, false) == false)
         {
-            player.PrintToConsole($" [ZMTR] alttaki komut ile K duck toggle, eğilip kalkabilirsin");
-            player.PrintToConsole($" [ZMTR] alias test \"bind k test2; +duck\";alias test2 \"bind k test; -duck\";bind k test");
-            player.PrintToChat($"{Prefix} {CC.G}Konsoluna bak.");
+            return;
         }
+        player.PrintToConsole($" [ZMTR] alttaki komut ile K duck toggle, eğilip kalkabilirsin");
+        player.PrintToConsole($" [ZMTR] alias test \"bind k test2; +duck\";alias test2 \"bind k test; -duck\";bind k test");
+        player.PrintToChat($"{Prefix} {CC.G}Konsoluna bak.");
     }
 
     #endregion ToggleDuck

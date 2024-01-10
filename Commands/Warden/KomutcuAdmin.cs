@@ -56,7 +56,7 @@ public partial class JailbreakExtras
         ChatMenus.OpenMenu(player, kaMenu);
     }
 
-    private static void CleanTagOnKomutcuAdmin()
+    private void CleanTagOnKomutcuAdmin()
     {
         if (KomutcuAdminId == null)
             return;
@@ -64,11 +64,11 @@ public partial class JailbreakExtras
         if (ka != null)
         {
             ka.Clan = "";
-            //AddTimer(0.2f, () =>
-            //{
-            //    Utilities.SetStateChanged(ka, "CCSPlayerController", "m_szClan");
-            //    Utilities.SetStateChanged(ka, "CBasePlayerController", "m_iszPlayerName");
-            //});
+            AddTimer(0.2f, () =>
+            {
+                Utilities.SetStateChanged(ka, "ccsplayercontroller", "m_szclan");
+                Utilities.SetStateChanged(ka, "cbaseplayercontroller", "m_iszplayername");
+            });
         }
         KomutcuAdminId = null;
     }
