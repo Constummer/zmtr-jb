@@ -3,7 +3,6 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
 
@@ -14,18 +13,18 @@ public partial class JailbreakExtras
     #region RR
 
     /*
-         @"CREATE TABLE IF NOT EXISTS `PlayerCTBan` (
+        @"CREATE TABLE IF NOT EXISTS `PlayerBan` (
                   `SteamId` bigint(20) DEFAULT NULL,
                   `BannedBySteamId` bigint(20) DEFAULT NULL,
                   `Time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
     */
-    private static Dictionary<ulong, DateTime> CTBans = new Dictionary<ulong, DateTime>();
+    private static Dictionary<ulong, DateTime> Bans = new Dictionary<ulong, DateTime>();
 
-    [ConsoleCommand("ctunban")]
-    [ConsoleCommand("unctban")]
-    [ConsoleCommand("ctbankaldir")]
-    [CommandHelper(1, "<playerismi>")]
-    public void CTUnBan(CCSPlayerController? player, CommandInfo info)
+    [ConsoleCommand("unban")]
+    [ConsoleCommand("bankaldir")]
+    [CommandHelper(1, "<playerismi | steamid | #userid>", CommandUsage.CLIENT_ONLY)]
+    public void UnBan(CCSPlayerController? player, CommandInfo info)
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
@@ -43,26 +42,22 @@ public partial class JailbreakExtras
             return;
         }
 
-        var targetArgument = GetTargetArgument(target);
         GetPlayers()
-            .Where(x => targetArgument switch
-            {
-                TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target) ?? false,
-                TargetForArgument.UserIdIndex => GetUserIdIndex(target) == x.UserId,
-                _ => false
-            })
+            .Where(x => x.PlayerName?.ToLower()?.Contains(target) ?? false
+            || GetUserIdIndex(target) == x.UserId
+            || x.SteamID.ToString() == target)
             .ToList()
             .ForEach(x =>
             {
-                CTBans.Remove(x.SteamID, out var _);
-                RemoveCTBanData(x.SteamID);
-                Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W} CT banını kaldırdı.");
+                Bans.Remove(x.SteamID, out var _);
+                RemoveBanData(x.SteamID);
+                Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.W} Banını kaldırdı.");
             });
     }
 
-    [ConsoleCommand("ctban")]
-    [CommandHelper(2, "<playerismi> <dakika/0 süresiz>")]
-    public void CTBan(CCSPlayerController? player, CommandInfo info)
+    [ConsoleCommand("ban")]
+    [CommandHelper(2, "<playerismi | steamid | #userid> <dakika/0 süresiz>", CommandUsage.CLIENT_ONLY)]
+    public void Ban(CCSPlayerController? player, CommandInfo info)
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
@@ -85,68 +80,72 @@ public partial class JailbreakExtras
             return;
         }
 
-        var targetArgument = GetTargetArgument(target);
-        GetPlayers()
-            .Where(x => targetArgument switch
+        var players = GetPlayers()
+            .Where(x => x.PlayerName?.ToLower()?.Contains(target) ?? false
+            || GetUserIdIndex(target) == x.UserId
+            || x.SteamID.ToString() == target
+            )
+            .ToList();
+        if (players.Count == 0)
+        {
+            player.PrintToChat($"{Prefix} {CC.W}Eşleşen oyuncu bulunamadı!");
+            return;
+        }
+        if (players.Count != 1)
+        {
+            player.PrintToChat($"{Prefix} {CC.W}Birden fazla oyuncu bulundu.");
+
+            return;
+        }
+        var x = players.FirstOrDefault();
+
+        if (value <= 0)
+        {
+            if (Bans.TryGetValue(x.SteamID, out var dateTime))
             {
-                TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target) ?? false,
-                TargetForArgument.UserIdIndex => GetUserIdIndex(target) == x.UserId,
-                _ => false
-            })
-            .ToList()
-            .ForEach(x =>
+                Bans[x.SteamID] = DateTime.UtcNow.AddYears(1);
+            }
+            else
             {
-                if (value <= 0)
-                {
-                    if (CTBans.TryGetValue(x.SteamID, out var dateTime))
-                    {
-                        CTBans[x.SteamID] = DateTime.UtcNow.AddYears(1);
-                    }
-                    else
-                    {
-                        CTBans.Add(x.SteamID, DateTime.UtcNow.AddYears(1));
-                    }
-                    AddCTBanData(x.SteamID, player.SteamID, DateTime.UtcNow.AddYears(1));
-                    Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.B}Sınırsız{CC.W} ct banladı.");
-                }
-                else
-                {
-                    if (CTBans.TryGetValue(x.SteamID, out var dateTime))
-                    {
-                        CTBans[x.SteamID] = DateTime.UtcNow.AddMinutes(value);
-                    }
-                    else
-                    {
-                        CTBans.Add(x.SteamID, DateTime.UtcNow.AddMinutes(value));
-                    }
-                    AddCTBanData(x.SteamID, player.SteamID, DateTime.UtcNow.AddMinutes(value));
-                    Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.B}{value}{CC.W} dakika boyunca ct banladı.");
-                }
-                if (GetTeam(x) == CsTeam.CounterTerrorist)
-                {
-                    x.ChangeTeam(CsTeam.Terrorist);
-                }
-            });
+                Bans.Add(x.SteamID, DateTime.UtcNow.AddYears(1));
+            }
+            AddBanData(x.SteamID, player.SteamID, DateTime.UtcNow.AddYears(1));
+            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.B}Sınırsız{CC.W} banladı.");
+        }
+        else
+        {
+            if (Bans.TryGetValue(x.SteamID, out var dateTime))
+            {
+                Bans[x.SteamID] = DateTime.UtcNow.AddMinutes(value);
+            }
+            else
+            {
+                Bans.Add(x.SteamID, DateTime.UtcNow.AddMinutes(value));
+            }
+            AddBanData(x.SteamID, player.SteamID, DateTime.UtcNow.AddMinutes(value));
+            Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{x.PlayerName} {CC.B}{value}{CC.W} dakika boyunca banladı.");
+        }
+        Server.ExecuteCommand($"kickid {x.UserId}");
     }
 
-    private void GetAllCTBanData(MySqlConnection con)
+    private void GetAllBanData(MySqlConnection con)
     {
         if (con == null)
         {
             return;
         }
-        MySqlCommand? cmd = new MySqlCommand(@$"SELECT `SteamId`, `Time` FROM `PlayerCTBan`", con);
+        MySqlCommand? cmd = new MySqlCommand(@$"SELECT `SteamId`, `Time` FROM `PlayerBan`", con);
         using (var reader = cmd.ExecuteReader())
         {
             while (reader.Read())
             {
                 var steamId = reader.IsDBNull(0) ? 0 : reader.GetInt64(0);
 
-                if (CTBans.ContainsKey((ulong)steamId) == false)
+                if (Bans.ContainsKey((ulong)steamId) == false)
                 {
                     var time = reader.IsDBNull(1) ? DateTime.UtcNow : reader.GetDateTime(1);
 
-                    CTBans.Add((ulong)steamId, time);
+                    Bans.Add((ulong)steamId, time);
                 }
             }
         }
@@ -154,9 +153,9 @@ public partial class JailbreakExtras
         return;
     }
 
-    private bool CTBanCheck(CCSPlayerController player)
+    private bool BanCheck(CCSPlayerController player)
     {
-        if (CTBans.TryGetValue(player.SteamID, out var call))
+        if (Bans.TryGetValue(player.SteamID, out var call))
         {
             if (call > DateTime.UtcNow)
             {
@@ -164,13 +163,13 @@ public partial class JailbreakExtras
             }
             else
             {
-                CTBans.Remove(player.SteamID);
+                Bans.Remove(player.SteamID);
             }
         }
         return true;
     }
 
-    private void AddCTBanData(ulong steamId, ulong bannerId, DateTime time)
+    private void AddBanData(ulong steamId, ulong bannerId, DateTime time)
     {
         var con = Connection();
         if (con == null)
@@ -180,7 +179,7 @@ public partial class JailbreakExtras
 
         try
         {
-            var cmd = new MySqlCommand(@$"SELECT 1 FROM `PlayerCTBan` WHERE `SteamId` = @SteamId;", con);
+            var cmd = new MySqlCommand(@$"SELECT 1 FROM `PlayerBan` WHERE `SteamId` = @SteamId;", con);
             cmd.Parameters.AddWithValue("@SteamId", steamId);
             bool exist = false;
             using (var reader = cmd.ExecuteReader())
@@ -192,7 +191,7 @@ public partial class JailbreakExtras
             }
             if (exist)
             {
-                cmd = new MySqlCommand(@$"UPDATE `PlayerCTBan`
+                cmd = new MySqlCommand(@$"UPDATE `PlayerBan`
                                           SET
                                               `BannedBySteamId` = @BannedBySteamId,
                                               `Time` = @Time
@@ -207,7 +206,7 @@ public partial class JailbreakExtras
             }
             else
             {
-                cmd = new MySqlCommand(@$"INSERT INTO `PlayerCTBan`
+                cmd = new MySqlCommand(@$"INSERT INTO `PlayerBan`
                                       (SteamId,BannedBySteamId,Time)
                                       VALUES (@SteamId,@BannedBySteamId,@Time);", con);
 
@@ -222,7 +221,7 @@ public partial class JailbreakExtras
         }
     }
 
-    private void RemoveCTBanData(ulong steamId)
+    private void RemoveBanData(ulong steamId)
     {
         var con = Connection();
         if (con == null)
@@ -232,7 +231,7 @@ public partial class JailbreakExtras
 
         try
         {
-            var cmd = new MySqlCommand(@$"DELETE FROM `PlayerCTBan` WHERE `SteamId` = @SteamId;", con);
+            var cmd = new MySqlCommand(@$"DELETE FROM `PlayerBan` WHERE `SteamId` = @SteamId;", con);
             cmd.Parameters.AddWithValue("@SteamId", steamId);
             cmd.ExecuteNonQuery();
         }

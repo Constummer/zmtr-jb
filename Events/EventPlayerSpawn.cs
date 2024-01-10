@@ -29,10 +29,11 @@ public partial class JailbreakExtras
                 {
                     if (Unmuteds.Contains(x.SteamID) == false)
                     {
-                        AddTimer(2f, () =>
-                        {
-                            x.VoiceFlags |= VoiceFlags.Muted;
-                        });
+                        if (x.Connected == PlayerConnectedState.PlayerConnected)
+                            AddTimer(2f, () =>
+                            {
+                                x.VoiceFlags |= VoiceFlags.Muted;
+                            });
                     }
                 }
                 AddTimer(0.5f, () =>

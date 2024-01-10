@@ -11,14 +11,7 @@ public partial class JailbreakExtras
     private static IEnumerable<CCSPlayerController> GetPlayers(CsTeam? team = null)
     {
         return Utilities.GetPlayers()
-             .Where(x => x != null
-                         && x.Connected == PlayerConnectedState.PlayerConnected
-                         && x.IsValid
-                         && !x.IsBot
-                         && x.Index != 32767
-                         && !x.IsHLTV
-                         && x.Pawn?.Value != null
-                         && ValidateCallerPlayer(x, false)
+             .Where(x => ValidateCallerPlayer(x, false)
                          && (team.HasValue ? team.Value == GetTeam(x) : true));
     }
 
@@ -89,7 +82,13 @@ public partial class JailbreakExtras
         //}
         //if (player.AuthorizedSteamID.IsValid() == false) return false;//todo chjeck
         if (player.IsBot) return false;
-        return true;
+        if (player.Connected == PlayerConnectedState.PlayerConnected
+            && player.Index != 32767
+            && !player.IsHLTV
+            //&& player.Pawn?.Value != null
+            )
+            return true;
+        return false;
     }
 
     private static bool IsValid(CCSPlayerController? player)

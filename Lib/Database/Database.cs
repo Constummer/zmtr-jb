@@ -92,9 +92,18 @@ public partial class JailbreakExtras
                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
                 await cmd.ExecuteNonQueryAsync();
 
+                cmd = new MySqlCommand(
+                @"CREATE TABLE IF NOT EXISTS `PlayerBan` (
+                  `SteamId` bigint(20) DEFAULT NULL,
+                  `BannedBySteamId` bigint(20) DEFAULT NULL,
+                  `Time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+                ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
+                await cmd.ExecuteNonQueryAsync();
+
                 GetAllPlayerNameData(con);
                 GetAllTimeTrackingData(con);
                 GetAllCTBanData(con);
+                GetAllBanData(con);
             }
             catch (Exception ex)
             {
