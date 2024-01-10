@@ -75,7 +75,8 @@ public partial class JailbreakExtras
     private void IsEliStart(int value)
     {
         RespawnAcAction();
-        ForceEntInput("func_breakable", "Break", "DropEldenGidiyeah");
+        ForceEntInput("func_breakable", "Break");
+        //ForceEntInput("func_breakable", "Break", "DropEldenGidiyeah");
         BasicCountdown.CommandStartTextCountDown(this, $"İseli - İsyan Eli | Başlamasına {value} saniye kaldı!");
         ForceCloseDoor();
 
