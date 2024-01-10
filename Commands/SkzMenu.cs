@@ -81,7 +81,7 @@ public partial class JailbreakExtras
                         {
                             if (players.Count < 6)
                             {
-                                SetColour(x, DefaultPlayerColor);
+                                SetColour(x, DefaultColor);
                             }
                             else
                             {

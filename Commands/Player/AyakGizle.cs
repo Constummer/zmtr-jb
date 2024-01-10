@@ -28,7 +28,7 @@ public partial class JailbreakExtras
             return;
         }
         HideFoots[player.SteamID] = false;
-        player!.PlayerPawn.Value!.Render = DefaultPlayerColor;
+        player!.PlayerPawn.Value!.Render = DefaultColor;
         RefreshPawn(player);
         player!.PrintToChat($"{Prefix} {CC.G}Ayakların artık gözüküyor!");
     }

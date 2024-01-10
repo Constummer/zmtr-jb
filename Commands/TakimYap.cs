@@ -102,7 +102,7 @@ public partial class JailbreakExtras
 
         players.ForEach(x =>
             {
-                SetColour(x, DefaultPlayerColor);
+                SetColour(x, DefaultColor);
 
                 Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                 Vector currentSpeed = new Vector(0, 0, 0);

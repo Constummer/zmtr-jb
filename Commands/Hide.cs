@@ -37,17 +37,36 @@ public partial class JailbreakExtras
                 {
                     case 0:
                         Config.Additional.ParachuteModelEnabled = true;
-                        SetColour(x, DefaultPlayerColor);
+                        SetColour(x, DefaultColor);
+                        ShowWeapons(x);
                         break;
 
                     case 1:
                         Config.Additional.ParachuteModelEnabled = false;
                         SetColour(x, Color.FromArgb(0, 0, 0, 0));
+                        HideWeapons(x);
                         break;
                 }
                 RefreshPawn(x);
             });
     }
+
+    //public enum RenderMode_t : byte
+    //{
+    //    kRenderNormal = 0x0,
+    //    kRenderTransColor = 0x1,
+    //    kRenderTransTexture = 0x2,
+    //    kRenderGlow = 0x3,
+    //    kRenderTransAlpha = 0x4,
+    //    kRenderTransAdd = 0x5,
+    //    kRenderEnvironmental = 0x6,
+    //    kRenderTransAddFrameBlend = 0x7,
+    //    kRenderTransAlphaAdd = 0x8,
+    //    kRenderWorldGlow = 0x9,
+    //    kRenderNone = 0xA,
+    //    kRenderDevVisualizer = 0xB,
+    //    kRenderModeCount = 0xC,
+    //}
 
     #endregion Hide
 }

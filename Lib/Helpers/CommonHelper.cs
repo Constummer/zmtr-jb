@@ -142,6 +142,38 @@ public partial class JailbreakExtras
         }
     }
 
+    private static void HideWeapons(CCSPlayerController x)
+    {
+        if (x?.PlayerPawn?.Value?.WeaponServices?.MyWeapons != null)
+        {
+            foreach (var weapon in x.PlayerPawn.Value.WeaponServices!.MyWeapons)
+            {
+                if (weapon.Value != null
+                    && string.IsNullOrWhiteSpace(weapon.Value.DesignerName) == false
+                    && weapon.Value.DesignerName != "[null]")
+                {
+                    weapon.Value.Render = Color.FromArgb(0, 0, 0, 0);
+                }
+            }
+        }
+    }
+
+    private static void ShowWeapons(CCSPlayerController x)
+    {
+        if (x?.PlayerPawn?.Value?.WeaponServices?.MyWeapons != null)
+        {
+            foreach (var weapon in x.PlayerPawn.Value.WeaponServices!.MyWeapons)
+            {
+                if (weapon.Value != null
+                    && string.IsNullOrWhiteSpace(weapon.Value.DesignerName) == false
+                    && weapon.Value.DesignerName != "[null]")
+                {
+                    weapon.Value.Render = DefaultColor;
+                }
+            }
+        }
+    }
+
     private static List<uint> PlayerWeaponIndexes(CCSPlayerController x)
     {
         var res = new List<uint>();

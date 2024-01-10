@@ -120,7 +120,7 @@ public partial class JailbreakExtras
                {
                    if (TeamActive == false)
                    {
-                       SetColour(x, DefaultPlayerColor);
+                       SetColour(x, DefaultColor);
                    }
 
                    x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;

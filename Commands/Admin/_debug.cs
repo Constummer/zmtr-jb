@@ -255,6 +255,53 @@ public partial class JailbreakExtras
         }
     }
 
+    [ConsoleCommand("cRenderMode")]
+    public void cRenderMode(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        if (Enum.TryParse<RenderMode_t>(info.GetArg(1), out var res))
+        {
+            Server.PrintToChatAll(res.ToString());
+            if (player?.PlayerPawn?.Value?.WeaponServices?.MyWeapons != null)
+            {
+                foreach (var weapon in player.PlayerPawn.Value.WeaponServices!.MyWeapons)
+                {
+                    if (weapon.Value != null
+                        && string.IsNullOrWhiteSpace(weapon.Value.DesignerName) == false
+                        && weapon.Value.DesignerName != "[null]")
+                    {
+                        if (weapon.Value.DesignerName.Contains("m4a"))
+                        {
+                            weapon.Value.RenderMode = res;
+                        }
+                        //weapon.Value.Render = DefaultColor;
+                    }
+                }
+            }
+        }
+
+        //public enum RenderMode_t : byte
+        //{
+        //    kRenderNormal = 0x0,
+        //    kRenderTransColor = 0x1,
+        //    kRenderTransTexture = 0x2,
+        //    kRenderGlow = 0x3,
+        //    kRenderTransAlpha = 0x4,
+        //    kRenderTransAdd = 0x5,
+        //    kRenderEnvironmental = 0x6,
+        //    kRenderTransAddFrameBlend = 0x7,
+        //    kRenderTransAlphaAdd = 0x8,
+        //    kRenderWorldGlow = 0x9,
+        //    kRenderNone = 0xA,
+        //    kRenderDevVisualizer = 0xB,
+        //    kRenderModeCount = 0xC,
+        //}
+    }
+
     private static bool LastRSoundDisable = false;
 
     [ConsoleCommand("consjoy")]

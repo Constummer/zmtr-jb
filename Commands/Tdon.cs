@@ -58,7 +58,7 @@ public partial class JailbreakExtras
                         {
                             if (TeamActive == false)
                             {
-                                SetColour(x, DefaultPlayerColor);
+                                SetColour(x, DefaultColor);
                             }
                             RefreshPawn(x);
 
@@ -75,7 +75,7 @@ public partial class JailbreakExtras
            {
                if (TeamActive == false)
                {
-                   SetColour(x, DefaultPlayerColor);
+                   SetColour(x, DefaultColor);
                }
                RefreshPawn(x);
 
