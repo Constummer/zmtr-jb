@@ -9,6 +9,7 @@ namespace JailbreakExtras;
 public partial class JailbreakExtras
 {
     [ConsoleCommand("tdon", "Freeze a t.")]
+    [ConsoleCommand("td", "Freeze a t.")]
     public void OnTDonCommand(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)

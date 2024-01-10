@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Timers;
 
 namespace JailbreakExtras;
 
@@ -51,24 +52,24 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (int.TryParse(godOneTwoStr, out var godOneTwo) == false)
+        if (int.TryParse(godOneTwoStr, out var value) == false)
         {
             player.PrintToChat($"{Prefix}{CC.W} gecersiz miktar");
             return;
         }
-        if (godOneTwo <= 0)
+        if (value <= 0)
         {
             player.PrintToChat($"{Prefix}{CC.W} en az 1 girmelisin");
             return;
         }
         var targetArgument = GetTargetArgument(target);
-        var a = 0;
+        var counter = 0;
         Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı admin, {CC.G}{target} {CC.W}hedefini {CC.B}burnledi");
 
         BurnTimer = AddTimer(0.3f, () =>
         {
-            a++;
-            if (a >= godOneTwo)
+            counter++;
+            if (counter > value)
             {
                 BurnTimer?.Kill();
                 BurnTimer = null;
@@ -81,7 +82,7 @@ public partial class JailbreakExtras
                        {
                            PerformSlap(x.PlayerPawn.Value, 1);
                        });
-        }, CounterStrikeSharp.API.Modules.Timers.TimerFlags.REPEAT);
+        }, TimerFlags.REPEAT);
     }
 
     #endregion Burn

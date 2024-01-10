@@ -15,7 +15,7 @@ public partial class JailbreakExtras
                          && (team.HasValue ? team.Value == GetTeam(x) : true));
     }
 
-    private static int GetPlayerCount(CsTeam? team = null)
+    private static int GetPlayerCount(CsTeam? team = null, bool? alive = null)
     {
         List<CCSPlayerController> players = new();
 
@@ -26,6 +26,10 @@ public partial class JailbreakExtras
             if (!controller.IsValid || controller.UserId == -1)
                 continue;
             if ((team.HasValue ? team.Value != GetTeam(controller) : true) == false)
+            {
+                continue;
+            }
+            if ((alive.HasValue ? alive.Value == controller.PawnIsAlive : true) == false)
             {
                 continue;
             }

@@ -65,13 +65,60 @@ public partial class JailbreakExtras
         Vector playerPosition = player.PlayerPawn?.Value.CBodyComponent?.SceneNode?.AbsOrigin;
         QAngle viewAngles = player.PlayerPawn.Value.EyeAngles;
 
-        //if (IsPlayerCloseToTarget(player, end, player.PlayerPawn.Value!.AbsOrigin, 40))
-        //{
-        //    return;
-        //}
-        PullPlayer(player, end, playerPosition, viewAngles);
+        PullPlayerToUp(player, end, playerPosition, viewAngles);
 
         return;
+    }
+
+    private void PullPlayerToUp(CCSPlayerController player, Vector grappleTarget, Vector playerPosition, QAngle viewAngles)
+    {
+        if (player == null || player.PlayerPawn == null || player.PlayerPawn.Value.CBodyComponent == null || playerPosition == null || !player.IsValid || !player.PawnIsAlive)
+        {
+            Console.WriteLine("Player is null.");
+            return;
+        }
+
+        if (player.PlayerPawn.Value.CBodyComponent.SceneNode == null)
+        {
+            Console.WriteLine("SceneNode is null. Skipping pull.");
+            return;
+        }
+
+        if (grappleTarget == null)
+        {
+            Console.WriteLine("Grapple target is null.");
+            return;
+        }
+
+        var direction = grappleTarget - playerPosition;
+        float grappleSpeed = Config.Additional.GrappleSpeed;
+
+        var newVelocity = new Vector(
+            direction.X * grappleSpeed,
+            direction.Y * grappleSpeed,
+            direction.Z * grappleSpeed
+        );
+
+        if (player.PlayerPawn.Value.AbsVelocity != null)
+        {
+            player.PlayerPawn.Value.AbsVelocity.X = newVelocity.X;
+            player.PlayerPawn.Value.AbsVelocity.Y = newVelocity.Y;
+            player.PlayerPawn.Value.AbsVelocity.Z = newVelocity.Z;
+        }
+        else
+        {
+            Console.WriteLine("AbsVelocity is null.");
+            return;
+        }
+
+        //if (playerGrapples[player.Slot].GrappleWire != null)
+        //{
+        //    playerGrapples[player.Slot].GrappleWire.Teleport(playerPosition, new QAngle(0, 0, 0), new Vector(0, 0, 0));
+        //}
+        //else
+        //{
+        //    Console.WriteLine("GrappleWire is null.");
+        //}
     }
 
     #endregion Hook

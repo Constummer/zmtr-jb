@@ -25,10 +25,12 @@ public partial class JailbreakExtras
         fzTimer?.Kill();
         BurnTimer?.Kill();
         unfzTimer?.Kill();
+        BurnTimer?.Kill();
         FFTimer = null;
         fzTimer = null;
         BurnTimer = null;
         unfzTimer = null;
+        BurnTimer = null;
         ClearParachutes();
         ClearCits();
         ClearLasers();
