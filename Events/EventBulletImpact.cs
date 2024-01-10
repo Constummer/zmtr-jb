@@ -11,6 +11,7 @@ public partial class JailbreakExtras
             if (@event == null)
                 return HookResult.Continue;
             CitEkle(@event);
+            DizAction(@event);
             return HookResult.Continue;
         });
     }

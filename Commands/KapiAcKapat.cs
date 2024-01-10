@@ -34,10 +34,12 @@ public partial class JailbreakExtras
 
         foreach (var ent in target)
         {
+            Server.PrintToChatAll("0 ");
             if (!ent.IsValid)
             {
                 continue;
             }
+            Server.PrintToChatAll("1 " + ent.Entity.Name);
             if (string.IsNullOrEmpty(entityName) == false)
             {
                 if (ent.Entity != null
@@ -46,6 +48,8 @@ public partial class JailbreakExtras
                     continue;
                 }
             }
+            Server.PrintToChatAll("2 " + ent.Entity.Name);
+
             ent.AcceptInput(input);
         }
     }

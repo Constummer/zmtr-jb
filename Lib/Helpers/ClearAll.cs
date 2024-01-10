@@ -21,6 +21,10 @@ public partial class JailbreakExtras
         CitEnabledPlayers?.Clear();
         TeamSteamIds?.Clear();
         FFMenuCheck = false;
+        DizPlayerId = 0;
+        DizActive = false;
+        DizStart = null;
+        DizEnd = null;
         FFTimer?.Kill();
         fzTimer?.Kill();
         BurnTimer?.Kill();

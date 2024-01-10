@@ -6,6 +6,7 @@ using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Memory;
 using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
+using System.Drawing;
 
 namespace JailbreakExtras;
 
@@ -176,6 +177,75 @@ public partial class JailbreakExtras
         }, CounterStrikeSharp.API.Modules.Timers.TimerFlags.REPEAT);
     }
 
+    [ConsoleCommand("cwtf")]
+    public void cwtf(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        ForceEntInput("func_breakable", "Break", "DropEldenGidiyeah");
+    }
+
+    [ConsoleCommand("cp2")]
+    public void cinput2(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        var target = Utilities.FindAllEntitiesByDesignerName<CBaseEntity>("func_breakable");
+
+        var queue = new Queue<CBaseEntity?>();
+        foreach (var item in target)
+        {
+            queue.Enqueue(item);
+        }
+        a = AddTimer(10, () =>
+        {
+            if (queue.TryDequeue(out var ent))
+            {
+                if (!ent.IsValid)
+                {
+                    return;
+                }
+                Server.PrintToChatAll("----------------------------------------");
+                Server.PrintToChatAll($"DamageFilterName = {ent.DamageFilterName}");
+                Server.PrintToChatAll($"DesignerName = {ent.DesignerName}");
+                Server.PrintToChatAll($"Globalname = {ent.Globalname}");
+                Server.PrintToChatAll($"UniqueHammerID = {ent.UniqueHammerID}");
+                Server.PrintToChatAll($"Index = {ent.Index}");
+                if (ent.Blocker.IsValid)
+                {
+                    var bl = ent.Blocker.Value;
+                    Server.PrintToChatAll($"bl DamageFilterName = {bl.DamageFilterName}");
+                    Server.PrintToChatAll($"bl DesignerName = {bl.DesignerName}");
+                    Server.PrintToChatAll($"bl Globalname = {bl.Globalname}");
+                }
+                if (ent.OwnerEntity.IsValid)
+                {
+                    var bl = ent.OwnerEntity.Value;
+                    Server.PrintToChatAll($"bl DamageFilterName = {bl.DamageFilterName}");
+                    Server.PrintToChatAll($"bl DesignerName = {bl.DesignerName}");
+                    Server.PrintToChatAll($"bl Globalname = {bl.Globalname}");
+                }
+                Server.PrintToChatAll($"Entity.Name = {ent.Entity.Name}");
+                Server.PrintToChatAll($"Entity.DesignerName = {ent.Entity.DesignerName}");
+
+                Server.PrintToChatAll($"GetHashCode = {ent.GetHashCode()}");
+                Server.PrintToChatAll("----------------------------------------");
+                Server.PrintToChatAll(ent.Index.ToString());
+                AddTimer(2, () =>
+                {
+                    Server.PrintToChatAll(ent.Index.ToString());
+                    ent.AcceptInput("Break");
+                });
+            }
+        }, CounterStrikeSharp.API.Modules.Timers.TimerFlags.REPEAT);
+    }
+
     [ConsoleCommand("cyet1")]
     public void cyet1(CCSPlayerController? player, CommandInfo info)
     {
@@ -274,10 +344,8 @@ public partial class JailbreakExtras
                         && string.IsNullOrWhiteSpace(weapon.Value.DesignerName) == false
                         && weapon.Value.DesignerName != "[null]")
                     {
-                        if (weapon.Value.DesignerName.Contains("m4a"))
-                        {
-                            weapon.Value.RenderMode = res;
-                        }
+                        weapon.Value.RenderMode = res;
+                        //weapon.Value.Render = Color.FromArgb(0, 0, 0, 0);
                         //weapon.Value.Render = DefaultColor;
                     }
                 }
@@ -300,6 +368,28 @@ public partial class JailbreakExtras
         //    kRenderDevVisualizer = 0xB,
         //    kRenderModeCount = 0xC,
         //}
+    }
+
+    [ConsoleCommand("chide")]
+    public void chide(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        HideWeapons(player);
+    }
+
+    [ConsoleCommand("cshow")]
+    public void cshow(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        ShowWeapons(player);
     }
 
     private static bool LastRSoundDisable = false;
