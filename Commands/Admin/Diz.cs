@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
+using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
 
@@ -59,20 +60,26 @@ public partial class JailbreakExtras
 
     private void DizAction(EventBulletImpact @event)
     {
+        Logger.LogInformation("0");
+
         if (DizActive == false)
         {
             return;
         }
+        Logger.LogInformation("1");
         if (DizPlayerId == 0)
         {
             return;
         }
+        Logger.LogInformation("2");
 
         var player = GetPlayers().Where(x => x.SteamID == DizPlayerId).FirstOrDefault();
         if (player == null)
         {
             return;
         }
+        Logger.LogInformation("3");
+
         if (DizStart == null)
         {
             player.PrintToChat($"{Prefix}{CC.W} ATEŞ ETTİĞİN İLK NOKTA ALINDI.");
@@ -81,6 +88,8 @@ public partial class JailbreakExtras
             DizStart = new Tuple<float, float>(@event.X, @event.Y);
             return;
         }
+        Logger.LogInformation("4");
+
         if (DizEnd == null)
         {
             player.PrintToChat($"{Prefix}{CC.W} ATEŞ ETTİĞİN İKİNCİ NOKTA ALINDI.");
@@ -88,21 +97,27 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix}{CC.W} ATEŞ ETTİĞİN İKİNCİ NOKTA ALINDI.");
             player.PrintToChat($"{Prefix}{CC.W} OYUNCULAR DİZİLİYOR.");
             DizEnd = new Tuple<float, float>(@event.X, @event.Y);
-            return;
         }
-
-        var playerAbs = player.PlayerPawn.Value.AbsOrigin;
-        var start = new Tuple<float, float>(playerAbs.X, playerAbs.Y);
-        var end = new Tuple<float, float>(playerAbs.X + 20, playerAbs.Y + 20);
+        Logger.LogInformation("5");
 
         var players = GetPlayers(CsTeam.Terrorist).Where(x => x.PawnIsAlive).ToList();
         if (players.Count > 0)
         {
-            var res = InterpolatePoints(start, end, players.Count);
+            Logger.LogInformation("7");
+
+            var res = InterpolatePoints(DizStart, DizEnd, players.Count);
+            Logger.LogInformation("8");
+            Logger.LogInformation($"res.Count={res.Count}");
+            Logger.LogInformation($"players.Count={players.Count}");
+
             if (res.Count == players.Count)
             {
+                Logger.LogInformation("9");
+
                 for (int i = 0; i < players.Count; i++)
                 {
+                    Logger.LogInformation("10");
+
                     var x = players[i];
                     var coord = res[i];
                     if (ValidateCallerPlayer(x, false) == false)
@@ -113,15 +128,21 @@ public partial class JailbreakExtras
                     {
                         continue;
                     }
+                    Logger.LogInformation("11");
+
                     x.PlayerPawn.Value.Teleport(
-                        new Vector(coord.Item1, coord.Item2, playerAbs.Z),
+                        new Vector(coord.Item1, coord.Item2, player.PlayerPawn.Value.AbsOrigin.Z),
                         x.PlayerPawn.Value.AbsRotation ?? ANGLE_ZERO,
                         VEC_ZERO);
                 }
             }
         }
+        Logger.LogInformation("6");
+
         DizPlayerId = 0;
         DizActive = false;
+        DizStart = null;
+        DizEnd = null;
     }
 
     private static List<Tuple<float, float>> InterpolatePoints(Tuple<float, float> start, Tuple<float, float> end, int dataCount)
