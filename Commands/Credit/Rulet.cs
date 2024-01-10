@@ -180,6 +180,10 @@ public partial class JailbreakExtras
 
     private void RuletActivate()
     {
+        if (IsGameBannedToday())
+        {
+            return;
+        }
         var kazananRenk = RuletDondur();
         Server.PrintToChatAll($" {CC.Ol}[RULET] {CC.W}Rulet Dönüyor...");
         Server.PrintToChatAll($" {CC.Ol}[RULET] {CC.W}Ruleti Kazanan Renk: {CtOfRulet(kazananRenk)}");

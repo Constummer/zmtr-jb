@@ -110,6 +110,10 @@ public partial class JailbreakExtras
 
     public void PiyangoKazananSonuc()
     {
+        if (IsGameBannedToday())
+        {
+            return;
+        }
         var piyangoKazanan = PiyangoKazanan();
         if (piyangoKazanan == 0)
         {
