@@ -13,15 +13,16 @@ public partial class JailbreakExtras
     [CommandHelper(minArgs: 1, usage: "<#userid or name> [reason]")]
     public void OnKickCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (ValidateCallerPlayer(player, false) == false)
         {
             return;
         }
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (AdminManager.PlayerHasPermissions(player, "@css/lider") == false)
         {
             player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
+
         string reason = "Unknown";
         if (info.ArgCount >= 2 && info.GetArg(2).Length > 0)
         {
