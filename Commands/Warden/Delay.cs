@@ -14,9 +14,19 @@ public partial class JailbreakExtras
     [CommandHelper(0, "<saniye>")]
     public void Delay(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (LatestWCommandUser != player.SteamID)
         {
-            return;
+            if (ValidateCallerPlayer(player) == false)
+            {
+                return;
+            }
+        }
+        else
+        {
+            if (ValidateCallerPlayer(player, false) == false)
+            {
+                return;
+            }
         }
         var target = info.ArgCount > 1 ? info.GetArg(1) : "5";
         if (int.TryParse(target, out var value))
