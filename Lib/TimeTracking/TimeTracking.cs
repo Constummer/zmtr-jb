@@ -11,18 +11,20 @@ public partial class JailbreakExtras
 
     public class PlayerTime
     {
-        public PlayerTime(int total, int cTTime, int tTime, int wTime)
+        public PlayerTime(int total, int cTTime, int tTime, int wTime, int weeklyWTime)
         {
             Total = total;
             CTTime = cTTime;
             TTime = tTime;
             WTime = wTime;
+            WeeklyWTime = weeklyWTime;
         }
 
         public int Total { get; set; } = 0;
         public int CTTime { get; set; } = 0;
         public int TTime { get; set; } = 0;
         public int WTime { get; set; } = 0;
+        public int WeeklyWTime { get; set; } = 0;
     }
 
     /*
@@ -56,7 +58,7 @@ public partial class JailbreakExtras
         try
         {
             PlayerTime data = null;
-            var cmd = new MySqlCommand(@$"SELECT `Total`,`CTTime`,`TTime`,`WTime`,`SteamId`
+            var cmd = new MySqlCommand(@$"SELECT `Total`,`CTTime`,`TTime`,`WTime`,`WeeklyWTime`,`SteamId`
                                           FROM `PlayerTime`;", con);
 
             using (var reader = cmd.ExecuteReader())
@@ -67,8 +69,9 @@ public partial class JailbreakExtras
                        reader.IsDBNull(0) ? 0 : reader.GetInt32(0),
                        reader.IsDBNull(1) ? 0 : reader.GetInt32(1),
                        reader.IsDBNull(2) ? 0 : reader.GetInt32(2),
-                       reader.IsDBNull(3) ? 0 : reader.GetInt32(3));
-                    var steamid = reader.IsDBNull(4) ? 0 : reader.GetInt64(4);
+                       reader.IsDBNull(3) ? 0 : reader.GetInt32(3),
+                       reader.IsDBNull(4) ? 0 : reader.GetInt32(4));
+                    var steamid = reader.IsDBNull(5) ? 0 : reader.GetInt64(5);
                     if (steamid != 0)
                     {
                         if (AllPlayerTimeTracking.ContainsKey((ulong)steamid) == false)
@@ -100,7 +103,7 @@ public partial class JailbreakExtras
         try
         {
             PlayerTime data = null;
-            var cmd = new MySqlCommand(@$"SELECT `Total`,`CTTime`,`TTime`,`WTime`
+            var cmd = new MySqlCommand(@$"SELECT `Total`,`CTTime`,`TTime`,`WTime`,`WeeklyWTime`
                                           FROM `PlayerTime`
                                           WHERE `SteamId` = @SteamId;", con);
             cmd.Parameters.AddWithValue("@SteamId", steamID);
@@ -113,7 +116,8 @@ public partial class JailbreakExtras
                        reader.IsDBNull(0) ? 0 : reader.GetInt32(0),
                        reader.IsDBNull(1) ? 0 : reader.GetInt32(1),
                        reader.IsDBNull(2) ? 0 : reader.GetInt32(2),
-                       reader.IsDBNull(3) ? 0 : reader.GetInt32(3));
+                       reader.IsDBNull(3) ? 0 : reader.GetInt32(3),
+                       reader.IsDBNull(4) ? 0 : reader.GetInt32(4));
 
                     if (PlayerTimeTracking.ContainsKey(steamID) == false)
                     {
@@ -124,13 +128,13 @@ public partial class JailbreakExtras
             }
 
             cmd = new MySqlCommand(@$"INSERT INTO `PlayerTime`
-                                          (`SteamId`,`Total`,`CTTime`,`TTime`,`WTime`)
+                                          (`SteamId`,`Total`,`CTTime`,`TTime`,`WTime`,`WeeklyWTime`)
                                           VALUES
-                                          (@SteamId, 0, 0, 0, 0);", con);
+                                          (@SteamId, 0, 0, 0, 0, 0);", con);
 
             cmd.Parameters.AddWithValue("@SteamId", steamID);
             cmd.ExecuteNonQuery();
-            data = new PlayerTime(0, 0, 0, 0);
+            data = new PlayerTime(0, 0, 0, 0, 0);
 
             if (PlayerTimeTracking.ContainsKey(steamID) == false)
             {
@@ -167,7 +171,8 @@ public partial class JailbreakExtras
                                             `Total` = @Total_{i},
                                             `CTTime` = @CTTime_{i},
                                             `TTime` = @TTime_{i},
-                                            `WTime` = @Wtime_{i}
+                                            `WTime` = @Wtime_{i},
+                                            `WeeklyWTime` = @WeeklyWTime_{i}
                                         WHERE `SteamId` = @SteamId_{i};";
                      value.Total++;
                      var team = GetTeam(x);
@@ -182,6 +187,7 @@ public partial class JailbreakExtras
                      if (LatestWCommandUser == x.SteamID)
                      {
                          value.WTime++;
+                         value.WeeklyWTime++;
                      }
 
                      parameters.Add(new MySqlParameter($"@SteamId_{i}", x.SteamID));
@@ -189,11 +195,12 @@ public partial class JailbreakExtras
                      parameters.Add(new MySqlParameter($"@CTTime_{i}", value.CTTime));
                      parameters.Add(new MySqlParameter($"@TTime_{i}", value.TTime));
                      parameters.Add(new MySqlParameter($"@WTime_{i}", value.WTime));
+                     parameters.Add(new MySqlParameter($"@WeeklyWTime_{i}", value.WeeklyWTime));
                      PlayerTimeTracking[x.SteamID] = value;
                  }
                  else
                  {
-                     value = new(0, 0, 0, 0);
+                     value = new(0, 0, 0, 0, 0);
                      PlayerTimeTracking.Add(x.SteamID, value);
                  }
                  i++;

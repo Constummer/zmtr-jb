@@ -208,7 +208,7 @@ public partial class JailbreakExtras
         }
         foreach (var item in AllPlayerTimeTracking)
         {
-            player.PrintToConsole($"{item.Key}|{item.Value.Total}|{item.Value.CTTime}|{item.Value.TTime}|{item.Value.WTime}|{item.Value.CTTime}");
+            player.PrintToConsole($"{item.Key}|{item.Value.Total}|{item.Value.CTTime}|{item.Value.TTime}|{item.Value.WTime}|{item.Value.WeeklyWTime}|{item.Value.CTTime}");
         }
     }
 
@@ -222,7 +222,7 @@ public partial class JailbreakExtras
         }
         foreach (var item in PlayerTimeTracking)
         {
-            player.PrintToConsole($"{item.Key}|{item.Value.Total}|{item.Value.CTTime}|{item.Value.TTime}|{item.Value.WTime}|{item.Value.CTTime}");
+            player.PrintToConsole($"{item.Key}|{item.Value.Total}|{item.Value.CTTime}|{item.Value.TTime}|{item.Value.WTime}|{item.Value.WeeklyWTime}|{item.Value.CTTime}");
         }
     }
 

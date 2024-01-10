@@ -35,6 +35,7 @@ public partial class JailbreakExtras
         player.PrintToChat($"{Prefix} {CC.W}Toplam {CC.G}{(item.CTTime < 120 ? item.CTTime : item.CTTime / 60)} {CC.W}{(item.CTTime < 120 ? "dakikadir" : "saattir")} gardiyansın!");
         player.PrintToChat($"{Prefix} {CC.W}Toplam {CC.G}{(item.TTime < 120 ? item.TTime : item.TTime / 60)} {CC.W}{(item.TTime < 120 ? "dakikadir" : "saattir")} mahkûmsun!");
         player.PrintToChat($"{Prefix} {CC.W}Toplam {CC.G}{(item.WTime < 120 ? item.WTime : item.WTime / 60)} {CC.W}{(item.WTime < 120 ? "dakikadir" : "saattir")} komutçusun!");
+        player.PrintToChat($"{Prefix} {CC.W}Bu hafta {CC.G}{(item.WeeklyWTime < 120 ? item.WeeklyWTime : item.WeeklyWTime / 60)} {CC.W}{(item.WeeklyWTime < 120 ? "dakikadir" : "saattir")} komutçusun!");
         player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
     }
 
