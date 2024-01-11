@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Modules.Timers;
+﻿using CounterStrikeSharp.API.Modules.Admin;
+using CounterStrikeSharp.API.Modules.Timers;
 
 namespace JailbreakExtras;
 
@@ -10,9 +11,17 @@ public partial class JailbreakExtras
     {
         AddTimer(60f, () =>
         {
+            var lider1Players = GetPlayers()
+                                .Where(x => AdminManager.PlayerHasPermissions(x, "@css/lider"))
+                                .ToList()
+                                .Select(x => x.SteamID);
             foreach (var item in PlayerLevels.ToList())
             {
                 item.Value.Xp++;
+                if (lider1Players.Contains(item.Key))
+                {
+                    item.Value.Xp++;
+                }
                 if (PlayerLevels.ContainsKey(item.Key))
                 {
                     PlayerLevels[item.Key] = item.Value;
