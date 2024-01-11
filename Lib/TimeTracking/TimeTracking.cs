@@ -212,8 +212,8 @@ public partial class JailbreakExtras
                             parameters.Add(new MySqlParameter($"@WTime_{i}", value.WTime));
                             parameters.Add(new MySqlParameter($"@WeeklyWTime_{i}", value.WeeklyWTime));
                             PlayerTimeTracking[x.SteamID] = value;
+                            i++;
                         }
-                        i++;
                     });
                     if (string.IsNullOrWhiteSpace(cmdText))
                     {

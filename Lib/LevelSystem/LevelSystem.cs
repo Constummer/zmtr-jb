@@ -1,10 +1,13 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Entities;
 using JailbreakExtras.Lib.Configs;
 using JailbreakExtras.Lib.Database.Models;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
+using System.Numerics;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace JailbreakExtras;
 
@@ -178,7 +181,7 @@ public partial class JailbreakExtras
         }
     }
 
-    private void InsertAndGetPlayerLevelData(ulong steamId, bool mustExist = false)
+    private void InsertAndGetPlayerLevelData(ulong steamId, bool mustExist = false, string playerName = null)
     {
         try
         {
@@ -188,7 +191,7 @@ public partial class JailbreakExtras
                 {
                     return;
                 }
-                var cmd = new MySqlCommand(@$"SELECT `SteamId`, `Xp`,`TagDisable` FROM `PlayerLevel` WHERE `SteamId` = @SteamId;", con);
+                var cmd = new MySqlCommand(@$"SELECT `SteamId`, `Xp`,`TagDisable`,`GivenRewards` FROM `PlayerLevel` WHERE `SteamId` = @SteamId;", con);
                 cmd.Parameters.AddWithValue("@SteamId", steamId);
 
                 using (var reader = cmd.ExecuteReader())
@@ -197,7 +200,8 @@ public partial class JailbreakExtras
                     {
                         var data = new PlayerLevel(steamId)
                         {
-                            Xp = reader.IsDBNull(1) ? 0 : reader.GetInt32(1)
+                            Xp = reader.IsDBNull(1) ? 0 : reader.GetInt32(1),
+                            GivenRewards = reader.IsDBNull(3) ? "" : reader.GetString(3)
                         };
                         if (PlayerLevels.TryGetValue(steamId, out var old) == false)
                         {
@@ -207,7 +211,6 @@ public partial class JailbreakExtras
                         {
                             LevelTagDisabledPlayers.Add(steamId);
                         }
-
                         return;
                     }
                 }
@@ -228,6 +231,90 @@ public partial class JailbreakExtras
         {
             Logger.LogError(e, "hata");
         }
+    }
+
+    private void GivePlayerRewards(ulong steamid, string playerName)
+    {
+        try
+        {
+            if (PlayerLevels.TryGetValue(steamid, out var playerLevelData) == false)
+            {
+                return;
+            }
+            var givenRewards = playerLevelData.GivenRewards;
+            var xp = playerLevelData.Xp;
+
+            var levels = GetLevelPermissions(xp);
+
+            if (levels == null || levels.Count == 0)
+            {
+                return;
+            }
+
+            levels = levels.Where(x => string.IsNullOrWhiteSpace(x) == false && x.Contains("@css/seviye"))
+                           .Select(x => x.Split("@css/seviye")[1])
+                           .ToList();
+
+            if (string.IsNullOrWhiteSpace(givenRewards) == false)
+            {
+                var splitted = givenRewards.Split(',');
+
+                levels = levels.Where(x => splitted.Contains(x) == false).ToList();
+            }
+            if (levels.Count == 0)
+            {
+                return;
+            }
+            foreach (var item in levels)
+            {
+                var reward = GetLevelReward(item);
+
+                if (reward > 0)
+                {
+                    var data = GetPlayerMarketModel(steamid);
+
+                    data.Model!.Credit += reward;
+
+                    PlayerMarketModels[steamid] = data.Model;
+                    Server.PrintToChatAll($"{Prefix}{CC.Ol}{playerName} {CC.W}seviye {CC.B}{item} {CC.W}ödülü olan {CC.P}{reward}{CC.W} kredisini aldı!");
+                }
+                if (string.IsNullOrWhiteSpace(givenRewards))
+                {
+                    givenRewards = item;
+                }
+                else
+                {
+                    givenRewards += $",{item}";
+                }
+            }
+            playerLevelData.GivenRewards = givenRewards;
+            PlayerLevels[steamid] = playerLevelData;
+
+            using (var con = Connection())
+            {
+                if (con == null)
+                {
+                    return;
+                }
+                var cmd = new MySqlCommand(@$"UPDATE `PlayerLevel`
+                                          SET `GivenRewards` = @GivenRewards
+                                          WHERE `SteamId` = @SteamId;", con);
+
+                cmd.Parameters.AddWithValue("@SteamId", steamid);
+                cmd.Parameters.AddWithValue("@GivenRewards", givenRewards);
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+        catch (Exception e)
+        {
+            Logger.LogError(e, "hata");
+        }
+    }
+
+    private int GetLevelReward(string item)
+    {
+        return Config?.Level?.LevelGifts?.Where(x => x?.Permission == $"@css/seviye{item}")?.Select(x => x?.CreditReward)?.FirstOrDefault() ?? 0;
     }
 
     private async Task UpdatePlayerLevelData(ulong steamId, int xp)
@@ -292,6 +379,7 @@ public partial class JailbreakExtras
         foreach (var item in Config.Level.LevelGifts)
         {
             LevelPermissions.Add(item.Xp, item.Permission);
+
             if (item.Permission != null)
                 LevelPermissionsChecker.Add(item.Permission, item.Xp);
         }

@@ -1,6 +1,9 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Entities;
 using System.Drawing;
+using static JailbreakExtras.JailbreakExtras;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace JailbreakExtras;
 
@@ -31,6 +34,7 @@ public partial class JailbreakExtras
                     continue;
                 if (!x.IsValid || x.UserId == -1)
                     continue;
+                AddTimer(20f, () => GivePlayerRewards(x.SteamID, x.PlayerName));
                 AddTimer(0.5f, () =>
                 {
                     CreateParachute(x);

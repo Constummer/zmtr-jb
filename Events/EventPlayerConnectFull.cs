@@ -21,7 +21,7 @@ public partial class JailbreakExtras
             GetPlayerMarketData(player!.SteamID).Wait();
             InsertAndGetTimeTrackingData(player.SteamID);
             GetPGagData(player.SteamID);
-            InsertAndGetPlayerLevelData(player.SteamID, true);
+            InsertAndGetPlayerLevelData(player.SteamID, true, player.PlayerName);
             CheckPlayerGroups(player);
             return HookResult.Continue;
         });

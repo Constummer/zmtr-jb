@@ -13,4 +13,6 @@ public class PlayerLevel
 
     [Range(0, int.MaxValue)]
     public int Xp { get; set; } = 0;
+
+    public string GivenRewards { get; internal set; }
 }

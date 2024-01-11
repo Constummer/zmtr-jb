@@ -45,7 +45,7 @@ public partial class JailbreakExtras
         [JsonPropertyName("BlockedRadio")]
         public BlockedRadioConfig BlockedRadio { get; set; } = new BlockedRadioConfig();
 
-        [JsonPropertyName("Level")]
+        [JsonIgnore]
         public LevelConfig Level { get; set; } = new LevelConfig();
 
         [JsonPropertyName("DontBlockOnGagged")]
