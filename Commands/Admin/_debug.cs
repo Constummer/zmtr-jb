@@ -410,6 +410,7 @@ public partial class JailbreakExtras
         RespawnAc(player, info);
         FfAc(player, info);
         Noclip(player, info);
+        ForceOpenDoor();
     }
 
     [ConsoleCommand("css_slot1")]
