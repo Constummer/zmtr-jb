@@ -5,25 +5,6 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private Dictionary<nint, WeaponDefaults> weaponDefaults = new();
-
-    public class WeaponDefaults
-    {
-        public WeaponDefaults(int maxClip1, int defaultClip1, int maxClip2, int defaultClip2)
-        {
-            MaxClip1 = maxClip1;
-            DefaultClip1 = defaultClip1;
-            MaxClip2 = maxClip2;
-            DefaultClip2 = defaultClip2;
-        }
-
-        public int MaxClip1 { get; set; }
-
-        public int DefaultClip1 { get; set; }
-        public int MaxClip2 { get; set; }
-        public int DefaultClip2 { get; set; }
-    }
-
     private void EventWeaponReload()
     {
         //RegisterEventHandler<EventWeaponReload>((@event, info) =>

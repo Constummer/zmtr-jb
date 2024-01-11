@@ -21,7 +21,6 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
     public JailbreakExtrasConfig Config { get; set; } = new JailbreakExtrasConfig();
     public static JailbreakExtrasConfig _Config { get; set; } = new JailbreakExtrasConfig();
 
-    private static bool LrActive = false;
     private static Dictionary<ulong, bool> ActiveGodMode = new();
     private static Dictionary<ulong, Vector> DeathLocations = new();
     private static Dictionary<ulong, bool> HideFoots = new();
@@ -46,7 +45,7 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
         CreateDataFolder();
         Database();
         LoadPlayerModels();
-        Task.Run(() => { SharedMemoryConsumer.StartListenerData(); });
+        //Task.Run(() => { SharedMemoryConsumer.StartListenerData(); });
 
         #endregion System Releated
 

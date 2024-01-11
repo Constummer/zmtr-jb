@@ -1,9 +1,5 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Entities;
-using System.Drawing;
-using static JailbreakExtras.JailbreakExtras;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace JailbreakExtras;
 

@@ -109,7 +109,7 @@ public partial class JailbreakExtras
 
     public static void SetHp(CCSPlayerController controller, int health = 100)
     {
-        if (health <= 0 || !controller.PawnIsAlive || controller.PlayerPawn.Value == null) return;
+        if (health <= 0 || !controller.PawnIsAlive || controller.PlayerPawn.IsValid == false || controller.PlayerPawn.Value == null) return;
 
         controller.Health = health;
         controller.PlayerPawn.Value.Health = health;

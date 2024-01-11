@@ -10,7 +10,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (GetPlayers(CsTeam.Terrorist).Where(x => x.PawnIsAlive).Count() == 2)
+        if (GetPlayerCount(CsTeam.Terrorist, true) == 2)//TODO: yeni method ile 1 mi olmali 2 mi emin deilim
         {
             var players = GetPlayers();
             foreach (var player in players)

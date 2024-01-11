@@ -1,10 +1,7 @@
-﻿using CounterStrikeSharp.API;
-using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
-using System.Collections.Generic;
 
 namespace JailbreakExtras;
 
@@ -34,14 +31,7 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.W}Sadece yaşayan son mahkûm lr atabilir.");
             return;
         }
-        player.PrintToChat($"{Prefix} {CC.W}lr devre disi - simdilik -.");
-        return;
-        var lrMenu = new ChatMenu("LR Menu");
-        lrMenu.AddMenuOption("Deagle", (p, i) =>
-        {
-        });
-
-        ChatMenus.OpenMenu(player, lrMenu);
+        HandlerLrMenus(player);
     }
 
     #endregion lr
