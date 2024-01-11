@@ -70,7 +70,8 @@ public partial class JailbreakExtras
             return;
         }
         var x = players.FirstOrDefault();
-
+        Unmuteds = Unmuteds.Where(X => X != x.SteamID).ToList();
+        x.VoiceFlags |= VoiceFlags.Muted;
         if (x?.SteamID != null && x!.SteamID != 0)
         {
             switch (targetTeam)
