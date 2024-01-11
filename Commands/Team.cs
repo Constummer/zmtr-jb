@@ -12,6 +12,7 @@ public partial class JailbreakExtras
     #region OnTeamCommand
 
     [ConsoleCommand("team")]
+    [ConsoleCommand("takim")]
     [CommandHelper(0, "<nick-#userid-@me> <ct-t-spec-1-2-3>")]
     public void OnTeamCommand(CCSPlayerController? player, CommandInfo info)
     {

@@ -9,10 +9,13 @@
 	
   <ItemGroup>
     <Compile Remove="Cs2Jailbreak\**" />
+    <Compile Remove="HelloWorldPlugin\**" />
     <Compile Remove="ToJbPlugin\**" />
     <EmbeddedResource Remove="Cs2Jailbreak\**" />
+    <EmbeddedResource Remove="HelloWorldPlugin\**" />
     <EmbeddedResource Remove="ToJbPlugin\**" />
     <None Remove="Cs2Jailbreak\**" />
+    <None Remove="HelloWorldPlugin\**" />
     <None Remove="ToJbPlugin\**" />
   </ItemGroup>
 

@@ -1,7 +1,4 @@
-﻿using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Entities;
-
-namespace JailbreakExtras;
+﻿namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
@@ -31,12 +28,15 @@ public partial class JailbreakExtras
         unfzTimer?.Kill();
         BurnTimer?.Kill();
         DrugTimer?.Kill();
+        LRTimer?.Kill();
+        LRTimer = null;
         FFTimer = null;
         fzTimer = null;
         BurnTimer = null;
         unfzTimer = null;
         BurnTimer = null;
         DrugTimer = null;
+        LrCancel();
         ClearParachutes();
         ClearCits();
         ClearLasers();

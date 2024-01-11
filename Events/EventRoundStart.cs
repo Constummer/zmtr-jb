@@ -1,5 +1,7 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Entities;
+using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
@@ -9,6 +11,10 @@ public partial class JailbreakExtras
     {
         RegisterEventHandler<EventRoundStart>((@event, _) =>
         {
+            Server.ExecuteCommand("mp_force_pick_time 3000");
+            Server.ExecuteCommand("mp_autoteambalance 0");
+            Server.ExecuteCommand("mp_equipment_reset_rounds 1");
+            Server.ExecuteCommand("mp_t_default_secondary \"\" ");
             PrepareRoundDefaults();
             ClearAll();
             CoinAfterNewCommander();

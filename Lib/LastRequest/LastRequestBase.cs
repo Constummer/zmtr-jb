@@ -6,11 +6,13 @@ public partial class JailbreakExtras
 
     public ActiveLr? ActivatedLr { get; set; } = null;
 
+    private CounterStrikeSharp.API.Modules.Timers.Timer LRTimer;
+
     public List<LrData> LrDatas = new List<LrData>()
     {
         new("Deagle", LrChoices.Deagle,"weapon_deagle"),
-        new("No Scope Scout", LrChoices.NoScopeScout,"weapon_ssg08", true),
-        //new("No Scope Awp", LrChoices.NoScopeAwp,"weapon_awp", true)
+        //new("No Scope Scout", LrChoices.NoScopeScout,"weapon_ssg08", true),
+        new("No Scope Awp", LrChoices.NoScopeAwp,"weapon_awp", true)
     };
 
     public enum LrChoices
@@ -51,6 +53,8 @@ public partial class JailbreakExtras
             Choice = item.Choice;
             ScopeDisable = item.ScopeDisable;
         }
+
+        public uint GardWeaponIndex { get; set; }
 
         public ulong MahkumSteamId { get; set; }
         public ulong GardSteamId { get; set; }

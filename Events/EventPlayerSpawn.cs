@@ -36,6 +36,15 @@ public partial class JailbreakExtras
                             });
                     }
                 }
+                if (GetTeam(x) == CsTeam.CounterTerrorist)
+                {
+                    //AddTimer(1f, () =>
+                    //{
+                    x.GiveNamedItem("item_assaultsuit");
+                    x.GiveNamedItem("weapon_deagle");
+                    x.GiveNamedItem("weapon_m4a1");
+                    //});
+                }
                 AddTimer(0.5f, () =>
                 {
                     var data = GetPlayerMarketModel(x?.SteamID);

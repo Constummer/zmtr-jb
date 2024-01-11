@@ -21,7 +21,7 @@ public partial class JailbreakExtras
             }
             CCSPlayerController? player = @event.Userid;
 
-            if (LrActive == false)
+            //if (LrActive == false)
             {
                 GodHurtCover(@event, player);
             }

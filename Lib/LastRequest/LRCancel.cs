@@ -9,5 +9,7 @@ public partial class JailbreakExtras
     {
         LrActive = false;
         ActivatedLr = null;
+        LRTimer?.Kill();
+        LRTimer = null;
     }
 }

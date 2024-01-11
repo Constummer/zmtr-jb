@@ -1,13 +1,10 @@
 ﻿using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Menu;
-using CounterStrikeSharp.API;
-using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private void LrWeaponZoom(EventWeaponZoom @event)
+    private void LrWeaponReload(EventWeaponReload @event, GameEventInfo info)
     {
         if (LrActive == false)
         {
@@ -44,26 +41,14 @@ public partial class JailbreakExtras
         CBasePlayerWeapon? weapon = null;
         switch (ActivatedLr.Choice)
         {
-            case LrChoices.NoScopeScout:
-                RemoveWeapon(@event.Userid, "weapon_ssg08");
-                @event.Userid.GiveNamedItem("weapon_ssg08");
-                weapon = GetWeapon(@event.Userid, "weapon_ssg08");
+            case LrChoices.Deagle:
+                weapon = GetWeapon(@event.Userid, "weapon_deagle");
                 if (WeaponIsValid(weapon) == false)
                 {
                     return;
                 }
                 SetAmmo(weapon, 1, 0);
-                break;
 
-            case LrChoices.NoScopeAwp:
-                RemoveWeapon(@event.Userid, "weapon_awp");
-                @event.Userid.GiveNamedItem("weapon_awp");
-                weapon = GetWeapon(@event.Userid, "weapon_awp");
-                if (WeaponIsValid(weapon) == false)
-                {
-                    return;
-                }
-                SetAmmo(weapon, 1, 0);
                 break;
 
             default:

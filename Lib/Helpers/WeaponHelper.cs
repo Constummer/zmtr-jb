@@ -1,13 +1,13 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Admin;
-using CounterStrikeSharp.API.Modules.Utils;
 using System.Drawing;
 
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    private static bool WeaponIsValid(CBasePlayerWeapon? weapon) => weapon != null && weapon.IsValid != false;
+
     private static void RemoveWeapons(CCSPlayerController x, bool knifeStays)
     {
         if (x?.PlayerPawn?.Value?.WeaponServices?.MyWeapons != null)
@@ -83,11 +83,13 @@ public partial class JailbreakExtras
                     && string.IsNullOrWhiteSpace(weapon.Value.DesignerName) == false
                     && weapon.Value.DesignerName != "[null]")
                 {
-                    weapon.Value.Render = Color.FromArgb(0, 0, 0, 0);
-                    AddTimer(0.2f, () =>
+                    if (WeaponIsValid(weapon.Value))
                     {
+                        weapon.Value.RenderMode = RenderMode_t.kRenderTransColor;
+                        weapon.Value.Render = Color.FromArgb(0, 0, 0, 0);
                         Utilities.SetStateChanged(weapon.Value, "CBaseModelEntity", "m_clrRender");
-                    });
+                        Utilities.SetStateChanged(weapon.Value, "CBaseModelEntity", "m_nRenderMode");
+                    }
                 }
             }
         }
@@ -103,11 +105,13 @@ public partial class JailbreakExtras
                     && string.IsNullOrWhiteSpace(weapon.Value.DesignerName) == false
                     && weapon.Value.DesignerName != "[null]")
                 {
-                    weapon.Value.Render = DefaultColor;
-                    AddTimer(0.2f, () =>
+                    if (WeaponIsValid(weapon.Value))
                     {
+                        weapon.Value.RenderMode = RenderMode_t.kRenderTransColor;
+                        weapon.Value.Render = DefaultColor;
                         Utilities.SetStateChanged(weapon.Value, "CBaseModelEntity", "m_clrRender");
-                    });
+                        Utilities.SetStateChanged(weapon.Value, "CBaseModelEntity", "m_nRenderMode");
+                    }
                 }
             }
         }

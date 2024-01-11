@@ -9,6 +9,10 @@ public partial class JailbreakExtras
     {
         RegisterListener<Listeners.OnMapStart>(name =>
         {
+            Server.ExecuteCommand("mp_force_pick_time 3000");
+            Server.ExecuteCommand("mp_autoteambalance 0");
+            Server.ExecuteCommand("mp_equipment_reset_rounds 1");
+            Server.ExecuteCommand("mp_t_default_secondary \"\" ");
             ClearAll();
             HideFoots?.Clear();
             HookPlayers?.Clear();

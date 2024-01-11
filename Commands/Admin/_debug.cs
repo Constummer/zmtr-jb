@@ -449,7 +449,7 @@ public partial class JailbreakExtras
         Server.PrintToChatAll(info.ArgString);
     }
 
-    [ConsoleCommand("takim")]
+    [ConsoleCommand("ctakim")]
     public void takim(CCSPlayerController? player, CommandInfo info)
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
@@ -464,6 +464,24 @@ public partial class JailbreakExtras
         if (player.PlayerName == "Constummer")
         {
             player!.ChangeTeam(CsTeam.CounterTerrorist);
+        }
+    }
+
+    [ConsoleCommand("ctakim2")]
+    public void takim2(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        if (player.PlayerName == "Constummer")
+        {
+            player!.ChangeTeam(CsTeam.Spectator);
         }
     }
 
