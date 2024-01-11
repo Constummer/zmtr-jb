@@ -1,7 +1,4 @@
-using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Entities;
-using CounterStrikeSharp.API.Modules.Memory;
 using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
@@ -45,8 +42,6 @@ public partial class JailbreakExtras
                 RemoveGivenParachute(@event.Userid.UserId.Value);
             }
 
-            @event.Userid.PlayerPawn.Value.Remove();
-            @event.Userid.Pawn.Value.Remove();
             //@event.Userid.ClientSideRagdoll = false; // not sure what this does, apparently nothing
             //AddTimer(1.0f, () =>
             //{

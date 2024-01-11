@@ -50,7 +50,6 @@ public partial class JailbreakExtras
                         Server.ExecuteCommand($"sv_teamid_overhead_maxdist 1");
                         break;
                 }
-                RefreshPawn(x);
             });
     }
 

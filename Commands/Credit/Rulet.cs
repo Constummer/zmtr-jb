@@ -1,6 +1,7 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
+using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using Microsoft.Extensions.Logging;
 using System.Linq;
@@ -58,9 +59,14 @@ public partial class JailbreakExtras
     [CommandHelper(0, "<kredi> <yeşil/siyah/kırmızı>")]
     public void Rulet(CCSPlayerController? player, CommandInfo info)
     {
+        if (KumarKapatDisable)
+        {
+            player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Bu mübarek günde, yakışıyor mu müslüman din kardeşim - rulet kapalı -.");
+            return;
+        }
         if (IsGameBannedToday())
         {
-            player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.W}Bu mübarek günde, yakışıyor mu müslüman din kardeşim.");
+            player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Bu mübarek günde, yakışıyor mu müslüman din kardeşim - rulet kapalı -.");
             return;
         }
         var total = RuletPlayers.ToList().Select(x => x.Value.Credit).Sum();

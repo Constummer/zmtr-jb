@@ -13,8 +13,11 @@ public partial class JailbreakExtras
             CoinRemove();
             CheckAllLevelTags();
             AllDonbozAction();
-            RuletActivate();
-            PiyangoKazananSonuc();
+            if (KumarKapatDisable == false)
+            {
+                RuletActivate();
+                PiyangoKazananSonuc();
+            }
             return HookResult.Continue;
         });
     }

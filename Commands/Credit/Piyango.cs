@@ -48,9 +48,14 @@ public partial class JailbreakExtras
     [CommandHelper(0, "<kredi>")]
     public void Piyango(CCSPlayerController? player, CommandInfo info)
     {
+        if (KumarKapatDisable)
+        {
+            player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.W}Bu mübarek günde, yakışıyor mu müslüman din kardeşim - piyango kapalı -.");
+            return;
+        }
         if (IsGameBannedToday())
         {
-            player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.W}Bu mübarek günde, yakışıyor mu müslüman din kardeşim.");
+            player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.W}Bu mübarek günde, yakışıyor mu müslüman din kardeşim - piyango kapalı -.");
             return;
         }
         var total = PiyangoPlayers.ToList().Select(x => x.Value).Sum();
