@@ -12,8 +12,6 @@ public partial class JailbreakExtras
     #region SpeedoMeter
 
     [ConsoleCommand("hizim")]
-    [ConsoleCommand("hiz")]
-    [ConsoleCommand("speed")]
     [ConsoleCommand("speedim")]
     public void SpeedoMeter(CCSPlayerController? player, CommandInfo info)
     {

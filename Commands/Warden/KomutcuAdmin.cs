@@ -66,8 +66,8 @@ public partial class JailbreakExtras
             ka.Clan = "";
             AddTimer(0.2f, () =>
             {
-                Utilities.SetStateChanged(ka, "ccsplayercontroller", "m_szclan");
-                Utilities.SetStateChanged(ka, "cbaseplayercontroller", "m_iszplayername");
+                Utilities.SetStateChanged(ka, "CCSPlayerController", "m_szClan");
+                Utilities.SetStateChanged(ka, "CBasePlayerController", "m_iszPlayerName");
             });
         }
         KomutcuAdminId = null;

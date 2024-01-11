@@ -33,7 +33,7 @@ public partial class JailbreakExtras
     }
 
     [ConsoleCommand("burn")]
-    [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me>")]
+    [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me> <0,1>")]
     public void OnBurnCommand(CCSPlayerController? player, CommandInfo info)
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))

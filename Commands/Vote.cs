@@ -185,6 +185,13 @@ public partial class JailbreakExtras
                             return true;
                         }
                     }
+                    else
+                    {
+                        if (ValidateCallerPlayer(player, false) == false)
+                        {
+                            return true;
+                        }
+                    }
 
                     if (LatestVoteAnswerCommandCalls.Contains(player.SteamID))
                     {

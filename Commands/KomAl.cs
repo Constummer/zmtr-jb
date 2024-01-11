@@ -80,6 +80,8 @@ public partial class JailbreakExtras
     }
 
     [ConsoleCommand("komadayiptal")]
+    [ConsoleCommand("komadaysil")]
+    [ConsoleCommand("komadaykaldir")]
     public void KomAdayIptal(CCSPlayerController? player, CommandInfo info)
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye10"))

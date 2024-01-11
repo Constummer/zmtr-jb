@@ -142,7 +142,7 @@ public partial class JailbreakExtras
         }
     }
 
-    private static void HideWeapons(CCSPlayerController x)
+    private void HideWeapons(CCSPlayerController x)
     {
         if (x?.PlayerPawn?.Value?.WeaponServices?.MyWeapons != null)
         {
@@ -153,12 +153,16 @@ public partial class JailbreakExtras
                     && weapon.Value.DesignerName != "[null]")
                 {
                     weapon.Value.Render = Color.FromArgb(0, 0, 0, 0);
+                    AddTimer(0.2f, () =>
+                    {
+                        Utilities.SetStateChanged(weapon.Value, "CBaseModelEntity", "m_clrRender");
+                    });
                 }
             }
         }
     }
 
-    private static void ShowWeapons(CCSPlayerController x)
+    private void ShowWeapons(CCSPlayerController x)
     {
         if (x?.PlayerPawn?.Value?.WeaponServices?.MyWeapons != null)
         {
@@ -169,6 +173,10 @@ public partial class JailbreakExtras
                     && weapon.Value.DesignerName != "[null]")
                 {
                     weapon.Value.Render = DefaultColor;
+                    AddTimer(0.2f, () =>
+                    {
+                        Utilities.SetStateChanged(weapon.Value, "CBaseModelEntity", "m_clrRender");
+                    });
                 }
             }
         }
