@@ -1,7 +1,6 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
-using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
 
@@ -15,9 +14,8 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me> <0/1>")]
     public void God(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye30"))
+        if (OnCommandValidater(player, true, "@css/seviye30", "@css/seviye30") == false)
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         if (info.ArgCount < 2)
@@ -141,7 +139,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("q", "godmode ct player")]
     public void Q(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (OnCommandValidater(player, true, "@css/seviye30", "@css/seviye30") == false)
         {
             return;
         }
@@ -158,7 +156,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("qq", "remove godmode ct player")]
     public void Qq(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (OnCommandValidater(player, true, "@css/seviye30", "@css/seviye30") == false)
         {
             return;
         }

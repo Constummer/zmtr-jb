@@ -13,9 +13,8 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<playerismi-@all-@t-@ct-@me-@alive-@dead>")]
     public void Mute(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye10"))
+        if (OnCommandValidater(player, true, "@css/seviye10", "@css/seviye10") == false)
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         if (info.ArgCount != 2) return;
@@ -26,9 +25,8 @@ public partial class JailbreakExtras
     [ConsoleCommand("mt")]
     public void MuteT(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye10"))
+        if (OnCommandValidater(player, true, "@css/seviye10", "@css/seviye10") == false)
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         MuteAction(player, "@t");
@@ -37,9 +35,8 @@ public partial class JailbreakExtras
     [ConsoleCommand("mct")]
     public void MuteCT(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye10"))
+        if (OnCommandValidater(player, true, "@css/seviye10", "@css/seviye10") == false)
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         MuteAction(player, "@ct");

@@ -14,9 +14,8 @@ public partial class JailbreakExtras
     [ConsoleCommand("ba", "bunny acar")]
     public void BunnyAc(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye29"))
+        if (OnCommandValidater(player, true, "@css/seviye29", "@css/seviye29") == false)
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         Server.ExecuteCommand($"sv_enablebunnyhopping 1;sv_autobunnyhopping 1");
@@ -28,9 +27,8 @@ public partial class JailbreakExtras
     [ConsoleCommand("bunnykapat", "bunny kapar")]
     public void BunnyKapat(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye29"))
+        if (OnCommandValidater(player, true, "@css/seviye29", "@css/seviye29") == false)
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         Server.ExecuteCommand($"sv_enablebunnyhopping 0;sv_autobunnyhopping 0");

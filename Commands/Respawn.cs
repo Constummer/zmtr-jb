@@ -9,8 +9,6 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static bool RespawnAcActive = false;
-
     #region Respawn
 
     [ConsoleCommand("respawn")]
@@ -19,7 +17,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("revive")]
     public void Respawn(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (OnCommandValidater(player, true, "@css/seviye6") == false)
         {
             return;
         }
@@ -50,7 +48,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("revivet")]
     public void RespawnT(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (OnCommandValidater(player, true, "@css/seviye6") == false)
         {
             return;
         }
@@ -71,11 +69,10 @@ public partial class JailbreakExtras
     [ConsoleCommand("revivect")]
     public void RespawnCt(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (OnCommandValidater(player, true, "@css/seviye6") == false)
         {
             return;
         }
-
         GetPlayers(CsTeam.CounterTerrorist)
                    .Where(x => x.PawnIsAlive == false)
                    .ToList()
@@ -92,7 +89,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("reviveall")]
     public void RespawnAll(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (OnCommandValidater(player, true, "@css/seviye6") == false)
         {
             return;
         }
@@ -105,54 +102,6 @@ public partial class JailbreakExtras
                        CustomRespawn(x);
                    });
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}@all {CC.W}hedefini {CC.B}revledi");
-    }
-
-    [ConsoleCommand("respawnac")]
-    public void RespawnAc(CCSPlayerController? player, CommandInfo info)
-    {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye27"))
-        {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
-            return;
-        }
-        GetPlayers()
-            .Where(x => x.PawnIsAlive == false)
-            .ToList()
-            .ForEach(x =>
-            {
-                CustomRespawn(x);
-            });
-        RespawnAcAction();
-    }
-
-    [ConsoleCommand("respawnkapa")]
-    [ConsoleCommand("respawnkapat")]
-    public void RespawnKapat(CCSPlayerController? player, CommandInfo info)
-    {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye27"))
-        {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
-            return;
-        }
-        RespawnKapatAction();
-    }
-
-    private static void RespawnAcAction()
-    {
-        Server.ExecuteCommand("mp_respawn_on_death_ct 1");
-        Server.ExecuteCommand("mp_respawn_on_death_t 1");
-        Server.ExecuteCommand("mp_ignore_round_win_conditions 1");
-        Server.PrintToChatAll($"{Prefix} {CC.W}Respawn açıldı.");
-        RespawnAcActive = true;
-    }
-
-    private static void RespawnKapatAction()
-    {
-        Server.ExecuteCommand("mp_respawn_on_death_ct 0");
-        Server.ExecuteCommand("mp_respawn_on_death_t 0");
-        Server.ExecuteCommand("mp_ignore_round_win_conditions 0");
-        Server.PrintToChatAll($"{Prefix} {CC.W}Respawn kapandı.");
-        RespawnAcActive = false;
     }
 
     private void RespawnPlayer(CCSPlayerController x)

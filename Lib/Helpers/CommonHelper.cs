@@ -95,6 +95,43 @@ public partial class JailbreakExtras
         return false;
     }
 
+    private bool OnCommandValidater(CCSPlayerController? player, bool checkPermission, string seviyeLevel = null, string permLevel = "@css/admin1")
+    {
+        if (ValidateCallerPlayer(player, false) == false)
+        {
+            return false;
+        }
+        if (checkPermission)
+        {
+            if (string.IsNullOrWhiteSpace(seviyeLevel) == false)
+            {
+                if (HasLevelPermissionToActivate(player.SteamID, seviyeLevel) == false)
+                {
+                    if (AdminManager.PlayerHasPermissions(player, permLevel) == false)
+                    {
+                        player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+                        return false;
+                    }
+                }
+            }
+            else if (string.IsNullOrWhiteSpace(permLevel) == false)
+            {
+                if (AdminManager.PlayerHasPermissions(player, permLevel) == false)
+                {
+                    player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+                    return false;
+                }
+            }
+            else
+            {
+                player.PrintToChat($"{Prefix}{CC.W} Admin ile görüşmen lazım.");
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     private static bool IsValid(CCSPlayerController? player)
     {
         return player != null && player.IsValid && player.PlayerPawn.IsValid;

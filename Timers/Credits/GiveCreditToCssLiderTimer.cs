@@ -1,6 +1,5 @@
 ﻿using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Timers;
-using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
@@ -27,7 +26,7 @@ public partial class JailbreakExtras
                         else
                         {
                             item = new(x.SteamID);
-                            item.Credit = Config.Credit.RetrieveCreditEvery5MinRewardCssAdmin1;
+                            item.Credit = Config.Credit.RetrieveCreditEvery5MinRewardCssLider;
                         }
                         PlayerMarketModels[x.SteamID] = item;
                         x.PrintToChat($"{Prefix} {CC.R}Lider{CC.W} olduğun için {CC.LB}{Config.Credit.RetrieveCreditEvery5MinRewardCssLider} {CC.W}kredi kazandın!");

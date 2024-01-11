@@ -18,7 +18,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<saniye>")]
     public void OnUnFzCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (OnCommandValidater(player, true, "@css/seviye4") == false)
         {
             return;
         }
@@ -68,7 +68,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<playerismi-@all-@t-@ct-@me>")]
     public void OnUnfreezeCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (OnCommandValidater(player, true, "@css/seviye4") == false)
         {
             return;
         }

@@ -28,9 +28,8 @@ public partial class JailbreakExtras
     [CommandHelper(minArgs: 2, usage: "<soru> [... şıklar ...]", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
     public void OnVoteCommand(CCSPlayerController? player, CommandInfo command)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye26"))
+        if (OnCommandValidater(player, true, "@css/seviye26", "@css/seviye26") == false)
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         if (LatestVoteMenu != null)
@@ -140,9 +139,8 @@ public partial class JailbreakExtras
     [ConsoleCommand("oylamaiptal")]
     public void CancelVote(CCSPlayerController? player, CommandInfo command)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye26"))
+        if (OnCommandValidater(player, true, "@css/seviye26", "@css/seviye26") == false)
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         Answers?.Clear();

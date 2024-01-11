@@ -19,7 +19,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("ffler")]
     public void Ffler(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (OnCommandValidater(player, true, "@css/seviye22", "@css/seviye22") == false)
         {
             return;
         }
@@ -35,7 +35,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<0/1>")]
     public void Ff(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (OnCommandValidater(player, true, "@css/seviye22", "@css/seviye22") == false)
         {
             return;
         }
@@ -63,7 +63,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("ffiptal")]
     public void Ffiptal(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (OnCommandValidater(player, true, "@css/seviye22", "@css/seviye22") == false)
         {
             return;
         }
@@ -78,7 +78,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("ffac", "ff acar")]
     public void FfAc(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (OnCommandValidater(player, true, "@css/seviye22", "@css/seviye22") == false)
         {
             return;
         }
@@ -89,7 +89,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("ffkapat", "ff kapatir")]
     public void FfKapa(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (OnCommandValidater(player, true, "@css/seviye22", "@css/seviye22") == false)
         {
             return;
         }
@@ -100,7 +100,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<saniye>")]
     public void FfSure(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (OnCommandValidater(player, true, "@css/seviye22", "@css/seviye22") == false)
         {
             return;
         }
@@ -130,9 +130,8 @@ public partial class JailbreakExtras
     [CommandHelper(2, "<saniye> <mesaj>")]
     public void FfDondur(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye25"))
+        if (OnCommandValidater(player, true, "@css/seviye25", "@css/seviye25") == false)
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         if (info.ArgCount < 3) return;
@@ -191,14 +190,13 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<saniye>")]
     public void FfMenu(CCSPlayerController? player, CommandInfo info)
     {
-        player.PrintToChat($"{Prefix}{CC.W} 20 Saniye üstünde respawn açılır. Respawn açılmaması için 20 sn altı saniye ver.");
-        player.PrintToChat($"{Prefix}{CC.W} 20 Saniye üstünde respawn açılır. Respawn açılmaması için 20 sn altı saniye ver.");
-        player.PrintToChat($"{Prefix}{CC.W} 20 Saniye üstünde respawn açılır. Respawn açılmaması için 20 sn altı saniye ver.");
-        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye22"))
+        if (OnCommandValidater(player, true, "@css/seviye22", "@css/seviye22") == false)
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
+        player.PrintToChat($"{Prefix}{CC.W} 20 Saniye üstünde respawn açılır. Respawn açılmaması için 20 sn altı saniye ver.");
+        player.PrintToChat($"{Prefix}{CC.W} 20 Saniye üstünde respawn açılır. Respawn açılmaması için 20 sn altı saniye ver.");
+        player.PrintToChat($"{Prefix}{CC.W} 20 Saniye üstünde respawn açılır. Respawn açılmaması için 20 sn altı saniye ver.");
         if (info.ArgCount != 2) return;
         var target = info.GetArg(1);
 

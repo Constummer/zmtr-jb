@@ -1,7 +1,6 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
-using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 
 namespace JailbreakExtras;
@@ -13,9 +12,8 @@ public partial class JailbreakExtras
     [ConsoleCommand("gravityac")]
     public void GravityAc(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye28"))
+        if (OnCommandValidater(player, true, "@css/seviye28", "@css/seviye28") == false)
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         Server.ExecuteCommand("sv_gravity 150");
@@ -26,9 +24,8 @@ public partial class JailbreakExtras
     [ConsoleCommand("gravitykapat")]
     public void GravityKapat(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye28"))
+        if (OnCommandValidater(player, true, "@css/seviye28", "@css/seviye28") == false)
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         Server.ExecuteCommand("sv_gravity 800");

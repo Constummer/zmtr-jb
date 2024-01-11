@@ -15,7 +15,7 @@ public partial class JailbreakExtras
     [CommandHelper(0, "<nick-#userid-@me> <ct-t-spec-1-2-3>")]
     public void OnTeamCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (OnCommandValidater(player, true, "@css/seviye6") == false)
         {
             return;
         }

@@ -18,7 +18,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<saniye>")]
     public void OnFzCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (OnCommandValidater(player, true, "@css/seviye4") == false)
         {
             return;
         }
@@ -68,6 +68,10 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<playerismi-@all-@t-@ct-@me>")]
     public void OnFreezeCommand(CCSPlayerController? player, CommandInfo info)
     {
+        if (OnCommandValidater(player, true, "@css/seviye4") == false)
+        {
+            return;
+        }
         if (!AdminManager.PlayerHasPermissions(player, "@css/seviye4"))
         {
             player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");

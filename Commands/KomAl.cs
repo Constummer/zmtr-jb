@@ -18,13 +18,30 @@ public partial class JailbreakExtras
     public static Dictionary<ulong, int> KomAlAnswers = new Dictionary<ulong, int>();
     public static bool KomAlVoteInProgress = false;
     public CounterStrikeSharp.API.Modules.Timers.Timer KomalPrintTimer = null;
+    public CounterStrikeSharp.API.Modules.Timers.Timer KomalTimer = null;
+
+    [ConsoleCommand("komaliptal")]
+    [ConsoleCommand("komalcancel")]
+    [ConsoleCommand("komiptal")]
+    [ConsoleCommand("komcancel")]
+    public void KomAlIptal(CCSPlayerController? player, CommandInfo info)
+    {
+        if (OnCommandValidater(player, true, "@css/seviye10", "@css/seviye10") == false)
+        {
+            return;
+        }
+        KomActive = false;
+        KomAdays?.Clear();
+        KomAlAnswers?.Clear();
+        KomalTimer?.Kill();
+        KomalTimer = null;
+    }
 
     [ConsoleCommand("komal")]
     public void KomAl(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye10"))
+        if (OnCommandValidater(player, true, "@css/seviye10", "@css/seviye10") == false)
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         KomActive = false;
@@ -35,7 +52,7 @@ public partial class JailbreakExtras
         Server.PrintToChatAll($"{Prefix} {CC.G}Komutçu adaylığından ayrılmak için !komadayiptal yazın.");
         KomActive = true;
         var now = DateTime.UtcNow;
-        AddTimer(30f, () =>
+        KomalTimer = AddTimer(30f, () =>
         {
             if (KomActive)
             {
@@ -84,9 +101,8 @@ public partial class JailbreakExtras
     [ConsoleCommand("komadaykaldir")]
     public void KomAdayIptal(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye10"))
+        if (OnCommandValidater(player, false, null, null) == false)
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         player.VoiceFlags |= VoiceFlags.Muted;
@@ -192,6 +208,8 @@ public partial class JailbreakExtras
                         AlreadyVotedPlayers?.Clear();
                         KomAlAnswers.Clear();
                         KomAlVoteInProgress = false;
+                        KomalTimer?.Kill();
+                        KomalTimer = null;
                         LatestVoteAnswerCommandCalls?.Clear();
                     }
                 }, TimerFlags.STOP_ON_MAPCHANGE);

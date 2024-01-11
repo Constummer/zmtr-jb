@@ -17,11 +17,10 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<playerismi-@all-@t-@ct-@me-@alive-@dead>")]
     public void OnGagCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false)
+        if (OnCommandValidater(player, true, "@css/seviye10", "@css/seviye10") == false)
         {
             return;
         }
-
         var target = info.ArgCount > 1 ? info.GetArg(1) : null;
         if (target == null)
         {

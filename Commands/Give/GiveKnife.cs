@@ -13,9 +13,8 @@ public partial class JailbreakExtras
     [ConsoleCommand("gk", "bicak Verir")]
     public void GiveKnife(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye9"))
+        if (OnCommandValidater(player, true, "@css/seviye9", "@css/seviye9") == false)
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         GetPlayers()
