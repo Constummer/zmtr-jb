@@ -41,6 +41,8 @@ public partial class JailbreakExtras
                         SetColour(x, DefaultColor);
                         ShowWeapons(x);
                         Server.ExecuteCommand($"sv_teamid_overhead_maxdist 2000");
+                        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W} Mahkûmlar için hide açtı.");
+
                         break;
 
                     case 1:
@@ -48,6 +50,7 @@ public partial class JailbreakExtras
                         SetColour(x, Color.FromArgb(0, 0, 0, 0));
                         HideWeapons(x);
                         Server.ExecuteCommand($"sv_teamid_overhead_maxdist 1");
+                        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W} Mahkûmlar için hide kapadı.");
                         break;
                 }
             });

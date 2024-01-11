@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Utils;
 using System.Drawing;
+using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
 
@@ -25,7 +26,7 @@ public partial class JailbreakExtras
 
             if (!controller.IsValid || controller.UserId == -1)
                 continue;
-            if ((team.HasValue ? team.Value != GetTeam(controller) : true) == false)
+            if ((team.HasValue ? team.Value == GetTeam(controller) : true) == false)
             {
                 continue;
             }
@@ -150,6 +151,8 @@ public partial class JailbreakExtras
         {
             pawn.RenderMode = RenderMode_t.kRenderTransColor;
             pawn.Render = colour;
+            Utilities.SetStateChanged(pawn, "CBaseModelEntity", "m_clrRender");
+            Utilities.SetStateChanged(pawn, "CBaseModelEntity", "m_nRenderMode");
         }
     }
 

@@ -1,7 +1,6 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
-using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
 
@@ -18,7 +17,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<saniye>")]
     public void OnFzCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye4") == false)
+        if (ValidateCallerPlayer(player) == false)
         {
             return;
         }
@@ -70,11 +69,6 @@ public partial class JailbreakExtras
     {
         if (OnCommandValidater(player, true, "@css/seviye4") == false)
         {
-            return;
-        }
-        if (!AdminManager.PlayerHasPermissions(player, "@css/seviye4"))
-        {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
         if (info.ArgCount != 2) return;

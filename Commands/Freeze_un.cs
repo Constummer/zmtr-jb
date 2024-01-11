@@ -18,7 +18,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<saniye>")]
     public void OnUnFzCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye4") == false)
+        if (ValidateCallerPlayer(player) == false)
         {
             return;
         }

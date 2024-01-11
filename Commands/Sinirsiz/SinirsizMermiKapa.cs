@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 
@@ -23,6 +24,7 @@ public partial class JailbreakExtras
         SinirsizMolyTimer = GiveSinirsizCustomNade(0, SinirsizMolyTimer, "weapon_incgrenade");
         SinirsizBombaTimer = GiveSinirsizCustomNade(0, SinirsizBombaTimer, "weapon_hegrenade");
         SinirsizXTimer = GiveSinirsizCustomNade(0, SinirsizXTimer, "weapon_hegrenade");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W} sınırsız mermiyi kapadı.");
 
         //foreach (var item in weaponDefaults.ToList())
         //{

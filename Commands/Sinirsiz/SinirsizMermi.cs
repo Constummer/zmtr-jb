@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 
@@ -6,7 +7,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static bool UnlimitedReserverAmmoActive = false;
+    private bool UnlimitedReserverAmmoActive = false;
 
     #region SinirsizMermi
 
@@ -18,6 +19,8 @@ public partial class JailbreakExtras
         {
             return;
         }
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W} sınırsız mermi açtı.");
+
         UnlimitedReserverAmmoActive = true;
     }
 

@@ -35,6 +35,8 @@ public partial class JailbreakExtras
         KomAlAnswers?.Clear();
         KomalTimer?.Kill();
         KomalTimer = null;
+        Server.PrintToChatAll($"{Prefix} {CC.DR}{player.PlayerName} {CC.W}Komutçu alımı iptal edildi.");
+        Server.PrintToChatAll($"{Prefix} {CC.DR}{player.PlayerName} {CC.W}Komutçu alımı iptal edildi.");
     }
 
     [ConsoleCommand("komal")]

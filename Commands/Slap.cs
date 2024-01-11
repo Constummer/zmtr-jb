@@ -1,7 +1,6 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
-using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
 
@@ -11,8 +10,7 @@ public partial class JailbreakExtras
 {
     #region Slap
 
-    [ConsoleCommand("css_slap")]
-    [RequiresPermissions("@css/slay")]
+    [ConsoleCommand("slap")]
     [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me> [hasar]")]
     public void OnSlapCommand(CCSPlayerController? player, CommandInfo info)
     {

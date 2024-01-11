@@ -5,6 +5,7 @@ using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
 using Serilog.Core;
+using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
 
@@ -73,6 +74,12 @@ public partial class JailbreakExtras
                                {
                                    ActiveGodMode.TryAdd(x.SteamID, false);
                                }
+                               x.TakesDamage = true;
+                               x.PlayerPawn.Value.TakesDamage = true;
+                               x.Pawn.Value.TakesDamage = true;
+                               Utilities.SetStateChanged(x.Pawn.Value, "CBaseEntity", "m_bTakesDamage");
+                               Utilities.SetStateChanged(x.PlayerPawn.Value, "CBaseEntity", "m_bTakesDamage");
+                               Utilities.SetStateChanged(x, "CBaseEntity", "m_bTakesDamage");
                                break;
 
                            case 1:
@@ -100,6 +107,12 @@ public partial class JailbreakExtras
                                        {
                                            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}godunu {CC.W} kaldırdı.");
                                        }
+                                       x.TakesDamage = true;
+                                       x.PlayerPawn.Value.TakesDamage = true;
+                                       x.Pawn.Value.TakesDamage = true;
+                                       Utilities.SetStateChanged(x.Pawn.Value, "CBaseEntity", "m_bTakesDamage");
+                                       Utilities.SetStateChanged(x.PlayerPawn.Value, "CBaseEntity", "m_bTakesDamage");
+                                       Utilities.SetStateChanged(x, "CBaseEntity", "m_bTakesDamage");
                                    }
                                    else
                                    {
@@ -167,6 +180,13 @@ public partial class JailbreakExtras
                .ForEach(x =>
                {
                    ActiveGodMode.Remove(x.SteamID);
+                   x.TakesDamage = true;
+                   x.PlayerPawn.Value.TakesDamage = true;
+                   x.Pawn.Value.TakesDamage = true;
+                   Utilities.SetStateChanged(x.Pawn.Value, "CBaseEntity", "m_bTakesDamage");
+                   Utilities.SetStateChanged(x.PlayerPawn.Value, "CBaseEntity", "m_bTakesDamage");
+                   Utilities.SetStateChanged(x, "CBaseEntity", "m_bTakesDamage");
+
                    RefreshPawn(x);
                });
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.B}gardiyanların {CC.G}godunu {CC.W}kaldırdı.");
@@ -178,6 +198,9 @@ public partial class JailbreakExtras
         {
             if (value)
             {
+                @event.Userid.TakesDamage = false;
+                @event.Userid.PlayerPawn.Value.TakesDamage = false;
+                @event.Userid.Pawn.Value.TakesDamage = false;
                 player.Health = 100;
                 player.PlayerPawn.Value!.Health = 100;
                 if (player.PawnArmor != 0)
@@ -189,6 +212,18 @@ public partial class JailbreakExtras
                     player.PlayerPawn.Value!.ArmorValue = 100;
                 }
             }
+            else
+            {
+                @event.Userid.TakesDamage = true;
+                @event.Userid.PlayerPawn.Value.TakesDamage = true;
+                @event.Userid.Pawn.Value.TakesDamage = true;
+            }
+        }
+        else
+        {
+            @event.Userid.TakesDamage = true;
+            @event.Userid.PlayerPawn.Value.TakesDamage = true;
+            @event.Userid.Pawn.Value.TakesDamage = true;
         }
     }
 

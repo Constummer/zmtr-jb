@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
@@ -63,6 +64,10 @@ public partial class JailbreakExtras
         }
 
         if (DizPlayerId == 0)
+        {
+            return;
+        }
+        if (@event.Userid.SteamID != DizPlayerId)
         {
             return;
         }

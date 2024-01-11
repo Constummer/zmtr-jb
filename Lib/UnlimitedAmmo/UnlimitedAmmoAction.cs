@@ -39,19 +39,33 @@ public partial class JailbreakExtras
                     wepDef._2ReserveAmmo0 = _weapon.ReserveAmmo[0];
                     WeaponDefaults[entity.DesignerName] = wepDef;
                 }
+                if (UnlimitedReserverAmmoActive)
+                {
+                    if (_weapon.VData != null)
+                    {
+                        _weapon.VData.MaxClip1 = 999;
+                        _weapon.VData.DefaultClip1 = 999;
+                    }
 
-                //if (weaponValues[1] != "-1")
-                //{
-                //    if (_weapon.VData != null)
-                //    {
-                //        _weapon.VData.MaxClip1 = int.Parse(weaponValues[1]);
-                //        _weapon.VData.DefaultClip1 = int.Parse(weaponValues[1]);
-                //    }
+                    _weapon.Clip1 = 999;
 
-                //    _weapon.Clip1 = int.Parse(weaponValues[1]);
+                    Utilities.SetStateChanged(weapon.As<CCSWeaponBase>(), "CBasePlayerWeapon", "m_iClip1");
+                }
+                else
+                {
+                    if (WeaponDefaults.TryGetValue(entity.DesignerName, out var weaponDefault))
+                    {
+                        if (_weapon.VData != null)
+                        {
+                            _weapon.VData.MaxClip1 = weaponDefault.VData1MaxClip1;
+                            _weapon.VData.DefaultClip1 = weaponDefault.VData1DefaultClip1;
+                        }
 
-                //    Utilities.SetStateChanged(weapon.As<CCSWeaponBase>(), "CBasePlayerWeapon", "m_iClip1");
-                //}
+                        _weapon.Clip1 = weaponDefault._1Clip1;
+
+                        Utilities.SetStateChanged(weapon.As<CCSWeaponBase>(), "CBasePlayerWeapon", "m_iClip1");
+                    }
+                }
 
                 if (weaponValues[2].Length > 0 && weaponValues[2] != "-1")
                 {
