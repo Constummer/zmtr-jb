@@ -143,9 +143,9 @@ public partial class JailbreakExtras
         return;
     }
 
-    private bool BanCheck(CCSPlayerController player)
+    private bool BanCheck(ulong steamId)
     {
-        if (Bans.TryGetValue(player.SteamID, out var call))
+        if (Bans.TryGetValue(steamId, out var call))
         {
             if (call > DateTime.UtcNow)
             {
@@ -153,7 +153,7 @@ public partial class JailbreakExtras
             }
             else
             {
-                Bans.Remove(player.SteamID);
+                Bans.Remove(steamId);
             }
         }
         return true;

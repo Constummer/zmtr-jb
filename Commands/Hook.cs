@@ -54,6 +54,8 @@ public partial class JailbreakExtras
               .ToList()
               .ForEach(x =>
               {
+                  Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya hook verdi.");
+
                   x.PrintToChat($"{Prefix}{CC.G} Konsolunuza `bind x hook` hazarak hook kullanmaya başlayabilirsiniz!");
                   _ = HookDisablePlayers.RemoveAll(y => y == x.SteamID);
                   HookPlayers[x.SteamID] = true;

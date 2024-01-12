@@ -22,7 +22,7 @@ public partial class JailbreakExtras
             return;
         }
 
-        if (ValidateCallerPlayer(player) == false)
+        if (ValidateCallerPlayer(player, false) == false)
         {
             return;
         }
@@ -31,16 +31,22 @@ public partial class JailbreakExtras
         var targetArgument = GetTargetArgument(target);
 
         GetPlayers()
-                   .Where(x => x.PawnIsAlive == false && GetTargetAction(x, target, player.PlayerName))
+                   .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player.PlayerName))
                    .ToList()
                    .ForEach(x =>
                    {
+                       if (ValidateCallerPlayer(x, false) == false) return;
+
                        if (targetArgument == TargetForArgument.None)
                        {
                            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} roketledi{CC.W}.");
                        }
                        Rocket(x);
-                       _ = AddTimer(2f, () => { x.CommitSuicide(true, true); });
+                       _ = AddTimer(1.5f, () =>
+                       {
+                           if (ValidateCallerPlayer(x, false) == false) return;
+                           x.CommitSuicide(true, true);
+                       });
                    });
         if (targetArgument != TargetForArgument.None)
         {

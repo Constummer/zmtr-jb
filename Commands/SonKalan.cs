@@ -47,6 +47,7 @@ public partial class JailbreakExtras
           .ToList()
           .ForEach(x =>
           {
+              if (ValidateCallerPlayer(player, false) == false) return;
               x.CommitSuicide(false, true);
           });
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{sk.PlayerName} {CC.W} adlı oyuncuyu son kalan olarak işaretledi.");
