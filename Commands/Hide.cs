@@ -40,8 +40,6 @@ public partial class JailbreakExtras
                         Config.Additional.ParachuteModelEnabled = true;
                         SetColour(x, DefaultColor);
                         ShowWeapons(x);
-                        Server.ExecuteCommand($"sv_teamid_overhead_maxdist 2000");
-                        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W} Mahkûmlar için hide açtı.");
 
                         break;
 
@@ -49,29 +47,22 @@ public partial class JailbreakExtras
                         Config.Additional.ParachuteModelEnabled = false;
                         SetColour(x, Color.FromArgb(0, 0, 0, 0));
                         HideWeapons(x);
-                        Server.ExecuteCommand($"sv_teamid_overhead_maxdist 1");
-                        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W} Mahkûmlar için hide kapadı.");
                         break;
                 }
             });
-    }
+        switch (godOneTwo)
+        {
+            case 0:
+                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W} Mahkûmlar için hide açtı.");
+                Server.ExecuteCommand($"sv_teamid_overhead_maxdist 2000");
+                break;
 
-    //public enum RenderMode_t : byte
-    //{
-    //    kRenderNormal = 0x0,
-    //    kRenderTransColor = 0x1,
-    //    kRenderTransTexture = 0x2,
-    //    kRenderGlow = 0x3,
-    //    kRenderTransAlpha = 0x4,
-    //    kRenderTransAdd = 0x5,
-    //    kRenderEnvironmental = 0x6,
-    //    kRenderTransAddFrameBlend = 0x7,
-    //    kRenderTransAlphaAdd = 0x8,
-    //    kRenderWorldGlow = 0x9,
-    //    kRenderNone = 0xA,
-    //    kRenderDevVisualizer = 0xB,
-    //    kRenderModeCount = 0xC,
-    //}
+            case 1:
+                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W} Mahkûmlar için hide kapadı.");
+                Server.ExecuteCommand($"sv_teamid_overhead_maxdist 1");
+                break;
+        }
+    }
 
     #endregion Hide
 }
