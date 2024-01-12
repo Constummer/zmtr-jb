@@ -36,6 +36,7 @@ public partial class JailbreakExtras
         unfzTimer = null;
         BurnTimer = null;
         DrugTimer = null;
+        TeamGamesCancel();
         LrCancel();
         ClearParachutes();
         ClearCits();

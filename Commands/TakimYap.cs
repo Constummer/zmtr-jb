@@ -41,6 +41,43 @@ public partial class JailbreakExtras
             }
         }
 
+        TakimYapAction(chunk);
+    }
+
+    [ConsoleCommand("takimboz")]
+    [ConsoleCommand("takimiptal")]
+    [ConsoleCommand("takimsil")]
+    public void TakimBoz(CCSPlayerController? player, CommandInfo info)
+    {
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        TeamActive = false;
+
+        var players = GetPlayers()
+              .Where(x => x != null
+                   && x.PlayerPawn.IsValid
+                   && x.PawnIsAlive
+                   && x.IsValid
+                   && x?.PlayerPawn?.Value != null
+                   && GetTeam(x) == CsTeam.Terrorist)
+              .ToList();
+
+        players.ForEach(x =>
+            {
+                SetColour(x, DefaultColor);
+
+                Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
+                Vector currentSpeed = new Vector(0, 0, 0);
+                QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
+                x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
+            });
+        TeamSteamIds.Clear();
+    }
+
+    private void TakimYapAction(int chunk)
+    {
         TeamActive = true;
         TeamSteamIds.Clear();
 
@@ -77,39 +114,8 @@ public partial class JailbreakExtras
             TeamSteamIds.Add(i, plist.Select(x => x.SteamID).ToList());
             olusanTakimlar.Add(res.Msg);
         }
+
         Server.PrintToChatAll($"{Prefix}{CC.G} Oluşturulan takımlar = {(string.Join(",", olusanTakimlar))}");
-    }
-
-    [ConsoleCommand("takimboz")]
-    [ConsoleCommand("takimiptal")]
-    [ConsoleCommand("takimsil")]
-    public void TakimBoz(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        TeamActive = false;
-
-        var players = GetPlayers()
-              .Where(x => x != null
-                   && x.PlayerPawn.IsValid
-                   && x.PawnIsAlive
-                   && x.IsValid
-                   && x?.PlayerPawn?.Value != null
-                   && GetTeam(x) == CsTeam.Terrorist)
-              .ToList();
-
-        players.ForEach(x =>
-            {
-                SetColour(x, DefaultColor);
-
-                Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
-                Vector currentSpeed = new Vector(0, 0, 0);
-                QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
-                x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
-            });
-        TeamSteamIds.Clear();
     }
 
     private static void TeamYapActive(CCSPlayerController attacker, CCSPlayerController victim, int dmgHealth, int dmgArmor)
