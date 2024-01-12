@@ -43,11 +43,14 @@ public partial class JailbreakExtras
         }
         var team = sk.TeamNum;
         GetPlayers((CsTeam)team)
-          .Where(x => x.SteamID != sk.SteamID)
+          .Where(x => x.PawnIsAlive && x.SteamID != sk.SteamID)
           .ToList()
           .ForEach(x =>
           {
-              x.CommitSuicide(false, true);
+              if (IsValidAlive(x))
+              {
+                  x.CommitSuicide(false, true);
+              }
           });
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{sk.PlayerName} {CC.W} adlı oyuncuyu son kalan olarak işaretledi.");
     }

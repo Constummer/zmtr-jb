@@ -39,20 +39,18 @@ public partial class JailbreakExtras
         return false;
     }
 
-    private bool CheckPlayerGroups(CCSPlayerController? player)
+    private bool CheckPlayerGroups(ulong steamid)
     {
-        if (player == null || !player.IsValid || player.IsBot) return false;
-
         if (Config.SteamGroup.SteamApiKey == "-" || Config.SteamGroup.SteamGroupId == "-")
             return false;
 
-        if (PlayerSteamGroup.Contains(player.SteamID))
+        if (PlayerSteamGroup.Contains(steamid))
         {
             return true;
         }
         else
         {
-            string apiUrl = $"https://api.steampowered.com/ISteamUser/GetUserGroupList/v1/?key={Config.SteamGroup.SteamApiKey}&steamid={player.SteamID}";
+            string apiUrl = $"https://api.steampowered.com/ISteamUser/GetUserGroupList/v1/?key={Config.SteamGroup.SteamApiKey}&steamid={steamid}";
 
             try
             {
@@ -73,7 +71,7 @@ public partial class JailbreakExtras
 
                                 if (groupId == Config.SteamGroup.SteamGroupId)
                                 {
-                                    PlayerSteamGroup.Add(player.SteamID);
+                                    PlayerSteamGroup.Add(steamid);
                                     return true;
                                 }
                             }
@@ -100,7 +98,7 @@ public partial class JailbreakExtras
         {
             Server.NextFrame(() =>
             {
-                if (CheckPlayerGroups(player))
+                if (CheckPlayerGroups(player.SteamID))
                 {
                     player.PrintToChat($"{Prefix} {CC.W}Steam grubumuza katıldığın için teşekkurler. Artık komutları kullanabilirsin");
                     player.PrintToChat($"{Prefix} {CC.W}Steam Grup: steamcommunity.com/groups/zombieturkeyclan/");

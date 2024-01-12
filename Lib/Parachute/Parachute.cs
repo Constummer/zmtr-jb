@@ -121,10 +121,13 @@ public partial class JailbreakExtras
                {
                    if (gParaModel.ContainsKey(userId))
                    {
-                       gParaModel[userId].Teleport(PARA_Vector, ANGLE_ZERO, VEC_ZERO);
-                       gParaModel[userId].Remove();
-                       gParaModel[userId] = null;
-                       gParaModel.Remove(userId);
+                       if (gParaModel[userId] != null && gParaModel[userId].IsValid == true)
+                       {
+                           gParaModel[userId].Teleport(PARA_Vector, ANGLE_ZERO, VEC_ZERO);
+                           gParaModel[userId].Remove();
+                           gParaModel[userId] = null;
+                           gParaModel.Remove(userId);
+                       }
                    }
                });
         };

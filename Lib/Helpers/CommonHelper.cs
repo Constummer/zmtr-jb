@@ -62,6 +62,10 @@ public partial class JailbreakExtras
     private static bool ValidateCallerPlayer(CCSPlayerController? player, bool checkPermission = true, bool printMsg = true)
     {
         if (player == null) return false;
+        //if (player.Connected != PlayerConnectedState.PlayerConnected)
+        //{
+        //    return false;
+        //}
         if (checkPermission)
         {
             if (CheckPermission(player) == false)

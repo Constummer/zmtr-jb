@@ -9,8 +9,6 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    #region Hook
-
     [ConsoleCommand("rocket")]
     [ConsoleCommand("roket")]
     [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me>")]
@@ -21,17 +19,20 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
-
-        if (ValidateCallerPlayer(player) == false)
+        Server.PrintToChatAll("1");
+        if (ValidateCallerPlayer(player, false) == false)
         {
             return;
         }
+        Server.PrintToChatAll("1.1");
+
         if (info.ArgCount != 2) return;
         var target = info.GetArg(1);
         var targetArgument = GetTargetArgument(target);
+        Server.PrintToChatAll("1.2");
 
         GetPlayers()
-                   .Where(x => x.PawnIsAlive == false && GetTargetAction(x, target, player.PlayerName))
+                   .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player.PlayerName))
                    .ToList()
                    .ForEach(x =>
                    {
@@ -39,9 +40,22 @@ public partial class JailbreakExtras
                        {
                            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} roketledi{CC.W}.");
                        }
-                       Rocket(x);
-                       _ = AddTimer(2f, () => { x.CommitSuicide(true, true); });
+
+                       if (IsValidAlive(x))
+                       {
+                           x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
+                           Rocket(x);
+                       }
+
+                       _ = AddTimer(1.5f, () =>
+                       {
+                           if (IsValidAlive(x))
+                           {
+                               x.CommitSuicide(true, true);
+                           }
+                       });
                    });
+
         if (targetArgument != TargetForArgument.None)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.B}roketledi");
@@ -74,19 +88,16 @@ public partial class JailbreakExtras
     {
         if (player == null || player.PlayerPawn == null || player.PlayerPawn.Value.CBodyComponent == null || playerPosition == null || !player.IsValid || !player.PawnIsAlive)
         {
-            Console.WriteLine("Player is null.");
             return;
         }
 
         if (player.PlayerPawn.Value.CBodyComponent.SceneNode == null)
         {
-            Console.WriteLine("SceneNode is null. Skipping pull.");
             return;
         }
 
         if (grappleTarget == null)
         {
-            Console.WriteLine("Grapple target is null.");
             return;
         }
 
@@ -120,6 +131,4 @@ public partial class JailbreakExtras
         //    Console.WriteLine("GrappleWire is null.");
         //}
     }
-
-    #endregion Hook
 }

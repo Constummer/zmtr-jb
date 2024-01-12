@@ -413,6 +413,25 @@ public partial class JailbreakExtras
         ForceOpenDoor();
     }
 
+    [ConsoleCommand("ctp")]
+    public void ctp(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        try
+        {
+            var a = Schema.GetSchemaValue<byte>(player.PlayerPawn.Value.Handle, "CPlayer_ObserverServices", "m_iObserverMode");
+            Schema.SetSchemaValue<byte>(player.Handle, "CPlayer_ObserverServices", "m_iObserverMode", 1);
+            //Schema.SetCustomMarshalledType<byte>(player.PlayerPawn.Value.Handle, "CPlayer_ObserverServices", "m_iObserverMode", 1);
+        }
+        catch (Exception e)
+        {
+        }
+    }
+
     [ConsoleCommand("css_slot1")]
     public void css_slot1(CCSPlayerController? player, CommandInfo info)
     {

@@ -30,9 +30,9 @@ public partial class JailbreakExtras
                         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}{item.Text} tekli oyununu başlattı.");
                     });
                 });
-                ChatMenus.OpenMenu(player, soloTGMenu);
             }, item.Disabled);
         }
+        ChatMenus.OpenMenu(player, soloTGMenu);
     }
 
     private static void SetRedColorForTeamGames()
