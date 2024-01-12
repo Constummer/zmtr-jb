@@ -59,8 +59,18 @@ public partial class JailbreakExtras
         return res;
     }
 
+    public static bool is_valid(CCSPlayerController? player)
+    {
+        return player != null && player.IsValid && player.PlayerPawn.IsValid;
+    }
+
     private static bool ValidateCallerPlayer(CCSPlayerController? player, bool checkPermission = true, bool printMsg = true)
     {
+        if (is_valid(player) == false)
+        {
+            return false;
+        }
+
         if (player == null) return false;
         if (checkPermission)
         {
