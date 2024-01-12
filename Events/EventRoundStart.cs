@@ -1,7 +1,5 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Entities;
-using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
@@ -36,10 +34,22 @@ public partial class JailbreakExtras
                     continue;
                 if (!x.IsValid || x.UserId == -1)
                     continue;
-                AddTimer(20f, () => GivePlayerRewards(x.SteamID, x.PlayerName));
+                var tempSteamId = x.SteamID;
+                var tempName = x.PlayerName;
+                var tempUserId = x.UserId;
+                AddTimer(20f, () =>
+                {
+                    if (tempSteamId != 0)
+                    {
+                        GivePlayerRewards(tempSteamId, tempName);
+                    }
+                });
                 AddTimer(0.5f, () =>
                 {
-                    CreateParachute(x);
+                    if (tempUserId != -1)
+                    {
+                        CreateParachute(tempUserId);
+                    }
                 });
             }
             //foreach (var x in GetPlayers())

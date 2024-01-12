@@ -9,20 +9,20 @@ public partial class JailbreakExtras
         //disabled, was causing crash
         RegisterEventHandler<EventPlayerConnectFull>((@event, _) =>
         {
-            if (@event == null)
-                return HookResult.Continue;
-            if (ValidateCallerPlayer(@event.Userid, false) == false)
-            {
-                return HookResult.Continue;
-            }
-            var player = @event.Userid;
+            if (@event == null) return HookResult.Continue;
+            if (@event.Userid == null) return HookResult.Continue;
+            if (@event.Userid.IsValid == false) return HookResult.Continue;
+            if (@event.Userid.SteamID == 0) return HookResult.Continue;
+            if (ValidateCallerPlayer(@event.Userid, false) == false) return HookResult.Continue;
+            var tempSteamId = @event.Userid.SteamID;
+            var tempPlayerName = @event.Userid.PlayerName;
 
-            AddOrUpdatePlayerToPlayerNameTable(player!.SteamID, player.PlayerName);
-            GetPlayerMarketData(player!.SteamID).Wait();
-            InsertAndGetTimeTrackingData(player.SteamID);
-            GetPGagData(player.SteamID);
-            InsertAndGetPlayerLevelData(player.SteamID, true, player.PlayerName);
-            CheckPlayerGroups(player);
+            AddOrUpdatePlayerToPlayerNameTable(tempSteamId, tempPlayerName);
+            GetPlayerMarketData(tempSteamId).Wait();
+            InsertAndGetTimeTrackingData(tempSteamId);
+            GetPGagData(tempSteamId);
+            InsertAndGetPlayerLevelData(tempSteamId, true, tempPlayerName);
+            CheckPlayerGroups(tempSteamId);
             return HookResult.Continue;
         });
     }

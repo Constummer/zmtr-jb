@@ -269,6 +269,7 @@ public partial class JailbreakExtras
     {
         Server.NextFrame(() =>
         {
+            if (playerPawn == null || playerPawn.IsValid == false) return;
             playerPawn.SetModel(model);
         });
     }

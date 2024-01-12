@@ -24,10 +24,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("steamgrup", "steam grup")]
     public void Grup(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player, false) == false)
-        {
-            return;
-        }
+        if (ValidateCallerPlayer(player, false) == false) return;
         PlayerGroupCheck(player, info);
     }
 

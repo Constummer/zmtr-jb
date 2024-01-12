@@ -9,8 +9,15 @@ public partial class JailbreakExtras
         //disabled, was causing crash
         RegisterEventHandler<EventPlayerDisconnect>((@event, _) =>
         {
-            ClearOnDisconnect(@event.Userid.SteamID, @event?.Userid.UserId);
-            if (@event?.Userid?.SteamID == LatestWCommandUser)
+            if (@event == null) return HookResult.Continue;
+            if (@event.Userid == null) return HookResult.Continue;
+            if (@event.Userid.IsValid == false) return HookResult.Continue;
+            if (@event.Userid.UserId < 0) return HookResult.Continue;
+            if (@event.Userid.SteamID < 0) return HookResult.Continue;
+            var tempSteamId = @event.Userid.SteamID;
+            var tempUserId = @event.Userid.UserId;
+            ClearOnDisconnect(tempSteamId, tempUserId);
+            if (tempSteamId == LatestWCommandUser)
             {
                 CoinRemove();
             }

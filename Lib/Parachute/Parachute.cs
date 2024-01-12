@@ -21,7 +21,7 @@ public partial class JailbreakExtras
             }
             if (gParaModel.ContainsKey(player.UserId) == false)
             {
-                CreateParachute(player);
+                CreateParachute(player.UserId);
             }
             var buttons = player.Buttons;
             if ((buttons & PlayerButtons.Use) != 0 && !player.PlayerPawn.Value!.OnGroundLastTick)
@@ -51,7 +51,7 @@ public partial class JailbreakExtras
         }
     }
 
-    private void CreateParachute(CCSPlayerController player)
+    private void CreateParachute(int? userid)
     {
         var entity = Utilities.CreateEntityByName<CBaseProp>("prop_dynamic_override");
         if (entity != null && entity.IsValid)
@@ -63,7 +63,7 @@ public partial class JailbreakExtras
             entity.Teleport(PARA_Vector, ANGLE_ZERO, VEC_ZERO);
             entity.DispatchSpawn();
 
-            gParaModel[player.UserId] = entity;
+            gParaModel[userid] = entity;
         }
     }
 

@@ -22,9 +22,13 @@ public partial class JailbreakExtras
                 {
                     AddTimer(2f, () =>
                    {
-                       AyakGizle(x, true);
+                       if (ValidateCallerPlayer(x, false))
+                       {
+                           AyakGizle(x, true);
+                       }
                    });
                 }
+                var tempSteamId = x.SteamID;
                 if (x.SteamID != LatestWCommandUser)
                 {
                     if (Unmuteds.Contains(x.SteamID) == false)
@@ -32,7 +36,10 @@ public partial class JailbreakExtras
                         if (x.Connected == PlayerConnectedState.PlayerConnected)
                             AddTimer(2f, () =>
                             {
-                                x.VoiceFlags |= VoiceFlags.Muted;
+                                if (ValidateCallerPlayer(x, false))
+                                {
+                                    x.VoiceFlags |= VoiceFlags.Muted;
+                                }
                             });
                     }
                 }
@@ -40,20 +47,23 @@ public partial class JailbreakExtras
                 {
                     //AddTimer(1f, () =>
                     //{
-                    x.GiveNamedItem("item_assaultsuit");
-                    x.GiveNamedItem("weapon_deagle");
-                    x.GiveNamedItem("weapon_m4a1");
+                    //x.GiveNamedItem("item_assaultsuit");
+                    //x.GiveNamedItem("weapon_deagle");
+                    //x.GiveNamedItem("weapon_m4a1");
                     //});
                 }
                 AddTimer(0.5f, () =>
                 {
-                    var data = GetPlayerMarketModel(x?.SteamID);
+                    if (ValidateCallerPlayer(x, false) == false) return;
+                    var data = GetPlayerMarketModel(tempSteamId);
                     if (data.Model == null || data.ChooseRandom)
                     {
+                        if (ValidateCallerPlayer(x, false) == false) return;
                         GiveRandomSkin(x);
                     }
                     else
                     {
+                        if (ValidateCallerPlayer(x, false) == false) return;
                         PlayerModel? model;
                         switch (GetTeam(x!))
                         {
@@ -63,11 +73,13 @@ public partial class JailbreakExtras
                                     if (int.TryParse(data.Model.DefaultIdT, out var modelId)
                                         && PlayerModels.TryGetValue(modelId, out model))
                                     {
+                                        if (ValidateCallerPlayer(x, false) == false) return;
                                         SetModelNextServerFrame(x!.PlayerPawn.Value!, model.PathToModel);
                                     }
                                 }
                                 else
                                 {
+                                    if (ValidateCallerPlayer(x, false) == false) return;
                                     GiveRandomSkin(x);
                                 }
                                 break;
@@ -78,11 +90,13 @@ public partial class JailbreakExtras
                                     if (int.TryParse(data.Model.DefaultIdCT, out var modelId)
                                         && PlayerModels.TryGetValue(modelId, out model))
                                     {
+                                        if (ValidateCallerPlayer(x, false) == false) return;
                                         SetModelNextServerFrame(x!.PlayerPawn.Value!, model.PathToModel);
                                     }
                                 }
                                 else
                                 {
+                                    if (ValidateCallerPlayer(x, false) == false) return;
                                     GiveRandomSkin(x);
                                 }
                                 break;
@@ -97,10 +111,11 @@ public partial class JailbreakExtras
         }));
     }
 
-    private static void GiveRandomSkin(CCSPlayerController? item)
+    private static void GiveRandomSkin(CCSPlayerController? x)
     {
+        if (ValidateCallerPlayer(x, false) == false) return;
         string randomModel;
-        switch (GetTeam(item!))
+        switch (GetTeam(x!))
         {
             case CsTeam.Terrorist:
                 randomModel = GetRandomItem(_Config.Model.RandomTModels);
@@ -108,7 +123,8 @@ public partial class JailbreakExtras
                 {
                     return;
                 }
-                SetModelNextServerFrame(item!.PlayerPawn.Value!, randomModel);
+                if (ValidateCallerPlayer(x, false) == false) return;
+                SetModelNextServerFrame(x!.PlayerPawn.Value!, randomModel);
                 break;
 
             case CsTeam.CounterTerrorist:
@@ -117,7 +133,8 @@ public partial class JailbreakExtras
                 {
                     return;
                 }
-                SetModelNextServerFrame(item!.PlayerPawn.Value!, randomModel);
+                if (ValidateCallerPlayer(x, false) == false) return;
+                SetModelNextServerFrame(x!.PlayerPawn.Value!, randomModel);
                 break;
 
             default:
