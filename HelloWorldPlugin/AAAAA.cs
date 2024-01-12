@@ -28,15 +28,15 @@ public class AAAAA : BasePlugin
             var player = @event.Userid;
             if (IsValid(player))
             {
-                if ((CsTeam)player.TeamNum == CsTeam.CounterTerrorist)
-                {
-                    if (IsValid(player))
-                    {
-                        player.GiveNamedItem("item_assaultsuit");
-                        player.GiveNamedItem("weapon_deagle");
-                        player.GiveNamedItem("weapon_m4a1");
-                    }
-                }
+                //if ((CsTeam)player.TeamNum == CsTeam.CounterTerrorist)
+                //{
+                //    if (IsValid(player))
+                //    {
+                //        player.GiveNamedItem("item_assaultsuit");
+                //        player.GiveNamedItem("weapon_deagle");
+                //        player.GiveNamedItem("weapon_m4a1");
+                //    }
+                //}
                 if (IsValid(player))
                 {
                     SetColour(@event.Userid, DefaultColor);
