@@ -43,7 +43,7 @@ public partial class JailbreakExtras
         }
         var team = sk.TeamNum;
         GetPlayers((CsTeam)team)
-          .Where(x => x.SteamID != sk.SteamID)
+          .Where(x => x.PawnIsAlive && x.SteamID != sk.SteamID)
           .ToList()
           .ForEach(x =>
           {

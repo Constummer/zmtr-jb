@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
 using System.Drawing;
+using System.Numerics;
 
 namespace AAAAA;
 
@@ -24,13 +25,22 @@ public class AAAAA : BasePlugin
             var player = @event.Userid;
             if (player != null && player.IsValid && player.PlayerPawn.IsValid)
             {
-                if ((CsTeam)player.TeamNum == CsTeam.CounterTerrorist)
+                if (IsValid(player))
                 {
-                    player.GiveNamedItem("item_assaultsuit");
-                    player.GiveNamedItem("weapon_deagle");
-                    player.GiveNamedItem("weapon_m4a1");
+                    if ((CsTeam)player.TeamNum == CsTeam.CounterTerrorist)
+                    {
+                        if (IsValid(player))
+                        {
+                            player.GiveNamedItem("item_assaultsuit");
+                            player.GiveNamedItem("weapon_deagle");
+                            player.GiveNamedItem("weapon_m4a1");
+                        }
+                    }
+                    if (IsValid(player))
+                    {
+                        SetColour(@event.Userid, DefaultColor);
+                    }
                 }
-                SetColour(@event.Userid, DefaultColor);
             }
             return HookResult.Continue;
         }));
@@ -38,7 +48,10 @@ public class AAAAA : BasePlugin
         {
             if (@event == null)
                 return HookResult.Continue;
-            SetColour(@event.Userid, Color.FromArgb(0, 0, 0, 0));
+            if (IsValid(@event.Userid))
+            {
+                SetColour(@event.Userid, Color.FromArgb(0, 0, 0, 0));
+            }
             return HookResult.Continue;
         }, HookMode.Post);
     }

@@ -3,7 +3,6 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
-using Microsoft.Extensions.Logging;
 using System.Drawing;
 
 namespace JailbreakExtras;
@@ -28,11 +27,6 @@ public partial class JailbreakExtras
             if (warden != null)
             {
                 player.PrintToChat($"{Prefix} {CC.W}Şu an {CC.G}{warden.PlayerName}{CC.W} isimli oyuncu komutçu. Komutçu olamazsın!");
-                return;
-            }
-            else
-            {
-                player.PrintToChat($"{Prefix} {CC.W}Şu an komutçu olamazsın!");
                 return;
             }
         }
@@ -143,9 +137,15 @@ public partial class JailbreakExtras
         if (warden == null)
         {
             player.PrintToChat($"{Prefix} {CC.W}halihazirda komutçu bulunmuyor!");
-            return;
+            LatestWCommandUser = null;
+            ClearLasers();
+            CoinRemove();
+            WardenLeaveSound();
         }
-        RemoveWardenAction(warden);
+        else
+        {
+            RemoveWardenAction(warden);
+        }
     }
 
     private void RemoveWardenAction(CCSPlayerController? warden)
