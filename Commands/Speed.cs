@@ -13,24 +13,19 @@ public partial class JailbreakExtras
     #region Speed
 
     [ConsoleCommand("speed")]
-    [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me> <0/1>")]
+    [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me> <0-1 kapatmak için, 2-9 hız ayarlamak için>")]
     public void OnSpeedCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
-        {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
-            return;
-        }
-        if (ValidateCallerPlayer(player, false) == false)
+        if (ValidateCallerPlayer(player) == false)
         {
             return;
         }
 
         if (info.ArgCount != 3) return;
         var target = info.GetArg(1);
-        if (!int.TryParse(info.GetArg(2), out var speed) || speed < 0 || speed > 1)
+        if (!int.TryParse(info.GetArg(2), out var speed) || speed < 0 || speed > 10)
         {
-            player.PrintToChat($"{Prefix}{CC.W} 0 = kapatmak icin, 1 = acmak icin.");
+            player.PrintToChat($"{Prefix}{CC.W} 0-1 kapatmak için, 2-9 hız ayarlamak için.");
             return;
         }
         var targetArgument = GetTargetArgument(target);
@@ -44,6 +39,7 @@ public partial class JailbreakExtras
                    switch (speed)
                    {
                        case 0:
+                       case 1:
                            if (targetArgument == TargetForArgument.None)
                            {
                                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin hızını sıfırladı.");
@@ -51,12 +47,12 @@ public partial class JailbreakExtras
                            x.PlayerPawn.Value.VelocityModifier = 1.0f;
                            break;
 
-                       case 1:
+                       default:
                            if (targetArgument == TargetForArgument.None)
                            {
                                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun hızını {CC.B}{speed} {CC.W}olarak ayarladı.");
                            }
-                           x.PlayerPawn.Value.VelocityModifier = 5.0f;
+                           x.PlayerPawn.Value.VelocityModifier = speed;
                            break;
                    }
                    RefreshPawn(x);
@@ -64,6 +60,7 @@ public partial class JailbreakExtras
         switch (speed)
         {
             case 0:
+            case 1:
 
                 if (targetArgument != TargetForArgument.None)
                 {
@@ -71,11 +68,10 @@ public partial class JailbreakExtras
                 }
                 break;
 
-            case 1:
-
+            default:
                 if (targetArgument != TargetForArgument.None)
                 {
-                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin hızını {CC.B}1{CC.W} olarak ayarladı.");
+                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin hızını {CC.B}{speed}{CC.W} olarak ayarladı.");
                 }
                 break;
         }

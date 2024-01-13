@@ -154,7 +154,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("q", "godmode ct player")]
     public void Q(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye30", "@css/seviye30") == false)
+        if (ValidateCallerPlayer(player) == false)
         {
             return;
         }
@@ -171,7 +171,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("qq", "remove godmode ct player")]
     public void Qq(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye30", "@css/seviye30") == false)
+        if (ValidateCallerPlayer(player) == false)
         {
             return;
         }

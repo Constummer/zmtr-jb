@@ -42,7 +42,7 @@ public partial class JailbreakExtras
         var marketMenu = new ChatMenu($"TP Market | Krediniz = [{data.Model.Credit}]");
         foreach (var item in Config.Credit.TPMarketDatas)
         {
-            marketMenu.AddMenuOption(item.Text, (p, i) =>
+            marketMenu.AddMenuOption(item.Text, (p, info) =>
             {
                 if (ValidateCallerPlayer(player, false) == false) return;
                 if (player?.SteamID == null || player!.SteamID == 0) return;
@@ -54,23 +54,53 @@ public partial class JailbreakExtras
                     player.PrintToChat($"{Prefix} {CC.W}Yetersiz Bakiye!");
                     return;
                 }
-                if (PlayerLevels.TryGetValue(player.SteamID, out var level))
+                ConfirmMenu(player, data.Model.Credit, item.Text, () =>
                 {
-                    data.Model.Credit -= item.CreditCost;
-                    PlayerMarketModels[player.SteamID] = data.Model;
+                    if (ValidateCallerPlayer(player, false) == false) return;
+                    if (PlayerLevels.TryGetValue(player.SteamID, out var level))
+                    {
+                        data.Model.Credit -= item.CreditCost;
+                        PlayerMarketModels[player.SteamID] = data.Model;
 
-                    level.Xp += item.TPReward;
-                    PlayerLevels[player.SteamID] = level;
-                    player.PrintToChat($"{Prefix} {CC.B}{item.CreditCost} {CC.W}Kredi Karşılığında {CC.B}{item.TPReward} {CC.W}TP Satın Aldın!");
-                    player.PrintToChat($"{Prefix} {CC.W}Mevcut Kredin = {CC.B}{data.Model.Credit}{CC.R} |{CC.W} Mevcut TP ={CC.B} {level.Xp}");
+                        level.Xp += item.TPReward;
+                        PlayerLevels[player.SteamID] = level;
+                        player.PrintToChat($"{Prefix} {CC.B}{item.CreditCost} {CC.W}Kredi Karşılığında {CC.B}{item.TPReward} {CC.W}TP Satın Aldın!");
+                        player.PrintToChat($"{Prefix} {CC.W}Mevcut Kredin = {CC.B}{data.Model.Credit}{CC.R} |{CC.W} Mevcut TP ={CC.B} {level.Xp}");
+                    }
+                    else
+                    {
+                        player.PrintToChat($"{Prefix} {CC.W}Seviyen yok, seviye alabilmek için  {CC.DR}!slotol {CC.W},{CC.DR} !seviyeol {CC.W}yazabilirsin!");
+                        return;
+                    }
+                });
+            });
+        }
+        ChatMenus.OpenMenu(player, marketMenu);
+    }
+
+    private static void ConfirmMenu(CCSPlayerController player, int credit, string text, Action confirmed)
+    {
+        var eminMisinMenu = new ChatMenu($"{text} satın almak istedine emin misin? | Krediniz = [{credit}]");
+        for (int i = 0; i < 2; i++)
+        {
+            var testz = "Evet";
+            if (i == 1)
+            {
+                testz = "Hayır";
+            }
+            eminMisinMenu.AddMenuOption(testz, (p, i) =>
+            {
+                if (i.Text == "Evet")
+                {
+                    confirmed();
                 }
                 else
                 {
-                    player.PrintToChat($"{Prefix} {CC.W}Seviyen yok, seviye alabilmek için  {CC.DR}!slotol {CC.W},{CC.DR} !seviyeol {CC.W}yazabilirsin!");
+                    player.PrintToChat($"{Prefix}{CC.G} {text} satın almaktan vazgeçtin.");
                     return;
                 }
             });
         }
-        ChatMenus.OpenMenu(player, marketMenu);
+        ChatMenus.OpenMenu(player, eminMisinMenu);
     }
 }

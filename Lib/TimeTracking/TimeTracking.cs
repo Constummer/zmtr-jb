@@ -350,7 +350,7 @@ public partial class JailbreakExtras
         }
     }
 
-    private void DiscordPost(string uri, string message)
+    private static void DiscordPost(string uri, string message)
     {
         try
         {

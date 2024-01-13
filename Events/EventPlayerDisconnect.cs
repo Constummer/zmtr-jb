@@ -16,7 +16,7 @@ public partial class JailbreakExtras
             //if (@event.Userid.SteamID < 0) return HookResult.Continue;
             var tempSteamId = @event?.Userid?.SteamID;
             var tempUserId = @event?.Userid?.UserId;
-            _ClientQueue.Enqueue(new(tempSteamId ?? 0, tempUserId, "", false));
+            _ClientQueue.Enqueue(new(tempSteamId ?? 0, tempUserId, "", QueueItemType.OnClientDisconnect));
             return HookResult.Continue;
         }, HookMode.Pre);
     }

@@ -30,7 +30,29 @@ public partial class JailbreakExtras
                 var killMenu = new ChatMenu("Kill Menu");
                 foreach (var item in list.Reverse())
                 {
-                    killMenu.AddMenuOption(item.Value, RespawnSelectedPlayer);
+                    killMenu.AddMenuOption(item.Value, (c, i) =>
+                    {
+                        if (KilledPlayers.TryGetValue(c.SteamID, out var list))
+                        {
+                            if (list != null && list.Count > 0)
+                            {
+                                var data = list.ToList().Where(x => x.Value == i.Text).ToList() ?? new();
+                                foreach (var item in data)
+                                {
+                                    var fkPlayer = Utilities.GetPlayerFromSteamId(item.Key);
+                                    if (fkPlayer != null)
+                                    {
+                                        if (ValidateCallerPlayer(player, false) == false) return;
+                                        if (ValidateCallerPlayer(fkPlayer, false) == false) return;
+                                        RespawnPlayer(fkPlayer);
+                                        KilledPlayers.Remove(item.Key);
+                                        player.PrintToChat($"{Prefix} {CC.G}{fkPlayer.PlayerName} {CC.W}adlı oyuncuyu canlandırdın.");
+                                        Server.PrintToChatAll($"{Prefix} {CC.B}{player.PlayerName} {CC.W}adlı gardiyan, {CC.Or}{fkPlayer.PlayerName} {CC.W}adlı oyuncuyu canlandırdı.");
+                                    }
+                                }
+                            }
+                        }
+                    });
                 }
 
                 ChatMenus.OpenMenu(player, killMenu);
@@ -44,22 +66,6 @@ public partial class JailbreakExtras
 
     private void RespawnSelectedPlayer(CCSPlayerController controller, ChatMenuOption option)
     {
-        if (KilledPlayers.TryGetValue(controller.SteamID, out var list))
-        {
-            if (list != null && list.Count > 0)
-            {
-                var data = list.ToList().Where(x => x.Value == option.Text).ToList() ?? new();
-                foreach (var item in data)
-                {
-                    var player = Utilities.GetPlayerFromSteamId(item.Key);
-                    if (player != null)
-                    {
-                        RespawnPlayer(player);
-                        player.PrintToChat($"{Prefix} {CC.G}{player.PlayerName} {CC.W}adlı oyuncuyu canlandırdın.");
-                    }
-                }
-            }
-        }
     }
 
     #endregion FreeKill

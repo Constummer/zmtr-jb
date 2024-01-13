@@ -1,5 +1,4 @@
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Entities;
 
 namespace JailbreakExtras;
 
@@ -19,7 +18,7 @@ public partial class JailbreakExtras
             var tempSteamId = @event?.Userid?.SteamID;
             var tempPlayerName = @event?.Userid?.PlayerName;
             var tempUserId = @event?.Userid?.UserId;
-            _ClientQueue.Enqueue(new(tempSteamId ?? 0, tempUserId, tempPlayerName, true));
+            _ClientQueue.Enqueue(new(tempSteamId ?? 0, tempUserId, tempPlayerName, QueueItemType.OnClientConnect));
 
             return HookResult.Continue;
         });

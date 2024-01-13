@@ -99,6 +99,7 @@ public partial class JailbreakExtras
     }
 
     [ConsoleCommand("gomkaldir", "yerden kaldirir.")]
+    [ConsoleCommand("gomboz", "yerden kaldirir.")]
     [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me>")]
     public void GomKaldir(CCSPlayerController? player, CommandInfo info)
     {
