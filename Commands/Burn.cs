@@ -80,6 +80,7 @@ public partial class JailbreakExtras
                        .ToList()
                        .ForEach(x =>
                        {
+                           if (ValidateCallerPlayer(x, false) == false) return;
                            PerformSlap(x.PlayerPawn.Value, 1);
                        });
         }, TimerFlags.REPEAT);

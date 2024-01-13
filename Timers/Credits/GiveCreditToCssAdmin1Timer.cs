@@ -15,6 +15,7 @@ public partial class JailbreakExtras
             .ToList()
             .ForEach(x =>
               {
+                  if (ValidateCallerPlayer(x, false) == false) return;
                   if (AdminManager.PlayerHasPermissions(x, "@css/adminkredi"))
                   {
                       if (x?.SteamID != null && x!.SteamID != 0)
@@ -29,6 +30,7 @@ public partial class JailbreakExtras
                               item.Credit = Config.Credit.RetrieveCreditEvery5MinRewardCssAdmin1;
                           }
                           PlayerMarketModels[x.SteamID] = item;
+                          if (ValidateCallerPlayer(x, false) == false) return;
                           x.PrintToChat($"{Prefix} {CC.R}Admin{CC.W} olduğun için {CC.LB}{Config.Credit.RetrieveCreditEvery5MinRewardCssAdmin1} {CC.W}kredi kazandın!");
                       }
                   }

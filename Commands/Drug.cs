@@ -70,6 +70,7 @@ public partial class JailbreakExtras
                        .ToList()
                        .ForEach(x =>
                        {
+                           if (ValidateCallerPlayer(x, false) == false) return;
                            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.B}drugladi");
 
                            var @event = new EventFlashbangDetonate(false)
@@ -124,6 +125,7 @@ public partial class JailbreakExtras
                        .ToList()
                        .ForEach(x =>
                        {
+                           if (ValidateCallerPlayer(x, false) == false) return;
                            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.B}drugladi");
 
                            var @event = new EventPlayerBlind(true)

@@ -11,14 +11,13 @@ public partial class JailbreakExtras
         RegisterListener<Listeners.OnClientConnected>(playerSlot =>
         {
             CCSPlayerController player = Utilities.GetPlayerFromSlot(playerSlot);
-            if (player == null) return;
-            if (player.IsValid == false) return;
-            if (player.UserId < 0) return;
-            if (player.SteamID < 0) return;
+
+            if (ValidateCallerPlayer(player, false) == false) return;
             var tempSteamId = player.SteamID;
             var teampUserId = player.UserId;
             if (BanCheck(tempSteamId) == false)
             {
+                if (ValidateCallerPlayer(player, false) == false) return;
                 Server.ExecuteCommand($"kickid {teampUserId}");
             }
 

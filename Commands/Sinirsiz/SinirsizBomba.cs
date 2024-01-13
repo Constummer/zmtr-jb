@@ -60,6 +60,7 @@ public partial class JailbreakExtras
 
                     players.ForEach(x =>
                     {
+                        if (ValidateCallerPlayer(x, false) == false) return;
                         if (x?.PlayerPawn?.Value?.WeaponServices?.MyWeapons != null)
                         {
                             if (x.PlayerPawn.Value.WeaponServices!.MyWeapons

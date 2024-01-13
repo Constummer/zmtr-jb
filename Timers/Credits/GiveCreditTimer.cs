@@ -14,6 +14,7 @@ public partial class JailbreakExtras
                    .ToList()
                    .ForEach(x =>
                    {
+                       if (ValidateCallerPlayer(x, false) == false) return;
                        if (x?.SteamID != null && x!.SteamID != 0)
                        {
                            if (PlayerMarketModels.TryGetValue(x.SteamID, out var item))
@@ -26,6 +27,7 @@ public partial class JailbreakExtras
                                item.Credit = Config.Credit.RetrieveCreditEveryXMinReward;
                            }
                            PlayerMarketModels[x.SteamID] = item;
+                           if (ValidateCallerPlayer(x, false) == false) return;
                            x.PrintToChat($"{Prefix} {CC.W}Bu sunucuda {CC.G}{Config.Credit.RetrieveCreditEveryXMin / 60} {CC.W}dakika zaman geçirdiğin için {CC.LB}{Config.Credit.RetrieveCreditEveryXMinReward} {CC.W}kredi kazandın!");
                        }
                    });

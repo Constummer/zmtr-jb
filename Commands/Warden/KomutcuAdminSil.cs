@@ -39,11 +39,12 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.W}Yazarak komutçu admin belirleyebilirsin");
             return;
         }
-
+        if (ValidateCallerPlayer(x, false) == false) return;
         KomutcuAdminId = null;
         x.Clan = null;
         AddTimer(0.2f, () =>
         {
+            if (ValidateCallerPlayer(x, false) == false) return;
             Utilities.SetStateChanged(x, "CCSPlayerController", "m_szClan");
             Utilities.SetStateChanged(x, "CBasePlayerController", "m_iszPlayerName");
         });

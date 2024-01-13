@@ -120,13 +120,14 @@ public partial class JailbreakExtras
             {
                 var kvp = KomAdays[0];
 
-                var winner = Utilities.GetPlayerFromSteamId(kvp);
+                var x = Utilities.GetPlayerFromSteamId(kvp);
 
-                if (ValidateCallerPlayer(winner, false))
+                if (ValidateCallerPlayer(x, false))
                 {
                     AddTimer(1, () =>
                     {
-                        winner.SwitchTeam(CsTeam.CounterTerrorist);
+                        if (ValidateCallerPlayer(x, false) == false) return;
+                        x.SwitchTeam(CsTeam.CounterTerrorist);
                     });
                 }
             }
@@ -189,12 +190,13 @@ public partial class JailbreakExtras
                             var kvp = list[i];
                             if (i == 0)
                             {
-                                var winner = Utilities.GetPlayerFromSteamId(kvp.Key);
-                                if (ValidateCallerPlayer(winner, false))
+                                var x = Utilities.GetPlayerFromSteamId(kvp.Key);
+                                if (ValidateCallerPlayer(x, false))
                                 {
                                     AddTimer(1, () =>
                                     {
-                                        winner.SwitchTeam(CsTeam.CounterTerrorist);
+                                        if (ValidateCallerPlayer(x, false) == false) return;
+                                        x.SwitchTeam(CsTeam.CounterTerrorist);
                                     });
                                 }
                             }

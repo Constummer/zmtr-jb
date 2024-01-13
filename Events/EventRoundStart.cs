@@ -37,6 +37,7 @@ public partial class JailbreakExtras
                 var tempSteamId = x.SteamID;
                 var tempName = x.PlayerName;
                 var tempUserId = x.UserId;
+                if (ValidateCallerPlayer(x, false) == false) continue;
                 AddTimer(20f, () =>
                 {
                     if (tempSteamId != 0)

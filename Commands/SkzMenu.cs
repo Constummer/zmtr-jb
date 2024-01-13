@@ -77,6 +77,7 @@ public partial class JailbreakExtras
                     .ToList()
                     .ForEach(x =>
                     {
+                        if (ValidateCallerPlayer(x, false) == false) return;
                         if (TeamActive == false)
                         {
                             if (players.Count < 6)
@@ -105,6 +106,7 @@ public partial class JailbreakExtras
                     .ToList()
                     .ForEach(x =>
                     {
+                        if (ValidateCallerPlayer(x, false) == false) return;
                         if (TeamActive == false)
                         {
                             SetColour(x, Config.Burry.BuryColor);

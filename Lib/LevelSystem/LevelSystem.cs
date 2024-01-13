@@ -114,12 +114,14 @@ public partial class JailbreakExtras
     {
         if (PlayerLevels.TryGetValue(player.SteamID, out var level))
         {
+            if (ValidateCallerPlayer(player, false) == false) return;
             PlayerLevels.Remove(player.SteamID);
             DeletePlayerLevelData(player.SteamID);
             LevelTagDisabledPlayers = LevelTagDisabledPlayers.Where(x => x != player.SteamID).ToList();
             player.Clan = null;
             AddTimer(0.2f, () =>
             {
+                if (ValidateCallerPlayer(player, false) == false) return;
                 Utilities.SetStateChanged(player, "CCSPlayerController", "m_szClan");
                 Utilities.SetStateChanged(player, "CBasePlayerController", "m_iszPlayerName");
             });
@@ -147,9 +149,11 @@ public partial class JailbreakExtras
                 {
                     if (config.ClanTag != player.Clan)
                     {
+                        if (ValidateCallerPlayer(player, false) == false) return;
                         player.Clan = config.ClanTag;
                         AddTimer(0.2f, () =>
                         {
+                            if (ValidateCallerPlayer(player, false) == false) return;
                             Utilities.SetStateChanged(player, "CCSPlayerController", "m_szClan");
                             Utilities.SetStateChanged(player, "CBasePlayerController", "m_iszPlayerName");
                         });

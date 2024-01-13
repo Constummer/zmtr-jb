@@ -60,6 +60,7 @@ public partial class JailbreakExtras
             .ToList()
             .ForEach(x =>
         {
+            if (ValidateCallerPlayer(x, false) == false) return;
             x.VoiceFlags |= VoiceFlags.Muted;
         });
         BasicCountdown.CommandStartTextCountDown(this, $"Gardiyanlar, {value} saniye mutelendi");
@@ -70,6 +71,7 @@ public partial class JailbreakExtras
             .ToList()
             .ForEach(x =>
             {
+                if (ValidateCallerPlayer(x, false) == false) return;
                 Unmuteds.Add(x.SteamID);
                 x.VoiceFlags &= ~VoiceFlags.Muted;
             });

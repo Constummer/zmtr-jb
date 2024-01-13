@@ -83,13 +83,13 @@ public partial class JailbreakExtras
                 return false;
             }
         }
-        if (player == null
-            || !player.IsValid
-            //|| player.PlayerPawn == null
-            //|| !player.PlayerPawn.IsValid
-            //|| player.PlayerPawn.Value == null
-            //|| !player.PlayerPawn.Value.IsValid
-            ) return false;
+        //if (player == null
+        //    || !player.IsValid
+        //    //|| player.PlayerPawn == null
+        //    //|| !player.PlayerPawn.IsValid
+        //    //|| player.PlayerPawn.Value == null
+        //    //|| !player.PlayerPawn.Value.IsValid
+        //    ) return false;
         //if (player.AuthorizedSteamID == null
         //    || player.AuthorizedSteamID.SteamId64 != player.SteamID)
         //{
@@ -148,14 +148,11 @@ public partial class JailbreakExtras
         return player != null && player.IsValid && player.PlayerPawn.IsValid;
     }
 
-    private static void SetColour(CCSPlayerController? player, Color colour)
+    private static void SetColour(CCSPlayerController? x, Color colour)
     {
-        if (player == null || !IsValid(player))
-        {
-            return;
-        }
+        if (ValidateCallerPlayer(x, false) == false) return;
 
-        CCSPlayerPawn? pawn = player.PlayerPawn.Value;
+        CCSPlayerPawn? pawn = x.PlayerPawn.Value;
 
         if (pawn != null)
         {

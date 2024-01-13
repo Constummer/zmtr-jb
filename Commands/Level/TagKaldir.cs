@@ -25,6 +25,7 @@ public partial class JailbreakExtras
             player.Clan = null;
             AddTimer(0.2f, () =>
             {
+                if (ValidateCallerPlayer(player, false) == false) return;
                 Utilities.SetStateChanged(player, "CCSPlayerController", "m_szClan");
                 Utilities.SetStateChanged(player, "CBasePlayerController", "m_iszPlayerName");
             });

@@ -10,12 +10,15 @@ public partial class JailbreakExtras
 {
     private void SoloTeamGamesMenu(CCSPlayerController player, ChatMenuOption option)
     {
+        if (ValidateCallerPlayer(player, false) == false) return;
         var soloTGMenu = new ChatMenu("Team Games Menü | Herkes Tek");
 
         foreach (var item in SoloTGGamesMenu)
         {
             soloTGMenu.AddMenuOption(item.Text, (p, i) =>
             {
+                if (ValidateCallerPlayer(player, false) == false) return;
+                if (ValidateCallerPlayer(p, false) == false) return;
                 var @base = GetTeamGameBase(item.SoloChoice);
                 if (@base == null)
                 {
@@ -27,6 +30,7 @@ public partial class JailbreakExtras
                     SetRedColorForTeamGames();
                     AddTimer(3f, () =>
                     {
+                        if (ValidateCallerPlayer(player, false) == false) return;
                         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}{item.Text} tekli oyununu başlattı.");
                     });
                 });

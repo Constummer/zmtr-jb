@@ -42,9 +42,10 @@ public partial class JailbreakExtras
                            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} roketledi{CC.W}.");
                        }
                        Rocket(x);
-                       _ = AddTimer(1.5f, () =>
+                       _ = AddTimer(1f, () =>
                        {
                            if (ValidateCallerPlayer(x, false) == false) return;
+                           if (x.PawnIsAlive == false) return;
                            x.CommitSuicide(true, true);
                        });
                    });
@@ -66,7 +67,7 @@ public partial class JailbreakExtras
         y = player.PlayerPawn.Value!.AbsOrigin!.Y;
         z = player.PlayerPawn.Value!.AbsOrigin!.Z;
         var start = new Vector((float)x, (float)y, (float)z);
-        var end = new Vector((float)x, (float)y, (float)z + 1000f);
+        var end = new Vector((float)x, (float)y, (float)z + 650f);
 
         Vector playerPosition = player.PlayerPawn?.Value.CBodyComponent?.SceneNode?.AbsOrigin;
         QAngle viewAngles = player.PlayerPawn.Value.EyeAngles;

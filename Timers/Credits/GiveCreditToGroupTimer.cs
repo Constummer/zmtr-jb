@@ -14,6 +14,7 @@ public partial class JailbreakExtras
             .ToList()
             .ForEach(x =>
               {
+                  if (ValidateCallerPlayer(x, false) == false) return;
                   if (x?.SteamID != null && x!.SteamID != 0)
                   {
                       if (PlayerSteamGroup.Contains(x.SteamID))
@@ -28,6 +29,7 @@ public partial class JailbreakExtras
                               item.Credit = 2;
                           }
                           PlayerMarketModels[x.SteamID] = item;
+                          if (ValidateCallerPlayer(x, false) == false) return;
                           x.PrintToChat($"{Prefix} {CC.R}Steam Grubunda{CC.W} olduğun için {CC.LB}2 {CC.W}kredi kazandın!");
                       }
                   }

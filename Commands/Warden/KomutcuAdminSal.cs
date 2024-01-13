@@ -50,10 +50,12 @@ public partial class JailbreakExtras
         {
             kaMenu.AddMenuOption(x.PlayerName, (p, t) =>
             {
+                if (ValidateCallerPlayer(x, false) == false) return;
                 KomutcuAdminId = x.SteamID;
                 x.Clan = $"{CC.P}[Komutçu Admin]";
                 AddTimer(0.2f, () =>
                 {
+                    if (ValidateCallerPlayer(x, false) == false) return;
                     Utilities.SetStateChanged(x, "CCSPlayerController", "m_szClan");
                     Utilities.SetStateChanged(x, "CBasePlayerController", "m_iszPlayerName");
                 });

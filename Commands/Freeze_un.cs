@@ -47,6 +47,7 @@ public partial class JailbreakExtras
                     .ToList()
                     .ForEach(x =>
                     {
+                        if (ValidateCallerPlayer(x, false) == false) return;
                         if (TeamActive == false)
                         {
                             SetColour(x, DefaultColor);

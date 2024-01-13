@@ -37,6 +37,8 @@ public partial class JailbreakExtras
             {
                 if (opt.Text == "Evet")
                 {
+                    if (ValidateCallerPlayer(player, false) == false) return;
+                    if (ValidateCallerPlayer(p, false) == false) return;
                     var marketMenu = new ChatMenu($"Seviye sisteminden ayrılmak istediğine emin misin? Son kontrol");
                     marketMenu.AddMenuOption("GERİ DÖNÜŞÜ OLMAYAN BİR İŞLEM", null, true);
                     marketMenu.AddMenuOption("Eğer tekrar girmek istersen TP bilgin sıfırlanacak!", null, true);
@@ -51,6 +53,8 @@ public partial class JailbreakExtras
                         {
                             if (opt2.Text == "Evet")
                             {
+                                if (ValidateCallerPlayer(player, false) == false) return;
+                                if (ValidateCallerPlayer(p, false) == false) return;
                                 RemoveFromLevelSystem(player);
                                 player.PrintToChat($"{Prefix}{CC.G} Seviye sisteminden ayrıldın.");
                             }

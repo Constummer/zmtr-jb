@@ -74,11 +74,16 @@ public partial class JailbreakExtras
         x.VoiceFlags |= VoiceFlags.Muted;
         if (x?.SteamID != null && x!.SteamID != 0)
         {
+            if (ValidateCallerPlayer(x, false) == false) return;
             switch (targetTeam)
             {
                 case CsTeam.Spectator:
                     x.CommitSuicide(false, true);
-                    AddTimer(0.3f, () => x.SwitchTeam(targetTeam));
+                    AddTimer(0.3f, () =>
+                    {
+                        if (ValidateCallerPlayer(x, false) == false) return;
+                        x.SwitchTeam(targetTeam);
+                    });
                     break;
 
                 case CsTeam.CounterTerrorist:
@@ -87,6 +92,7 @@ public partial class JailbreakExtras
                         Server.PrintToChatAll($"{Prefix} {CC.W}{x.PlayerName} CT banı olduğu için CT atılamadı!");
                         return;
                     }
+                    if (ValidateCallerPlayer(x, false) == false) return;
                     x.ChangeTeam(targetTeam);
                     break;
 
@@ -95,6 +101,7 @@ public partial class JailbreakExtras
                     {
                         RemoveWardenAction(x);
                     }
+                    if (ValidateCallerPlayer(x, false) == false) return;
                     x.ChangeTeam(targetTeam); break;
 
                 default: break;
