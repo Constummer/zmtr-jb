@@ -10,25 +10,31 @@ public partial class JailbreakExtras
     {
         if (ValidateCallerPlayer(player, false) == false) return;
         var teamTGMenu = new ChatMenu("Team Games Menü | Takımlı");
-        foreach (var item in MultiTGGamesMenu)
+        foreach (var item in MultiTGGamesMenu.OrderBy(x => x.Disabled))
         {
             teamTGMenu.AddMenuOption(item.Text, (p, i) =>
             {
                 if (ValidateCallerPlayer(player, false) == false) return;
                 if (ValidateCallerPlayer(p, false) == false) return;
-                var @base = GetTeamGameBase(item.MultiChoice);
-                if (@base == null)
+                ActiveTeamGamesGameBase = GetTeamGameBase(item.MultiChoice);
+                if (ActiveTeamGamesGameBase == null)
                 {
                     player.PrintToChat($"{Prefix} {CC.W}{item.Text} takimli oyununda bir problem var, admin ile gorusmelisin.");
                     return;
                 }
-                @base.StartGame(() =>
+                ActiveTeamGamesGameBase.GameName = item.Text;
+                BasicCountdown.CommandStartTextCountDown(this, $"{item.Text} takımlı oyunun başlamasına 3 saniye !");
+                TgTimer?.Kill();
+                TgTimer = AddTimer(3.0f, () =>
                 {
-                    TakimYapAction(2);
-                    AddTimer(3f, () =>
+                    if (ValidateCallerPlayer(player, false) == false) return;
+                    if (ActiveTeamGamesGameBase == null) return;
+
+                    TgActive = true;
+                    ActiveTeamGamesGameBase.StartGame(() =>
                     {
-                        if (ValidateCallerPlayer(player, false) == false) return;
-                        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}{item.Text} takimlı oyununu başlattı.");
+                        TakimYapAction(2);
+                        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}{item.Text} takımlı oyununu başlattı.");
                     });
                 });
             }, item.Disabled);

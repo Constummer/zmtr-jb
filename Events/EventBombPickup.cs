@@ -4,11 +4,11 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private void EventEntityKilled()
+    private void EventBombPickup()
     {
-        RegisterEventHandler<EventEntityKilled>((@event, _) =>
+        RegisterEventHandler<EventBombPickup>((@event, _) =>
         {
-            ActiveTeamGamesGameBase?.EventEntityKilled(@event);
+            ActiveTeamGamesGameBase?.EventBombPickup(@event);
             return HookResult.Continue;
         });
     }

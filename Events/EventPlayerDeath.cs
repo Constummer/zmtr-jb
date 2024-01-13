@@ -91,7 +91,7 @@ public partial class JailbreakExtras
                 }
             }
             LRPlayerDeath(@event.Attacker, @event.Userid);
-
+            ActiveTeamGamesGameBase?.EventPlayerDeath(@event);
             return HookResult.Continue;
         }, HookMode.Pre);
     }

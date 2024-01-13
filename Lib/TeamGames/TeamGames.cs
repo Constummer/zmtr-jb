@@ -7,8 +7,6 @@ public partial class JailbreakExtras
 {
     private void InitializeTG(CCSPlayerController player)
     {
-        TgActive = true;
-
         var tgMenu = new ChatMenu("Team Games Menü | Oyunlar Seçimi");
 
         tgMenu.AddMenuOption("Takımlı", TeamedTeamGamesMenu);

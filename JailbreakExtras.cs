@@ -16,6 +16,7 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
         _httpClient = new HttpClient();
     }
 
+    public static JailbreakExtras Global;
     private int ModuleConfigVersion => 9;
 
     private static readonly Random _random = new Random();
@@ -38,6 +39,7 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
 
     public override void Load(bool hotReload)
     {
+        Global = this;
         //!!!!DO NOT CHANGE ORDER OF CALLS IN THIS METHOD !!!!!
 
         #region System Releated

@@ -17,5 +17,6 @@ public partial class JailbreakExtras
         EventWeaponZoom();
         EventWeaponFire();
         EventEntityKilled();
+        EventBombDropped();
     }
 }

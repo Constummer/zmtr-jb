@@ -166,13 +166,15 @@ public partial class JailbreakExtras
         }
     }
 
-    private static bool GetTargetAction(CCSPlayerController x, string target, string self)
+    internal static bool GetTargetAction(CCSPlayerController x, string target, string self)
     {
         var targetArgument = GetTargetArgument(target);
 
         return targetArgument switch
         {
             TargetForArgument.All => true,
+            TargetForArgument.Alive => x.PawnIsAlive == true,
+            TargetForArgument.Dead => x.PawnIsAlive == false,
             TargetForArgument.T => GetTeam(x) == CsTeam.Terrorist,
             TargetForArgument.Ct => GetTeam(x) == CsTeam.CounterTerrorist,
             TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target) ?? false,

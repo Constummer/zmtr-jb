@@ -34,9 +34,7 @@ public partial class JailbreakExtras
             }
             else
             {
-                SinirsizXTimer?.Kill();
-                SinirsizXTimer = null;
-                SinirsizXTimer = GiveSinirsizCustomNade(1, SinirsizXTimer, $"weapon_{weapon}", target, player.PlayerName);
+                SinirsizXAction(player.PlayerName, target, weapon);
                 Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.Ol}{target}{CC.W} hedefine {CC.P}{weapon} {CC.W} silahıyla {CC.DB}SMX{CC.W} başlattı.");
             }
         }
@@ -47,6 +45,13 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.G} Örnek = !smx @all ssg08.");
             return;
         }
+    }
+
+    public void SinirsizXAction(string? playerName, string? target, string? weapon)
+    {
+        SinirsizXTimer?.Kill();
+        SinirsizXTimer = null;
+        SinirsizXTimer = GiveSinirsizCustomNade(1, SinirsizXTimer, $"weapon_{weapon}", target, playerName);
     }
 
     #endregion SinirsizX

@@ -13,24 +13,30 @@ public partial class JailbreakExtras
         if (ValidateCallerPlayer(player, false) == false) return;
         var soloTGMenu = new ChatMenu("Team Games Menü | Herkes Tek");
 
-        foreach (var item in SoloTGGamesMenu)
+        foreach (var item in SoloTGGamesMenu.OrderBy(x => x.Disabled))
         {
             soloTGMenu.AddMenuOption(item.Text, (p, i) =>
             {
                 if (ValidateCallerPlayer(player, false) == false) return;
                 if (ValidateCallerPlayer(p, false) == false) return;
-                var @base = GetTeamGameBase(item.SoloChoice);
-                if (@base == null)
+                ActiveTeamGamesGameBase = GetTeamGameBase(item.SoloChoice);
+                if (ActiveTeamGamesGameBase == null)
                 {
                     player.PrintToChat($"{Prefix} {CC.W}{item.Text} tekli oyununda bir problem var, admin ile gorusmelisin.");
                     return;
                 }
-                @base.StartGame(() =>
+                ActiveTeamGamesGameBase.GameName = item.Text;
+                BasicCountdown.CommandStartTextCountDown(this, $"{item.Text} tekli oyunun başlamasına 3 saniye !");
+                TgTimer?.Kill();
+                TgTimer = AddTimer(3.0f, () =>
                 {
-                    SetRedColorForTeamGames();
-                    AddTimer(3f, () =>
+                    if (ValidateCallerPlayer(player, false) == false) return;
+                    if (ActiveTeamGamesGameBase == null) return;
+
+                    TgActive = true;
+                    ActiveTeamGamesGameBase.StartGame(() =>
                     {
-                        if (ValidateCallerPlayer(player, false) == false) return;
+                        SetRedColorForTeamGames();
                         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}{item.Text} tekli oyununu başlattı.");
                     });
                 });

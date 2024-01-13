@@ -5,6 +5,8 @@ namespace JailbreakExtras;
 public partial class JailbreakExtras
 {
     private bool TgActive = false;
+    public CounterStrikeSharp.API.Modules.Timers.Timer TgTimer { get; set; } = null;
+    public static TeamGamesGameBase? ActiveTeamGamesGameBase { get; set; } = null;
 
     public enum TeamGamesSoloChoices
     {
@@ -66,10 +68,10 @@ public partial class JailbreakExtras
     {
         new ("Chicken Hunt",      true,  null, TeamGamesSoloChoices.ChickenHunt),
         new ("Hot Patato",        true,  null, TeamGamesSoloChoices.HotPatato),
-        new ("Chicken Roulette",  true,  null, TeamGamesSoloChoices.ChickenRoulette),
+        new ("Chicken Roulette",  false,  null, TeamGamesSoloChoices.ChickenRoulette),
         new ("Gun Fight",         true,  null, TeamGamesSoloChoices.GunFight),
-        new ("HeadShot Only",     true,  null, TeamGamesSoloChoices.HeadShotOnly),
-        new ("Knife Fight",       true,  null, TeamGamesSoloChoices.KnifeFight),
+        new ("HeadShot Only",     false,  null, TeamGamesSoloChoices.HeadShotOnly),
+        new ("Knife Fight",       false,  null, TeamGamesSoloChoices.KnifeFight),
         new ("No Zoom",           true,  null, TeamGamesSoloChoices.NoZoom),
         new ("Pistol Zoom Battle",true,  null, TeamGamesSoloChoices.PistolZoomBattle),
         new ("Reload Battle",     true,  null, TeamGamesSoloChoices.ReloadBattle),
@@ -83,10 +85,10 @@ public partial class JailbreakExtras
     public List<TGBaseClass> MultiTGGamesMenu { get; set; } = new()
     {
         new ("Chiken Hucnt",      true,  TeamGamesMultiChoices.ChickenHunt),
-        new ("Chicken Roulette",  true,  TeamGamesMultiChoices.ChickenRoulette),
+        new ("Chicken Roulette",  false,  TeamGamesMultiChoices.ChickenRoulette),
         new ("Gun Fight",         true,  TeamGamesMultiChoices.GunFight),
-        new ("HeadShot Only",     true,  TeamGamesMultiChoices.HeadShotOnly),
-        new ("Knife Fight",       true,  TeamGamesMultiChoices.KnifeFight),
+        new ("HeadShot Only",     false,  TeamGamesMultiChoices.HeadShotOnly),
+        new ("Knife Fight",       false,  TeamGamesMultiChoices.KnifeFight),
         new ("No Zoom",           true,  TeamGamesMultiChoices.NoZoom),
         new ("Pistol Zoom Battle",true,  TeamGamesMultiChoices.PistolZoomBattle),
         new ("Reload Battle",     true,  TeamGamesMultiChoices.ReloadBattle),

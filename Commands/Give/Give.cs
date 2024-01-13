@@ -22,22 +22,30 @@ public partial class JailbreakExtras
         var target = info.GetArg(1);
         var weapon = info.GetArg(2);
         var targetArgument = GetTargetArgument(target);
-        GetPlayers()
-               .Where(x => x.PawnIsAlive
-                          && GetTargetAction(x, target, player.PlayerName))
-               .ToList()
-               .ForEach(x =>
-               {
-                   if (targetArgument == TargetForArgument.None)
-                   {
-                       Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}{weapon} {CC.W}adlı silahı verdi.");
-                   }
-                   x.GiveNamedItem($"weapon_{weapon}");
-               });
+        GiveAction(player.PlayerName, target, weapon, targetArgument, true);
         if (targetArgument != TargetForArgument.None)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefine {CC.B}{weapon} {CC.W}adlı silahı verdi.");
         }
+    }
+
+    internal static void GiveAction(string playerName, string target, string weapon, TargetForArgument targetArgument, bool sendMsg)
+    {
+        GetPlayers()
+               .Where(x => x.PawnIsAlive
+                          && GetTargetAction(x, target, playerName))
+               .ToList()
+               .ForEach(x =>
+               {
+                   if (sendMsg)
+                   {
+                       if (targetArgument == TargetForArgument.None)
+                       {
+                           Server.PrintToChatAll($"{AdliAdmin(playerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}{weapon} {CC.W}adlı silahı verdi.");
+                       }
+                   }
+                   x.GiveNamedItem($"weapon_{weapon}");
+               });
     }
 
     [ConsoleCommand("weapon", "Silah Verir")]

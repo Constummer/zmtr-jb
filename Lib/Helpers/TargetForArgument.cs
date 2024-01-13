@@ -2,7 +2,7 @@
 
 public partial class JailbreakExtras
 {
-    private enum TargetForArgument
+    internal enum TargetForArgument
     {
         None,
         All,

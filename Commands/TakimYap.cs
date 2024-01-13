@@ -76,6 +76,18 @@ public partial class JailbreakExtras
         TeamSteamIds.Clear();
     }
 
+    private static (string? Msg, Color Color) FindTeam(ulong steamID)
+    {
+        foreach (var team in TeamSteamIds)
+        {
+            if (team.Value.Contains(steamID))
+            {
+                return GetTeamColorAndTextByIndex(team.Key);
+            }
+        }
+        return (null, Color.Black);
+    }
+
     private void TakimYapAction(int chunk)
     {
         TeamActive = true;
