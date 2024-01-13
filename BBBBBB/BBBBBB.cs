@@ -80,16 +80,25 @@ public class BBBB : BasePlugin
 
         if (IsCt(player))
         {
-            // if(config.ct_guns)
+            if (player == null || !IsValidAlive(player))
             {
-                player.GiveNamedItem("weapon_deagle");
-                player.GiveNamedItem("weapon_m4a1");
+                return;
             }
+            // if(config.ct_guns)
+
+            player.GiveNamedItem("weapon_deagle");
+            if (player == null || !IsValidAlive(player))
+            {
+                return;
+            }
+            player.GiveNamedItem("weapon_m4a1");
 
             // if(config.ct_armour)
+            if (player == null || !IsValidAlive(player))
             {
-                player.GiveNamedItem("item_assaultsuit");
+                return;
             }
+            player.GiveNamedItem("item_assaultsuit");
         }
     }
 
