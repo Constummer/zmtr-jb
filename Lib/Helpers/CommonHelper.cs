@@ -3,7 +3,6 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Utils;
 using System.Drawing;
-using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
 
@@ -13,6 +12,7 @@ public partial class JailbreakExtras
     {
         return Utilities.GetPlayers()
              .Where(x => ValidateCallerPlayer(x, false)
+                         && (GetTeam(x) == CsTeam.Terrorist || GetTeam(x) == CsTeam.CounterTerrorist)
                          && (team.HasValue ? team.Value == GetTeam(x) : true));
     }
 
@@ -64,21 +64,21 @@ public partial class JailbreakExtras
         return player != null && player.IsValid && player.PlayerPawn.IsValid;
     }
 
-    private static bool ValidateCallerPlayer(CCSPlayerController? player, bool checkPermission = true, bool printMsg = true)
+    private static bool ValidateCallerPlayer(CCSPlayerController? x, bool checkPermission = true, bool printMsg = true)
     {
-        if (is_valid(player) == false)
+        if (is_valid(x) == false)
         {
             return false;
         }
 
-        if (player == null) return false;
+        if (x == null) return false;
         if (checkPermission)
         {
-            if (CheckPermission(player) == false)
+            if (CheckPermission(x) == false)
             {
                 if (printMsg)
                 {
-                    player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+                    x.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
                 }
                 return false;
             }
@@ -96,13 +96,16 @@ public partial class JailbreakExtras
         //    return false;
         //}
         //if (player.AuthorizedSteamID.IsValid() == false) return false;//todo chjeck
-        if (player.IsBot) return false;
-        if (player.Connected == PlayerConnectedState.PlayerConnected
-            && player.Index != 32767
-            && !player.IsHLTV
+        if (x.IsBot) return false;
+        if (x.Connected == PlayerConnectedState.PlayerConnected
+            && x.Index != 32767
+            && !x.IsHLTV
             //&& player.Pawn?.Value != null
             )
-            return true;
+            if ((GetTeam(x) == CsTeam.Terrorist || GetTeam(x) == CsTeam.CounterTerrorist))
+            {
+                return true;
+            }
         return false;
     }
 
