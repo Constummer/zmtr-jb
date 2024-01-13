@@ -1,6 +1,7 @@
 ﻿using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
+using System.Globalization;
 
 namespace JailbreakExtras;
 
@@ -169,7 +170,7 @@ public partial class JailbreakExtras
                 }
                 var calcRemainTime = CalculateMinutesUntilSundayMidnight();
 
-                if (calcRemainTime > 2 || calcRemainTime < 10075)
+                if (calcRemainTime > 1)
                 {
                     List<MySqlParameter> parameters = new List<MySqlParameter>();
 
@@ -225,38 +226,78 @@ public partial class JailbreakExtras
                 }
                 else
                 {
-                    if (con == null)
-                    {
-                        return;
-                    }
-
-                    PlayerTime data = null;
-                    var cmd = new MySqlCommand(@$"SELECT `Total`,`CTTime`,`TTime`,`WTime`,`WeeklyWTime`,`SteamId`
-                                          FROM `PlayerTime`;", con);
-
+                    var cmd = new MySqlCommand(@$"SELECT `SteamId`,`WeeklyWTime` FROM `PlayerTime`;", con);
+                    var dic = new Dictionary<long, int>();
                     using (var reader = cmd.ExecuteReader())
                     {
                         while (reader.Read())
                         {
-                            data = new PlayerTime(
-                               reader.IsDBNull(0) ? 0 : reader.GetInt32(0),
-                               reader.IsDBNull(1) ? 0 : reader.GetInt32(1),
-                               reader.IsDBNull(2) ? 0 : reader.GetInt32(2),
-                               reader.IsDBNull(3) ? 0 : reader.GetInt32(3),
-                               reader.IsDBNull(4) ? 0 : reader.GetInt32(4));
-                            var steamid = reader.IsDBNull(5) ? 0 : reader.GetInt64(5);
+                            var steamid = reader.IsDBNull(0) ? 0 : reader.GetInt64(0);
+                            var time = reader.IsDBNull(1) ? 0 : reader.GetInt32(1);
                             if (steamid != 0)
                             {
-                                if (PlayerTimeTracking.ContainsKey((ulong)steamid) == false)
+                                if (dic.TryGetValue(steamid, out var oldtime))
                                 {
-                                    PlayerTimeTracking.Add((ulong)steamid, data);
+                                    if (oldtime > time)
+                                    {
+                                        dic[steamid] = oldtime;
+                                    }
+                                    else
+                                    {
+                                        dic[steamid] = time;
+                                    }
                                 }
                                 else
                                 {
-                                    PlayerTimeTracking[(ulong)steamid] = data;
+                                    dic.Add(steamid, time);
                                 }
                             }
                         }
+                    }
+
+                    if (dic.Count == 0)
+                    {
+                        return;
+                    }
+                    List<MySqlParameter> parameters = new List<MySqlParameter>();
+                    var weekno = GetIso8601WeekOfYear(DateTime.UtcNow.AddHours(3));
+                    var cmdText = "";
+                    var i = 0;
+
+                    dic.ToList()
+                     .ForEach(x =>
+                     {
+                         cmdText += @$"UPDATE `PlayerTime`
+                                         SET `WeeklyWTime` = 0
+                                        WHERE `SteamId` = @SteamId_{i};
+
+                               INSERT INTO `PlayerWeeklyWTime`
+                                          (`SteamId`,`WTime`,`WeekNo`)
+                                          VALUES
+                                          (@SteamId_{i},@WTime_{i}, @WeekNo);";
+                         parameters.Add(new MySqlParameter($"@SteamId_{i}", x.Key));
+                         parameters.Add(new MySqlParameter($"@WTime_{i}", x.Value));
+                         parameters.Add(new MySqlParameter($"@WeekNo", weekno));
+
+                         i++;
+                     });
+                    if (string.IsNullOrWhiteSpace(cmdText))
+                    {
+                        return;
+                    }
+                    cmd = new MySqlCommand(cmdText, con);
+                    cmd.Parameters.AddRange(parameters.ToArray());
+                    cmd.ExecuteNonQuery();
+
+                    foreach (var item in AllPlayerTimeTracking.ToList())
+                    {
+                        item.Value.WeeklyWTime = 0;
+                        AllPlayerTimeTracking[item.Key] = item.Value;
+                    }
+                    foreach (var item in PlayerTimeTracking.ToList())
+                    {
+                        item.Value.WeeklyWTime = 0;
+                        PlayerTimeTracking[item.Key] = item.Value;
                     }
                 }
             }
@@ -265,5 +306,20 @@ public partial class JailbreakExtras
         {
             Logger.LogError(e, "hata");
         }
+    }
+
+    public static int GetIso8601WeekOfYear(DateTime dt)
+    {
+        ///If its Monday, Tuesday or Wednesday, then it'll
+        // be the same week# as whatever Thursday, Friday or Saturday are,
+        // and we always get those right
+        DayOfWeek day = CultureInfo.InvariantCulture.Calendar.GetDayOfWeek(dt);
+        if (day >= DayOfWeek.Monday && day <= DayOfWeek.Wednesday)
+        {
+            dt = dt.AddDays(3);
+        }
+
+        // Return the week of our adjusted day
+        return CultureInfo.InvariantCulture.Calendar.GetWeekOfYear(dt, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
     }
 }

@@ -6,7 +6,7 @@ public partial class JailbreakExtras
 {
     internal void EventPlayerHurt()
     {
-        RegisterEventHandler((GameEventHandler<EventPlayerHurt>)((@event, info) =>
+        RegisterEventHandler<EventPlayerHurt>((@event, info) =>
         {
             if (@event == null)
                 return HookResult.Continue;
@@ -44,6 +44,6 @@ public partial class JailbreakExtras
             }
 
             return HookResult.Continue;
-        }), HookMode.Post);
+        }, HookMode.Post);
     }
 }

@@ -9,7 +9,7 @@ public partial class JailbreakExtras
 {
     private void EventPlayerSpawn()
     {
-        RegisterEventHandler((GameEventHandler<EventPlayerSpawn>)((@event, _) =>
+        RegisterEventHandler<EventPlayerSpawn>((@event, _) =>
         {
             if (@event == null)
                 return HookResult.Continue;
@@ -42,15 +42,6 @@ public partial class JailbreakExtras
                                 }
                             });
                     }
-                }
-                if (GetTeam(x) == CsTeam.CounterTerrorist)
-                {
-                    //AddTimer(1f, () =>
-                    //{
-                    //x.GiveNamedItem("item_assaultsuit");
-                    //x.GiveNamedItem("weapon_deagle");
-                    //x.GiveNamedItem("weapon_m4a1");
-                    //});
                 }
                 AddTimer(0.5f, () =>
                 {
@@ -108,7 +99,7 @@ public partial class JailbreakExtras
                 });
             }
             return HookResult.Continue;
-        }));
+        });
     }
 
     private static void GiveRandomSkin(CCSPlayerController? x)
