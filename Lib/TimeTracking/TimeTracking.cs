@@ -1,7 +1,12 @@
-﻿using CounterStrikeSharp.API.Modules.Utils;
+﻿using CounterStrikeSharp.API.Modules.Entities;
+using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
 using System.Globalization;
+using System.Net.Http.Headers;
+using System.Net.Http.Json;
+using System.Text;
+using System.Text.Json;
 
 namespace JailbreakExtras;
 
@@ -288,6 +293,7 @@ public partial class JailbreakExtras
                     cmd.Parameters.AddRange(parameters.ToArray());
                     cmd.ExecuteNonQuery();
 
+                    SendWarningForLessThan7HrsAWeekKomutcu(dic);
                     foreach (var item in AllPlayerTimeTracking.ToList())
                     {
                         item.Value.WeeklyWTime = 0;
@@ -304,6 +310,58 @@ public partial class JailbreakExtras
         catch (Exception e)
         {
             Logger.LogError(e, "hata");
+        }
+    }
+
+    private void SendWarningForLessThan7HrsAWeekKomutcu(Dictionary<long, int> dic)
+    {
+        var url = "https://discord.com/api/webhooks/1194758709344215090/-XRiPj35x-KTHRtAyWlB5i1I16lFylHl_17we6SOS5HbYY5JCFPQYiOjYot6trvQiUcR";
+        var msg = string.Empty;
+        foreach (var item in dic.ToList())
+        {
+            try
+            {
+                var tempName = PlayerNamesDatas.TryGetValue((ulong)item.Key, out var name) != false
+                              ? name : "-----(ismi net deil)";
+                if (msg == string.Empty)
+                {
+                    msg = $"PlayerName = {tempName} | SteamId = {item.Key} | Haftalık = {item.Value} dk";
+                }
+                else
+                {
+                    msg += $"\nPlayerName = {tempName} | SteamId = {item.Key} | Haftalık = {item.Value} dk";
+                }
+            }
+            catch
+            {
+                continue;
+            }
+        }
+        int maxLengthPerRequest = 1999;
+
+        // Call the method with substrings of the long string
+        for (int i = 0; i < msg.Length; i += maxLengthPerRequest)
+        {
+            int length = Math.Min(maxLengthPerRequest, msg.Length - i);
+            string substring = msg.Substring(i, length);
+
+            // Call your method with the substring
+            DiscordPost(url, substring);
+        }
+    }
+
+    private void DiscordPost(string uri, string message)
+    {
+        try
+        {
+            var body = JsonSerializer.Serialize(new { content = message });
+            var content = new StringContent(body, Encoding.UTF8, "application/json");
+            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
+
+            HttpResponseMessage res = _httpClient.PostAsync($"{uri}", content).GetAwaiter().GetResult().EnsureSuccessStatusCode();
+        }
+        catch
+        {
         }
     }
 
