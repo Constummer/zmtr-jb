@@ -1,18 +1,16 @@
-﻿using CounterStrikeSharp.API.Modules.Entities;
-using JailbreakExtras.Lib.Database.Models;
-using Microsoft.Extensions.Logging;
+﻿using Microsoft.Extensions.Logging;
 using MySqlConnector;
 
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private MySqlConnection? Connection()
+    private static MySqlConnection? Connection()
     {
         try
         {
             MySqlConnection? database = new MySqlConnection(
-                $"Server={Config.Database.Server};User ID={Config.Database.Username};Password={Config.Database.Password};Database={Config.Database.Database};Port={Config.Database.Port}");
+                $"Server={_Config.Database.Server};User ID={_Config.Database.Username};Password={_Config.Database.Password};Database={_Config.Database.Database};Port={_Config.Database.Port}");
 
             database.Open();
 

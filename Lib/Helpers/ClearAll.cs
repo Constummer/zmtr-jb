@@ -43,7 +43,7 @@ public partial class JailbreakExtras
         ClearLasers();
     }
 
-    private void ClearOnDisconnect(ulong steamId, int? userId)
+    private static void ClearOnDisconnect(ulong steamId, int? userId)
     {
         _ = ActiveGodMode?.Remove(steamId, out _);
         _ = DeathLocations?.Remove(steamId, out _);
@@ -61,10 +61,8 @@ public partial class JailbreakExtras
         {
             RemoveGivenParachute(userId.Value);
         }
-        Task.Run(async () =>
-        {
-            await UpdatePlayerMarketData(steamId);
-        });
+        UpdatePlayerMarketData(steamId);
+
         _ = PlayerSteamGroup?.RemoveAll(x => x == steamId);
         _ = SpeedoMeterActive?.RemoveAll(x => x == steamId);
         _ = LevelTagDisabledPlayers?.RemoveAll(x => x == steamId);

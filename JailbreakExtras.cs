@@ -1,5 +1,6 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
+using CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Utils;
 using static JailbreakExtras.JailbreakExtras;
 
@@ -45,7 +46,11 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
         CreateDataFolder();
         Database();
         LoadPlayerModels();
-        //Task.Run(() => { SharedMemoryConsumer.StartListenerData(); });
+        //Task.Run(() => {; });
+        AddTimer(0.1f, () =>
+        {
+            QueueConsumer.StartConsumeOnConnect();
+        }, TimerFlags.REPEAT);
 
         #endregion System Releated
 

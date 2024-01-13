@@ -7,7 +7,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private List<ulong> SpeedoMeterActive = new List<ulong>();
+    private static List<ulong> SpeedoMeterActive = new List<ulong>();
 
     #region SpeedoMeter
 

@@ -143,7 +143,7 @@ public partial class JailbreakExtras
         return;
     }
 
-    private bool BanCheck(ulong steamId)
+    private static bool BanCheck(ulong steamId)
     {
         if (Bans.TryGetValue(steamId, out var call))
         {

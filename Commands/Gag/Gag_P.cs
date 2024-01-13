@@ -87,7 +87,7 @@ public partial class JailbreakExtras
         }
     }
 
-    private void GetPGagData(ulong steamID)
+    private static void GetPGagData(ulong steamID)
     {
         try
         {
@@ -112,7 +112,6 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Logger.LogError(e, "hata");
         }
     }
 

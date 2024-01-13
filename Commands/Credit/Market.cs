@@ -291,7 +291,7 @@ public partial class JailbreakExtras
         return modelId;
     }
 
-    private async Task<PlayerMarketModel?> GetPlayerMarketData(ulong steamID)
+    private static PlayerMarketModel? GetPlayerMarketData(ulong steamID)
     {
         if (PlayerMarketModels == null)
         {
@@ -322,7 +322,7 @@ public partial class JailbreakExtras
                 WHERE `SteamId` = @SteamId", con);
                 cmd.Parameters.AddWithValue("@SteamId", steamID);
 
-                using (var reader = await cmd.ExecuteReaderAsync())
+                using (var reader = cmd.ExecuteReader())
                 {
                     if (reader.Read())
                     {
@@ -342,7 +342,7 @@ public partial class JailbreakExtras
                     (`SteamId`)
                 VALUES (@SteamId)", con);
                     cmd.Parameters.AddWithValue("@SteamId", steamID);
-                    await cmd.ExecuteNonQueryAsync();
+                    cmd.ExecuteNonQuery();
 
                     data = new(steamID);
                 }
@@ -353,12 +353,12 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Logger.LogInformation(e, "hata");
+            Console.WriteLine(e.Message);
         }
         return null;
     }
 
-    private async Task UpdatePlayerMarketData(ulong steamID)
+    private static void UpdatePlayerMarketData(ulong steamID)
     {
         var data = GetPlayerMarketModel(steamID);
         if (data.Model == null) return;
@@ -375,7 +375,7 @@ public partial class JailbreakExtras
                 var cmd = new MySqlCommand(@$"SELECT 1 FROM `PlayerMarketModel` WHERE `SteamId` = @SteamId;", con);
                 cmd.Parameters.AddWithValue("@SteamId", steamID);
                 bool exist = false;
-                using (var reader = await cmd.ExecuteReaderAsync())
+                using (var reader = cmd.ExecuteReader())
                 {
                     if (reader.Read())
                     {
@@ -400,7 +400,7 @@ public partial class JailbreakExtras
                     cmd.Parameters.AddWithValue("@DefaultIdT", data.Model.DefaultIdT.GetDbValue());
                     cmd.Parameters.AddWithValue("@Credit", data.Model.Credit.GetDbValue());
 
-                    await cmd.ExecuteNonQueryAsync();
+                    cmd.ExecuteNonQuery();
                 }
                 else
                 {
@@ -416,17 +416,16 @@ public partial class JailbreakExtras
                     cmd.Parameters.AddWithValue("@DefaultIdT", data.Model.DefaultIdT.GetDbValue());
                     cmd.Parameters.AddWithValue("@Credit", data.Model.Credit.GetDbValue());
 
-                    await cmd.ExecuteNonQueryAsync();
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
         catch (Exception e)
         {
-            Logger.LogError(e, "hata");
         }
     }
 
-    private (PlayerMarketModel Model, bool ChooseRandom) GetPlayerMarketModel(ulong? steamId)
+    private static (PlayerMarketModel Model, bool ChooseRandom) GetPlayerMarketModel(ulong? steamId)
     {
         bool chooseRandom = false;
         PlayerMarketModel? data = null;
@@ -451,7 +450,7 @@ public partial class JailbreakExtras
         }
         else if (res == false)
         {
-            data = GetPlayerMarketData(steamId.Value).GetAwaiter().GetResult();
+            data = GetPlayerMarketData(steamId.Value);
             if (data != null)
             {
                 PlayerMarketModels[steamId.Value] = data;
@@ -500,10 +499,7 @@ public partial class JailbreakExtras
         {
             if (player?.SteamID != null && player!.SteamID != 0)
             {
-                Task.Run(async () =>
-                {
-                    await UpdatePlayerMarketData(player!.SteamID);
-                });
+                UpdatePlayerMarketData(player!.SteamID);
             }
         }
     }

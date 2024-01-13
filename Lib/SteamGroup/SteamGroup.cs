@@ -11,7 +11,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private readonly List<ulong> PlayerSteamGroup = new();
+    private static readonly List<ulong> PlayerSteamGroup = new();
 
     private bool OnSteamGroupPlayerChat(CCSPlayerController? player, string arg)
     {
@@ -39,9 +39,9 @@ public partial class JailbreakExtras
         return false;
     }
 
-    private bool CheckPlayerGroups(ulong steamId)
+    private static bool CheckPlayerGroups(ulong steamId)
     {
-        if (Config.SteamGroup.SteamApiKey == "-" || Config.SteamGroup.SteamGroupId == "-")
+        if (_Config.SteamGroup.SteamApiKey == "-" || _Config.SteamGroup.SteamGroupId == "-")
             return false;
 
         if (PlayerSteamGroup.Contains(steamId))
@@ -50,7 +50,7 @@ public partial class JailbreakExtras
         }
         else
         {
-            string apiUrl = $"https://api.steampowered.com/ISteamUser/GetUserGroupList/v1/?key={Config.SteamGroup.SteamApiKey}&steamid={steamId}";
+            string apiUrl = $"https://api.steampowered.com/ISteamUser/GetUserGroupList/v1/?key={_Config.SteamGroup.SteamApiKey}&steamid={steamId}";
 
             try
             {
@@ -69,7 +69,7 @@ public partial class JailbreakExtras
                             {
                                 string? groupId = group.GetProperty("gid").GetString();
 
-                                if (groupId == Config.SteamGroup.SteamGroupId)
+                                if (groupId == _Config.SteamGroup.SteamGroupId)
                                 {
                                     PlayerSteamGroup.Add(steamId);
                                     return true;
@@ -83,8 +83,6 @@ public partial class JailbreakExtras
             }
             catch (Exception e)
             {
-                Logger.LogError(e, "hata");
-
                 return false;
             }
         }

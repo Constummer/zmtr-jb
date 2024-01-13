@@ -7,8 +7,8 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private readonly Dictionary<int?, CBaseEntity?> gParaModel = new();
-    private readonly Vector PARA_Vector = new Vector(4497, 4261, -1880);
+    private static readonly Dictionary<int?, CBaseEntity?> gParaModel = new();
+    private static readonly Vector PARA_Vector = new Vector(4497, 4261, -1880);
 
     private void ParachuteOnTick(CCSPlayerController player, int i)
     {
@@ -113,23 +113,23 @@ public partial class JailbreakExtras
         }
     }
 
-    private void RemoveGivenParachute(int userId)
+    private static void RemoveGivenParachute(int userId)
     {
         if (gParaModel.ContainsKey(userId) && gParaModel[userId] != null && gParaModel[userId].IsValid)
         {
-            _ = AddTimer(0.1f, () =>
-               {
-                   if (gParaModel.ContainsKey(userId))
-                   {
-                       if (gParaModel[userId] != null && gParaModel[userId].IsValid == true)
-                       {
-                           gParaModel[userId].Teleport(PARA_Vector, ANGLE_ZERO, VEC_ZERO);
-                           gParaModel[userId].Remove();
-                           gParaModel[userId] = null;
-                           gParaModel.Remove(userId);
-                       }
-                   }
-               });
+            //_ = AddTimer(0.1f, () =>
+            //{
+            if (gParaModel.ContainsKey(userId))
+            {
+                if (gParaModel[userId] != null && gParaModel[userId].IsValid == true)
+                {
+                    gParaModel[userId].Teleport(PARA_Vector, ANGLE_ZERO, VEC_ZERO);
+                    gParaModel[userId].Remove();
+                    gParaModel[userId] = null;
+                    gParaModel.Remove(userId);
+                }
+            }
+            //});
         };
     }
 }

@@ -7,8 +7,8 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    public Dictionary<ulong, PlayerTime> PlayerTimeTracking { get; set; } = new();
-    public Dictionary<ulong, PlayerTime> AllPlayerTimeTracking { get; set; } = new();
+    public static Dictionary<ulong, PlayerTime> PlayerTimeTracking { get; set; } = new();
+    public static Dictionary<ulong, PlayerTime> AllPlayerTimeTracking { get; set; } = new();
 
     public class PlayerTime
     {
@@ -94,7 +94,7 @@ public partial class JailbreakExtras
         }
     }
 
-    private void InsertAndGetTimeTrackingData(ulong steamID)
+    private static void InsertAndGetTimeTrackingData(ulong steamID)
     {
         try
         {
@@ -154,7 +154,6 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Logger.LogError(e, "hata");
         }
     }
 

@@ -13,10 +13,10 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private Dictionary<ulong, PlayerLevel> PlayerLevels = new();
+    private static Dictionary<ulong, PlayerLevel> PlayerLevels = new();
     private Dictionary<int, string> LevelPermissions = new();
     private Dictionary<string, int> LevelPermissionsChecker = new();
-    private List<ulong> LevelTagDisabledPlayers = new();
+    private static List<ulong> LevelTagDisabledPlayers = new();
 
     //++ biri sunucuya girince dbye bakilcak kaydi var mi diye, varsa playerLevels modeline eklenecek
     //++ yoksa player !seviyeal, !slotol gibi bisi yazana kadar playerLevels'e eklenmicek, yazinca database e kaydi atilcak
@@ -185,7 +185,7 @@ public partial class JailbreakExtras
         }
     }
 
-    private void InsertAndGetPlayerLevelData(ulong steamId, bool mustExist = false, string playerName = null)
+    private static void InsertAndGetPlayerLevelData(ulong steamId, bool mustExist = false, string playerName = null)
     {
         try
         {
@@ -233,7 +233,6 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Logger.LogError(e, "hata");
         }
     }
 
