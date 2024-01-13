@@ -54,7 +54,7 @@ public partial class JailbreakExtras
             .ToList()
             .ForEach((x) =>
             {
-                x.PrintToCenter($"{Prefix} {CC.W}{player.PlayerName} Komutçu oldu!");
+                x.PrintToCenter($"{Prefix} {CC.B}{player.PlayerName}{CC.W} Komutçu oldu!");
             });
     }
 

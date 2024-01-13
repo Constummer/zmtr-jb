@@ -117,19 +117,19 @@ public partial class JailbreakExtras
     {
         if (gParaModel.ContainsKey(userId) && gParaModel[userId] != null && gParaModel[userId].IsValid)
         {
-            //_ = AddTimer(0.1f, () =>
-            //{
-            if (gParaModel.ContainsKey(userId))
+            _ = Global?.AddTimer(0.1f, () =>
             {
-                if (gParaModel[userId] != null && gParaModel[userId].IsValid == true)
+                if (gParaModel.ContainsKey(userId))
                 {
-                    gParaModel[userId].Teleport(PARA_Vector, ANGLE_ZERO, VEC_ZERO);
-                    gParaModel[userId].Remove();
-                    gParaModel[userId] = null;
-                    gParaModel.Remove(userId);
+                    if (gParaModel[userId] != null && gParaModel[userId].IsValid == true)
+                    {
+                        gParaModel[userId].Teleport(PARA_Vector, ANGLE_ZERO, VEC_ZERO);
+                        gParaModel[userId].Remove();
+                        gParaModel[userId] = null;
+                        gParaModel.Remove(userId);
+                    }
                 }
-            }
-            //});
+            });
         };
     }
 }
