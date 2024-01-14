@@ -75,11 +75,11 @@ public partial class JailbreakExtras
         new ("No Zoom",           true,  null, TeamGamesSoloChoices.NoZoom),
         new ("Pistol Zoom Battle",true,  null, TeamGamesSoloChoices.PistolZoomBattle),
         new ("Reload Battle",     true,  null, TeamGamesSoloChoices.ReloadBattle),
-        new ("Taser Mania",       true,  null, TeamGamesSoloChoices.TaserMania),
-        new ("Weild West",        true,  null, TeamGamesSoloChoices.WildWest),
-        new ("He Grenades",       true,  null, TeamGamesSoloChoices.HeGrenades),
+        new ("Taser Mania",       false,  null, TeamGamesSoloChoices.TaserMania),
+        new ("Weild West",        false,  null, TeamGamesSoloChoices.WildWest),
+        new ("He Grenades",       false,  null, TeamGamesSoloChoices.HeGrenades),
         new ("Machines + 500HP",  true,  null, TeamGamesSoloChoices.Machines500HP),
-        new ("Coctail Part",      true,  null, TeamGamesSoloChoices.CoctailParty),
+        new ("Coctail Part",      false,  null, TeamGamesSoloChoices.CoctailParty),
     };
 
     public List<TGBaseClass> MultiTGGamesMenu { get; set; } = new()
@@ -92,10 +92,10 @@ public partial class JailbreakExtras
         new ("No Zoom",           true,  TeamGamesMultiChoices.NoZoom),
         new ("Pistol Zoom Battle",true,  TeamGamesMultiChoices.PistolZoomBattle),
         new ("Reload Battle",     true,  TeamGamesMultiChoices.ReloadBattle),
-        new ("Taser Mania",       true,  TeamGamesMultiChoices.TaserMania),
-        new ("Weild West",        true,  TeamGamesMultiChoices.WeildWest),
-        new ("He Grenades",       true,  TeamGamesMultiChoices.HeGrenades),
+        new ("Taser Mania",       false,  TeamGamesMultiChoices.TaserMania),
+        new ("Weild West",        false,  TeamGamesMultiChoices.WeildWest),
+        new ("He Grenades",       false,  TeamGamesMultiChoices.HeGrenades),
         new ("Machines + 500HP",  true,  TeamGamesMultiChoices.Machines500HP),
-        new ("Coctail Party",     true,  TeamGamesMultiChoices.CoctailParty)
+        new ("Coctail Party",     false,  TeamGamesMultiChoices.CoctailParty)
     };
 }

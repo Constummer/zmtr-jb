@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Modules.Utils;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
@@ -17,9 +18,12 @@ public partial class JailbreakExtras
             .ToList()
             .ForEach(x =>
             {
+                if (ValidateCallerPlayer(x, false) == false) return;
                 RemoveWeapons(x, false);
             });
+            Server.PrintToChatAll("1");
             Global?.SinirsizXAction(null, "@t", "incgrenade");
+            Server.PrintToChatAll("2");
             base.StartGame(callback);
         }
 
@@ -31,6 +35,7 @@ public partial class JailbreakExtras
            .ToList()
            .ForEach(x =>
            {
+               if (ValidateCallerPlayer(x, false) == false) return;
                RemoveWeapons(x, true);
            });
             base.Clear();

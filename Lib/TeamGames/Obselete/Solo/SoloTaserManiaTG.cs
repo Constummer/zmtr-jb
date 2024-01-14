@@ -24,6 +24,7 @@ public partial class JailbreakExtras
             .ToList()
             .ForEach(x =>
             {
+                if (ValidateCallerPlayer(x, false) == false) return;
                 RemoveWeapons(x, true);
             });
             base.Clear();

@@ -1,5 +1,4 @@
-﻿using CounterStrikeSharp.API;
-using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
@@ -10,6 +9,7 @@ public partial class JailbreakExtras
 {
     [ConsoleCommand("tgdurdur")]
     [ConsoleCommand("tgiptal")]
+    [ConsoleCommand("tgcancel")]
     [ConsoleCommand("iptaltg")]
     [ConsoleCommand("canceltg")]
     [ConsoleCommand("durdurtg")]

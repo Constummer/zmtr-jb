@@ -325,11 +325,11 @@ public partial class JailbreakExtras
                               ? name : "-----(ismi net deil)";
                 if (msg == string.Empty)
                 {
-                    msg = $"PlayerName = {tempName} | SteamId = {item.Key} | Haftalık = {item.Value} dk";
+                    msg = $"PlayerName = {tempName} | SteamId = {item.Key} | Haftalık = {(item.Value < 120 ? $"{item.Value} dk" : $"{(int)(item.Value / 60)} saat")}";
                 }
                 else
                 {
-                    msg += $"\nPlayerName = {tempName} | SteamId = {item.Key} | Haftalık = {item.Value} dk";
+                    msg += $"\nPlayerName = {tempName} | SteamId = {item.Key} | Haftalık = {(item.Value < 120 ? $"{item.Value} dk" : $"{(int)(item.Value / 60)} saat")}";
                 }
             }
             catch

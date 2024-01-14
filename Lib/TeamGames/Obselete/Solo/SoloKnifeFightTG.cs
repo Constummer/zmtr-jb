@@ -1,4 +1,6 @@
-﻿namespace JailbreakExtras;
+﻿using CounterStrikeSharp.API.Modules.Utils;
+
+namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
@@ -10,7 +12,7 @@ public partial class JailbreakExtras
 
         internal override void StartGame(Action callback)
         {
-            GetPlayers()
+            GetPlayers(CsTeam.Terrorist)
             .Where(x => x.PawnIsAlive)
             .ToList()
             .ForEach(x =>

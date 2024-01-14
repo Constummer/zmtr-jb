@@ -2,6 +2,7 @@ using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Utils;
 using JailbreakExtras.Lib.Database.Models;
+using System.Drawing;
 
 namespace JailbreakExtras;
 
@@ -46,6 +47,17 @@ public partial class JailbreakExtras
                 AddTimer(0.5f, () =>
                 {
                     if (ValidateCallerPlayer(x, false) == false) return;
+                    if (LatestWCommandUser == x.SteamID)
+                    {
+                        if (ValidateCallerPlayer(x, false) == false) return;
+                        SetColour(x, Color.FromArgb(255, 0, 0, 255));
+                    }
+                    else
+                    {
+                        if (ValidateCallerPlayer(x, false) == false) return;
+                        SetColour(x, DefaultColor);
+                    }
+
                     var data = GetPlayerMarketModel(tempSteamId);
                     if (data.Model == null || data.ChooseRandom)
                     {

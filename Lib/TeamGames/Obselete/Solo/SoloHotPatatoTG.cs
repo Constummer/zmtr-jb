@@ -50,7 +50,7 @@ public partial class JailbreakExtras
         {
             if (BombCarrier != null)
             {
-                var tempCheck = GetPlayers().Where(x => x.SteamID == BombCarrier.SteamID).FirstOrDefault();
+                var tempCheck = GetPlayers(CsTeam.Terrorist).Where(x => x.SteamID == BombCarrier.SteamID).FirstOrDefault();
                 if (ValidateCallerPlayer(tempCheck, false))
                 {
                     if (tempCheck.PawnIsAlive == false)
@@ -88,7 +88,7 @@ public partial class JailbreakExtras
         {
             if (BombCarrier != null)
             {
-                var tempCheck = GetPlayers().Where(x => x.SteamID == BombCarrier.SteamID).FirstOrDefault();
+                var tempCheck = GetPlayers(CsTeam.Terrorist).Where(x => x.SteamID == BombCarrier.SteamID).FirstOrDefault();
                 if (ValidateCallerPlayer(tempCheck, false))
                 {
                     if (tempCheck.PawnIsAlive == false)
