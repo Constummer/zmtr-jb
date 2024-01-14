@@ -80,7 +80,7 @@ public partial class JailbreakExtras
         SetHp(gard);
         ActiveGodMode.Remove(gard.SteamID);
         ActiveGodMode.Remove(mahkum.SteamID);
-        Server.PrintToChatAll($"{Prefix}{CC.G}{mahkum.PlayerName}{CC.W}adlı mahkûm,{CC.B}{gard.PlayerName}{CC.W} adlı gardiyana {CC.LY}{item.Text} {CC.W}LR'si başladı.");
+        Server.PrintToChatAll($"{Prefix} {CC.G}{mahkum.PlayerName} {CC.W}adlı mahkûm, {CC.B}{gard.PlayerName}{CC.W} adlı gardiyana {CC.LY}{item.Text} {CC.W}LR'si başladı.");
         LrStartSound();
         mahkum.GiveNamedItem("item_assaultsuit");
         gard.GiveNamedItem("item_assaultsuit");
