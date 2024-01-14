@@ -3,9 +3,6 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
-using Microsoft.Extensions.Logging;
-using Serilog.Core;
-using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
 
@@ -17,7 +14,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me> <0/1>")]
     public void God(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye30", "@css/seviye30") == false)
+        if (ValidateCallerPlayer(player) == false)
         {
             return;
         }
