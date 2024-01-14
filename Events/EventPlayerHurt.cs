@@ -25,6 +25,7 @@ public partial class JailbreakExtras
             {
                 GodHurtCover(@event, player);
             }
+            SpeedActiveCheck(player);
             //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
             //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
             //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------

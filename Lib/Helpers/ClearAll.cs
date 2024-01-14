@@ -18,6 +18,8 @@ public partial class JailbreakExtras
         CitEnabledPlayers?.Clear();
         TeamSteamIds?.Clear();
         FFMenuCheck = false;
+        SpeedActive = false;
+        SpeedActiveDatas?.Clear();
         DizPlayerId = 0;
         DizActive = false;
         DizStart = null;
@@ -57,6 +59,7 @@ public partial class JailbreakExtras
         _ = HideFoots?.Remove(steamId, out _);
         _ = HookPlayers?.Remove(steamId, out _);
         _ = PlayerTimeTracking?.Remove(steamId, out _);
+        _ = SpeedActiveDatas?.Remove(steamId, out _);
         if (userId != null && userId != -1)
         {
             RemoveGivenParachute(userId.Value);
