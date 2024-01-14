@@ -2,6 +2,17 @@
 
 public partial class JailbreakExtras
 {
+    private static readonly Dictionary<string, string> NoScopeGunMenu = new Dictionary<string, string>()
+        {
+                {"AWP",                                new("awp")},
+                {"SG 553",                             new("sg553")},
+                {"AUG",                                new("aug")},
+                {"SSG 08",                             new("ssg08")},
+                {"SG 556",                             new("sg556")},
+                {"G3SG1",                              new("g3sg1")},
+                {"SCAR-20",                            new("scar20" )},
+        };
+
     public enum WeaponType
     {
         Primary = 0,

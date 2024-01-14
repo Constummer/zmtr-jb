@@ -26,20 +26,43 @@ public partial class JailbreakExtras
                     return;
                 }
                 ActiveTeamGamesGameBase.GameName = item.Text;
-                BasicCountdown.CommandStartTextCountDown(this, $"{item.Text} tekli oyunun başlamasına 3 saniye !");
-                TgTimer?.Kill();
-                TgTimer = AddTimer(3.0f, () =>
+                if (ActiveTeamGamesGameBase.HasAdditionalChoices)
                 {
-                    if (ValidateCallerPlayer(player, false) == false) return;
-                    if (ActiveTeamGamesGameBase == null) return;
-
-                    TgActive = true;
-                    ActiveTeamGamesGameBase.StartGame(() =>
+                    ActiveTeamGamesGameBase.AdditionalChoiceMenu(player, () =>
                     {
-                        SetRedColorForTeamGames();
-                        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}{item.Text} tekli oyununu başlattı.");
+                        BasicCountdown.CommandStartTextCountDown(this, $"{item.Text} tekli oyunun başlamasına 3 saniye !");
+                        TgTimer?.Kill();
+                        TgTimer = AddTimer(3.0f, () =>
+                        {
+                            if (ValidateCallerPlayer(player, false) == false) return;
+                            if (ActiveTeamGamesGameBase == null) return;
+
+                            TgActive = true;
+                            ActiveTeamGamesGameBase.StartGame(() =>
+                            {
+                                SetRedColorForTeamGames();
+                                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}{item.Text} tekli oyununu başlattı.");
+                            });
+                        });
                     });
-                });
+                }
+                else
+                {
+                    BasicCountdown.CommandStartTextCountDown(this, $"{item.Text} tekli oyunun başlamasına 3 saniye !");
+                    TgTimer?.Kill();
+                    TgTimer = AddTimer(3.0f, () =>
+                    {
+                        if (ValidateCallerPlayer(player, false) == false) return;
+                        if (ActiveTeamGamesGameBase == null) return;
+
+                        TgActive = true;
+                        ActiveTeamGamesGameBase.StartGame(() =>
+                        {
+                            SetRedColorForTeamGames();
+                            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}{item.Text} tekli oyununu başlattı.");
+                        });
+                    });
+                }
             }, item.Disabled);
         }
         ChatMenus.OpenMenu(player, soloTGMenu);

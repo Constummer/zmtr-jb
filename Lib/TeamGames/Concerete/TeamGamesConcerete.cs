@@ -17,6 +17,7 @@ public partial class JailbreakExtras
             SoloChoice = soloChoice;
         }
 
+        public bool HasAdditionalChoices { get; set; } = false;
         public TeamGamesMultiChoices MultiChoice { get; set; } = TeamGamesMultiChoices.None;
         public TeamGamesSoloChoices SoloChoice { get; set; } = TeamGamesSoloChoices.None;
         public string GameName { get; set; } = "";
@@ -55,6 +56,19 @@ public partial class JailbreakExtras
         }
 
         internal virtual void EventPlayerDeath(EventPlayerDeath @event)
+        {
+        }
+
+        internal virtual void AdditionalChoiceMenu(CCSPlayerController player, Action value)
+        {
+            value();
+        }
+
+        internal virtual void EventItemPickup(EventItemPickup @event)
+        {
+        }
+
+        internal virtual void EventWeaponZoom(EventWeaponZoom @event)
         {
         }
     }
