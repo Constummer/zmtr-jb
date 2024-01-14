@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Modules.Entities;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
@@ -230,6 +231,15 @@ public partial class JailbreakExtras
                 }
                 else
                 {
+                    Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
+                    Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
+                    Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
+                    Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
+                    Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
+                    Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
+                    Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
+                    Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
+
                     var cmd = new MySqlCommand(@$"SELECT `SteamId`,`WeeklyWTime` FROM `PlayerTime`;", con);
                     var dic = new Dictionary<long, int>();
                     using (var reader = cmd.ExecuteReader())
@@ -267,6 +277,7 @@ public partial class JailbreakExtras
                     var weekno = GetIso8601WeekOfYear(DateTime.UtcNow.AddHours(3));
                     var cmdText = "";
                     var i = 0;
+                    parameters.Add(new MySqlParameter($"@WeekNo", weekno));
 
                     dic.ToList()
                      .ForEach(x =>
@@ -281,7 +292,6 @@ public partial class JailbreakExtras
                                           (@SteamId_{i},@WTime_{i}, @WeekNo);";
                          parameters.Add(new MySqlParameter($"@SteamId_{i}", x.Key));
                          parameters.Add(new MySqlParameter($"@WTime_{i}", x.Value));
-                         parameters.Add(new MySqlParameter($"@WeekNo", weekno));
 
                          i++;
                      });
