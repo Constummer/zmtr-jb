@@ -1,10 +1,8 @@
-﻿using CounterStrikeSharp.API;
-using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
-using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
 
@@ -16,6 +14,7 @@ public partial class JailbreakExtras
     private ulong DizPlayerId = 0;
     private Tuple<float, float> DizStart = null;
     private Tuple<float, float> DizEnd = null;
+    public CEnvBeam DizLazer { get; set; } = null;
 
     [ConsoleCommand("dizkapa")]
     public void DizKapa(CCSPlayerController? player, CommandInfo info)
@@ -32,6 +31,7 @@ public partial class JailbreakExtras
         }
         DizPlayerId = 0;
         DizActive = false;
+        DizLazer?.Remove();
         player.PrintToChat($"{Prefix}{CC.W} oyuncu dizme kapandi.");
     }
 
@@ -84,16 +84,21 @@ public partial class JailbreakExtras
             return;
         }
 
-        if (DizEnd == null)
-        {
-            DizEnd = new Tuple<float, float>(@event.X, @event.Y);
-        }
+        DizEnd ??= new Tuple<float, float>(@event.X, @event.Y);
 
+        if (DizLazer?.IsValid ?? false)
+        {
+            DizLazer?.Remove();
+        }
+        DizLazer = null;
         var players = GetPlayers(CsTeam.Terrorist).Where(x => x.PawnIsAlive).ToList();
         if (players.Count > 0)
         {
             var res = InterpolatePoints(DizStart, DizEnd, players.Count);
-
+            DizLazer = DrawLaser(
+                new Vector(DizStart.Item1, DizStart.Item2, player.PlayerPawn.Value.AbsOrigin.Z),
+                new Vector(DizEnd.Item1, DizEnd.Item2, player.PlayerPawn.Value.AbsOrigin.Z),
+                LaserType.Marker, false);
             if (players.Count == 1)
             {
                 for (int i = 0; i < players.Count; i++)
