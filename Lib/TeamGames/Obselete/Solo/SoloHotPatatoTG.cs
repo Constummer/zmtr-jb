@@ -13,6 +13,7 @@ public partial class JailbreakExtras
     {
         C4HitTimer = AddTimer(10, () =>
         {
+            //PerformSlap(,C4CarierHitDamage)
         });
         C4HitIncreaseTimer = AddTimer(10, () =>
         {
