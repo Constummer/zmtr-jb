@@ -131,10 +131,12 @@ public partial class JailbreakExtras
                             if (players.Count < 6)
                             {
                                 SetColour(x, DefaultColor);
+                                Config.Additional.ParachuteModelEnabled = true;
                             }
                             else
                             {
                                 SetColour(x, Color.FromArgb(0, 0, 0, 0));
+                                Config.Additional.ParachuteModelEnabled = false;
                             }
                         }
                         x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_WALK;
@@ -163,6 +165,8 @@ public partial class JailbreakExtras
                         Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                         x.PlayerPawn.Value.Teleport(currentPosition, x.PlayerPawn.Value.AbsRotation, new Vector(0, 0, 0));
                     });
+                    Config.Additional.ParachuteModelEnabled = true;
+
                     FreezeOrUnfreezeSound();
                     Server.PrintToChatAll($"{Prefix} {CC.Ol}{value}{CC.W} saniye süren {CC.Ol}SKZ{CC.W} bitti, {CC.G}mahkûmlar {CC.B}dondu{CC.W}.");
                 }, SOM);

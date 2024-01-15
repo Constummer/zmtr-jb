@@ -38,7 +38,6 @@ public partial class JailbreakExtras
                 {
                     case 0:
                         if (ValidateCallerPlayer(x, false) == false) return;
-                        Config.Additional.ParachuteModelEnabled = true;
                         SetColour(x, DefaultColor);
                         ShowWeapons(x);
 
@@ -46,7 +45,6 @@ public partial class JailbreakExtras
 
                     case 1:
                         if (ValidateCallerPlayer(x, false) == false) return;
-                        Config.Additional.ParachuteModelEnabled = false;
                         SetColour(x, Color.FromArgb(0, 0, 0, 0));
                         HideWeapons(x);
                         break;
@@ -55,11 +53,13 @@ public partial class JailbreakExtras
         switch (godOneTwo)
         {
             case 0:
+                Config.Additional.ParachuteModelEnabled = true;
                 Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W} Mahkûmlar için hide kapandı.");
                 Server.ExecuteCommand($"sv_teamid_overhead_maxdist 2000");
                 break;
 
             case 1:
+                Config.Additional.ParachuteModelEnabled = false;
                 Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W} Mahkûmlar için hide açıldı.");
                 Server.ExecuteCommand($"sv_teamid_overhead_maxdist 1");
                 break;
