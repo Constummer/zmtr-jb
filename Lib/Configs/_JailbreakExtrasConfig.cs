@@ -12,7 +12,7 @@ public partial class JailbreakExtras
     {
         public JailbreakExtrasConfig()
         {
-            Version = 9;
+            Version = 10;
         }
 
         [JsonPropertyName("Database")]
@@ -20,6 +20,9 @@ public partial class JailbreakExtras
 
         [JsonPropertyName("Additional")]
         public AdditionalConfig Additional { get; set; } = new AdditionalConfig();
+
+        [JsonPropertyName("Map")]
+        public MapConfig Map { get; set; } = new MapConfig();
 
         [JsonPropertyName("Sounds")]
         public SoundsConfig Sounds { get; set; } = new SoundsConfig();

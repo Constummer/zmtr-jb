@@ -121,7 +121,7 @@ public partial class JailbreakExtras
                 FFTimer = AddTimer(value, () =>
                 {
                     Ff(true);
-                });
+                }, SOM);
             }
         }
     }
@@ -182,7 +182,7 @@ public partial class JailbreakExtras
                         x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
                     });
                     Ff(false);
-                });
+                }, SOM);
             }
         }
     }
@@ -243,7 +243,7 @@ public partial class JailbreakExtras
                 {
                     RespawnKapatAction();
                     Ff(true);
-                });
+                }, SOM);
             }
         }
     }

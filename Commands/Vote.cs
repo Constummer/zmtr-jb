@@ -117,7 +117,7 @@ public partial class JailbreakExtras
                 if (ValidateCallerPlayer(x, false) == false) return;
                 SharpTimerPrintHtml(x, hmtl);
             });
-        }, TimerFlags.REPEAT);
+        }, Full);
 
         VoteTimer = AddTimer(20, () =>
           {
@@ -134,7 +134,7 @@ public partial class JailbreakExtras
               VotePrintTimer = null;
               LatestVoteAnswerCommandCalls?.Clear();
               AlreadyVotedPlayers.Clear();
-          }, TimerFlags.STOP_ON_MAPCHANGE);
+          }, SOM);
 
         return;
     }

@@ -119,7 +119,7 @@ public partial class JailbreakExtras
             AddTimer(0.1f, () =>
             {
                 laser.Remove();
-            });
+            }, SOM);
         }
         else
         {

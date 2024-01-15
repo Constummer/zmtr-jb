@@ -31,7 +31,7 @@ public partial class JailbreakExtras
                            x.PrintToChat($"{Prefix} {CC.W}Bu sunucuda {CC.G}{Config.Credit.RetrieveCreditEveryXMin / 60} {CC.W}dakika zaman geçirdiğin için {CC.LB}{Config.Credit.RetrieveCreditEveryXMinReward} {CC.W}kredi kazandın!");
                        }
                    });
-        }, TimerFlags.REPEAT);
+        }, Full);
     }
 
     #endregion GiveCreditTimer

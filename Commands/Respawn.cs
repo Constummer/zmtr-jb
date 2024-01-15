@@ -119,7 +119,7 @@ public partial class JailbreakExtras
                 if (ValidateCallerPlayer(tpPlayer, false) == false) return;
                 tpPlayer.PlayerPawn.Value!.Teleport(new(tempX, tempY, tempZ), new(0, 0, 0), new(0, 0, 0));
                 tpPlayer.Teleport(new(tempX, tempY, tempZ), new(0, 0, 0), new(0, 0, 0));
-            });
+            }, SOM);
         }
         else
         {

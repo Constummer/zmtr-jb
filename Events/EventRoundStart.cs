@@ -19,13 +19,13 @@ public partial class JailbreakExtras
             AddTimer(1.0f, () =>
             {
                 CoinGo = true;
-            });
+            }, SOM);
             HookDisabled = true;
 
             AddTimer(5.0f, () =>
             {
                 HookDisabled = false;
-            });
+            }, SOM);
             for (int i = 0; i < Server.MaxPlayers; i++)
             {
                 var x = Utilities.GetPlayerFromSlot(i);
@@ -44,14 +44,14 @@ public partial class JailbreakExtras
                     {
                         GivePlayerRewards(tempSteamId, tempName);
                     }
-                });
+                }, SOM);
                 AddTimer(0.5f, () =>
                 {
                     if (tempUserId != -1)
                     {
                         CreateParachute(tempUserId);
                     }
-                });
+                }, SOM);
             }
             //foreach (var x in GetPlayers())
             //{

@@ -55,7 +55,7 @@ public partial class JailbreakExtras
             AddTimer(1, () =>
             {
                 ActiveGodMode[closest.SteamID] = false;
-            });
+            }, SOM);
         }
 
         Vector playerPosition = player.PlayerPawn?.Value.CBodyComponent?.SceneNode?.AbsOrigin;

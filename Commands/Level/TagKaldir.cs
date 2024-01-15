@@ -28,7 +28,7 @@ public partial class JailbreakExtras
                 if (ValidateCallerPlayer(player, false) == false) return;
                 Utilities.SetStateChanged(player, "CCSPlayerController", "m_szClan");
                 Utilities.SetStateChanged(player, "CBasePlayerController", "m_iszPlayerName");
-            });
+            }, SOM);
             player.PrintToChat($"{Prefix}{CC.B} !tagac{CC.W} ile tagini tekrardan acabilirsin.");
         }
     }

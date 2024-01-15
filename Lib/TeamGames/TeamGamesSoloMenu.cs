@@ -43,7 +43,7 @@ public partial class JailbreakExtras
                                 SetRedColorForTeamGames();
                                 Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}{item.Text} tekli oyununu başlattı.");
                             });
-                        });
+                        }, SOM);
                     });
                 }
                 else
@@ -61,7 +61,7 @@ public partial class JailbreakExtras
                             SetRedColorForTeamGames();
                             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}{item.Text} tekli oyununu başlattı.");
                         });
-                    });
+                    }, SOM);
                 }
             }, item.Disabled);
         }

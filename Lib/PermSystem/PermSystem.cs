@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using CounterStrikeSharp.API.Modules.Admin;
+using CounterStrikeSharp.API.Modules.Entities;
+using System.Text.RegularExpressions;
 
 namespace JailbreakExtras;
 
@@ -11,6 +13,21 @@ public partial class JailbreakExtras
     }
 
     private static Dictionary<string, PlayerPermission> PlayerCs2Permissions { get; set; } = new();
+
+    public static bool IsKomutcuPlayer(ulong steamId)
+    {
+        if (steamId <= 0) return false;
+        var sid = new SteamID(steamId);
+        if (sid == null || sid.SteamId64 != steamId)
+        {
+            return false;
+        }
+        var data = AdminManager.GetPlayerAdminData(sid);
+        if (data == null) return false;
+        var flags = data.GetAllFlags();
+        if (flags == null) return false;
+        return flags.Any(x => x == "@css/komutcu");
+    }
 
     public void YetkiSistemi()
     {

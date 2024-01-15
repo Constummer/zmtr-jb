@@ -11,7 +11,7 @@ public partial class JailbreakExtras
         AddTimer(Config.Credit.SaveCreditTimerEveryXSecond, () =>
         {
             UpdateAllModels();
-        }, TimerFlags.REPEAT);
+        }, Full);
     }
 
     #endregion SaveCreditTimer

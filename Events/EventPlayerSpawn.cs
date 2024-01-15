@@ -27,7 +27,7 @@ public partial class JailbreakExtras
                        {
                            AyakGizle(x, true);
                        }
-                   });
+                   }, SOM);
                 }
                 var tempSteamId = x.SteamID;
                 if (x.SteamID != LatestWCommandUser)
@@ -41,7 +41,7 @@ public partial class JailbreakExtras
                                 {
                                     x.VoiceFlags |= VoiceFlags.Muted;
                                 }
-                            });
+                            }, SOM);
                     }
                 }
                 AddTimer(0.5f, () =>
@@ -108,7 +108,7 @@ public partial class JailbreakExtras
                                 break;
                         }
                     }
-                });
+                }, SOM);
             }
             return HookResult.Continue;
         });

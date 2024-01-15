@@ -60,7 +60,7 @@ public partial class JailbreakExtras
                     });
                     FreezeOrUnfreezeSound();
                     Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}mahkûmların {CC.B}donunu bozdu{CC.W}.");
-                });
+                }, SOM);
             }
         }
     }

@@ -37,7 +37,7 @@ public partial class JailbreakExtras
                 {
                     CustomRespawn(player);
                 }
-            });
+            }, SOM);
         }
     }
 

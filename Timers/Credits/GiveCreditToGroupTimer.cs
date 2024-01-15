@@ -34,7 +34,7 @@ public partial class JailbreakExtras
                       }
                   }
               });
-        }, TimerFlags.REPEAT);
+        }, Full);
     }
 
     #endregion GiveCreditToAdmin1Timer

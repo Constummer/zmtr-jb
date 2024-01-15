@@ -231,14 +231,10 @@ public partial class JailbreakExtras
                 }
                 else
                 {
-                    Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
-                    Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
-                    Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
-                    Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
-                    Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
-                    Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
-                    Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
-                    Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
+                    Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ 00.00 İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
+                    Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ 00.00 İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
+                    Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ 00.00 İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
+                    Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ 00.00 İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
 
                     var cmd = new MySqlCommand(@$"SELECT `SteamId`,`WeeklyWTime` FROM `PlayerTime`;", con);
                     var dic = new Dictionary<long, int>();
@@ -248,22 +244,25 @@ public partial class JailbreakExtras
                         {
                             var steamid = reader.IsDBNull(0) ? 0 : reader.GetInt64(0);
                             var time = reader.IsDBNull(1) ? 0 : reader.GetInt32(1);
-                            if (steamid != 0)
+                            if (steamid > 0)
                             {
-                                if (dic.TryGetValue(steamid, out var oldtime))
+                                if (IsKomutcuPlayer((ulong)steamid))
                                 {
-                                    if (oldtime > time)
+                                    if (dic.TryGetValue(steamid, out var oldtime))
                                     {
-                                        dic[steamid] = oldtime;
+                                        if (oldtime > time)
+                                        {
+                                            dic[steamid] = oldtime;
+                                        }
+                                        else
+                                        {
+                                            dic[steamid] = time;
+                                        }
                                     }
                                     else
                                     {
-                                        dic[steamid] = time;
+                                        dic.Add(steamid, time);
                                     }
-                                }
-                                else
-                                {
-                                    dic.Add(steamid, time);
                                 }
                             }
                         }
@@ -314,6 +313,10 @@ public partial class JailbreakExtras
                         item.Value.WeeklyWTime = 0;
                         PlayerTimeTracking[item.Key] = item.Value;
                     }
+                    Server.PrintToChatAll($"{Prefix} {CC.R} SIKI TUTUNDUĞUNUZ İÇİN TŞK, DEVAAAAAM");
+                    Server.PrintToChatAll($"{Prefix} {CC.R} SIKI TUTUNDUĞUNUZ İÇİN TŞK, DEVAAAAAM");
+                    Server.PrintToChatAll($"{Prefix} {CC.R} SIKI TUTUNDUĞUNUZ İÇİN TŞK, DEVAAAAAM");
+                    Server.PrintToChatAll($"{Prefix} {CC.R} SIKI TUTUNDUĞUNUZ İÇİN TŞK, DEVAAAAAM");
                 }
             }
         }

@@ -36,7 +36,7 @@ public partial class JailbreakExtras
                         TakimYapAction(2);
                         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}{item.Text} takımlı oyununu başlattı.");
                     });
-                });
+                }, SOM);
             }, item.Disabled);
         }
         ChatMenus.OpenMenu(player, teamTGMenu);

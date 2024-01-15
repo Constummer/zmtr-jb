@@ -77,7 +77,7 @@ public partial class JailbreakExtras
             });
             FreezeOrUnfreezeSound();
             Server.PrintToChatAll($"{Prefix} {CC.W}Gardiyanların, mutesi kaldırıldı.");
-        });
+        }, SOM);
     }
 
     #endregion Delay

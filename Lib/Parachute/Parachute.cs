@@ -129,7 +129,7 @@ public partial class JailbreakExtras
                         gParaModel.Remove(userId);
                     }
                 }
-            });
+            }, SOM);
         };
     }
 }

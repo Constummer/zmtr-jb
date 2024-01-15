@@ -5,18 +5,58 @@ using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using System.Drawing;
+using System.Text.Json.Serialization;
 
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private Dictionary<string, Vector> skzCoordinates = new()
+    //private Dictionary<string, Vector> SkzCoordinates = new()
+    //{
+    //
+    //};
+    //private List<SkzCoordinate> SkzCoordinates = new List<SkzCoordinate>()
+    //{
+    //     new("Hücre",   new Vector(-535,345,-27) ),
+    //     new("KZ",      new Vector(2102,739,-357) ),
+    //};
+    public class VectorTemp
     {
-        {"Hücre",   new Vector(-535,345,-27) },
-        {"KZ",      new Vector(2102,739,-357) },
-    };
+        public VectorTemp(float x, float y, float z)
+        {
+            X = x;
+            Y = y;
+            Z = z;
+        }
 
-    private Vector Hucre = new Vector(-535, 345, -27);
+        [JsonPropertyName("X")]
+        public float X { get; set; }
+
+        [JsonPropertyName("Y")]
+        public float Y { get; set; }
+
+        [JsonPropertyName("Z")]
+        public float Z { get; set; }
+    }
+
+    public class SkzCoordinate
+    {
+        public SkzCoordinate(string text, VectorTemp coords)
+        {
+            Text = text;
+            Coords = coords;
+        }
+
+        [JsonPropertyName("Text")]
+        public string Text { get; set; } = "";
+
+        [JsonPropertyName("Coord")]
+        public VectorTemp Coords { get; set; } = new VectorTemp(0, 0, 0);
+
+        [JsonIgnore]
+        public Vector Coord { get => new Vector(Coords.X, Coords.Y, Coords.Z); }
+    }
+
     private CounterStrikeSharp.API.Modules.Timers.Timer SkzTimer = null;
     private CounterStrikeSharp.API.Modules.Timers.Timer Skz2Timer = null;
 
@@ -49,12 +89,20 @@ public partial class JailbreakExtras
                 return;
             }
         }
-        var skzMenu = new ChatMenu("SKZ Menü");
-        foreach (var k in skzCoordinates.ToList())
+
+        if ((Config.Map.SkzCoordinates?.TryGetValue(Server.MapName, out var coords) ?? false) == false || coords == null || coords.Count == 0)
         {
-            skzMenu.AddMenuOption(k.Key, (p, t) =>
+            player.PrintToChat("SKZ konumları girilmemiş bir mapte oynamaktasınız. Admin ile görüşmelisiniz");
+            return;
+        }
+
+        var skzMenu = new ChatMenu("SKZ Menü");
+
+        foreach (var k in coords)
+        {
+            skzMenu.AddMenuOption(k.Text, (p, t) =>
             {
-                Server.PrintToChatAll($"{Prefix} {CC.W}Mahkûmlar {CC.B}{k.Key} {CC.W} ışınlanıyor");
+                Server.PrintToChatAll($"{Prefix} {CC.W}Mahkûmlar {CC.B}{k.Text} {CC.W} ışınlanıyor");
 
                 var players = GetPlayers(CsTeam.Terrorist)
                     .Where(x => x.PawnIsAlive == true)
@@ -63,7 +111,7 @@ public partial class JailbreakExtras
                 players.ForEach(x =>
                 {
                     x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
-                    x.PlayerPawn.Value.Teleport(k.Value, x.PlayerPawn.Value.AbsRotation, new Vector(0f, 0f, 0f));
+                    x.PlayerPawn.Value.Teleport(k.Coord, x.PlayerPawn.Value.AbsRotation, new Vector(0f, 0f, 0f));
                 });
                 BasicCountdown.CommandStartTextCountDown(this, $"[ZMTR] SKZ 3 SANİYE SONRA BAŞLIYOR");
 
@@ -94,7 +142,7 @@ public partial class JailbreakExtras
                     });
                     FreezeOrUnfreezeSound();
                     BasicCountdown.CommandStartTextCountDown(this, $"mahkûmlar {value} saniye sonra donacak");
-                });
+                }, SOM);
 
                 _ = AddTimer(value + 3, () =>
                 {
@@ -117,7 +165,7 @@ public partial class JailbreakExtras
                     });
                     FreezeOrUnfreezeSound();
                     Server.PrintToChatAll($"{Prefix} {CC.Ol}{value}{CC.W} saniye süren {CC.Ol}SKZ{CC.W} bitti, {CC.G}mahkûmlar {CC.B}dondu{CC.W}.");
-                });
+                }, SOM);
             });
         }
         ChatMenus.OpenMenu(player, skzMenu);

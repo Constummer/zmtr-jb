@@ -1,4 +1,5 @@
 ﻿using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
@@ -14,7 +15,7 @@ public partial class JailbreakExtras
         C4HitTimer = AddTimer(10, () =>
         {
             //PerformSlap(,C4CarierHitDamage)
-        });
+        }, SOM);
         C4HitIncreaseTimer = AddTimer(10, () =>
         {
             if (C4CarierHitDamage == 0)
@@ -25,7 +26,7 @@ public partial class JailbreakExtras
             {
                 C4CarierHitDamage += 4;
             }
-        }, CounterStrikeSharp.API.Modules.Timers.TimerFlags.REPEAT);
+        }, Full);
     }
 
     internal class SoloHotPatatoTG : TeamGamesGameBase

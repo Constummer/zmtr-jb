@@ -78,7 +78,7 @@ public partial class JailbreakExtras
                             }
                         }
                     });
-                }, TimerFlags.REPEAT | TimerFlags.STOP_ON_MAPCHANGE);
+                }, Full);
                 break;
 
             default:

@@ -11,7 +11,7 @@ public partial class JailbreakExtras
         AddTimer(60 * 15, () =>
         {
             UpdateAllTimeTrackingData();
-        }, TimerFlags.REPEAT);
+        }, Full);
     }
 
     #endregion UpdateAllTimeTrackingDatas

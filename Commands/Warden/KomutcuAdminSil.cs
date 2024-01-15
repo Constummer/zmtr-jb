@@ -47,7 +47,7 @@ public partial class JailbreakExtras
             if (ValidateCallerPlayer(x, false) == false) return;
             Utilities.SetStateChanged(x, "CCSPlayerController", "m_szClan");
             Utilities.SetStateChanged(x, "CBasePlayerController", "m_iszPlayerName");
-        });
+        }, SOM);
         Server.PrintToChatAll($"{Prefix} {CC.B}{x.PlayerName} {CC.P} [Komutçu Admin]{CC.W}'likten çıkartıldı");
     }
 

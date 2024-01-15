@@ -84,7 +84,7 @@ public partial class JailbreakExtras
                         }
 
                         CountdownTime = CountdownTime - 1.0f;
-                    }, TimerFlags.REPEAT);
+                    }, Full);
                 }
             }
             catch

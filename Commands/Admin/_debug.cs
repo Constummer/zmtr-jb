@@ -4,6 +4,7 @@ using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Memory;
+using CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
 using System.Drawing;
@@ -145,7 +146,7 @@ public partial class JailbreakExtras
             Logger.LogInformation($"GetHashCode = {ent.GetHashCode()}");
             Logger.LogInformation("----------------------------------------");
             ent.AcceptInput("Open");
-            AddTimer(1, () => ent.AcceptInput("Close"));
+            AddTimer(1, () => ent.AcceptInput("Close"), SOM);
         }
     }
 
@@ -191,9 +192,9 @@ public partial class JailbreakExtras
                 //rr
                 Server.PrintToChatAll(item.Index.ToString());
                 item.AcceptInput("Open");
-                AddTimer(1, () => item.AcceptInput("Close"));
+                AddTimer(1, () => item.AcceptInput("Close"), SOM);
             }
-        }, CounterStrikeSharp.API.Modules.Timers.TimerFlags.REPEAT);
+        }, Full);
     }
 
     [ConsoleCommand("cwtf")]
@@ -260,9 +261,9 @@ public partial class JailbreakExtras
                 {
                     Server.PrintToChatAll(ent.Index.ToString());
                     ent.AcceptInput("Break");
-                });
+                }, SOM);
             }
-        }, CounterStrikeSharp.API.Modules.Timers.TimerFlags.REPEAT);
+        }, Full);
     }
 
     [ConsoleCommand("cyet1")]

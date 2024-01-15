@@ -61,7 +61,7 @@ public partial class JailbreakExtras
                 KomActive = false;
                 KomAlStartVote();
             }
-        });
+        }, SOM);
     }
 
     [ConsoleCommand("komaday")]
@@ -128,7 +128,7 @@ public partial class JailbreakExtras
                     {
                         if (ValidateCallerPlayer(x, false) == false) return;
                         x.SwitchTeam(CsTeam.CounterTerrorist);
-                    });
+                    }, SOM);
                 }
             }
             else
@@ -175,7 +175,7 @@ public partial class JailbreakExtras
                     GetPlayers()
                     .ToList()
                     .ForEach(x => SharpTimerPrintHtml(x, hmtl));
-                }, TimerFlags.REPEAT);
+                }, Full);
 
                 AddTimer(15, () =>
                 {
@@ -197,7 +197,7 @@ public partial class JailbreakExtras
                                     {
                                         if (ValidateCallerPlayer(x, false) == false) return;
                                         x.SwitchTeam(CsTeam.CounterTerrorist);
-                                    });
+                                    }, SOM);
                                 }
                             }
 
@@ -216,7 +216,7 @@ public partial class JailbreakExtras
                         KomalTimer = null;
                         LatestVoteAnswerCommandCalls?.Clear();
                     }
-                }, TimerFlags.STOP_ON_MAPCHANGE);
+                }, SOM);
             }
         }
         else

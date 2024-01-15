@@ -92,7 +92,7 @@ public partial class JailbreakExtras
 
                            @event = null;
                        });
-        }, TimerFlags.REPEAT);
+        }, Full);
     }
 
     [ConsoleCommand("drug2")]
@@ -167,7 +167,7 @@ public partial class JailbreakExtras
                                @event = null;
                            }
                        });
-        }, TimerFlags.REPEAT);
+        }, Full);
     }
 
     [ConsoleCommand("drug3")]
@@ -221,7 +221,7 @@ public partial class JailbreakExtras
 
                            @event = null;
                        });
-        }, TimerFlags.REPEAT);
+        }, Full);
     }
 
     #endregion Drug

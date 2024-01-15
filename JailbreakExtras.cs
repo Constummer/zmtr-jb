@@ -1,6 +1,5 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
-using CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Utils;
 using static JailbreakExtras.JailbreakExtras;
 
@@ -17,7 +16,7 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
     }
 
     public static JailbreakExtras Global;
-    private int ModuleConfigVersion => 9;
+    private int ModuleConfigVersion => 10;
 
     private static readonly Random _random = new Random();
     public JailbreakExtrasConfig Config { get; set; } = new JailbreakExtrasConfig();
@@ -48,11 +47,6 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
         CreateDataFolder();
         Database();
         LoadPlayerModels();
-        //Task.Run(() => {; });
-        AddTimer(0.1f, () =>
-        {
-            QueueConsumer.StartConsumeOnConnect();
-        }, TimerFlags.REPEAT);
 
         #endregion System Releated
 
@@ -68,7 +62,6 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
         CallEvents();
         CallListeners();
         CallCommandListeners();
-        AddTimers();
         HookEntityOutputs();
 
         #endregion CSS releated

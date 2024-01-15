@@ -16,9 +16,9 @@ public partial class JailbreakExtras
                  AddTimer(3f, () =>
                  {
                      CoinGo = true;
-                 });
+                 }, SOM);
              }
-         }, TimerFlags.REPEAT);
+         }, Full);
     }
 
     #endregion CoinGoWantedTimer

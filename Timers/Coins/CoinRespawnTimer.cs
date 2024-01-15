@@ -11,7 +11,7 @@ public partial class JailbreakExtras
         AddTimer(30f, () =>
          {
              CoinSpawn();
-         }, TimerFlags.REPEAT | TimerFlags.STOP_ON_MAPCHANGE);
+         }, Full);
     }
 
     #endregion CoinRespawnTimer

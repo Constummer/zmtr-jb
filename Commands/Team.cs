@@ -83,7 +83,7 @@ public partial class JailbreakExtras
                     {
                         if (ValidateCallerPlayer(x, false) == false) return;
                         x.SwitchTeam(targetTeam);
-                    });
+                    }, SOM);
                     break;
 
                 case CsTeam.CounterTerrorist:

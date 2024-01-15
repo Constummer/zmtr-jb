@@ -93,7 +93,7 @@ public partial class JailbreakExtras
                         QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
                         x.PlayerPawn.Value.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z - 40), currentRotation, currentSpeed);
                     });
-                });
+                }, SOM);
             }
         }
     }

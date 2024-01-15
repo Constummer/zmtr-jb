@@ -51,7 +51,7 @@ public partial class JailbreakExtras
                     if (ValidateCallerPlayer(x, false) == false) return;
                     Utilities.SetStateChanged(x, "CCSPlayerController", "m_szClan");
                     Utilities.SetStateChanged(x, "CBasePlayerController", "m_iszPlayerName");
-                });
+                }, SOM);
                 Server.PrintToChatAll($"{Prefix} {CC.B}{x.PlayerName} {CC.P} [Komutçu Admin]{CC.W} Olarak seçildi");
             });
         });
@@ -71,7 +71,7 @@ public partial class JailbreakExtras
                 if (ValidateCallerPlayer(ka, false) == false) return;
                 Utilities.SetStateChanged(ka, "CCSPlayerController", "m_szClan");
                 Utilities.SetStateChanged(ka, "CBasePlayerController", "m_iszPlayerName");
-            });
+            }, SOM);
         }
         KomutcuAdminId = null;
     }

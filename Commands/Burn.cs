@@ -4,6 +4,7 @@ using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Timers;
+using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
@@ -66,7 +67,7 @@ public partial class JailbreakExtras
         var counter = 0;
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.B}burnledi");
 
-        BurnTimer = AddTimer(0.3f, () =>
+        BurnTimer = AddTimer(0.5f, () =>
         {
             counter++;
             if (counter > value)
@@ -80,10 +81,27 @@ public partial class JailbreakExtras
                        .ToList()
                        .ForEach(x =>
                        {
-                           if (ValidateCallerPlayer(x, false) == false) return;
-                           PerformSlap(x.PlayerPawn.Value, 1);
+                           PerformBurn(x.PlayerPawn.Value, 1);
                        });
-        }, TimerFlags.REPEAT);
+        }, Full);
+    }
+
+    private static void PerformBurn(CBasePlayerPawn pawn, int damage = 0)
+    {
+        if (pawn.LifeState != (int)LifeState_t.LIFE_ALIVE)
+            return;
+
+        var vel = new Vector(pawn.AbsVelocity.X, pawn.AbsVelocity.Y, pawn.AbsVelocity.Z);
+
+        pawn.Teleport(pawn.AbsOrigin!, pawn.AbsRotation!, vel);
+
+        if (damage <= 0)
+            return;
+
+        pawn.Health -= damage;
+
+        if (pawn.Health <= 0)
+            pawn.CommitSuicide(true, true);
     }
 
     #endregion Burn

@@ -124,7 +124,7 @@ public partial class JailbreakExtras
                 if (ValidateCallerPlayer(player, false) == false) return;
                 Utilities.SetStateChanged(player, "CCSPlayerController", "m_szClan");
                 Utilities.SetStateChanged(player, "CBasePlayerController", "m_iszPlayerName");
-            });
+            }, SOM);
         }
     }
 
@@ -156,7 +156,7 @@ public partial class JailbreakExtras
                             if (ValidateCallerPlayer(player, false) == false) return;
                             Utilities.SetStateChanged(player, "CCSPlayerController", "m_szClan");
                             Utilities.SetStateChanged(player, "CBasePlayerController", "m_iszPlayerName");
-                        });
+                        }, SOM);
                     }
                 }
             }

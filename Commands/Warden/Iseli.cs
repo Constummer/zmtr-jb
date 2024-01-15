@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Menu;
@@ -112,7 +113,7 @@ public partial class JailbreakExtras
             ForceOpenDoor();
             RespawnKapatAction();
             IsEliMenuCheck = false;
-        });
+        }, SOM);
     }
 
     private static void IsEliWardenNotify()
@@ -130,6 +131,9 @@ public partial class JailbreakExtras
 
     private void IsEliTerroristTp()
     {
+        var coord = Config.Map.MapCellCoords?.Where(x => x?.Text == Server.MapName)?.FirstOrDefault();
+        if (coord == null) return;
+
         GetPlayers(CsTeam.Terrorist)
            .Where(x => x.PawnIsAlive)
                   .ToList()
@@ -137,7 +141,7 @@ public partial class JailbreakExtras
                   {
                       RemoveWeapons(x, true);
 
-                      x.PlayerPawn.Value.Teleport(Hucre, ANGLE_ZERO, VEC_ZERO);
+                      x.PlayerPawn.Value.Teleport(coord.Coord, ANGLE_ZERO, VEC_ZERO);
                   });
     }
 

@@ -31,24 +31,29 @@ public partial class JailbreakExtras
         var targetArgument = GetTargetArgument(target);
 
         GetPlayers()
+                    .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player.PlayerName))
+                    .ToList()
+                    .ForEach(x =>
+                    {
+                        if (targetArgument == TargetForArgument.None)
+                        {
+                            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} roketledi{CC.W}.");
+                        }
+
+                        x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
+                        Rocket(x);
+                    });
+
+        _ = AddTimer(1f, () =>
+        {
+            GetPlayers()
                    .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player.PlayerName))
                    .ToList()
                    .ForEach(x =>
                    {
-                       if (ValidateCallerPlayer(x, false) == false) return;
-
-                       if (targetArgument == TargetForArgument.None)
-                       {
-                           Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} roketledi{CC.W}.");
-                       }
-                       Rocket(x);
-                       _ = AddTimer(1f, () =>
-                       {
-                           if (ValidateCallerPlayer(x, false) == false) return;
-                           if (x.PawnIsAlive == false) return;
-                           x.CommitSuicide(true, true);
-                       });
+                       x.CommitSuicide(false, true);
                    });
+        }, SOM);
         if (targetArgument != TargetForArgument.None)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.B}roketledi");
