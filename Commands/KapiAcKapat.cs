@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
+using System.Data;
 
 namespace JailbreakExtras;
 
@@ -16,6 +17,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("hucrekapiac")]
     public void KapiAc(CCSPlayerController? invoke, CommandInfo command)
     {
+        Server.PrintToChatAll($"{Prefix} {CC.W}Tüm kapılar açıldı!");
         ForceOpenDoor();
     }
 
@@ -25,6 +27,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("kapilarikapat")]
     public void KapiKapat(CCSPlayerController? invoke, CommandInfo command)
     {
+        Server.PrintToChatAll($"{Prefix} {CC.W}Tüm kapılar kapandı!");
         ForceCloseDoor();
     }
 
@@ -79,14 +82,49 @@ public partial class JailbreakExtras
 
     public void ForceOpenDoor()
     {
-        ForceEntInput("func_door", "Open", "kapi2");
-        ForceEntInput("func_door", "Open", "kacak");
+        if (Config.Map.KapiAcKapaList.TryGetValue(Server.MapName, out var list))
+        {
+            foreach (var item in list)
+            {
+                var act = item.Value switch
+                {
+                    "func_breakable" => "Break",
+                    _ => "Open"
+                };
+                ForceEntInput(item.Value, act, item.Key);
+            }
+        }
+        else
+        {
+            ForceEntInput("func_door", "Open");
+            ForceEntInput("func_movelinear", "Open");
+            ForceEntInput("func_door_rotating", "Open");
+            ForceEntInput("prop_door_rotating", "Open");
+            ForceEntInput("func_breakable", "Break");
+        }
     }
 
     public void ForceCloseDoor()
     {
-        ForceEntInput("func_door", "Close", "kapi2");
-        ForceEntInput("func_door", "Close", "kacak");
+        if (Config.Map.KapiAcKapaList.TryGetValue(Server.MapName, out var list))
+        {
+            foreach (var item in list)
+            {
+                var act = item.Value switch
+                {
+                    "func_breakable" => "Break",
+                    _ => "Close"
+                };
+                ForceEntInput(item.Value, act, item.Key);
+            }
+        }
+        else
+        {
+            ForceEntInput("func_door", "Close");
+            ForceEntInput("func_movelinear", "Close");
+            ForceEntInput("func_door_rotating", "Close");
+            ForceEntInput("prop_door_rotating", "Close");
+        }
     }
 
     #endregion KapiAcKapat

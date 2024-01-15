@@ -28,6 +28,23 @@ namespace JailbreakExtras
                 }
             },
         };
+
+        [JsonPropertyName("KapiAcKapaList")]
+        public Dictionary<string, Dictionary<string, string>> KapiAcKapaList { get; set; } = new Dictionary<string, Dictionary<string, string>>()
+        {
+             {"jb_zmtr_v1",new Dictionary<string, string>()
+                 {
+                    {"kacak", "func_door" },
+                    {"kapi2", "func_door" },
+                 }
+            },
+            {"jb_zmtr_v2_vsvsvs",new Dictionary<string, string>()
+                 {
+                    {"kacak", "func_door" },
+                    {"kapi2", "func_door" },
+                 }
+            },
+        };
     }
 
     //public class MapConfig
