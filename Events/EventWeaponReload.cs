@@ -99,7 +99,7 @@ public partial class JailbreakExtras
                 }
                 try
                 {
-                    if (MenuHelper.ValidWeaponChecker(weapon.Value.DesignerName) == false)
+                    if (WeaponMenuHelper.ValidWeaponChecker(weapon.Value.DesignerName) == false)
                     {
                         continue;
                     }

@@ -43,6 +43,11 @@ public partial class JailbreakExtras
             }
         }
 
+        internal virtual void AdditionalChoiceMenu(CCSPlayerController player, Action value)
+        {
+            value();
+        }
+
         internal virtual void EventBombDropped(EventBombDropped @event)
         {
         }
@@ -57,11 +62,6 @@ public partial class JailbreakExtras
 
         internal virtual void EventPlayerDeath(EventPlayerDeath @event)
         {
-        }
-
-        internal virtual void AdditionalChoiceMenu(CCSPlayerController player, Action value)
-        {
-            value();
         }
 
         internal virtual void EventItemPickup(EventItemPickup @event)

@@ -75,7 +75,7 @@ public partial class JailbreakExtras
             };
 
             ///Duplicates of weapons dictionarys value objects givename property.
-            ///<see cref="MenuHelper.RemoveCurrentWeapon"/>
+            ///<see cref="WeaponMenuHelper.RemoveCurrentWeapon"/>
             var weaponCheckers = new Dictionary<string, Weapon>(StringComparer.InvariantCultureIgnoreCase)
             {
                 {"weapon_ak47",                        new("weapon_ak47")},

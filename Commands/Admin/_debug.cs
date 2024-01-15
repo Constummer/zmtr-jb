@@ -4,10 +4,8 @@ using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Memory;
-using CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
-using System.Drawing;
 
 namespace JailbreakExtras;
 
@@ -58,6 +56,27 @@ public partial class JailbreakExtras
         }
         Logger.LogInformation(player.SteamID.ToString());
         Logger.LogInformation(player.AuthorizedSteamID?.SteamId64.ToString());
+    }
+
+    [ConsoleCommand("cstop")]
+    public void cstop(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        var target = info.GetArg(1);
+
+        GetPlayers()
+                     .Where(x => x.PawnIsAlive
+                     && x.Pawn.Value != null
+                              && GetTargetAction(x, target, player!.PlayerName))
+                     .ToList()
+                     .ForEach(x =>
+                     {
+                         x.PlayerPawn.Value.VelocityModifier = 0.0f;
+                     });
     }
 
     [ConsoleCommand("cdeath")]

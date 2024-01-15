@@ -39,5 +39,11 @@ public partial class JailbreakExtras
         QueueProcess();
 
         #endregion QueueProcess
+
+        #region SteamGroups
+
+        SteamGroupsTimer();
+
+        #endregion SteamGroups
     }
 }

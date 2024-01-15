@@ -22,6 +22,7 @@ public partial class JailbreakExtras
            .ToList()
            .ForEach(x =>
            {
+               if (ValidateCallerPlayer(x, false) == false) return;
                if (CTBanCheck(x) == false)
                {
                    Server.PrintToChatAll($"{Prefix} {CC.W}{x.PlayerName} CT banı olduğu için CT atılamadı!");

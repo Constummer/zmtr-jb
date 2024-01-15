@@ -18,7 +18,7 @@ public partial class JailbreakExtras
             .ForEach(x =>
             {
                 if (ValidateCallerPlayer(x, false) == false) return;
-                RemoveWeapons(x, false);
+                RemoveWeapons(x, true);
                 if (ValidateCallerPlayer(x, false) == false) return;
                 x.GiveNamedItem($"weapon_knife");
             });

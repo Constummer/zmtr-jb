@@ -20,7 +20,7 @@ public partial class JailbreakExtras
         if (FFMenuCheck == true)
         {
             var gunMenu = new ChatMenu("Silah Menu");
-            MenuHelper.GetGuns(gunMenu);
+            WeaponMenuHelper.GetGuns(gunMenu);
             ChatMenus.OpenMenu(player!, gunMenu);
         }
         else if (IsEliMenuCheck == true)

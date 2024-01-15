@@ -5,12 +5,12 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static class MenuHelper
+    private static class WeaponMenuHelper
     {
         private static Dictionary<string, Weapon> _weapons;
         private static Dictionary<string, Weapon> _weaponCheckers;
 
-        static MenuHelper()
+        static WeaponMenuHelper()
         {
             var res = WeaponHelper.LoadWeapons();
             _weapons = res.Weapons;
@@ -29,6 +29,11 @@ public partial class JailbreakExtras
             {
                 gunMenu.AddMenuOption(item.Key, GiveSelectedItem);
             }
+        }
+
+        public static Dictionary<string, string> GetGuns()
+        {
+            return _weapons.ToList().ToDictionary(x => x.Key, y => y.Value.GiveName);
         }
 
         public static bool ValidWeaponChecker(string designerName)

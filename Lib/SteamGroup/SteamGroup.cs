@@ -3,7 +3,6 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Utils;
-using Microsoft.Extensions.Logging;
 using System.Net.Http.Json;
 using System.Text.Json;
 
@@ -12,6 +11,7 @@ namespace JailbreakExtras;
 public partial class JailbreakExtras
 {
     private static readonly List<ulong> PlayerSteamGroup = new();
+    public static Dictionary<ulong, int> SteamGroupCheckTimer = new();
 
     private bool OnSteamGroupPlayerChat(CCSPlayerController? player, string arg)
     {
@@ -71,13 +71,23 @@ public partial class JailbreakExtras
 
                                 if (groupId == _Config.SteamGroup.SteamGroupId)
                                 {
-                                    PlayerSteamGroup.Add(steamId);
-                                    return true;
+                                    if (PlayerSteamGroup.Contains(steamId))
+                                    {
+                                        return true;
+                                    }
+                                    else
+                                    {
+                                        PlayerSteamGroup.Add(steamId);
+                                        return true;
+                                    }
                                 }
                             }
                         }
                     }
-
+                    if (SteamGroupCheckTimer.ContainsKey(steamId) == false)
+                    {
+                        SteamGroupCheckTimer.Add(steamId, 0);
+                    }
                     return false;
                 });
             }
@@ -139,6 +149,24 @@ public partial class JailbreakExtras
 
                 return HookResult.Stop;
             });
+        }
+    }
+
+    private void CheckSteamGroupsData()
+    {
+        foreach (var item in SteamGroupCheckTimer.ToList())
+        {
+            if (SteamGroupCheckTimer.TryGetValue(item.Key, out int value))
+            {
+                if (value > 3)
+                {
+                    SteamGroupCheckTimer.Remove(item.Key);
+                    continue;
+                }
+                value++;
+                SteamGroupCheckTimer[item.Key] = value;
+                CheckPlayerGroups(item.Key);
+            }
         }
     }
 }

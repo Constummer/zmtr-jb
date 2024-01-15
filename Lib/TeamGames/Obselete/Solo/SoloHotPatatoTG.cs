@@ -14,8 +14,8 @@ public partial class JailbreakExtras
     {
         C4HitTimer = AddTimer(10, () =>
         {
-            //PerformSlap(,C4CarierHitDamage)
-        }, SOM);
+            //PerformSlap(, C4CarierHitDamage);
+        }, Full);
         C4HitIncreaseTimer = AddTimer(10, () =>
         {
             if (C4CarierHitDamage == 0)
@@ -126,7 +126,6 @@ public partial class JailbreakExtras
                 }
                 C4 = GetWeapon(BombCarrier, "weapon_c4");
             }
-
             base.EventBombDropped(@event);
         }
 

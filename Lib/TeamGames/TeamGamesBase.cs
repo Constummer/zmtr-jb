@@ -69,7 +69,7 @@ public partial class JailbreakExtras
         new ("Chicken Hunt",      true,  null, TeamGamesSoloChoices.ChickenHunt),
         new ("Hot Patato",        true,  null, TeamGamesSoloChoices.HotPatato),
         new ("Chicken Roulette",  false,  null, TeamGamesSoloChoices.ChickenRoulette),
-        new ("Gun Fight",         true,  null, TeamGamesSoloChoices.GunFight),
+        new ("Gun Fight",         false,  null, TeamGamesSoloChoices.GunFight),
         new ("HeadShot Only",     false,  null, TeamGamesSoloChoices.HeadShotOnly),
         new ("Knife Fight",       false,  null, TeamGamesSoloChoices.KnifeFight),
         new ("No Zoom",           false,  null, TeamGamesSoloChoices.NoZoom),
@@ -86,7 +86,7 @@ public partial class JailbreakExtras
     {
         new ("Chiken Hucnt",      true,  TeamGamesMultiChoices.ChickenHunt),
         new ("Chicken Roulette",  false,  TeamGamesMultiChoices.ChickenRoulette),
-        new ("Gun Fight",         true,  TeamGamesMultiChoices.GunFight),
+        new ("Gun Fight",         false,  TeamGamesMultiChoices.GunFight),
         new ("HeadShot Only",     false,  TeamGamesMultiChoices.HeadShotOnly),
         new ("Knife Fight",       false,  TeamGamesMultiChoices.KnifeFight),
         new ("No Zoom",           false,  TeamGamesMultiChoices.NoZoom),
