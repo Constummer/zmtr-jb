@@ -29,7 +29,6 @@ public partial class JailbreakExtras
                        }
                    }, SOM);
                 }
-                var tempSteamId = x.SteamID;
                 if (x.SteamID != LatestWCommandUser)
                 {
                     if (Unmuteds.Contains(x.SteamID) == false)
@@ -44,6 +43,12 @@ public partial class JailbreakExtras
                             }, SOM);
                     }
                 }
+                var tempSteamId = @event?.Userid?.SteamID;
+                var tempUserId = @event?.Userid?.UserId;
+                AddTimer(3f, () =>
+                {
+                    _ClientQueue.Enqueue(new(tempSteamId ?? 0, tempUserId, "", QueueItemType.OnPlayerSpawn));
+                });
                 AddTimer(0.5f, () =>
                 {
                     if (ValidateCallerPlayer(x, false) == false) return;

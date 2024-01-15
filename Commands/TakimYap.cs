@@ -74,6 +74,7 @@ public partial class JailbreakExtras
                 x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
             });
         TeamSteamIds.Clear();
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.W} Takımları sildi");
     }
 
     private static (string? Msg, Color Color) FindTeam(ulong steamID)

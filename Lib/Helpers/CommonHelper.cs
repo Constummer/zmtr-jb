@@ -64,6 +64,31 @@ public partial class JailbreakExtras
         return player != null && player.IsValid && player.PlayerPawn.IsValid;
     }
 
+    public static CCSPlayerPawn? Pawn(CCSPlayerController? player)
+    {
+        if (ValidateCallerPlayer(player, false) == false) return null;
+        if (player == null || !IsValid(player))
+        {
+            return null;
+        }
+
+        CCSPlayerPawn? pawn = player.PlayerPawn.Value;
+
+        return pawn;
+    }
+
+    public static int get_health(CCSPlayerController? player)
+    {
+        CCSPlayerPawn? pawn = Pawn(player);
+
+        if (pawn == null)
+        {
+            return 100;
+        }
+
+        return pawn.Health;
+    }
+
     private static bool ValidateCallerPlayer(CCSPlayerController? x, bool checkPermission = true, bool printMsg = true)
     {
         if (is_valid(x) == false)

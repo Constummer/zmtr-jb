@@ -1,5 +1,9 @@
 ﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Entities;
 using System.Diagnostics;
+using System.Drawing;
+using System.Numerics;
 
 namespace JailbreakExtras;
 
@@ -12,7 +16,8 @@ public partial class JailbreakExtras
         None = 0,
         OnClientConnect,
         OnClientDisconnect,
-        OnWChange
+        OnWChange,
+        OnPlayerSpawn
     }
 
     public class QueueItems
@@ -53,62 +58,75 @@ public partial class JailbreakExtras
                         return;
                     }
                     var tempSteamId = item.SteamId;
-                    var teampUserId = item.UserId;
+                    var tempUserId = item.UserId;
                     var tempPlayerName = item.PlayerName;
-                    var watch = Stopwatch.StartNew();
 
                     switch (item.Type)
                     {
                         case QueueItemType.OnClientConnect:
-                            Server.PrintToConsole($"1.1 {item.SteamId}");
-                            Server.PrintToConsole($"1.2 {item.PlayerName}");
-                            Server.PrintToConsole($"1.3 {item.PlayerName}");
+
                             if (BanCheck(tempSteamId) == false)
                             {
-                                Server.ExecuteCommand($"kickid {teampUserId} Banlısın, detaylı bilgi için Discord: discord.gg/wnxt3py");
                             }
                             else
                             {
-                                Server.PrintToConsole($"2 {item.PlayerName}");
                                 AddOrUpdatePlayerToPlayerNameTable(tempSteamId, tempPlayerName);
-                                Server.PrintToConsole($"3 {item.PlayerName}");
+
                                 GetPlayerMarketData(tempSteamId);
-                                Server.PrintToConsole($"4 {item.PlayerName}");
+
                                 InsertAndGetTimeTrackingData(tempSteamId);
-                                Server.PrintToConsole($"5 {item.PlayerName}");
+
                                 GetPGagData(tempSteamId);
-                                Server.PrintToConsole($"6 {item.PlayerName}");
+
                                 InsertAndGetPlayerLevelData(tempSteamId, true, tempPlayerName);
-                                Server.PrintToConsole($"7 {item.PlayerName}");
+
                                 CheckPlayerGroups(tempSteamId);
-                                Server.PrintToConsole($"8 {item.PlayerName}");
-                                watch.Stop();
-                                Server.PrintToConsole($"9 {watch.Elapsed.TotalMilliseconds}");
                             }
                             break;
 
                         case QueueItemType.OnClientDisconnect:
 
-                            Server.PrintToConsole($"1.1 {item.SteamId}");
-                            Server.PrintToConsole($"1.2 {item.PlayerName}");
-                            Server.PrintToConsole($"1.3 {item.PlayerName}");
+                            ClearOnDisconnect(tempSteamId, tempUserId);
 
-                            Server.PrintToConsole($"2 {item.PlayerName}");
-
-                            ClearOnDisconnect(tempSteamId, teampUserId);
-                            Server.PrintToConsole($"3 {item.PlayerName}");
                             if (tempSteamId == LatestWCommandUser)
                             {
                                 CoinRemove();
                             }
-                            Server.PrintToConsole($"4 {item.PlayerName}");
 
-                            watch.Stop();
-                            Server.PrintToConsole($"5 {watch.Elapsed.TotalMilliseconds}");
                             break;
 
                         case QueueItemType.OnWChange:
                             DiscordPost("https://discord.com/api/webhooks/1194758709344215090/-XRiPj35x-KTHRtAyWlB5i1I16lFylHl_17we6SOS5HbYY5JCFPQYiOjYot6trvQiUcR", "w deisti XD");
+                            break;
+
+                        case QueueItemType.OnPlayerSpawn:
+                            CCSPlayerController? x = null;
+                            if (tempUserId.HasValue)
+                            {
+                                x = Utilities.GetPlayerFromUserid(tempUserId.Value);
+                            }
+                            else if (tempSteamId > 0)
+                            {
+                                x = Utilities.GetPlayerFromSteamId(tempSteamId);
+                            }
+                            else
+                            {
+                                return;
+                            }
+                            if (ValidateCallerPlayer(x, false) == false) return;
+                            if (x.PawnIsAlive && get_health(x) > 0)
+                            {
+                                if (LatestWCommandUser == x.SteamID)
+                                {
+                                    if (ValidateCallerPlayer(x, false) == false) return;
+                                    SetColour(x, Color.FromArgb(255, 0, 0, 255));
+                                }
+                                else
+                                {
+                                    if (ValidateCallerPlayer(x, false) == false) return;
+                                    SetColour(x, DefaultColor);
+                                }
+                            }
                             break;
 
                         default:

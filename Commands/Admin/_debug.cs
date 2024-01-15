@@ -79,6 +79,16 @@ public partial class JailbreakExtras
                      });
     }
 
+    [ConsoleCommand("cbuneamk")]
+    public void cbuneamk(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+    }
+
     [ConsoleCommand("cdeath")]
     public void cdeath(CCSPlayerController? player, CommandInfo info)
     {
