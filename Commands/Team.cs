@@ -72,6 +72,7 @@ public partial class JailbreakExtras
         var x = players.FirstOrDefault();
         Unmuteds = Unmuteds.Where(X => X != x.SteamID).ToList();
         x.VoiceFlags |= VoiceFlags.Muted;
+
         if (x?.SteamID != null && x!.SteamID != 0)
         {
             if (ValidateCallerPlayer(x, false) == false) return;
@@ -105,6 +106,14 @@ public partial class JailbreakExtras
                     x.ChangeTeam(targetTeam); break;
 
                 default: break;
+            }
+            if (ActiveGodMode.ContainsKey(x.SteamID))
+            {
+                ActiveGodMode[x.SteamID] = false;
+            }
+            else
+            {
+                ActiveGodMode.TryAdd(x.SteamID, false);
             }
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}hedefi {CC.B}{targetTeam.ToString()} {CC.W}takimina gönderdi.");
         }

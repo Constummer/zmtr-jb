@@ -24,6 +24,9 @@ public partial class JailbreakExtras
         [JsonPropertyName("Map")]
         public MapConfig Map { get; set; } = new MapConfig();
 
+        [JsonPropertyName("UnrestrictedFov")]
+        public UnrestrictedFovConfig UnrestrictedFov { get; set; } = new UnrestrictedFovConfig();
+
         [JsonPropertyName("Sounds")]
         public SoundsConfig Sounds { get; set; } = new SoundsConfig();
 
