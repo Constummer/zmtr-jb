@@ -313,6 +313,8 @@ public partial class JailbreakExtras
                         item.Value.WeeklyWTime = 0;
                         PlayerTimeTracking[item.Key] = item.Value;
                     }
+                    KomWeeklyWCredits?.Clear();
+
                     Server.PrintToChatAll($"{Prefix} {CC.R} SIKI TUTUNDUĞUNUZ İÇİN TŞK, DEVAAAAAM");
                     Server.PrintToChatAll($"{Prefix} {CC.R} SIKI TUTUNDUĞUNUZ İÇİN TŞK, DEVAAAAAM");
                     Server.PrintToChatAll($"{Prefix} {CC.R} SIKI TUTUNDUĞUNUZ İÇİN TŞK, DEVAAAAAM");

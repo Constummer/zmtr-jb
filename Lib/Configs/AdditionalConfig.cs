@@ -6,6 +6,12 @@ public partial class JailbreakExtras
 {
     public class AdditionalConfig
     {
+        [JsonPropertyName("KomPermName")]
+        public string KomPermName { get; set; } = "@css/komutcu";
+
+        [JsonPropertyName("KomWeeklyCredit")]
+        public int KomWeeklyCredit { get; set; } = 500;
+
         [JsonPropertyName("ParachuteEnabled")]
         public bool ParachuteEnabled { get; set; } = true;
 

@@ -1,7 +1,6 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
-using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
 
@@ -23,6 +22,16 @@ public partial class JailbreakExtras
         var target = info.GetArg(1);
 
         UnMuteAction(player, target);
+    }
+
+    [ConsoleCommand("ume")]
+    public void UnMuteMe(CCSPlayerController? player, CommandInfo info)
+    {
+        if (OnCommandValidater(player, true, "@css/seviye10", "@css/seviye10") == false)
+        {
+            return;
+        }
+        UnMuteAction(player, "@me");
     }
 
     [ConsoleCommand("ut")]

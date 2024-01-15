@@ -100,10 +100,26 @@ public partial class JailbreakExtras
                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
                     await cmd.ExecuteNonQueryAsync();
 
+                    cmd = new MySqlCommand(
+                    @"CREATE TABLE IF NOT EXISTS `PlayerWeeklyWTime` (
+                          `SteamId` bigint(20) DEFAULT NULL,
+                          `WTime` mediumint(9) DEFAULT NULL,
+                          `WeekNo` mediumint(9) DEFAULT NULL
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
+
+                    cmd = new MySqlCommand(
+                    @"CREATE TABLE IF NOT EXISTS `KomWeeklyWCredit` (
+                          `SteamId` bigint(20) DEFAULT NULL,
+                          `Recieved` bit DEFAULT 0,
+                          `WeekNo` mediumint(9) DEFAULT NULL
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
+
+                    await cmd.ExecuteNonQueryAsync();
                     GetAllPlayerNameData(con);
                     GetAllTimeTrackingData(con);
                     GetAllCTBanData(con);
                     GetAllBanData(con);
+                    GetAllKomWeeklyCreditData(con);
                 }
             }
             catch (Exception ex)
