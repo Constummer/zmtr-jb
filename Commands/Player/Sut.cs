@@ -12,6 +12,7 @@ public partial class JailbreakExtras
     #region Sut
 
     private static Dictionary<ulong, DateTime> LatestSutolCommandCalls = new Dictionary<ulong, DateTime>();
+    private List<ulong> SutolCommandCalls = new();
 
     [ConsoleCommand("sut")]
     [ConsoleCommand("sutol")]
@@ -39,6 +40,7 @@ public partial class JailbreakExtras
         .ToList()
         .ForEach(x =>
         {
+            SutolCommandCalls.Add(x.SteamID);
             SetColour(x, Color.FromArgb(128, 0, 128));
             RefreshPawnTP(x);
             RemoveWeapons(x, false);

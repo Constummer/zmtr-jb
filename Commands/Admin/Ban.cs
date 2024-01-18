@@ -176,23 +176,14 @@ public partial class JailbreakExtras
                 {
                     return;
                 }
-                var cmd = new MySqlCommand(@$"SELECT 1 FROM `PlayerBan` WHERE `SteamId` = @SteamId;", con);
-                cmd.Parameters.AddWithValue("@SteamId", steamId);
-                bool exist = false;
-                using (var reader = cmd.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        exist = true;
-                    }
-                }
-                cmd = new MySqlCommand(@$"INSERT INTO `PlayerBan`
+                var cmd = new MySqlCommand(@$"INSERT INTO `PlayerBan`
                                       (SteamId,BannedBySteamId,Time)
                                       VALUES (@SteamId,@BannedBySteamId,@Time);", con);
-
                 cmd.Parameters.AddWithValue("@SteamId", steamId);
                 cmd.Parameters.AddWithValue("@BannedBySteamId", bannerId);
                 cmd.Parameters.AddWithValue("@Time", time);
+
+                cmd.ExecuteNonQuery();
             }
         }
         catch (Exception e)
