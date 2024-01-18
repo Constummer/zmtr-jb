@@ -204,7 +204,7 @@ public partial class JailbreakExtras
             return 0;
         else if (color == CC.B)
             return 1;
-        else if (color == CC.DR)
+        else if (color == CC.G)
             return 2;
         else if (color == CC.Gr)
             return 3;
