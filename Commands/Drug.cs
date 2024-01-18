@@ -50,8 +50,8 @@ public partial class JailbreakExtras
         }
         Server.PrintToChatAll("2");
 
-        var target = info.ArgCount > 1 ? info.GetArg(1) : null;
-        var godOneTwoStr = info.ArgCount > 2 ? info.GetArg(2) : null;
+        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
+        var godOneTwoStr = info.ArgCount > 2 ? info.ArgString.GetArg(1) : null;
         Server.PrintToChatAll("3");
         if (string.IsNullOrWhiteSpace(target) || string.IsNullOrWhiteSpace(godOneTwoStr))
         {
@@ -110,8 +110,8 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var target = info.ArgCount > 1 ? info.GetArg(1) : null;
-        var godOneTwoStr = info.ArgCount > 2 ? info.GetArg(2) : null;
+        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
+        var godOneTwoStr = info.ArgCount > 2 ? info.ArgString.GetArg(1) : null;
         if (string.IsNullOrWhiteSpace(target) || string.IsNullOrWhiteSpace(godOneTwoStr))
         {
             return;
@@ -197,8 +197,8 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var target = info.ArgCount > 1 ? info.GetArg(1) : null;
-        var godOneTwoStr = info.ArgCount > 2 ? info.GetArg(2) : null;
+        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
+        var godOneTwoStr = info.ArgCount > 2 ? info.ArgString.GetArg(1) : null;
         if (string.IsNullOrWhiteSpace(target) || string.IsNullOrWhiteSpace(godOneTwoStr))
         {
             return;

@@ -40,8 +40,8 @@ public partial class JailbreakExtras
         }
         else
         {
-            var target = info.ArgCount > 1 ? info.GetArg(1) : null;
-            var godOneTwoStr = info.ArgCount > 2 ? info.GetArg(2) : null;
+            var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
+            var godOneTwoStr = info.ArgCount > 2 ? info.ArgString.GetArg(1) : null;
             int.TryParse(godOneTwoStr, out var godOneTwo);
             if (godOneTwo < 0 || godOneTwo > 1)
             {

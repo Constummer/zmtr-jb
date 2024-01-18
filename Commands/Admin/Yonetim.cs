@@ -58,7 +58,7 @@ public partial class JailbreakExtras
             return;
         }
 
-        var target = info.ArgCount > 1 ? info.GetArg(1) : null;
+        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
         if (target == null)
         {
             return;

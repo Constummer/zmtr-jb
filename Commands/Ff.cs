@@ -41,7 +41,7 @@ public partial class JailbreakExtras
         }
         if (info.ArgCount < 2) return;
 
-        var oneZeroStr = info.ArgCount > 1 ? info.GetArg(1) : null;
+        var oneZeroStr = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
         int.TryParse(oneZeroStr, out var oneZero);
         if (oneZero < 0 || oneZero > 1)
         {
@@ -105,7 +105,7 @@ public partial class JailbreakExtras
             return;
         }
         if (info.ArgCount != 2) return;
-        var target = info.GetArg(1);
+        var target = info.ArgString.GetArg(0);
 
         if (int.TryParse(target, out int value))
         {
@@ -135,7 +135,7 @@ public partial class JailbreakExtras
             return;
         }
         if (info.ArgCount < 3) return;
-        var target = info.GetArg(1);
+        var target = info.ArgString.GetArg(0);
         int index = info.ArgString.IndexOf($"{target} ");
 
         var msg = string.Empty;
@@ -199,7 +199,7 @@ public partial class JailbreakExtras
         player.PrintToChat($"{Prefix}{CC.W} 20 Saniye üstünde respawn açılır. Respawn açılmaması için 20 sn altı saniye ver.");
         player.PrintToChat($"{Prefix}{CC.W} 20 Saniye üstünde respawn açılır. Respawn açılmaması için 20 sn altı saniye ver.");
         if (info.ArgCount != 2) return;
-        var target = info.GetArg(1);
+        var target = info.ArgString.GetArg(0);
 
         if (int.TryParse(target, out int value))
         {

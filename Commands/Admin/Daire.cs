@@ -23,7 +23,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var target = info.ArgCount > 1 ? info.GetArg(1) : "100";
+        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : "100";
         if (int.TryParse(target, out var godOneTwo))
         {
             GetTDairePoints(player, godOneTwo);

@@ -49,7 +49,7 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
-        var target = info.GetArg(1);
+        var target = info.ArgString.GetArg(0);
 
         GetPlayers()
                      .Where(x => x.PawnIsAlive
@@ -377,7 +377,7 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
-        if (Enum.TryParse<RenderMode_t>(info.GetArg(1), out var res))
+        if (Enum.TryParse<RenderMode_t>(info.ArgString.GetArg(0), out var res))
         {
             Server.PrintToChatAll(res.ToString());
             if (player?.PlayerPawn?.Value?.WeaponServices?.MyWeapons != null)
@@ -695,7 +695,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var target = info.GetArg(1);
+        var target = info.ArgString.GetArg(0);
         var snd = target switch
         {
             "1" => "sounds/zmtr_warden/wzenter.vsnd_c",

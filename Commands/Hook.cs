@@ -49,7 +49,7 @@ public partial class JailbreakExtras
             return;
         }
         if (info.ArgCount != 2) return;
-        var target = info.GetArg(1);
+        var target = info.ArgString.GetArg(0);
         GetPlayers()
               .Where(x => GetTargetAction(x, target, null))
               .ToList()
@@ -79,7 +79,7 @@ public partial class JailbreakExtras
         }
         if (info.ArgCount != 2) return;
 
-        var target = info.GetArg(1);
+        var target = info.ArgString.GetArg(0);
         var targetArgument = GetTargetArgument(target);
 
         GetPlayers()
@@ -114,7 +114,7 @@ public partial class JailbreakExtras
             return;
         }
         if (info.ArgCount != 2) return;
-        var target = info.GetArg(1);
+        var target = info.ArgString.GetArg(0);
         GetPlayers()
               .Where(x => GetTargetAction(x, target, null))
               .ToList()

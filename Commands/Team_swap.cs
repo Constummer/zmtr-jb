@@ -19,11 +19,12 @@ public partial class JailbreakExtras
             return;
         }
         if (info.ArgCount != 2) return;
-        var swap1res = SwapTargetOne(info.GetArg(1), player);
+        var swap1res = SwapTargetOne(info.ArgString.GetArg(0), player);
         if (swap1res.Res)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{swap1res.PName} {CC.W} swapladı.");
         }
     }
+
     #endregion OnTeamCommand
 }

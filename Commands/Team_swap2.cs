@@ -19,8 +19,8 @@ public partial class JailbreakExtras
             return;
         }
         if (info.ArgCount != 3) return;
-        var swap1res = SwapTargetOne(info.GetArg(1), player);
-        var swap2res = SwapTargetOne(info.GetArg(2), player);
+        var swap1res = SwapTargetOne(info.ArgString.GetArg(0), player);
+        var swap2res = SwapTargetOne(info.ArgString.GetArg(1), player);
         if (swap1res.Res && swap2res.Res)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{swap1res.PName} {CC.W} ile {CC.B}{swap2res.PName} {CC.W} swapladı.");

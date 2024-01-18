@@ -85,7 +85,7 @@ public partial class JailbreakExtras
     private (Vector? Vector, string PlayerName) GonderGetVector(CCSPlayerController player, CommandInfo info)
     {
         if (info.ArgCount != 2) return (null, null);
-        var target = info.GetArg(1);
+        var target = info.ArgString.GetArg(0);
 
         var players = GetPlayers()
                .Where(x => x.PlayerName.ToLower().Contains(target.ToLower()))

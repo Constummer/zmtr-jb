@@ -23,7 +23,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var target = info.GetArg(1);
+        var target = info.ArgString.GetArg(0);
         int.TryParse(target, out var godOneTwo);
         if (godOneTwo < 0 || godOneTwo > 1)
         {

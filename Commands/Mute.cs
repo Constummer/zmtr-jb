@@ -18,7 +18,7 @@ public partial class JailbreakExtras
             return;
         }
         if (info.ArgCount != 2) return;
-        var target = info.GetArg(1);
+        var target = info.ArgString.GetArg(0);
         MuteAction(player, target);
     }
 

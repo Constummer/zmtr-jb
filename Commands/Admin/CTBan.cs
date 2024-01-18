@@ -37,7 +37,7 @@ public partial class JailbreakExtras
             return;
         }
 
-        var target = info.ArgCount > 1 ? info.GetArg(1) : null;
+        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
         if (target == null)
         {
             return;
@@ -74,12 +74,12 @@ public partial class JailbreakExtras
             return;
         }
 
-        var target = info.ArgCount > 1 ? info.GetArg(1) : null;
+        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
         if (target == null)
         {
             return;
         }
-        var godOneTwoStr = info.ArgCount > 2 ? info.GetArg(2) : "0";
+        var godOneTwoStr = info.ArgCount > 2 ? info.ArgString.GetArg(1) : "0";
         if (int.TryParse(godOneTwoStr, out var value) == false)
         {
             return;

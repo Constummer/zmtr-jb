@@ -21,9 +21,9 @@ public partial class JailbreakExtras
             return;
         }
         if (info.ArgCount != 3) return;
-        var targetPlayer = info.GetArg(1);
+        var targetPlayer = info.ArgString.GetArg(0);
         var targetArgument = GetTargetArgument(targetPlayer);
-        var arg = info.GetArg(2);
+        var arg = info.ArgString.GetArg(1);
         var targetTeam = arg switch
         {
             "ct" => CsTeam.CounterTerrorist,

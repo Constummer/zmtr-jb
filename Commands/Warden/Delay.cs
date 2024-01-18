@@ -28,7 +28,7 @@ public partial class JailbreakExtras
                 return;
             }
         }
-        var target = info.ArgCount > 1 ? info.GetArg(1) : "5";
+        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : "5";
         if (int.TryParse(target, out var value))
         {
             if (value > 120)

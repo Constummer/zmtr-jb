@@ -18,12 +18,12 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var target = info.GetArg(1);
+        var target = info.ArgString.GetArg(0);
         int damage = 0;
 
         if (info.ArgCount >= 2)
         {
-            int.TryParse(info.GetArg(2), out damage);
+            int.TryParse(info.ArgString.GetArg(1), out damage);
         }
         var targetArgument = GetTargetArgument(target);
         GetPlayers()

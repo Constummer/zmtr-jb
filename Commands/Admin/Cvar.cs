@@ -18,22 +18,22 @@ public partial class JailbreakExtras
     [RequiresPermissions("@css/cvar")]
     public void OnCvarCommand(CCSPlayerController? caller, CommandInfo command)
     {
-        var cvar = ConVar.Find(command.GetArg(1));
+        var cvar = ConVar.Find(command.ArgString.GetArg(0));
         string playerName = caller == null ? "Console" : caller.PlayerName;
 
         if (cvar == null)
         {
-            command.ReplyToCommand($"{Prefix} {CC.W}\"{command.GetArg(1)}\" ayarı bulunamadı.");
+            command.ReplyToCommand($"{Prefix} {CC.W}\"{command.ArgString.GetArg(0)}\" ayarı bulunamadı.");
             return;
         }
 
         if (cvar.Name.Equals("sv_cheats") && !AdminManager.PlayerHasPermissions(caller, "@css/cheats"))
         {
-            command.ReplyToCommand($"\"{command.GetArg(1)}\" Komutunu degistirme yetkiniz yok");
+            command.ReplyToCommand($"\"{command.ArgString.GetArg(0)}\" Komutunu degistirme yetkiniz yok");
             return;
         }
 
-        var value = command.GetArg(2);
+        var value = command.ArgString.GetArg(1);
 
         Server.ExecuteCommand($"{cvar.Name} {value}");
 

@@ -239,35 +239,20 @@ public partial class JailbreakExtras
 
     private static CsTeam GetTeam(CCSPlayerController x) => (CsTeam)x.TeamNum;
 
-    private static TargetForArgument GetTargetArgument(string target) => target switch
+    private static TargetForArgument GetTargetArgument(string target) => target?.ToLower() switch
     {
         "@all" => TargetForArgument.All,
-        "@ALL" => TargetForArgument.All,
         "@t" => TargetForArgument.T,
-        "@T" => TargetForArgument.T,
         "@terrorist" => TargetForArgument.T,
         "@terorist" => TargetForArgument.T,
-        "@TERRORIST" => TargetForArgument.T,
-        "@TERORIST" => TargetForArgument.T,
         "@ct" => TargetForArgument.Ct,
-        "@Ct" => TargetForArgument.Ct,
-        "@cT" => TargetForArgument.Ct,
-        "@CT" => TargetForArgument.Ct,
         "@counterstrike" => TargetForArgument.Ct,
-        "@COUNTERSTRIKE" => TargetForArgument.Ct,
-        "@COUNTERSTRİKE" => TargetForArgument.Ct,
         "@alive" => TargetForArgument.Alive,
-        "@ALIVE" => TargetForArgument.Alive,
         "@dead" => TargetForArgument.Dead,
-        "@DEAD" => TargetForArgument.Dead,
         "@random" => TargetForArgument.Random,
-        "@RANDOM" => TargetForArgument.Random,
         "@randomt" => TargetForArgument.RandomT,
-        "@RANDOMT" => TargetForArgument.RandomT,
         "@randomct" => TargetForArgument.RandomCt,
-        "@RANDOMCT" => TargetForArgument.RandomCt,
         "@me" => TargetForArgument.Me,
-        "@ME" => TargetForArgument.Me,
         _ when IsUserIdIndexChecker(target, out var userId) && userId != null => TargetForArgument.UserIdIndex,
         _ => TargetForArgument.None,
     };

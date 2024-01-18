@@ -60,7 +60,7 @@ public partial class JailbreakExtras
         }
         var total = PiyangoPlayers.ToList().Select(x => x.Value).Sum();
 
-        var creditStr = info.GetArg(1);
+        var creditStr = info.ArgString.GetArg(0);
         if (string.IsNullOrWhiteSpace(creditStr) || new String(creditStr.Where(Char.IsDigit).ToArray()).Length == 0)
         {
             player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.W}Kullanım = {CC.G}!piyango <kredi>");

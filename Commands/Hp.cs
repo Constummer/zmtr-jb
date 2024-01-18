@@ -19,8 +19,8 @@ public partial class JailbreakExtras
             return;
         }
         if (info.ArgCount != 3) return;
-        var target = info.GetArg(1);
-        if (!int.TryParse(info.GetArg(2), out var health) || health < 1)
+        var target = info.ArgString.GetArg(0);
+        if (!int.TryParse(info.ArgString.GetArg(1), out var health) || health < 1)
         {
             player!.PrintToChat($"{Prefix}{CC.G} Can değeri yanlış!");
             return;

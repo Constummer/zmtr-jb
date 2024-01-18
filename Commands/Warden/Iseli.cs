@@ -49,7 +49,7 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.B}Sadece {CC.W} Komutçu bu komutu kullanabilir");
             return;
         }
-        var target = info.ArgCount > 1 ? info.GetArg(1) : "20";
+        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : "20";
         if (int.TryParse(target, out var value))
         {
             if (value > 120)

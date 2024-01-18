@@ -4,7 +4,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static string Prefix { get => $" {CC.LR}[ZMTR]"; }
+    public static string Prefix { get => $" {CC.LR}[ZMTR]"; }
 
     private static string AdliAdmin(string adminName) => $"{Prefix} {CC.Ol}{adminName}{CC.W} adlý admin,";
 

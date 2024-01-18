@@ -20,7 +20,7 @@ public partial class JailbreakExtras
         }
         if (info.ArgCount != 2) return;
 
-        var target = info.GetArg(1);
+        var target = info.ArgString.GetArg(0);
         var targetArgument = GetTargetArgument(target);
 
         GetPlayers()
@@ -60,7 +60,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var target = info.GetArg(1);
+        var target = info.ArgString.GetArg(0);
         if (int.TryParse(target, out int value))
         {
             if (value > 120)
@@ -109,7 +109,7 @@ public partial class JailbreakExtras
         }
         if (info.ArgCount != 2) return;
 
-        var target = info.GetArg(1);
+        var target = info.ArgString.GetArg(0);
         var targetArgument = GetTargetArgument(target);
 
         GetPlayers()

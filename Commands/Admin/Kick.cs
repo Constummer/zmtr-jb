@@ -24,15 +24,15 @@ public partial class JailbreakExtras
         }
 
         string reason = "Unknown";
-        if (info.ArgCount >= 2 && info.GetArg(2).Length > 0)
+        if (info.ArgCount >= 2 && info.ArgString.GetArg(1).Length > 0)
         {
-            reason = info.GetArg(2);
+            reason = info.ArgString.GetArg(1);
         }
         if (ValidateCallerPlayer(player) == false)
         {
             return;
         }
-        var target = info.GetArg(1);
+        var target = info.ArgString.GetArg(0);
 
         var players = GetPlayers()
                       .Where(x => GetTargetAction(x, target, player.PlayerName))

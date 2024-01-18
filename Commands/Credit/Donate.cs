@@ -30,7 +30,7 @@ public partial class JailbreakExtras
         }
 
         if (info.ArgCount != 2) return;
-        if (!int.TryParse(info.GetArg(1), out var miktar) || miktar <= 0)
+        if (!int.TryParse(info.ArgString.GetArg(0), out var miktar) || miktar <= 0)
         {
             player.PrintToChat($"{Prefix} {CC.W}Miktar yanlış!");
             return;

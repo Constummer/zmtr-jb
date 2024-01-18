@@ -21,10 +21,10 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var target = info.ArgCount > 1 ? info.GetArg(1) : null;
+        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
         if (info.ArgCount > 2)
         {
-            var weapon = info.ArgCount > 2 ? info.GetArg(2) : null;
+            var weapon = info.ArgCount > 2 ? info.ArgString.GetArg(1) : null;
             if (string.IsNullOrWhiteSpace(weapon))
             {
                 player.PrintToChat($"{Prefix} {CC.G} Silah ismini vermeniz gerekmektedir..");

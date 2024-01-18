@@ -75,7 +75,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var target = info.GetArg(1);
+        var target = info.ArgString.GetArg(0);
         if (int.TryParse(target, out var value))
         {
             if (value > 120)

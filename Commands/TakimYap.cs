@@ -27,7 +27,7 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix}{CC.W} 2-4 arası bir değer girmelisiniz, 2 derseniz 64 kişiyi 2ye bölerek 32-32 yapar gibi ");
             return;
         }
-        if (int.TryParse(info.GetArg(1), out var chunk) == false)
+        if (int.TryParse(info.ArgString.GetArg(0), out var chunk) == false)
         {
             player.PrintToChat($"{Prefix}{CC.W} 2-4 arası bir değer girmelisiniz, 2 derseniz 64 kişiyi 2ye bölerek 32-32 yapar gibi ");
             return;

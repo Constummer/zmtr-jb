@@ -19,8 +19,8 @@ public partial class JailbreakExtras
             return;
         }
         if (info.ArgCount != 3) return;
-        var target = info.GetArg(1);
-        var weapon = info.GetArg(2);
+        var target = info.ArgString.GetArg(0);
+        var weapon = info.ArgString.GetArg(1);
         var targetArgument = GetTargetArgument(target);
         GiveAction(player.PlayerName, target, weapon, targetArgument, true);
         if (targetArgument != TargetForArgument.None)
@@ -57,8 +57,8 @@ public partial class JailbreakExtras
             return;
         }
         if (info.ArgCount != 3) return;
-        var target = info.GetArg(1);
-        var weapon = info.GetArg(2);
+        var target = info.ArgString.GetArg(0);
+        var weapon = info.ArgString.GetArg(1);
         var targetArgument = GetTargetArgument(target);
         GetPlayers()
                .Where(x => x.PawnIsAlive

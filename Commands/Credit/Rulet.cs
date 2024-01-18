@@ -76,7 +76,7 @@ public partial class JailbreakExtras
             player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Kasa = {total}");
             return;
         }
-        var creditStr = info.GetArg(1);
+        var creditStr = info.ArgString.GetArg(0);
         if (string.IsNullOrWhiteSpace(creditStr) || new String(creditStr.Where(Char.IsDigit).ToArray()).Length == 0)
         {
             player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Kullanım ={CC.G} !rulet <kredi> <yeşil/siyah/kırmızı>");
