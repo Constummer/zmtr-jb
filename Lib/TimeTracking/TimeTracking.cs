@@ -14,7 +14,13 @@ namespace JailbreakExtras;
 public partial class JailbreakExtras
 {
     public static Dictionary<ulong, PlayerTime> PlayerTimeTracking { get; set; } = new();
-    public static Dictionary<ulong, PlayerTime> AllPlayerTimeTracking { get; set; } = new();
+
+    //public static Dictionary<ulong, PlayerTime> AllPlayerTimeTracking { get; set; } = new();
+    public static Dictionary<ulong, int> AllPlayerTotalTimeTracking { get; set; } = new();
+
+    public static Dictionary<ulong, int> AllPlayerCTTimeTracking { get; set; } = new();
+    public static Dictionary<ulong, int> AllPlayerTTimeTracking { get; set; } = new();
+    public static Dictionary<ulong, int> AllPlayerWTimeTracking { get; set; } = new();
 
     public class PlayerTime
     {
@@ -65,30 +71,97 @@ public partial class JailbreakExtras
 
         try
         {
-            PlayerTime data = null;
-            var cmd = new MySqlCommand(@$"SELECT `Total`,`CTTime`,`TTime`,`WTime`,`WeeklyWTime`,`SteamId`
-                                          FROM `PlayerTime`;", con);
+            AllPlayerTotalTimeTracking?.Clear();
+            var cmd = new MySqlCommand(@$"SELECT `Total`,`SteamId`
+                                          FROM `PlayerTime` order by `Total` desc limit 10;", con);
 
             using (var reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
                 {
-                    data = new PlayerTime(
-                       reader.IsDBNull(0) ? 0 : reader.GetInt32(0),
-                       reader.IsDBNull(1) ? 0 : reader.GetInt32(1),
-                       reader.IsDBNull(2) ? 0 : reader.GetInt32(2),
-                       reader.IsDBNull(3) ? 0 : reader.GetInt32(3),
-                       reader.IsDBNull(4) ? 0 : reader.GetInt32(4));
-                    var steamid = reader.IsDBNull(5) ? 0 : reader.GetInt64(5);
+                    var data = reader.IsDBNull(0) ? 0 : reader.GetInt32(0);
+                    var steamid = reader.IsDBNull(1) ? 0 : reader.GetInt64(1);
                     if (steamid != 0)
                     {
-                        if (AllPlayerTimeTracking.ContainsKey((ulong)steamid) == false)
+                        if (AllPlayerTotalTimeTracking.ContainsKey((ulong)steamid) == false)
                         {
-                            AllPlayerTimeTracking.Add((ulong)steamid, data);
+                            AllPlayerTotalTimeTracking.Add((ulong)steamid, data);
                         }
                         else
                         {
-                            AllPlayerTimeTracking[(ulong)steamid] = data;
+                            AllPlayerTotalTimeTracking[(ulong)steamid] = data;
+                        }
+                    }
+                }
+            }
+
+            AllPlayerWTimeTracking?.Clear();
+            cmd = new MySqlCommand(@$"SELECT `WTime`,`SteamId`
+                                          FROM `PlayerTime` order by `WTime` desc limit 10;", con);
+
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var data = reader.IsDBNull(0) ? 0 : reader.GetInt32(0);
+                    var steamid = reader.IsDBNull(1) ? 0 : reader.GetInt64(1);
+                    if (steamid != 0)
+                    {
+                        if (AllPlayerWTimeTracking.ContainsKey((ulong)steamid) == false)
+                        {
+                            AllPlayerWTimeTracking.Add((ulong)steamid, data);
+                        }
+                        else
+                        {
+                            AllPlayerWTimeTracking[(ulong)steamid] = data;
+                        }
+                    }
+                }
+            }
+
+            AllPlayerCTTimeTracking?.Clear();
+            cmd = new MySqlCommand(@$"SELECT `CTTime``SteamId`
+                                          FROM `PlayerTime` order by `CTTime` desc limit 10;", con);
+
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var data = reader.IsDBNull(0) ? 0 : reader.GetInt32(0);
+                    var steamid = reader.IsDBNull(1) ? 0 : reader.GetInt64(1);
+                    if (steamid != 0)
+                    {
+                        if (AllPlayerCTTimeTracking.ContainsKey((ulong)steamid) == false)
+                        {
+                            AllPlayerCTTimeTracking.Add((ulong)steamid, data);
+                        }
+                        else
+                        {
+                            AllPlayerCTTimeTracking[(ulong)steamid] = data;
+                        }
+                    }
+                }
+            }
+
+            AllPlayerTTimeTracking?.Clear();
+            cmd = new MySqlCommand(@$"SELECT `TTime`,`SteamId`
+                                          FROM `PlayerTime` order by `TTime` desc limit 10;", con);
+
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var data = reader.IsDBNull(0) ? 0 : reader.GetInt32(0);
+                    var steamid = reader.IsDBNull(1) ? 0 : reader.GetInt64(1);
+                    if (steamid != 0)
+                    {
+                        if (AllPlayerTTimeTracking.ContainsKey((ulong)steamid) == false)
+                        {
+                            AllPlayerTTimeTracking.Add((ulong)steamid, data);
+                        }
+                        else
+                        {
+                            AllPlayerTTimeTracking[(ulong)steamid] = data;
                         }
                     }
                 }
@@ -303,11 +376,6 @@ public partial class JailbreakExtras
                     cmd.ExecuteNonQuery();
 
                     SendWarningForLessThan7HrsAWeekKomutcu(dic);
-                    foreach (var item in AllPlayerTimeTracking.ToList())
-                    {
-                        item.Value.WeeklyWTime = 0;
-                        AllPlayerTimeTracking[item.Key] = item.Value;
-                    }
                     foreach (var item in PlayerTimeTracking.ToList())
                     {
                         item.Value.WeeklyWTime = 0;

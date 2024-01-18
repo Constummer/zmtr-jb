@@ -39,9 +39,9 @@ public partial class JailbreakExtras
         public float Z { get; set; }
     }
 
-    public class SkzCoordinate
+    public class CoordinateTemplate
     {
-        public SkzCoordinate(string text, VectorTemp coords)
+        public CoordinateTemplate(string text, VectorTemp coords)
         {
             Text = text;
             Coords = coords;

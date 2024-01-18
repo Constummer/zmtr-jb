@@ -2,12 +2,12 @@
 
 public partial class JailbreakExtras
 {
-    private void TeamGamesCancel()
+    private void TeamGamesCancel(bool printMsg)
     {
         TgActive = false;
         TgTimer?.Kill();
         TgTimer = null;
-        ActiveTeamGamesGameBase?.Clear();
+        ActiveTeamGamesGameBase?.Clear(printMsg);
         ActiveTeamGamesGameBase = null;
     }
 }

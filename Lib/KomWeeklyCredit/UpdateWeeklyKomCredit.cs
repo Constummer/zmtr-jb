@@ -4,7 +4,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private void UpdateWeeklyKomCredit(ulong steamId)
+    private void InsertWeeklyKomCredit(ulong steamId)
     {
         using (var con = Connection())
         {

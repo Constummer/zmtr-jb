@@ -1,11 +1,8 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
-using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Menu;
-using CounterStrikeSharp.API.Modules.Timers;
-using System.Diagnostics.Metrics;
 
 namespace JailbreakExtras;
 
@@ -115,7 +112,7 @@ public partial class JailbreakExtras
             .ForEach(x =>
             {
                 if (ValidateCallerPlayer(x, false) == false) return;
-                SharpTimerPrintHtml(x, hmtl);
+                PrintToCenterHtml(x, hmtl);
             });
         }, Full);
 

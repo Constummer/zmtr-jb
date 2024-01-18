@@ -6,9 +6,9 @@ public partial class JailbreakExtras
 {
     #region UpdateAllTimeTrackingDatas
 
-    public void UpdateAllTimeTrackingDatas()
+    public CounterStrikeSharp.API.Modules.Timers.Timer UpdateAllTimeTrackingDatasTimer()
     {
-        AddTimer(60 * 15, () =>
+        return AddTimer(60 * 15, () =>
         {
             UpdateAllTimeTrackingData();
         }, Full);

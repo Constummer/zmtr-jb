@@ -135,7 +135,7 @@ public partial class JailbreakExtras
             {
                 var voters = GetPlayers().Where(x => KomAdays.Contains(x.SteamID));
 
-                Server.PrintToChatAll($"{Prefix} {CC.G} komaday sure bitti, oylama basladi.");
+                Server.PrintToChatAll($"{Prefix} {CC.G} Komaday süre bitti, oylama başladı.");
                 var komalVoteMenu = new ChatMenu("KomAl aday oylamasi");
                 KomAlVoteInProgress = true;
                 AlreadyVotedPlayers?.Clear();
@@ -174,14 +174,14 @@ public partial class JailbreakExtras
 
                     GetPlayers()
                     .ToList()
-                    .ForEach(x => SharpTimerPrintHtml(x, hmtl));
+                    .ForEach(x => PrintToCenterHtml(x, hmtl));
                 }, Full);
 
                 AddTimer(15, () =>
                 {
                     if (KomAlVoteInProgress)
                     {
-                        Server.PrintToChatAll($" {CC.R} Komaday sonuclari");
+                        Server.PrintToChatAll($" {CC.R} Komaday sonuçları");
 
                         var list = KomAlAnswers.OrderByDescending(x => x.Value).ToList();
 
@@ -221,7 +221,7 @@ public partial class JailbreakExtras
         }
         else
         {
-            Server.PrintToChatAll($"{Prefix} {CC.G} oylama yapilamiyor, yeterli aday yok .");
+            Server.PrintToChatAll($"{Prefix} {CC.G} Oylama yapılamıyor, yeterli aday yok.");
         }
     }
 

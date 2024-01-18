@@ -6,9 +6,9 @@ public partial class JailbreakExtras
 {
     #region SaveCreditTimer
 
-    public void SaveCreditTimer()
+    public CounterStrikeSharp.API.Modules.Timers.Timer SaveCreditTimer()
     {
-        AddTimer(Config.Credit.SaveCreditTimerEveryXSecond, () =>
+        return AddTimer(60f, () =>
         {
             UpdateAllModels();
         }, Full);

@@ -1,6 +1,6 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Menu;
-using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
@@ -9,6 +9,7 @@ public partial class JailbreakExtras
     internal class MultiGunFightTG : TeamGamesGameBase
     {
         private string SelectedWeaponName = null;
+        public Dictionary<int, int> PlayerCount { get; set; } = new();
 
         public MultiGunFightTG() : base(TeamGamesMultiChoices.GunFight)
         {
@@ -24,39 +25,51 @@ public partial class JailbreakExtras
             {
                 soloTGMenu.AddMenuOption(item.Key, (_, _) =>
                 {
-                    SelectedWeaponName = item.Value?.Split("weapon_")?[1] ?? "";
+                    SelectedWeaponName = item.Value;
+                    base.AdditionalChoiceMenu(player, value);
                 });
             }
             ChatMenus.OpenMenu(player, soloTGMenu);
-            base.AdditionalChoiceMenu(player, value);
         }
 
         internal override void StartGame(Action callback)
         {
-            if (Global != null)
-            {
-                Global.UnlimitedReserverAmmoActive = true;
-            }
-            GetPlayers(CsTeam.Terrorist)
-                .Where(x => x.PawnIsAlive)
-                .ToList()
-                .ForEach(x =>
-                {
-                    if (ValidateCallerPlayer(x, false) == false) return;
-                    RemoveWeapons(x, false);
-                });
-            GiveAction("", "@t", SelectedWeaponName, TargetForArgument.None, false);
-
+            RemoveAllWeapons(giveKnife: false, custom: SelectedWeaponName);
+            PlayerCount = GetTeamPlayerCounts();
             base.StartGame(callback);
         }
 
-        internal override void Clear()
+        internal override void Clear(bool printMsg)
         {
-            if (Global != null)
+            RemoveAllWeapons(giveKnife: true);
+            PlayerCount?.Clear();
+            base.Clear(printMsg);
+        }
+
+        internal override void EventPlayerDeath(EventPlayerDeath @event)
+        {
+            if (@event == null) return;
+            if (ValidateCallerPlayer(@event.Userid, false) == false) return;
+
+            var team = FindTeam(@event.Userid.SteamID);
+            if (team.Index == -1) return;
+            if (PlayerCount.ContainsKey(team.Index))
             {
-                Global.UnlimitedReserverAmmoActive = false;
+                PlayerCount[team.Index]--;
+                var otherTeamIndex = (team.Index + 1) % 2;
+
+                if (PlayerCount[team.Index] <= 0)
+                {
+                    var otherTeam = GetTeamColorAndTextByIndex(otherTeamIndex);
+                    if (otherTeam.Msg == null) return;
+
+                    Server.PrintToChatAll($"{Prefix} {otherTeam.Msg} {CC.W}takım kazandı.");
+                    PrintToCenterHtmlAll($"{Prefix} {otherTeam.Msg} {CC.W}takım kazandı.");
+                    Clear(true);
+                }
             }
-            base.Clear();
+
+            base.EventPlayerDeath(@event);
         }
     }
 }

@@ -10,6 +10,8 @@ public partial class JailbreakExtras
 {
     private void SoloTeamGamesMenu(CCSPlayerController player, ChatMenuOption option)
     {
+        SetRedColorForTeamGames();
+
         if (ValidateCallerPlayer(player, false) == false) return;
         var soloTGMenu = new ChatMenu("Team Games Menü | Herkes Tek");
 
@@ -30,8 +32,10 @@ public partial class JailbreakExtras
                 {
                     ActiveTeamGamesGameBase.AdditionalChoiceMenu(player, () =>
                     {
+                        if (ValidateCallerPlayer(player, false) == false) return;
+                        if (ActiveTeamGamesGameBase == null) return;
+
                         BasicCountdown.CommandStartTextCountDown(this, $"{item.Text} tekli oyunun başlamasına 3 saniye !");
-                        TgTimer?.Kill();
                         TgTimer = AddTimer(3.0f, () =>
                         {
                             if (ValidateCallerPlayer(player, false) == false) return;
@@ -40,7 +44,11 @@ public partial class JailbreakExtras
                             TgActive = true;
                             ActiveTeamGamesGameBase.StartGame(() =>
                             {
-                                SetRedColorForTeamGames();
+                                if (ActiveTeamGamesGameBase.FfActive)
+                                {
+                                    Server.ExecuteCommand("mp_teammates_are_enemies 1");
+                                }
+                                TGStartSound();
                                 Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}{item.Text} tekli oyununu başlattı.");
                             });
                         }, SOM);
@@ -48,8 +56,10 @@ public partial class JailbreakExtras
                 }
                 else
                 {
+                    if (ValidateCallerPlayer(player, false) == false) return;
+                    if (ActiveTeamGamesGameBase == null) return;
+
                     BasicCountdown.CommandStartTextCountDown(this, $"{item.Text} tekli oyunun başlamasına 3 saniye !");
-                    TgTimer?.Kill();
                     TgTimer = AddTimer(3.0f, () =>
                     {
                         if (ValidateCallerPlayer(player, false) == false) return;
@@ -58,7 +68,13 @@ public partial class JailbreakExtras
                         TgActive = true;
                         ActiveTeamGamesGameBase.StartGame(() =>
                         {
-                            SetRedColorForTeamGames();
+                            if (ValidateCallerPlayer(player, false) == false) return;
+                            if (ActiveTeamGamesGameBase == null) return;
+                            if (ActiveTeamGamesGameBase.FfActive)
+                            {
+                                Server.ExecuteCommand("mp_teammates_are_enemies 1");
+                            }
+                            TGStartSound();
                             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}{item.Text} tekli oyununu başlattı.");
                         });
                     }, SOM);
@@ -87,6 +103,8 @@ public partial class JailbreakExtras
             Vector currentSpeed = new Vector(0, 0, 0);
             QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
             x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
+            x.PrintToChat("Herkes Tek oyunu başlamak üzere.");
+            x.PrintToCenter("Herkes Tek oyunu başlamak üzere.");
         });
     }
 }

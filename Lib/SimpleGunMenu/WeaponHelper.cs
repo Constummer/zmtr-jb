@@ -5,10 +5,7 @@ public partial class JailbreakExtras
     private static readonly Dictionary<string, string> NoScopeGunMenu = new Dictionary<string, string>()
         {
                 {"AWP",                                new("awp")},
-                {"SG 553",                             new("sg553")},
-                {"AUG",                                new("aug")},
                 {"SSG 08",                             new("ssg08")},
-                {"SG 556",                             new("sg556")},
                 {"G3SG1",                              new("g3sg1")},
                 {"SCAR-20",                            new("scar20" )},
         };
@@ -39,7 +36,7 @@ public partial class JailbreakExtras
             {
                 {"AK-47",                              new("weapon_ak47")},
                 {"AWP",                                new("weapon_awp")},
-                {"Desert Eagle",                       new("weapon_deagle")},
+                {"Desert Eagle",                       new("weapon_deagle",         WeaponType.Secondary)},
                 {"M4A4",                               new("weapon_m4a1")},
                 {"M4A1-S",                             new("weapon_m4a1_silencer")},
                 {"SG 553",                             new("weapon_sg553")},

@@ -1,6 +1,7 @@
 ﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
+using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
 
@@ -13,17 +14,25 @@ public partial class JailbreakExtras
     {
         if (ValidateCallerPlayer(player, false) == false)
         {
+            Logger.LogInformation("a");
             return;
         }
+        Logger.LogInformation("1");
 
         var item = (PlayerTime)null;
         if (player?.SteamID != null && player!.SteamID != 0)
         {
+            Logger.LogInformation("2");
+
             if (PlayerTimeTracking.TryGetValue(player.SteamID, out item) == false)
             {
+                Logger.LogInformation("3");
+
                 return;
             }
         }
+        Logger.LogInformation("4");
+
         if (item == null)
         {
             player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");

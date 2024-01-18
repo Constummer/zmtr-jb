@@ -40,8 +40,8 @@ public partial class JailbreakExtras
             if (!VoteInProgress && !KomAlVoteInProgress)
             {
                 var buttons = player.Buttons;
-                SharpTimerPrintHtml(player,
-              $"<pre>Speed: <font color='#00FF00'>{Math.Round(player.PlayerPawn.Value.AbsVelocity.Length2D())}</font><br>" +
+                PrintToCenterHtml(player,
+              $"<pre>HIZ: <font color='#00FF00'>{Math.Round(player.PlayerPawn.Value.AbsVelocity.Length2D())}</font><br>" +
                           $"{((buttons & PlayerButtons.Left) != 0 ? "←" : "_")} " +
                           $"{((buttons & PlayerButtons.Forward) != 0 ? "W" : "_")} " +
                           $"{((buttons & PlayerButtons.Right) != 0 ? "→" : "_")}<br>" +

@@ -125,7 +125,7 @@ public partial class JailbreakExtras
             warden.PrintToChat($"{Prefix} {CC.B} !rm {CC.W}veya {CC.B}!revmenu {CC.W} ile menüden seçerek veya");
             warden.PrintToChat($"{Prefix} {CC.B} !rmf {CC.W} HIZLICA ");
             warden.PrintToChat($"{Prefix} {CC.W} Ölen ctleri 3 kere revleyebilirsin");
-            SharpTimerPrintHtml(warden, $"{CC.W} eğer {CC.R}İSELİ {CC.W} ise {CC.B} !rm {CC.W}veya {CC.B}!revmenu {CC.W} ile menüden seçerek veya {CC.B} !rmf {CC.W} HIZLICA {CC.W} Ölen ctleri 3 kere revleyebilirsin");
+            PrintToCenterHtml(warden, $"{CC.W} eğer {CC.R}İSELİ {CC.W} ise {CC.B} !rm {CC.W}veya {CC.B}!revmenu {CC.W} ile menüden seçerek veya {CC.B} !rmf {CC.W} HIZLICA {CC.W} Ölen ctleri 3 kere revleyebilirsin");
         }
     }
 

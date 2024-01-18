@@ -1,14 +1,12 @@
-﻿using CounterStrikeSharp.API.Modules.Timers;
-
-namespace JailbreakExtras;
+﻿namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
     #region CoinGoWantedTimer
 
-    public void CoinGoWantedTimer()
+    public CounterStrikeSharp.API.Modules.Timers.Timer CoinGoWantedTimer()
     {
-        AddTimer(0.2f, () =>
+        return AddTimer(0.2f, () =>
          {
              if (CoinGoWanted)
              {

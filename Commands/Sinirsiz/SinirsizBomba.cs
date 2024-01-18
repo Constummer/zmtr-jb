@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Timers;
@@ -29,6 +30,8 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix}{CC.W} 0 = kapatmak icin, 1 = acmak icin.");
             return;
         }
+        Server.PrintToChatAll($"{Prefix} {CC.W} Sınırsız bomba {oneTwo}.");
+
         SinirsizBombaTimer = GiveSinirsizCustomNade(oneTwo, SinirsizBombaTimer, "weapon_hegrenade");
     }
 
@@ -36,11 +39,6 @@ public partial class JailbreakExtras
     {
         switch (oneTwo)
         {
-            case 0:
-                sinirsizGiveTimer?.Kill();
-                sinirsizGiveTimer = null;
-                break;
-
             case 1:
                 sinirsizGiveTimer = AddTimer(3f, () =>
                 {
@@ -82,6 +80,8 @@ public partial class JailbreakExtras
                 break;
 
             default:
+                sinirsizGiveTimer?.Kill();
+                sinirsizGiveTimer = null;
                 break;
         }
         return sinirsizGiveTimer;

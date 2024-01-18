@@ -12,7 +12,7 @@ public partial class JailbreakExtras
             PrepareRoundDefaults();
             CoinRemove();
             CheckAllLevelTags();
-            AllDonbozAction();
+            //AllDonbozAction();
             if (KumarKapatDisable == false)
             {
                 RuletActivate();

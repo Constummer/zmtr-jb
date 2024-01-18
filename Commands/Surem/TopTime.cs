@@ -18,8 +18,7 @@ public partial class JailbreakExtras
             return;
         }
 
-        var ordered = AllPlayerTimeTracking.OrderByDescending(x => x.Value.Total)
-                                           .Take(10);
+        var ordered = AllPlayerTotalTimeTracking.OrderByDescending(x => x.Value);
 
         player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
         player.PrintToChat($"{Prefix} {CC.W} TOP 10 Süreler");
@@ -33,7 +32,7 @@ public partial class JailbreakExtras
                     tempName = tempName.Substring(0, 17) + "...";
                 }
                 tempName = tempName?.PadRight(20, '_');
-                player.PrintToChat($"{Prefix} {CC.G}{tempName} {CC.W}| {CC.B}{(item.Value.Total / 60)} {CC.Ol}Saat");
+                player.PrintToChat($"{Prefix} {CC.G}{tempName} {CC.W}| {CC.B}{(item.Value / 60)} {CC.Ol}Saat");
             }
         }
         player.PrintToChat($"{Prefix} {CC.B}!surem {CC.W}yazarak kendi süreni görebilirsin");

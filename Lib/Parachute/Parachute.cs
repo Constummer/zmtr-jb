@@ -1,14 +1,15 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CounterStrikeSharp.API.Modules.Utils;
+using System.Numerics;
 
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
     private static readonly Dictionary<int?, CBaseEntity?> gParaModel = new();
-    private static readonly Vector PARA_Vector = new Vector(4497, 4261, -1880);
 
     private void ParachuteOnTick(CCSPlayerController player, int i)
     {
@@ -60,7 +61,12 @@ public partial class JailbreakExtras
             entity.MoveType = MoveType_t.MOVETYPE_NOCLIP;
             entity.Collision.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_NONE;
             entity.Collision.CollisionAttribute.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_NONE;
-            entity.Teleport(PARA_Vector, ANGLE_ZERO, VEC_ZERO);
+            if (Config.Map.ParamCoords.Any(x => x.Text == Server.MapName))
+            {
+                var cords = Config.Map.ParamCoords.FirstOrDefault(x => x.Text == Server.MapName);
+                if (cords != null)
+                    entity.Teleport(cords.Coord, ANGLE_ZERO, VEC_ZERO);
+            }
             entity.DispatchSpawn();
 
             gParaModel[userid] = entity;
@@ -73,8 +79,13 @@ public partial class JailbreakExtras
         {
             if (gParaModel[player.UserId] != null && gParaModel[player.UserId].IsValid)
             {
-                gParaModel[player.UserId]
-                .Teleport(PARA_Vector, ANGLE_ZERO, VEC_ZERO);
+                if (Config.Map.ParamCoords.Any(x => x.Text == Server.MapName))
+                {
+                    var cords = Config.Map.ParamCoords.FirstOrDefault(x => x.Text == Server.MapName);
+                    if (cords != null)
+                        gParaModel[player.UserId]
+                        .Teleport(cords.Coord, ANGLE_ZERO, VEC_ZERO);
+                }
             }
         }
         player.GravityScale = 1.0f;
@@ -123,7 +134,12 @@ public partial class JailbreakExtras
                 {
                     if (gParaModel[userId] != null && gParaModel[userId].IsValid == true)
                     {
-                        gParaModel[userId].Teleport(PARA_Vector, ANGLE_ZERO, VEC_ZERO);
+                        if (_Config.Map.ParamCoords.Any(x => x.Text == Server.MapName))
+                        {
+                            var cords = _Config.Map.ParamCoords.FirstOrDefault(x => x.Text == Server.MapName);
+                            if (cords != null)
+                                gParaModel[userId].Teleport(cords.Coord, ANGLE_ZERO, VEC_ZERO);
+                        }
                         gParaModel[userId].Remove();
                         gParaModel[userId] = null;
                         gParaModel.Remove(userId);

@@ -4,6 +4,7 @@ using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Timers;
+using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
 
@@ -128,44 +129,56 @@ public partial class JailbreakExtras
         var targetArgument = GetTargetArgument(target);
         DrugTimer = AddTimer(1f, () =>
         {
-            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.B}drugladi");
-
             GetPlayers()
                        .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player.PlayerName))
                        .ToList()
                        .ForEach(x =>
                        {
                            if (ValidateCallerPlayer(x, false) == false) return;
-                           Server.PrintToChatAll($"{x.PlayerPawn.Value.FlashDuration}");
-                           x.PlayerPawn.Value.FlashDuration = 5;
 
-                           Server.PrintToChatAll($"{x.PlayerPawn.Value.FlashDuration}");
+                           //var @event = new EventPlayerBlind(true)
+                           //{
+                           //    BlindDuration = 5f,
+                           //    Userid = x,
+                           //    Attacker = player
+                           //};
 
-                           x.GiveNamedItem("weapon_flashbang");
-                           var ent = GetWeapon(x, "weapon_flashbang");
-                           if (ent != null && ent.IsValid)
-                           {
-                               var @event = new EventPlayerBlind(false)
-                               {
-                                   Userid = x,
-                                   BlindDuration = 5f,
-                                   Entityid = (int)ent.Index,
-                                   Attacker = x,
-                               };
-                               var @event1 = new EventFlashbangDetonate(false)
-                               {
-                                   Userid = x,
-                                   X = x.PlayerPawn.Value.AbsOrigin.X,
-                                   Y = x.PlayerPawn.Value.AbsOrigin.Y,
-                                   Z = x.PlayerPawn.Value.AbsOrigin.Z,
-                                   Entityid = (int)ent.Index,
-                               };
-                               @event.FireEvent(false);
-                               @event1.FireEvent(false);
+                           //SetStateChanged(x.PlayerPawn.Value, "CCSPlayerPawnBase", "m_flFlashDuration");
+                           //@event.FireEventToClient(x);
+                           //@event.FireEvent(true);
 
-                               @event1 = null;
-                               @event = null;
-                           }
+                           x.PlayerPawn.Value.FlashDuration = 5f;
+                           x.PlayerPawn.Value.BlindStartTime = 5f;
+                           Utilities.SetStateChanged(x.PlayerPawn.Value, "CCSPlayerPawnBase", "m_flFlashDuration");
+
+                           //@event = null;
+
+                           //x.GiveNamedItem("weapon_flashbang");
+                           //var ent = GetWeapon(x, "weapon_flashbang");
+                           //if (ent != null && ent.IsValid)
+                           //{
+                           //    var @event = new EventPlayerBlind(false)
+                           //    {
+                           //        Userid = x,
+                           //        BlindDuration = 5f,
+                           //        Entityid = (int)ent.Index,
+                           //        Attacker = x,
+                           //    };
+                           //    //var @event1 = new EventFlashbangDetonate(false)
+                           //    //{
+                           //    //    Userid = x,
+                           //    //    X = x.PlayerPawn.Value.AbsOrigin.X,
+                           //    //    Y = x.PlayerPawn.Value.AbsOrigin.Y,
+                           //    //    Z = x.PlayerPawn.Value.AbsOrigin.Z,
+                           //    //    Entityid = (int)ent.Index,
+                           //    //};
+                           //    @event.FireEventToClient(x);
+                           //    @event.FireEvent(false);
+                           //    //@event1.FireEventToClient(x);
+
+                           //    //@event1 = null;
+                           //    @event = null;
+                           //}
                        });
         }, Full);
     }

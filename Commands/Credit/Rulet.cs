@@ -212,7 +212,7 @@ public partial class JailbreakExtras
             {
                 if (kazananRenk == RuletOptions.Yesil)
                 {
-                    var win = (int)((enteredCredit.Credit * 14) * 0.9);
+                    var win = (int)((enteredCredit.Credit * 14) * 0.95);
                     x.PrintToChat($" {CC.Ol}[RULET]{CC.G} Tebrikler! {CtOfRulet(kazananRenk)} {CC.G}kazandı.{CC.W} Ruletten {CC.B}{win}{CC.W} kredi kazandın!");
                     var data = GetPlayerMarketModel(x.SteamID);
                     if (data.Model == null)
@@ -229,7 +229,7 @@ public partial class JailbreakExtras
 
                     if (kazandiMi)
                     {
-                        var win = (int)((enteredCredit.Credit * 2) * 0.9);
+                        var win = (int)((enteredCredit.Credit * 2) * 0.95);
                         x.PrintToChat($" {CC.Ol}[RULET]{CC.G} Tebrikler! {CtOfRulet(kazananRenk)} {CC.G}kazandı.{CC.W} Ruletten {CC.B}{win}{CC.W} kredi kazandın!");
                         var data = GetPlayerMarketModel(x.SteamID);
                         if (data.Model == null)

@@ -2,9 +2,9 @@
 
 public partial class JailbreakExtras
 {
-    private void SteamGroupsTimer()
+    private CounterStrikeSharp.API.Modules.Timers.Timer SteamGroupsTimer()
     {
-        AddTimer(5f, () =>
+        return AddTimer(5f, () =>
         {
             CheckSteamGroupsData();
         }, Full);

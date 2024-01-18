@@ -13,7 +13,7 @@ public partial class JailbreakExtras
 
     [ConsoleCommand("donate")]
     [ConsoleCommand("bagis")]
-    [CommandHelper(2, "<miktar>")]
+    [CommandHelper(1, "<miktar>")]
     public void Donate(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player, false) == false)
@@ -30,8 +30,7 @@ public partial class JailbreakExtras
         }
 
         if (info.ArgCount != 2) return;
-        var target = info.GetArg(1);
-        if (!int.TryParse(info.GetArg(2), out var miktar) || miktar <= 0)
+        if (!int.TryParse(info.GetArg(1), out var miktar) || miktar <= 0)
         {
             player.PrintToChat($"{Prefix} {CC.W}Miktar yanlış!");
             return;
@@ -74,6 +73,8 @@ public partial class JailbreakExtras
             PlayerMarketModels[player.SteamID] = data.Model;
             LatestDonateCommandCalls[player.SteamID] = DateTime.UtcNow;
             Server.PrintToChatAll($"{Prefix} {CC.Ol}{player.PlayerName}{CC.W},{CC.B} {x.PlayerName} {CC.W}adlı komutçuya {CC.G}{miktar} {CC.W}kredi donateledi!");
+
+            PrintToCenterAll($"{player.PlayerName}, {x.PlayerName} adlı komutçuya {miktar} kredi donateledi!");
         }
     }
 

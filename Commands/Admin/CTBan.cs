@@ -27,7 +27,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<playerismi>")]
     public void CTUnBan(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
         {
             player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
@@ -64,12 +64,12 @@ public partial class JailbreakExtras
     [CommandHelper(2, "<playerismi> <dakika/0 süresiz>")]
     public void CTBan(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
         {
             player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
-        if (ValidateCallerPlayer(player) == false)
+        if (ValidateCallerPlayer(player, false) == false)
         {
             return;
         }

@@ -1,35 +1,98 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Memory;
 using CounterStrikeSharp.API.Modules.Memory.DynamicFunctions;
+using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private void FovAction(CCSPlayerController? player, CommandInfo info)
+    private static Dictionary<ulong, int> FovActivePlayers = new();
+
+    private void FovKapaAction(CCSPlayerController? player, bool extraMsg = false)
+    {
+        GetPlayers()
+            .Where(x => x.PawnIsAlive == true
+                       && FovActivePlayers.ContainsKey(x.SteamID))
+            .ToList()
+            .ForEach(x =>
+            {
+                if (player == null)
+                {
+                    x.PrintToChat($"{Prefix} {CC.W} FOV'un {(extraMsg ? "oyun için" : "")} kapandı.");
+                }
+                else
+                {
+                    x.PrintToChat($"{AdliAdmin(player.PlayerName)} {CC.W} FOV'unu {(extraMsg ? "oyun için" : "")} kapadı.");
+                }
+                FovAction(x, null, true);
+            });
+        Config.UnrestrictedFov.Enabled = false;
+    }
+
+    private void FovReopenAction(bool extraMsg = false)
+    {
+        Config.UnrestrictedFov.Enabled = true;
+
+        GetPlayers(CsTeam.Terrorist)
+            .ToList()
+            .ForEach(x =>
+            {
+                if (FovActivePlayers.TryGetValue(x.SteamID, out int fov))
+                {
+                    x.PrintToChat($"{Prefix} {CC.W}{(extraMsg ? "Oyun için" : "")} kapalı FOV'un tekrar açıldı. !fov yazarak değiştirebilirsin.");
+                    FovAction(x, fov.ToString());
+                }
+                else
+                {
+                    x.PrintToChat($"{Prefix} {CC.W}{(extraMsg ? "Oyun için" : "")} kapalı FOV'un sıfırlandı. !fov yazarak değiştirebilirsin.");
+                    FovAction(x, null);
+                }
+            });
+    }
+
+    private void FovAction(CCSPlayerController? player, string fov, bool force = false, bool setForce = false, bool addDic = true)
+
     {
         if (ValidateCallerPlayer(player, false) == false) return;
 
-        if (player == null) // if player is server then return
-        {
-            info.ReplyToCommand("[FOV] Cannot use command from RCON");
-            return;
-        }
-        if (Config.UnrestrictedFov.Enabled == false)
+        if (setForce == false && Config.UnrestrictedFov.Enabled == false)
         {
             player.PrintToChat($"{Prefix} {CC.DR}FOV devre dışı!");
             return;
         }
-        var fov = info.ArgByIndex(1);
-        if (fov == "")
+
+        if (force)
         {
-            player.DesiredFOV = 60;
+            player.DesiredFOV = 90;
             SetStateChanged(player, "CBasePlayerController", "m_iDesiredFOV");
             player.PrintToChat($"{Prefix} {CC.W}FOV ayarın sıfırlandı..");
             return;
         }
+
+        if (fov == "" || fov == null)
+        {
+            player.DesiredFOV = 90;
+            if (addDic)
+            {
+                if (FovActivePlayers.ContainsKey(player.SteamID) == false)
+                {
+                    FovActivePlayers.Add(player.SteamID, 90);
+                }
+                else
+                {
+                    FovActivePlayers[player.SteamID] = 90;
+                }
+            }
+
+            SetStateChanged(player, "CBasePlayerController", "m_iDesiredFOV");
+
+            player.PrintToChat($"{Prefix} {CC.W}FOV ayarın sıfırlandı..");
+
+            return;
+        }
+
         if (!IsInt(fov))
         {
             player.PrintToChat($"{Prefix} {CC.W}FOV bulunamadı. Sayıyı doğru gir {CC.DR}{Config.UnrestrictedFov.FOVMin}{CC.W} - {CC.DR}{Config.UnrestrictedFov.FOVMax}");
@@ -45,6 +108,18 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.W}Maximum FOV {CC.DR}{Config.UnrestrictedFov.FOVMax}{CC.W} olarak ayarlanabilir");
             return;
         }
+        if (addDic)
+        {
+            if (FovActivePlayers.ContainsKey(player.SteamID) == false)
+            {
+                FovActivePlayers.Add(player.SteamID, Convert.ToInt32(fov));
+            }
+            else
+            {
+                FovActivePlayers[player.SteamID] = Convert.ToInt32(fov);
+            }
+        }
+
         player.DesiredFOV = Convert.ToUInt32(fov);
         SetStateChanged(player, "CBasePlayerController", "m_iDesiredFOV");
         player.PrintToChat($"{Prefix} {CC.W}FOV ayarın {CC.L}{fov} {CC.W}olarak ayarlandı.");

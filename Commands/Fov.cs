@@ -16,7 +16,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        FovAction(player, info);
+        FovAction(player, info.ArgByIndex(1));
     }
 
     [ConsoleCommand("fovkapat")]
@@ -30,8 +30,7 @@ public partial class JailbreakExtras
         }
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W} FOV'u kapadı.");
 
-        Config.UnrestrictedFov.Enabled = false;
-        GetPlayers().ToList().ForEach(x => FovAction(x, info));
+        FovKapaAction(player);
     }
 
     [ConsoleCommand("fovac")]

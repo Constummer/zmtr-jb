@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Modules.Utils;
+﻿using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API;
 
 namespace JailbreakExtras;
 
@@ -6,36 +7,42 @@ public partial class JailbreakExtras
 {
     internal class SoloCoctailPartyTG : TeamGamesGameBase
     {
+        public int PlayerCount { get; set; } = 0;
+
         public SoloCoctailPartyTG() : base(TeamGamesSoloChoices.CoctailParty)
         {
         }
 
         internal override void StartGame(Action callback)
         {
-            GetPlayers(CsTeam.Terrorist)
-            .Where(x => x.PawnIsAlive)
-            .ToList()
-            .ForEach(x =>
-            {
-                if (ValidateCallerPlayer(x, false) == false) return;
-                RemoveWeapons(x, false);
-            });
-            Global?.SinirsizXAction(null, "@t", "incgrenade");
+            PlayerCount = RemoveAllWeapons(giveKnife: false, giveFists: true);
+            Global?.SinirsizXAction(null, "@t", "molotov");
             base.StartGame(callback);
         }
 
-        internal override void Clear()
+        internal override void Clear(bool printMsg)
         {
             Global?.SinirsizXKapaAction("@t", "");
-            GetPlayers(CsTeam.Terrorist)
-           .Where(x => x.PawnIsAlive)
-           .ToList()
-           .ForEach(x =>
-           {
-               if (ValidateCallerPlayer(x, false) == false) return;
-               RemoveWeapons(x, true);
-           });
-            base.Clear();
+            RemoveAllWeapons(giveKnife: true);
+            PlayerCount = 0;
+            base.Clear(printMsg);
+        }
+
+        internal override void EventPlayerDeath(EventPlayerDeath @event)
+        {
+            if (@event == null) return;
+            if (ValidateCallerPlayer(@event.Attacker, false) == false) return;
+
+            PlayerCount--;
+
+            if (PlayerCount <= 1)
+            {
+                Server.PrintToChatAll($"{Prefix} {CC.Or} {@event.Attacker.PlayerName}{CC.W} adlı mahkûm kazandı.");
+                PrintToCenterHtmlAll($"{Prefix} {@event.Attacker.PlayerName} adlı mahkûm kazandı.");
+
+                Clear(true);
+            }
+            base.EventPlayerDeath(@event);
         }
     }
 }

@@ -1,14 +1,12 @@
-﻿using CounterStrikeSharp.API.Modules.Timers;
-
-namespace JailbreakExtras;
+﻿namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
     #region SaveTimeTrackingDatas
 
-    public void SaveTimeTrackingDatas()
+    public CounterStrikeSharp.API.Modules.Timers.Timer SaveTimeTrackingDatasTimer()
     {
-        AddTimer(60f, () =>
+        return AddTimer(60f, () =>
         {
             UpdatePlayerTimeDataBulk();
         }, Full);

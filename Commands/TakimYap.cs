@@ -9,7 +9,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static Dictionary<int, List<ulong>> TeamSteamIds = new();
+    public static Dictionary<int, List<ulong>> TeamSteamIds = new();
     private static bool TeamActive = false;
 
     #region TakimYap
@@ -53,6 +53,12 @@ public partial class JailbreakExtras
         {
             return;
         }
+        TakimBozAction();
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.W} Takımları sildi");
+    }
+
+    private static void TakimBozAction()
+    {
         TeamActive = false;
 
         var players = GetPlayers()
@@ -65,31 +71,31 @@ public partial class JailbreakExtras
               .ToList();
 
         players.ForEach(x =>
-            {
-                SetColour(x, DefaultColor);
+        {
+            SetColour(x, DefaultColor);
 
-                Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
-                Vector currentSpeed = new Vector(0, 0, 0);
-                QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
-                x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
-            });
+            Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
+            Vector currentSpeed = new Vector(0, 0, 0);
+            QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
+            x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
+        });
         TeamSteamIds.Clear();
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.W} Takımları sildi");
     }
 
-    private static (string? Msg, Color Color) FindTeam(ulong steamID)
+    private static (string? Msg, Color Color, int Index) FindTeam(ulong steamID)
     {
         foreach (var team in TeamSteamIds)
         {
             if (team.Value.Contains(steamID))
             {
-                return GetTeamColorAndTextByIndex(team.Key);
+                var res = GetTeamColorAndTextByIndex(team.Key);
+                return (res.Msg, res.Color, team.Key);
             }
         }
-        return (null, Color.Black);
+        return (null, Color.Black, -1);
     }
 
-    private void TakimYapAction(int chunk)
+    private void TakimYapAction(int chunk, bool additionalMsg = false)
     {
         TeamActive = true;
         TeamSteamIds.Clear();
@@ -116,8 +122,8 @@ public partial class JailbreakExtras
             plist.ForEach(x =>
             {
                 SetColour(x, res.Color);
-                x.PrintToChat($"{Prefix} {CC.P}{res.Msg} {CC.W}Takıma girdin!");
-                x.PrintToCenter($"{Prefix} {CC.P}{res.Msg} {CC.W}Takıma girdin!");
+                x.PrintToChat($"{Prefix} {CC.P}{res.Msg} {CC.W}Takıma girdin!{(additionalMsg ? " Takım oyunu başlamak üzere" : "")}");
+                x.PrintToCenter($"{Prefix} {CC.P}{res.Msg} {CC.W}Takıma girdin!{(additionalMsg ? " Takım oyunu başlamak üzere" : "")}");
 
                 Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                 Vector currentSpeed = new Vector(0, 0, 0);
@@ -234,6 +240,30 @@ public partial class JailbreakExtras
         //    return 18;
         else
             return -1;
+    }
+
+    private static Dictionary<int, int> GetTeamPlayerCounts()
+    {
+        Dictionary<int, int> playerCount = new();
+
+        GetPlayers()
+                .Select(x => x.SteamID)
+                .ToList()
+                .ForEach(x =>
+                {
+                    var team = FindTeam(x);
+                    if (team.Index == -1)
+                        return;
+                    if (playerCount.ContainsKey(team.Index) == false)
+                    {
+                        playerCount.Add(team.Index, 1);
+                    }
+                    else
+                    {
+                        playerCount[team.Index]++;
+                    }
+                });
+        return playerCount;
     }
 
     #endregion TakimYap

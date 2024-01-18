@@ -52,6 +52,7 @@ public partial class JailbreakExtras
         RemoveWeapons(gard, true);
         SetColour(gard, DefaultColor);
         SetColour(mahk, DefaultColor);
+        Server.PrintToChatAll($"{Prefix}{CC.W} LR iptal edildi.");
         LrCancel();
     }
 

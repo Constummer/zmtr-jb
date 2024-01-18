@@ -1,6 +1,7 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
 using CounterStrikeSharp.API.Modules.Utils;
+using System.Net.NetworkInformation;
 using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
@@ -44,10 +45,15 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
 
         #region System Releated
 
+        if (IsExistPlayer() == false)
+        {
+            throw new AccessViolationException("Bu plugýn Constummer yapýmýdýr. Çalamazsýn :}");
+        }
         LoadCredit();
         CreateDataFolder();
         Database();
         LoadPlayerModels();
+        //AddTimers();
 
         #endregion System Releated
 
@@ -60,6 +66,7 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
 
         #region CSS releated
 
+        AddTimers();
         CallEvents();
         CallListeners();
         CallCommandListeners();

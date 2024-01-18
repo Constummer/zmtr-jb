@@ -17,6 +17,7 @@ public partial class JailbreakExtras
             SoloChoice = soloChoice;
         }
 
+        public bool FfActive { get; set; } = true;
         public bool HasAdditionalChoices { get; set; } = false;
         public TeamGamesMultiChoices MultiChoice { get; set; } = TeamGamesMultiChoices.None;
         public TeamGamesSoloChoices SoloChoice { get; set; } = TeamGamesSoloChoices.None;
@@ -27,19 +28,25 @@ public partial class JailbreakExtras
             callback();
         }
 
-        internal virtual void Clear()
+        internal virtual void Clear(bool printMsg)
         {
+            Server.ExecuteCommand("mp_teammates_are_enemies 0");
+
             if (string.IsNullOrWhiteSpace(GameName))
             {
                 return;
             }
-            if (MultiChoice != TeamGamesMultiChoices.None)
+            TakimBozAction();
+            if (printMsg)
             {
-                Server.PrintToChatAll($"{CC.W}{GameName} takım oyununu kapatıldı.");
-            }
-            else
-            {
-                Server.PrintToChatAll($"{CC.W}{GameName} tekli oyununu kapatıldı.");
+                if (MultiChoice != TeamGamesMultiChoices.None)
+                {
+                    Server.PrintToChatAll($"{CC.W}{GameName} takım oyununu kapatıldı.");
+                }
+                else
+                {
+                    Server.PrintToChatAll($"{CC.W}{GameName} tekli oyununu kapatıldı.");
+                }
             }
         }
 
@@ -69,6 +76,14 @@ public partial class JailbreakExtras
         }
 
         internal virtual void EventWeaponZoom(EventWeaponZoom @event)
+        {
+        }
+
+        internal virtual void OnTakeDamageHook(CEntityInstance ent, CEntityInstance activator)
+        {
+        }
+
+        internal virtual void EventWeaponFire(EventWeaponFire @event)
         {
         }
     }

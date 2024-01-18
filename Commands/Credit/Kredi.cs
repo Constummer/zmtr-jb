@@ -11,6 +11,9 @@ public partial class JailbreakExtras
 
     private static Dictionary<ulong, DateTime> LatestKredimCommandCalls = new Dictionary<ulong, DateTime>();
 
+    [ConsoleCommand("para")]
+    [ConsoleCommand("money")]
+    [ConsoleCommand("sikke")]
     [ConsoleCommand("kredi")]
     [ConsoleCommand("kredim")]
     public void Kredi(CCSPlayerController? player, CommandInfo info)
@@ -24,7 +27,7 @@ public partial class JailbreakExtras
         {
             if (DateTime.UtcNow < call.AddSeconds(5))
             {
-                player.PrintToChat($"{Prefix} {CC.W}Tekrar kredi yazabilmek için {CC.DR}5 {CC.W}saniye beklemelisin!");
+                player.PrintToChat($"{Prefix} {CC.W}Tekrar !kredi yazabilmek için {CC.DR}5 {CC.W}saniye beklemelisin!");
                 return;
             }
         }

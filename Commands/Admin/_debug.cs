@@ -25,23 +25,6 @@ public partial class JailbreakExtras
         }
     }
 
-    private bool KapiAcIptal = false;
-
-    [ConsoleCommand("kapiaciptal")]
-    public void kapiaciptal(CCSPlayerController? player, CommandInfo info)
-    {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
-        {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
-            return;
-        }
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        KapiAcIptal = !KapiAcIptal;
-    }
-
     [ConsoleCommand("csteamid")]
     public void csteamid(CCSPlayerController? player, CommandInfo info)
     {
@@ -325,9 +308,21 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
         }
-        foreach (var item in AllPlayerTimeTracking)
+        foreach (var item in AllPlayerTotalTimeTracking)
         {
-            player.PrintToConsole($"{item.Key}|{item.Value.Total}|{item.Value.CTTime}|{item.Value.TTime}|{item.Value.WTime}|{item.Value.WeeklyWTime}|{item.Value.CTTime}");
+            player.PrintToConsole($"{item.Key}|{item.Value}");
+        }
+        foreach (var item in AllPlayerTTimeTracking)
+        {
+            player.PrintToConsole($"{item.Key}|{item.Value}");
+        }
+        foreach (var item in AllPlayerCTTimeTracking)
+        {
+            player.PrintToConsole($"{item.Key}|{item.Value}");
+        }
+        foreach (var item in AllPlayerWTimeTracking)
+        {
+            player.PrintToConsole($"{item.Key}|{item.Value}");
         }
     }
 
@@ -439,27 +434,6 @@ public partial class JailbreakExtras
             return;
         }
         ShowWeapons(player);
-    }
-
-    private static bool LastRSoundDisable = false;
-
-    [ConsoleCommand("consjoy")]
-    public void consjoy(CCSPlayerController? player, CommandInfo info)
-    {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
-        {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
-            return;
-        }
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        LastRSoundDisable = true;
-        RespawnAc(player, info);
-        FfAc(player, info);
-        Noclip(player, info);
-        ForceOpenDoor();
     }
 
     [ConsoleCommand("css_slot1")]
@@ -621,7 +595,7 @@ public partial class JailbreakExtras
         }
         foreach (var item in GetPlayers().ToList())
         {
-            SharpTimerPrintHtml(item, info.ArgString);
+            PrintToCenterHtml(item, info.ArgString);
         }
     }
 
@@ -639,7 +613,7 @@ public partial class JailbreakExtras
         }
         foreach (var item in GetPlayers().ToList())
         {
-            SharpTimerPrintHtml(item, info.ArgString);
+            PrintToCenterHtml(item, info.ArgString);
             item.PrintToCenter(info.ArgString);
         }
     }
@@ -658,7 +632,7 @@ public partial class JailbreakExtras
         }
         foreach (var item in GetPlayers().ToList())
         {
-            SharpTimerPrintHtml(item, info.ArgString);
+            PrintToCenterHtml(item, info.ArgString);
             item.PrintToCenter(info.ArgString);
             item.PrintToCenter(info.ArgString);
         }
@@ -736,6 +710,11 @@ public partial class JailbreakExtras
             "10" => "sounds/mapeadores/saysounds/applause4.vsnd_c",
             "11" => "sounds/mapeadores/saysounds/chimp2.vsnd_c",
             "12" => "sounds/mapeadores/saysounds/heheboi.vsnd_c",
+            "13" => "sounds/player/burn_damage1.vsnd_c",
+            "14" => "sounds/player/burn_damage2.vsnd_c",
+            "15" => "sounds/player/burn_damage3.vsnd_c",
+            "16" => "sounds/player/burn_damage4.vsnd_c",
+            "17" => "sounds/player/burn_damage5.vsnd_c",
             _ => null
         };
         if (snd == null)

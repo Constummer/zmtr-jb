@@ -1,9 +1,7 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
-using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
@@ -18,12 +16,6 @@ public partial class JailbreakExtras
     [ConsoleCommand("burnsil")]
     public void OnUnBurnCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
-        {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
-            return;
-        }
-
         if (ValidateCallerPlayer(player) == false)
         {
             return;
@@ -37,12 +29,6 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me> <0,1>")]
     public void OnBurnCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
-        {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
-            return;
-        }
-
         if (ValidateCallerPlayer(player) == false)
         {
             return;
@@ -79,10 +65,12 @@ public partial class JailbreakExtras
             GetPlayers()
                        .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player.PlayerName))
                        .ToList()
-                       .ForEach(x =>
-                       {
-                           PerformBurn(x.PlayerPawn.Value, 1);
-                       });
+            .ForEach(x =>
+            {
+                var randSound = Config.Sounds.BurnSounds.Skip(_random.Next(Config.Sounds.BurnSounds.Count())).FirstOrDefault();
+                x.ExecuteClientCommand($"play {randSound}");
+                PerformBurn(x.PlayerPawn.Value, 1);
+            });
         }, Full);
     }
 
@@ -102,6 +90,26 @@ public partial class JailbreakExtras
 
         if (pawn.Health <= 0)
             pawn.CommitSuicide(true, true);
+    }
+
+    private static void PerformBurn(CCSPlayerController x, int damage)
+    {
+        if (ValidateCallerPlayer(x, false) == false) return;
+
+        if (x.PawnIsAlive == false)
+            return;
+
+        if (damage <= 0)
+            return;
+
+        x.PlayerPawn.Value.Health -= damage;
+
+        if (x.PlayerPawn.Value.Health <= 0)
+        {
+            x.PlayerPawn.Value.CommitSuicide(true, true);
+            return;
+        }
+        RefreshPawnTP(x);
     }
 
     #endregion Burn

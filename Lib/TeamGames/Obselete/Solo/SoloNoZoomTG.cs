@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Menu;
 
 namespace JailbreakExtras;
@@ -8,6 +9,7 @@ public partial class JailbreakExtras
     internal class SoloNoZoomTG : TeamGamesGameBase
     {
         private string SelectedWeaponName = null;
+        public int PlayerCount { get; set; } = 0;
 
         public SoloNoZoomTG() : base(TeamGamesSoloChoices.NoZoom)
         {
@@ -24,30 +26,23 @@ public partial class JailbreakExtras
                 soloTGMenu.AddMenuOption(item.Key, (p, i) =>
                 {
                     SelectedWeaponName = item.Value;
+                    base.AdditionalChoiceMenu(player, value);
                 });
             }
             ChatMenus.OpenMenu(player, soloTGMenu);
-            base.AdditionalChoiceMenu(player, value);
         }
 
         internal override void StartGame(Action callback)
         {
-            if (Global != null)
-            {
-                Global.UnlimitedReserverAmmoActive = true;
-            }
-            GiveAction("", "@t", SelectedWeaponName, TargetForArgument.None, false);
-
+            PlayerCount = RemoveAllWeapons(giveKnife: false, custom: $"weapon_{SelectedWeaponName}");
             base.StartGame(callback);
         }
 
-        internal override void Clear()
+        internal override void Clear(bool printMsg)
         {
-            if (Global != null)
-            {
-                Global.UnlimitedReserverAmmoActive = false;
-            }
-            base.Clear();
+            RemoveAllWeapons(giveKnife: true);
+            PlayerCount = 0;
+            base.Clear(printMsg);
         }
 
         internal override void EventWeaponZoom(EventWeaponZoom @event)
@@ -55,18 +50,28 @@ public partial class JailbreakExtras
             if (@event == null) return;
 
             if (ValidateCallerPlayer(@event.Userid, false) == false) return;
-            CBasePlayerWeapon? weapon = null;
 
-            RemoveWeapon(@event.Userid, $"weapon_{SelectedWeaponName}");
+            @event.Userid.RemoveWeapons();
             @event.Userid.GiveNamedItem($"weapon_{SelectedWeaponName}");
-            weapon = GetWeapon(@event.Userid, $"weapon_{SelectedWeaponName}");
-            if (WeaponIsValid(weapon) == false)
-            {
-                return;
-            }
-            SetAmmo(weapon, 999, 999);
 
             base.EventWeaponZoom(@event);
+        }
+
+        internal override void EventPlayerDeath(EventPlayerDeath @event)
+        {
+            if (@event == null) return;
+            if (ValidateCallerPlayer(@event.Attacker, false) == false) return;
+
+            PlayerCount--;
+
+            if (PlayerCount <= 1)
+            {
+                Server.PrintToChatAll($"{Prefix} {CC.Or} {@event.Attacker.PlayerName}{CC.W} adlı mahkûm kazandı.");
+                PrintToCenterHtmlAll($"{Prefix} {@event.Attacker.PlayerName} adlı mahkûm kazandı.");
+
+                Clear(true);
+            }
+            base.EventPlayerDeath(@event);
         }
     }
 }

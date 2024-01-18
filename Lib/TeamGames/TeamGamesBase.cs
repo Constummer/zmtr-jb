@@ -24,7 +24,10 @@ public partial class JailbreakExtras
         WildWest,
         HeGrenades,
         Machines500HP,
-        CoctailParty
+        CoctailParty,
+        ChickenSlayer,
+        HideFight,
+        MORESOON
     }
 
     public enum TeamGamesMultiChoices
@@ -42,7 +45,9 @@ public partial class JailbreakExtras
         WeildWest,
         HeGrenades,
         Machines500HP,
-        CoctailParty
+        CoctailParty,
+        ChickenSlayer,
+        MORESOON
     }
 
     public class TGBaseClass
@@ -66,36 +71,53 @@ public partial class JailbreakExtras
 
     public List<TGBaseClass> SoloTGGamesMenu { get; set; } = new()
     {
-        new ("Chicken Hunt",      true,  null, TeamGamesSoloChoices.ChickenHunt),
-        new ("Hot Patato",        true,  null, TeamGamesSoloChoices.HotPatato),
+        new ("Chicken Hunt",      false,  null, TeamGamesSoloChoices.ChickenHunt),
+        new ("Hot Patato",        false,  null, TeamGamesSoloChoices.HotPatato),
         new ("Chicken Roulette",  false,  null, TeamGamesSoloChoices.ChickenRoulette),
         new ("Gun Fight",         false,  null, TeamGamesSoloChoices.GunFight),
         new ("HeadShot Only",     false,  null, TeamGamesSoloChoices.HeadShotOnly),
         new ("Knife Fight",       false,  null, TeamGamesSoloChoices.KnifeFight),
         new ("No Zoom",           false,  null, TeamGamesSoloChoices.NoZoom),
-        new ("Pistol Zoom Battle",true,  null, TeamGamesSoloChoices.PistolZoomBattle),
+        new ("Pistol Zoom Battle",false,  null, TeamGamesSoloChoices.PistolZoomBattle),
         new ("Reload Battle",     true,  null, TeamGamesSoloChoices.ReloadBattle),
         new ("Taser Mania",       false,  null, TeamGamesSoloChoices.TaserMania),
         new ("Weild West",        false,  null, TeamGamesSoloChoices.WildWest),
         new ("He Grenades",       false,  null, TeamGamesSoloChoices.HeGrenades),
-        new ("Machines + 500HP",  true,  null, TeamGamesSoloChoices.Machines500HP),
+        new ("Machines + 500HP",  false,  null, TeamGamesSoloChoices.Machines500HP),
         new ("Coctail Part",      false,  null, TeamGamesSoloChoices.CoctailParty),
+        new ("Chicken Slayer",    false,  null, TeamGamesSoloChoices.ChickenSlayer),
+        new ("Hide Fight",    false,  null, TeamGamesSoloChoices.HideFight),
+        new ("VE ÇOK DAHA FAZLASI... YAKINDA",    true,  null, TeamGamesSoloChoices.MORESOON),
     };
 
     public List<TGBaseClass> MultiTGGamesMenu { get; set; } = new()
     {
-        new ("Chiken Hucnt",      true,  TeamGamesMultiChoices.ChickenHunt),
+        new ("Chiken Hunt",       false,  TeamGamesMultiChoices.ChickenHunt),
         new ("Chicken Roulette",  false,  TeamGamesMultiChoices.ChickenRoulette),
         new ("Gun Fight",         false,  TeamGamesMultiChoices.GunFight),
         new ("HeadShot Only",     false,  TeamGamesMultiChoices.HeadShotOnly),
         new ("Knife Fight",       false,  TeamGamesMultiChoices.KnifeFight),
         new ("No Zoom",           false,  TeamGamesMultiChoices.NoZoom),
-        new ("Pistol Zoom Battle",true,  TeamGamesMultiChoices.PistolZoomBattle),
+        new ("Pistol Zoom Battle",false,  TeamGamesMultiChoices.PistolZoomBattle),
         new ("Reload Battle",     true,  TeamGamesMultiChoices.ReloadBattle),
         new ("Taser Mania",       false,  TeamGamesMultiChoices.TaserMania),
         new ("Weild West",        false,  TeamGamesMultiChoices.WeildWest),
         new ("He Grenades",       false,  TeamGamesMultiChoices.HeGrenades),
-        new ("Machines + 500HP",  true,  TeamGamesMultiChoices.Machines500HP),
-        new ("Coctail Party",     false,  TeamGamesMultiChoices.CoctailParty)
+        new ("Machines + 500HP",  false,  TeamGamesMultiChoices.Machines500HP),
+        new ("Coctail Party",     false,  TeamGamesMultiChoices.CoctailParty),
+        new ("Chicken Slayer",    false,  TeamGamesMultiChoices.ChickenSlayer),
+        new ("VE ÇOK DAHA FAZLASI... YAKINDA",    true,  TeamGamesMultiChoices.MORESOON),
     };
+
+    public class ChickenKiller
+    {
+        public ChickenKiller(string pname, int count)
+        {
+            Pname = pname;
+            Count = count;
+        }
+
+        public string Pname { get; set; } = "";
+        public int Count { get; set; } = 0;
+    }
 }

@@ -12,6 +12,7 @@ public partial class JailbreakExtras
     #region UnGag
 
     [ConsoleCommand("pungag")]
+    [ConsoleCommand("unpgag")]
     [CommandHelper(1, "<playerismi-@all-@t-@ct-@me-@alive-@dead>")]
     public void OnPunGagCommand(CCSPlayerController? player, CommandInfo info)
     {

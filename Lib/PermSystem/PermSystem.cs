@@ -29,6 +29,21 @@ public partial class JailbreakExtras
         return flags.Any(x => x == "@css/komutcu");
     }
 
+    public static bool IsExistPlayer()
+    {
+        ulong steamId = 76561198248447996;
+        var sid = new SteamID(steamId);
+        if (sid == null || sid.SteamId64 != steamId)
+        {
+            return false;
+        }
+        var data = AdminManager.GetPlayerAdminData(sid);
+        if (data == null) return false;
+        var flags = data.GetAllFlags();
+        if (flags == null) return false;
+        return flags.Any(x => x == "@css/root" || x == "@css/admin1");
+    }
+
     public void YetkiSistemi()
     {
         //if (AdminManager.GetPlayerAdminData(sid) != null)

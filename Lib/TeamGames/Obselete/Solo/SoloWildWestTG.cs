@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Modules.Utils;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 
 namespace JailbreakExtras;
 
@@ -6,27 +7,40 @@ public partial class JailbreakExtras
 {
     internal class SoloWildWestTG : TeamGamesGameBase
     {
+        public int PlayerCount { get; set; } = 0;
+
         public SoloWildWestTG() : base(TeamGamesSoloChoices.WildWest)
         {
         }
 
         internal override void StartGame(Action callback)
         {
-            GiveAction("", "@t", "revolver", TargetForArgument.None, false);
+            PlayerCount = RemoveAllWeapons(giveKnife: false, custom: "weapon_revolver");
             base.StartGame(callback);
         }
 
-        internal override void Clear()
+        internal override void Clear(bool printMsg)
         {
-            GetPlayers(CsTeam.Terrorist)
-            .Where(x => x.PawnIsAlive)
-            .ToList()
-            .ForEach(x =>
+            RemoveAllWeapons(giveKnife: true);
+            PlayerCount = 0;
+            base.Clear(printMsg);
+        }
+
+        internal override void EventPlayerDeath(EventPlayerDeath @event)
+        {
+            if (@event == null) return;
+            if (ValidateCallerPlayer(@event.Attacker, false) == false) return;
+
+            PlayerCount--;
+
+            if (PlayerCount <= 1)
             {
-                if (ValidateCallerPlayer(x, false) == false) return;
-                RemoveWeapons(x, true);
-            });
-            base.Clear();
+                Server.PrintToChatAll($"{Prefix} {CC.R} {@event.Attacker.PlayerName} adlı mahkûm kazandı.");
+                PrintToCenterHtmlAll($"{Prefix} {@event.Attacker.PlayerName} adlı mahkûm kazandı.");
+
+                Clear(true);
+            }
+            base.EventPlayerDeath(@event);
         }
     }
 }

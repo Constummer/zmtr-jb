@@ -1,14 +1,12 @@
-﻿using CounterStrikeSharp.API.Modules.Timers;
-
-namespace JailbreakExtras;
+﻿namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
     #region GiveCreditTimer
 
-    public void GiveCreditTimer()
+    public CounterStrikeSharp.API.Modules.Timers.Timer GiveCreditTimer()
     {
-        AddTimer(Config.Credit.RetrieveCreditEveryXMin, () =>
+        return AddTimer(300f, () =>
         {
             GetPlayers()
                    .ToList()
@@ -28,7 +26,7 @@ public partial class JailbreakExtras
                            }
                            PlayerMarketModels[x.SteamID] = item;
                            if (ValidateCallerPlayer(x, false) == false) return;
-                           x.PrintToChat($"{Prefix} {CC.W}Bu sunucuda {CC.G}{Config.Credit.RetrieveCreditEveryXMin / 60} {CC.W}dakika zaman geçirdiğin için {CC.LB}{Config.Credit.RetrieveCreditEveryXMinReward} {CC.W}kredi kazandın!");
+                           x.PrintToChat($"{Prefix} {CC.W}Bu sunucuda {CC.G}5 {CC.W}dakika zaman geçirdiğin için {CC.LB}{Config.Credit.RetrieveCreditEveryXMinReward} {CC.W}kredi kazandın!");
                        }
                    });
         }, Full);

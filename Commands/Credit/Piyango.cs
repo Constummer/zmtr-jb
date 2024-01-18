@@ -76,9 +76,9 @@ public partial class JailbreakExtras
         }
         else
         {
-            if (credit < 10 || credit > 50)
+            if (credit < 10 || credit > 100)
             {
-                player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.R}Min 10, Max 50 kredi girebilirsin");
+                player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.R}Min 10, Max 100 kredi girebilirsin");
                 player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.W}Kasa = {total}");
                 return;
             }
@@ -124,7 +124,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        int total = (int)(PiyangoPlayers.ToList().Select(x => x.Value).Sum() * 0.9);
+        int total = (int)(PiyangoPlayers.ToList().Select(x => x.Value).Sum() * 0.93);
 
         Server.PrintToChatAll($" {CC.Ol}[PİYANGO] {CC.W}Piyango Açıklanıyor...");
         _ = PiyangoPlayers.TryGetValue(piyangoKazanan, out var amount);

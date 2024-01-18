@@ -4,6 +4,7 @@ public partial class JailbreakExtras
 {
     private void ClearAll()
     {
+        SinirsizXKapaAction("@all", "");
         CountdownText = "";
         CountdownTime = 0;
         Countdown_enable_text = false;
@@ -38,7 +39,7 @@ public partial class JailbreakExtras
         unfzTimer = null;
         BurnTimer = null;
         DrugTimer = null;
-        TeamGamesCancel();
+        TeamGamesCancel(false);
         LrCancel();
         ClearParachutes();
         ClearCits();
@@ -60,6 +61,7 @@ public partial class JailbreakExtras
         _ = HookPlayers?.Remove(steamId, out _);
         _ = PlayerTimeTracking?.Remove(steamId, out _);
         _ = SpeedActiveDatas?.Remove(steamId, out _);
+        _ = FovActivePlayers?.Remove(steamId, out _);
         if (userId != null && userId != -1)
         {
             RemoveGivenParachute(userId.Value);

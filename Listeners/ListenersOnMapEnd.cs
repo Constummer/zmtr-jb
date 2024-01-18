@@ -1,5 +1,4 @@
 using CounterStrikeSharp.API.Core;
-using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
 
@@ -9,13 +8,14 @@ public partial class JailbreakExtras
     {
         RegisterListener<Listeners.OnMapEnd>(() =>
         {
+            //KillTimers();
             ClearAll();
             HideFoots?.Clear();
             HookPlayers?.Clear();
             bUsingPara?.Clear();
             Unmuteds?.Clear();
+            FovActivePlayers?.Clear();
             UpdateAllModels();
-            Unload(true);
         });
     }
 }

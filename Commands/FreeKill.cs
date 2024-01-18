@@ -23,16 +23,16 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (KilledPlayers.TryGetValue(player.SteamID, out var list))
+        if (KilledPlayers.TryGetValue(player.SteamID, out var killedPlayers))
         {
-            if (list != null && list.Count > 0)
+            if (killedPlayers != null && killedPlayers.Count > 0)
             {
                 var killMenu = new ChatMenu("Kill Menu");
-                foreach (var item in list.Reverse())
+                foreach (var item in killedPlayers.Reverse())
                 {
                     killMenu.AddMenuOption(item.Value, (c, i) =>
                     {
-                        if (KilledPlayers.TryGetValue(c.SteamID, out var list))
+                        if (KilledPlayers.TryGetValue(player.SteamID, out var list))
                         {
                             if (list != null && list.Count > 0)
                             {
@@ -45,7 +45,8 @@ public partial class JailbreakExtras
                                         if (ValidateCallerPlayer(player, false) == false) return;
                                         if (ValidateCallerPlayer(fkPlayer, false) == false) return;
                                         RespawnPlayer(fkPlayer);
-                                        KilledPlayers.Remove(item.Key);
+                                        list.Remove(item.Key);
+                                        KilledPlayers[player.SteamID] = list;
                                         player.PrintToChat($"{Prefix} {CC.G}{fkPlayer.PlayerName} {CC.W}adlı oyuncuyu canlandırdın.");
                                         Server.PrintToChatAll($"{Prefix} {CC.B}{player.PlayerName} {CC.W}adlı gardiyan, {CC.Or}{fkPlayer.PlayerName} {CC.W}adlı oyuncuyu canlandırdı.");
                                     }

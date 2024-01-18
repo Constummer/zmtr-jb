@@ -6,9 +6,9 @@ public partial class JailbreakExtras
 {
     #region GiveCreditToLiderTimer
 
-    public void GiveAndSaveTPToAll()
+    public CounterStrikeSharp.API.Modules.Timers.Timer GiveAndSaveTPToAllTimer()
     {
-        AddTimer(300f, () =>
+        return AddTimer(300f, () =>
         {
             var lider1Players = GetPlayers()
                                 .Where(x => AdminManager.PlayerHasPermissions(x, "@css/lider"))

@@ -6,9 +6,9 @@ public partial class JailbreakExtras
 {
     #region CoinRespawnTimer
 
-    public void CoinRespawnTimer()
+    public CounterStrikeSharp.API.Modules.Timers.Timer CoinRespawnTimer()
     {
-        AddTimer(30f, () =>
+        return AddTimer(30f, () =>
          {
              CoinSpawn();
          }, Full);

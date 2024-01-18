@@ -1,5 +1,4 @@
 ﻿using CounterStrikeSharp.API.Modules.Admin;
-using CounterStrikeSharp.API.Modules.Timers;
 
 namespace JailbreakExtras;
 
@@ -7,9 +6,9 @@ public partial class JailbreakExtras
 {
     #region GiveCreditToLiderTimer
 
-    public void GiveCreditToCssLiderTimer()
+    public CounterStrikeSharp.API.Modules.Timers.Timer GiveCreditToCssLiderTimer()
     {
-        AddTimer(300f, () =>
+        return AddTimer(300f, () =>
         {
             GetPlayers()
             .ToList()

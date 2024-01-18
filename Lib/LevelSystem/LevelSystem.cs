@@ -2,11 +2,13 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Entities;
+using CounterStrikeSharp.API.Modules.Utils;
 using JailbreakExtras.Lib.Configs;
 using JailbreakExtras.Lib.Database.Models;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
 using System.Numerics;
+using static JailbreakExtras.JailbreakExtras;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace JailbreakExtras;
@@ -84,21 +86,20 @@ public partial class JailbreakExtras
         var team = GetTeam(player);
         var teamStr = isSayTeam ? team switch
         {
-            CounterStrikeSharp.API.Modules.Utils.CsTeam.CounterTerrorist => $"{CC.B}[GARDİYAN]",
-            CounterStrikeSharp.API.Modules.Utils.CsTeam.Terrorist => $"{CC.R}[MAHKÛM]",
-            CounterStrikeSharp.API.Modules.Utils.CsTeam.Spectator => $"{CC.P}[SPEC]",
+            CsTeam.CounterTerrorist => $"{CC.B}[GARDİYAN]",
+            CsTeam.Terrorist => $"{CC.R}[MAHKÛM]",
+            CsTeam.Spectator => $"{CC.P}[SPEC]",
             _ => ""
         } : "";
         string msg;
         if (config?.ClanTag != null)
         {
-            msg = $" {deadStr} {teamStr} {CC.Ol}{config.ClanTag} {CC.Gr}{player.PlayerName} {CC.W}: {requestMsg}";
+            msg = $" {deadStr} {teamStr} {CC.Ol}{config.ClanTag} {(team == CsTeam.Terrorist ? CC.Gr : CC.B)}{player.PlayerName} {CC.W}: {requestMsg}";
         }
         else
         {
             msg = $" {deadStr} {teamStr} {CC.Or}{player.PlayerName} {CC.W}: {requestMsg}";
         }
-        Server.PrintToConsole(msg);
         if (isSayTeam)
         {
             GetPlayers(team).ToList()
@@ -279,7 +280,7 @@ public partial class JailbreakExtras
                     data.Model!.Credit += reward;
 
                     PlayerMarketModels[steamid] = data.Model;
-                    Server.PrintToChatAll($"{Prefix}{CC.Ol}{playerName} {CC.W}seviye {CC.B}{item} {CC.W}ödülü olan {CC.P}{reward}{CC.W} kredisini aldı!");
+                    Server.PrintToChatAll($"{Prefix} {CC.Ol}{playerName} {CC.W}seviye {CC.B}{item} {CC.W}ödülü olan {CC.P}{reward}{CC.W} kredisini aldı!");
                 }
                 if (string.IsNullOrWhiteSpace(givenRewards))
                 {

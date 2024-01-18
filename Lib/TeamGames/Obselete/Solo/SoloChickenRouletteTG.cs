@@ -12,11 +12,13 @@ public partial class JailbreakExtras
 
         public SoloChickenRouletteTG() : base(TeamGamesSoloChoices.ChickenRoulette)
         {
+            FfActive = false;
         }
 
         internal override void StartGame(Action callback)
         {
             var players = GetPlayers(CsTeam.Terrorist).Where(x => x.PawnIsAlive).ToList();
+            RemoveAllWeapons(giveKnife: true);
 
             List<uint> cindexes = new List<uint>();
             foreach (var x in players)
@@ -33,34 +35,31 @@ public partial class JailbreakExtras
             base.StartGame(callback);
         }
 
-        internal override void Clear()
+        internal override void Clear(bool printMsg)
         {
             LuckyChickenIndex = 0;
-            base.Clear();
+            base.Clear(printMsg);
         }
 
-        internal override void EventEntityKilled(EventEntityKilled @event)
+        internal override void OnTakeDamageHook(CEntityInstance ent, CEntityInstance activator)
         {
-            if (@event != null && @event.EntindexKilled == LuckyChickenIndex)
+            if (ent != null && ent.IsValid && ent.Index == LuckyChickenIndex)
             {
-                if (@event.EntindexAttacker <= 0
-                    || @event.EntindexAttacker == 32767)
-                {
-                    return;
-                }
-                if (@event.EntindexAttacker > int.MaxValue)
-                {
-                    return;
-                }
-                var attacker = Utilities.GetPlayerFromIndex((int)@event.EntindexAttacker);
-                if (attacker != null)
+                var attacker = GetPlayers().ToList().Where(x =>
+                       activator.Index == x.PlayerPawn.Index ||
+                       activator.Index == x.PlayerPawn.Value.Index ||
+                       activator.Index == x.Pawn.Index ||
+                       activator.Index == x.Pawn.Value.Index).FirstOrDefault();
+                if (attacker != null && attacker.IsValid)
                 {
                     if (ValidateCallerPlayer(attacker, false) == false) return;
+                    Server.PrintToChatAll($"{Prefix} {CC.Or} {attacker.PlayerName}{CC.W} adlı mahkûm kazandı.");
 
-                    Server.PrintToChatAll($"{Prefix} {CC.W} {attacker.PlayerName} adlı mahkûm kazandı.");
+                    Clear(false);
                 }
             }
-            base.EventEntityKilled(@event);
+
+            base.OnTakeDamageHook(ent, activator);
         }
     }
 }

@@ -6,22 +6,29 @@ namespace JailbreakExtras
     public class MapConfig
     {
         [JsonPropertyName("MapCellCoords")]
-        public List<SkzCoordinate> MapCellCoords { get; set; } = new List<SkzCoordinate>()
+        public List<CoordinateTemplate> MapCellCoords { get; set; } = new List<CoordinateTemplate>()
         {
             new("jb_zmtr_v1" ,new VectorTemp(-535, 345, -27)),
             new("jb_zmtr_v2_vsvs" ,new VectorTemp(-535, 345, -27))
         };
 
-        [JsonPropertyName("SkzCoordinates")]
-        public Dictionary<string, List<SkzCoordinate>> SkzCoordinates { get; set; } = new Dictionary<string, List<SkzCoordinate>>()
+        [JsonPropertyName("ParamCoords ")]
+        public List<CoordinateTemplate> ParamCoords { get; set; } = new List<CoordinateTemplate>()
         {
-            {"jb_zmtr_v1", new List<SkzCoordinate>()
+            new ("jb_zmtr_v1" ,new VectorTemp(4497, 4261, -1880)),
+            new ("jb_zmtr_v2_vsvs" ,new VectorTemp(-535, 345, -27))
+        };
+
+        [JsonPropertyName("SkzCoordinates")]
+        public Dictionary<string, List<CoordinateTemplate>> SkzCoordinates { get; set; } = new Dictionary<string, List<CoordinateTemplate>>()
+        {
+            {"jb_zmtr_v1", new List<CoordinateTemplate>()
                 {
                     new("Hucre",   new VectorTemp(-535,345,-27) ),
                     new("KZ",      new VectorTemp(2102,739,-357) ),
                 }
             },
-            {"jb_zmtr_v2_vsvsvs", new List<SkzCoordinate>()
+            {"jb_zmtr_v2_vsvsvs", new List<CoordinateTemplate>()
                 {
                     new("Hucre",   new VectorTemp(-535,345,-27) ),
                     new("KZ",      new VectorTemp(2102,739,-357) ),

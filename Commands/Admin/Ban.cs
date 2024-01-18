@@ -1,7 +1,6 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
-using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
@@ -130,17 +129,25 @@ public partial class JailbreakExtras
             while (reader.Read())
             {
                 var steamId = reader.IsDBNull(0) ? 0 : reader.GetInt64(0);
+                var time = reader.IsDBNull(1) ? DateTime.UtcNow : reader.GetDateTime(1);
 
-                if (Bans.ContainsKey((ulong)steamId) == false)
+                if (time <= DateTime.UtcNow)
                 {
-                    var time = reader.IsDBNull(1) ? DateTime.UtcNow : reader.GetDateTime(1);
-
+                    continue;
+                }
+                if (Bans.TryGetValue((ulong)steamId, out var data) == false)
+                {
                     Bans.Add((ulong)steamId, time);
+                }
+                else
+                {
+                    if (time > data)
+                    {
+                        Bans[(ulong)steamId] = time;
+                    }
                 }
             }
         }
-
-        return;
     }
 
     private static bool BanCheck(ulong steamId)
@@ -179,31 +186,13 @@ public partial class JailbreakExtras
                         exist = true;
                     }
                 }
-                if (exist)
-                {
-                    cmd = new MySqlCommand(@$"UPDATE `PlayerBan`
-                                          SET
-                                              `BannedBySteamId` = @BannedBySteamId,
-                                              `Time` = @Time
-                                          WHERE `SteamId` = @SteamId;
-                ", con);
-
-                    cmd.Parameters.AddWithValue("@SteamId", steamId);
-                    cmd.Parameters.AddWithValue("@BannedBySteamId", bannerId);
-                    cmd.Parameters.AddWithValue("@Time", time);
-
-                    cmd.ExecuteNonQuery();
-                }
-                else
-                {
-                    cmd = new MySqlCommand(@$"INSERT INTO `PlayerBan`
+                cmd = new MySqlCommand(@$"INSERT INTO `PlayerBan`
                                       (SteamId,BannedBySteamId,Time)
                                       VALUES (@SteamId,@BannedBySteamId,@Time);", con);
 
-                    cmd.Parameters.AddWithValue("@SteamId", steamId);
-                    cmd.Parameters.AddWithValue("@BannedBySteamId", bannerId);
-                    cmd.Parameters.AddWithValue("@Time", time);
-                }
+                cmd.Parameters.AddWithValue("@SteamId", steamId);
+                cmd.Parameters.AddWithValue("@BannedBySteamId", bannerId);
+                cmd.Parameters.AddWithValue("@Time", time);
             }
         }
         catch (Exception e)

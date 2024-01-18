@@ -55,4 +55,13 @@ public partial class JailbreakExtras
             player.ExecuteClientCommand($"play {_Config.Sounds.LrStartSound}");
         }
     }
+
+    private static void TGStartSound()
+    {
+        var players = GetPlayers();
+        foreach (var player in players)
+        {
+            player.ExecuteClientCommand($"play {_Config.Sounds.TGStartSound}");
+        }
+    }
 }

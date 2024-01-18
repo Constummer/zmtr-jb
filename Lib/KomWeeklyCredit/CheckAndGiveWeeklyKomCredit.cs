@@ -11,7 +11,7 @@ public partial class JailbreakExtras
         {
             if (recieved)
             {
-                player.PrintToChat($"{Prefix}{CC.W} haftalık kredini daha önce aldığın için tekrar alamazsın.");
+                player.PrintToChat($"{Prefix}{CC.W} Haftalık kredini daha önce aldığın için tekrar alamazsın.");
                 return;
             }
             else
@@ -34,7 +34,7 @@ public partial class JailbreakExtras
             item.Credit = Config.Additional.KomWeeklyCredit;
         }
         PlayerMarketModels[player.SteamID] = item;
-        UpdateWeeklyKomCredit(player.SteamID);
-        Server.PrintToChatAll($"{Prefix} {CC.Ol}{player.PlayerName}{CC.W} adlı komutçu haftalık {CC.B}{Config.Additional.KomWeeklyCredit}{CC.W} kredisini aldı.");
+        InsertWeeklyKomCredit(player.SteamID);
+        Server.PrintToChatAll($"{Prefix} {CC.Ol} {player.PlayerName}{CC.W} adlı komutçu haftalık {CC.B}{Config.Additional.KomWeeklyCredit}{CC.W} kredisini aldı.");
     }
 }

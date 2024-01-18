@@ -116,7 +116,7 @@ public partial class JailbreakExtras
                 else
                 {
                     player.PrintToChat($"{Prefix} {CC.W}Steam grubumuza katılmamışsın.");
-                    player.PrintToChat($"{Prefix} {CC.W}Steam hesabının gizli OLMAMASI gerekiyor.");
+                    player.PrintToChat($"{Prefix} {CC.W}Steam hesabının gizli {CC.R}OLMAMASI {CC.W}gerekiyor.");
                     player.PrintToChat($"{Prefix} {CC.W}Steam Grup: steamcommunity.com/groups/zombieturkeyclan/");
                     player.PrintToChat($"{Prefix} {CC.W}Katılarak {CC.B}!knife {CC.W},{CC.B}!ws {CC.W},{CC.B}!skinler {CC.W},{CC.B}!yenile");
                     player.PrintToChat($"{Prefix} {CC.W}Komutlarını kullanabilirsin");

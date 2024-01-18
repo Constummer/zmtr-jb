@@ -20,5 +20,18 @@ public partial class JailbreakExtras
 
         [JsonPropertyName("LrStartSound")]
         public string LrStartSound { get; set; } = "sounds/zmtr/bell.vsnd_c";
+
+        [JsonPropertyName("TGStartSound ")]
+        public string TGStartSound { get; set; } = "sounds/zmtr/bell.vsnd_c";
+
+        [JsonPropertyName("BurnSounds")]
+        public List<string> BurnSounds { get; set; } = new List<string>()
+        {
+            //"sounds/player/burn_damage1.vsnd_c",
+            //"sounds/player/burn_damage2.vsnd_c",
+            "sounds/player/burn_damage3.vsnd_c",
+            "sounds/player/burn_damage4.vsnd_c",
+            //"sounds/player/burn_damage5.vsnd_c",
+        };
     }
 }

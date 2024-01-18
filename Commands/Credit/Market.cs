@@ -8,6 +8,7 @@ using JailbreakExtras.Lib.Database;
 using JailbreakExtras.Lib.Database.Models;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
+using static System.Net.Mime.MediaTypeNames;
 
 //using Microsoft.Data.Sqlite;
 
@@ -102,6 +103,10 @@ public partial class JailbreakExtras
         }
         else
         {
+            if (player.PawnIsAlive == false)
+            {
+                marketMenu.AddMenuOption($"{CC.R}SEÇİM YAPABİLMEK İÇİN {CC.DR}HAYATTA {CC.R}OLMALISINIZ", null, true);
+            }
             foreach (var item in models)
             {
                 var selected = team switch
@@ -138,7 +143,7 @@ public partial class JailbreakExtras
                     if (data.Model == null) return;
 
                     SetModel(player, item.Value, data.Model, i.Text, i.Text!.EndsWith(" | [SATIN ALINDI]"));
-                });
+                }, !player.PawnIsAlive);
             }
         }
         ChatMenus.OpenMenu(player, marketMenu);
@@ -321,7 +326,6 @@ public partial class JailbreakExtras
                 FROM `PlayerMarketModel`
                 WHERE `SteamId` = @SteamId", con);
                 cmd.Parameters.AddWithValue("@SteamId", steamID);
-
                 using (var reader = cmd.ExecuteReader())
                 {
                     if (reader.Read())

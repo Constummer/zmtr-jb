@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Events;
 using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
@@ -42,7 +43,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<oyuncu ismi>")]
     public void HookVer(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, "@css/yonetim"))
         {
             player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
@@ -66,7 +67,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me> [el boyunca hooku iptal eder]")]
     public void HookDisable(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
         {
             player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
@@ -107,7 +108,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<oyuncu ismi>")]
     public void HookAl(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, "@css/yonetim"))
         {
             player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
@@ -162,16 +163,14 @@ public partial class JailbreakExtras
         {
             return;
         }
+        var hookText = GetHookText();
         var warden = GetWarden();
-        if (warden != null)
-        {
-            warden.PrintToConsole($"{Prefix} {CC.B}{player.PlayerName} {CC.W}Hook bastı");
-        }
+        warden?.PrintToConsole($"{Prefix} {hookText} {player.PlayerName} Hook bastı");
 
         GetPlayers()
          .Where(x => AdminManager.PlayerHasPermissions(x, "@css/admin1"))
          .ToList()
-         .ForEach(x => x.PrintToConsole($"{Prefix} {CC.B}{player.PlayerName} {CC.W}Hook bastı"));
+         .ForEach(x => x.PrintToConsole($"{Prefix} {hookText} {player.PlayerName} Hook bastı"));
 
         float x, y, z;
         x = player.PlayerPawn.Value!.AbsOrigin!.X;
@@ -196,6 +195,28 @@ public partial class JailbreakExtras
         PullPlayer(player, end, playerPosition, viewAngles);
 
         return;
+    }
+
+    private string GetHookText()
+    {
+        try
+        {
+            var ent = Utilities.FindAllEntitiesByDesignerName<CCSTeam>("cs_team_manager");
+            int ctScore = ent.Where(team => team.Teamname == "CT")
+                             .Select(team => team.Score)
+                             .FirstOrDefault();
+
+            int tScore = ent.Where(team => team.Teamname == "TERRORIST")
+                            .Select(team => team.Score)
+                            .FirstOrDefault();
+
+            var time = DateTime.UtcNow.AddHours(3).ToString("HH:mm:ss");
+            return $"{ctScore} - {tScore} | {time}";
+        }
+        catch (Exception)
+        {
+            return "";
+        }
     }
 
     private void PullPlayer(CCSPlayerController player, Vector grappleTarget, Vector playerPosition, QAngle viewAngles)

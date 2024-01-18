@@ -36,6 +36,11 @@ public partial class JailbreakExtras
             return _weapons.ToList().ToDictionary(x => x.Key, y => y.Value.GiveName);
         }
 
+        public static Dictionary<string, string> GetPistols()
+        {
+            return _weapons.ToList().Where(x => x.Value.Type == WeaponType.Secondary).ToDictionary(x => x.Key, y => y.Value.GiveName);
+        }
+
         public static bool ValidWeaponChecker(string designerName)
         {
             return _weaponCheckers.TryGetValue(designerName, out _);

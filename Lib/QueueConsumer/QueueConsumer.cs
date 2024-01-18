@@ -1,9 +1,6 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Entities;
-using System.Diagnostics;
 using System.Drawing;
-using System.Numerics;
 
 namespace JailbreakExtras;
 
@@ -49,14 +46,17 @@ public partial class JailbreakExtras
                     {
                         return;
                     }
+
                     if (item.SteamId == 0)
                     {
                         return;
                     }
+
                     if (item.Type == QueueItemType.None)
                     {
                         return;
                     }
+
                     var tempSteamId = item.SteamId;
                     var tempUserId = item.UserId;
                     var tempPlayerName = item.PlayerName;
@@ -67,6 +67,7 @@ public partial class JailbreakExtras
 
                             if (BanCheck(tempSteamId) == false)
                             {
+                                Server.ExecuteCommand($"kickid {tempUserId}");
                             }
                             else
                             {

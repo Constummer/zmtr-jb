@@ -16,7 +16,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me>")]
     public void OnRocketCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
         {
             player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
             return;
@@ -40,7 +40,6 @@ public partial class JailbreakExtras
                             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} roketledi{CC.W}.");
                         }
 
-                        x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
                         Rocket(x);
                     });
 
@@ -117,10 +116,18 @@ public partial class JailbreakExtras
             player.PlayerPawn.Value.AbsVelocity.Y = newVelocity.Y;
             player.PlayerPawn.Value.AbsVelocity.Z = newVelocity.Z;
         }
-        else
+        if (player.Pawn.Value.AbsVelocity != null)
         {
-            Console.WriteLine("AbsVelocity is null.");
-            return;
+            player.Pawn.Value.AbsVelocity.X = newVelocity.X;
+            player.Pawn.Value.AbsVelocity.Y = newVelocity.Y;
+            player.Pawn.Value.AbsVelocity.Z = newVelocity.Z;
+        }
+
+        if (player.AbsVelocity != null)
+        {
+            player.AbsVelocity.X = newVelocity.X;
+            player.AbsVelocity.Y = newVelocity.Y;
+            player.AbsVelocity.Z = newVelocity.Z;
         }
 
         //if (playerGrapples[player.Slot].GrappleWire != null)

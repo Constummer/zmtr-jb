@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 
@@ -9,6 +10,7 @@ public partial class JailbreakExtras
     internal class SoloGunFightTG : TeamGamesGameBase
     {
         private string SelectedWeaponName = null;
+        public int PlayerCount { get; set; } = 0;
 
         public SoloGunFightTG() : base(TeamGamesSoloChoices.GunFight)
         {
@@ -24,39 +26,41 @@ public partial class JailbreakExtras
             {
                 soloTGMenu.AddMenuOption(item.Key, (_, _) =>
                 {
-                    SelectedWeaponName = item.Value?.Split("weapon_")?[1] ?? "";
+                    SelectedWeaponName = item.Value;
+                    base.AdditionalChoiceMenu(player, value);
                 });
             }
             ChatMenus.OpenMenu(player, soloTGMenu);
-            base.AdditionalChoiceMenu(player, value);
         }
 
         internal override void StartGame(Action callback)
         {
-            if (Global != null)
-            {
-                Global.UnlimitedReserverAmmoActive = true;
-            }
-            GetPlayers(CsTeam.Terrorist)
-                .Where(x => x.PawnIsAlive)
-                .ToList()
-                .ForEach(x =>
-                {
-                    if (ValidateCallerPlayer(x, false) == false) return;
-                    RemoveWeapons(x, false);
-                });
-            GiveAction("", "@t", SelectedWeaponName, TargetForArgument.None, false);
-
+            PlayerCount = RemoveAllWeapons(giveKnife: false, custom: SelectedWeaponName);
             base.StartGame(callback);
         }
 
-        internal override void Clear()
+        internal override void Clear(bool printMsg)
         {
-            if (Global != null)
+            RemoveAllWeapons(giveKnife: true);
+            PlayerCount = 0;
+            base.Clear(printMsg);
+        }
+
+        internal override void EventPlayerDeath(EventPlayerDeath @event)
+        {
+            if (@event == null) return;
+            if (ValidateCallerPlayer(@event.Attacker, false) == false) return;
+
+            PlayerCount--;
+
+            if (PlayerCount <= 1)
             {
-                Global.UnlimitedReserverAmmoActive = false;
+                Server.PrintToChatAll($"{Prefix} {CC.Or} {@event.Attacker.PlayerName}{CC.W} adlı mahkûm kazandı.");
+                PrintToCenterHtmlAll($"{Prefix} {@event.Attacker.PlayerName} adlı mahkûm kazandı.");
+
+                Clear(true);
             }
-            base.Clear();
+            base.EventPlayerDeath(@event);
         }
     }
 }
