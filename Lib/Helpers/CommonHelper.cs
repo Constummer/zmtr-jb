@@ -235,6 +235,7 @@ public partial class JailbreakExtras
         };
     }
 
+    [Obsolete("Bundayken çökme yaşandığı oluyordu, bundan mı emin değilim ama iptal")]
     private static CsTeam GetTeamOld(CCSPlayerController x) => x.PendingTeamNum != x.TeamNum ? (CsTeam)x.PendingTeamNum : (CsTeam)x.TeamNum;
 
     private static CsTeam GetTeam(CCSPlayerController x) => (CsTeam)x.TeamNum;

@@ -5,10 +5,13 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    private static DateTime RoundStartTime = DateTime.UtcNow;
+
     private void EventRoundStart()
     {
         RegisterEventHandler<EventRoundStart>((@event, _) =>
         {
+            RoundStartTime = DateTime.UtcNow;
             Server.ExecuteCommand("mp_force_pick_time 3000");
             Server.ExecuteCommand("mp_autoteambalance 0");
             Server.ExecuteCommand("mp_equipment_reset_rounds 1");

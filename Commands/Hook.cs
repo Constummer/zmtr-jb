@@ -210,7 +210,7 @@ public partial class JailbreakExtras
                             .Select(team => team.Score)
                             .FirstOrDefault();
 
-            var time = DateTime.UtcNow.AddHours(3).ToString("HH:mm:ss");
+            var time = TimeSpan.FromSeconds(3600 - (RoundStartTime - DateTime.UtcNow).TotalSeconds);
             return $"{ctScore} - {tScore} | {time}";
         }
         catch (Exception)
