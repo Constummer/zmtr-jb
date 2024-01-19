@@ -156,6 +156,15 @@ public partial class JailbreakExtras
         HookDisabled = true;
     }
 
+    public static float GetRemainingRoundTime()
+    {
+        var gameRules = Utilities.FindAllEntitiesByDesignerName<CCSGameRulesProxy>("cs_gamerules").FirstOrDefault()?.GameRules;
+        if (gameRules == null)
+            return 0.0f;
+
+        return (gameRules.RoundStartTime + gameRules.RoundTime) - Server.CurrentTime;
+    }
+
     private void AllowLaserForWarden(CCSPlayerController player)
     {
         if (ValidateCallerPlayer(player, false) == false

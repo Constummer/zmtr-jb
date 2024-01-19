@@ -47,7 +47,7 @@ public partial class JailbreakExtras
         GetPlayers()
             .Where(x => targetArgument switch
             {
-                TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target) ?? false,
+                TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target?.ToLower()) ?? false,
                 TargetForArgument.UserIdIndex => GetUserIdIndex(target) == x.UserId,
                 _ => false
             })
@@ -89,7 +89,7 @@ public partial class JailbreakExtras
         GetPlayers()
             .Where(x => targetArgument switch
             {
-                TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target) ?? false,
+                TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target?.ToLower()) ?? false,
                 TargetForArgument.UserIdIndex => GetUserIdIndex(target) == x.UserId,
                 _ => false
             })

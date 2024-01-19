@@ -26,7 +26,7 @@ public partial class JailbreakExtras
             case TargetForArgument.None:
                 {
                     var ps = GetPlayers()
-                            .Where(x => (x.PlayerName?.ToLower()?.Contains(target) ?? false)
+                            .Where(x => (x.PlayerName?.ToLower()?.Contains(target?.ToLower()) ?? false)
                                        && x.PawnIsAlive == false)
                             .ToList();
                     if (ps.Count > 1)

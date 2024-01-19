@@ -44,37 +44,4 @@ public partial class JailbreakExtras
         }
         KapiAcIptal = !KapiAcIptal;
     }
-
-    [ConsoleCommand("suresine")]
-    public void suresine(CCSPlayerController? player, CommandInfo info)
-    {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/yonetim"))
-        {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
-            return;
-        }
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-
-        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
-        if (target == null)
-        {
-            return;
-        }
-
-        GetPlayers()
-            .Where(x => x.PlayerName?.ToLower()?.Contains(target) ?? false
-            || GetUserIdIndex(target) == x.UserId
-            || x.SteamID.ToString() == target)
-            .ToList()
-            .ForEach(x =>
-            {
-                if (AllPlayerTotalTimeTracking.TryGetValue(x.SteamID, out var t))
-                {
-                    player.PrintToChat($"{x.PlayerName} = {(int)((t) / 60)} saat");
-                }
-            });
-    }
 }

@@ -23,7 +23,7 @@ public partial class JailbreakExtras
         var target = info.ArgString.GetArg(0);
 
         var players = GetPlayers()
-                .Where(x => x.PlayerName.ToLower().Contains(target.ToLower()))
+                .Where(x => x.PlayerName?.ToLower()?.Contains(target?.ToLower()) ?? false)
                 .ToList();
         if (players.Count == 0)
         {

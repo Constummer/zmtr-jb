@@ -1,5 +1,6 @@
 ﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
+using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using Microsoft.Extensions.Logging;
 
@@ -47,6 +48,39 @@ public partial class JailbreakExtras
         player.PrintToChat($"{Prefix} {CC.W}Toplam {CC.G}{(item.WTime < 120 ? item.WTime : item.WTime / 60)} {CC.W}{(item.WTime < 120 ? "dakikadir" : "saattir")} komutçusun!");
         player.PrintToChat($"{Prefix} {CC.W}Bu hafta {CC.G}{(item.WeeklyWTime < 120 ? item.WeeklyWTime : item.WeeklyWTime / 60)} {CC.W}{(item.WeeklyWTime < 120 ? "dakikadir" : "saattir")} komutçusun!");
         player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
+    }
+
+    [ConsoleCommand("suresine")]
+    public void suresine(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/yonetim"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        if (ValidateCallerPlayer(player, false) == false)
+        {
+            return;
+        }
+
+        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
+        if (target == null)
+        {
+            return;
+        }
+
+        GetPlayers()
+            .Where(x => x.PlayerName?.ToLower()?.Contains(target?.ToLower()) ?? false
+            || GetUserIdIndex(target) == x.UserId
+            || x.SteamID.ToString() == target)
+            .ToList()
+            .ForEach(x =>
+            {
+                if (AllPlayerTotalTimeTracking.TryGetValue(x.SteamID, out var t))
+                {
+                    player.PrintToChat($"{x.PlayerName} = {(int)((t) / 60)} saat");
+                }
+            });
     }
 
     #endregion Surem

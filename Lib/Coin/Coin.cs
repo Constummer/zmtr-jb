@@ -139,7 +139,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (warden.PlayerName.ToLower().Contains(pname.ToLower()))
+        if (warden.PlayerName?.ToLower()?.Contains(pname?.ToLower()) ?? false)
         {
             Server.NextFrame(() =>
             {
