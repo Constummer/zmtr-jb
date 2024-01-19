@@ -69,6 +69,7 @@ public partial class JailbreakExtras
         }
         UpdatePlayerMarketData(steamId);
 
+        _ = SutolCommandCalls?.RemoveAll(x => x == steamId);
         _ = PlayerSteamGroup?.RemoveAll(x => x == steamId);
         _ = SpeedoMeterActive?.RemoveAll(x => x == steamId);
         _ = LevelTagDisabledPlayers?.RemoveAll(x => x == steamId);

@@ -41,6 +41,7 @@ public partial class JailbreakExtras
             {
                 RemoveGivenParachute(@event.Userid.UserId.Value);
             }
+            SutolCommandCalls?.Remove(@event.Userid.SteamID);
 
             //@event.Userid.ClientSideRagdoll = false; // not sure what this does, apparently nothing
             //AddTimer(1.0f, () =>

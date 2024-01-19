@@ -12,7 +12,7 @@ public partial class JailbreakExtras
     #region Sut
 
     private static Dictionary<ulong, DateTime> LatestSutolCommandCalls = new Dictionary<ulong, DateTime>();
-    private List<ulong> SutolCommandCalls = new();
+    private static List<ulong> SutolCommandCalls = new();
 
     [ConsoleCommand("sut")]
     [ConsoleCommand("sutol")]
@@ -48,6 +48,18 @@ public partial class JailbreakExtras
             LatestSutolCommandCalls[x.SteamID] = DateTime.UtcNow;
             Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı oyuncu, {CC.LP}süt oldu.");
         });
+    }
+
+    [ConsoleCommand("suttemizle")]
+    public void SutTemizle(CCSPlayerController? player, CommandInfo info)
+    {
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        SutolCommandCalls.Clear();
+
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.LP}süt isimlerini temizledi.");
     }
 
     #endregion Sut
