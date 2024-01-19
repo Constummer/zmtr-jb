@@ -57,7 +57,7 @@ public partial class JailbreakExtras
                .Where(x =>
                (targetArgument == TargetForArgument.UserIdIndex
                ? GetUserIdIndex(targetPlayer) == x.UserId : targetArgument == TargetForArgument.Me ? x.SteamID == player.SteamID : false)
-                            || x.PlayerName.ToLower().Contains(targetPlayer.ToLower()))
+                            || (x.PlayerName?.ToLower()?.Contains(targetPlayer?.ToLower()) ?? false))
                .ToList();
         if (players.Count == 0)
         {
