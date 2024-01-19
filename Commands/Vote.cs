@@ -29,18 +29,23 @@ public partial class JailbreakExtras
         {
             return;
         }
+        VoteAction(player, command.ArgString);
+    }
+
+    private void VoteAction(CCSPlayerController? player, string argstr)
+    {
         if (LatestVoteMenu != null)
         {
             player.PrintToChat($"{Prefix}{CC.W} Mevcut oylama bitmeden yeni oylama açamazsın.");
             return;
         }
 
-        if (string.IsNullOrWhiteSpace(command.ArgString))
+        if (string.IsNullOrWhiteSpace(argstr))
         {
             player.PrintToChat($"{Prefix}{CC.W} En az 2 şık ve 1 soru belirlemelisin, şıklar arası boşluk bırakmalısın.");
             return;
         }
-        var argCount = command.ArgString.Split(" ");
+        var argCount = argstr.Split(" ");
         argCount = argCount.Select(x => x.Trim()).Where(x => string.IsNullOrWhiteSpace(x) == false).ToArray();
 
         if (argCount.Length == 0)
@@ -117,21 +122,21 @@ public partial class JailbreakExtras
         }, Full);
 
         VoteTimer = AddTimer(20, () =>
-          {
-              Server.PrintToChatAll(question + $" {CC.R}SORUSUNUN YANITLARI");
+        {
+            Server.PrintToChatAll(question + $" {CC.R}SORUSUNUN YANITLARI");
 
-              foreach (KeyValuePair<string, int> kvp in Answers)
-              {
-                  Server.PrintToChatAll($"{Prefix}{CC.B} {kvp.Key} {CC.W} - {CC.Y}{kvp.Value}");
-              }
-              Answers.Clear();
-              VoteInProgress = false;
-              LatestVoteMenu = null;
-              VotePrintTimer?.Kill();
-              VotePrintTimer = null;
-              LatestVoteAnswerCommandCalls?.Clear();
-              AlreadyVotedPlayers.Clear();
-          }, SOM);
+            foreach (KeyValuePair<string, int> kvp in Answers)
+            {
+                Server.PrintToChatAll($"{Prefix}{CC.B} {kvp.Key} {CC.W} - {CC.Y}{kvp.Value}");
+            }
+            Answers.Clear();
+            VoteInProgress = false;
+            LatestVoteMenu = null;
+            VotePrintTimer?.Kill();
+            VotePrintTimer = null;
+            LatestVoteAnswerCommandCalls?.Clear();
+            AlreadyVotedPlayers.Clear();
+        }, SOM);
 
         return;
     }

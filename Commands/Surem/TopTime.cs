@@ -11,6 +11,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("toptime")]
     [ConsoleCommand("topsure")]
     [ConsoleCommand("top10")]
+    [ConsoleCommand("topon")]
     public void TopTime(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player, false) == false)

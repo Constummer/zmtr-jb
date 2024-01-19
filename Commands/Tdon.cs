@@ -57,9 +57,9 @@ public partial class JailbreakExtras
                             {
                                 SetColour(x, DefaultColor);
                             }
-                            RefreshPawn(x);
-
                             x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
+
+                            RefreshPawn(x);
                         });
     }
 
@@ -74,9 +74,9 @@ public partial class JailbreakExtras
                {
                    SetColour(x, DefaultColor);
                }
-               RefreshPawn(x);
-
                x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
+
+               RefreshPawn(x);
            });
     }
 }

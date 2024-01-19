@@ -41,6 +41,7 @@ public partial class JailbreakExtras
         SetColour(player, Color.FromArgb(255, 0, 0, 255));
         RefreshPawn(player);
 
+        KomStartTime = DateTime.UtcNow;
         LatestWCommandUser = player.SteamID;
         CoinGoWanted = true;
         WardenRefreshPawn();
@@ -106,6 +107,7 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.W}Şu an {CC.G}{warden.PlayerName}{CC.W} isimli oyuncu komutçu. Bu komutu sadece komutçu kullanabilir!");
             return;
         }
+        KomStartTime = null;
         LatestWCommandUser = null;
         ClearLasers();
         CoinRemove();
@@ -158,6 +160,7 @@ public partial class JailbreakExtras
         warden.VoiceFlags |= VoiceFlags.Muted;
         SetColour(warden, DefaultColor);
         RefreshPawn(warden);
+        KomStartTime = null;
 
         Server.PrintToChatAll($"{Prefix} {CC.W}{warden.PlayerName} artık komutçu değil!");
 
