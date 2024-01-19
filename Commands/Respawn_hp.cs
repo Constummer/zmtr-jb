@@ -15,10 +15,8 @@ public partial class JailbreakExtras
     [CommandHelper(2, "<gonderilecek kişi> <hp>")]
     public void RespawnHp(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye6") == false)
-        {
-            return;
-        }
+        if (ValidateCallerPlayer(player) == false) return;
+
         var target = info.ArgString.GetArg(0);
         if (!int.TryParse(info.ArgString.GetArg(1), out var health) || health < 1)
         {
