@@ -82,6 +82,8 @@ public partial class JailbreakExtras
                                 InsertAndGetPlayerLevelData(tempSteamId, true, tempPlayerName);
 
                                 CheckPlayerGroups(tempSteamId);
+
+                                CheckPlayerIsTeamTag(tempSteamId);
                             }
                             break;
 

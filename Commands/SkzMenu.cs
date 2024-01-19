@@ -11,15 +11,6 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    //private Dictionary<string, Vector> SkzCoordinates = new()
-    //{
-    //
-    //};
-    //private List<SkzCoordinate> SkzCoordinates = new List<SkzCoordinate>()
-    //{
-    //     new("Hücre",   new Vector(-535,345,-27) ),
-    //     new("KZ",      new Vector(2102,739,-357) ),
-    //};
     public class VectorTemp
     {
         public VectorTemp(float x, float y, float z)

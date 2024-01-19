@@ -1,15 +1,11 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Utils;
 using JailbreakExtras.Lib.Configs;
 using JailbreakExtras.Lib.Database.Models;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
-using System.Numerics;
-using static JailbreakExtras.JailbreakExtras;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace JailbreakExtras;
 

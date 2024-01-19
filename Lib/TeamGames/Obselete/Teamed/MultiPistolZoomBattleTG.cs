@@ -39,6 +39,7 @@ public partial class JailbreakExtras
             Global?.FovKapaAction(null, true);
             PlayerFovs?.Clear();
             RemoveAllWeapons(giveKnife: false, custom: SelectedWeaponName);
+
             GetPlayers(CsTeam.Terrorist)
                 .Where(x => x.PawnIsAlive)
                 .ToList()

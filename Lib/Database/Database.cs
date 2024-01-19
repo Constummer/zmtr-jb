@@ -114,11 +114,17 @@ public partial class JailbreakExtras
                           `WeekNo` mediumint(9) DEFAULT NULL
                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
 
+                    cmd = new MySqlCommand(
+                    @"CREATE TABLE IF NOT EXISTS `PlayerIsyanTeam` (
+                          `SteamId` bigint(20) DEFAULT NULL
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
+
                     await cmd.ExecuteNonQueryAsync();
                     GetAllPlayerNameData(con);
                     GetAllTimeTrackingData(con);
                     GetAllCTBanData(con);
                     GetAllBanData(con);
+                    GetAllPlayerIsyanTeamData(con);
                     GetAllKomWeeklyCreditData(con);
                 }
             }
