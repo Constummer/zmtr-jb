@@ -57,9 +57,9 @@ public partial class JailbreakExtras
                 player.PrintToChat("Max 120 sn girebilirsin");
                 return;
             }
-            else if (value < 1)
+            else if (value < 5)
             {
-                player.PrintToChat("Min 1 sn girebilirsin");
+                player.PrintToChat("Min 5 sn girebilirsin");
                 return;
             }
             else
