@@ -48,7 +48,7 @@ public partial class JailbreakExtras
             return;
         }
 
-        var substract = KomStartTime.Value - DateTime.UtcNow;
+        var substract = DateTime.UtcNow - KomStartTime.Value;
         TimeSpan remainingTime = TimeSpan.FromMinutes(45) - substract;
         if (remainingTime.TotalMinutes > 45)
         {

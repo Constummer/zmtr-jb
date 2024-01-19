@@ -82,8 +82,6 @@ public partial class JailbreakExtras
                                 InsertAndGetPlayerLevelData(tempSteamId, true, tempPlayerName);
 
                                 CheckPlayerGroups(tempSteamId);
-
-                                CheckPlayerIsTeamTag(tempSteamId);
                             }
                             break;
 
@@ -130,6 +128,8 @@ public partial class JailbreakExtras
                                     SetColour(x, DefaultColor);
                                 }
                             }
+
+                            CheckPlayerIsTeamTag(tempSteamId);
                             break;
 
                         default:
