@@ -10,9 +10,9 @@ public partial class JailbreakExtras
 {
     #region OnTeamCommand
 
-    [ConsoleCommand("swap2")]
-    [CommandHelper(0, "<nick-#userid-@me> <nick-#userid-@me>")]
-    public void OnSwap2Command(CCSPlayerController? player, CommandInfo info)
+    [ConsoleCommand("swap")]
+    [CommandHelper(2, "<nick-#userid-@me> <nick-#userid-@me>")]
+    public void OnSwapCommand(CCSPlayerController? player, CommandInfo info)
     {
         if (OnCommandValidater(player, true, "@css/seviye6") == false)
         {

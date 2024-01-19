@@ -2,7 +2,6 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Commands.Targeting;
 
 namespace JailbreakExtras;
 
@@ -11,6 +10,7 @@ public partial class JailbreakExtras
     #region Noclip
 
     [ConsoleCommand("noclip")]
+    [ConsoleCommand("nc")]
     [CommandHelper(0, "<oyuncu ismi,@t,@ct,@all,@me> <0/1>")]
     public void Noclip(CCSPlayerController? player, CommandInfo info)
     {

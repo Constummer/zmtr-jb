@@ -28,15 +28,15 @@ public partial class JailbreakExtras
 
             var players = GetPlayers(CsTeam.Terrorist).Where(x => x.PawnIsAlive);
             BombCarrier = GetRandomBombCarrier(players);
-            if (SpeedActiveDatas.ContainsKey(BombCarrier.SteamID))
-            {
-                SpeedActiveDatas[BombCarrier.SteamID] = 2;
-            }
-            else
-            {
-                SpeedActiveDatas.Add(BombCarrier.SteamID, 2);
-            }
-            BombCarrier.PlayerPawn.Value.VelocityModifier = 2f;
+            //if (SpeedActiveDatas.ContainsKey(BombCarrier.SteamID))
+            //{
+            //    SpeedActiveDatas[BombCarrier.SteamID] = 2;
+            //}
+            //else
+            //{
+            //    SpeedActiveDatas.Add(BombCarrier.SteamID, 2);
+            //}
+            //BombCarrier.PlayerPawn.Value.VelocityModifier = 2f;
             BombCarrier.GiveNamedItem("weapon_c4");
             C4 = GetWeapon(BombCarrier, "weapon_c4");
             HotPatatoTimerStart();
@@ -82,13 +82,13 @@ public partial class JailbreakExtras
                 //}
                 //else
                 //{
-                if (BombCarrier != null)
-                {
-                    SpeedActiveDatas.Remove(BombCarrier.SteamID);
-                    if (ValidateCallerPlayer(BombCarrier, false) == false) return;
-                    BombCarrier.PlayerPawn.Value.VelocityModifier = 1f;
-                    RefreshPawnTP(BombCarrier);
-                }
+                //if (BombCarrier != null)
+                //{
+                //    SpeedActiveDatas.Remove(BombCarrier.SteamID);
+                //    if (ValidateCallerPlayer(BombCarrier, false) == false) return;
+                //    BombCarrier.PlayerPawn.Value.VelocityModifier = 1f;
+                //    RefreshPawnTP(BombCarrier);
+                //}
 
                 if (C4 != null && (C4?.IsValid ?? false))
                 {
@@ -97,16 +97,16 @@ public partial class JailbreakExtras
                 var players = GetPlayers(CsTeam.Terrorist).Where(x => x.SteamID != @event.Userid.SteamID && x.PawnIsAlive);
                 BombCarrier = GetRandomBombCarrier(players);
                 BombCarrier.GiveNamedItem("weapon_c4");
-                if (SpeedActiveDatas.ContainsKey(@event.Userid.SteamID))
-                {
-                    SpeedActiveDatas[@event.Userid.SteamID] = 2;
-                }
-                else
-                {
-                    SpeedActiveDatas.Add(@event.Userid.SteamID, 2);
-                }
-                BombCarrier.PlayerPawn.Value.VelocityModifier = 2f;
-                RefreshPawnTP(BombCarrier);
+                //if (SpeedActiveDatas.ContainsKey(@event.Userid.SteamID))
+                //{
+                //    SpeedActiveDatas[@event.Userid.SteamID] = 2;
+                //}
+                //else
+                //{
+                //    SpeedActiveDatas.Add(@event.Userid.SteamID, 2);
+                //}
+                //BombCarrier.PlayerPawn.Value.VelocityModifier = 2f;
+                //RefreshPawnTP(BombCarrier);
                 C4 = GetWeapon(BombCarrier, "weapon_c4");
                 //}
                 //}
@@ -134,24 +134,24 @@ public partial class JailbreakExtras
         {
             if (@event == null) return;
             if (ValidateCallerPlayer(@event.Userid, false) == false) return;
-            if (BombCarrier != null)
-            {
-                SpeedActiveDatas.Remove(BombCarrier.SteamID);
-                if (ValidateCallerPlayer(BombCarrier, false) == false) return;
-                BombCarrier.PlayerPawn.Value.VelocityModifier = 1f;
-                RefreshPawnTP(BombCarrier);
-            }
+            //if (BombCarrier != null)
+            //{
+            //    SpeedActiveDatas.Remove(BombCarrier.SteamID);
+            //    if (ValidateCallerPlayer(BombCarrier, false) == false) return;
+            //    BombCarrier.PlayerPawn.Value.VelocityModifier = 1f;
+            //    RefreshPawnTP(BombCarrier);
+            //}
             BombCarrier = @event.Userid;
-            if (SpeedActiveDatas.ContainsKey(BombCarrier.SteamID))
-            {
-                SpeedActiveDatas[BombCarrier.SteamID] = 2;
-            }
-            else
-            {
-                SpeedActiveDatas.Add(BombCarrier.SteamID, 2);
-            }
-            BombCarrier.PlayerPawn.Value.VelocityModifier = 2f;
-            RefreshPawnTP(BombCarrier);
+            //if (SpeedActiveDatas.ContainsKey(BombCarrier.SteamID))
+            //{
+            //    SpeedActiveDatas[BombCarrier.SteamID] = 2;
+            //}
+            //else
+            //{
+            //    SpeedActiveDatas.Add(BombCarrier.SteamID, 2);
+            //}
+            //BombCarrier.PlayerPawn.Value.VelocityModifier = 2f;
+            //RefreshPawnTP(BombCarrier);
             base.EventBombPickup(@event);
         }
 
@@ -231,6 +231,10 @@ public partial class JailbreakExtras
                 if (C4CarierHitDamage == 1)
                 {
                     C4CarierHitDamage = 3;
+                }
+                else if (C4CarierHitDamage >= 10)
+                {
+                    C4CarierHitDamage = 10;
                 }
                 else
                 {

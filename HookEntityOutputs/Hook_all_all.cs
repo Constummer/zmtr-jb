@@ -1,3 +1,4 @@
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 
 namespace JailbreakExtras;
@@ -16,10 +17,18 @@ public partial class JailbreakExtras
                     {
                         return HookResult.Continue;
                     }
-                    if (ent.Entity != null
-                        && ent.Entity.Name != "kapi2")
+                    if (ent.Entity != null)
                     {
-                        return HookResult.Continue;
+                        if (Config.Map.ForceOpenDoor
+                            .TryGetValue(Server.MapName, out var door) != true)
+                        {
+                            return HookResult.Continue;
+                        }
+
+                        if (ent.Entity.Name != door)
+                        {
+                            return HookResult.Continue;
+                        }
                     }
 
                     ent.AcceptInput("Open");

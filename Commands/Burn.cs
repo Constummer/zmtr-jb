@@ -69,27 +69,9 @@ public partial class JailbreakExtras
             {
                 var randSound = Config.Sounds.BurnSounds.Skip(_random.Next(Config.Sounds.BurnSounds.Count())).FirstOrDefault();
                 x.ExecuteClientCommand($"play {randSound}");
-                PerformBurn(x.PlayerPawn.Value, 1);
+                PerformBurn(x, 1);
             });
         }, Full);
-    }
-
-    private static void PerformBurn(CBasePlayerPawn pawn, int damage = 0)
-    {
-        if (pawn.LifeState != (int)LifeState_t.LIFE_ALIVE)
-            return;
-
-        var vel = new Vector(pawn.AbsVelocity.X, pawn.AbsVelocity.Y, pawn.AbsVelocity.Z);
-
-        pawn.Teleport(pawn.AbsOrigin!, pawn.AbsRotation!, vel);
-
-        if (damage <= 0)
-            return;
-
-        pawn.Health -= damage;
-
-        if (pawn.Health <= 0)
-            pawn.CommitSuicide(true, true);
     }
 
     private static void PerformBurn(CCSPlayerController x, int damage)
@@ -109,7 +91,7 @@ public partial class JailbreakExtras
             x.PlayerPawn.Value.CommitSuicide(true, true);
             return;
         }
-        RefreshPawnTP(x);
+        Utilities.SetStateChanged(x.PlayerPawn.Value, "CBaseEntity", "m_iHealth");
     }
 
     #endregion Burn

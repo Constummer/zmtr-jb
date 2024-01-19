@@ -9,14 +9,14 @@ namespace JailbreakExtras
         public List<CoordinateTemplate> MapCellCoords { get; set; } = new List<CoordinateTemplate>()
         {
             new("jb_zmtr_v1" ,new VectorTemp(-535, 345, -27)),
-            new("jb_zmtr_v2_vsvs" ,new VectorTemp(-535, 345, -27))
+            new("jb_zmtr_v2" ,new VectorTemp(-535, 345, -27))
         };
 
-        [JsonPropertyName("ParamCoords ")]
+        [JsonPropertyName("ParamCoords")]
         public List<CoordinateTemplate> ParamCoords { get; set; } = new List<CoordinateTemplate>()
         {
             new ("jb_zmtr_v1" ,new VectorTemp(4497, 4261, -1880)),
-            new ("jb_zmtr_v2_vsvs" ,new VectorTemp(-535, 345, -27))
+            new ("jb_zmtr_v2" ,new VectorTemp(-535, 345, -27))
         };
 
         [JsonPropertyName("SkzCoordinates")]
@@ -28,7 +28,7 @@ namespace JailbreakExtras
                     new("KZ",      new VectorTemp(2102,739,-357) ),
                 }
             },
-            {"jb_zmtr_v2_vsvsvs", new List<CoordinateTemplate>()
+            {"jb_zmtr_v2", new List<CoordinateTemplate>()
                 {
                     new("Hucre",   new VectorTemp(-535,345,-27) ),
                     new("KZ",      new VectorTemp(2102,739,-357) ),
@@ -45,12 +45,26 @@ namespace JailbreakExtras
                     {"kapi2", "func_door" },
                  }
             },
-            {"jb_zmtr_v2_vsvsvs",new Dictionary<string, string>()
+            {"jb_zmtr_v2",new Dictionary<string, string>()
                  {
                     {"kacak", "func_door" },
                     {"kapi2", "func_door" },
                  }
             },
+        };
+
+        [JsonPropertyName("ForceOpenDoor")]
+        public Dictionary<string, string> ForceOpenDoor { get; set; } = new Dictionary<string, string>()
+        {
+             {"jb_zmtr_v1","kapi2"},
+             {"jb_zmtr_v2","kapi"},
+        };
+
+        [JsonPropertyName("CoinCoords")]
+        public List<CoordinateTemplate> CoinCoords { get; set; } = new List<CoordinateTemplate>()
+        {
+            new ("jb_zmtr_v1" ,new VectorTemp(-718, -765, 24)),
+            new ("jb_zmtr_v2" ,new VectorTemp(62, -408, 171))
         };
     }
 
@@ -71,7 +85,7 @@ namespace JailbreakExtras
     //                new("KZ",      new VectorTemp(2102,739,-357) ),
     //            }
     //        ),
-    //        new("jb_zmtr_v2_vsvsvs", new List<SkzCoordinate>()
+    //        new("jb_zmtr_v2", new List<SkzCoordinate>()
     //            {
     //                new("Hücre",   new VectorTemp(-535,345,-27) ),
     //                new("KZ",      new VectorTemp(2102,739,-357) ),

@@ -120,7 +120,7 @@ public partial class JailbreakExtras
             }
 
             AllPlayerCTTimeTracking?.Clear();
-            cmd = new MySqlCommand(@$"SELECT `CTTime``SteamId`
+            cmd = new MySqlCommand(@$"SELECT `CTTime`,`SteamId`
                                           FROM `PlayerTime` order by `CTTime` desc limit 10;", con);
 
             using (var reader = cmd.ExecuteReader())
