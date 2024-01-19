@@ -24,6 +24,15 @@
     <None Remove="HelloWorldPlugin\**" />
     <None Remove="ToJbPlugin\**" />
   </ItemGroup>
+	
+  <ItemGroup>
+    <None Remove="Commands\json_play_ground.deps.json" />
+    <None Remove="Commands\json_play_ground.dll" />
+    <None Remove="Commands\json_play_ground.exe" />
+    <None Remove="Commands\json_play_ground.pdb" />
+    <None Remove="Commands\json_play_ground.runtimeconfig.json" />
+    <None Remove="Commands\Newtonsoft.Json.dll" />
+  </ItemGroup>
 
   <ItemGroup>
     <PackageReference Include="CounterStrikeSharp.API" Version="1.0.142" />
