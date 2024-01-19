@@ -1,3 +1,4 @@
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Utils;
 
@@ -5,7 +6,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static void RefreshPawn(CCSPlayerController player)
+    private static void RefreshPawnOld(CCSPlayerController player)
     {
         if (player != null)
         {
@@ -29,7 +30,27 @@ public partial class JailbreakExtras
         }
     }
 
+    private static void RefreshPawn(CCSPlayerController player)
+    {
+        if (player != null)
+        {
+            if (ValidateCallerPlayer(player, false) == false)
+                return;
+            Utilities.SetStateChanged(player.PlayerPawn.Value, "CBaseEntity", "m_iHealth");
+        }
+    }
+
     private static void RefreshPawnTP(CCSPlayerController x)
+    {
+        if (x != null)
+        {
+            if (ValidateCallerPlayer(x, false) == false)
+                return;
+            Utilities.SetStateChanged(x.PlayerPawn.Value, "CBaseEntity", "m_iHealth");
+        }
+    }
+
+    private static void RefreshPawnTPold(CCSPlayerController x)
     {
         if (x != null)
         {

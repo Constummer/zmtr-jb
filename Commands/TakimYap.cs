@@ -74,10 +74,7 @@ public partial class JailbreakExtras
         {
             SetColour(x, DefaultColor);
 
-            Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
-            Vector currentSpeed = new Vector(0, 0, 0);
-            QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
-            x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
+            //RefreshPawnTP(x);
         });
         TeamSteamIds.Clear();
     }
@@ -125,10 +122,10 @@ public partial class JailbreakExtras
                 x.PrintToChat($"{Prefix} {CC.P}{res.Msg} {CC.W}Takıma girdin!{(additionalMsg ? " Takım oyunu başlamak üzere" : "")}");
                 x.PrintToCenter($"{Prefix} {CC.P}{res.Msg} {CC.W}Takıma girdin!{(additionalMsg ? " Takım oyunu başlamak üzere" : "")}");
 
-                Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
-                Vector currentSpeed = new Vector(0, 0, 0);
-                QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
-                x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
+                //Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
+                //Vector currentSpeed = new Vector(0, 0, 0);
+                //QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
+                //x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
             });
             TeamSteamIds.Add(i, plist.Select(x => x.SteamID).ToList());
             olusanTakimlar.Add(res.Msg);

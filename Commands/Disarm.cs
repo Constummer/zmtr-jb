@@ -32,6 +32,7 @@ public partial class JailbreakExtras
             {
                 Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu {CC.LR}disarmladı{CC.W}.");
             }
+
             RemoveWeapons(x, true);
         });
         if (targetArgument != TargetForArgument.None)

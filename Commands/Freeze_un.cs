@@ -53,10 +53,7 @@ public partial class JailbreakExtras
                             SetColour(x, DefaultColor);
                         }
                         x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_WALK;
-                        Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
-                        Vector currentSpeed = new Vector(0, 0, 0);
-                        QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
-                        x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
+                        RefreshPawnTP(x);
                     });
                     FreezeOrUnfreezeSound();
                     Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}mahkûmların {CC.B}donunu bozdu{CC.W}.");
