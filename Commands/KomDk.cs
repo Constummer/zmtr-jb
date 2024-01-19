@@ -14,7 +14,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("komdk")]
     public void KomDk(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player)) return;
+        if (ValidateCallerPlayer(player, false) == false) return;
         if (KomStartTime == null)
         {
             player.PrintToChat($"{Prefix} {CC.W}Mevcutta kom yok");
@@ -22,14 +22,15 @@ public partial class JailbreakExtras
         }
 
         var substract = DateTime.UtcNow - KomStartTime.Value;
-        if (substract.TotalMinutes > 45)
+        TimeSpan remainingTime = TimeSpan.FromMinutes(45) - substract;
+        if (remainingTime.TotalMinutes > 45)
         {
             player.PrintToChat($"{Prefix} {CC.W} Komdk atılabilinir.");
             return;
         }
         else
         {
-            player.PrintToChat($"{Prefix} {CC.W} Komdk'ya daha {CC.B}{(new DateTime(substract.Ticks).ToString("mm:ss"))}{CC.W} süre var.");
+            player.PrintToChat($"{Prefix} {CC.W} Komdk'ya daha {CC.B}{(new DateTime(remainingTime.Ticks).ToString("mm:ss"))}{CC.W} süre var.");
             return;
         }
     }
@@ -40,15 +41,16 @@ public partial class JailbreakExtras
     [ConsoleCommand("komdkac")]
     public void KomDkBaslat(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player)) return;
+        if (ValidateCallerPlayer(player) == false) return;
         if (KomStartTime == null)
         {
             player.PrintToChat($"{Prefix} {CC.W}Mevcutta kom yok");
             return;
         }
 
-        var substract = DateTime.UtcNow - KomStartTime.Value;
-        if (substract.TotalMinutes > 45)
+        var substract = KomStartTime.Value - DateTime.UtcNow;
+        TimeSpan remainingTime = TimeSpan.FromMinutes(45) - substract;
+        if (remainingTime.TotalMinutes > 45)
         {
             KomStartTime = DateTime.UtcNow;
             VoteAction(player, "Komutçu Değiş Kal");
@@ -56,7 +58,7 @@ public partial class JailbreakExtras
         }
         else
         {
-            player.PrintToChat($"{Prefix} {CC.W} Komdk'ya daha {CC.B}{(new DateTime(substract.Ticks).ToString("mm:ss"))}{CC.W} süre var.");
+            player.PrintToChat($"{Prefix} {CC.W} Komdk'ya daha {CC.B}{(new DateTime(remainingTime.Ticks).ToString("mm:ss"))}{CC.W} süre var.");
             return;
         }
     }
