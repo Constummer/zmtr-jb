@@ -51,7 +51,23 @@ public partial class JailbreakExtras
                     SetAmmo(weapon, 0, 0);
                 });
 
-            ReloadAmmoTimer = Global?.AddTimer(5f, () =>
+            Global?.AddTimer(0.1f, () =>
+             {
+                 GetPlayers(CsTeam.Terrorist)
+                     .Where(x => x.PawnIsAlive)
+                     .ToList()
+                     .ForEach(x =>
+                     {
+                         if (ValidateCallerPlayer(x, false) == false) return;
+                         CBasePlayerWeapon? weapon = GetWeapon(x, SelectedWeaponName);
+                         if (WeaponIsValid(weapon) == false)
+                         {
+                             return;
+                         }
+                         SetAmmo(weapon, 0, 0);
+                     });
+             });
+            ReloadAmmoTimer = Global?.AddTimer(2.5f, () =>
             {
                 GetPlayers(CsTeam.Terrorist)
                     .Where(x => x.PawnIsAlive)

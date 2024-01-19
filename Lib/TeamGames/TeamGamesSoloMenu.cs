@@ -15,7 +15,7 @@ public partial class JailbreakExtras
         if (ValidateCallerPlayer(player, false) == false) return;
         var soloTGMenu = new ChatMenu("Team Games Menü | Herkes Tek");
 
-        foreach (var item in SoloTGGamesMenu.OrderBy(x => x.Disabled))
+        foreach (var item in SoloTGGamesMenu.OrderBy(x => x.Disabled).ThenBy(x => x.Text))
         {
             soloTGMenu.AddMenuOption(item.Text, (p, i) =>
             {

@@ -12,7 +12,7 @@ public partial class JailbreakExtras
         if (ValidateCallerPlayer(player, false) == false) return;
 
         var teamTGMenu = new ChatMenu("Team Games Menü | Takımlı");
-        foreach (var item in MultiTGGamesMenu.OrderBy(x => x.Disabled))
+        foreach (var item in MultiTGGamesMenu.OrderBy(x => x.Disabled).ThenBy(x => x.Text))
         {
             teamTGMenu.AddMenuOption(item.Text, (p, i) =>
             {

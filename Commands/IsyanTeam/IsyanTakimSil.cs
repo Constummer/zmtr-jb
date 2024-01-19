@@ -1,6 +1,7 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
+using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 
 namespace JailbreakExtras;
@@ -11,9 +12,16 @@ public partial class JailbreakExtras
 
     [ConsoleCommand("isyantakimkaldir")]
     [ConsoleCommand("isyantakimsil")]
+    [ConsoleCommand("isyanteamkaldir")]
+    [ConsoleCommand("isyanteamsil")]
     [CommandHelper(minArgs: 1, "<isyan takimdan silinecek kişi>")]
     public void IsyanTakimKaldir(CCSPlayerController? player, CommandInfo info)
     {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/yonetim"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
         if (ValidateCallerPlayer(player, false) == false)
         {
             return;
@@ -48,15 +56,16 @@ public partial class JailbreakExtras
         }
         else
         {
-            IsyanTeamPlayers.Remove(player.SteamID);
-            RemovePlayerIsteamData(player.SteamID);
-            player.Clan = null;
+            IsyanTeamPlayers.Remove(y.SteamID);
+            RemovePlayerIsteamData(y.SteamID);
+            y.Clan = null;
             AddTimer(0.2f, () =>
             {
-                if (ValidateCallerPlayer(player, false) == false) return;
-                Utilities.SetStateChanged(player, "CCSPlayerController", "m_szClan");
-                Utilities.SetStateChanged(player, "CBasePlayerController", "m_iszPlayerName");
+                if (ValidateCallerPlayer(y, false) == false) return;
+                Utilities.SetStateChanged(y, "CCSPlayerController", "m_szClan");
+                Utilities.SetStateChanged(y, "CBasePlayerController", "m_iszPlayerName");
             }, SOM);
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.B} {y.PlayerName}{CC.W} adlı oyuncuyu {CC.R}[İsyan Team]{CC.W} takımından çıkardı");
         }
     }
 

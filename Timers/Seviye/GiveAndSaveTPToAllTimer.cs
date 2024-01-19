@@ -8,7 +8,7 @@ public partial class JailbreakExtras
 
     public CounterStrikeSharp.API.Modules.Timers.Timer GiveAndSaveTPToAllTimer()
     {
-        return AddTimer(300f, () =>
+        return AddTimer(360f, () =>
         {
             var lider1Players = GetPlayers()
                                 .Where(x => AdminManager.PlayerHasPermissions(x, "@css/lider"))
@@ -16,10 +16,10 @@ public partial class JailbreakExtras
                                 .Select(x => x.SteamID);
             foreach (var item in PlayerLevels.ToList())
             {
-                item.Value.Xp = item.Value.Xp + 5;
+                item.Value.Xp = item.Value.Xp + 6;
                 if (lider1Players.Contains(item.Key))
                 {
-                    item.Value.Xp = item.Value.Xp + 5;
+                    item.Value.Xp = item.Value.Xp + 3;
                 }
                 if (PlayerLevels.ContainsKey(item.Key))
                 {

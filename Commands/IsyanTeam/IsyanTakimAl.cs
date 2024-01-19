@@ -1,5 +1,7 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
+using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 
 namespace JailbreakExtras;
@@ -8,9 +10,17 @@ public partial class JailbreakExtras
 {
     [ConsoleCommand("isyantakimal")]
     [ConsoleCommand("isyantakimver")]
+    [ConsoleCommand("isyanteamal")]
+    [ConsoleCommand("isyanteamver")]
     [CommandHelper(minArgs: 1, "<isyan takima eklenecek kişi>")]
     public void IsyanTakimVer(CCSPlayerController? player, CommandInfo info)
     {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/yonetim"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+
         if (ValidateCallerPlayer(player, false) == false)
         {
             return;
@@ -45,9 +55,10 @@ public partial class JailbreakExtras
         }
         else
         {
-            IsyanTeamPlayers.Add(player.SteamID);
-            AddPlayerIsteamData(player.SteamID);
-            SetIsyanTeamClanTag(player);
+            IsyanTeamPlayers.Add(y.SteamID);
+            AddPlayerIsteamData(y.SteamID);
+            SetIsyanTeamClanTag(y);
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.B} {y.PlayerName}{CC.W} adlı oyuncuyu {CC.R}[İsyan Team]{CC.W} takımına aldı");
         }
     }
 }

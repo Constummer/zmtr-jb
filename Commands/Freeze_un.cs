@@ -88,9 +88,8 @@ public partial class JailbreakExtras
                 {
                     SetColour(x, DefaultColor);
                 }
-                RefreshPawn(x);
-
                 x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
+                RefreshPawn(x);
             });
         FreezeOrUnfreezeSound();
         if (targetArgument != TargetForArgument.None)

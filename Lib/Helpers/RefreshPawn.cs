@@ -36,7 +36,7 @@ public partial class JailbreakExtras
         {
             if (ValidateCallerPlayer(player, false) == false)
                 return;
-            Utilities.SetStateChanged(player.PlayerPawn.Value, "CBaseEntity", "m_iHealth");
+            Utilities.SetStateChanged(player.PlayerPawn.Value, "CBaseEntity", "m_MoveType");
         }
     }
 
@@ -46,7 +46,7 @@ public partial class JailbreakExtras
         {
             if (ValidateCallerPlayer(x, false) == false)
                 return;
-            Utilities.SetStateChanged(x.PlayerPawn.Value, "CBaseEntity", "m_iHealth");
+            Utilities.SetStateChanged(x.PlayerPawn.Value, "CBaseEntity", "m_MoveType");
         }
     }
 

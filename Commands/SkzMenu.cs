@@ -102,7 +102,7 @@ public partial class JailbreakExtras
                 players.ForEach(x =>
                 {
                     x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
-                    x.PlayerPawn.Value.Teleport(k.Coord, x.PlayerPawn.Value.AbsRotation, new Vector(0f, 0f, 0f));
+                    x.PlayerPawn.Value.Teleport(k.Coord, x.Pawn.Value.AbsRotation, new Vector(0f, 0f, 0f));
                 });
                 BasicCountdown.CommandStartTextCountDown(this, $"[ZMTR] SKZ 3 SANİYE SONRA BAŞLIYOR");
 
@@ -153,8 +153,7 @@ public partial class JailbreakExtras
                             SetColour(x, Config.Burry.BuryColor);
                         }
                         x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
-                        Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
-                        x.PlayerPawn.Value.Teleport(currentPosition, x.PlayerPawn.Value.AbsRotation, new Vector(0, 0, 0));
+                        RefreshPawnTP(x);
                     });
                     Config.Additional.ParachuteModelEnabled = true;
 
