@@ -47,7 +47,7 @@ public partial class JailbreakExtras
         var data = GetPlayerMarketModel(player.SteamID);
         if (data.Model == null) return;
 
-        var marketMenu = new ChatMenu($"Market | Krediniz = [{data.Model.Credit}]");
+        var marketMenu = new ChatMenu($" {CC.LB}Market {CC.W}| {CC.G} Kredin {CC.W}[{CC.G}{data.Model.Credit}{CC.W}]");
         marketMenu.AddMenuOption(CTOyuncuModeli, OpenSelectedModelMarket);
         marketMenu.AddMenuOption(TOyuncuModeli, OpenSelectedModelMarket);
         marketMenu.AddMenuOption("TP Market", TPMarketSelected);
