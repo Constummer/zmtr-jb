@@ -106,6 +106,7 @@ public partial class JailbreakExtras
                           `WTime` mediumint(9) DEFAULT NULL,
                           `WeekNo` mediumint(9) DEFAULT NULL
                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
+                    await cmd.ExecuteNonQueryAsync();
 
                     cmd = new MySqlCommand(
                     @"CREATE TABLE IF NOT EXISTS `KomWeeklyWCredit` (
@@ -113,14 +114,23 @@ public partial class JailbreakExtras
                           `Recieved` bit DEFAULT 0,
                           `WeekNo` mediumint(9) DEFAULT NULL
                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
+                    await cmd.ExecuteNonQueryAsync();
 
                     cmd = new MySqlCommand(
                     @"CREATE TABLE IF NOT EXISTS `PlayerIsyanTeam` (
                           `SteamId` bigint(20) DEFAULT NULL
                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-
                     await cmd.ExecuteNonQueryAsync();
+
+                    cmd = new MySqlCommand(
+                    @"CREATE TABLE IF NOT EXISTS `PlayerCTKit` (
+                          `SteamId` bigint(20) DEFAULT NULL,
+                          `KitId` mediumint(9) DEFAULT 0
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
+                    await cmd.ExecuteNonQueryAsync();
+
                     GetAllPlayerNameData(con);
+                    GetAllCTKitData(con);
                     GetAllTimeTrackingData(con);
                     GetAllCTBanData(con);
                     GetAllBanData(con);

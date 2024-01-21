@@ -51,11 +51,14 @@ public partial class JailbreakExtras
         [JsonPropertyName("BlockedRadio")]
         public BlockedRadioConfig BlockedRadio { get; set; } = new BlockedRadioConfig();
 
-        [JsonIgnore]
-        public LevelConfig Level { get; set; } = new LevelConfig();
-
         [JsonPropertyName("DontBlockOnGagged")]
         public DontBlockOnGaggedConfig DontBlockOnGagged { get; set; } = new DontBlockOnGaggedConfig();
+
+        [JsonPropertyName("CTKit")]
+        public CTKitConfig CTKit { get; set; } = new CTKitConfig();
+
+        [JsonIgnore]
+        public LevelConfig Level { get; set; } = new LevelConfig();
     }
 
     public void OnConfigParsed(JailbreakExtrasConfig config)

@@ -10,6 +10,8 @@ public partial class JailbreakExtras
 {
     private void EventPlayerSpawn()
     {
+        RegisterEventHandler<EventPlayerSpawn>(CTKitOnPlayerSpawn);
+
         RegisterEventHandler<EventPlayerSpawn>((@event, _) =>
         {
             if (@event == null)

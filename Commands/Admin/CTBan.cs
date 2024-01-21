@@ -215,6 +215,8 @@ public partial class JailbreakExtras
                     cmd.Parameters.AddWithValue("@SteamId", steamId);
                     cmd.Parameters.AddWithValue("@BannedBySteamId", bannerId);
                     cmd.Parameters.AddWithValue("@Time", time);
+
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
