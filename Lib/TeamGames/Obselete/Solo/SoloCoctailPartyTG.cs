@@ -7,7 +7,7 @@ public partial class JailbreakExtras
 {
     internal class SoloCoctailPartyTG : TeamGamesGameBase
     {
-        public int PlayerCount { get; set; } = 0;
+        public List<ulong> PlayerCount { get; set; } = new();
 
         public SoloCoctailPartyTG() : base(TeamGamesSoloChoices.CoctailParty)
         {
@@ -24,7 +24,7 @@ public partial class JailbreakExtras
         {
             Global?.SinirsizXKapaAction("@t", "");
             RemoveAllWeapons(giveKnife: true);
-            PlayerCount = 0;
+            PlayerCount = new();
             base.Clear(printMsg);
         }
 
@@ -33,16 +33,18 @@ public partial class JailbreakExtras
             if (@event == null) return;
             if (ValidateCallerPlayer(@event.Attacker, false) == false) return;
 
-            PlayerCount--;
+            if (ValidateCallerPlayer(@event.Userid, false) == false) return;
+            SoloCheckGameFinished(this, @event.Userid.SteamID, PlayerCount, @event.Attacker.PlayerName);
 
-            if (PlayerCount <= 1)
-            {
-                Server.PrintToChatAll($"{Prefix} {CC.Or} {@event.Attacker.PlayerName}{CC.W} adlı mahkûm kazandı.");
-                PrintToCenterHtmlAll($"{Prefix} {@event.Attacker.PlayerName} adlı mahkûm kazandı.");
-
-                Clear(true);
-            }
             base.EventPlayerDeath(@event);
+        }
+
+        internal override void EventPlayerDisconnect(ulong? tempSteamId)
+        {
+            if (tempSteamId == null) return;
+            SoloCheckGameFinished(this, tempSteamId.Value, PlayerCount, null);
+
+            base.EventPlayerDisconnect(tempSteamId);
         }
     }
 }

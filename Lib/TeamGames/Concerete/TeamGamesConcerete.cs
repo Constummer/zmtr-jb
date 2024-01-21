@@ -1,6 +1,6 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Utils;
+using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
 
@@ -91,6 +91,59 @@ public partial class JailbreakExtras
 
         internal virtual void EventPlayerDisconnect(ulong? tempSteamId)
         {
+        }
+
+        internal void SoloCheckGameFinished(TeamGamesGameBase caller, ulong steamid, List<ulong> playerCount, string attackerPname, Action action = null)
+        {
+            playerCount.RemoveAll(x => x == steamid);
+
+            if (action != null)
+            {
+                action();
+            }
+
+            if (playerCount.Count <= 1)
+            {
+                if (attackerPname == null)
+                {
+                    attackerPname = GetPlayers()
+                                        .Where(x => playerCount.Contains(x.SteamID))
+                                        .Select(x => x.PlayerName)
+                                        .FirstOrDefault()!;
+                }
+
+                if (attackerPname != null)
+                {
+                    Server.PrintToChatAll($"{Prefix} {CC.Or} {attackerPname}{CC.W} adlı mahkûm kazandı.");
+                    PrintToCenterHtmlAll($"{Prefix} {attackerPname} adlı mahkûm kazandı.");
+                }
+
+                caller.Clear(true);
+            }
+        }
+
+        internal void MultiCheckGameFinished(TeamGamesGameBase caller, ulong steamid, Dictionary<int, int> playerCount, Action action = null)
+        {
+            var team = FindTeam(steamid);
+            if (team.Index == -1) return;
+            if (playerCount.ContainsKey(team.Index))
+            {
+                playerCount[team.Index]--;
+                var otherTeamIndex = (team.Index + 1) % 2;
+                if (action != null)
+                {
+                    action();
+                }
+                if (playerCount[team.Index] <= 0)
+                {
+                    var otherTeam = GetTeamColorAndTextByIndex(otherTeamIndex);
+                    if (otherTeam.Msg == null) return;
+
+                    Server.PrintToChatAll($"{Prefix} {otherTeam.Msg} {CC.W}takım kazandı.");
+                    PrintToCenterHtmlAll($"{Prefix} {otherTeam.Msg} {CC.W}takım kazandı.");
+                    caller.Clear(true);
+                }
+            }
         }
     }
 }

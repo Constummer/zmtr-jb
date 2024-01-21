@@ -84,27 +84,20 @@ public partial class JailbreakExtras
             if (@event == null) return;
             if (ValidateCallerPlayer(@event.Userid, false) == false) return;
 
-            var team = FindTeam(@event.Userid.SteamID);
-            if (team.Index == -1) return;
-            if (PlayerCount.ContainsKey(team.Index))
+            MultiCheckGameFinished(this, @event.Userid.SteamID, PlayerCount, () =>
             {
-                PlayerCount[team.Index]--;
-                var otherTeamIndex = (team.Index + 1) % 2;
                 PlayerFovs[@event.Attacker.SteamID] = 90;
-                Global?.FovAction(@event.Userid, 90.ToString(), setForce: true, addDic: false);
-
-                if (PlayerCount[team.Index] <= 0)
-                {
-                    var otherTeam = GetTeamColorAndTextByIndex(otherTeamIndex);
-                    if (otherTeam.Msg == null) return;
-
-                    Server.PrintToChatAll($"{Prefix} {otherTeam.Msg} {CC.W}takım kazandı.");
-                    PrintToCenterHtmlAll($"{Prefix} {otherTeam.Msg} {CC.W}takım kazandı.");
-                    Clear(true);
-                }
-            }
+                Global?.FovAction(@event.Attacker, 90.ToString(), setForce: true, addDic: false);
+            });
 
             base.EventPlayerDeath(@event);
+        }
+
+        internal override void EventPlayerDisconnect(ulong? tempSteamId)
+        {
+            if (tempSteamId == null) return;
+            MultiCheckGameFinished(this, tempSteamId.Value, PlayerCount);
+            base.EventPlayerDisconnect(tempSteamId);
         }
     }
 }

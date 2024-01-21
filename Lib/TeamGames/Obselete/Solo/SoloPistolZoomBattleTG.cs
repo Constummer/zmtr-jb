@@ -11,7 +11,7 @@ public partial class JailbreakExtras
     {
         private string SelectedWeaponName = null;
         private Dictionary<ulong, int> PlayerFovs = new Dictionary<ulong, int>();
-        public int PlayerCount { get; set; } = 0;
+        public List<ulong> PlayerCount { get; set; } = new();
 
         public SoloPistolZoomBattleTG() : base(TeamGamesSoloChoices.PistolZoomBattle)
         {
@@ -52,7 +52,7 @@ public partial class JailbreakExtras
             Server.PrintToConsole("1");
             Global?.FovReopenAction(true);
             PlayerFovs?.Clear();
-            PlayerCount = 0;
+            PlayerCount = new();
             RemoveAllWeapons(giveKnife: true);
             base.Clear(printMsg);
         }
@@ -82,17 +82,22 @@ public partial class JailbreakExtras
             if (@event == null) return;
             if (ValidateCallerPlayer(@event.Attacker, false) == false) return;
 
-            PlayerCount--;
-            PlayerFovs[@event.Attacker.SteamID] = 90;
-            Global?.FovAction(@event.Attacker, 90.ToString(), setForce: true, addDic: false);
-            if (PlayerCount <= 1)
+            if (ValidateCallerPlayer(@event.Userid, false) == false) return;
+            SoloCheckGameFinished(this, @event.Userid.SteamID, PlayerCount, @event.Attacker.PlayerName, () =>
             {
-                Server.PrintToChatAll($"{Prefix} {CC.Or} {@event.Attacker.PlayerName}{CC.W} adlı mahkûm kazandı.");
-                PrintToCenterHtmlAll($"{Prefix} {@event.Attacker.PlayerName} adlı mahkûm kazandı.");
+                PlayerFovs[@event.Attacker.SteamID] = 90;
+                Global?.FovAction(@event.Attacker, 90.ToString(), setForce: true, addDic: false);
+            });
 
-                Clear(true);
-            }
             base.EventPlayerDeath(@event);
+        }
+
+        internal override void EventPlayerDisconnect(ulong? tempSteamId)
+        {
+            if (tempSteamId == null) return;
+            SoloCheckGameFinished(this, tempSteamId.Value, PlayerCount, null);
+
+            base.EventPlayerDisconnect(tempSteamId);
         }
     }
 }

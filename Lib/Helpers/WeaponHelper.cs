@@ -35,16 +35,16 @@ public partial class JailbreakExtras
         }
     }
 
-    private static int RemoveAllWeapons(bool giveKnife, bool giveFists = false, string custom = null, int? setHp = null)
+    private static List<ulong> RemoveAllWeapons(bool giveKnife, bool giveFists = false, string custom = null, int? setHp = null)
     {
-        var index = 0;
+        List<ulong> steamids = new List<ulong>();
         GetPlayers(CsTeam.Terrorist)
             .Where(x => x.PawnIsAlive)
             .ToList()
             .ForEach(x =>
             {
                 if (ValidateCallerPlayer(x, false) == false) return;
-                index++;
+                steamids.Add(x.SteamID);
                 x.RemoveWeapons();
                 if (giveKnife)
                 {
@@ -64,7 +64,7 @@ public partial class JailbreakExtras
                     RefreshPawnTP(x);
                 }
             });
-        return index;
+        return steamids;
     }
 
     private static void RemoveWeapon(CCSPlayerController x, string weaponName)

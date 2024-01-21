@@ -87,6 +87,8 @@ public partial class JailbreakExtras
 
                         case QueueItemType.OnClientDisconnect:
 
+                            ActiveTeamGamesGameBase?.EventPlayerDisconnect(tempSteamId);
+
                             ClearOnDisconnect(tempSteamId, tempUserId);
 
                             if (tempSteamId == LatestWCommandUser)

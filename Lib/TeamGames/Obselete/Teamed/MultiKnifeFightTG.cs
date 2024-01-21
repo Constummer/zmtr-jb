@@ -31,25 +31,16 @@ public partial class JailbreakExtras
             if (@event == null) return;
             if (ValidateCallerPlayer(@event.Userid, false) == false) return;
 
-            var team = FindTeam(@event.Userid.SteamID);
-            if (team.Index == -1) return;
-            if (PlayerCount.ContainsKey(team.Index))
-            {
-                PlayerCount[team.Index]--;
-                var otherTeamIndex = (team.Index + 1) % 2;
-
-                if (PlayerCount[team.Index] <= 0)
-                {
-                    var otherTeam = GetTeamColorAndTextByIndex(otherTeamIndex);
-                    if (otherTeam.Msg == null) return;
-
-                    Server.PrintToChatAll($"{Prefix} {otherTeam.Msg} {CC.W}takım kazandı.");
-                    PrintToCenterHtmlAll($"{Prefix} {otherTeam.Msg} {CC.W}takım kazandı.");
-                    Clear(true);
-                }
-            }
+            MultiCheckGameFinished(this, @event.Userid.SteamID, PlayerCount);
 
             base.EventPlayerDeath(@event);
+        }
+
+        internal override void EventPlayerDisconnect(ulong? tempSteamId)
+        {
+            if (tempSteamId == null) return;
+            MultiCheckGameFinished(this, tempSteamId.Value, PlayerCount);
+            base.EventPlayerDisconnect(tempSteamId);
         }
     }
 }
