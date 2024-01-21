@@ -12,8 +12,10 @@ public partial class JailbreakExtras
     private static Dictionary<ulong, DateTime> LatestKredimCommandCalls = new Dictionary<ulong, DateTime>();
 
     [ConsoleCommand("para")]
+    [ConsoleCommand("param")]
     [ConsoleCommand("money")]
     [ConsoleCommand("sikke")]
+    [ConsoleCommand("sikkem")]
     [ConsoleCommand("kredi")]
     [ConsoleCommand("kredim")]
     public void Kredi(CCSPlayerController? player, CommandInfo info)

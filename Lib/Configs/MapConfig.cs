@@ -66,6 +66,25 @@ namespace JailbreakExtras
             new ("jb_zmtr_v1" ,new VectorTemp(-718, -765, 24)),
             new ("jb_zmtr_v2" ,new VectorTemp(62, -408, 171))
         };
+
+        [JsonPropertyName("KzCellCoords")]
+        public Dictionary<string, List<CoordinateTemplate>> KzCellCoords { get; set; } = new Dictionary<string, List<CoordinateTemplate>>()
+        {
+             {"jb_zmtr_v1",
+                new()
+                {
+                    new("LeftBottom",new VectorTemp(0,0,0)),
+                    new("RightTop",new VectorTemp(0,0,0))
+                }
+             },
+             {"jb_zmtr_v2",
+                new()
+                {
+                    new("LeftBottom",new VectorTemp(2364,-50,107)),
+                    new("RightTop",new VectorTemp(2620,140,232))
+                }
+             },
+        };
     }
 
     //public class MapConfig

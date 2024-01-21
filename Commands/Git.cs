@@ -11,6 +11,7 @@ public partial class JailbreakExtras
     #region Git
 
     [ConsoleCommand("git")]
+    [CommandHelper(minArgs: 1, "<hedefteki oyuncu>")]
     public void Git(CCSPlayerController? player, CommandInfo info)
     {
         if (OnCommandValidater(player, true, "@css/seviye10") == false)

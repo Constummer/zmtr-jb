@@ -106,11 +106,11 @@ public partial class JailbreakExtras
         VotePrintTimer = AddTimer(0.1f, () =>
         {
             i++;
-            var hmtl = $"<pre><b>Oylama: <font color='#00FF00'>{LatestVoteName}</font><br>" +
+            var hmtl = $"<b>Oylama: <font color='#00FF00'>{LatestVoteName}</font><br>" +
                         $" <font color='{((int)((200 - i) / 10) > 3 ? "#FA2F2F" : "#FF0000")}'>Kalan Süre : {(int)((200 - i) / 10)}</font><br>" +
         string.Join("<br>",
         Answers.Select((x, i) => $" <font color='#FF0000'>!{i + 1}</font> || {x.Key} - {x.Value}")) +
-                           $"</b></pre>";
+                           $"</b>";
 
             GetPlayers()
             .ToList()

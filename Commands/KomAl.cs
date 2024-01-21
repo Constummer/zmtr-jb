@@ -167,10 +167,10 @@ public partial class JailbreakExtras
                 KomalPrintTimer = AddTimer(0.1f, () =>
                 {
                     i++;
-                    var hmtl = $"<pre><b>Oylama: <font color='#00FF00'>Komutçu Al Oylaması</font><br>" +
+                    var hmtl = $"<b>Oylama: <font color='#00FF00'>Komutçu Al Oylaması</font><br>" +
                                 $" Kalan Süre : <font color='{((int)((150 - i) / 10) > 3 ? "#00FF00" : "#FF0000")}'> {(int)((150 - i) / 10)}</font><br>" +
                 string.Join("<br>", KomAlAnswers.Select((x, i) => $"!{i + 1} - {voters.Where(y => y.SteamID == x.Key).Select(y => y.PlayerName).FirstOrDefault()} - {x.Value}")) +
-                                   $"</b></pre>";
+                                   $"</b>";
 
                     GetPlayers()
                     .ToList()

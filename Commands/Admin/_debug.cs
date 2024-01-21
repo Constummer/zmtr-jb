@@ -25,6 +25,31 @@ public partial class JailbreakExtras
         }
     }
 
+    [ConsoleCommand("ceventbulletimpact")]
+    public void cEventBulletImpact(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        BulletImpactActive = !BulletImpactActive;
+    }
+
+    private bool BulletImpactActive = false;
+
+    private void DebugBulletImpact(EventBulletImpact @event, GameEventInfo info)
+    {
+        if (BulletImpactActive)
+        {
+            Server.PrintToConsole($"{@event?.X},{@event?.Y},{@event?.Z}");
+        }
+    }
+
     [ConsoleCommand("csteamid")]
     public void csteamid(CCSPlayerController? player, CommandInfo info)
     {
@@ -506,6 +531,24 @@ public partial class JailbreakExtras
         if (player.PlayerName == "Constummer")
         {
             player!.ChangeTeam(CsTeam.Spectator);
+        }
+    }
+
+    [ConsoleCommand("ctakim3")]
+    public void takim3(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        if (player.PlayerName == "Constummer")
+        {
+            CustomRespawn(player);
         }
     }
 

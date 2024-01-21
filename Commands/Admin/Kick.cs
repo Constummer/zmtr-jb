@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
@@ -9,7 +10,7 @@ public partial class JailbreakExtras
 {
     #region Kick
 
-    [ConsoleCommand("kick")]
+    [ConsoleCommand("css_kick")]
     [CommandHelper(minArgs: 1, usage: "<#userid or name> [reason]")]
     public void OnKickCommand(CCSPlayerController? player, CommandInfo info)
     {
@@ -48,25 +49,31 @@ public partial class JailbreakExtras
             return;
         }
         var x = players.FirstOrDefault();
+        if (ValidateCallerPlayer(x, false) == false) return;
+        if (x.SteamID == player.SteamID)
+        {
+            player.PrintToChat($"{Prefix} {CC.W}KENDINI KICKLEYEMEZSIN.");
+            return;
+        }
+
         if (x != null)
         {
-            if (x.SteamID != player.SteamID)
+            if (ValidateCallerPlayer(x, false) == false) return;
+
+            if (info.ArgCount >= 2)
             {
-                if (info.ArgCount >= 2)
-                {
-                    KickPlayer((ushort)x.UserId!, reason);
-                }
-                else
-                {
-                    KickPlayer((ushort)x.UserId!);
-                }
+                KickPlayer((ushort)x.UserId!, reason);
+            }
+            else
+            {
+                KickPlayer((ushort)x.UserId!);
             }
         }
     }
 
     public static void KickPlayer(ushort userId, string? reason = null)
     {
-        NativeAPI.IssueServerCommand($"kickid {userId} {reason}");
+        Server.ExecuteCommand($"kickid {userId}");
     }
 
     #endregion Kick

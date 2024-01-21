@@ -108,6 +108,14 @@ public partial class JailbreakExtras
 
                 _ = AddTimer(3, () =>
                 {
+                    if (players.Count < 6)
+                    {
+                        Config.Additional.ParachuteModelEnabled = true;
+                    }
+                    else
+                    {
+                        Config.Additional.ParachuteModelEnabled = false;
+                    }
                     GetPlayers()
                     .Where(x => x != null
                          && x.IsValid
@@ -122,12 +130,10 @@ public partial class JailbreakExtras
                             if (players.Count < 6)
                             {
                                 SetColour(x, DefaultColor);
-                                Config.Additional.ParachuteModelEnabled = true;
                             }
                             else
                             {
                                 SetColour(x, Color.FromArgb(0, 0, 0, 0));
-                                Config.Additional.ParachuteModelEnabled = false;
                             }
                         }
                         x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_WALK;
@@ -150,7 +156,7 @@ public partial class JailbreakExtras
                         if (ValidateCallerPlayer(x, false) == false) return;
                         if (TeamActive == false)
                         {
-                            SetColour(x, Config.Burry.BuryColor);
+                            PaintPlayersBasedOnTheirPos(x);
                         }
                         x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
                         RefreshPawnTP(x);

@@ -1,11 +1,9 @@
-﻿using CounterStrikeSharp.API.Core;
-
-namespace JailbreakExtras;
+﻿namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private bool TgActive = false;
-    public CounterStrikeSharp.API.Modules.Timers.Timer TgTimer { get; set; } = null;
+    private static bool TgActive = false;
+    public static CounterStrikeSharp.API.Modules.Timers.Timer TgTimer { get; set; } = null;
     public static TeamGamesGameBase? ActiveTeamGamesGameBase { get; set; } = null;
 
     public enum TeamGamesSoloChoices

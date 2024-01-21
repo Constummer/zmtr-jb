@@ -1,7 +1,6 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
 using CounterStrikeSharp.API.Modules.Utils;
-using System.Net.NetworkInformation;
 using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;

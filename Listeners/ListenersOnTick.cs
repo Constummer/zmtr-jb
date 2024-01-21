@@ -16,7 +16,7 @@ public partial class JailbreakExtras
 
             bool changed = false;
             CoinMoveOnTick(GetWarden());
-            for (int i = 1; i < Server.MaxPlayers; i++)
+            for (int i = 1; i <= Server.MaxPlayers; i++)
             {
                 var ent = NativeAPI.GetEntityFromIndex(i);
                 if (ent == 0)

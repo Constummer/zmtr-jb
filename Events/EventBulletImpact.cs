@@ -10,6 +10,8 @@ public partial class JailbreakExtras
         {
             if (@event == null)
                 return HookResult.Continue;
+
+            DebugBulletImpact(@event, info);
             CitEkle(@event);
             DizAction(@event);
             return HookResult.Continue;

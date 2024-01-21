@@ -1,5 +1,4 @@
-﻿using CounterStrikeSharp.API;
-using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 
@@ -21,17 +20,17 @@ public partial class JailbreakExtras
             return;
         }
 
-        var substract = DateTime.UtcNow - KomStartTime.Value;
-        TimeSpan remainingTime = TimeSpan.FromMinutes(45) - substract;
-        if (remainingTime.TotalMinutes > 45)
+        var substract = (DateTime.UtcNow - KomStartTime.Value).TotalSeconds;
+        TimeSpan remainingTime = TimeSpan.FromMinutes(45) - TimeSpan.FromSeconds(substract);
+        if (remainingTime.TotalSeconds > 0)
         {
-            player.PrintToChat($"{Prefix} {CC.W} Komdk atılabilinir.");
-            return;
+            var dk = $"{CC.B}{remainingTime.ToString("mm")}{CC.W}";
+            var sn = $"{CC.B}{remainingTime.ToString("ss")}{CC.W}";
+            player.PrintToChat($"{Prefix} {CC.W} Komdk'ya daha {dk} dakika {sn} saniye var.");
         }
         else
         {
-            player.PrintToChat($"{Prefix} {CC.W} Komdk'ya daha {CC.B}{(new DateTime(remainingTime.Ticks).ToString("mm:ss"))}{CC.W} süre var.");
-            return;
+            player.PrintToChat($"{Prefix} {CC.W} Komdk atılabilinir.");
         }
     }
 
@@ -47,19 +46,18 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.W}Mevcutta kom yok");
             return;
         }
-
-        var substract = DateTime.UtcNow - KomStartTime.Value;
-        TimeSpan remainingTime = TimeSpan.FromMinutes(45) - substract;
-        if (remainingTime.TotalMinutes > 45)
+        var substract = (DateTime.UtcNow - KomStartTime.Value).TotalSeconds;
+        TimeSpan remainingTime = TimeSpan.FromMinutes(45) - TimeSpan.FromSeconds(substract);
+        if (remainingTime.TotalSeconds > 0)
         {
-            KomStartTime = DateTime.UtcNow;
-            VoteAction(player, "Komutçu Değiş Kal");
-            return;
+            var dk = $"{CC.B}{remainingTime.ToString("mm")}{CC.W}";
+            var sn = $"{CC.B}{remainingTime.ToString("ss")}{CC.W}";
+            player.PrintToChat($"{Prefix} {CC.W} Komdk'ya daha {dk} dakika {sn} saniye var.");
         }
         else
         {
-            player.PrintToChat($"{Prefix} {CC.W} Komdk'ya daha {CC.B}{(new DateTime(remainingTime.Ticks).ToString("mm:ss"))}{CC.W} süre var.");
-            return;
+            KomStartTime = DateTime.UtcNow;
+            VoteAction(player, "Komutçu Değiş Kal");
         }
     }
 

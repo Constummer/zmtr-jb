@@ -1,5 +1,6 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
@@ -48,6 +49,7 @@ public partial class JailbreakExtras
                     Server.PrintToChatAll($"{CC.W}{GameName} tekli oyununu kapatıldı.");
                 }
             }
+            TeamGamesCancel(true);
         }
 
         internal virtual void AdditionalChoiceMenu(CCSPlayerController player, Action value)
@@ -84,6 +86,10 @@ public partial class JailbreakExtras
         }
 
         internal virtual void EventWeaponFire(EventWeaponFire @event)
+        {
+        }
+
+        internal virtual void EventPlayerDisconnect(ulong? tempSteamId)
         {
         }
     }

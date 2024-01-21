@@ -6,7 +6,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static void RefreshPawnOld(CCSPlayerController player)
+    private static void RefreshPawn(CCSPlayerController player)
     {
         if (player != null)
         {
@@ -30,7 +30,7 @@ public partial class JailbreakExtras
         }
     }
 
-    private static void RefreshPawn(CCSPlayerController player)
+    private static void RefreshPawnnew2(CCSPlayerController player)
     {
         if (player != null)
         {
@@ -40,7 +40,7 @@ public partial class JailbreakExtras
         }
     }
 
-    private static void RefreshPawnTP(CCSPlayerController x)
+    private static void RefreshPawnTPnew2(CCSPlayerController x)
     {
         if (x != null)
         {
@@ -50,7 +50,7 @@ public partial class JailbreakExtras
         }
     }
 
-    private static void RefreshPawnTPold(CCSPlayerController x)
+    private static void RefreshPawnTP(CCSPlayerController x)
     {
         if (x != null)
         {

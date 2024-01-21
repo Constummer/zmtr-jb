@@ -41,13 +41,13 @@ public partial class JailbreakExtras
             {
                 var buttons = player.Buttons;
                 PrintToCenterHtml(player,
-              $"<pre>HIZ: <font color='#00FF00'>{Math.Round(player.PlayerPawn.Value.AbsVelocity.Length2D())}</font><br>" +
+              $"HIZ: <font color='#00FF00'>{Math.Round(player.PlayerPawn.Value.AbsVelocity.Length2D())}</font><br>" +
                           $"{((buttons & PlayerButtons.Left) != 0 ? "←" : "_")} " +
                           $"{((buttons & PlayerButtons.Forward) != 0 ? "W" : "_")} " +
                           $"{((buttons & PlayerButtons.Right) != 0 ? "→" : "_")}<br>" +
                           $"{((buttons & PlayerButtons.Moveleft) != 0 ? "A" : "_")} " +
                           $"{((buttons & PlayerButtons.Back) != 0 ? "S" : "_")} " +
-                          $"{((buttons & PlayerButtons.Moveright) != 0 ? "D" : "_")} </pre>");
+                          $"{((buttons & PlayerButtons.Moveright) != 0 ? "D" : "_")}");
                 //string htmlString = $"<pre style='position: relative;'>" +
                 //   $"<div style='position: absolute; top: 0; left: 0; width: 100%; height: 100%; " +
                 //   "background-image: url(\"https://i.ibb.co/SXkHMj6/countdown.png\"); " +
