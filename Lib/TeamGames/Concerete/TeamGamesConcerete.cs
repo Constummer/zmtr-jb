@@ -31,8 +31,6 @@ public partial class JailbreakExtras
 
         internal virtual void Clear(bool printMsg)
         {
-            Server.ExecuteCommand("mp_teammates_are_enemies 0");
-
             if (string.IsNullOrWhiteSpace(GameName))
             {
                 return;
@@ -49,7 +47,14 @@ public partial class JailbreakExtras
                     Server.PrintToChatAll($"{CC.W}{GameName} tekli oyununu kapatıldı.");
                 }
             }
-            TeamGamesCancel(true);
+            TgActive = false;
+            TgTimer?.Kill();
+            TgTimer = null;
+            if (ActiveTeamGamesGameBase != null)
+            {
+                Server.ExecuteCommand("mp_teammates_are_enemies 0");
+            }
+            ActiveTeamGamesGameBase = null;
         }
 
         internal virtual void AdditionalChoiceMenu(CCSPlayerController player, Action value)

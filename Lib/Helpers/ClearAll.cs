@@ -1,4 +1,6 @@
-﻿namespace JailbreakExtras;
+﻿using CounterStrikeSharp.API;
+
+namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
@@ -40,7 +42,11 @@ public partial class JailbreakExtras
         unfzTimer = null;
         BurnTimer = null;
         DrugTimer = null;
-        TeamGamesCancel(false);
+        TgActive = false;
+        TgTimer?.Kill();
+        TgTimer = null;
+        ActiveTeamGamesGameBase?.Clear(false);
+        ActiveTeamGamesGameBase = null;
         LrCancel();
         ClearParachutes();
         ClearCits();

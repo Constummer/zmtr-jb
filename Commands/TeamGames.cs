@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
@@ -31,7 +32,15 @@ public partial class JailbreakExtras
         {
             return;
         }
-        TeamGamesCancel(true);
+        TgActive = false;
+        TgTimer?.Kill();
+        TgTimer = null;
+        ActiveTeamGamesGameBase?.Clear(true);
+        if (ActiveTeamGamesGameBase != null)
+        {
+            Server.ExecuteCommand("mp_teammates_are_enemies 0");
+        }
+        ActiveTeamGamesGameBase = null;
     }
 
     [ConsoleCommand("teamgames")]
