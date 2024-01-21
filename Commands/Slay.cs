@@ -72,7 +72,6 @@ public partial class JailbreakExtras
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}gardiyanları {CC.LR}öldürdü{CC.W}.");
     }
 
-    [ConsoleCommand("st", "slay t")]
     [ConsoleCommand("slayt", "slay t")]
     public void SlayT(CCSPlayerController? player, CommandInfo info)
     {
