@@ -95,6 +95,8 @@ public partial class JailbreakExtras
             {
                 Server.PrintToChatAll($"{Prefix} {CC.W}Mahkûmlar {CC.B}{k.Text} {CC.W} ışınlanıyor");
 
+                SkzTimer?.Kill();
+                Skz2Timer?.Kill();
                 var players = GetPlayers(CsTeam.Terrorist)
                     .Where(x => x.PawnIsAlive == true)
                     .ToList();
@@ -104,9 +106,9 @@ public partial class JailbreakExtras
                     x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
                     x.PlayerPawn.Value.Teleport(k.Coord, x.Pawn.Value.AbsRotation, new Vector(0f, 0f, 0f));
                 });
-                BasicCountdown.CommandStartTextCountDown(this, $"[ZMTR] SKZ 3 SANİYE SONRA BAŞLIYOR");
+                BasicCountdown.CommandStartTextCountDown(this, $"SKZ 3 SANİYE SONRA BAŞLIYOR");
 
-                _ = AddTimer(3, () =>
+                SkzTimer = AddTimer(3, () =>
                 {
                     if (players.Count < 6)
                     {
@@ -140,10 +142,10 @@ public partial class JailbreakExtras
                         RefreshPawnTP(x);
                     });
                     FreezeOrUnfreezeSound();
-                    BasicCountdown.CommandStartTextCountDown(this, $"mahkûmlar {value} saniye sonra donacak");
+                    BasicCountdown.CommandStartTextCountDown(this, $"Mahkûmlar {value} saniye sonra donacak");
                 }, SOM);
 
-                _ = AddTimer(value + 3, () =>
+                Skz2Timer = AddTimer(value + 3, () =>
                 {
                     GetPlayers()
                     .Where(x => x != null

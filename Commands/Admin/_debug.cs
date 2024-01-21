@@ -6,6 +6,8 @@ using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Memory;
 using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
+using MySqlConnector;
+using System.Diagnostics;
 
 namespace JailbreakExtras;
 
@@ -26,7 +28,7 @@ public partial class JailbreakExtras
     }
 
     [ConsoleCommand("ceventbulletimpact")]
-    public void cEventBulletImpact(CCSPlayerController? player, CommandInfo info)
+    public void ceventbulletimpact(CCSPlayerController? player, CommandInfo info)
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
@@ -85,6 +87,78 @@ public partial class JailbreakExtras
                      {
                          x.PlayerPawn.Value.VelocityModifier = 0.0f;
                      });
+    }
+
+    [ConsoleCommand("cDoubleSqlHaha")]
+    public void cDoubleSqlHaha(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+
+        try
+        {
+            var watch = Stopwatch.StartNew();
+            using (var con = Connection())
+            {
+                if (con == null)
+                {
+                    return;
+                }
+                var cmd = new MySqlCommand(@$"Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;", con);
+
+                cmd.Parameters.AddWithValue("@SteamId", player.SteamID);
+                cmd.ExecuteNonQuery();
+            }
+            watch.Stop();
+            Server.PrintToChatAll($"{watch.Elapsed.TotalMilliseconds}");
+        }
+        catch (Exception e)
+        {
+            Logger.LogError(e, "hata");
+        }
+    }
+
+    [ConsoleCommand("cDoubleSqlHaha2")]
+    public void cDoubleSqlHaha2(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+
+        try
+        {
+            var watch = Stopwatch.StartNew();
+            using (var con = Connection())
+            {
+                if (con == null)
+                {
+                    return;
+                }
+                var cmd = new MySqlCommand(@$"Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;", con);
+
+                cmd.Parameters.AddWithValue("@SteamId", player.SteamID);
+                cmd.ExecuteNonQuery();
+            }
+            watch.Stop();
+            Server.PrintToChatAll($"{watch.Elapsed.TotalMilliseconds}");
+        }
+        catch (Exception e)
+        {
+            Logger.LogError(e, "hata");
+        }
     }
 
     [ConsoleCommand("cbuneamk")]
