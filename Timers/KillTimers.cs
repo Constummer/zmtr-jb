@@ -16,6 +16,7 @@ public partial class JailbreakExtras
         FooGiveCreditToCssAdmin1Timer?.Kill();
         FooGiveCreditToCssLiderTimer?.Kill();
         FooSaveCreditTimer?.Kill();
+        FooDailyRestartTimer?.Kill();
         FooGiveAndSaveTPToAllTimer = null;
         FooUpdateAllTimeTrackingDatasTimer = null;
         FooSaveTimeTrackingDatasTimer = null;
@@ -28,5 +29,6 @@ public partial class JailbreakExtras
         FooGiveCreditToCssAdmin1Timer = null;
         FooGiveCreditToCssLiderTimer = null;
         FooSaveCreditTimer = null;
+        FooDailyRestartTimer = null;
     }
 }

@@ -45,12 +45,15 @@ public partial class JailbreakExtras
 
         var players = GetPlayers().Where(x => x.PawnIsAlive
                         && x.SteamID != player.SteamID).ToList();
-        var closest = GetClosestPlayer(start, end, players, 100);
+        var closest = GetClosestPlayer(start, end, players, 10);
         if (closest != null)
         {
             ActiveGodMode[closest.SteamID] = true;
-            closest.Teleport(end, closest.PlayerPawn.Value.AbsRotation!, closest.PlayerPawn.Value.AbsVelocity);
-            closest.PlayerPawn.Value.Teleport(end, closest.PlayerPawn.Value.AbsRotation!, closest.PlayerPawn.Value.AbsVelocity);
+            var @new = ProjectPointOntoLine(start, end, closest.PlayerPawn.Value.AbsOrigin);
+            //Closest.PlayerPawn.Value.AbsOrigin.X = @new.X;
+            //Closest.PlayerPawn.Value.AbsOrigin.Y = @new.Y;
+            //Closest.PlayerPawn.Value.AbsOrigin.Z = @new.Z;
+            closest.PlayerPawn.Value.Teleport(@new, closest.PlayerPawn.Value.AbsRotation!, closest.PlayerPawn.Value.AbsVelocity);
             var laser = DrawLaser(start, closest.PlayerPawn.Value.AbsOrigin, LaserType.Grab, true);
             AddTimer(1, () =>
             {
@@ -58,21 +61,21 @@ public partial class JailbreakExtras
             }, SOM);
         }
 
-        Vector playerPosition = player.PlayerPawn?.Value.CBodyComponent?.SceneNode?.AbsOrigin;
-        QAngle viewAngles = player.PlayerPawn.Value.EyeAngles;
+        //Vector playerPosition = player.PlayerPawn?.Value.CBodyComponent?.SceneNode?.AbsOrigin;
+        //QAngle viewAngles = player.PlayerPawn.Value.EyeAngles;
 
-        if (IsPlayerCloseToTarget(player, end, player.PlayerPawn.Value!.AbsOrigin, 100))
-        {
-            //DetachGrapple(player);
-            return;
-        }
-        var angleDifference = CalculateAngleDifference(new Vector(viewAngles.X, viewAngles.Y, viewAngles.Z), end - playerPosition);
-        if (angleDifference > 180.0f)
-        {
-            //DetachGrapple(player);
-            Console.WriteLine($"Player {player.PlayerName} looked away from the grapple target.");
-            return;
-        }
+        //if (IsPlayerCloseToTarget(player, end, player.PlayerPawn.Value!.AbsOrigin, 100))
+        //{
+        //    //DetachGrapple(player);
+        //    return;
+        //}
+        //var angleDifference = CalculateAngleDifference(new Vector(viewAngles.X, viewAngles.Y, viewAngles.Z), end - playerPosition);
+        //if (angleDifference > 180.0f)
+        //{
+        //    //DetachGrapple(player);
+        //    Console.WriteLine($"Player {player.PlayerName} looked away from the grapple target.");
+        //    return;
+        //}
         //PullPlayer(player, end, playerPosition, viewAngles);
         //var laser = DrawLaser(start, end, true);
 
@@ -89,6 +92,61 @@ public partial class JailbreakExtras
         //    player.PlayerPawn.Value.Teleport(player.PlayerPawn.Value.AbsOrigin, player.PlayerPawn.Value.AbsRotation, res);
         //}
         //LasersEntry(x, y, z);
+    }
+
+    private static Vector ProjectPointOntoLine(Vector start, Vector end, Vector point)
+    {
+        // Calculate the direction vector of the line
+        double lineDirectionX = end.X - start.X;
+        double lineDirectionY = end.Y - start.Y;
+        double lineDirectionZ = end.Z - start.Z;
+
+        // Calculate the vector from start to the point
+        double pointVectorX = point.X - start.X;
+        double pointVectorY = point.Y - start.Y;
+        double pointVectorZ = point.Z - start.Z;
+
+        // Calculate the scalar projection of pointVector onto the lineDirection
+        double scalarProjection = (pointVectorX * lineDirectionX + pointVectorY * lineDirectionY + pointVectorZ * lineDirectionZ) /
+                                 (lineDirectionX * lineDirectionX + lineDirectionY * lineDirectionY + lineDirectionZ * lineDirectionZ);
+
+        // Calculate the closest point on the line to the given point
+        double closestPointX = start.X + scalarProjection * lineDirectionX;
+        double closestPointY = start.Y + scalarProjection * lineDirectionY;
+        double closestPointZ = start.Z + scalarProjection * lineDirectionZ;
+        // Return the closest point as a Vector
+        return new Vector((float)closestPointX, (float)closestPointY, (float)closestPointZ);
+    }
+
+    private static bool IsPointOnTriangle(Vector start, Vector end, Vector point, double threshold)
+    {
+        // Check if the point is inside the triangle defined by start, end, and threshold
+
+        // Calculate the vectors representing the edges of the triangle
+        Vector edge1 = new Vector { X = end.X - start.X, Y = end.Y - start.Y, Z = end.Z - start.Z };
+        Vector edge2 = new Vector { X = point.X - start.X, Y = point.Y - start.Y, Z = point.Z - start.Z };
+
+        // Calculate the normal vector of the triangle using the cross product of the edges
+        Vector normal = new Vector
+        {
+            X = edge1.Y * edge2.Z - edge1.Z * edge2.Y,
+            Y = edge1.Z * edge2.X - edge1.X * edge2.Z,
+            Z = edge1.X * edge2.Y - edge1.Y * edge2.X
+        };
+
+        // Calculate the magnitude of the normal vector
+        double normalMagnitude = Math.Sqrt(normal.X * normal.X + normal.Y * normal.Y + normal.Z * normal.Z);
+
+        // Normalize the normal vector
+        normal.X /= (float)normalMagnitude;
+        normal.Y /= (float)normalMagnitude;
+        normal.Z /= (float)normalMagnitude;
+
+        // Calculate the distance from the point to the plane defined by the triangle
+        double distance = Math.Abs(normal.X * (point.X - start.X) + normal.Y * (point.Y - start.Y) + normal.Z * (point.Z - start.Z));
+
+        // Check if the distance is within the specified threshold
+        return distance <= threshold;
     }
 
     private static CCSPlayerController GetClosestPlayer(Vector start, Vector end, List<CCSPlayerController> players, double threshold)
@@ -120,7 +178,71 @@ public partial class JailbreakExtras
         return Math.Sqrt(Math.Pow(p1.X - p2.X, 2) + Math.Pow(p1.Y - p2.Y, 2) + Math.Pow(p1.Z - p2.Z, 2));
     }
 
+    //private static bool IsPointOnTriangle(Vector start, Vector end, Vector point, double threshold)
+    //{
+    //    // Check if the point is inside the triangle defined by start, end, and threshold
+
+    //    // Calculate the direction vector of the line
+    //    double lineDirectionX = end.X - start.X;
+    //    double lineDirectionY = end.Y - start.Y;
+    //    double lineDirectionZ = end.Z - start.Z;
+
+    //    // Calculate the vector from start to the point
+    //    double pointVectorX = point.X - start.X;
+    //    double pointVectorY = point.Y - start.Y;
+    //    double pointVectorZ = point.Z - start.Z;
+
+    //    // Calculate the scalar projection of pointVector onto the lineDirection
+    //    double scalarProjection = (pointVectorX * lineDirectionX + pointVectorY * lineDirectionY + pointVectorZ * lineDirectionZ) /
+    //                             (lineDirectionX * lineDirectionX + lineDirectionY * lineDirectionY + lineDirectionZ * lineDirectionZ);
+
+    //    // Calculate the closest point on the line to the given point
+    //    double closestPointX = start.X + scalarProjection * lineDirectionX;
+    //    double closestPointY = start.Y + scalarProjection * lineDirectionY;
+    //    double closestPointZ = start.Z + scalarProjection * lineDirectionZ;
+
+    //    // Calculate the distance between the given point and the closest point on the line
+    //    double distance = Math.Sqrt(Math.Pow(point.X - closestPointX, 2) + Math.Pow(point.Y - closestPointY, 2) + Math.Pow(point.Z - closestPointZ, 2));
+
+    //    // Check if the distance is within the specified threshold
+    //    return distance <= threshold;
+    //}
     private static bool IsPointOnLine(Vector start, Vector end, Vector point, double threshold)
+    {
+        // Calculate the direction vector of the line
+        double lineDirectionX = end.X - start.X;
+        double lineDirectionY = end.Y - start.Y;
+        double lineDirectionZ = end.Z - start.Z;
+
+        // Calculate the vector from start to the point
+        double pointVectorX = point.X - start.X;
+        double pointVectorY = point.Y - start.Y;
+        double pointVectorZ = point.Z - start.Z;
+
+        // Calculate the scalar projection of pointVector onto the lineDirection
+        double scalarProjection = (pointVectorX * lineDirectionX + pointVectorY * lineDirectionY + pointVectorZ * lineDirectionZ) /
+                                 (lineDirectionX * lineDirectionX + lineDirectionY * lineDirectionY + lineDirectionZ * lineDirectionZ);
+
+        // Check if the scalar projection is within [0, 1], meaning the point is between start and end
+        if (scalarProjection >= 0 && scalarProjection <= 1)
+        {
+            // Calculate the closest point on the line to the given point
+            double closestPointX = start.X + scalarProjection * lineDirectionX;
+            double closestPointY = start.Y + scalarProjection * lineDirectionY;
+            double closestPointZ = start.Z + scalarProjection * lineDirectionZ;
+
+            // Calculate the distance between the given point and the closest point on the line
+            double distance = Math.Sqrt(Math.Pow(point.X - closestPointX, 2) + Math.Pow(point.Y - closestPointY, 2) + Math.Pow(point.Z - closestPointZ, 2));
+
+            // Check if the distance is within the specified threshold
+            return distance <= threshold;
+        }
+
+        // Point is not between start and end
+        return false;
+    }
+
+    private static bool IsPointOnLineORJINAL(Vector start, Vector end, Vector point, double threshold)
     {
         // Check if the point is on the line defined by start and end within the specified threshold
 

@@ -51,7 +51,6 @@ public partial class JailbreakExtras
 
         internal override void Clear(bool printMsg)
         {
-            Server.PrintToConsole("1");
             Global?.FovReopenAction(true);
             PlayerFovs?.Clear();
             PlayerCount?.Clear();

@@ -60,20 +60,8 @@ public partial class JailbreakExtras
         {
             if (ValidateCallerPlayer(x, false) == false) return;
 
-            if (info.ArgCount >= 2)
-            {
-                KickPlayer((ushort)x.UserId!, reason);
-            }
-            else
-            {
-                KickPlayer((ushort)x.UserId!);
-            }
+            Server.ExecuteCommand($"kickid {x.UserId}");
         }
-    }
-
-    public static void KickPlayer(ushort userId, string? reason = null)
-    {
-        Server.ExecuteCommand($"kickid {userId}");
     }
 
     #endregion Kick

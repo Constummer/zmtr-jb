@@ -1,3 +1,4 @@
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Commands;
 using System.ComponentModel.Design;
@@ -26,6 +27,8 @@ public partial class JailbreakExtras
     {
         if (player == null) return HookResult.Continue;
         var arg = info.GetArg(1);
+        Server.PrintToConsole($"{player.PlayerName} : {arg}");
+
         if (string.IsNullOrWhiteSpace(arg) || arg.Replace(" ", string.Empty) == string.Empty)
             return HookResult.Handled;
 
