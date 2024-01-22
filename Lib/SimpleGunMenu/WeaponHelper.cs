@@ -2,7 +2,7 @@
 
 public partial class JailbreakExtras
 {
-    private static readonly Dictionary<string, string> NoScopeGunMenu = new Dictionary<string, string>()
+    private static readonly Dictionary<string, string> NoScopeGuns = new Dictionary<string, string>()
         {
                 {"AWP",                                new("awp")},
                 {"SSG 08",                             new("ssg08")},

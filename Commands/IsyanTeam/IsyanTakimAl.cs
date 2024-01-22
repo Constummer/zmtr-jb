@@ -57,8 +57,10 @@ public partial class JailbreakExtras
         {
             IsyanTeamPlayers.Add(y.SteamID);
             AddPlayerIsteamData(y.SteamID);
+            SutTeamPlayers.Remove(y.SteamID);
+            RemovePlayerSutteamData(y.SteamID);
             SetIsyanTeamClanTag(y);
-            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.B} {y.PlayerName}{CC.W} adlı oyuncuyu {CC.R}[İsyan Team]{CC.W} takımına aldı");
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.B} {y.PlayerName}{CC.W} adlı oyuncuyu {CC.R}[İsyan Team]{CC.W}'e aldı");
         }
     }
 }

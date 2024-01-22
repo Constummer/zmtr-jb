@@ -132,10 +132,12 @@ public partial class JailbreakExtras
                             if (players.Count < 6)
                             {
                                 SetColour(x, DefaultColor);
+                                ShowWeapons(x);
                             }
                             else
                             {
                                 SetColour(x, Color.FromArgb(0, 0, 0, 0));
+                                HideWeapons(x);
                             }
                         }
                         x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_WALK;

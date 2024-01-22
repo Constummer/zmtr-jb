@@ -11,6 +11,8 @@ public partial class JailbreakExtras
     public DateTime? KomStartTime { get; set; } = null;
 
     [ConsoleCommand("komdk")]
+    [ConsoleCommand("komkalan")]
+    [ConsoleCommand("komutcudk")]
     public void KomDk(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player, false) == false) return;

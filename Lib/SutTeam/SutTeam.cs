@@ -7,24 +7,22 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    public static List<ulong> IsyanTeamPlayers { get; set; } = new();
+    public static List<ulong> SutTeamPlayers { get; set; } = new();
 
-    private static bool CheckPlayerIsTeamTag(ulong tempSteamId)
+    private static void CheckPlayerSutTeamTag(ulong tempSteamId)
     {
-        if (IsyanTeamPlayers.Any(x => x == tempSteamId))
+        if (SutTeamPlayers.Any(x => x == tempSteamId))
         {
             var player = GetPlayers().Where(x => x.SteamID == tempSteamId).FirstOrDefault();
-            if (ValidateCallerPlayer(player, false) == false) return false;
-            SetIsyanTeamClanTag(player);
-            return true;
+            if (ValidateCallerPlayer(player, false) == false) return;
+            SetSutTeamClanTag(player);
         }
-        return false;
     }
 
-    private static void SetIsyanTeamClanTag(CCSPlayerController? player)
+    private static void SetSutTeamClanTag(CCSPlayerController? player)
     {
         if (ValidateCallerPlayer(player, false) == false) return;
-        player.Clan = "[İsyan Team]";
+        player.Clan = "[Süt Team]";
         Global?.AddTimer(0.2f, () =>
          {
              if (ValidateCallerPlayer(player, false) == false) return;
@@ -34,13 +32,13 @@ public partial class JailbreakExtras
          }, SOM);
     }
 
-    private void GetAllPlayerIsyanTeamData(MySqlConnection con)
+    private void GetAllPlayerSutTeamData(MySqlConnection con)
     {
         if (con == null)
         {
             return;
         }
-        MySqlCommand? cmd = new MySqlCommand(@$"SELECT `SteamId` FROM `PlayerIsyanTeam`", con);
+        MySqlCommand? cmd = new MySqlCommand(@$"SELECT `SteamId` FROM `PlayerSutTeam`", con);
         using (var reader = cmd.ExecuteReader())
         {
             while (reader.Read())
@@ -49,13 +47,13 @@ public partial class JailbreakExtras
 
                 if (steamId > 0)
                 {
-                    IsyanTeamPlayers.Add((ulong)steamId);
+                    SutTeamPlayers.Add((ulong)steamId);
                 }
             }
         }
     }
 
-    private void AddPlayerIsteamData(ulong steamID)
+    private void AddPlayerSutteamData(ulong steamID)
     {
         try
         {
@@ -65,7 +63,7 @@ public partial class JailbreakExtras
                 {
                     return;
                 }
-                var cmd = new MySqlCommand(@$"INSERT INTO `PlayerIsyanTeam`
+                var cmd = new MySqlCommand(@$"INSERT INTO `PlayerSutTeam`
                                           (SteamId)
                                           VALUES (@SteamId);", con);
 
@@ -79,7 +77,7 @@ public partial class JailbreakExtras
         }
     }
 
-    private void RemovePlayerIsteamData(ulong steamID)
+    private void RemovePlayerSutteamData(ulong steamID)
     {
         try
         {
@@ -89,7 +87,7 @@ public partial class JailbreakExtras
                 {
                     return;
                 }
-                var cmd = new MySqlCommand(@$"Delete From `PlayerIsyanTeam` WHERE `SteamId` = @SteamId;", con);
+                var cmd = new MySqlCommand(@$"Delete From `PlayerSutTeam` WHERE `SteamId` = @SteamId;", con);
 
                 cmd.Parameters.AddWithValue("@SteamId", steamID);
                 cmd.ExecuteNonQuery();

@@ -55,6 +55,12 @@ public partial class JailbreakExtras
 
     private static void ClearOnDisconnect(ulong steamId, int? userId)
     {
+        if (userId != null && userId != -1)
+        {
+            RemoveGivenParachute(userId.Value);
+        }
+        UpdatePlayerMarketData(steamId);
+
         _ = ActiveGodMode?.Remove(steamId, out _);
         _ = DeathLocations?.Remove(steamId, out _);
         _ = KilledPlayers?.Remove(steamId, out _);
@@ -69,11 +75,6 @@ public partial class JailbreakExtras
         _ = PlayerTimeTracking?.Remove(steamId, out _);
         _ = SpeedActiveDatas?.Remove(steamId, out _);
         _ = FovActivePlayers?.Remove(steamId, out _);
-        if (userId != null && userId != -1)
-        {
-            RemoveGivenParachute(userId.Value);
-        }
-        UpdatePlayerMarketData(steamId);
 
         _ = SutolCommandCalls?.RemoveAll(x => x == steamId);
         _ = PlayerSteamGroup?.RemoveAll(x => x == steamId);

@@ -1,4 +1,6 @@
-﻿using CounterStrikeSharp.API.Modules.Timers;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Modules.Timers;
+using System.Diagnostics;
 
 namespace JailbreakExtras;
 
@@ -10,7 +12,10 @@ public partial class JailbreakExtras
     {
         return AddTimer(60f, () =>
         {
+            Stopwatch stopwatch = Stopwatch.StartNew();
             UpdateAllModels();
+            stopwatch.Stop();
+            Server.PrintToConsole("SaveCreditTimer = " + stopwatch.Elapsed.TotalMilliseconds);
         }, Full);
     }
 

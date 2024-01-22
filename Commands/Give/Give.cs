@@ -10,6 +10,7 @@ public partial class JailbreakExtras
     #region Give
 
     [ConsoleCommand("give", "Silah Verir")]
+    [ConsoleCommand("weapon", "Silah Verir")]
     [ConsoleCommand("silahver", "Silah Verir")]
     [CommandHelper(2, "<oyuncu ismi,@t,@ct,@all,@me> <silah kisa ismi>")]
     public void Give(CCSPlayerController? player, CommandInfo info)
@@ -20,13 +21,34 @@ public partial class JailbreakExtras
         }
         if (info.ArgCount != 3) return;
         var target = info.ArgString.GetArg(0);
-        var weapon = info.ArgString.GetArg(1);
+        var weapon = GiveHandler(info.ArgString.GetArg(1));
         var targetArgument = GetTargetArgument(target);
         GiveAction(player.PlayerName, target, weapon, targetArgument, true);
         if (targetArgument != TargetForArgument.None)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefine {CC.B}{weapon} {CC.W}adlı silahı verdi.");
         }
+    }
+
+    private string GiveHandler(string input)
+    {
+        return input switch
+        {
+            "ak" => "ak47",
+            "m4a4" => "m4a1",
+            "m4a1" => "m4a1_silencer",
+            "m4a1s" => "m4a1_silencer",
+            "p2000" => "hkp2000",
+            "xm" => "xm1014",
+            "usp" => "usp_silencer",
+            "usps" => "usp_silencer",
+            "smoke" => "smokegrenade",
+            "sg" => "smokegrenade",
+            "smk" => "smokegrenade",
+            "flash" => "flashbang",
+            "fb" => "flashbang",
+            _ => input
+        };
     }
 
     internal static void GiveAction(string playerName, string target, string weapon, TargetForArgument targetArgument, bool sendMsg)
@@ -46,36 +68,6 @@ public partial class JailbreakExtras
                    }
                    x.GiveNamedItem($"weapon_{weapon}");
                });
-    }
-
-    [ConsoleCommand("weapon", "Silah Verir")]
-    [CommandHelper(2, "<oyuncu ismi,@t,@ct,@all,@me> <silah kisa ismi>")]
-    public void GiveWeapon(CCSPlayerController? player, CommandInfo info)
-    {
-        if (OnCommandValidater(player, true, "@css/seviye9", "@css/seviye9") == false)
-        {
-            return;
-        }
-        if (info.ArgCount != 3) return;
-        var target = info.ArgString.GetArg(0);
-        var weapon = info.ArgString.GetArg(1);
-        var targetArgument = GetTargetArgument(target);
-        GetPlayers()
-               .Where(x => x.PawnIsAlive
-                          && GetTargetAction(x, target, player.PlayerName))
-               .ToList()
-               .ForEach(x =>
-               {
-                   if (targetArgument == TargetForArgument.None)
-                   {
-                       Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}{weapon} {CC.W}adlı silahı verdi.");
-                   }
-                   x.GiveNamedItem($"weapon_{weapon}");
-               });
-        if (targetArgument != TargetForArgument.None)
-        {
-            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefine {CC.B}{weapon} {CC.W}adlı silahı verdi.");
-        }
     }
 
     #endregion Give

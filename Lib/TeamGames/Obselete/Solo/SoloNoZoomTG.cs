@@ -21,7 +21,7 @@ public partial class JailbreakExtras
             if (ValidateCallerPlayer(player, false) == false) return;
             var soloTGMenu = new ChatMenu("No Scope Silah Menü | Herkes Tek");
 
-            foreach (var item in NoScopeGunMenu)
+            foreach (var item in NoScopeGuns)
             {
                 soloTGMenu.AddMenuOption(item.Key, (p, i) =>
                 {

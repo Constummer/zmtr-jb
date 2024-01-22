@@ -123,6 +123,12 @@ public partial class JailbreakExtras
                     await cmd.ExecuteNonQueryAsync();
 
                     cmd = new MySqlCommand(
+                    @"CREATE TABLE IF NOT EXISTS `PlayerSutTeam` (
+                          `SteamId` bigint(20) DEFAULT NULL
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
+                    await cmd.ExecuteNonQueryAsync();
+
+                    cmd = new MySqlCommand(
                     @"CREATE TABLE IF NOT EXISTS `PlayerCTKit` (
                           `SteamId` bigint(20) DEFAULT NULL,
                           `KitId` mediumint(9) DEFAULT 0
@@ -135,6 +141,7 @@ public partial class JailbreakExtras
                     GetAllCTBanData(con);
                     GetAllBanData(con);
                     GetAllPlayerIsyanTeamData(con);
+                    GetAllPlayerSutTeamData(con);
                     GetAllKomWeeklyCreditData(con);
                 }
             }

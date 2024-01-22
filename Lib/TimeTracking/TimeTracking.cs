@@ -1,11 +1,9 @@
 ﻿using CounterStrikeSharp.API;
-using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
 using System.Globalization;
 using System.Net.Http.Headers;
-using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 
@@ -21,6 +19,7 @@ public partial class JailbreakExtras
     public static Dictionary<ulong, int> AllPlayerCTTimeTracking { get; set; } = new();
     public static Dictionary<ulong, int> AllPlayerTTimeTracking { get; set; } = new();
     public static Dictionary<ulong, int> AllPlayerWTimeTracking { get; set; } = new();
+    public static Dictionary<ulong, int> AllPlayerWeeklyWTimeTracking { get; set; } = new();
 
     public class PlayerTime
     {
@@ -114,6 +113,30 @@ public partial class JailbreakExtras
                         else
                         {
                             AllPlayerWTimeTracking[(ulong)steamid] = data;
+                        }
+                    }
+                }
+            }
+
+            AllPlayerWeeklyWTimeTracking?.Clear();
+            cmd = new MySqlCommand(@$"SELECT `WeeklyWTime`,`SteamId`
+                                          FROM `PlayerTime` order by `WeeklyWTime` desc limit 10;", con);
+
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var data = reader.IsDBNull(0) ? 0 : reader.GetInt32(0);
+                    var steamid = reader.IsDBNull(1) ? 0 : reader.GetInt64(1);
+                    if (steamid != 0)
+                    {
+                        if (AllPlayerWeeklyWTimeTracking.ContainsKey((ulong)steamid) == false)
+                        {
+                            AllPlayerWeeklyWTimeTracking.Add((ulong)steamid, data);
+                        }
+                        else
+                        {
+                            AllPlayerWeeklyWTimeTracking[(ulong)steamid] = data;
                         }
                     }
                 }
@@ -273,15 +296,15 @@ public partial class JailbreakExtras
                             if (team == CsTeam.CounterTerrorist)
                             {
                                 value.CTTime++;
+                                if (LatestWCommandUser == x.SteamID)
+                                {
+                                    value.WTime++;
+                                    value.WeeklyWTime++;
+                                }
                             }
                             else if (team == CsTeam.Terrorist)
                             {
                                 value.TTime++;
-                            }
-                            if (LatestWCommandUser == x.SteamID)
-                            {
-                                value.WTime++;
-                                value.WeeklyWTime++;
                             }
 
                             parameters.Add(new MySqlParameter($"@SteamId_{i}", x.SteamID));
@@ -354,11 +377,7 @@ public partial class JailbreakExtras
                     dic.ToList()
                      .ForEach(x =>
                      {
-                         cmdText += @$"UPDATE `PlayerTime`
-                                         SET `WeeklyWTime` = 0
-                                        WHERE `SteamId` = @SteamId_{i};
-
-                               INSERT INTO `PlayerWeeklyWTime`
+                         cmdText += @$"INSERT INTO `PlayerWeeklyWTime`
                                           (`SteamId`,`WTime`,`WeekNo`)
                                           VALUES
                                           (@SteamId_{i},@WTime_{i}, @WeekNo);";
@@ -371,6 +390,7 @@ public partial class JailbreakExtras
                     {
                         return;
                     }
+
                     cmd = new MySqlCommand(cmdText, con);
                     cmd.Parameters.AddRange(parameters.ToArray());
                     cmd.ExecuteNonQuery();
@@ -381,8 +401,12 @@ public partial class JailbreakExtras
                         item.Value.WeeklyWTime = 0;
                         PlayerTimeTracking[item.Key] = item.Value;
                     }
+                    AllPlayerWeeklyWTimeTracking?.Clear();
                     KomWeeklyWCredits?.Clear();
 
+                    cmd = new MySqlCommand(@"UPDATE `PlayerTime`
+                                            SET `WeeklyWTime` = 0;", con);
+                    cmd.ExecuteNonQuery();
                     Server.PrintToChatAll($"{Prefix} {CC.R} SIKI TUTUNDUĞUNUZ İÇİN TŞK, DEVAAAAAM");
                     Server.PrintToChatAll($"{Prefix} {CC.R} SIKI TUTUNDUĞUNUZ İÇİN TŞK, DEVAAAAAM");
                     Server.PrintToChatAll($"{Prefix} {CC.R} SIKI TUTUNDUĞUNUZ İÇİN TŞK, DEVAAAAAM");

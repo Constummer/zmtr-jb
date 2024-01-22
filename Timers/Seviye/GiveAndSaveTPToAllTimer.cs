@@ -1,4 +1,6 @@
-﻿using CounterStrikeSharp.API.Modules.Admin;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Modules.Admin;
+using System.Diagnostics;
 
 namespace JailbreakExtras;
 
@@ -10,6 +12,7 @@ public partial class JailbreakExtras
     {
         return AddTimer(360f, () =>
         {
+            Stopwatch stopwatch = Stopwatch.StartNew();
             var lider1Players = GetPlayers()
                                 .Where(x => AdminManager.PlayerHasPermissions(x, "@css/lider"))
                                 .ToList()
@@ -30,6 +33,8 @@ public partial class JailbreakExtras
                     });
                 }
             }
+            stopwatch.Stop();
+            Server.PrintToConsole("GiveAndSaveTPToAllTimer = " + stopwatch.Elapsed.TotalMilliseconds);
         }, Full);
     }
 

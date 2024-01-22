@@ -232,9 +232,7 @@ public partial class JailbreakExtras
                      x.GiveNamedItem("weapon_deagle");
                      x.GiveNamedItem("weapon_hegrenade");
 
-                     var gunMenu = new ChatMenu("Silah Menu");
-                     WeaponMenuHelper.GetGuns(gunMenu);
-                     ChatMenus.OpenMenu(x, gunMenu);
+                     ChatMenus.OpenMenu(x, GunMenu);
                      x.PrintToChat($"{Prefix} {CC.W}FF başlayana kadar veya FF boyunca silah değiştirebilirsin, !guns");
                  });
                 FFMenuCheck = true;

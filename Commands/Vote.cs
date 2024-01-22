@@ -63,9 +63,16 @@ public partial class JailbreakExtras
             player!.PrintToChat($"{Prefix}{CC.R} Maximum 5 adet şık belirleyebilirsin");
             return;
         }
+        string question = LatestVoteName = argCount.FirstOrDefault();
+        if (question == "kom" || question == "komdk" || question == "komutcu")
+        {
+            player.PrintToChat($"{Prefix}{CC.W} EĞER KOM DK YAPMAK İSTİYORSAN !komdkyap KOMUTUNU KULLAN.");
+            player.PrintToChat($"{Prefix}{CC.W} EĞER KOM DK YAPMAK İSTİYORSAN !komdkyap KOMUTUNU KULLAN.");
+            player.PrintToChat($"{Prefix}{CC.W} EĞER KOM DK YAPMAK İSTİYORSAN !komdkyap KOMUTUNU KULLAN.");
+            return;
+        }
         Answers.Clear();
         AlreadyVotedPlayers.Clear();
-        string question = LatestVoteName = argCount.FirstOrDefault();
         var answers = argCount.Skip(1).Distinct();
         LatestVoteMenu = new(question);
 

@@ -48,14 +48,14 @@ public partial class JailbreakExtras
         ClearLasers();
         CoinAfterNewCommander();
         WardenEnterSound();
-        Server.PrintToChatAll($"{Prefix} {CC.W}{player.PlayerName} Komutçu oldu!");
+        Server.PrintToChatAll($"{Prefix} {CC.B}{player.PlayerName}{CC.W} Komutçu oldu!");
         player.PrintToChat($"{Prefix} {CC.B}!wkomutlar {CC.W}veya {CC.B}!wcommands {CC.W}yazarak komutçu komutlarını öğrenebilirsin!");
 
         GetPlayers()
             .ToList()
             .ForEach((x) =>
             {
-                x.PrintToCenter($"{Prefix} {CC.B}{player.PlayerName}{CC.W} Komutçu oldu!");
+                x.PrintToCenter($"{Prefix} {CC.B}{player.PlayerName}{CC.B} Komutçu oldu!");
             });
     }
 

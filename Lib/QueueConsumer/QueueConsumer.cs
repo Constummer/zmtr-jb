@@ -131,7 +131,10 @@ public partial class JailbreakExtras
                                 }
                             }
 
-                            CheckPlayerIsTeamTag(tempSteamId);
+                            if (CheckPlayerIsTeamTag(tempSteamId) == false)
+                            {
+                                CheckPlayerSutTeamTag(tempSteamId);
+                            }
                             break;
 
                         default:

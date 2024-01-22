@@ -73,15 +73,15 @@ namespace JailbreakExtras
              {"jb_zmtr_v1",
                 new()
                 {
-                    new("LeftBottom",new VectorTemp(1969,1317,-200)),
-                    new("RightTop",new VectorTemp( 2222,1505,-13))
+                    new("LeftBottom", new VectorTemp(1969,1316,-210)),
+                    new("RightTop",   new VectorTemp(2222,1505,-13))
                 }
              },
              {"jb_zmtr_v2",
                 new()
                 {
-                    new("LeftBottom",new VectorTemp(2364,-50,107)),
-                    new("RightTop",new VectorTemp(2620,140,232))
+                    new("LeftBottom", new VectorTemp(2364,-50,107)),
+                    new("RightTop",   new VectorTemp(2620,140,232))
                 }
              },
         };
