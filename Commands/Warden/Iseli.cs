@@ -100,7 +100,9 @@ public partial class JailbreakExtras
              x.GiveNamedItem("weapon_hegrenade");
              x.GiveNamedItem("item_assaultsuit");
 
-             ChatMenus.OpenMenu(x, GunMenu);
+             var gunMenu = new ChatMenu("Silah Menu");
+             WeaponMenuHelper.GetGuns(gunMenu);
+             ChatMenus.OpenMenu(x, gunMenu);
              x.PrintToChat($"{Prefix} {CC.W}Iseli başlayana kadar silah değiştirebilirsin !guns");
          });
         IsEliMenuCheck = true;

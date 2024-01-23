@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
+using SolrNet.Utils;
 
 namespace JailbreakExtras;
 
@@ -20,13 +21,17 @@ public partial class JailbreakExtras
 
         if (FFMenuCheck == true)
         {
-            ChatMenus.OpenMenu(player!, GunMenu);
+            var gunMenu = new ChatMenu("Silah Menu");
+            WeaponMenuHelper.GetGuns(gunMenu);
+            ChatMenus.OpenMenu(player, gunMenu);
         }
         else if (IsEliMenuCheck == true)
         {
             if (GetTeam(player) == CsTeam.CounterTerrorist)
             {
-                ChatMenus.OpenMenu(player!, GunMenu);
+                var gunMenu = new ChatMenu("Silah Menu");
+                WeaponMenuHelper.GetGuns(gunMenu);
+                ChatMenus.OpenMenu(player, gunMenu);
             }
         }
         else

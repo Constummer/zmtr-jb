@@ -5,8 +5,6 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static ChatMenu GunMenu;
-
     private static class WeaponMenuHelper
     {
         private static Dictionary<string, Weapon> _weapons;
@@ -16,12 +14,10 @@ public partial class JailbreakExtras
         {
             var res = WeaponHelper.LoadWeapons();
             _weapons = res.Weapons;
-            GunMenu = new ChatMenu("Silah Menu");
-            GetGuns(GunMenu);
             _weaponCheckers = res.WeaponCheckers;
         }
 
-        private static void GetGuns(ChatMenu gunMenu, WeaponType? type = null)
+        public static void GetGuns(ChatMenu gunMenu, WeaponType? type = null)
         {
             Dictionary<string, Weapon> weapons = _weapons;
             if (type != null)
