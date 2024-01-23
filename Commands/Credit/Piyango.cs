@@ -50,7 +50,7 @@ public partial class JailbreakExtras
     {
         if (KumarKapatDisable)
         {
-            player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.W}Bu mübarek günde, yakışıyor mu müslüman din kardeşim - piyango kapalı -.");
+            player.PrintToChat($" {CC.Ol}[PİYANGO] {CC.W} - piyango kapalı -.");
             return;
         }
         if (IsGameBannedToday())

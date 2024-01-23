@@ -19,6 +19,7 @@ public partial class JailbreakExtras
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooSaveCreditTimer { get; set; } = null;
 
     public static TimeOnly MaintenanceTimer { get => new TimeOnly(6, 54); }
+    public static TimeOnly MaintenanceGameTimer { get => new TimeOnly(6, 29); }
     public static TimeOnly MaintenanceTimer2 { get => new TimeOnly(7, 01); }
 
     private void AddTimers()
@@ -77,6 +78,16 @@ public partial class JailbreakExtras
         return AddTimer(300f, () =>
         {
             var nowTime = TimeOnly.FromDateTime(DateTime.UtcNow.AddHours(3));
+
+            if (nowTime >= MaintenanceGameTimer && nowTime <= MaintenanceTimer2)
+            {
+                KumarKapatDisable = true;
+                Server.PrintToChatAll($"{Prefix} BAKIM GEREÐÝ KUMAR - PIYANGO KAPATILMISTIR, SAAT 7.00 DA RES GELECEKTIR !!!!");
+                Server.PrintToChatAll($"{Prefix} BAKIM GEREÐÝ KUMAR - PIYANGO KAPATILMISTIR, SAAT 7.00 DA RES GELECEKTIR !!!!");
+                Server.PrintToChatAll($"{Prefix} BAKIM GEREÐÝ KUMAR - PIYANGO KAPATILMISTIR, SAAT 7.00 DA RES GELECEKTIR !!!!");
+                Server.PrintToChatAll($"{Prefix} BAKIM GEREÐÝ KUMAR - PIYANGO KAPATILMISTIR, SAAT 7.00 DA RES GELECEKTIR !!!!");
+                Server.PrintToChatAll($"{Prefix} BAKIM GEREÐÝ KUMAR - PIYANGO KAPATILMISTIR, SAAT 7.00 DA RES GELECEKTIR !!!!");
+            }
             if (nowTime >= MaintenanceTimer && nowTime <= MaintenanceTimer2)
             {
                 Server.PrintToChatAll($"{Prefix} BAKIM GEREÐÝ SERVERE 07.00 DA RES GELECEKTÝR !!!!");

@@ -1,10 +1,7 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
-using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
-using Microsoft.Extensions.Logging;
-using System.Linq;
 
 namespace JailbreakExtras;
 
@@ -61,7 +58,7 @@ public partial class JailbreakExtras
     {
         if (KumarKapatDisable)
         {
-            player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Bu mübarek günde, yakışıyor mu müslüman din kardeşim - rulet kapalı -.");
+            player.PrintToChat($" {CC.Ol}[RULET] {CC.W} - rulet kapalı -.");
             return;
         }
         if (IsGameBannedToday())
