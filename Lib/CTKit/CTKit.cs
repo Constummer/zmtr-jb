@@ -1,5 +1,6 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Menu;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
@@ -236,6 +237,30 @@ public partial class JailbreakExtras
         // mute.spawn(player);
     }
 
+    internal static readonly List<string> weaponList = new()
+    {
+         "weapon_knife",
+         "weapon_knife_m9_bayonet",
+         "weapon_knife_karambit",
+         "weapon_bayonet",
+         "weapon_knife_survival_bowie",
+         "weapon_knife_butterfly",
+         "weapon_knife_falchion",
+         "weapon_knife_flip",
+         "weapon_knife_gut",
+         "weapon_knife_tactical",
+         "weapon_knife_push",
+         "weapon_knife_gypsy_jackknife",
+         "weapon_knife_stiletto",
+         "weapon_knife_widowmaker",
+         "weapon_knife_ursus",
+         "weapon_knife_css",
+         "weapon_knife_cord",
+         "weapon_knife_canis",
+         "weapon_knife_outdoor",
+         "weapon_knife_skeleton",
+    };
+
     public void SetupPlayerGuns(CCSPlayerController? player)
     {
         if (player == null || !IsValidAlive(player))
@@ -249,7 +274,9 @@ public partial class JailbreakExtras
         {
             return;
         }
-        player.GiveNamedItem("weapon_knife");
+
+        //var randomX = weaponList.Skip(_random.Next(weaponList.Count)).FirstOrDefault();
+        //player.GiveNamedItem(randomX);
 
         if (IsCt(player))
         {
