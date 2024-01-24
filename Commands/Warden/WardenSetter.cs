@@ -48,6 +48,8 @@ public partial class JailbreakExtras
         ClearLasers();
         CoinAfterNewCommander();
         WardenEnterSound();
+        _ClientQueue.Enqueue(new(player.SteamID, null, "", QueueItemType.OnWChange));
+
         Server.PrintToChatAll($"{Prefix} {CC.B}{player.PlayerName}{CC.W} Komutçu oldu!");
         player.PrintToChat($"{Prefix} {CC.B}!wkomutlar {CC.W}veya {CC.B}!wcommands {CC.W}yazarak komutçu komutlarını öğrenebilirsin!");
 

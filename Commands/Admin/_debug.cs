@@ -4,7 +4,8 @@ using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Memory;
-using CounterStrikeSharp.API.Modules.Menu;
+
+//using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
@@ -157,6 +158,16 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
+        }
+    }
+
+    [ConsoleCommand("cxray")]
+    public void cxray(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
         }
     }
 
@@ -535,28 +546,28 @@ public partial class JailbreakExtras
         }
     }
 
-    [ConsoleCommand("ccentermenu")]
-    public void ccentermenu(CCSPlayerController? player, CommandInfo info)
-    {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
-        {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
-            return;
-        }
-        var bune = new CenterHtmlMenu("test");
-        bune.AddMenuOption("bune", null, true);
-        bune.AddMenuOption("bune2", null, false);
-        bune.AddMenuOption("bune3", (c, i) =>
-        {
-            Server.PrintToChatAll("aaa");
-        }, false);
-        bune.AddMenuOption("bune4", (c, i) =>
-        {
-            Server.PrintToChatAll("bbb");
-        }, true);
-        var a = new CenterHtmlMenuInstance(Global, player, bune);
-        a.Display();
-    }
+    //[ConsoleCommand("ccentermenu")]
+    //public void ccentermenu(CCSPlayerController? player, CommandInfo info)
+    //{
+    //    if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+    //    {
+    //        player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+    //        return;
+    //    }
+    //    var bune = new CenterHtmlMenu("test");
+    //    bune.AddMenuOption("bune", null, true);
+    //    bune.AddMenuOption("bune2", null, false);
+    //    bune.AddMenuOption("bune3", (c, i) =>
+    //    {
+    //        Server.PrintToChatAll("aaa");
+    //    }, false);
+    //    bune.AddMenuOption("bune4", (c, i) =>
+    //    {
+    //        Server.PrintToChatAll("bbb");
+    //    }, true);
+    //    var a = new CenterHtmlMenuInstance(Global, player, bune);
+    //    a.Display();
+    //}
 
     [ConsoleCommand("cAllPlayerTimeTracking")]
     public void cAllPlayerTimeTracking(CCSPlayerController? player, CommandInfo info)

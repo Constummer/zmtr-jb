@@ -29,11 +29,22 @@ public partial class JailbreakExtras
             }
         }
 
-        if (info.ArgCount != 2) return;
-        if (!int.TryParse(info.ArgString.GetArg(0), out var miktar) || miktar <= 0)
+        var amount = info.ArgString.GetArg(0);
+        if (string.IsNullOrWhiteSpace(amount))
+        {
+            player.PrintToChat($"{Prefix} {CC.W}Miktar yanlış! !donate <miktar>");
+            return;
+        }
+        if (!int.TryParse(amount, out var miktar) || miktar <= 0)
         {
             player.PrintToChat($"{Prefix} {CC.W}Miktar yanlış!");
             return;
+        }
+        string msg = null;
+        var hasothers = info.ArgString.GetArg(1);
+        if (string.IsNullOrWhiteSpace(hasothers) == false)
+        {
+            msg = info.ArgString?.Remove(0, amount.Length)?.Trim();
         }
         var data = GetPlayerMarketModel(player.SteamID);
         if (data.Model == null || data.Model.Credit < miktar || data.Model.Credit - miktar < 0)
@@ -73,8 +84,14 @@ public partial class JailbreakExtras
             PlayerMarketModels[player.SteamID] = data.Model;
             LatestDonateCommandCalls[player.SteamID] = DateTime.UtcNow;
             Server.PrintToChatAll($"{Prefix} {CC.Ol}{player.PlayerName}{CC.W},{CC.B} {x.PlayerName} {CC.W}adlı komutçuya {CC.G}{miktar} {CC.W}kredi donateledi!");
-
-            PrintToCenterAll($"{player.PlayerName}, {x.PlayerName} adlı komutçuya {miktar} kredi donateledi!");
+            if (string.IsNullOrWhiteSpace(msg))
+            {
+                PrintToCenterAll($"{player.PlayerName}, {x.PlayerName} adlı komutçuya {miktar} kredi donateledi!");
+            }
+            else
+            {
+                PrintToCenterAll($"{player.PlayerName}, {x.PlayerName} | {miktar} kredi! Mesaj = " + msg);
+            }
         }
     }
 

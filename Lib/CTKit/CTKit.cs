@@ -245,6 +245,11 @@ public partial class JailbreakExtras
 
         // cvars take care of this for us now
         // player.strip_weapons();
+        if (player == null || !IsValidAlive(player))
+        {
+            return;
+        }
+        player.GiveNamedItem("weapon_knife");
 
         if (IsCt(player))
         {

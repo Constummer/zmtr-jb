@@ -99,7 +99,7 @@ public partial class JailbreakExtras
                             break;
 
                         case QueueItemType.OnWChange:
-                            DiscordPost("https://discord.com/api/webhooks/1194758709344215090/-XRiPj35x-KTHRtAyWlB5i1I16lFylHl_17we6SOS5HbYY5JCFPQYiOjYot6trvQiUcR", "w deisti XD");
+                            SendDcNotifyOnWardenChange();
                             break;
 
                         case QueueItemType.OnPlayerSpawn:

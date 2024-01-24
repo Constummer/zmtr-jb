@@ -457,21 +457,6 @@ public partial class JailbreakExtras
         }
     }
 
-    private static void DiscordPost(string uri, string message)
-    {
-        try
-        {
-            var body = JsonSerializer.Serialize(new { content = message });
-            var content = new StringContent(body, Encoding.UTF8, "application/json");
-            _httpClient.DefaultRequestHeaders.Accept.Add(new MediaTypeWithQualityHeaderValue("application/json"));
-
-            HttpResponseMessage res = _httpClient.PostAsync($"{uri}", content).GetAwaiter().GetResult().EnsureSuccessStatusCode();
-        }
-        catch
-        {
-        }
-    }
-
     public static int GetIso8601WeekOfYear(DateTime dt)
     {
         ///If its Monday, Tuesday or Wednesday, then it'll

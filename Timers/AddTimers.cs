@@ -10,6 +10,7 @@ public partial class JailbreakExtras
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooQueueProcessTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooSteamGroupsTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooDailyRestartTimer { get; set; } = null;
+    public CounterStrikeSharp.API.Modules.Timers.Timer? FooDcWardenNotifyTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooCoinGoWantedTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooCoinRespawnTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooGiveCreditTimer { get; set; } = null;
@@ -66,36 +67,11 @@ public partial class JailbreakExtras
 
         #endregion SteamGroups
 
-        #region DailyRestart
+        #region Extras
 
         FooDailyRestartTimer = DailyRestartTimer();
+        FooDcWardenNotifyTimer = DcWardenNotifyTimer();
 
-        #endregion DailyRestart
-    }
-
-    private CounterStrikeSharp.API.Modules.Timers.Timer DailyRestartTimer()
-    {
-        return AddTimer(300f, () =>
-        {
-            var nowTime = TimeOnly.FromDateTime(DateTime.UtcNow.AddHours(3));
-
-            if (nowTime >= MaintenanceGameTimer && nowTime <= MaintenanceTimer2)
-            {
-                KumarKapatDisable = true;
-                Server.PrintToChatAll($"{Prefix} BAKIM GEREÐÝ KUMAR - PIYANGO KAPATILMISTIR, SAAT 7.00 DA RES GELECEKTIR !!!!");
-                Server.PrintToChatAll($"{Prefix} BAKIM GEREÐÝ KUMAR - PIYANGO KAPATILMISTIR, SAAT 7.00 DA RES GELECEKTIR !!!!");
-                Server.PrintToChatAll($"{Prefix} BAKIM GEREÐÝ KUMAR - PIYANGO KAPATILMISTIR, SAAT 7.00 DA RES GELECEKTIR !!!!");
-                Server.PrintToChatAll($"{Prefix} BAKIM GEREÐÝ KUMAR - PIYANGO KAPATILMISTIR, SAAT 7.00 DA RES GELECEKTIR !!!!");
-                Server.PrintToChatAll($"{Prefix} BAKIM GEREÐÝ KUMAR - PIYANGO KAPATILMISTIR, SAAT 7.00 DA RES GELECEKTIR !!!!");
-            }
-            if (nowTime >= MaintenanceTimer && nowTime <= MaintenanceTimer2)
-            {
-                Server.PrintToChatAll($"{Prefix} BAKIM GEREÐÝ SERVERE 07.00 DA RES GELECEKTÝR !!!!");
-                Server.PrintToChatAll($"{Prefix} BAKIM GEREÐÝ SERVERE 07.00 DA RES GELECEKTÝR !!!!");
-                Server.PrintToChatAll($"{Prefix} BAKIM GEREÐÝ SERVERE 07.00 DA RES GELECEKTÝR !!!!");
-                Server.PrintToChatAll($"{Prefix} BAKIM GEREÐÝ SERVERE 07.00 DA RES GELECEKTÝR !!!!");
-                Server.PrintToChatAll($"{Prefix} BAKIM GEREÐÝ SERVERE 07.00 DA RES GELECEKTÝR !!!!");
-            }
-        }, Full);
+        #endregion Extras
     }
 }
