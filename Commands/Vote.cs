@@ -217,7 +217,7 @@ public partial class JailbreakExtras
 
                     if (ValidateCallerPlayer(player, false) == true)
                     {
-                        player.PrintToChat($"{Prefix}{CC.W}Oyunu{CC.B} {data.Key} {CC.W} olarak değiştirdin verdin.");
+                        player.PrintToChat($"{Prefix}{CC.W}Oyunu{CC.Ol} {data.Key} {CC.W} olarak değiştirdin.");
                         GetPlayers()
                             .Where(x => x.SteamID != player.SteamID)
                             .ToList()

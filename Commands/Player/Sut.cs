@@ -29,9 +29,9 @@ public partial class JailbreakExtras
         }
         if (LatestSutolCommandCalls.TryGetValue(player.SteamID, out var call))
         {
-            if (DateTime.UtcNow < call.AddMinutes(1))
+            if (DateTime.UtcNow < call.AddSeconds(30))
             {
-                player.PrintToChat($"{Prefix} {CC.W}Tekrar sutol diyebilmek için {CC.DR}60 {CC.W}saniye beklemelisin!");
+                player.PrintToChat($"{Prefix} {CC.W}Tekrar sutol diyebilmek için {CC.DR}30 {CC.W}saniye beklemelisin!");
                 return;
             }
         }

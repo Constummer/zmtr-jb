@@ -1,3 +1,4 @@
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 
 namespace JailbreakExtras;
@@ -38,7 +39,7 @@ public partial class JailbreakExtras
             {
                 return HookResult.Continue;
             }
-
+            ActiveTeamGamesGameBase?.EventPlayerHurt(@event);
             if (LrActive == false)
             {
                 TeamYapActive(@event.Attacker, player, @event.DmgHealth, @event.DmgArmor);

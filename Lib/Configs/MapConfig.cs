@@ -31,7 +31,9 @@ namespace JailbreakExtras
             {"jb_zmtr_v2", new List<CoordinateTemplate>()
                 {
                     new("Hucre",   new VectorTemp(-535,345,-27) ),
-                    new("KZ",      new VectorTemp(2102,739,-357) ),
+                    new("KZ",      new VectorTemp(2496,-627,-150) ),
+                    new("KZ Sag Kulvar",  new VectorTemp(2841,-531,-109) ),
+                    new("KZ Sol Kulvar",  new VectorTemp(2139,-532,-109) ),
                 }
             },
         };

@@ -25,7 +25,13 @@ public partial class JailbreakExtras
     {
         GetPlayers()
             .ToList()
-            .ForEach(x => PrintToCenterHtml(x, msg));
+            .ForEach(x =>
+            {
+                PrintToCenterHtml(x, msg);
+                PrintToCenterHtml(x, msg);
+                PrintToCenterHtml(x, msg);
+                PrintToCenterHtml(x, msg);
+            });
     }
 
     public static void PrintToCenterAll(string msg)

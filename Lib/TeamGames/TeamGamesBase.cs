@@ -25,7 +25,8 @@ public partial class JailbreakExtras
         CoctailParty,
         ChickenSlayer,
         HideFight,
-        MORESOON
+        Corona,
+        MORESOON,
     }
 
     public enum TeamGamesMultiChoices
@@ -84,7 +85,8 @@ public partial class JailbreakExtras
         new ("Machines + 500HP",  false,  null, TeamGamesSoloChoices.Machines500HP),
         new ("Coctail Part",      false,  null, TeamGamesSoloChoices.CoctailParty),
         new ("Chicken Slayer",    false,  null, TeamGamesSoloChoices.ChickenSlayer),
-        new ("Hide Fight",    false,  null, TeamGamesSoloChoices.HideFight),
+        new ("Hide Fight",        false,  null, TeamGamesSoloChoices.HideFight),
+        new ("Corona",            false,  null, TeamGamesSoloChoices.Corona),
         new ("VE ÇOK DAHA FAZLASI... YAKINDA",    true,  null, TeamGamesSoloChoices.MORESOON),
     };
 

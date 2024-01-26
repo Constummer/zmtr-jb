@@ -130,6 +130,7 @@ public partial class JailbreakExtras
     }
 
     [ConsoleCommand("hookac")]
+    [ConsoleCommand("ha")]
     public void HookAc(CCSPlayerController? player, CommandInfo info)
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
@@ -144,6 +145,7 @@ public partial class JailbreakExtras
 
     [ConsoleCommand("hookkapat")]
     [ConsoleCommand("hookkapa")]
+    [ConsoleCommand("hk")]
     public void HookKapat(CCSPlayerController? player, CommandInfo info)
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))

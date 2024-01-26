@@ -42,7 +42,7 @@ public partial class JailbreakExtras
             return;
         }
         var players = GetPlayers()
-               .Where(x => (x.PlayerName?.ToLower()?.Contains(target?.ToLower()) ?? false))
+               .Where(x => (x.PlayerName?.ToLowerInvariant()?.Contains(target?.ToLowerInvariant()) ?? false))
                .ToList();
         if (players.Count == 0)
         {

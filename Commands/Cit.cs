@@ -56,6 +56,25 @@ public partial class JailbreakExtras
         return;
     }
 
+    [ConsoleCommand("ckall")]
+    public void CitKapaAll(CCSPlayerController? player, CommandInfo info)
+    {
+        if (ValidateCallerPlayer(player, false) == false)
+        {
+            return;
+        }
+        if (AdminManager.PlayerHasPermissions(player, "@css/lider") == false && LatestWCommandUser != player.SteamID)
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+
+        Server.PrintToChatAll($"{Prefix}{CC.DR} Çit oluşturma {CC.B}Herkese {CC.W} kapandı.");
+        CitEnabledPlayers?.Clear();
+
+        return;
+    }
+
     [ConsoleCommand("cittemizle")]
     [ConsoleCommand("citsil")]
     public void CitTemizle(CCSPlayerController? player, CommandInfo info)

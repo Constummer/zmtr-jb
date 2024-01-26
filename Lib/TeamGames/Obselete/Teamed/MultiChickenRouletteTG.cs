@@ -64,6 +64,19 @@ public partial class JailbreakExtras
                     {
                         Server.PrintToChatAll($"{Prefix} {team.Msg} {CC.W}takım şanslı tavuğu buldu.");
                         PrintToCenterHtmlAll($"{Prefix} {team.Msg} {CC.W}takım şanslı tavuğu buldu.");
+                        var otherTeamIndex = (team.Index + 1) % 2;
+
+                        var otherTeam = GetTeamColorAndTextByIndex(otherTeamIndex);
+                        if (otherTeam.Msg != null)
+                        {
+                            if (TeamSteamIds.TryGetValue(otherTeamIndex, out var teamIds))
+                            {
+                                GetPlayers(CsTeam.Terrorist)
+                                .Where(x => x.PawnIsAlive && teamIds.Contains(x.SteamID))
+                                .ToList()
+                                .ForEach(x => x.CommitSuicide(false, true));
+                            }
+                        }
                     }
                     Clear(false);
                 }

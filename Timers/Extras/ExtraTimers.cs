@@ -33,12 +33,9 @@ public partial class JailbreakExtras
 
     private CounterStrikeSharp.API.Modules.Timers.Timer DcWardenNotifyTimer()
     {
-        return AddTimer(30f, () =>
+        return AddTimer(300f, () =>
         {
-            Stopwatch w = new Stopwatch();
-            w.Start();
             SendDcNotifyOnWardenChange();
-            w.Stop();
         }, Full);
     }
 }

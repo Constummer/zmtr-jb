@@ -115,6 +115,7 @@ public partial class JailbreakExtras
         CoinRemove();
         WardenLeaveSound();
         CleanTagOnKomutcuAdmin();
+        _ClientQueue.Enqueue(new(player.SteamID, null, "", QueueItemType.OnWChange));
 
         player.VoiceFlags |= VoiceFlags.Muted;
         SetColour(player, DefaultColor);
@@ -163,6 +164,7 @@ public partial class JailbreakExtras
         SetColour(warden, DefaultColor);
         RefreshPawn(warden);
         KomStartTime = null;
+        _ClientQueue.Enqueue(new(warden.SteamID, null, "", QueueItemType.OnWChange));
 
         Server.PrintToChatAll($"{Prefix} {CC.W}{warden.PlayerName} artık komutçu değil!");
 

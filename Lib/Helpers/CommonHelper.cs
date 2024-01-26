@@ -35,7 +35,10 @@ public partial class JailbreakExtras
                 continue;
             }
 
-            players.Add(controller);
+            if ((GetTeam(controller) == CsTeam.Terrorist || GetTeam(controller) == CsTeam.CounterTerrorist))
+            {
+                players.Add(controller);
+            }
         }
 
         return players.Count;
@@ -207,7 +210,7 @@ public partial class JailbreakExtras
             TargetForArgument.Dead => x.PawnIsAlive == false,
             TargetForArgument.T => GetTeam(x) == CsTeam.Terrorist,
             TargetForArgument.Ct => GetTeam(x) == CsTeam.CounterTerrorist,
-            TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target?.ToLower()) ?? false,
+            TargetForArgument.None => x.PlayerName?.ToLowerInvariant()?.Contains(target?.ToLowerInvariant() ?? "") ?? false,
             TargetForArgument.Me => x.PlayerName == self,
             TargetForArgument.UserIdIndex => GetUserIdIndex(target) == x.UserId,
             _ => false
@@ -228,7 +231,7 @@ public partial class JailbreakExtras
             TargetForArgument.RandomCt => randomFreeze && GetTeam(x) == CsTeam.CounterTerrorist,
             TargetForArgument.All => true,
             TargetForArgument.Alive => true,
-            TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target?.ToLower()) ?? false,
+            TargetForArgument.None => x.PlayerName?.ToLowerInvariant()?.Contains(target?.ToLowerInvariant()) ?? false,
             TargetForArgument.Me => x.PlayerName == self,
             TargetForArgument.UserIdIndex => GetUserIdIndex(target) == x.UserId,
             _ => false,

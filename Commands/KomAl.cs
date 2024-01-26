@@ -1,10 +1,8 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
-using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Menu;
-using CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
@@ -17,8 +15,9 @@ public partial class JailbreakExtras
     private static List<ulong> KomAdays = new List<ulong>();
     public static Dictionary<ulong, int> KomAlAnswers = new Dictionary<ulong, int>();
     public static bool KomAlVoteInProgress = false;
-    public CounterStrikeSharp.API.Modules.Timers.Timer KomalPrintTimer = null;
-    public CounterStrikeSharp.API.Modules.Timers.Timer KomalTimer = null;
+    public CounterStrikeSharp.API.Modules.Timers.Timer? KomalPrintTimer = null;
+    public CounterStrikeSharp.API.Modules.Timers.Timer? KomaEndTimer = null;
+    public CounterStrikeSharp.API.Modules.Timers.Timer? KomalTimer = null;
 
     [ConsoleCommand("komaliptal")]
     [ConsoleCommand("komalcancel")]
@@ -53,6 +52,9 @@ public partial class JailbreakExtras
         Server.PrintToChatAll($"{Prefix} {CC.G}Komutçu alımı başladı! Komutçu adayı olmak için !komaday yazın.");
         Server.PrintToChatAll($"{Prefix} {CC.G}Komutçu adaylığından ayrılmak için !komadayiptal yazın.");
         KomActive = true;
+        KomaEndTimer?.Kill();
+        KomaEndTimer = null;
+
         var now = DateTime.UtcNow;
         KomalTimer = AddTimer(30f, () =>
         {
@@ -124,11 +126,7 @@ public partial class JailbreakExtras
 
                 if (ValidateCallerPlayer(x, false))
                 {
-                    AddTimer(1, () =>
-                    {
-                        if (ValidateCallerPlayer(x, false) == false) return;
-                        x.SwitchTeam(CsTeam.CounterTerrorist);
-                    }, SOM);
+                    x.SwitchTeam(CsTeam.CounterTerrorist);
                 }
             }
             else
@@ -159,6 +157,7 @@ public partial class JailbreakExtras
                 var players = GetPlayers();
                 foreach (var x in players)
                 {
+                    if (ValidateCallerPlayer(x, false) == false) continue;
                     ChatMenus.OpenMenu(x, komalVoteMenu);
                 }
                 var i = 0;
@@ -177,7 +176,7 @@ public partial class JailbreakExtras
                     .ForEach(x => PrintToCenterHtml(x, hmtl));
                 }, Full);
 
-                AddTimer(15, () =>
+                KomaEndTimer = AddTimer(15, () =>
                 {
                     if (KomAlVoteInProgress)
                     {
@@ -190,15 +189,13 @@ public partial class JailbreakExtras
                             var kvp = list[i];
                             if (i == 0)
                             {
-                                var x = Utilities.GetPlayerFromSteamId(kvp.Key);
-                                if (ValidateCallerPlayer(x, false))
+                                var x = GetPlayers().Where(x => x.SteamID == kvp.Key).FirstOrDefault();
+                                if (x == null)
                                 {
-                                    AddTimer(1, () =>
-                                    {
-                                        if (ValidateCallerPlayer(x, false) == false) return;
-                                        x.SwitchTeam(CsTeam.CounterTerrorist);
-                                    }, SOM);
+                                    return;
                                 }
+                                if (ValidateCallerPlayer(x, false) == false) return;
+                                x.SwitchTeam(CsTeam.CounterTerrorist);
                             }
 
                             var voter = voters.FirstOrDefault(x => x.SteamID == kvp.Key);
@@ -215,6 +212,8 @@ public partial class JailbreakExtras
                         KomalTimer?.Kill();
                         KomalTimer = null;
                         LatestVoteAnswerCommandCalls?.Clear();
+                        KomaEndTimer?.Kill();
+                        KomaEndTimer = null;
                     }
                 }, SOM);
             }

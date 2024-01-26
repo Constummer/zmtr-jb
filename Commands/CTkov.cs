@@ -22,6 +22,14 @@ public partial class JailbreakExtras
            .ToList()
            .ForEach(x =>
            {
+               if (ActiveGodMode.ContainsKey(x.SteamID))
+               {
+                   ActiveGodMode[x.SteamID] = false;
+               }
+               else
+               {
+                   ActiveGodMode.TryAdd(x.SteamID, false);
+               }
                x.PlayerPawn.Value!.CommitSuicide(false, true);
                x!.ChangeTeam(CsTeam.Terrorist);
            });

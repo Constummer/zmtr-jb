@@ -49,6 +49,9 @@ public partial class JailbreakExtras
                     if (printToCenterHtml)
                     {
                         PrintToCenterHtml(client, $"{CC.G}{CountdownText}");
+                        PrintToCenterHtml(client, $"{CC.G}{CountdownText}");
+                        PrintToCenterHtml(client, $"{CC.G}{CountdownText}");
+                        PrintToCenterHtml(client, $"{CC.G}{CountdownText}");
                     }
                 }
             }

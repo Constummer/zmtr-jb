@@ -40,9 +40,14 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.W}Miktar yanlış!");
             return;
         }
+        if (miktar < 30)
+        {
+            player.PrintToChat($"{Prefix} {CC.W}Minimum donate miktari 30dur, mesajli minimum donate miktari 100 dür!");
+            return;
+        }
         string msg = null;
         var hasothers = info.ArgString.GetArg(1);
-        if (string.IsNullOrWhiteSpace(hasothers) == false)
+        if (miktar >= 100 && string.IsNullOrWhiteSpace(hasothers) == false)
         {
             msg = info.ArgString?.Remove(0, amount.Length)?.Trim();
         }
@@ -90,7 +95,7 @@ public partial class JailbreakExtras
             }
             else
             {
-                PrintToCenterAll($"{player.PlayerName}, {x.PlayerName} | {miktar} kredi! Mesaj = " + msg);
+                PrintToCenterAll($"{player.PlayerName}, {x.PlayerName} | {miktar} kredi!\n " + msg);
             }
         }
     }

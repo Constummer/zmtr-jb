@@ -44,7 +44,7 @@ public partial class JailbreakExtras
                 TargetForArgument.Me => player.PlayerName == x.PlayerName,
                 TargetForArgument.Alive => x.PawnIsAlive,
                 TargetForArgument.Dead => x.PawnIsAlive == false,
-                TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target?.ToLower()) ?? false,
+                TargetForArgument.None => x.PlayerName?.ToLowerInvariant()?.Contains(target?.ToLowerInvariant()) ?? false,
                 TargetForArgument.UserIdIndex => GetUserIdIndex(target) == x.UserId,
                 _ => false
             }

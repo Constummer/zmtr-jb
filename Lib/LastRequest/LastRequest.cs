@@ -70,6 +70,7 @@ public partial class JailbreakExtras
     private void InitLr(LrData item, CCSPlayerController? mahkum, CCSPlayerController gard)
     {
         //BasicCountdown.CommandStartTextCountDown(this, $"{item.Text} {CC.W}LR'si  başlamasına 3 saniye.");
+        SutolCommandCalls?.Clear();
         LrActive = true;
         ActivatedLr = new(mahkum.SteamID, gard.SteamID, item);
         //LRTimer = AddTimer(3f, () =>

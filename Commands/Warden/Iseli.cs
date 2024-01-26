@@ -95,8 +95,7 @@ public partial class JailbreakExtras
                  }
              }
              SetHp(x, 100);
-             x.GiveNamedItem("weapon_ak47");
-             x.GiveNamedItem("weapon_deagle");
+
              x.GiveNamedItem("weapon_hegrenade");
              x.GiveNamedItem("item_assaultsuit");
 

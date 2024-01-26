@@ -74,9 +74,9 @@ public partial class JailbreakExtras
                 player.PrintToChat("Max 120 sn girebilirsin");
                 return;
             }
-            else if (value < 4)
+            else if (value < 2)
             {
-                player.PrintToChat("Min 3 sn girebilirsin");
+                player.PrintToChat("Min 2 sn girebilirsin");
                 return;
             }
         }
@@ -149,6 +149,8 @@ public partial class JailbreakExtras
 
                 Skz2Timer = AddTimer(value + 3, () =>
                 {
+                    var greenColor = 0;
+                    var redColor = 0;
                     GetPlayers()
                     .Where(x => x != null
                          && x.IsValid
@@ -160,15 +162,40 @@ public partial class JailbreakExtras
                         if (ValidateCallerPlayer(x, false) == false) return;
                         if (TeamActive == false)
                         {
-                            PaintPlayersBasedOnTheirPos(x);
+                            var res = PaintPlayersBasedOnTheirPos(x);
+                            switch (res)
+                            {
+                                case 1:
+                                    greenColor = greenColor + 1;
+                                    break;
+
+                                case -1:
+                                    redColor = redColor + 1;
+                                    break;
+                            }
                         }
                         x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
                         RefreshPawnTP(x);
                     });
+
                     Config.Additional.ParachuteModelEnabled = true;
 
                     FreezeOrUnfreezeSound();
                     Server.PrintToChatAll($"{Prefix} {CC.Ol}{value}{CC.W} saniye süren {CC.Ol}SKZ{CC.W} bitti, {CC.G}mahkûmlar {CC.B}dondu{CC.W}.");
+                    Server.PrintToChatAll($"{Prefix} {CC.G}{greenColor}{CC.W} adet kz'yi yapan {CC.R}{redColor}{CC.W} adet kz'yi yapamayan var{CC.W}.");
+
+                    var str = $"{Prefix}<br>" +
+                        $"<font color='#00FF00'>{greenColor}</font> adet kz'yi yapan<br>" +
+                        $"<font color='#FF0000'>{redColor}</font> adet kz'yi yapamayan var.";
+                    PrintToCenterHtmlAll(str);
+                    PrintToCenterHtmlAll(str);
+                    PrintToCenterHtmlAll(str);
+                    PrintToCenterHtmlAll(str);
+                    PrintToCenterHtmlAll(str);
+                    PrintToCenterHtmlAll(str);
+                    PrintToCenterHtmlAll(str);
+                    PrintToCenterHtmlAll(str);
+                    PrintToCenterHtmlAll(str);
                 }, SOM);
             });
         }

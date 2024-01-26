@@ -10,9 +10,19 @@ public partial class JailbreakExtras
 
     public DateTime? KomStartTime { get; set; } = null;
 
+    [ConsoleCommand("komdk")]
+    [ConsoleCommand("komutcudk")]
+    public void KomDk(CCSPlayerController? player, CommandInfo info)
+    {
+        if (ValidateCallerPlayer(player, false) == false) return;
+
+        player.PrintToChat($"{Prefix} {CC.B}!komkalan {CC.W}komutunu kullanmalısın");
+        return;
+    }
+
     [ConsoleCommand("komkalan")]
     [ConsoleCommand("komsure")]
-    public void KomDk(CCSPlayerController? player, CommandInfo info)
+    public void KomKalan(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player, false) == false) return;
         if (KomStartTime == null)
@@ -31,7 +41,7 @@ public partial class JailbreakExtras
         }
         else
         {
-            player.PrintToChat($"{Prefix} {CC.W} Komdk atılabilinir.");
+            player.PrintToChat($"{Prefix} {CC.W} Komdk atılabilir.");
         }
     }
 

@@ -22,6 +22,10 @@ public partial class JailbreakExtras
         if (info.ArgCount != 3) return;
         var target = info.ArgString.GetArg(0);
         var weapon = GiveHandler(info.ArgString.GetArg(1));
+        if (ValidWantedWeapon(weapon) == false)
+        {
+            return;
+        }
         var targetArgument = GetTargetArgument(target);
         GiveAction(player.PlayerName, target, weapon, targetArgument, true);
         if (targetArgument != TargetForArgument.None)
@@ -30,9 +34,25 @@ public partial class JailbreakExtras
         }
     }
 
+    private bool ValidWantedWeapon(string weapon)
+    {
+        return weapon?.ToLowerInvariant() switch
+        {
+            "breachcharge" => false,
+            "bumpmine" => false,
+            "knifegg" => false,
+            "melee" => false,
+            "tablet" => false,
+            "tagrenade" => false,
+            "tripwirefire" => false,
+            "zone_repulsor" => false,
+            _ => true
+        };
+    }
+
     private string GiveHandler(string input)
     {
-        return input switch
+        return input?.ToLowerInvariant() switch
         {
             "ak" => "ak47",
             "m4a4" => "m4a1",
@@ -47,6 +67,7 @@ public partial class JailbreakExtras
             "smk" => "smokegrenade",
             "flash" => "flashbang",
             "fb" => "flashbang",
+            null => "",
             _ => input
         };
     }

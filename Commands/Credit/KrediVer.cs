@@ -85,5 +85,41 @@ public partial class JailbreakExtras
                });
     }
 
+    [ConsoleCommand("panelkrediver")]
+    [CommandHelper(2, "<oyuncu ismi,@t,@ct,@all,@me> <miktar>", whoCanExecute: CommandUsage.SERVER_ONLY)]
+    public void PanelKrediVer(CCSPlayerController? player, CommandInfo info)
+    {
+        if (info.ArgCount != 3)
+        {
+            Server.PrintToConsole($"{Prefix}{CC.G} <oyuncu ismi,@t,@ct,@all,@me> <miktar>");
+            return;
+        };
+        var target = info.ArgString.GetArg(0);
+        if (!int.TryParse(info.ArgString.GetArg(1), out var miktar))
+        {
+            Server.PrintToConsole($"{Prefix}{CC.G} Miktar duzgun deil!");
+            return;
+        }
+        GetPlayers()
+               .Where(x => GetTargetAction(x, target, ""))
+               .ToList()
+               .ForEach(x =>
+               {
+                   if (ValidateCallerPlayer(x, false) && x?.SteamID != null && x!.SteamID != 0)
+                   {
+                       if (PlayerMarketModels.TryGetValue(x.SteamID, out var item))
+                       {
+                           item.Credit += miktar;
+                       }
+                       else
+                       {
+                           item = new(x.SteamID);
+                           item.Credit = miktar;
+                       }
+                       PlayerMarketModels[x.SteamID] = item;
+                   }
+               });
+    }
+
     #endregion KrediVer
 }

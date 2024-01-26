@@ -14,9 +14,9 @@ public partial class JailbreakExtras
                vector1.Z <= checkVector.Z && checkVector.Z <= vector2.Z;
     }
 
-    private static void PaintPlayersBasedOnTheirPos(CCSPlayerController x)
+    private static int PaintPlayersBasedOnTheirPos(CCSPlayerController x)
     {
-        if (ValidateCallerPlayer(x, false) == false) return;
+        if (ValidateCallerPlayer(x, false) == false) return 0;
         if (_Config.Map.KzCellCoords.TryGetValue(Server.MapName, out var poses))
         {
             var vec1 = poses.Where(x => x.Text == "LeftBottom").FirstOrDefault();
@@ -30,20 +30,21 @@ public partial class JailbreakExtras
                 {
                     if (IsPointInsideRectangle(vec1.Coord, vec2.Coord, x.PlayerPawn.Value.AbsOrigin))
                     {
-                        if (ValidateCallerPlayer(x, false) == false) return;
+                        if (ValidateCallerPlayer(x, false) == false) return 0;
                         SetColour(x, Color.FromArgb(0, 255, 0));
-                        return;
+                        return 1;
                     }
                     else
                     {
-                        if (ValidateCallerPlayer(x, false) == false) return;
+                        if (ValidateCallerPlayer(x, false) == false) return 0;
                         SetColour(x, Color.FromArgb(255, 0, 0));
-                        return;
+                        return -1;
                     }
                 }
             }
         }
-        if (ValidateCallerPlayer(x, false) == false) return;
+        if (ValidateCallerPlayer(x, false) == false) return 0;
         SetColour(x, _Config.Burry.BuryColor);
+        return 0;
     }
 }
