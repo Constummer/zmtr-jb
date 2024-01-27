@@ -289,19 +289,6 @@ public partial class JailbreakExtras
 
     private static List<List<T>> ChunkBy<T>(List<T> list, int numberOfLists)
     {
-        //if (numLists * elementsPerList != list.Count)
-        //{
-        //    throw new ArgumentException("The product of numLists and elementsPerList must equal the count of the input list.");
-        //}
-        //int elementsPerList = (int)Math.Ceiling((double)source.Count / chunkSize);
-        //return Enumerable.Range(0, chunkSize)
-        //                .Select(i => source.Skip(i * elementsPerList).Take(elementsPerList).ToList())
-        //                .ToList();
-        //return Enumerable.Range(0, (int)Math.Ceiling(source.Count / (double)chunkSize))
-        //               .Select(i => source.Skip(i * chunkSize).Take(chunkSize).ToList())
-        //               .ToList();
-        //}
-
         int totalItems = list.Count;
         int itemsPerList = totalItems / numberOfLists;
         int remainder = totalItems % numberOfLists;
@@ -322,25 +309,6 @@ public partial class JailbreakExtras
         }
 
         return result;
-        //int totalItems = source.Count;
-        //int chunks = (int)Math.Ceiling((double)totalItems / chunkSize);
-
-        //List<List<T>> result = new List<List<T>>();
-
-        //for (int i = 0; i < chunks; i++)
-        //{
-        //    int startIndex = i * chunkSize;
-        //    int endIndex = Math.Min((i + 1) * chunkSize, totalItems);
-
-        //    result.Add(source.GetRange(startIndex, endIndex - startIndex));
-        //}
-
-        //return result;
-        //return source
-        //    .Select((x, i) => new { Index = i, Value = x })
-        //    .GroupBy(x => x.Index / chunkSize)
-        //    .Select(x => x.Select(v => v.Value).ToList())
-        //    .ToList();
     }
 
     private static double CalculateMinutesUntilSundayMidnight()

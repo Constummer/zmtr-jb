@@ -110,19 +110,6 @@ public partial class JailbreakExtras
 
             ActiveTeamGamesGameBase?.EventPlayerDeath(@event);
 
-            //@event.Userid.ClientSideRagdoll = false; // not sure what this does, apparently nothing
-            //AddTimer(1.0f, () =>
-            //{
-            //    @event.Userid.ClientSideRagdoll = false;
-            //    CHandle<CBaseEntity> RagdollSource = Schema.GetDeclaredClass<CHandle<CBaseEntity>>(@event.Userid.Handle, "CRagdollProp", "m_hRagdoll"); // tried with m_hRagdollSource too
-
-            //    RagdollSource.Value.Remove();
-            //});
-            //var entities = Utilities.FindAllEntitiesByDesignerName<CRagdollProp>("prop_ragdoll");
-            //foreach (var entity in entities)
-            //{
-            //    entity.AcceptInput("Kill");
-            //}
             //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
             //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
             //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------

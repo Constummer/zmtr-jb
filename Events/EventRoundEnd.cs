@@ -44,22 +44,5 @@ public partial class JailbreakExtras
         SinirsizBombaTimer = null;
         SinirsizXTimer?.Kill();
         SinirsizXTimer = null;
-
-        //for (int i = 0; i < Server.MaxPlayers; i++)
-        //{
-        //    var x = Utilities.GetPlayerFromSlot(i);
-
-        //    if (x == null)
-        //        continue;
-        //    if (!x.IsValid || x.UserId == -1)
-        //        continue;
-        //    if (x.AuthorizedSteamID == null)
-        //        continue;
-        //    if (x.SteamID != LatestWCommandUser)
-        //    {
-        //        SetColour(x, DefaultPlayerColor);
-        //        RefreshPawn(x);
-        //    }
-        //}
     }
 }

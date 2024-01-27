@@ -80,10 +80,12 @@ public partial class JailbreakExtras
             return;
         }
 
+        var playerAbs = player.PawnIsAlive == false ? player.Pawn.Value.AbsOrigin : player.PlayerPawn.Value.AbsOrigin;
         float x, y, z;
-        x = player.PlayerPawn.Value!.AbsOrigin!.X;
-        y = player.PlayerPawn.Value!.AbsOrigin!.Y;
-        z = player.PlayerPawn.Value!.AbsOrigin!.Z;
+        x = playerAbs!.X;
+        y = playerAbs!.Y;
+        z = playerAbs!.Z;
+
         var start = new Vector((float)x, (float)y, (float)z);
         var end = GetEndXYZ(player);
         if (Closest != null)

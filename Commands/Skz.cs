@@ -20,6 +20,13 @@ public partial class JailbreakExtras
             Z = z;
         }
 
+        public VectorTemp(float? x, float? y, float? z)
+        {
+            X = x ?? 0;
+            Y = y ?? 0;
+            Z = z ?? 0;
+        }
+
         [JsonPropertyName("X")]
         public float X { get; set; }
 

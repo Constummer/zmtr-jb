@@ -10,7 +10,9 @@ using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
 using System.Diagnostics;
+using System.Net.Security;
 using System.Text;
+using System.Text.Json;
 using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
@@ -31,6 +33,38 @@ public partial class JailbreakExtras
         }
     }
 
+    public List<VectorTemp> BulletImpactVectors { get; set; } = new List<VectorTemp>();
+
+    [ConsoleCommand("ceventbulletimpactwithsave")]
+    public void ceventbulletimpactwithsave(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        BulletImpactActive = false;
+        var data = new
+        {
+            MapName = Server.MapName,
+            Data = BulletImpactVectors
+        };
+        var serialized = JsonSerializer.Serialize(data,
+                        new JsonSerializerOptions
+                        {
+                            WriteIndented = true,
+                            Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
+                        });
+        var savePath = Path.Combine(ContentRootPath, $"{Server.MapName}.json");
+
+        File.WriteAllText(savePath, serialized);
+        BulletImpactVectors?.Clear();
+    }
+
     [ConsoleCommand("ceventbulletimpact")]
     public void ceventbulletimpact(CCSPlayerController? player, CommandInfo info)
     {
@@ -44,6 +78,7 @@ public partial class JailbreakExtras
             return;
         }
         BulletImpactActive = !BulletImpactActive;
+        BulletImpactVectors?.Clear();
     }
 
     private bool BulletImpactActive = false;
@@ -52,7 +87,11 @@ public partial class JailbreakExtras
     {
         if (BulletImpactActive)
         {
+            if (@event == null) return;
+            if (ValidateCallerPlayer(@event.Userid) == false) return;
+            if (!AdminManager.PlayerHasPermissions(@event.Userid, "@css/root")) return;
             Server.PrintToConsole($"{@event?.X},{@event?.Y},{@event?.Z}");
+            BulletImpactVectors.Add(new(@event?.X, @event?.Y, @event?.Z));
         }
     }
 

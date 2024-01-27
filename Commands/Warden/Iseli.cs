@@ -78,7 +78,6 @@ public partial class JailbreakExtras
         ForceCloseDoor();
         RespawnAcAction();
         ForceEntInput("func_breakable", "Break");
-        //ForceEntInput("func_breakable", "Break", "DropEldenGidiyeah");
         IsEliWardenNotify();
         BasicCountdown.CommandStartTextCountDown(this, $"İseli - İsyan Eli | Başlamasına {value} saniye kaldı!");
         IsEliTerroristTp();
@@ -96,7 +95,6 @@ public partial class JailbreakExtras
              }
              SetHp(x, 100);
 
-             x.GiveNamedItem("weapon_hegrenade");
              x.GiveNamedItem("item_assaultsuit");
 
              var gunMenu = new ChatMenu("Silah Menu");
