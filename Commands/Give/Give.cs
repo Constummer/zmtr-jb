@@ -1,6 +1,7 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
+using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 
 namespace JailbreakExtras;
@@ -34,9 +35,35 @@ public partial class JailbreakExtras
         }
     }
 
+    [ConsoleCommand("give2", "Silah Verir")]
+    [ConsoleCommand("weapon2", "Silah Verir")]
+    [ConsoleCommand("silahver2", "Silah Verir")]
+    [CommandHelper(2, "<oyuncu ismi,@t,@ct,@all,@me> <silah kisa ismi>")]
+    public void Give2(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/yonetim"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        if (ValidateCallerPlayer(player, false) == false)
+        {
+            return;
+        }
+        if (info.ArgCount != 3) return;
+        var target = info.ArgString.GetArg(0);
+        var weapon = GiveHandler(info.ArgString.GetArg(1));
+        var targetArgument = GetTargetArgument(target);
+        GiveAction(player.PlayerName, target, weapon, targetArgument, true);
+        if (targetArgument != TargetForArgument.None)
+        {
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefine {CC.B}{weapon} {CC.W}adlı silahı verdi.");
+        }
+    }
+
     private bool ValidWantedWeapon(string weapon)
     {
-        return weapon?.ToLowerInvariant() switch
+        return weapon?.ToLower() switch
         {
             "breachcharge" => false,
             "bumpmine" => false,
@@ -52,7 +79,7 @@ public partial class JailbreakExtras
 
     private string GiveHandler(string input)
     {
-        return input?.ToLowerInvariant() switch
+        return input?.ToLower() switch
         {
             "ak" => "ak47",
             "m4a4" => "m4a1",

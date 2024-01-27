@@ -8,9 +8,9 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    [ConsoleCommand("krediver")]
+    [ConsoleCommand("gizlikrediver")]
     [CommandHelper(2, "<oyuncu ismi,@t,@ct,@all,@me> <miktar>")]
-    public void KrediVer(CCSPlayerController? player, CommandInfo info)
+    public void GizliKrediVer(CCSPlayerController? player, CommandInfo info)
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
@@ -41,7 +41,6 @@ public partial class JailbreakExtras
                            item.Credit = miktar;
                        }
                        PlayerMarketModels[x.SteamID] = item;
-                       Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.LB}{miktar} {CC.W}kredi verdi!");
                    }
                });
     }

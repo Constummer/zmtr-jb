@@ -9,7 +9,6 @@ public partial class JailbreakExtras
 {
     [ConsoleCommand("hrespawn", "öldüğü yerde canlanır")]
     [ConsoleCommand("1up", "öldüğü yerde canlanır")]
-    [ConsoleCommand("1UP", "öldüğü yerde canlanır")]
     [CommandHelper(1, "<playerismi>")]
     public void HRespawn(CCSPlayerController? player, CommandInfo info)
     {
@@ -17,8 +16,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (info.ArgCount != 2) return;
-        var target = info.ArgString.GetArg(0);
+        var target = info.ArgString;
         var targetArgument = GetTargetArgument(target);
         var players = GetPlayers()
                .Where(x => x.PawnIsAlive == false && GetTargetAction(x, target, player.PlayerName))

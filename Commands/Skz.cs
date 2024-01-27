@@ -55,7 +55,7 @@ public partial class JailbreakExtras
 
     [ConsoleCommand("skz")]
     [CommandHelper(1, "<saniye>")]
-    public void SkzMenu(CCSPlayerController? player, CommandInfo info)
+    public void Skz(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)
         {
@@ -97,6 +97,7 @@ public partial class JailbreakExtras
 
                 SkzTimer?.Kill();
                 Skz2Timer?.Kill();
+                SkzV2FailedSteamIds?.Clear();
                 var players = GetPlayers(CsTeam.Terrorist)
                     .Where(x => x.PawnIsAlive == true)
                     .ToList();
@@ -151,6 +152,7 @@ public partial class JailbreakExtras
                 {
                     var greenColor = 0;
                     var redColor = 0;
+                    SkzV2FailedSteamIds?.Clear();
                     GetPlayers()
                     .Where(x => x != null
                          && x.IsValid

@@ -24,6 +24,7 @@ public partial class JailbreakExtras
         FFMenuCheck = false;
         SpeedActive = false;
         SpeedActiveDatas?.Clear();
+        SkzV2FailedSteamIds?.Clear();
         DizPlayerId = 0;
         DizActive = false;
         DizStart = null;

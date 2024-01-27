@@ -14,6 +14,8 @@ public partial class JailbreakExtras
                vector1.Z <= checkVector.Z && checkVector.Z <= vector2.Z;
     }
 
+    public static List<ulong> SkzV2FailedSteamIds { get; set; } = new();
+
     private static int PaintPlayersBasedOnTheirPos(CCSPlayerController x)
     {
         if (ValidateCallerPlayer(x, false) == false) return 0;
@@ -38,6 +40,7 @@ public partial class JailbreakExtras
                     {
                         if (ValidateCallerPlayer(x, false) == false) return 0;
                         SetColour(x, Color.FromArgb(255, 0, 0));
+                        SkzV2FailedSteamIds.Add(x.SteamID);
                         return -1;
                     }
                 }

@@ -12,7 +12,7 @@ public partial class JailbreakExtras
     private static Dictionary<ulong, DateTime> LatestHediyeCommandCalls = new Dictionary<ulong, DateTime>();
 
     [ConsoleCommand("hediye")]
-    [CommandHelper(2, "<oyuncu ismi> <miktar>")]
+    [CommandHelper(2, "<oyuncu ismi-#userid> <miktar>")]
     public void Hediye(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player, false) == false)
@@ -42,7 +42,7 @@ public partial class JailbreakExtras
             return;
         }
         var players = GetPlayers()
-               .Where(x => (x.PlayerName?.ToLowerInvariant()?.Contains(target?.ToLowerInvariant()) ?? false))
+               .Where(x => GetTargetAction(x, target, player!.PlayerName))
                .ToList();
         if (players.Count == 0)
         {

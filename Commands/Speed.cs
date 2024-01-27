@@ -7,7 +7,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static Dictionary<ulong, int> SpeedActiveDatas = new();
+    private static Dictionary<ulong, float> SpeedActiveDatas = new();
     private bool SpeedActive = false;
 
     #region Speed
@@ -59,7 +59,7 @@ public partial class JailbreakExtras
 
         if (info.ArgCount != 3) return;
         var target = info.ArgString.GetArg(0);
-        if (!int.TryParse(info.ArgString.GetArg(1), out var speed) || speed < 0 || speed > 10)
+        if (!float.TryParse(info.ArgString.GetArg(1), out var speed) || speed < 0 || speed > 10)
         {
             player.PrintToChat($"{Prefix}{CC.W} 0-1 kapatmak için, 2-9 hız ayarlamak için.");
             return;

@@ -44,7 +44,7 @@ public partial class JailbreakExtras
         }
         else
         {
-            Laser?.Remove();
+            //Laser?.Remove();
             Closest = null;
         }
     }
@@ -67,7 +67,7 @@ public partial class JailbreakExtras
         else
         {
             Closest = null;
-            Laser?.Remove();
+            //Laser?.Remove();
         }
     }
 
@@ -94,17 +94,17 @@ public partial class JailbreakExtras
             ActiveGodMode[Closest.SteamID] = true;
             var @new = ProjectPointOntoLine(start, end, Closest.PlayerPawn.Value.AbsOrigin);
             Closest.PlayerPawn.Value.Teleport(@new, Closest.PlayerPawn.Value.AbsRotation!, Closest.PlayerPawn.Value.AbsVelocity);
-            if (Laser != null && Laser.IsValid)
-            {
-                Laser.EndPos.X = Closest.PlayerPawn.Value.AbsOrigin.X;
-                Laser.EndPos.Y = Closest.PlayerPawn.Value.AbsOrigin.Y;
-                Laser.EndPos.Z = Closest.PlayerPawn.Value.AbsOrigin.Z;
-                Laser.Teleport(start, ANGLE_ZERO, VEC_ZERO);
-            }
-            else
-            {
-                Laser = DrawLaser(start, Closest.PlayerPawn.Value.AbsOrigin, LaserType.Grab, false);
-            }
+            //if (Laser != null && Laser.IsValid)
+            //{
+            //    Laser.EndPos.X = Closest.PlayerPawn.Value.AbsOrigin.X;
+            //    Laser.EndPos.Y = Closest.PlayerPawn.Value.AbsOrigin.Y;
+            //    Laser.EndPos.Z = Closest.PlayerPawn.Value.AbsOrigin.Z;
+            //    Laser.Teleport(start, ANGLE_ZERO, VEC_ZERO);
+            //}
+            //else
+            //{
+            //    Laser = DrawLaser(start, Closest.PlayerPawn.Value.AbsOrigin, LaserType.Grab, false);
+            //}
             var tempClosesSteamid = Closest.SteamID;
             AddTimer(1, () =>
             {
@@ -131,17 +131,17 @@ public partial class JailbreakExtras
                 Closest = closest;
                 var @new = ProjectPointOntoLine(start, end, closest.PlayerPawn.Value.AbsOrigin);
                 closest.PlayerPawn.Value.Teleport(@new, closest.PlayerPawn.Value.AbsRotation!, closest.PlayerPawn.Value.AbsVelocity);
-                if (Laser != null && Laser.IsValid)
-                {
-                    Laser.EndPos.X = Closest.PlayerPawn.Value.AbsOrigin.X;
-                    Laser.EndPos.Y = Closest.PlayerPawn.Value.AbsOrigin.Y;
-                    Laser.EndPos.Z = Closest.PlayerPawn.Value.AbsOrigin.Z;
-                    Laser.Teleport(start, ANGLE_ZERO, VEC_ZERO);
-                }
-                else
-                {
-                    Laser = DrawLaser(start, Closest.PlayerPawn.Value.AbsOrigin, LaserType.Grab, false);
-                }
+                //if (Laser != null && Laser.IsValid)
+                //{
+                //    Laser.EndPos.X = Closest.PlayerPawn.Value.AbsOrigin.X;
+                //    Laser.EndPos.Y = Closest.PlayerPawn.Value.AbsOrigin.Y;
+                //    Laser.EndPos.Z = Closest.PlayerPawn.Value.AbsOrigin.Z;
+                //    Laser.Teleport(start, ANGLE_ZERO, VEC_ZERO);
+                //}
+                //else
+                //{
+                //    Laser = DrawLaser(start, Closest.PlayerPawn.Value.AbsOrigin, LaserType.Grab, false);
+                //}
                 var tempClosesSteamid = closest.SteamID;
                 AddTimer(1, () =>
                 {
@@ -250,6 +250,7 @@ public partial class JailbreakExtras
 
         foreach (var player in players)
         {
+            //bool isOnLine = IsPointOnLine(start, end, player.PlayerPawn?.Value.CBodyComponent?.SceneNode?.AbsOrigin);
             bool isOnLine = IsPointOnLine(start, end, player.PlayerPawn?.Value.CBodyComponent?.SceneNode?.AbsOrigin, threshold);
 
             if (isOnLine)
@@ -272,7 +273,7 @@ public partial class JailbreakExtras
         return Math.Sqrt(Math.Pow(p1.X - p2.X, 2) + Math.Pow(p1.Y - p2.Y, 2) + Math.Pow(p1.Z - p2.Z, 2));
     }
 
-    private static bool IsPointOnLineUseThis(Vector start, Vector end, Vector point, double threshold)
+    private static bool IsPointOnLine(Vector start, Vector end, Vector point, double threshold)
     {
         // Calculate the direction vector of the line
         double lineDirectionX = end.X - start.X;

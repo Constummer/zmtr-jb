@@ -64,7 +64,7 @@ public partial class JailbreakExtras
         }
         var players = GetPlayers()
             .Where(x =>
-            (x.PlayerName?.ToLowerInvariant()?.Contains(target?.ToLowerInvariant()) ?? false)
+            (x.PlayerName?.ToLower()?.Contains(target?.ToLower()) ?? false)
             || GetUserIdIndex(target) == x.UserId
             || x.SteamID == steamidbck).ToList();
 

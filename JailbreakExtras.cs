@@ -46,7 +46,7 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
 
         if (IsExistPlayer() == false)
         {
-            throw new AccessViolationException("Bu plugýn Constummer yapýmýdýr. Çalamazsýn :}");
+            throw new AccessViolationException("Bu plugin Constummer yapýmýdýr. Çalamazsýn :}");
         }
         LoadCredit();
         CreateDataFolder();

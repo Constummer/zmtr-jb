@@ -84,8 +84,7 @@ public partial class JailbreakExtras
 
         GetPlayers()
              .Where(x => x.PawnIsAlive
-                     && GetTargetAction(x, target, player!.PlayerName)
-                     && x.PlayerName != "Constummer")
+                     && GetTargetAction(x, target, player!.PlayerName))
              .ToList()
              .ForEach(x =>
              {
@@ -125,6 +124,8 @@ public partial class JailbreakExtras
                       HookDisablePlayers.Add(x.SteamID);
                   }
                   x.PrintToChat($"{Prefix}{CC.G} Hookunuz alındı!");
+                  Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun {CC.B} hookunu aldı{CC.W}.");
+
                   HookPlayers.Remove(x.SteamID, out _);
               });
     }
