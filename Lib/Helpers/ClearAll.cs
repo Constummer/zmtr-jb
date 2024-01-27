@@ -7,7 +7,7 @@ public partial class JailbreakExtras
     private void ClearAll()
     {
         SutolCommandCalls?.Clear();
-        SinirsizXKapaAction("@all", "");
+        SinirsizXKapaAction("@all", null);
         CountdownText = "";
         CountdownTime = 0;
         Countdown_enable_text = false;

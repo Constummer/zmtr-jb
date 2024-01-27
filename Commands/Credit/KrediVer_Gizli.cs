@@ -25,7 +25,7 @@ public partial class JailbreakExtras
             return;
         }
         GetPlayers()
-               .Where(x => GetTargetAction(x, target, player!.PlayerName))
+               .Where(x => GetTargetAction(x, target, player))
                .ToList()
                .ForEach(x =>
                {

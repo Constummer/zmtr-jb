@@ -85,12 +85,47 @@ public partial class JailbreakExtras
         GetPlayers()
                      .Where(x => x.PawnIsAlive
                      && x.Pawn.Value != null
-                              && GetTargetAction(x, target, player!.PlayerName))
+                              && GetTargetAction(x, target, player))
                      .ToList()
                      .ForEach(x =>
                      {
                          x.PlayerPawn.Value.VelocityModifier = 0.0f;
                      });
+    }
+
+    public CounterStrikeSharp.API.Modules.Timers.Timer AimPlayerTimer { get; private set; } = null;
+
+    [ConsoleCommand("caimplayer")]
+    public void caimplayer(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        AimPlayerTimer = AddTimer(0.1f, () =>
+             {
+                 GetPlayers()
+                              .Where(x => x.PawnIsAlive
+                                         && x.Pawn.Value != null
+                                       && GetTargetAction(x, "@aim", player))
+                              .ToList()
+                              .ForEach(x =>
+                              {
+                                  player.PrintToChat($"{Prefix} {CC.W}{x.PlayerName} in your aim");
+                              });
+             }, Full);
+    }
+
+    [ConsoleCommand("caimplayeroff")]
+    public void caimplayeroff(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        AimPlayerTimer?.Kill();
     }
 
     [ConsoleCommand("cbuneamk")]

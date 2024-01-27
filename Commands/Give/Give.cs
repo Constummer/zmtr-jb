@@ -28,7 +28,7 @@ public partial class JailbreakExtras
             return;
         }
         var targetArgument = GetTargetArgument(target);
-        GiveAction(player.PlayerName, target, weapon, targetArgument, true);
+        GiveAction(player, target, weapon, targetArgument, true);
         if (targetArgument != TargetForArgument.None)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefine {CC.B}{weapon} {CC.W}adlı silahı verdi.");
@@ -54,7 +54,7 @@ public partial class JailbreakExtras
         var target = info.ArgString.GetArg(0);
         var weapon = GiveHandler(info.ArgString.GetArg(1));
         var targetArgument = GetTargetArgument(target);
-        GiveAction(player.PlayerName, target, weapon, targetArgument, true);
+        GiveAction(player, target, weapon, targetArgument, true);
         if (targetArgument != TargetForArgument.None)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefine {CC.B}{weapon} {CC.W}adlı silahı verdi.");
@@ -99,11 +99,11 @@ public partial class JailbreakExtras
         };
     }
 
-    internal static void GiveAction(string playerName, string target, string weapon, TargetForArgument targetArgument, bool sendMsg)
+    internal static void GiveAction(CCSPlayerController? self, string target, string weapon, TargetForArgument targetArgument, bool sendMsg)
     {
         GetPlayers()
                .Where(x => x.PawnIsAlive
-                          && GetTargetAction(x, target, playerName))
+                          && GetTargetAction(x, target, self))
                .ToList()
                .ForEach(x =>
                {
@@ -111,7 +111,7 @@ public partial class JailbreakExtras
                    {
                        if (targetArgument == TargetForArgument.None)
                        {
-                           Server.PrintToChatAll($"{AdliAdmin(playerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}{weapon} {CC.W}adlı silahı verdi.");
+                           Server.PrintToChatAll($"{AdliAdmin(self.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}{weapon} {CC.W}adlı silahı verdi.");
                        }
                    }
                    x.GiveNamedItem($"weapon_{weapon}");

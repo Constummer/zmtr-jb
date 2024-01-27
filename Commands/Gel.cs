@@ -22,7 +22,7 @@ public partial class JailbreakExtras
         var targetArgument = GetTargetArgument(target);
 
         GetPlayers()
-                   .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player.PlayerName))
+                   .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player))
                    .ToList()
                    .ForEach(x =>
                    {
@@ -51,7 +51,7 @@ public partial class JailbreakExtras
         }
         GetPlayers()
               .Where(x => x.PawnIsAlive
-                          && GetTargetAction(x, "@t", player.PlayerName))
+                          && GetTargetAction(x, "@t", player))
               .ToList()
               .ForEach(x =>
               {
@@ -74,7 +74,7 @@ public partial class JailbreakExtras
 
         GetPlayers()
               .Where(x => x.PawnIsAlive
-                          && GetTargetAction(x, "@ct", player!.PlayerName))
+                          && GetTargetAction(x, "@ct", player))
               .ToList()
               .ForEach(x =>
               {
@@ -96,7 +96,7 @@ public partial class JailbreakExtras
         }
         GetPlayers()
               .Where(x => x.PawnIsAlive
-                          && GetTargetAction(x, "@all", player!.PlayerName))
+                          && GetTargetAction(x, "@all", player))
               .ToList()
               .ForEach(x =>
               {

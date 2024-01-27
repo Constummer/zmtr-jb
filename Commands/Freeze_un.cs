@@ -63,6 +63,7 @@ public partial class JailbreakExtras
     }
 
     [ConsoleCommand("unfreeze", "Unfreeze a player.")]
+    [ConsoleCommand("donboz", "Unfreeze a player.")]
     [CommandHelper(1, "<playerismi-@all-@t-@ct-@me>")]
     public void OnUnfreezeCommand(CCSPlayerController? player, CommandInfo info)
     {
@@ -76,7 +77,7 @@ public partial class JailbreakExtras
 
         bool randomFreeze = false;
         GetPlayers()
-            .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player.PlayerName))
+            .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player))
             .ToList()
             .ForEach(x =>
             {

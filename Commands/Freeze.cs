@@ -68,6 +68,7 @@ public partial class JailbreakExtras
     }
 
     [ConsoleCommand("freeze", "Freeze a player.")]
+    [ConsoleCommand("don", "Freeze a player.")]
     [CommandHelper(1, "<playerismi-@all-@t-@ct-@me>")]
     public void OnFreezeCommand(CCSPlayerController? player, CommandInfo info)
     {
@@ -80,7 +81,7 @@ public partial class JailbreakExtras
         var targetArgument = GetTargetArgument(target);
 
         GetPlayers()
-                   .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player.PlayerName))
+                   .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player))
                    .ToList()
                    .ForEach(x =>
                    {

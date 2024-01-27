@@ -1,6 +1,7 @@
 ﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
@@ -122,9 +123,7 @@ public partial class JailbreakExtras
         }
         else
         {
-            var players = GetPlayers().Where(x => x.PawnIsAlive
-                            && x.SteamID != player.SteamID).ToList();
-            var closest = GetClosestPlayer(start, end, players, 25);
+            var closest = GetClosestPlayer(start, end, 25, player.SteamID);
             if (closest != null)
             {
                 ActiveGodMode[closest.SteamID] = true;
@@ -243,8 +242,28 @@ public partial class JailbreakExtras
         return distance <= threshold;
     }
 
-    private static CCSPlayerController GetClosestPlayer(Vector start, Vector end, List<CCSPlayerController> players, double threshold)
+    private static bool GetClosestPlayer(CCSPlayerController self, CCSPlayerController target)
     {
+        if (ValidateCallerPlayer(self, false) == false) return false;
+        if (ValidateCallerPlayer(target, false) == false) return false;
+        float x, y, z;
+        x = self.PlayerPawn.Value!.AbsOrigin!.X;
+        y = self.PlayerPawn.Value!.AbsOrigin!.Y;
+        z = self.PlayerPawn.Value!.AbsOrigin!.Z;
+        var start = new Vector((float)x, (float)y, (float)z);
+        var end = GetEndXYZ(self);
+        var closest = GetClosestPlayer(start, end, 25, self.SteamID);
+        if (closest == null) return false;
+        if (ValidateCallerPlayer(closest, false) == false) return false;
+
+        if (target.SteamID == closest.SteamID) return true;
+        return false;
+    }
+
+    private static CCSPlayerController GetClosestPlayer(Vector start, Vector end, double threshold, ulong callerSteamId)
+    {
+        var players = GetPlayers().Where(x => x.PawnIsAlive
+                           && x.SteamID != callerSteamId).ToList();
         var closestPlayer = (CCSPlayerController)null;
         double closestDistance = double.MaxValue;
 

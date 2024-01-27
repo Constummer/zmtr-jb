@@ -22,13 +22,13 @@ public partial class JailbreakExtras
         }
         var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
 
-        SinirsizXKapaAction(target, player.PlayerName);
+        SinirsizXKapaAction(target, player);
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.Ol}{target} {CC.W} hedefinin {CC.DB}SMX{CC.W}'ini kapattı.");
     }
 
-    public void SinirsizXKapaAction(string? target, string playerName)
+    public void SinirsizXKapaAction(string? target, CCSPlayerController? self)
     {
-        SinirsizXTimer = GiveSinirsizCustomNade(0, SinirsizXTimer, null, target, playerName);
+        SinirsizXTimer = GiveSinirsizCustomNade(0, SinirsizXTimer, null, target, self);
     }
 
     #endregion SinirsizX

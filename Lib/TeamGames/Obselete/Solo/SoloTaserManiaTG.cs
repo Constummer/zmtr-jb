@@ -23,7 +23,7 @@ public partial class JailbreakExtras
         internal override void Clear(bool printMsg)
         {
             PlayerCount = new();
-            Global?.SinirsizXKapaAction("@t", "");
+            Global?.SinirsizXKapaAction("@t", null);
             RemoveAllWeapons(giveKnife: true);
             base.Clear(printMsg);
         }

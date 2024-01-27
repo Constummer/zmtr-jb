@@ -75,7 +75,7 @@ public partial class JailbreakExtras
         DrugTimer = AddTimer(1f, () =>
         {
             GetPlayers()
-                       .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player.PlayerName))
+                       .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player))
                        .ToList()
                        .ForEach(x =>
                        {
@@ -130,7 +130,7 @@ public partial class JailbreakExtras
         DrugTimer = AddTimer(1f, () =>
         {
             GetPlayers()
-                       .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player.PlayerName))
+                       .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player))
                        .ToList()
                        .ForEach(x =>
                        {
@@ -219,7 +219,7 @@ public partial class JailbreakExtras
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.B}drugladi");
 
             GetPlayers()
-                       .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player.PlayerName))
+                       .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player))
                        .ToList()
                        .ForEach(x =>
                        {

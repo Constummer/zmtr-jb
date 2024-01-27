@@ -19,7 +19,7 @@ public partial class JailbreakExtras
         var target = info.ArgString;
         var targetArgument = GetTargetArgument(target);
         var players = GetPlayers()
-               .Where(x => x.PawnIsAlive == false && GetTargetAction(x, target, player.PlayerName))
+               .Where(x => x.PawnIsAlive == false && GetTargetAction(x, target, player))
                .ToList();
         if (players.Count == 0)
         {

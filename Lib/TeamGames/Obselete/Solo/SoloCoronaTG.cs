@@ -60,6 +60,17 @@ public partial class JailbreakExtras
                         SetColour(@event.Userid, Color.FromArgb(0, 255, 0));
                     }
                 }
+
+                if (GetPlayers(CsTeam.Terrorist)
+                        .Where(x => x.PawnIsAlive
+                                    && CoronaPlayers.ContainsKey(x.SteamID) == false)
+                        .Count() == 0)
+                {
+                    Server.PrintToChatAll($"{Prefix} {CC.W}Virüslüler kazandı.");
+                    PrintToCenterHtmlAll($"{Prefix} Virüslüler kazandı.");
+
+                    Clear(true);
+                }
             }
             base.EventPlayerHurt(@event);
         }

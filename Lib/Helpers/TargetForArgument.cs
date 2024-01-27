@@ -14,6 +14,7 @@ public partial class JailbreakExtras
         RandomCt,
         Me,
         Dead,
-        UserIdIndex
+        UserIdIndex,
+        Aim
     }
 }

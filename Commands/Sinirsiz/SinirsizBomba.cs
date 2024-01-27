@@ -35,7 +35,7 @@ public partial class JailbreakExtras
         SinirsizBombaTimer = GiveSinirsizCustomNade(oneTwo, SinirsizBombaTimer, "weapon_hegrenade");
     }
 
-    private CounterStrikeSharp.API.Modules.Timers.Timer? GiveSinirsizCustomNade(int oneTwo, CounterStrikeSharp.API.Modules.Timers.Timer sinirsizGiveTimer, string itemXName, string target = null, string playerName = null)
+    private CounterStrikeSharp.API.Modules.Timers.Timer? GiveSinirsizCustomNade(int oneTwo, CounterStrikeSharp.API.Modules.Timers.Timer sinirsizGiveTimer, string itemXName, string target = null, CCSPlayerController? self = null)
     {
         switch (oneTwo)
         {
@@ -52,7 +52,7 @@ public partial class JailbreakExtras
                     else
                     {
                         players = GetPlayers()
-                              .Where(x => x.PawnIsAlive && GetTargetAction(x, target, playerName))
+                              .Where(x => x.PawnIsAlive && GetTargetAction(x, target, self))
                               .ToList();
                     }
 

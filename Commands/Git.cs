@@ -22,7 +22,7 @@ public partial class JailbreakExtras
 
         var players = GetPlayers()
               .Where(x => x.PawnIsAlive
-                          && GetTargetAction(x, target, player.PlayerName))
+                          && GetTargetAction(x, target, player))
               .ToList();
         if (players.Count == 0)
         {

@@ -63,7 +63,7 @@ public partial class JailbreakExtras
                 return;
             }
             GetPlayers()
-                       .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player.PlayerName))
+                       .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player))
                        .ToList()
             .ForEach(x =>
             {

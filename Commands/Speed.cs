@@ -29,7 +29,7 @@ public partial class JailbreakExtras
         GetPlayers()
                .Where(x => x.PawnIsAlive
                         && x.Pawn.Value != null
-                        && GetTargetAction(x, target, player!.PlayerName))
+                        && GetTargetAction(x, target, player))
                .ToList()
                .ForEach(x =>
                {
@@ -68,7 +68,7 @@ public partial class JailbreakExtras
         GetPlayers()
                .Where(x => x.PawnIsAlive
                         && x.Pawn.Value != null
-                        && GetTargetAction(x, target, player!.PlayerName))
+                        && GetTargetAction(x, target, player))
                .ToList()
                .ForEach(x =>
                {

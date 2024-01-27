@@ -199,7 +199,7 @@ public partial class JailbreakExtras
         }
     }
 
-    internal static bool GetTargetAction(CCSPlayerController x, string target, string self)
+    internal static bool GetTargetAction(CCSPlayerController x, string target, CCSPlayerController? self)
     {
         var targetArgument = GetTargetArgument(target);
 
@@ -211,8 +211,9 @@ public partial class JailbreakExtras
             TargetForArgument.T => GetTeam(x) == CsTeam.Terrorist,
             TargetForArgument.Ct => GetTeam(x) == CsTeam.CounterTerrorist,
             TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target?.ToLower() ?? "") ?? false,
-            TargetForArgument.Me => x.PlayerName == self,
+            TargetForArgument.Me => x.SteamID == self?.SteamID,
             TargetForArgument.UserIdIndex => GetUserIdIndex(target) == x.UserId,
+            TargetForArgument.Aim => GetClosestPlayer(self, x),
             _ => false
         };
     }
@@ -257,6 +258,7 @@ public partial class JailbreakExtras
         "@randomt" => TargetForArgument.RandomT,
         "@randomct" => TargetForArgument.RandomCt,
         "@me" => TargetForArgument.Me,
+        "@aim" => TargetForArgument.Aim,
         _ when IsUserIdIndexChecker(target, out var userId) && userId != null => TargetForArgument.UserIdIndex,
         _ => TargetForArgument.None,
     };
