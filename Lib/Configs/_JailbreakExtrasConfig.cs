@@ -59,6 +59,9 @@ public partial class JailbreakExtras
 
         [JsonIgnore]
         public LevelConfig Level { get; set; } = new LevelConfig();
+
+        [JsonIgnore]
+        public TgGameConfig TgGame { get; set; } = new TgGameConfig();
     }
 
     public void OnConfigParsed(JailbreakExtrasConfig config)

@@ -26,6 +26,7 @@ public partial class JailbreakExtras
         ChickenSlayer,
         HideFight,
         Corona,
+        Pubg,
         MORESOON,
     }
 

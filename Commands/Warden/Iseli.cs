@@ -1,6 +1,7 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
+using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
@@ -27,6 +28,15 @@ public partial class JailbreakExtras
 
         if (LatestWCommandUser != player.SteamID)
         {
+            if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+            {
+                player.PrintToChat($"{Prefix} {CC.B}Sadece {CC.W} Komutçu bu komutu kullanabilir");
+                return;
+            }
+        }
+
+        if (LatestWCommandUser != player.SteamID)
+        {
             player.PrintToChat($"{Prefix} {CC.B}Sadece {CC.W} Komutçu bu komutu kullanabilir");
             return;
         }
@@ -46,8 +56,11 @@ public partial class JailbreakExtras
 
         if (LatestWCommandUser != player.SteamID)
         {
-            player.PrintToChat($"{Prefix} {CC.B}Sadece {CC.W} Komutçu bu komutu kullanabilir");
-            return;
+            if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+            {
+                player.PrintToChat($"{Prefix} {CC.B}Sadece {CC.W} Komutçu bu komutu kullanabilir");
+                return;
+            }
         }
         var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : "20";
         if (int.TryParse(target, out var value))
@@ -94,7 +107,6 @@ public partial class JailbreakExtras
                  }
              }
              SetHp(x, 100);
-
              x.GiveNamedItem("item_assaultsuit");
 
              var gunMenu = new ChatMenu("Silah Menu");

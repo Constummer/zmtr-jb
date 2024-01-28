@@ -13,6 +13,10 @@ public partial class JailbreakExtras
 {
     public class VectorTemp
     {
+        public VectorTemp()
+        {
+        }
+
         public VectorTemp(float x, float y, float z)
         {
             X = x;

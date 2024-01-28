@@ -23,6 +23,7 @@ public partial class JailbreakExtras
             TeamGamesSoloChoices.ChickenSlayer => new SoloChickenSlayerTG(),
             TeamGamesSoloChoices.HideFight => new SoloHideFightTG(),
             TeamGamesSoloChoices.Corona => new SoloCoronaTG(),
+            TeamGamesSoloChoices.Pubg => new SoloPubgTG(),
             _ => null
         };
     }

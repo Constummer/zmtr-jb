@@ -39,7 +39,10 @@ public partial class JailbreakExtras
         player.PrintToChat($"{Prefix} {CC.W}Toplam {CC.G}{(item.CTTime < 120 ? item.CTTime : item.CTTime / 60)} {CC.W}{(item.CTTime < 120 ? "dakikadir" : "saattir")} gardiyansın!");
         player.PrintToChat($"{Prefix} {CC.W}Toplam {CC.G}{(item.TTime < 120 ? item.TTime : item.TTime / 60)} {CC.W}{(item.TTime < 120 ? "dakikadir" : "saattir")} mahkûmsun!");
         player.PrintToChat($"{Prefix} {CC.W}Toplam {CC.G}{(item.WTime < 120 ? item.WTime : item.WTime / 60)} {CC.W}{(item.WTime < 120 ? "dakikadir" : "saattir")} komutçusun!");
+        player.PrintToChat($"{Prefix} {CC.W}Bu hafta {CC.G}{(item.WeeklyTotalTime < 120 ? item.WeeklyTotalTime : item.WeeklyTotalTime / 60)} {CC.W}{(item.WeeklyTotalTime < 120 ? "dakikadir" : "saattir")} sunucudasın!");
         player.PrintToChat($"{Prefix} {CC.W}Bu hafta {CC.G}{(item.WeeklyWTime < 120 ? item.WeeklyWTime : item.WeeklyWTime / 60)} {CC.W}{(item.WeeklyWTime < 120 ? "dakikadir" : "saattir")} komutçusun!");
+        player.PrintToChat($"{Prefix} {CC.W}Bu hafta {CC.G}{(item.WeeklyTTime < 120 ? item.WeeklyTTime : item.WeeklyTTime / 60)} {CC.W}{(item.WeeklyTTime < 120 ? "dakikadir" : "saattir")} mahkûm!");
+        player.PrintToChat($"{Prefix} {CC.W}Bu hafta {CC.G}{(item.WeeklyCTTime < 120 ? item.WeeklyCTTime : item.WeeklyCTTime / 60)} {CC.W}{(item.WeeklyCTTime < 120 ? "dakikadir" : "saattir")} gardiyansin!");
         player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
     }
 

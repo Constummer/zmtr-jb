@@ -41,7 +41,10 @@ public partial class JailbreakExtras
                 //GODLU BIRI DEILSE
                 if (ActiveGodMode.TryGetValue(@event.Userid.SteamID, out var value) == false)
                 {
-                    //SALDIRANIN HASARINI IPTAL EDIP 100E CEK
+                    if (CoronaPlayers.ContainsKey(@event.Attacker.SteamID) && CoronaPlayers.ContainsKey(@event.Userid.SteamID))
+                    {
+                        return;
+                    }
                     @event.Userid.Health = 100;
                     @event.Userid.PlayerPawn.Value!.Health = 100;
                     if (@event.Userid.PawnArmor != 0)
@@ -52,12 +55,18 @@ public partial class JailbreakExtras
                     {
                         @event.Userid.PlayerPawn.Value!.ArmorValue = 100;
                     }
-                    //CORONASI YOKSA
-                    if (CoronaPlayers.ContainsKey(@event.Userid.SteamID) == false)
+                    //saldiranin coronasi varsa
+                    if (CoronaPlayers.ContainsKey(@event.Attacker.SteamID))
                     {
-                        CoronaPlayers.Add(@event.Userid.SteamID, 1);
-                        if (ValidateCallerPlayer(@event.Userid, false) == false) return;
-                        SetColour(@event.Userid, Color.FromArgb(0, 255, 0));
+                        //SALDIRANIN HASARINI IPTAL EDIP 100E CEK
+
+                        //kurbanin CORONASI YOKSA
+                        if (CoronaPlayers.ContainsKey(@event.Userid.SteamID) == false)
+                        {
+                            CoronaPlayers.Add(@event.Userid.SteamID, 1);
+                            if (ValidateCallerPlayer(@event.Userid, false) == false) return;
+                            SetColour(@event.Userid, Color.FromArgb(0, 255, 0));
+                        }
                     }
                 }
 
