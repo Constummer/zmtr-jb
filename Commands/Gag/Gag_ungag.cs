@@ -27,30 +27,18 @@ public partial class JailbreakExtras
         }
         var targetArgument = GetTargetArgument(target);
         GetPlayers()
-            .Where(x => targetArgument switch
-            {
-                TargetForArgument.All => true,
-                TargetForArgument.T => GetTeam(x) == CsTeam.Terrorist,
-                TargetForArgument.Ct => GetTeam(x) == CsTeam.CounterTerrorist,
-                TargetForArgument.Me => player.PlayerName == x.PlayerName,
-                TargetForArgument.Alive => x.PawnIsAlive,
-                TargetForArgument.Dead => x.PawnIsAlive == false,
-                TargetForArgument.None => x.PlayerName?.ToLowerInvariant()?.Contains(target?.ToLowerInvariant()) ?? false,
-                TargetForArgument.UserIdIndex => GetUserIdIndex(target) == x.UserId,
-                _ => false
-            }
-            && ValidateCallerPlayer(x, false))
+            .Where(x => GetTargetAction(x, target, player))
             .ToList()
             .ForEach(gagPlayer =>
             {
                 Gags.Remove(gagPlayer.SteamID);
 
-                if (targetArgument == TargetForArgument.None)
+                if (targetArgument == TargetForArgument.SingleUser)
                 {
                     Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{gagPlayer.PlayerName} {CC.W}gagını kaldırdı.");
                 }
             });
-        if (targetArgument != TargetForArgument.None)
+        if (targetArgument != TargetForArgument.SingleUser)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}gagını kaldırdı.");
         }

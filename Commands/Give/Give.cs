@@ -29,7 +29,7 @@ public partial class JailbreakExtras
         }
         var targetArgument = GetTargetArgument(target);
         GiveAction(player, target, weapon, targetArgument, true);
-        if (targetArgument != TargetForArgument.None)
+        if (targetArgument != TargetForArgument.SingleUser)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefine {CC.B}{weapon} {CC.W}adlı silahı verdi.");
         }
@@ -55,7 +55,7 @@ public partial class JailbreakExtras
         var weapon = GiveHandler(info.ArgString.GetArg(1));
         var targetArgument = GetTargetArgument(target);
         GiveAction(player, target, weapon, targetArgument, true);
-        if (targetArgument != TargetForArgument.None)
+        if (targetArgument != TargetForArgument.SingleUser)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefine {CC.B}{weapon} {CC.W}adlı silahı verdi.");
         }
@@ -109,7 +109,7 @@ public partial class JailbreakExtras
                {
                    if (sendMsg)
                    {
-                       if (targetArgument == TargetForArgument.None)
+                       if (targetArgument == TargetForArgument.SingleUser)
                        {
                            Server.PrintToChatAll($"{AdliAdmin(self.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}{weapon} {CC.W}adlı silahı verdi.");
                        }

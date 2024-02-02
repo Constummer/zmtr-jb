@@ -384,4 +384,36 @@ public partial class JailbreakExtras
                 LevelPermissionsChecker.Add(item.Permission, item.Xp);
         }
     }
+
+    private static void UpdatePlayerLevelDataOnDisonnect(ulong steamId)
+    {
+        try
+        {
+            if (PlayerLevels.TryGetValue(steamId, out var levelData))
+            {
+                if(levelData==null || levelData.Xp <= 0)
+                {
+                    return;
+                }
+                using (var con = Connection())
+                {
+                    if (con == null)
+                    {
+                        return;
+                    }
+                    var cmd = new MySqlCommand(@$"UPDATE `PlayerLevel`
+                                          SET `Xp` = @Xp
+                                          WHERE `SteamId` = @SteamId;", con);
+
+                    cmd.Parameters.AddWithValue("@SteamId", steamId);
+                    cmd.Parameters.AddWithValue("@Xp", levelData.Xp);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        catch (Exception e)
+        {
+        }
+    }
 }

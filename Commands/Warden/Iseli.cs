@@ -10,7 +10,6 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    #region Delay
 
     private static bool IsEliMenuCheck { get; set; } = false;
     private CounterStrikeSharp.API.Modules.Timers.Timer IseliTimer { get; set; } = null;
@@ -157,6 +156,4 @@ public partial class JailbreakExtras
                       x.PlayerPawn.Value.Teleport(coord.Coord, ANGLE_ZERO, VEC_ZERO);
                   });
     }
-
-    #endregion Delay
 }

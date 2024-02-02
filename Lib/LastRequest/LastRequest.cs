@@ -1,5 +1,6 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 
@@ -95,6 +96,8 @@ public partial class JailbreakExtras
         gard.GiveNamedItem("item_assaultsuit");
         if (ValidateCallerPlayer(mahkum, false) == false) return;
         if (ValidateCallerPlayer(gard, false) == false) return;
+        //CBasePlayerWeapon mahkWeapon = new(mahkum.GiveNamedItem(item.WeaponName));
+        //CBasePlayerWeapon gardWeapon = new(gard.GiveNamedItem(item.WeaponName));
         mahkum.GiveNamedItem(item.WeaponName);
         gard.GiveNamedItem(item.WeaponName);
         if (ValidateCallerPlayer(mahkum, false) == false) return;
@@ -103,8 +106,6 @@ public partial class JailbreakExtras
         GiveRandomSkin(mahkum);
         if (ValidateCallerPlayer(mahkum, false) == false) return;
         if (ValidateCallerPlayer(gard, false) == false) return;
-        SetColour(mahkum, System.Drawing.Color.Red);
-        SetColour(gard, System.Drawing.Color.Blue);
         switch (item.Choice)
         {
             case LrChoices.None:
@@ -148,6 +149,52 @@ public partial class JailbreakExtras
                 //AddTimer(0.1f, () => SetAmmo(gardWeapon, 0, 0));
                 //AddTimer(0.1f, () => SetAmmo(mahkumWeapon, 1, 0));
                 //});
+                //.....................................
+                //if (ValidateCallerPlayer(mahkum, false) == false) return;
+                //if (WeaponIsValid(mahkWeapon) == false)
+                //{
+                //    return;
+                //}
+                //Server.NextFrame(() =>
+                //{
+                //    if (mahkWeapon == null) return;
+                //    try
+                //    {
+                //        if (WeaponIsValid(mahkWeapon) == false)
+                //        {
+                //            return;
+                //        }
+                //        mahkWeapon.Clip1 = 1;
+                //        Utilities.SetStateChanged(mahkWeapon, "CBasePlayerWeapon", "m_iClip1");
+                //        mahkWeapon.ReserveAmmo[0] = 0;
+                //        Utilities.SetStateChanged(mahkWeapon, "CBasePlayerWeapon", "m_pReserveAmmo");
+                //    }
+                //    catch (Exception)
+                //    { }
+                //});
+                //if (ValidateCallerPlayer(gard, false) == false) return;
+                //if (WeaponIsValid(gardWeapon) == false)
+                //{
+                //    return;
+                //}
+                //Server.NextFrame(() =>
+                //{
+                //    if (gardWeapon == null) return;
+                //    try
+                //    {
+                //        if (WeaponIsValid(gardWeapon) == false)
+                //        {
+                //            return;
+                //        }
+                //        gardWeapon.Clip1 = 0;
+                //        Utilities.SetStateChanged(gardWeapon, "CBasePlayerWeapon", "m_iClip1");
+                //        gardWeapon.ReserveAmmo[0] = 0;
+                //        Utilities.SetStateChanged(gardWeapon, "CBasePlayerWeapon", "m_pReserveAmmo");
+                //    }
+                //    catch (Exception)
+                //    { }
+                //});
+
                 break;
 
             case LrChoices.NoScopeScout:

@@ -31,13 +31,13 @@ public partial class JailbreakExtras
                    .ToList()
                    .ForEach(x =>
                    {
-                       if (targetArgument == TargetForArgument.None)
+                       if (targetArgument == TargetForArgument.SingleUser)
                        {
                            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} revledi{CC.W}.");
                        }
                        CustomRespawn(x);
                    });
-        if (targetArgument != TargetForArgument.None)
+        if (targetArgument != TargetForArgument.SingleUser)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.B}revledi");
         }

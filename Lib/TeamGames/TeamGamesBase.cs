@@ -88,6 +88,7 @@ public partial class JailbreakExtras
         new ("Chicken Slayer",    false,  null, TeamGamesSoloChoices.ChickenSlayer),
         new ("Hide Fight",        false,  null, TeamGamesSoloChoices.HideFight),
         new ("Corona",            false,  null, TeamGamesSoloChoices.Corona),
+        new ("Pubg",              false,  null, TeamGamesSoloChoices.Pubg),
         new ("VE ÇOK DAHA FAZLASI... YAKINDA",    true,  null, TeamGamesSoloChoices.MORESOON),
     };
 

@@ -4,7 +4,7 @@ public partial class JailbreakExtras
 {
     internal enum TargetForArgument
     {
-        None,
+        None = 0,
         All,
         T,
         Ct,
@@ -15,6 +15,7 @@ public partial class JailbreakExtras
         Me,
         Dead,
         UserIdIndex,
-        Aim
+        Aim,
+        SingleUser = Me | Dead | UserIdIndex | Aim | None
     }
 }

@@ -33,7 +33,7 @@ public partial class JailbreakExtras
                .ToList()
                .ForEach(x =>
                {
-                   if (targetArgument == TargetForArgument.None)
+                   if (targetArgument == TargetForArgument.SingleUser)
                    {
                        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin hızını sıfırladı.");
                    }
@@ -42,7 +42,7 @@ public partial class JailbreakExtras
                    RefreshPawn(x);
                });
 
-        if (targetArgument != TargetForArgument.None)
+        if (targetArgument != TargetForArgument.SingleUser)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin hızını sıfırladı.");
         }
@@ -76,7 +76,7 @@ public partial class JailbreakExtras
                    {
                        case 0:
                        case 1:
-                           if (targetArgument == TargetForArgument.None)
+                           if (targetArgument == TargetForArgument.SingleUser)
                            {
                                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin hızını sıfırladı.");
                            }
@@ -85,7 +85,7 @@ public partial class JailbreakExtras
                            break;
 
                        default:
-                           if (targetArgument == TargetForArgument.None)
+                           if (targetArgument == TargetForArgument.SingleUser)
                            {
                                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun hızını {CC.B}{speed} {CC.W}olarak ayarladı.");
                            }
@@ -108,7 +108,7 @@ public partial class JailbreakExtras
             case 1:
 
                 SpeedActive = false;
-                if (targetArgument != TargetForArgument.None)
+                if (targetArgument != TargetForArgument.SingleUser)
                 {
                     Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin hızını sıfırladı.");
                 }
@@ -116,7 +116,7 @@ public partial class JailbreakExtras
 
             default:
                 SpeedActive = true;
-                if (targetArgument != TargetForArgument.None)
+                if (targetArgument != TargetForArgument.SingleUser)
                 {
                     Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin hızını {CC.B}{speed}{CC.W} olarak ayarladı.");
                 }

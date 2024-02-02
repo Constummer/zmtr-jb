@@ -1,5 +1,6 @@
 ﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Menu;
+using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
@@ -55,7 +56,15 @@ public partial class JailbreakExtras
             {
                 return;
             }
-            if (FFMenuCheck == true || IsEliMenuCheck == true)
+            if (FFMenuCheck == true)
+            {
+                if (_weapons.TryGetValue(option.Text, out var selectedWeapon))
+                {
+                    RemoveCurrentWeapon(player, selectedWeapon);
+                    player.GiveNamedItem(selectedWeapon.GiveName);
+                }
+            }
+            else if (IsEliMenuCheck == true && GetTeam(player) == CsTeam.CounterTerrorist)
             {
                 if (_weapons.TryGetValue(option.Text, out var selectedWeapon))
                 {

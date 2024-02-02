@@ -24,6 +24,13 @@ public partial class JailbreakExtras
             Z = z;
         }
 
+        public VectorTemp(double x, double y, double z)
+        {
+            X = (float)x;
+            Y = (float)y;
+            Z = (float)z;
+        }
+
         public VectorTemp(float? x, float? y, float? z)
         {
             X = x ?? 0;

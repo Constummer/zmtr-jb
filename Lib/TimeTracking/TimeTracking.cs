@@ -492,9 +492,15 @@ public partial class JailbreakExtras
                     foreach (var item in PlayerTimeTracking.ToList())
                     {
                         item.Value.WeeklyWTime = 0;
+                        item.Value.WeeklyTTime = 0;
+                        item.Value.WeeklyCTTime = 0;
+                        item.Value.WeeklyTotalTime = 0;
                         PlayerTimeTracking[item.Key] = item.Value;
                     }
                     AllPlayerWeeklyWTimeTracking?.Clear();
+                    AllPlayerWeeklyCTTimeTracking?.Clear();
+                    AllPlayerWeeklyTTimeTracking?.Clear();
+                    AllPlayerWeeklyTotalTimeTracking?.Clear();
                     KomWeeklyWCredits?.Clear();
 
                     cmd = new MySqlCommand(@"UPDATE `PlayerTime`

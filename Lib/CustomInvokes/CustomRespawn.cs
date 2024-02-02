@@ -7,9 +7,9 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private void CustomRespawn(CCSPlayerController x)
+    private static void CustomRespawn(CCSPlayerController x)
     {
-        if (Config.Additional.CustomRespawnEnabled)
+        if (_Config.Additional.CustomRespawnEnabled)
         {
             if (ValidateCallerPlayer(x, false) == false)
             {
@@ -41,7 +41,7 @@ public partial class JailbreakExtras
         }
     }
 
-    private string GetRespawnSignature()
+    private static string GetRespawnSignature()
     {
         string signature;
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))

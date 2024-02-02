@@ -85,7 +85,7 @@ public partial class JailbreakExtras
                    .ToList()
                    .ForEach(x =>
                    {
-                       if (targetArgument == TargetForArgument.None)
+                       if (targetArgument == TargetForArgument.SingleUser)
                        {
                            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} dondurdu{CC.W}.");
                        }
@@ -102,7 +102,7 @@ public partial class JailbreakExtras
                        //x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
                    });
         FreezeOrUnfreezeSound();
-        if (targetArgument != TargetForArgument.None)
+        if (targetArgument != TargetForArgument.SingleUser)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.B}dondurdu");
         }

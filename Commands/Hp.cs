@@ -39,12 +39,12 @@ public partial class JailbreakExtras
                    }
 
                    RefreshPawn(x);
-                   if (targetArgument == TargetForArgument.None)
+                   if (targetArgument == TargetForArgument.SingleUser)
                    {
                        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun canını {CC.B}{health} {CC.W}olarak ayarladı.");
                    }
                });
-        if (targetArgument != TargetForArgument.None)
+        if (targetArgument != TargetForArgument.SingleUser)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin canını {CC.B}{health} {CC.W}olarak ayarladı.");
         }

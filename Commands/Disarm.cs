@@ -28,14 +28,14 @@ public partial class JailbreakExtras
         .ToList()
         .ForEach(x =>
         {
-            if (targetArgument == TargetForArgument.None)
+            if (targetArgument == TargetForArgument.SingleUser)
             {
                 Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu {CC.LR}disarmladı{CC.W}.");
             }
 
             RemoveWeapons(x, true);
         });
-        if (targetArgument != TargetForArgument.None)
+        if (targetArgument != TargetForArgument.SingleUser)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.LR}disarmladı{CC.W}.");
         }

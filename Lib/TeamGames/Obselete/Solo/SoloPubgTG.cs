@@ -16,8 +16,27 @@ public partial class JailbreakExtras
 
         internal override void StartGame(Action callback)
         {
-            RemoveAllWeapons(giveKnife: true);
+            RemoveAllWeapons(true);
             var points = GetTpPoints();
+            if (points == null)
+            {
+                Server.PrintToChatAll($"{Prefix} Pubg oyunu başlatılamıyor");
+                return;
+            }
+            GetPlayers(CsTeam.Terrorist).Where(x => x.PawnIsAlive)
+                .ToList()
+                .ForEach(x =>
+                {
+                    if (points.TryGetValue(x.SteamID, out var tpValue))
+                    {
+                        if (ValidateCallerPlayer(x, false) == false) return;
+                        Global?.AddTimer(0.5f, () =>
+                        {
+                            if (ValidateCallerPlayer(x, false) == false) return;
+                            x.PlayerPawn.Value.Teleport(new Vector(tpValue.X, tpValue.Y, tpValue.Z), ANGLE_ZERO, VEC_ZERO);
+                        }, SOM);
+                    }
+                });
             base.StartGame(callback);
         }
 
@@ -52,15 +71,18 @@ public partial class JailbreakExtras
             PlayerCount = GetPlayers(CsTeam.Terrorist).Where(x => x.PawnIsAlive).Select(x => x.SteamID).ToList();
             if (_Config.TgGame.PubgCoords.TryGetValue(Server.MapName, out var coordsList))
             {
+                if (coordsList == null) return null;
+                if (coordsList.Count == 0) return null;
+                if (coordsList.Count < PlayerCount.Count) return null;
+
                 // Make a copy of list1 to avoid modifying the original list
-                List<ulong> remainingElements = new List<ulong>(PlayerCount);
+                List<CoordinateTemplate> remainingElements = new List<CoordinateTemplate>(coordsList);
 
                 // Shuffle the remainingElements list to randomize the order
                 remainingElements = ShuffleList(remainingElements);
 
                 // Pair each element from list2 with a random element from remainingElements
-                Dictionary<ulong, VectorTemp>? pairings = PairLists(coordsList, remainingElements);
-                if (pairings == null) return null;
+                Dictionary<ulong, VectorTemp>? pairings = PairLists(remainingElements, PlayerCount);
                 return pairings;
             }
             return null;
@@ -80,16 +102,16 @@ public partial class JailbreakExtras
             return list;
         }
 
-        private static Dictionary<ulong, VectorTemp>? PairLists(List<CoordinateTemplate>? list2, List<ulong> list1)
+        private static Dictionary<ulong, VectorTemp>? PairLists(List<CoordinateTemplate>? coords, List<ulong> players)
         {
-            if (list2 == null) return null;
+            if (coords == null) return null;
             Dictionary<ulong, VectorTemp> pairings = new Dictionary<ulong, VectorTemp>();
 
-            for (int i = 0; i < list2.Count; i++)
+            for (int i = 0; i < players.Count; i++)
             {
-                if (i < list1.Count)
+                if (i < coords.Count)
                 {
-                    pairings.Add(list1[i], list2[i]?.Coords ?? new(0, 0, 0));
+                    pairings.Add(players[i], coords[i]?.Coords ?? new(0, 0, 0));
                 }
                 else
                 {

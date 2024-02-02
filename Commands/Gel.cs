@@ -28,7 +28,7 @@ public partial class JailbreakExtras
                    {
                        if (x.SteamID != player.SteamID)
                        {
-                           if (targetArgument == TargetForArgument.None)
+                           if (targetArgument == TargetForArgument.SingleUser)
                            {
                                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} yanına ışınladı{CC.W}.");
                            }
@@ -36,7 +36,7 @@ public partial class JailbreakExtras
                            x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 1, playerAbs.Z), ANGLE_ZERO, VEC_ZERO);
                        }
                    });
-        if (targetArgument != TargetForArgument.None)
+        if (targetArgument != TargetForArgument.SingleUser)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.B}yanına ışınladı");
         }

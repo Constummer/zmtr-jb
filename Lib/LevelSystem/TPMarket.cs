@@ -39,7 +39,7 @@ public partial class JailbreakExtras
             return;
         }
 
-        var marketMenu = new ChatMenu($"TP Market | Krediniz = [{data.Model.Credit}]");
+        var marketMenu = new ChatMenu($" {CC.LB}TP Market {CC.W}|{CC.G} Kredin {CC.W}<{CC.G}{data.Model.Credit}{CC.W}>");
         foreach (var item in Config.Credit.TPMarketDatas)
         {
             marketMenu.AddMenuOption(item.Text, (p, info) =>

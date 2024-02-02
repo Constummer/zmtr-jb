@@ -27,7 +27,7 @@ public partial class JailbreakExtras
 
         if (PlayerMarketModels.TryGetValue(player.SteamID, out var item))
         {
-            var marketMenu = new ChatMenu($" {CC.LB}Envanter {CC.W}| {CC.G}Kredin = {CC.W}[{CC.G}{item.Credit}{CC.W}]");
+            var marketMenu = new ChatMenu($" {CC.LB}Envanter {CC.W}| {CC.G}Kredin = {CC.W}<{CC.G}{item.Credit}{CC.W}>");
             marketMenu.AddMenuOption(CTOyuncuModeli, OpenSelectedModelEnv);
             marketMenu.AddMenuOption(TOyuncuModeli, OpenSelectedModelEnv);
 

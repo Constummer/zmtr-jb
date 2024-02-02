@@ -9,7 +9,7 @@ public partial class JailbreakExtras
 {
     private void CustomEmitSound(CCSPlayerController x)
     {
-        if (Config.Additional.CustomRespawnEnabled)
+        if (_Config.Additional.CustomRespawnEnabled)
         {
             if (ValidateCallerPlayer(x, false) == false)
             {
