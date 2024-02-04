@@ -1,6 +1,5 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 
@@ -70,16 +69,16 @@ public partial class JailbreakExtras
 
     private void InitLr(LrData item, CCSPlayerController? mahkum, CCSPlayerController gard)
     {
-        //BasicCountdown.CommandStartTextCountDown(this, $"{item.Text} {CC.W}LR'si  başlamasına 3 saniye.");
         SutolCommandCalls?.Clear();
         LrActive = true;
         ActivatedLr = new(mahkum.SteamID, gard.SteamID, item);
-        //LRTimer = AddTimer(3f, () =>
-        //{
+       
         if (ValidateCallerPlayer(mahkum, false) == false) return;
         if (ValidateCallerPlayer(gard, false) == false) return;
         RemoveWeapons(mahkum, true);
         RemoveWeapons(gard, true);
+        Global?.FovKapaAction(null, true);
+
         if (ValidateCallerPlayer(mahkum, false) == false) return;
         if (ValidateCallerPlayer(gard, false) == false) return;
         SetHp(mahkum);
@@ -96,8 +95,6 @@ public partial class JailbreakExtras
         gard.GiveNamedItem("item_assaultsuit");
         if (ValidateCallerPlayer(mahkum, false) == false) return;
         if (ValidateCallerPlayer(gard, false) == false) return;
-        //CBasePlayerWeapon mahkWeapon = new(mahkum.GiveNamedItem(item.WeaponName));
-        //CBasePlayerWeapon gardWeapon = new(gard.GiveNamedItem(item.WeaponName));
         mahkum.GiveNamedItem(item.WeaponName);
         gard.GiveNamedItem(item.WeaponName);
         if (ValidateCallerPlayer(mahkum, false) == false) return;
@@ -206,6 +203,5 @@ public partial class JailbreakExtras
             default:
                 break;
         }
-        //}, SOM);
     }
 }

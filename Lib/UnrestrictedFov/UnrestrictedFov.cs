@@ -31,11 +31,11 @@ public partial class JailbreakExtras
         Config.UnrestrictedFov.Enabled = false;
     }
 
-    private void FovReopenAction(bool extraMsg = false)
+    private void FovReopenAction(bool extraMsg = false, CsTeam? team = CsTeam.Terrorist)
     {
         Config.UnrestrictedFov.Enabled = true;
 
-        GetPlayers(CsTeam.Terrorist)
+        GetPlayers(team)
             .ToList()
             .ForEach(x =>
             {

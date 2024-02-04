@@ -5,7 +5,7 @@ public partial class JailbreakExtras
     private bool LrActive = false;
 
     public ActiveLr? ActivatedLr { get; set; } = null;
-
+ 
     private CounterStrikeSharp.API.Modules.Timers.Timer LRTimer { get; set; } = null;
 
     public List<LrData> LrDatas = new List<LrData>()
