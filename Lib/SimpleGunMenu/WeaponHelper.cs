@@ -18,14 +18,16 @@ public partial class JailbreakExtras
 
     public class Weapon
     {
-        public Weapon(string giveName, WeaponType type = WeaponType.Primary)
+        public Weapon(string giveName, WeaponType type = WeaponType.Primary, bool hideIseli = false)
         {
             Type = type;
             GiveName = giveName;
+            HideIseli = hideIseli;
         }
 
         public WeaponType Type { get; set; }
         public string GiveName { get; set; }
+        public bool HideIseli { get; set; } = false;
     }
 
     private static class WeaponHelper
@@ -38,13 +40,13 @@ public partial class JailbreakExtras
                 {"AWP",                                new("weapon_awp")},
                 {"Desert Eagle",                       new("weapon_deagle",         WeaponType.Secondary)},
                 {"P90",                                new("weapon_p90")},
-                {"Negev",                              new("weapon_negev")},
+                {"Negev",                              new("weapon_negev", hideIseli: true)},
                 {"SSG 08",                             new("weapon_ssg08")},
                 {"M4A4",                               new("weapon_m4a1")},
                 {"M4A1-S",                             new("weapon_m4a1_silencer")},
                 {"SG 556",                             new("weapon_sg556")},
                 {"AUG",                                new("weapon_aug")},
-                {"M249",                               new("weapon_m249")},
+                {"M249",                               new("weapon_m249", hideIseli: true)},
                 {"FAMAS",                              new("weapon_famas")},
                 {"Galil AR",                           new("weapon_galilar")},
                 {"Glock-18",                           new("weapon_glock",          WeaponType.Secondary)},
@@ -62,8 +64,8 @@ public partial class JailbreakExtras
                 {"MP9",                                new("weapon_mp9")},
                 {"MP7",                                new("weapon_mp7")},
                 {"MAC-10",                             new("weapon_mac10")},
-                {"G3SG1",                              new("weapon_g3sg1")},
-                {"SCAR-20",                            new("weapon_scar20" )},
+                {"G3SG1",                              new("weapon_g3sg1", hideIseli: true)},
+                {"SCAR-20",                            new("weapon_scar20" , hideIseli: true)},
                 {"XM1014",                             new("weapon_xm1014")},
                 {"MAG-7",                              new("weapon_mag7")},
                 {"Sawed-Off",                          new("weapon_sawedoff")},

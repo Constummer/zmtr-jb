@@ -18,7 +18,7 @@ public partial class JailbreakExtras
             _weaponCheckers = res.WeaponCheckers;
         }
 
-        public static void GetGuns(ChatMenu gunMenu, WeaponType? type = null)
+        public static void GetGuns(ChatMenu gunMenu, WeaponType? type = null, bool hideIseli = false)
         {
             Dictionary<string, Weapon> weapons = _weapons;
             if (type != null)
@@ -26,6 +26,12 @@ public partial class JailbreakExtras
                 weapons = _weapons.Where(x => x.Value.Type == type.Value)
                                   .ToDictionary(x => x.Key, y => y.Value);
             }
+            if (hideIseli)
+            {
+                weapons = weapons.Where(x => x.Value.HideIseli == false)
+                                      .ToDictionary(x => x.Key, y => y.Value);
+            }
+
             foreach (var item in weapons)
             {
                 gunMenu.AddMenuOption(item.Key, GiveSelectedItem);

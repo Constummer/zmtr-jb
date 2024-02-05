@@ -34,7 +34,7 @@ public partial class JailbreakExtras
             if (GetTeam(player) == CsTeam.CounterTerrorist)
             {
                 var gunMenu = new ChatMenu("Silah Menu");
-                WeaponMenuHelper.GetGuns(gunMenu);
+                WeaponMenuHelper.GetGuns(gunMenu, hideIseli: true);
                 ChatMenus.OpenMenu(player, gunMenu);
             }
         }
