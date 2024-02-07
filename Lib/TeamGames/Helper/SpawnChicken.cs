@@ -8,6 +8,7 @@ public partial class JailbreakExtras
 {
     private static uint SpawnChicken(Vector pos)
     {
+        return 0;
         var entity = Utilities.CreateEntityByName<CChicken>("chicken");
         if (entity != null && entity.IsValid)
         {

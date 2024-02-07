@@ -23,7 +23,7 @@ public partial class JailbreakExtras
                  || info.ArgString.Contains("1")
                  || info.ArgString.Contains("3"))
                 {
-                    player!.ChangeTeam(CsTeam.Terrorist);
+                    player!.SwitchTeam(CsTeam.Terrorist);
                     CustomRespawnIfActive(player);
 
                     return HookResult.Stop;
@@ -33,7 +33,7 @@ public partial class JailbreakExtras
                     if (CTBanCheck(player) == false)
                     {
                         player.PrintToChat($"{Prefix} {CC.W} CT banýn var, geçemezsin!");
-                        player!.ChangeTeam(CsTeam.Terrorist);
+                        player!.SwitchTeam(CsTeam.Terrorist);
                     }
                     CustomRespawnIfActive(player);
                 }

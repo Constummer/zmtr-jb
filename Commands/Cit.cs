@@ -114,6 +114,7 @@ public partial class JailbreakExtras
 
     private void CitEkle(EventBulletImpact @event)
     {
+            return;
         if (ValidateCallerPlayer(@event.Userid) == false && LatestWCommandUser != @event.Userid.SteamID)
             return;
         if (CitEnabledPlayers.Contains(@event.Userid.SteamID) == false)

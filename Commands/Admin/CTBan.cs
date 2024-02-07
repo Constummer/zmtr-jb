@@ -124,7 +124,7 @@ public partial class JailbreakExtras
                 }
                 if (GetTeam(x) == CsTeam.CounterTerrorist)
                 {
-                    x.ChangeTeam(CsTeam.Terrorist);
+                    x.SwitchTeam(CsTeam.Terrorist);
                 }
             });
     }

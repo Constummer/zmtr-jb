@@ -39,6 +39,7 @@ public partial class JailbreakExtras
 
     private static void CoinSpawn()
     {
+            return;
         CoinRemove();
         //if (GetTeam(x) != CsTeam.CounterTerrorist)
         //{

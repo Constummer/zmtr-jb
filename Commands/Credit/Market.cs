@@ -272,6 +272,7 @@ public partial class JailbreakExtras
 
     public static void SetModelNextServerFrame(CCSPlayerPawn playerPawn, string model)
     {
+        return;
         Server.NextFrame(() =>
         {
             if (playerPawn == null || playerPawn.IsValid == false) return;

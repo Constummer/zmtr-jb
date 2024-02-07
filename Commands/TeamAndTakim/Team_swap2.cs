@@ -61,7 +61,7 @@ public partial class JailbreakExtras
                     {
                         RemoveWardenAction(x);
                     }
-                    x.ChangeTeam(CsTeam.Terrorist);
+                    x.SwitchTeam(CsTeam.Terrorist);
                     break;
 
                 case CsTeam.Terrorist:
@@ -71,7 +71,7 @@ public partial class JailbreakExtras
                         return (false, null);
                     }
                     if (ValidateCallerPlayer(x, false) == false) return (false, null);
-                    x.ChangeTeam(CsTeam.CounterTerrorist); break;
+                    x.SwitchTeam(CsTeam.CounterTerrorist); break;
 
                 default: break;
             }

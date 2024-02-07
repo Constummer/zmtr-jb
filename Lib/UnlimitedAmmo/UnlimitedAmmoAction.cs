@@ -7,6 +7,7 @@ public partial class JailbreakExtras
 {
     private void UnlimitedAmmoV2(CEntityInstance entity)
     {
+        return;
         if (!entity.DesignerName.Contains("weapon_")) return;
         foreach (var item in Weapons.Split("|"))
         {

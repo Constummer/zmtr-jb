@@ -80,6 +80,7 @@ public partial class JailbreakExtras
 
     private CEnvBeam DrawLaser(Vector start, Vector end, LaserType laserType, bool clearAfter = true)
     {
+       return null;
         CEnvBeam? laser = Utilities.CreateEntityByName<CEnvBeam>("env_beam");
 
         if (laser == null)

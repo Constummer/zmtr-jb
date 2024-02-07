@@ -31,7 +31,7 @@ public partial class JailbreakExtras
                    ActiveGodMode.TryAdd(x.SteamID, false);
                }
                x.PlayerPawn.Value!.CommitSuicide(false, true);
-               x!.ChangeTeam(CsTeam.Terrorist);
+               x!.SwitchTeam(CsTeam.Terrorist);
            });
         Server.PrintToChatAll($"{Prefix} {CC.W}Gardiyanlar, Mahkûmlar takımına atıldı.");
     }
