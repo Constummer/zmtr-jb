@@ -37,7 +37,7 @@ public partial class JailbreakExtras
                         return;
                     }
 
-                    cmd = new MySqlCommand("CREATE DATABASE IF NOT EXISTS cs2_extras", con);
+                    cmd = new MySqlCommand($"CREATE DATABASE IF NOT EXISTS {Config.Database.Database}", con);
                     await cmd.ExecuteNonQueryAsync();
 
                     cmd = new MySqlCommand(
