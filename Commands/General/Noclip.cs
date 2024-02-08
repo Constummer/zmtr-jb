@@ -24,12 +24,12 @@ public partial class JailbreakExtras
             if (player.PlayerPawn.Value.MoveType == MoveType_t.MOVETYPE_NOCLIP)
             {
                 Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}kendi {CC.B}noclip'ini {CC.W}kaldirdi.");
-                player.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
+                        SetMoveType(player, MoveType_t.MOVETYPE_WALK);
             }
             else
             {
                 Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}kendine {CC.B}noclip {CC.W}verdi.");
-                player.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_NOCLIP;
+                        SetMoveType(player, MoveType_t.MOVETYPE_NOCLIP);
             }
             RefreshPawn(player);
         }
@@ -58,7 +58,7 @@ public partial class JailbreakExtras
                                {
                                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}noclip'ini {CC.W}kaldirdi.");
                                }
-                               x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_WALK;
+                               SetMoveType(x, MoveType_t.MOVETYPE_WALK);
 
                                break;
 
@@ -67,13 +67,13 @@ public partial class JailbreakExtras
                                {
                                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}noclip {CC.W}verdi.");
                                }
-                               x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_NOCLIP;
+                               SetMoveType(x, MoveType_t.MOVETYPE_NOCLIP);
 
                                break;
 
                            default:
 
-                               x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_WALK;
+                               SetMoveType(x, MoveType_t.MOVETYPE_WALK);
 
                                break;
                        }

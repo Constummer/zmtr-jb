@@ -1,6 +1,5 @@
-﻿using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API;
-using CounterStrikeSharp.API.Modules.Utils;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 
 namespace JailbreakExtras;
 
@@ -16,15 +15,15 @@ public partial class JailbreakExtras
 
         internal override void StartGame(Action callback)
         {
-            RemoveAllWeapons(giveKnife: false);
-            Global?.SinirsizXAction(null, "@t", "taser");
+            RemoveAllWeapons(giveKnife: false, custom: "weapon_taser");
+            Server.ExecuteCommand("mp_taser_recharge_time 1.5");
             PlayerCount = GetTeamPlayerCounts();
             base.StartGame(callback);
         }
 
         internal override void Clear(bool printMsg)
         {
-            Global?.SinirsizXKapaAction("@t", null);
+            Server.ExecuteCommand("mp_taser_recharge_time 15");
             RemoveAllWeapons(giveKnife: true);
             PlayerCount?.Clear();
             base.Clear(printMsg);

@@ -7,7 +7,6 @@ public partial class JailbreakExtras
 {
     private void UnlimitedAmmoV2(CEntityInstance entity)
     {
-        return;
         if (!entity.DesignerName.Contains("weapon_")) return;
         foreach (var item in Weapons.Split("|"))
         {
@@ -45,7 +44,7 @@ public partial class JailbreakExtras
                     if (_weapon.VData != null)
                     {
                         _weapon.VData.MaxClip1 = 999;
-                        _weapon.VData.DefaultClip1 = 999;
+                        //_weapon.VData.DefaultClip1 = 999;
                     }
 
                     _weapon.Clip1 = 999;
@@ -59,7 +58,7 @@ public partial class JailbreakExtras
                         if (_weapon.VData != null)
                         {
                             _weapon.VData.MaxClip1 = weaponDefault.VData1MaxClip1;
-                            _weapon.VData.DefaultClip1 = weaponDefault.VData1DefaultClip1;
+                            //_weapon.VData.DefaultClip1 = weaponDefault.VData1DefaultClip1;
                         }
 
                         _weapon.Clip1 = weaponDefault._1Clip1;
@@ -68,16 +67,16 @@ public partial class JailbreakExtras
                     }
                 }
 
-                if (weaponValues[2].Length > 0 && weaponValues[2] != "-1")
-                {
-                    if (_weapon.VData != null)
-                    {
-                        _weapon.VData.PrimaryReserveAmmoMax = int.Parse(weaponValues[2]);
-                    }
-                    _weapon.ReserveAmmo[0] = int.Parse(weaponValues[2]);
+                //if (weaponValues[2].Length > 0 && weaponValues[2] != "-1")
+                //{
+                //    if (_weapon.VData != null)
+                //    {
+                //        _weapon.VData.PrimaryReserveAmmoMax = int.Parse(weaponValues[2]);
+                //    }
+                //    _weapon.ReserveAmmo[0] = int.Parse(weaponValues[2]);
 
-                    Utilities.SetStateChanged(weapon.As<CCSWeaponBase>(), "CBasePlayerWeapon", "m_pReserveAmmo");
-                }
+                //    Utilities.SetStateChanged(weapon.As<CCSWeaponBase>(), "CBasePlayerWeapon", "m_pReserveAmmo");
+                //}
             });
         }
     }

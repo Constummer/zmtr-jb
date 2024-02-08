@@ -51,7 +51,7 @@ public partial class JailbreakExtras
                         {
                             SetColour(x, Config.Burry.BuryColor);
                         }
-                        x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
+                        SetMoveType(x, MoveType_t.MOVETYPE_OBSOLETE);
 
                         RefreshPawnTP(x);
 
@@ -94,7 +94,7 @@ public partial class JailbreakExtras
                            SetColour(x, Config.Burry.BuryColor);
                        }
 
-                       x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
+                        SetMoveType(x, MoveType_t.MOVETYPE_OBSOLETE);
                        RefreshPawnTP(x);
                        //Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                        //Vector currentSpeed = new Vector(0, 0, 0);

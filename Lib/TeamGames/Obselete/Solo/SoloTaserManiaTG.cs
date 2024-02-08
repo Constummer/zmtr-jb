@@ -15,15 +15,16 @@ public partial class JailbreakExtras
 
         internal override void StartGame(Action callback)
         {
-            PlayerCount = RemoveAllWeapons(giveKnife: false);
-            Global?.SinirsizXAction(null, "@t", "taser");
+            PlayerCount = RemoveAllWeapons(giveKnife: false, custom: "weapon_taser");
+            Server.ExecuteCommand("mp_taser_recharge_time 1.5");
+
             base.StartGame(callback);
         }
 
         internal override void Clear(bool printMsg)
         {
+            Server.ExecuteCommand("mp_taser_recharge_time 15");
             PlayerCount = new();
-            Global?.SinirsizXKapaAction("@t", null);
             RemoveAllWeapons(giveKnife: true);
             base.Clear(printMsg);
         }

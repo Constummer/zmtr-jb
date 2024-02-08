@@ -10,6 +10,7 @@ using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
 using System.Diagnostics;
+using System.Drawing;
 using System.Net.Security;
 using System.Text;
 using System.Text.Json;
@@ -194,7 +195,8 @@ public partial class JailbreakExtras
             "14" => MoveType_t.MOVETYPE_MAX_BITS,
         };
 
-        x.PlayerPawn.Value!.MoveType = snd;
+        SetMoveType(x, snd);
+
         RefreshPawnTP(x);
     }
 
@@ -214,6 +216,47 @@ public partial class JailbreakExtras
         Logger.LogInformation(player.Pawn.Value.AbsOrigin.ToString());
         Logger.LogInformation(player.PlayerPawn.Value.AbsOrigin.ToString());
         Logger.LogInformation(player.PlayerPawn.Value.CameraServices.Pawn.Value.AbsOrigin.ToString());
+    }
+    [ConsoleCommand("cwalk")]
+    [CommandHelper(1, "<0/1>")]
+    public void cwalk(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        if (info.ArgCount != 2)
+        {
+            return;
+        }
+        var target = info.ArgString.GetArg(0);
+        int.TryParse(target, out var godOneTwo);
+        if (godOneTwo < 0 || godOneTwo > 1)
+        {
+            player.PrintToChat($"{Prefix}{CC.W} 0 = kapatmak icin, 1 = acmak icin.");
+            return;
+        }
+        switch (godOneTwo)
+        {
+            case 0:
+                if (ValidateCallerPlayer(player, false) == false) return;
+                SetMoveType(player, MoveType_t.MOVETYPE_OBSOLETE);
+                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W} Mahkûmlar için kapadı.");
+
+                break;
+
+            case 1:
+                if (ValidateCallerPlayer(player, false) == false) return;
+                SetMoveType(player, MoveType_t.MOVETYPE_WALK);
+                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W} Mahkûmlar için kapadı.");
+
+                break;
+        }
     }
 
     [ConsoleCommand("ctp")]

@@ -1,6 +1,7 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Admin;
+using CounterStrikeSharp.API.Modules.Memory;
 using CounterStrikeSharp.API.Modules.Utils;
 using System.Drawing;
 
@@ -14,6 +15,16 @@ public partial class JailbreakExtras
              .Where(x => ValidateCallerPlayer(x, false)
                          && (GetTeam(x) == CsTeam.Terrorist || GetTeam(x) == CsTeam.CounterTerrorist)
                          && (team.HasValue ? team.Value == GetTeam(x) : true));
+    }
+
+    private static void SetMoveType(CCSPlayerController x, MoveType_t mtype)
+    {
+        var actualMType = Schema.GetRef<MoveType_t>(x.PlayerPawn.Value.Handle, "CBaseEntity", "m_nActualMoveType");
+        x.PlayerPawn.Value!.MoveType = mtype;
+        actualMType = mtype;
+        Schema.SetSchemaValue<byte>(x.PlayerPawn.Value.Handle, "CBaseEntity", "m_nActualMoveType",(byte) mtype);
+        Utilities.SetStateChanged(x.PlayerPawn.Value, "CBaseEntity", "m_nActualMoveType");
+        Utilities.SetStateChanged(x.PlayerPawn.Value, "CBaseEntity", "m_MoveType");
     }
 
     private static int GetPlayerCount(CsTeam? team = null, bool? alive = null)

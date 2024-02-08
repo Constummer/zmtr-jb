@@ -83,7 +83,7 @@ public partial class JailbreakExtras
 
             if (@new)
             {
-                p.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_NONE;
+                SetMoveType(p, MoveType_t.MOVETYPE_NONE);
             }
             p.PlayerPawn.Value.Teleport(new Vector(x, y, z), ANGLE_ZERO, VEC_ZERO);
 

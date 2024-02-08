@@ -2,6 +2,7 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Memory;
 using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
@@ -26,7 +27,7 @@ public partial class JailbreakExtras
                              {
                                  SetColour(x, Config.Burry.BuryColor);
                              }
-                             x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
+                             SetMoveType(x, MoveType_t.MOVETYPE_OBSOLETE);
                              //SetStateChanged(x, "CBaseEntity", "m_MoveType");
                              //Utilities.SetStateChanged(x.PlayerPawn.Value, "CBaseEntity", "m_MoveType");
                              //x.Pawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
@@ -36,6 +37,7 @@ public partial class JailbreakExtras
         FreezeOrUnfreezeSound();
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}mahkûmları {CC.B}dondurdu{CC.W}.");
     }
+
 
     [ConsoleCommand("tdonboz", "Unfreeze t.")]
     [ConsoleCommand("tdb", "Unfreeze t.")]
@@ -61,8 +63,7 @@ public partial class JailbreakExtras
                             {
                                 SetColour(x, DefaultColor);
                             }
-                            x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
-
+                               SetMoveType(x, MoveType_t.MOVETYPE_WALK);
                             RefreshPawn(x);
                         });
     }
@@ -78,7 +79,7 @@ public partial class JailbreakExtras
                {
                    SetColour(x, DefaultColor);
                }
-               x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
+               SetMoveType(x, MoveType_t.MOVETYPE_WALK);
 
                RefreshPawn(x);
            });
