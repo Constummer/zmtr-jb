@@ -34,6 +34,8 @@ public partial class JailbreakExtras
         KomAlAnswers?.Clear();
         KomalTimer?.Kill();
         KomalTimer = null;
+        KomalPrintTimer?.Kill();
+        KomalPrintTimer = null;
         Server.PrintToChatAll($"{Prefix} {CC.DR}{player.PlayerName} {CC.W}Komutçu alımı iptal edildi.");
         Server.PrintToChatAll($"{Prefix} {CC.DR}{player.PlayerName} {CC.W}Komutçu alımı iptal edildi.");
     }
@@ -54,6 +56,8 @@ public partial class JailbreakExtras
         KomActive = true;
         KomaEndTimer?.Kill();
         KomaEndTimer = null;
+        KomalPrintTimer?.Kill();
+        KomalPrintTimer = null;
 
         var now = DateTime.UtcNow;
         KomalTimer = AddTimer(30f, () =>
@@ -170,7 +174,12 @@ public partial class JailbreakExtras
                                 $" Kalan Süre : <font color='{((int)((150 - i) / 10) > 3 ? "#00FF00" : "#FF0000")}'> {(int)((150 - i) / 10)}</font><br>" +
                 string.Join("<br>", KomAlAnswers.Select((x, i) => $"!{i + 1} - {voters.Where(y => y.SteamID == x.Key).Select(y => y.PlayerName).FirstOrDefault()} - {x.Value}")) +
                                    $"</b>";
-
+                    if (i > 151)
+                    {
+                        KomalPrintTimer?.Kill();
+                        KomalPrintTimer = null;
+                        return;
+                    }
                     GetPlayers()
                     .ToList()
                     .ForEach(x => PrintToCenterHtml(x, hmtl));
