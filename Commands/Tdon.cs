@@ -27,6 +27,10 @@ public partial class JailbreakExtras
                                  SetColour(x, Config.Burry.BuryColor);
                              }
                              x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
+                             //SetStateChanged(x, "CBaseEntity", "m_MoveType");
+                             //Utilities.SetStateChanged(x.PlayerPawn.Value, "CBaseEntity", "m_MoveType");
+                             //x.Pawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
+                             //x.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
                              RefreshPawn(x);
                          });
         FreezeOrUnfreezeSound();

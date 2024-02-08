@@ -61,7 +61,14 @@ public partial class JailbreakExtras
         {
             Server.PrintToChatAll($"{Prefix}{CC.G} {gard.PlayerName} {CC.W}adlı gardiyan, {CC.B}{mahk.PlayerName}{CC.W} adlı mahkûmla olan {CC.LY}{ActivatedLr.Text} {CC.W}LR'sini kazandı.");
         }
-        Global?.FovReopenAction(true, null);
+        if (FovActivePlayers.TryGetValue(mahk.SteamID, out int mahkFov))
+        {
+            FovAction(mahk, mahkFov.ToString());
+        }
+        if (FovActivePlayers.TryGetValue(gard.SteamID, out int gardFov))
+        {
+            FovAction(gard, gardFov.ToString());
+        }
         LrCancel();
     }
 }

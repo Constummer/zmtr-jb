@@ -94,7 +94,7 @@ public partial class JailbreakExtras
                         return;
                     }
                     if (ValidateCallerPlayer(x, false) == false) return;
-                    x.SwitchTeam(targetTeam);
+                    x.ChangeTeam(targetTeam);
                     break;
 
                 case CsTeam.Terrorist:
@@ -103,7 +103,7 @@ public partial class JailbreakExtras
                         RemoveWardenAction(x);
                     }
                     if (ValidateCallerPlayer(x, false) == false) return;
-                    x.SwitchTeam(targetTeam); break;
+                    x.ChangeTeam(targetTeam); break;
 
                 default: break;
             }

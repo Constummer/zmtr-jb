@@ -30,7 +30,7 @@ public partial class JailbreakExtras
                else
                {
                    x.PlayerPawn.Value!.CommitSuicide(false, true);
-                   x!.SwitchTeam(CsTeam.CounterTerrorist);
+                   x!.ChangeTeam(CsTeam.CounterTerrorist);
                }
            });
         SlayAllAction();

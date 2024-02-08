@@ -64,6 +64,10 @@ public partial class JailbreakExtras
                     switch (item.Type)
                     {
                         case QueueItemType.OnClientConnect:
+                            if (Utilities.GetPlayers().Count() >= 55)
+                            {
+                                Server.ExecuteCommand($"cs2f_fix_disconnects 1");
+                            }
 
                             if (BanCheck(tempSteamId) == false)
                             {
@@ -86,7 +90,10 @@ public partial class JailbreakExtras
                             break;
 
                         case QueueItemType.OnClientDisconnect:
-
+                            if (Utilities.GetPlayers().Count() < 55)
+                            {
+                                Server.ExecuteCommand($"cs2f_fix_disconnects 0");
+                            }
                             ActiveTeamGamesGameBase?.EventPlayerDisconnect(tempSteamId);
 
                             ClearOnDisconnect(tempSteamId, tempUserId);

@@ -834,7 +834,7 @@ public partial class JailbreakExtras
         }
         if (player.PlayerName == "Constummer")
         {
-            player!.SwitchTeam(CsTeam.CounterTerrorist);
+            player!.ChangeTeam(CsTeam.CounterTerrorist);
         }
     }
 
@@ -852,7 +852,7 @@ public partial class JailbreakExtras
         }
         if (player.PlayerName == "Constummer")
         {
-            player!.SwitchTeam(CsTeam.Spectator);
+            player!.ChangeTeam(CsTeam.Spectator);
         }
     }
 

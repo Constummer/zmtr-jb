@@ -51,7 +51,6 @@ public partial class JailbreakExtras
 
     private void CreateParachute(int? userid)
     {
-        return;
         var entity = Utilities.CreateEntityByName<CBaseProp>("prop_dynamic_override");
         if (entity != null && entity.IsValid)
         {
@@ -101,7 +100,6 @@ public partial class JailbreakExtras
             player.PlayerPawn.Value.AbsVelocity.Z = fallspeed;
             if (Config.Additional.ParachuteModelEnabled)
             {
-                return;
                 if (gParaModel[player.UserId] != null && gParaModel[player.UserId].IsValid)
                 {
                     gParaModel[player.UserId].Teleport(position, angle, velocity);
