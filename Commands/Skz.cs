@@ -11,61 +11,6 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    public class VectorTemp
-    {
-        public VectorTemp()
-        {
-        }
-
-        public VectorTemp(float x, float y, float z)
-        {
-            X = x;
-            Y = y;
-            Z = z;
-        }
-
-        public VectorTemp(double x, double y, double z)
-        {
-            X = (float)x;
-            Y = (float)y;
-            Z = (float)z;
-        }
-
-        public VectorTemp(float? x, float? y, float? z)
-        {
-            X = x ?? 0;
-            Y = y ?? 0;
-            Z = z ?? 0;
-        }
-
-        [JsonPropertyName("X")]
-        public float X { get; set; }
-
-        [JsonPropertyName("Y")]
-        public float Y { get; set; }
-
-        [JsonPropertyName("Z")]
-        public float Z { get; set; }
-    }
-
-    public class CoordinateTemplate
-    {
-        public CoordinateTemplate(string text, VectorTemp coords)
-        {
-            Text = text;
-            Coords = coords;
-        }
-
-        [JsonPropertyName("Text")]
-        public string Text { get; set; } = "";
-
-        [JsonPropertyName("Coord")]
-        public VectorTemp Coords { get; set; } = new VectorTemp(0, 0, 0);
-
-        [JsonIgnore]
-        public Vector Coord { get => new Vector(Coords.X, Coords.Y, Coords.Z); }
-    }
-
     private CounterStrikeSharp.API.Modules.Timers.Timer SkzTimer = null;
     private CounterStrikeSharp.API.Modules.Timers.Timer Skz2Timer = null;
 
