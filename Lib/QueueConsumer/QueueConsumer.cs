@@ -64,7 +64,7 @@ public partial class JailbreakExtras
                     switch (item.Type)
                     {
                         case QueueItemType.OnClientConnect:
-                            if (Utilities.GetPlayers().Count() >= 55)
+                            if (Utilities.GetPlayers().Count() >= 45)
                             {
                                 Server.ExecuteCommand($"cs2f_fix_disconnects 1");
                             }
@@ -90,7 +90,7 @@ public partial class JailbreakExtras
                             break;
 
                         case QueueItemType.OnClientDisconnect:
-                            if (Utilities.GetPlayers().Count() < 55)
+                            if (Utilities.GetPlayers().Count() < 45)
                             {
                                 Server.ExecuteCommand($"cs2f_fix_disconnects 0");
                             }
