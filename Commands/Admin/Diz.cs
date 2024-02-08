@@ -108,6 +108,7 @@ public partial class JailbreakExtras
                     {
                         continue;
                     }
+                    SetMoveType(x, MoveType_t.MOVETYPE_NONE);
 
                     x.PlayerPawn.Value.Teleport(
                         new Vector(DizStart.Item1, DizStart.Item2, player.PlayerPawn.Value.AbsOrigin.Z),
@@ -119,6 +120,9 @@ public partial class JailbreakExtras
             {
                 var first = players[0];
                 var second = players[1];
+                SetMoveType(first, MoveType_t.MOVETYPE_NONE);
+                SetMoveType(second, MoveType_t.MOVETYPE_NONE);
+
                 first.PlayerPawn.Value.Teleport(
                     new Vector(DizStart.Item1, DizStart.Item2, player.PlayerPawn.Value.AbsOrigin.Z),
                     first.PlayerPawn.Value.AbsRotation ?? ANGLE_ZERO,
@@ -142,6 +146,7 @@ public partial class JailbreakExtras
                     {
                         continue;
                     }
+                    SetMoveType(x, MoveType_t.MOVETYPE_NONE);
 
                     x.PlayerPawn.Value.Teleport(
                         new Vector(coord.Item1, coord.Item2, player.PlayerPawn.Value.AbsOrigin.Z),
