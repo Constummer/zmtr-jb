@@ -27,6 +27,7 @@ public partial class JailbreakExtras
         HideFight,
         Corona,
         Pubg,
+        RedLightGreenLight,
         MORESOON,
     }
 
@@ -89,6 +90,7 @@ public partial class JailbreakExtras
         new ("Hide Fight",        false,  null, TeamGamesSoloChoices.HideFight),
         new ("Corona",            false,  null, TeamGamesSoloChoices.Corona),
         new ("Pubg",              false,  null, TeamGamesSoloChoices.Pubg),
+        new ("Red Light - Green Light",           true,  null, TeamGamesSoloChoices.Pubg),
         new ("VE ÇOK DAHA FAZLASI... YAKINDA",    true,  null, TeamGamesSoloChoices.MORESOON),
     };
 

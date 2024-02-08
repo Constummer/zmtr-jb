@@ -4,6 +4,14 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    internal static void PlayGivenMusic(string musicPath)
+    {
+        var players = GetPlayers();
+        foreach (var player in players)
+        {
+            player.ExecuteClientCommand($"play {musicPath}");
+        }
+    }
     private static void LastAliveTSound()
     {
         if (LastRSoundDisable)

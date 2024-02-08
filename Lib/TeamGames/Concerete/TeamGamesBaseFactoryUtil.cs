@@ -24,6 +24,7 @@ public partial class JailbreakExtras
             TeamGamesSoloChoices.HideFight => new SoloHideFightTG(),
             TeamGamesSoloChoices.Corona => new SoloCoronaTG(),
             TeamGamesSoloChoices.Pubg => new SoloPubgTG(),
+            TeamGamesSoloChoices.RedLightGreenLight => new SoloRedLightGreenLightTG(),
             _ => null
         };
     }
