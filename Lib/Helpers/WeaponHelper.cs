@@ -11,28 +11,35 @@ public partial class JailbreakExtras
 
     private static void RemoveWeapons(CCSPlayerController x, bool knifeStays)
     {
-        if (x?.PlayerPawn?.Value?.WeaponServices?.MyWeapons != null)
+        if (ValidateCallerPlayer(x, false) == false) return;
+        x.RemoveWeapons();
+        if (ValidateCallerPlayer(x, false) == false) return;
+        if (knifeStays)
         {
-            foreach (var weapon in x.PlayerPawn.Value.WeaponServices!.MyWeapons)
-            {
-                if (weapon.Value != null
-                    && string.IsNullOrWhiteSpace(weapon.Value.DesignerName) == false
-                    && weapon.Value.DesignerName != "[null]")
-                {
-                    if (knifeStays == true)
-                    {
-                        if (weapon.Value.DesignerName.Contains("knife") == false)
-                        {
-                            weapon.Value.Remove();
-                        }
-                    }
-                    else
-                    {
-                        weapon.Value.Remove();
-                    }
-                }
-            }
+            x.GiveNamedItem("weapon_knife");
         }
+        //if (x?.PlayerPawn?.Value?.WeaponServices?.MyWeapons != null)
+        //{
+        //    foreach (var weapon in x.PlayerPawn.Value.WeaponServices!.MyWeapons)
+        //    {
+        //        if (weapon.Value != null
+        //            && string.IsNullOrWhiteSpace(weapon.Value.DesignerName) == false
+        //            && weapon.Value.DesignerName != "[null]")
+        //        {
+        //            if (knifeStays == true)
+        //            {
+        //                if (weapon.Value.DesignerName.Contains("knife") == false)
+        //                {
+        //                    weapon.Value.Remove();
+        //                }
+        //            }
+        //            else
+        //            {
+        //                weapon.Value.Remove();
+        //            }
+        //        }
+        //    }
+        //}
     }
 
     private static List<ulong> RemoveAllWeapons(bool giveKnife, bool giveFists = false, string custom = null, int? setHp = null)
