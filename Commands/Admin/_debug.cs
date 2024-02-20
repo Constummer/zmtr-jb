@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CounterStrikeSharp.API.Modules.Memory;
 
 //using CounterStrikeSharp.API.Modules.Menu;
@@ -31,6 +32,55 @@ public partial class JailbreakExtras
         if (ValidateCallerPlayer(player) == false)
         {
             return;
+        }
+    }
+
+    [ConsoleCommand("cparticle")]
+    public void cparticle(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        //var entity = Utilities.CreateEntityByName<CPhysicsPropMultiplayer>("prop_physics_multiplayer");
+        Aura = Utilities.CreateEntityByName<CParticleSystem>("info_particle_system");
+
+        if (Aura != null && Aura.IsValid)
+        {
+            Aura.EffectName = "particles/test/energy.vpcf";
+            //   Aura.EffectName = "particles/testsystems/test_cross_product.vpcf";
+            //Aura.EffectName = "particles/ui/status_levels/ui_status_level_8_energycirc.vpcf";
+            //Aura.EffectName = "particles/testsystems/test_cross_product.vpcf";
+            //Aura.SetModel("models/coop/challenge_coin.vmdl";
+            Aura.TintCP = 1;
+
+            Aura.Teleport(player.PlayerPawn.Value.AbsOrigin, ANGLE_ZERO, VEC_ZERO);
+            Aura.DispatchSpawn();
+            Aura.AcceptInput("Start");
+            CustomSetParent(Aura, player.PlayerPawn.Value);
+        }
+    }
+
+    [ConsoleCommand("cparticlekill")]
+    public void cparticlekill(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        if (Aura != null && Aura.IsValid)
+        {
+            Aura.AcceptInput("Kill");
         }
     }
 
@@ -543,6 +593,8 @@ public partial class JailbreakExtras
         { 523, "weapon_knife_widowmaker" },
         { 525, "weapon_knife_skeleton" }
     };
+
+    public CParticleSystem? Aura { get; private set; }
 
     [ConsoleCommand("cweaponGet")]
     public void cweaponGet(CCSPlayerController? player, CommandInfo info)
