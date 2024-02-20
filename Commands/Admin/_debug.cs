@@ -34,6 +34,36 @@ public partial class JailbreakExtras
         }
     }
 
+    [ConsoleCommand("cthird")]
+    public void cthird(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        NativeAPI.IssueClientCommandFromServer(player.Slot, "thirdperson");
+    }
+
+    [ConsoleCommand("cthird2")]
+    public void cthird2(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        NativeAPI.IssueClientCommand(player.Slot, "thirdperson");
+    }
+
     public List<VectorTemp> BulletImpactVectors { get; set; } = new List<VectorTemp>();
 
     [ConsoleCommand("ceventbulletimpactwithsave")]
@@ -182,7 +212,6 @@ public partial class JailbreakExtras
             "1" => MoveType_t.MOVETYPE_NONE,
             "2" => MoveType_t.MOVETYPE_OBSOLETE,
             "3" => MoveType_t.MOVETYPE_WALK,
-            "4" => MoveType_t.MOVETYPE_STEP,
             "5" => MoveType_t.MOVETYPE_FLY,
             "6" => MoveType_t.MOVETYPE_FLYGRAVITY,
             "7" => MoveType_t.MOVETYPE_VPHYSICS,
@@ -217,6 +246,7 @@ public partial class JailbreakExtras
         Logger.LogInformation(player.PlayerPawn.Value.AbsOrigin.ToString());
         Logger.LogInformation(player.PlayerPawn.Value.CameraServices.Pawn.Value.AbsOrigin.ToString());
     }
+
     [ConsoleCommand("cwalk")]
     [CommandHelper(1, "<0/1>")]
     public void cwalk(CCSPlayerController? player, CommandInfo info)
