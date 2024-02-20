@@ -28,7 +28,7 @@ public partial class JailbreakExtras
                         }
                         PlayerMarketModels[x.SteamID] = item;
                         if (ValidateCallerPlayer(x, false) == false) return;
-                        x.PrintToChat($"{Prefix} {CC.R}Lider{CC.W} olduğun için {CC.LB}{3 * CreditModifier} {CC.W}kredi kazandın!");
+                        x.PrintToChat($"{Prefix} {CC.R}Premium{CC.W} olduğun için {CC.LB}{3 * CreditModifier} {CC.W}kredi kazandın!");
                     }
                 }
             });
