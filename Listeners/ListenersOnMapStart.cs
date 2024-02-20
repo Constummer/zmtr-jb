@@ -14,7 +14,8 @@ public partial class JailbreakExtras
             Server.ExecuteCommand("mp_equipment_reset_rounds 1");
             Server.ExecuteCommand("mp_t_default_secondary \"\" ");
             ClearAll();
-
+            CreditModifier = 1;
+            TPModifier = 1;
             HideFoots?.Clear();
             HookPlayers?.Clear();
             bUsingPara?.Clear();

@@ -91,6 +91,14 @@ namespace JailbreakExtras
                     new("KZ Sol Kulvar",  new VectorTemp(2139,-532,-109) ),
                 }
             },
+            {"jb_zmtr_uzay", new List<CoordinateTemplate>()
+                {
+                    new("Hucre",   new VectorTemp(-1860,-153,-269) ),
+                    new("KZ",      new VectorTemp(-1455,-2900,-543) ),
+                    new("KZ Sag Kulvar",  new VectorTemp(-1185,-3252,-501) ),
+                    new("KZ Sol Kulvar",  new VectorTemp(-1183,-2549,-501) ),
+                }
+            },
         };
 
         [JsonPropertyName("KapiAcKapaList")]
@@ -121,7 +129,8 @@ namespace JailbreakExtras
         public List<CoordinateTemplate> CoinCoords { get; set; } = new List<CoordinateTemplate>()
         {
             new ("jb_zmtr_v1" ,new VectorTemp(-718, -765, 24)),
-            new ("jb_zmtr_v2" ,new VectorTemp(62, -408, 171))
+            new ("jb_zmtr_v2" ,new VectorTemp(62, -408, 171)),
+            new ("jb_zmtr_uzay" ,new VectorTemp(-581, -3488, -544))
         };
 
         [JsonPropertyName("KzCellCoords")]
@@ -134,6 +143,14 @@ namespace JailbreakExtras
                     new("RightTop",   new VectorTemp(2222,1505,-13))
                 }
              },
+            {"jb_zmtr_uzay",
+                new()
+                {
+                    new("LeftBottom", new VectorTemp(-702,-3025,-288)),
+                    new("RightTop",   new VectorTemp(-514,-2773,-104))
+                }
+             },
+
              {"jb_zmtr_v2",
                 new()
                 {

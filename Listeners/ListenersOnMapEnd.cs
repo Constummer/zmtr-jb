@@ -10,6 +10,8 @@ public partial class JailbreakExtras
         {
             //KillTimers();
             ClearAll();
+            CreditModifier = 1;
+            TPModifier = 1;
             HideFoots?.Clear();
             HookPlayers?.Clear();
             bUsingPara?.Clear();

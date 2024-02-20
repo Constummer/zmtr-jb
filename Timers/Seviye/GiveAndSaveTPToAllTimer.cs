@@ -16,15 +16,23 @@ public partial class JailbreakExtras
         {
             Stopwatch stopwatch = Stopwatch.StartNew();
             var lider1Players = GetPlayers()
-                                .Where(x => AdminManager.PlayerHasPermissions(x, "@css/lider"))
+                                .Where(x => AdminManager.PlayerHasPermissions(x, "@css/liderkredi"))
                                 .ToList()
                                 .Select(x => x.SteamID);
+            var premiumPlayers = GetPlayers()
+                             .Where(x => AdminManager.PlayerHasPermissions(x, "@css/premium"))
+                             .ToList()
+                             .Select(x => x.SteamID);
             foreach (var item in PlayerLevels.ToList())
             {
-                item.Value.Xp = item.Value.Xp + 6;
+                item.Value.Xp = item.Value.Xp + (1 * 6 * TPModifier);
                 if (lider1Players.Contains(item.Key))
                 {
-                    item.Value.Xp = item.Value.Xp + 3;
+                    item.Value.Xp = item.Value.Xp + (int)(0.5 * 6 * TPModifier);
+                }
+                if (premiumPlayers.Contains(item.Key))
+                {
+                    item.Value.Xp = item.Value.Xp + (1 * 6 * TPModifier);
                 }
                 if (PlayerLevels.ContainsKey(item.Key))
                 {
@@ -40,6 +48,5 @@ public partial class JailbreakExtras
         }, Full);
     }
 
-   
     #endregion GiveCreditToLiderTimer
 }

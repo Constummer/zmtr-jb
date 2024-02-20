@@ -1,7 +1,4 @@
-﻿using CounterStrikeSharp.API;
-using CounterStrikeSharp.API.Core;
-
-namespace JailbreakExtras;
+﻿namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
@@ -63,7 +60,7 @@ public partial class JailbreakExtras
         }
         UpdatePlayerMarketData(steamId);
         UpdatePlayerLevelDataOnDisonnect(steamId);
-       
+
         _ = ActiveGodMode?.Remove(steamId, out _);
         _ = DeathLocations?.Remove(steamId, out _);
         _ = KilledPlayers?.Remove(steamId, out _);
@@ -86,5 +83,4 @@ public partial class JailbreakExtras
         _ = HookDisablePlayers?.RemoveAll(x => x == steamId);
         _ = CitEnabledPlayers?.RemoveAll(x => x == steamId);
     }
-
 }

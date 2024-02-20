@@ -18,6 +18,7 @@ public partial class JailbreakExtras
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooGiveCreditToCssAdmin1Timer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooGiveCreditToCssLiderTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooSaveCreditTimer { get; set; } = null;
+    public CounterStrikeSharp.API.Modules.Timers.Timer? FooGiveCreditToCssPremiumTimer { get; set; } = null;
 
     public static TimeOnly MaintenanceTimer { get => new TimeOnly(6, 54); }
     public static TimeOnly MaintenanceGameTimer { get => new TimeOnly(6, 29); }
@@ -32,6 +33,7 @@ public partial class JailbreakExtras
         FooGiveCreditToCssAdmin1Timer = GiveCreditToCssAdmin1Timer();
         FooGiveCreditToCssLiderTimer = GiveCreditToCssLiderTimer();
         FooSaveCreditTimer = SaveCreditTimer();
+        FooGiveCreditToCssPremiumTimer = GiveCreditToCssPremiumTimer();
 
         #endregion Credit
 

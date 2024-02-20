@@ -17,16 +17,16 @@ public partial class JailbreakExtras
                        {
                            if (PlayerMarketModels.TryGetValue(x.SteamID, out var item))
                            {
-                               item.Credit += Config.Credit.RetrieveCreditEveryXMinReward;
+                               item.Credit += Config.Credit.RetrieveCreditEveryXMinReward * CreditModifier;
                            }
                            else
                            {
                                item = new(x.SteamID);
-                               item.Credit = Config.Credit.RetrieveCreditEveryXMinReward;
+                               item.Credit = Config.Credit.RetrieveCreditEveryXMinReward * CreditModifier;
                            }
                            PlayerMarketModels[x.SteamID] = item;
                            if (ValidateCallerPlayer(x, false) == false) return;
-                           x.PrintToChat($"{Prefix} {CC.W}Bu sunucuda {CC.G}5 {CC.W}dakika zaman geçirdiğin için {CC.LB}{Config.Credit.RetrieveCreditEveryXMinReward} {CC.W}kredi kazandın!");
+                           x.PrintToChat($"{Prefix} {CC.W}Bu sunucuda {CC.G}5 {CC.W}dakika zaman geçirdiğin için {CC.LB}{Config.Credit.RetrieveCreditEveryXMinReward * CreditModifier} {CC.W}kredi kazandın!");
                        }
                    });
         }, Full);
