@@ -97,7 +97,7 @@ public partial class JailbreakExtras
 
         players.ToList().ForEach(x =>
         {
-            SetColour(x, Color.FromArgb(255, 0, 0));
+            SetModelNextServerFrame(x.PlayerPawn.Value!, "characters/models/ambrosian/gunslinger/gunslinger_red.vmdl");
 
             //Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
             //Vector currentSpeed = new Vector(0, 0, 0);

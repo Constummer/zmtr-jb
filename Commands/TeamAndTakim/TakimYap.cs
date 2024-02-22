@@ -2,8 +2,10 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Utils;
 using System.Drawing;
+using System.Reflection;
 
 namespace JailbreakExtras;
 
@@ -118,9 +120,26 @@ public partial class JailbreakExtras
                 return;
             plist.ForEach(x =>
             {
-                SetColour(x, res.Color);
-                x.PrintToChat($"{Prefix} {CC.P}{res.Msg} {CC.W}Takıma girdin!{(additionalMsg ? " Takım oyunu başlamak üzere" : "")}");
-                x.PrintToCenter($"{Prefix} {CC.P}{res.Msg} {CC.W}Takıma girdin!{(additionalMsg ? " Takım oyunu başlamak üzere" : "")}");
+                if (i == 0)
+                {
+                    SetModelNextServerFrame(x.PlayerPawn.Value!, "characters/models/ambrosian/gunslinger/gunslinger_red.vmdl");
+                    x.PrintToChat($"{Prefix} {CC.P}{res.Msg} {CC.W}Takıma girdin!{(additionalMsg ? " Takım oyunu başlamak üzere" : "")}");
+                }
+                else if (i == 1)
+                {
+                    SetModelNextServerFrame(x.PlayerPawn.Value!, "characters/models/ambrosian/gunslinger/gunslinger_blue.vmdl");
+                    x.PrintToCenter($"{Prefix} {CC.P}{res.Msg} {CC.W}Takıma girdin!{(additionalMsg ? " Takım oyunu başlamak üzere" : "")}");
+                }
+                else if (i == 2)
+                {
+                    SetModelNextServerFrame(x.PlayerPawn.Value!, "characters/models/nozb1/roblox8_player_model/roblox8_player_model.vmdl");
+                    x.PrintToCenter($"{Prefix} {CC.P}{res.Msg} {CC.W}Takıma girdin!{(additionalMsg ? " Takım oyunu başlamak üzere" : "")}");
+                }
+                else
+                {
+                    SetModelNextServerFrame(x.PlayerPawn.Value!, "characters/models/nozb1/roblox6_player_model/roblox6_player_model.vmdl");
+                    x.PrintToCenter($"{Prefix} {CC.P}{res.Msg} {CC.W}Takıma girdin!{(additionalMsg ? " Takım oyunu başlamak üzere" : "")}");
+                }
 
                 //Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                 //Vector currentSpeed = new Vector(0, 0, 0);
