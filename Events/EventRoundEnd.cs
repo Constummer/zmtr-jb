@@ -63,10 +63,10 @@ public partial class JailbreakExtras
                     switch (winner)
                     {
                         case 2:
-                            Aura.EffectName = "particles/test/energy.vpcf";
+                            Aura.EffectName = "particles/test/mahkum.vpcf";
                             break;
                         case 3:
-                            Aura.EffectName = "particles/test/rengarenk.vpcf";
+                            Aura.EffectName = "particles/test/gardiyan.vpcf";
                             break;
                         default:
                             break; 
