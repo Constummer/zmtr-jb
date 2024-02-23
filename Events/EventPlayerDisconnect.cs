@@ -10,6 +10,11 @@ public partial class JailbreakExtras
         {
             var tempSteamId = @event?.Userid?.SteamID;
             var tempUserId = @event?.Userid?.UserId;
+            var tempUserName = @event?.Userid?.PlayerName;
+            if (tempSteamId.HasValue)
+            {
+                LastBanDatas.Enqueue(new(tempSteamId.Value, tempUserName));
+            }
             _ClientQueue.Enqueue(new(tempSteamId ?? 0, tempUserId, "", QueueItemType.OnClientDisconnect));
             return HookResult.Continue;
         }, HookMode.Pre);
