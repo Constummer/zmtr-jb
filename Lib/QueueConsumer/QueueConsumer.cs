@@ -75,6 +75,7 @@ public partial class JailbreakExtras
                             }
                             else
                             {
+                                Server.PrintToChatAll($"{Prefix} {CC.Or}{tempPlayerName}{CC.W} Sunucuya giriş yaptı.");
                                 AddOrUpdatePlayerToPlayerNameTable(tempSteamId, tempPlayerName);
 
                                 GetPlayerMarketData(tempSteamId);
