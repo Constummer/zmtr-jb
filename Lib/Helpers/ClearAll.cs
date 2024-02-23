@@ -60,6 +60,7 @@ public partial class JailbreakExtras
         }
         UpdatePlayerMarketData(steamId);
         UpdatePlayerLevelDataOnDisonnect(steamId);
+        UpdatePlayerParticleDataOnDisonnect(steamId);
 
         _ = ActiveGodMode?.Remove(steamId, out _);
         _ = DeathLocations?.Remove(steamId, out _);

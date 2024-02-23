@@ -6,9 +6,7 @@ using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using JailbreakExtras.Lib.Database;
 using JailbreakExtras.Lib.Database.Models;
-using Microsoft.Extensions.Logging;
 using MySqlConnector;
-using static System.Net.Mime.MediaTypeNames;
 
 //using Microsoft.Data.Sqlite;
 
@@ -51,6 +49,7 @@ public partial class JailbreakExtras
         marketMenu.AddMenuOption(CTOyuncuModeli, OpenSelectedModelMarket);
         marketMenu.AddMenuOption(TOyuncuModeli, OpenSelectedModelMarket);
         marketMenu.AddMenuOption("TP Market", TPMarketSelected);
+        marketMenu.AddMenuOption("Aura Market", AuraMarketSelected);
 
         ChatMenus.OpenMenu(player, marketMenu);
     }

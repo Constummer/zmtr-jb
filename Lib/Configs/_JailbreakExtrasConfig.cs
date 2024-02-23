@@ -42,6 +42,9 @@ public partial class JailbreakExtras
         [JsonPropertyName("Market")]
         public MarketConfig Market { get; set; } = new MarketConfig();
 
+        [JsonPropertyName("Particle")]
+        public ParticleConfig Particle { get; set; } = new ParticleConfig();
+
         [JsonPropertyName("SteamGroup")]
         public SteamGroupConfig SteamGroup { get; set; } = new SteamGroupConfig();
 

@@ -25,6 +25,15 @@ public partial class JailbreakExtras
             }, SOM);
             HookDisabled = true;
 
+            foreach (var item in RoundEndParticles)
+            {
+                if (item != null && item.IsValid)
+                {
+                    item.Remove();
+                }
+            }
+            RoundEndParticles = new();
+
             AddTimer(5.0f, () =>
             {
                 HookDisabled = false;
@@ -53,6 +62,10 @@ public partial class JailbreakExtras
                     if (tempUserId != -1)
                     {
                         CreateParachute(tempUserId);
+                    }
+                    if (tempSteamId != 0)
+                    {
+                        CreateAuraParticle(tempSteamId);
                     }
                 }, SOM);
             }

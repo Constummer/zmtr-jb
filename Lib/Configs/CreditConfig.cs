@@ -21,6 +21,9 @@ public partial class JailbreakExtras
         [JsonPropertyName("RetrieveCreditEvery5MinRewardCssLider")]
         public short RetrieveCreditEvery5MinRewardCssLider { get; set; } = 2;
 
+        [JsonPropertyName("RetrieveCreditEvery5MinRewardCssPremium")]
+        public short RetrieveCreditEvery5MinRewardCssPremium { get; set; } = 3;
+
         [JsonPropertyName("TPMarketDatas")]
         public List<TPMarketItem> TPMarketDatas { get; set; } = new()
         {

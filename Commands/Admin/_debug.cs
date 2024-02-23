@@ -47,6 +47,8 @@ public partial class JailbreakExtras
         {
             return;
         }
+        Aura?.Remove();
+        Aura = null;
         //var entity = Utilities.CreateEntityByName<CPhysicsPropMultiplayer>("prop_physics_multiplayer");
         Aura = Utilities.CreateEntityByName<CParticleSystem>("info_particle_system");
 

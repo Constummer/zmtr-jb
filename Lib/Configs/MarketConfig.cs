@@ -24,9 +24,9 @@ namespace JailbreakExtras.Lib.Configs
         };
     }
 
-    public class MarketModel
+    public class MarketModel : ParticleModel
     {
-        public MarketModel(int id, CsTeam teamNo, string text, int cost, bool enable, string pathToModel)
+        public MarketModel(int id, CsTeam teamNo, string text, int cost, bool enable, string pathToModel) : base(id, text, cost, enable, pathToModel)
         {
             Id = id;
             TeamNo = teamNo;
@@ -36,22 +36,7 @@ namespace JailbreakExtras.Lib.Configs
             PathToModel = pathToModel;
         }
 
-        [JsonPropertyName("Id")]
-        public int Id { get; set; } = 0;
-
         [JsonPropertyName("TeamNo")]
         public CsTeam TeamNo { get; set; } = CsTeam.None;
-
-        [JsonPropertyName("Text")]
-        public string Text { get; set; } = null;
-
-        [JsonPropertyName("Cost")]
-        public int Cost { get; set; } = 0;
-
-        [JsonPropertyName("Enable")]
-        public bool Enable { get; set; } = false;
-
-        [JsonPropertyName("PathToModel")]
-        public string PathToModel { get; set; } = null;
     }
 }
