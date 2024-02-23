@@ -106,6 +106,10 @@ public partial class JailbreakExtras
             {
                 marketMenu.AddMenuOption($"{CC.R}SEÇİM YAPABİLMEK İÇİN {CC.DR}HAYATTA {CC.R}OLMALISINIZ", null, true);
             }
+            if (TgActive == true)
+            {
+                marketMenu.AddMenuOption($"{CC.R}SEÇİM YAPABİLMEK İÇİN {CC.DR}TG{CC.R}'NIN BITMESINI BEKLEMELISIN", null, true);
+            }
             foreach (var item in models)
             {
                 var selected = team switch
@@ -142,7 +146,7 @@ public partial class JailbreakExtras
                     if (data.Model == null) return;
 
                     SetModel(player, item.Value, data.Model, i.Text, i.Text!.EndsWith(" | [SATIN ALINDI]"));
-                }, !player.PawnIsAlive);
+                }, !player.PawnIsAlive || TgActive);
             }
         }
         ChatMenus.OpenMenu(player, marketMenu);

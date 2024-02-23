@@ -2,7 +2,7 @@
 
 public partial class JailbreakExtras
 {
-    private static bool TgActive = false;
+    private static bool TgActive { get; set; } = false;
     public static CounterStrikeSharp.API.Modules.Timers.Timer TgTimer { get; set; } = null;
     public static TeamGamesGameBase? ActiveTeamGamesGameBase { get; set; } = null;
 
