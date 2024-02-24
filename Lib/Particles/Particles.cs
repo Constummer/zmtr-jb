@@ -72,16 +72,16 @@ public partial class JailbreakExtras
                     {
                         var data = new PlayerParticleData(steamId)
                         {
-                            BoughtModelIds = reader.IsDBNull(0) ? null : reader.GetString(0),
-                            SelectedModelId = reader.IsDBNull(1) ? null : reader.GetString(1),
+                            BoughtModelIds = reader.IsDBNull(0) ? "" : reader.GetString(0),
+                            SelectedModelId = reader.IsDBNull(1) ? "" : reader.GetString(1),
                         };
                         if (PlayerParticleDatas.TryGetValue(steamId, out _))
                         {
-                            PlayerParticleDatas.Add(steamId, data);
+                            PlayerParticleDatas[steamId] = data;
                         }
                         else
                         {
-                            PlayerParticleDatas[steamId] = data;
+                            PlayerParticleDatas.Add(steamId, data);
                         }
                         return;
                     }
@@ -250,16 +250,7 @@ public partial class JailbreakExtras
         }
         if (id == 0)
         {
-            if (PlayerAuras.TryGetValue(player.SteamID, out var defAura))
-            {
-                if (defAura != null && defAura.IsValid)
-                {
-                    defAura.AcceptInput("Kill");
-                    defAura.Remove();
-                    defAura = null;
-                }
-                PlayerAuras.Remove(player.SteamID, out _);
-            }
+            RemoveCurrentParticle(player.SteamID);
             return;
         }
         var selectedParticle = _Config.Particle.MarketModeller.Where(x => x.Id == id).FirstOrDefault();
@@ -286,7 +277,6 @@ public partial class JailbreakExtras
         {
             return;
         }
-        aura = null;
         aura = Utilities.CreateEntityByName<CParticleSystem>("info_particle_system");
 
         if (aura != null && aura.IsValid)
@@ -314,6 +304,20 @@ public partial class JailbreakExtras
         else
         {
             PlayerAuras.Add(player.SteamID, aura);
+        }
+    }
+
+    private static void RemoveCurrentParticle(ulong steamId)
+    {
+        if (PlayerAuras.TryGetValue(steamId, out var defAura))
+        {
+            if (defAura != null && defAura.IsValid)
+            {
+                defAura.AcceptInput("Kill");
+                defAura.Remove();
+                defAura = null;
+            }
+            PlayerAuras.Remove(steamId, out _);
         }
     }
 }

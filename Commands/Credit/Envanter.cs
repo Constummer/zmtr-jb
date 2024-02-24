@@ -30,6 +30,7 @@ public partial class JailbreakExtras
             var marketMenu = new ChatMenu($" {CC.LB}Envanter {CC.W}| {CC.G}Kredin = {CC.W}<{CC.G}{item.Credit}{CC.W}>");
             marketMenu.AddMenuOption(CTOyuncuModeli, OpenSelectedModelEnv);
             marketMenu.AddMenuOption(TOyuncuModeli, OpenSelectedModelEnv);
+            marketMenu.AddMenuOption("Aura Market", AuraMarketSelected);
 
             ChatMenus.OpenMenu(player, marketMenu);
         }
