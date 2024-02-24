@@ -41,6 +41,7 @@ public partial class JailbreakExtras
                         if (ValidateCallerPlayer(x, false) == false) return;
                         SetColour(x, DefaultColor);
                         ShowWeapons(x);
+                        ReAddAllParticleAures();
 
                         break;
 
@@ -48,6 +49,7 @@ public partial class JailbreakExtras
                         if (ValidateCallerPlayer(x, false) == false) return;
                         SetColour(x, Color.FromArgb(0, 0, 0, 0));
                         HideWeapons(x);
+                        RemoveAllParticleAures();
                         break;
                 }
             });
@@ -67,6 +69,5 @@ public partial class JailbreakExtras
         }
     }
 
-   
     #endregion Hide
 }

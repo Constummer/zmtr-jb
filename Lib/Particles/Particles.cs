@@ -53,6 +53,26 @@ public partial class JailbreakExtras
             });
     }
 
+    private void ReAddAllParticleAures()
+    {
+        GetPlayers(CsTeam.Terrorist)
+            .ToList()
+            .ForEach(p =>
+            {
+                CreateAuraParticle(p.SteamID);
+            });
+    }
+
+    private void RemoveAllParticleAures()
+    {
+        GetPlayers(CsTeam.Terrorist)
+            .ToList()
+            .ForEach(p =>
+        {
+            RemoveCurrentParticle(p.SteamID);
+        });
+    }
+
     private void SaveAllParticleData()
     {
         try
