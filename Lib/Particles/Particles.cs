@@ -26,8 +26,8 @@ public partial class JailbreakExtras
     {
         var effectName = (CsTeam)winner switch
         {
-            CsTeam.Terrorist => "particles/test/mahkum.vpcf",
-            CsTeam.CounterTerrorist => "particles/test/gardiyan.vpcf",
+            CsTeam.Terrorist => "particles/zmtr/mahkum.vpcf",
+            CsTeam.CounterTerrorist => "particles/zmtr/gardiyan.vpcf",
             _ => null
         };
         if (effectName == null)
