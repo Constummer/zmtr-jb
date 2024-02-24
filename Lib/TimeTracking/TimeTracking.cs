@@ -425,70 +425,7 @@ public partial class JailbreakExtras
                     Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ 00.00 İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
                     Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ 00.00 İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
 
-                    var cmd = new MySqlCommand(@$"SELECT `SteamId`,`WeeklyWTime` FROM `PlayerTime`;", con);
-                    var dic = new Dictionary<long, int>();
-                    using (var reader = cmd.ExecuteReader())
-                    {
-                        while (reader.Read())
-                        {
-                            var steamid = reader.IsDBNull(0) ? 0 : reader.GetInt64(0);
-                            var time = reader.IsDBNull(1) ? 0 : reader.GetInt32(1);
-                            if (steamid > 0)
-                            {
-                                if (IsKomutcuPlayer((ulong)steamid))
-                                {
-                                    if (dic.TryGetValue(steamid, out var oldtime))
-                                    {
-                                        if (oldtime > time)
-                                        {
-                                            dic[steamid] = oldtime;
-                                        }
-                                        else
-                                        {
-                                            dic[steamid] = time;
-                                        }
-                                    }
-                                    else
-                                    {
-                                        dic.Add(steamid, time);
-                                    }
-                                }
-                            }
-                        }
-                    }
-
-                    if (dic.Count == 0)
-                    {
-                        return;
-                    }
-                    List<MySqlParameter> parameters = new List<MySqlParameter>();
-                    var weekno = GetIso8601WeekOfYear(DateTime.UtcNow.AddHours(3));
-                    var cmdText = "";
-                    var i = 0;
-                    parameters.Add(new MySqlParameter($"@WeekNo", weekno));
-
-                    dic.ToList()
-                     .ForEach(x =>
-                     {
-                         cmdText += @$"INSERT INTO `PlayerWeeklyWTime`
-                                          (`SteamId`,`WTime`,`WeekNo`)
-                                          VALUES
-                                          (@SteamId_{i},@WTime_{i}, @WeekNo);";
-                         parameters.Add(new MySqlParameter($"@SteamId_{i}", x.Key));
-                         parameters.Add(new MySqlParameter($"@WTime_{i}", x.Value));
-
-                         i++;
-                     });
-                    if (string.IsNullOrWhiteSpace(cmdText))
-                    {
-                        return;
-                    }
-
-                    cmd = new MySqlCommand(cmdText, con);
-                    cmd.Parameters.AddRange(parameters.ToArray());
-                    cmd.ExecuteNonQuery();
-
-                    SendWarningForLessThan7HrsAWeekKomutcu(dic);
+                    UpdateWeeklyTime(con);
                     foreach (var item in PlayerTimeTracking.ToList())
                     {
                         item.Value.WeeklyWTime = 0;
@@ -503,8 +440,11 @@ public partial class JailbreakExtras
                     AllPlayerWeeklyTotalTimeTracking?.Clear();
                     KomWeeklyWCredits?.Clear();
 
-                    cmd = new MySqlCommand(@"UPDATE `PlayerTime`
-                                            SET `WeeklyWTime` = 0;", con);
+                    var cmd = new MySqlCommand(@"UPDATE `PlayerTime`
+                                            SET `WeeklyWTime` = 0,
+                                                `WeeklyCTTime` = 0,
+                                                `WeeklyTTime` = 0,
+                                                `WeeklyTotalTime = 0;", con);
                     cmd.ExecuteNonQuery();
                     Server.PrintToChatAll($"{Prefix} {CC.R} SIKI TUTUNDUĞUNUZ İÇİN TŞK, DEVAAAAAM");
                     Server.PrintToChatAll($"{Prefix} {CC.R} SIKI TUTUNDUĞUNUZ İÇİN TŞK, DEVAAAAAM");
@@ -519,9 +459,134 @@ public partial class JailbreakExtras
         }
     }
 
-    private void SendWarningForLessThan7HrsAWeekKomutcu(Dictionary<long, int> dic)
+    private void UpdateWeeklyTime(MySqlConnection con)
     {
-        var url = "https://discord.com/api/webhooks/1194758709344215090/-XRiPj35x-KTHRtAyWlB5i1I16lFylHl_17we6SOS5HbYY5JCFPQYiOjYot6trvQiUcR";
+        var dicw = new Dictionary<long, int>();
+        var dicct = new Dictionary<long, int>();
+        var dict = new Dictionary<long, int>();
+        var dictotal = new Dictionary<long, int>();
+        var cmd = new MySqlCommand(@$"SELECT `SteamId`,`WeeklyWTime FROM `PlayerTime`;", con);
+        using (var reader = cmd.ExecuteReader())
+        {
+            while (reader.Read())
+            {
+                var steamid = reader.IsDBNull(0) ? 0 : reader.GetInt64(0);
+                var wtime = reader.IsDBNull(1) ? 0 : reader.GetInt32(1);
+                if (steamid > 0)
+                {
+                    if (IsKomutcuPlayer((ulong)steamid))
+                    {
+                        AddToDic(dicw, steamid, wtime);
+                    }
+                }
+            }
+        }
+        cmd = new MySqlCommand(@$"SELECT `SteamId`,`WeeklyCTTime` FROM `PlayerTime` order by `WeeklyCTTime` desc limit 10;", con);
+        using (var reader = cmd.ExecuteReader())
+        {
+            while (reader.Read())
+            {
+                var steamid = reader.IsDBNull(0) ? 0 : reader.GetInt64(0);
+                var weeklyTime = reader.IsDBNull(1) ? 0 : reader.GetInt32(1);
+                if (steamid > 0)
+                {
+                    AddToDic(dicct, steamid, weeklyTime);
+                }
+            }
+        }
+        cmd = new MySqlCommand(@$"SELECT `SteamId`,`WeeklyTTime` FROM `PlayerTime` order by `WeeklyTTime` desc limit 10;", con);
+        using (var reader = cmd.ExecuteReader())
+        {
+            while (reader.Read())
+            {
+                var steamid = reader.IsDBNull(0) ? 0 : reader.GetInt64(0);
+                var weeklyTime = reader.IsDBNull(1) ? 0 : reader.GetInt32(1);
+                if (steamid > 0)
+                {
+                    AddToDic(dict, steamid, weeklyTime);
+                }
+            }
+        }
+        cmd = new MySqlCommand(@$"SELECT `SteamId`,`WeeklyTotalTime` FROM `PlayerTime` order by `WeeklyTotalTime` desc limit 10;", con);
+        using (var reader = cmd.ExecuteReader())
+        {
+            while (reader.Read())
+            {
+                var steamid = reader.IsDBNull(0) ? 0 : reader.GetInt64(0);
+                var weeklyTime = reader.IsDBNull(1) ? 0 : reader.GetInt32(1);
+                if (steamid > 0)
+                {
+                    AddToDic(dictotal, steamid, weeklyTime);
+                }
+            }
+        }
+
+        if (dicw.Count > 0)
+        {
+            List<MySqlParameter> parameters = new List<MySqlParameter>();
+            var weekno = GetIso8601WeekOfYear(DateTime.UtcNow.AddHours(3));
+            var cmdText = "";
+            var i = 0;
+            parameters.Add(new MySqlParameter($"@WeekNo", weekno));
+
+            dicw.ToList()
+             .ForEach(x =>
+             {
+                 cmdText += @$"INSERT INTO `PlayerWeeklyWTime`
+                                          (`SteamId`,`WTime`,`WeekNo`)
+                                          VALUES
+                                          (@SteamId_{i},@WTime_{i}, @WeekNo);";
+                 parameters.Add(new MySqlParameter($"@SteamId_{i}", x.Key));
+                 parameters.Add(new MySqlParameter($"@WTime_{i}", x.Value));
+
+                 i++;
+             });
+            if (string.IsNullOrWhiteSpace(cmdText))
+            {
+                return;
+            }
+
+            cmd = new MySqlCommand(cmdText, con);
+            cmd.Parameters.AddRange(parameters.ToArray());
+            cmd.ExecuteNonQuery();
+        }
+
+        SendWarningForLessThan7HrsAWeekKomutcu(dicw, true);
+        SendWarningForLessThan7HrsAWeekKomutcu(dicct, false, "CT");
+        SendWarningForLessThan7HrsAWeekKomutcu(dict, false, "T");
+        SendWarningForLessThan7HrsAWeekKomutcu(dictotal, false, "Total");
+    }
+
+    private static void AddToDic(Dictionary<long, int> dic, long steamid, int time)
+    {
+        if (dic.TryGetValue(steamid, out var oldtime))
+        {
+            if (oldtime > time)
+            {
+                dic[steamid] = oldtime;
+            }
+            else
+            {
+                dic[steamid] = time;
+            }
+        }
+        else
+        {
+            dic.Add(steamid, time);
+        }
+    }
+
+    private void SendWarningForLessThan7HrsAWeekKomutcu(Dictionary<long, int> dic, bool uriFirst, string title = null)
+    {
+        string url;
+        if (uriFirst)
+        {
+            url = "https://discord.com/api/webhooks/1194758709344215090/-XRiPj35x-KTHRtAyWlB5i1I16lFylHl_17we6SOS5HbYY5JCFPQYiOjYot6trvQiUcR";
+        }
+        else
+        {
+            url = "https://discord.com/api/webhooks/1200909469496905888/7sNtxOzC3t8PgDmfuzgzRIIkp3u_Oj6evcGAY3pIcmRZC75eVhf6e2-Q4WbsBdCdVdua";
+        }
         var msg = string.Empty;
         foreach (var item in dic.ToList())
         {
@@ -531,11 +596,11 @@ public partial class JailbreakExtras
                               ? name : "-----(ismi net deil)";
                 if (msg == string.Empty)
                 {
-                    msg = $"PlayerName = {tempName} | SteamId = {item.Key} | Haftalık = {(item.Value < 120 ? $"{item.Value} dk" : $"{(int)(item.Value / 60)} saat")}";
+                    msg = $"P.Name = {tempName} | SteamId = {item.Key} | H. {(title ?? "W")}= {(item.Value < 120 ? $"{item.Value} dk" : $"{(int)(item.Value / 60)} s")}";
                 }
                 else
                 {
-                    msg += $"\nPlayerName = {tempName} | SteamId = {item.Key} | Haftalık = {(item.Value < 120 ? $"{item.Value} dk" : $"{(int)(item.Value / 60)} saat")}";
+                    msg += $"\nP.Name = {tempName} | SteamId = {item.Key} | H. {(title ?? "W")}= {(item.Value < 120 ? $"{item.Value} dk" : $"{(int)(item.Value / 60)} s")}";
                 }
             }
             catch

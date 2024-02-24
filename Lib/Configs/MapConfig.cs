@@ -94,7 +94,7 @@ namespace JailbreakExtras
             {"jb_zmtr_uzay", new List<CoordinateTemplate>()
                 {
                     new("Hucre",   new VectorTemp(-1860,-153,-269) ),
-                    new("KZ",      new VectorTemp(-1455,-2900,-543) ),
+                    new("KZ",      new VectorTemp(-1320,-2900,-543) ),
                     new("KZ Sag Kulvar",  new VectorTemp(-1185,-3252,-501) ),
                     new("KZ Sol Kulvar",  new VectorTemp(-1183,-2549,-501) ),
                 }
