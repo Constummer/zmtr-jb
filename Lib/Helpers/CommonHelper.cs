@@ -22,7 +22,7 @@ public partial class JailbreakExtras
         var actualMType = Schema.GetRef<MoveType_t>(x.PlayerPawn.Value.Handle, "CBaseEntity", "m_nActualMoveType");
         x.PlayerPawn.Value!.MoveType = mtype;
         actualMType = mtype;
-        Schema.SetSchemaValue<byte>(x.PlayerPawn.Value.Handle, "CBaseEntity", "m_nActualMoveType",(byte) mtype);
+        Schema.SetSchemaValue<byte>(x.PlayerPawn.Value.Handle, "CBaseEntity", "m_nActualMoveType", (byte)mtype);
         Utilities.SetStateChanged(x.PlayerPawn.Value, "CBaseEntity", "m_nActualMoveType");
         Utilities.SetStateChanged(x.PlayerPawn.Value, "CBaseEntity", "m_MoveType");
     }
@@ -221,7 +221,7 @@ public partial class JailbreakExtras
             TargetForArgument.Dead => x.PawnIsAlive == false,
             TargetForArgument.T => GetTeam(x) == CsTeam.Terrorist,
             TargetForArgument.Ct => GetTeam(x) == CsTeam.CounterTerrorist,
-            TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target?.ToLower() ?? "") ?? false,
+            TargetForArgument.None => (x.PlayerName?.ToLower()?.Contains(target?.ToLower() ?? "") ?? false) || x.SteamID.ToString() == target,
             TargetForArgument.Me => x.SteamID == self?.SteamID,
             TargetForArgument.UserIdIndex => GetUserIdIndex(target) == x.UserId,
             TargetForArgument.Aim => GetClosestPlayer(self, x),
