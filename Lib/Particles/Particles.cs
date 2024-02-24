@@ -53,6 +53,53 @@ public partial class JailbreakExtras
             });
     }
 
+    private void SaveAllParticleData()
+    {
+        try
+        {
+            using (var con = Connection())
+            {
+                if (con == null)
+                {
+                    return;
+                }
+                List<MySqlParameter> parameters = new List<MySqlParameter>();
+
+                var cmdText = "";
+                var i = 0;
+                GetPlayers()
+                 .ToList()
+                 .ForEach(x =>
+                 {
+                     if (PlayerParticleDatas.TryGetValue(x.SteamID, out var value))
+                     {
+                         cmdText += @$"UPDATE `PlayerParticleData`
+                                         SET
+                                            `BoughtModelIds` = @BoughtModelIds_{i},
+                                            `SelectedModelId` = @SelectedModelId_{i}
+                                        WHERE `SteamId` = @SteamId_{i};";
+
+                         parameters.Add(new MySqlParameter($"@SteamId_{i}", x.SteamID));
+                         parameters.Add(new MySqlParameter($"@BoughtModelIds_{i}", value.BoughtModelIds ?? ""));
+                         parameters.Add(new MySqlParameter($"@SelectedModelId_{i}", value.SelectedModelId ?? ""));
+                         i++;
+                     }
+                 });
+                if (string.IsNullOrWhiteSpace(cmdText))
+                {
+                    return;
+                }
+                var cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddRange(parameters.ToArray());
+                cmd.ExecuteNonQuery();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
+        }
+    }
+
     private static void GetPlayerParticleData(ulong steamId)
     {
         try

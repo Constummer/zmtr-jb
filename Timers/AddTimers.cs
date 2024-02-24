@@ -11,6 +11,7 @@ public partial class JailbreakExtras
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooSteamGroupsTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooDailyRestartTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooDcWardenNotifyTimer { get; set; } = null;
+    public CounterStrikeSharp.API.Modules.Timers.Timer? FooSaveAllParticleDataTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooCoinGoWantedTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooCoinRespawnTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooGiveCreditTimer { get; set; } = null;
@@ -75,5 +76,11 @@ public partial class JailbreakExtras
         FooDcWardenNotifyTimer = DcWardenNotifyTimer();
 
         #endregion Extras
+
+        #region Particle
+
+        FooSaveAllParticleDataTimer = SaveAllParticleDataTimer();
+
+        #endregion Particle
     }
 }

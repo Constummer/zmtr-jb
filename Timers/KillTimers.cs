@@ -19,6 +19,7 @@ public partial class JailbreakExtras
         FooDailyRestartTimer?.Kill();
         FooDcWardenNotifyTimer?.Kill();
         FooGiveCreditToCssPremiumTimer?.Kill();
+        FooSaveAllParticleDataTimer?.Kill();
         FooGiveAndSaveTPToAllTimer = null;
         FooUpdateAllTimeTrackingDatasTimer = null;
         FooSaveTimeTrackingDatasTimer = null;
@@ -34,5 +35,6 @@ public partial class JailbreakExtras
         FooDailyRestartTimer = null;
         FooDcWardenNotifyTimer = null;
         FooGiveCreditToCssPremiumTimer = null;
+        FooSaveAllParticleDataTimer = null;
     }
 }
