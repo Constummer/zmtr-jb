@@ -9,6 +9,7 @@ public partial class JailbreakExtras
         CountdownText = "";
         CountdownTime = 0;
         Countdown_enable_text = false;
+        MarketEnvDisable = false;
         RespawnAcActive = false;
         timer?.Kill();
         ActiveGodMode?.Clear();

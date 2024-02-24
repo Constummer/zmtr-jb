@@ -16,6 +16,7 @@ public partial class JailbreakExtras
 {
     private static Dictionary<ulong, PlayerMarketModel> PlayerMarketModels = new();
     private static Dictionary<int, PlayerModel> PlayerModels = new();
+    public static bool MarketEnvDisable { get; set; } = false;
 
     private enum ModelMenuType
     {
@@ -106,7 +107,7 @@ public partial class JailbreakExtras
             {
                 marketMenu.AddMenuOption($"{CC.R}SEÇİM YAPABİLMEK İÇİN {CC.DR}HAYATTA {CC.R}OLMALISINIZ", null, true);
             }
-            if (TgActive == true)
+            if (MarketEnvDisable == true)
             {
                 marketMenu.AddMenuOption($"{CC.R}SEÇİM YAPABİLMEK İÇİN {CC.DR}TG{CC.R}'NIN BITMESINI BEKLEMELISIN", null, true);
             }
@@ -146,7 +147,7 @@ public partial class JailbreakExtras
                     if (data.Model == null) return;
 
                     SetModel(player, item.Value, data.Model, i.Text, i.Text!.EndsWith(" | [SATIN ALINDI]"));
-                }, !player.PawnIsAlive || TgActive);
+                }, !player.PawnIsAlive || MarketEnvDisable);
             }
         }
         ChatMenus.OpenMenu(player, marketMenu);

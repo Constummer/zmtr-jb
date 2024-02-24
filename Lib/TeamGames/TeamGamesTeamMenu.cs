@@ -8,6 +8,7 @@ public partial class JailbreakExtras
 {
     private void TeamedTeamGamesMenu(CCSPlayerController player, ChatMenuOption option)
     {
+        MarketEnvDisable = true;
         TakimYapAction(2);
         if (ValidateCallerPlayer(player, false) == false) return;
 

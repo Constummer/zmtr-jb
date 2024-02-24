@@ -101,6 +101,7 @@ public partial class JailbreakExtras
                 }
             }
             TgActive = false;
+            MarketEnvDisable = false;
             TgTimer?.Kill();
             TgTimer = null;
             if (ActiveTeamGamesGameBase != null)

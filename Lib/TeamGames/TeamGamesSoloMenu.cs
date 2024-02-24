@@ -2,7 +2,6 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
-using System.Drawing;
 
 namespace JailbreakExtras;
 
@@ -10,6 +9,7 @@ public partial class JailbreakExtras
 {
     private void SoloTeamGamesMenu(CCSPlayerController player, ChatMenuOption option)
     {
+        MarketEnvDisable = true;
         SetRedColorForTeamGames();
 
         if (ValidateCallerPlayer(player, false) == false) return;
