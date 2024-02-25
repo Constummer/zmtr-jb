@@ -12,7 +12,7 @@ public partial class JailbreakExtras
         var signature = GetSetParentSignature();
         MemoryFunctionVoid<CParticleSystem, CCSPlayerPawn, bool, bool> func = new(signature);
         func.Invoke(x, pawn, true, false);
-        VirtualFunction.CreateVoid<CParticleSystem>(x.Handle, GameData.GetOffset("CBaseEntity_SetParent"))(x);
+        //VirtualFunction.CreateVoid<CParticleSystem>(x.Handle, GameData.GetOffset("CBaseEntity_SetParent"))(x);
     }
 
     private static string GetSetParentSignature()

@@ -3,16 +3,27 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
+using Microsoft.Extensions.Logging;
+using MySqlConnector;
 
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    #region KomutcuAdmin
+    public static Dictionary<ulong, SorumluAdminTypes> SorumluAdmins { get; set; } = new();
+
+    public enum SorumluAdminTypes
+    {
+        None = 0,
+        Sabah,
+        Aksam
+    }
 
     [ConsoleCommand("sorumluadmin")]
+    [ConsoleCommand("sorumluadminekle")]
+    [ConsoleCommand("sorumluadminekle")]
+    [CommandHelper(minArgs: 2, "<sorumlu admin olacak kişi> <1: Sabah, 2: Akşam>")]
     public void SorumluAdmin(CCSPlayerController? player, CommandInfo info)
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/yonetim"))
@@ -25,56 +36,116 @@ public partial class JailbreakExtras
             return;
         }
 
-        var players = GetPlayers()
-        .Where(x => AdminManager.PlayerHasPermissions(x, "@css/admin1"))
-        .ToList();
+        var targetPlayer = info.ArgString.GetArg(0);
+        var type = info.ArgString.GetArg(1);
+        if (string.IsNullOrWhiteSpace(targetPlayer) || string.IsNullOrWhiteSpace(type))
+        {
+            return;
+        }
+        if (Enum.TryParse<SorumluAdminTypes>(type, out var typeRes) == false || typeRes == SorumluAdminTypes.None)
+        {
+            return;
+        }
+        var targetArgument = GetTargetArgument(targetPlayer);
 
+        var players = GetPlayers()
+               .Where(x =>
+               (targetArgument == TargetForArgument.UserIdIndex
+               ? GetUserIdIndex(targetPlayer) == x.UserId : targetArgument == TargetForArgument.Me
+               ? x.SteamID == player.SteamID : false)
+               || (x.PlayerName?.ToLower()?.Contains(targetPlayer?.ToLower()) ?? false)
+               || x.SteamID.ToString() == targetPlayer)
+               .ToList();
         if (players.Count == 0)
         {
-            player.PrintToChat($"{Prefix} {CC.W}Aktif hiç admin bulunamadı");
+            player.PrintToChat($"{Prefix} {CC.W}Eşleşen oyuncu bulunamadı!");
             return;
         }
-        var kaMenu = new ChatMenu("Komutçu Admin Menü");
-        kaMenu.AddMenuOption("Seçeceğin Admin Komutçu Admin Olacak!", null, true);
-        players.ForEach(x =>
+        if (players.Count != 1)
         {
-            kaMenu.AddMenuOption(x.PlayerName, (p, t) =>
-            {
-                if (ValidateCallerPlayer(x, false) == false) return;
-                KomutcuAdminId = x.SteamID;
-                x.Clan = $"{CC.P}[Komutçu Admin]";
-                AddTimer(0.2f, () =>
-                {
-                    if (ValidateCallerPlayer(x, false) == false) return;
-                    Utilities.SetStateChanged(x, "CCSPlayerController", "m_szClan");
-                    Utilities.SetStateChanged(x, "CBasePlayerController", "m_iszPlayerName");
-                }, SOM);
-                Server.PrintToChatAll($"{Prefix} {CC.B}{x.PlayerName} {CC.P} [Komutçu Admin]{CC.W} Olarak seçildi");
-            });
-        });
-        ChatMenus.OpenMenu(player, kaMenu);
+            player.PrintToChat($"{Prefix} {CC.W}Birden fazla oyuncu bulundu.");
+            return;
+        }
+        var y = players.FirstOrDefault();
+        if (ValidateCallerPlayer(y, false) == false) return;
+
+        var sorumluAdminType = typeRes switch
+        {
+            SorumluAdminTypes.Sabah => "[Sabah Sorumlu]",
+            SorumluAdminTypes.Aksam => "[Akşam Sorumlu]",
+        };
+        if (SorumluAdmins.Any(x => x.Key == y.SteamID))
+        {
+            SorumluAdmins[player.SteamID] = typeRes;
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.B} {y.PlayerName}{CC.W} adlı oyuncuyu {CC.R}{sorumluAdminType}{CC.W} olarak güncelledi");
+        }
+        else
+        {
+            SorumluAdmins.Add(y.SteamID, typeRes);
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.B} {y.PlayerName}{CC.W} adlı oyuncuyu {CC.R}{sorumluAdminType}{CC.W} olarak aldı");
+        }
+        AddOrUpdateSorumluAdminData(y.SteamID, (int)typeRes);
     }
 
-    private void CleanTagOnSorumluAdmin()
+    private void AddOrUpdateSorumluAdminData(ulong steamId, int type)
     {
-        if (KomutcuAdminId == null)
-            return;
-        var ka = GetPlayers().Where(x => ValidateCallerPlayer(x, false) && x.SteamID == KomutcuAdminId).FirstOrDefault();
-        if (ka != null)
+        try
         {
-            ka.Clan = "";
-            AddTimer(0.2f, () =>
+            using (var con = Connection())
             {
-                if (ValidateCallerPlayer(ka, false) == false) return;
-                Utilities.SetStateChanged(ka, "CCSPlayerController", "m_szClan");
-                Utilities.SetStateChanged(ka, "CBasePlayerController", "m_iszPlayerName");
-            }, SOM);
+                if (con == null)
+                {
+                    return;
+                }
+
+                var cmd = new MySqlCommand(@$"SELECT 1 FROM `SorumluAdmin` WHERE `SteamId` = @SteamId;", con);
+                cmd.Parameters.AddWithValue("@SteamId", steamId);
+                bool exist = false;
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        exist = true;
+                    }
+                }
+                if (exist)
+                {
+                    cmd = new MySqlCommand(@$"UPDATE `SorumluAdmin`
+                                          SET
+                                              `TypeId` = @TypeId
+                                          WHERE `SteamId` = @SteamId;
+                ", con);
+
+                    cmd.Parameters.AddWithValue("@SteamId", steamId);
+                    cmd.Parameters.AddWithValue("@TypeId", type);
+
+                    cmd.ExecuteNonQuery();
+                }
+                else
+                {
+                    cmd = new MySqlCommand(@$"INSERT INTO `SorumluAdmin`
+                                      (SteamId,TypeId)
+                                      VALUES (@SteamId,@TypeId);", con);
+
+                    cmd.Parameters.AddWithValue("@SteamId", steamId);
+                    cmd.Parameters.AddWithValue("@TypeId", type);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
         }
-        KomutcuAdminId = null;
+        catch (Exception e)
+        {
+            Logger.LogError(e, "hata");
+        }
     }
 
     public static bool SorumluAdminSay(CCSPlayerController? player, CommandInfo info)
     {
+        if (SorumluAdmins.TryGetValue(player.SteamID, out var result) == false)
+        {
+            return false;
+        }
         var teamColor = GetTeam(player) switch
         {
             CsTeam.CounterTerrorist => CC.BG,
@@ -89,13 +160,51 @@ public partial class JailbreakExtras
             CsTeam.Spectator => CC.P,
             CsTeam.None => CC.Or,
         };
-        if (KomutcuAdminId == player.SteamID)
+
+        var sorumluAdminType = result switch
         {
-            Server.PrintToChatAll($" {CC.P}[Komutçu Admin] {teamColor}{player.PlayerName} {CC.W}: {chatColor}{info.GetArg(1)}");
-            return true;
-        }
-        return false;
+            SorumluAdminTypes.Sabah => "[Sabah Sorumlu]",
+            SorumluAdminTypes.Aksam => "[Akşam Sorumlu]",
+        };
+
+        Server.PrintToChatAll($" {CC.M}{sorumluAdminType} {teamColor}{player.PlayerName} {CC.W}: {chatColor}{info.GetArg(1)}");
+        return true;
     }
 
-    #endregion KomutcuAdmin
+    private void GetAllSorumluAdminData(MySqlConnection con)
+    {
+        if (con == null)
+        {
+            return;
+        }
+
+        MySqlCommand? cmd = new MySqlCommand(@$"SELECT `SteamId`, `TypeId` FROM `SorumluAdmin`;", con);
+        using (var reader = cmd.ExecuteReader())
+        {
+            while (reader.Read())
+            {
+                var steamId = reader.IsDBNull(0) ? 0 : reader.GetInt64(0);
+                var typeId = reader.IsDBNull(1) ? 0 : reader.GetInt32(1);
+                if (steamId == 0)
+                {
+                    continue;
+                }
+                if (typeId == 0)
+                {
+                    continue;
+                }
+
+                if (SorumluAdmins.ContainsKey((ulong)steamId) == false)
+                {
+                    SorumluAdmins.Add((ulong)steamId, (SorumluAdminTypes)typeId);
+                }
+                else
+                {
+                    SorumluAdmins[(ulong)steamId] = (SorumluAdminTypes)typeId;
+                }
+            }
+        }
+
+        return;
+    }
 }
