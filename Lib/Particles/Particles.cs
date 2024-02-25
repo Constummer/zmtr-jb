@@ -47,9 +47,9 @@ public partial class JailbreakExtras
                     particle.Teleport(p.PlayerPawn.Value.AbsOrigin, ANGLE_ZERO, VEC_ZERO);
                     particle.DispatchSpawn();
                     particle.AcceptInput("Start");
+                    RoundEndParticles.Add(particle);
                     CustomSetParent(particle, p.PlayerPawn.Value);
                 }
-                RoundEndParticles.Add(particle);
             });
     }
 
@@ -362,15 +362,15 @@ public partial class JailbreakExtras
             {
                 return;
             }
+            if (PlayerAuras.ContainsKey(player.SteamID))
+            {
+                PlayerAuras[player.SteamID] = aura;
+            }
+            else
+            {
+                PlayerAuras.Add(player.SteamID, aura);
+            }
             CustomSetParent(aura, player.PlayerPawn.Value);
-        }
-        if (PlayerAuras.ContainsKey(player.SteamID))
-        {
-            PlayerAuras[player.SteamID] = aura;
-        }
-        else
-        {
-            PlayerAuras.Add(player.SteamID, aura);
         }
     }
 
