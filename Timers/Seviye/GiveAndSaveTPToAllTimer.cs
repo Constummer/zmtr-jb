@@ -14,7 +14,6 @@ public partial class JailbreakExtras
     {
         return AddTimer(360f, () =>
         {
-            Stopwatch stopwatch = Stopwatch.StartNew();
             var lider1Players = GetPlayers()
                                 .Where(x => AdminManager.PlayerHasPermissions(x, "@css/liderkredi"))
                                 .ToList()
@@ -43,8 +42,6 @@ public partial class JailbreakExtras
                     });
                 }
             }
-            stopwatch.Stop();
-            Server.PrintToConsole("GiveAndSaveTPToAllTimer = " + stopwatch.Elapsed.TotalMilliseconds);
         }, Full);
     }
 

@@ -12,10 +12,7 @@ public partial class JailbreakExtras
     {
         return AddTimer(60f, () =>
         {
-            Stopwatch stopwatch = Stopwatch.StartNew();
             UpdateAllModels();
-            stopwatch.Stop();
-            Server.PrintToConsole("SaveCreditTimer = " + stopwatch.Elapsed.TotalMilliseconds);
         }, Full);
     }
 

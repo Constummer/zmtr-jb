@@ -12,10 +12,7 @@ public partial class JailbreakExtras
     {
         return AddTimer(60 * 15, () =>
         {
-            Stopwatch stopwatch = Stopwatch.StartNew();
             UpdateAllTimeTrackingData();
-            stopwatch.Stop();
-            Server.PrintToConsole("UpdateAllTimeTrackingDatasTimer = " + stopwatch.Elapsed.TotalMilliseconds);
         }, Full);
     }
 

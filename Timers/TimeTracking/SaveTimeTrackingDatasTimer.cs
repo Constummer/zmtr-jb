@@ -11,10 +11,7 @@ public partial class JailbreakExtras
     {
         return AddTimer(60f, () =>
         {
-            Stopwatch stopwatch = Stopwatch.StartNew();
             UpdatePlayerTimeDataBulk();
-            stopwatch.Stop();
-            Server.PrintToConsole("SaveTimeTrackingDatasTimer = " + stopwatch.Elapsed.TotalMilliseconds);
         }, Full);
     }
 
