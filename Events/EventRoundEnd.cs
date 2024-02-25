@@ -12,12 +12,12 @@ public partial class JailbreakExtras
             PrepareRoundDefaults();
             CoinRemove();
             CheckAllLevelTags();
-            RoundEndParticle(@event.Winner);
             if (KumarKapatDisable == false)
             {
                 RuletActivate();
                 PiyangoKazananSonuc();
             }
+            RoundEndParticle(@event.Winner);
             return HookResult.Continue;
         });
     }

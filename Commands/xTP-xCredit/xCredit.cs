@@ -15,7 +15,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         CreditModifier = 2;
@@ -27,7 +27,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         CreditModifier = 3;
@@ -39,7 +39,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         CreditModifier = 4;
@@ -58,7 +58,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         CreditModifier = 1;

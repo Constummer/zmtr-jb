@@ -117,7 +117,7 @@ public partial class JailbreakExtras
             {
                 if (printMsg)
                 {
-                    x.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+                    x.PrintToChat(NotEnoughPermission);
                 }
                 return false;
             }
@@ -162,7 +162,7 @@ public partial class JailbreakExtras
                 {
                     if (AdminManager.PlayerHasPermissions(player, permLevel) == false)
                     {
-                        player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+                        player.PrintToChat(NotEnoughPermission);
                         return false;
                     }
                 }
@@ -171,7 +171,7 @@ public partial class JailbreakExtras
             {
                 if (AdminManager.PlayerHasPermissions(player, permLevel) == false)
                 {
-                    player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+                    player.PrintToChat(NotEnoughPermission);
                     return false;
                 }
             }

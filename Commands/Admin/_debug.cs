@@ -26,7 +26,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -40,7 +40,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -73,7 +73,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -91,7 +91,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -106,7 +106,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -123,7 +123,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -153,7 +153,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -183,7 +183,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -199,7 +199,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         var target = info.ArgString.GetArg(0);
@@ -222,7 +222,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         AimPlayerTimer = AddTimer(0.1f, () =>
@@ -244,7 +244,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         AimPlayerTimer?.Kill();
@@ -255,7 +255,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(x, "@css/root"))
         {
-            x.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            x.PrintToChat(NotEnoughPermission);
             return;
         }
         var target = info.ArgString.GetArg(0);
@@ -286,7 +286,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -305,7 +305,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -346,7 +346,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         try
@@ -365,7 +365,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
     }
@@ -375,7 +375,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         var tarEnt = info.ArgString;
@@ -428,7 +428,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         a?.Kill();
@@ -442,7 +442,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         var target = Utilities.FindAllEntitiesByDesignerName<CBaseEntity>("func_door");
@@ -475,7 +475,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         ForceEntInput("func_breakable", "Break", "DropEldenGidiyeah");
@@ -486,7 +486,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         var target = Utilities.FindAllEntitiesByDesignerName<CBaseEntity>("func_breakable");
@@ -603,7 +603,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -630,7 +630,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -657,7 +657,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -681,7 +681,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -705,7 +705,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -730,7 +730,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -752,7 +752,7 @@ public partial class JailbreakExtras
     //{
     //    if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
     //    {
-    //        player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+    //        player.PrintToChat(NotEnoughPermission);
     //        return;
     //    }
     //    var bune = new CenterHtmlMenu("test");
@@ -775,7 +775,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         foreach (var item in AllPlayerTotalTimeTracking)
@@ -805,7 +805,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         foreach (var item in PlayerTimeTracking)
@@ -819,7 +819,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         //player.PlayerPawn.Value.ObserverServices.ObserverMode = 3;
@@ -834,7 +834,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         foreach (var item in PlayerNamesDatas)
@@ -848,7 +848,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (Enum.TryParse<RenderMode_t>(info.ArgString.GetArg(0), out var res))
@@ -893,7 +893,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         HideWeapons(player);
@@ -904,7 +904,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         ShowWeapons(player);
@@ -915,7 +915,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         Server.PrintToChatAll("css_slot1");
@@ -926,7 +926,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         Server.PrintToChatAll("slot1");
@@ -937,7 +937,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -952,7 +952,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -970,7 +970,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -988,7 +988,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -1006,7 +1006,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -1027,7 +1027,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -1045,7 +1045,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/yonetim"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -1060,7 +1060,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/yonetim"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -1078,7 +1078,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/yonetim"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -1096,7 +1096,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/yonetim"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -1115,7 +1115,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/yonetim"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -1135,7 +1135,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -1165,7 +1165,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -1180,7 +1180,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -1221,7 +1221,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -1257,7 +1257,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
