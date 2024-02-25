@@ -3,19 +3,14 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CounterStrikeSharp.API.Modules.Memory;
+using CounterStrikeSharp.API.Modules.Menu;
 
 //using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
-using System.Diagnostics;
-using System.Drawing;
-using System.Net.Security;
-using System.Text;
 using System.Text.Json;
-using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
 
@@ -176,6 +171,30 @@ public partial class JailbreakExtras
             BulletImpactVectors.Add(new(@event?.X, @event?.Y, @event?.Z));
             Server.PrintToConsole($"{@event?.X},{@event?.Y},{@event?.Z} - {BulletImpactVectors.Count}");
         }
+    }
+
+    [ConsoleCommand("ccentermenu")]
+    public void ccentermenu(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        var menu = new CenterHtmlMenu("123456780qwertyuio");
+        for (int i = 0; i < 20; i++)
+        {
+            var key = $"test_{i}";
+            menu.AddMenuOption(key, (i, o) =>
+            {
+                player.PrintToChat(key + " | sectin");
+            });
+        }
+        MenuManager.OpenCenterHtmlMenu(this, player, menu);
     }
 
     [ConsoleCommand("csteamid")]
@@ -1231,7 +1250,6 @@ public partial class JailbreakExtras
 
         try
         {
-            var watch = Stopwatch.StartNew();
             using (var con = Connection())
             {
                 if (con == null)
@@ -1243,8 +1261,6 @@ public partial class JailbreakExtras
                 cmd.Parameters.AddWithValue("@SteamId", player.SteamID);
                 cmd.ExecuteNonQuery();
             }
-            watch.Stop();
-            Server.PrintToChatAll($"{watch.Elapsed.TotalMilliseconds}");
         }
         catch (Exception e)
         {
@@ -1267,7 +1283,6 @@ public partial class JailbreakExtras
 
         try
         {
-            var watch = Stopwatch.StartNew();
             using (var con = Connection())
             {
                 if (con == null)
@@ -1279,8 +1294,6 @@ public partial class JailbreakExtras
                 cmd.Parameters.AddWithValue("@SteamId", player.SteamID);
                 cmd.ExecuteNonQuery();
             }
-            watch.Stop();
-            Server.PrintToChatAll($"{watch.Elapsed.TotalMilliseconds}");
         }
         catch (Exception e)
         {
