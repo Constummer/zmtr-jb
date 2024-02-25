@@ -140,8 +140,7 @@ public partial class JailbreakExtras
 
                     cmd = new MySqlCommand(
                     @"CREATE TABLE IF NOT EXISTS `SorumluAdmin` (
-                          `SteamId` bigint(20) DEFAULT NULL,
-                          `TypeId` mediumint(9) DEFAULT 0
+                          `SteamId` bigint(20) DEFAULT NULL
                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
                     await cmd.ExecuteNonQueryAsync();
 

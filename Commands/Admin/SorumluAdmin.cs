@@ -11,19 +11,12 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    public static Dictionary<ulong, SorumluAdminTypes> SorumluAdmins { get; set; } = new();
-
-    public enum SorumluAdminTypes
-    {
-        None = 0,
-        Sabah,
-        Aksam
-    }
+    public static List<ulong> SorumluAdmins { get; set; } = new();
 
     [ConsoleCommand("sorumluadmin")]
     [ConsoleCommand("sorumluadminekle")]
     [ConsoleCommand("sorumluadminekle")]
-    [CommandHelper(minArgs: 2, "<sorumlu admin olacak kişi> <1: Sabah, 2: Akşam>")]
+    [CommandHelper(minArgs: 1, "<sorumlu admin olacak kişi>")]
     public void SorumluAdmin(CCSPlayerController? player, CommandInfo info)
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/yonetim"))
@@ -39,10 +32,6 @@ public partial class JailbreakExtras
         var targetPlayer = info.ArgString.GetArg(0);
         var type = info.ArgString.GetArg(1);
         if (string.IsNullOrWhiteSpace(targetPlayer) || string.IsNullOrWhiteSpace(type))
-        {
-            return;
-        }
-        if (Enum.TryParse<SorumluAdminTypes>(type, out var typeRes) == false || typeRes == SorumluAdminTypes.None)
         {
             return;
         }
@@ -69,25 +58,20 @@ public partial class JailbreakExtras
         var y = players.FirstOrDefault();
         if (ValidateCallerPlayer(y, false) == false) return;
 
-        var sorumluAdminType = typeRes switch
+        if (SorumluAdmins.Any(x => x == y.SteamID))
         {
-            SorumluAdminTypes.Sabah => "[Sabah Sorumlu]",
-            SorumluAdminTypes.Aksam => "[Akşam Sorumlu]",
-        };
-        if (SorumluAdmins.Any(x => x.Key == y.SteamID))
-        {
-            SorumluAdmins[player.SteamID] = typeRes;
-            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.B} {y.PlayerName}{CC.W} adlı oyuncuyu {CC.R}{sorumluAdminType}{CC.W} olarak güncelledi");
+            player.PrintToChat($"{Prefix}{CC.B} {y.PlayerName}{CC.W} isimli oyuncu halihazirda [Sorumlu].");
+            return;
         }
         else
         {
-            SorumluAdmins.Add(y.SteamID, typeRes);
-            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.B} {y.PlayerName}{CC.W} adlı oyuncuyu {CC.R}{sorumluAdminType}{CC.W} olarak aldı");
+            SorumluAdmins.Add(y.SteamID);
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.B} {y.PlayerName}{CC.W} adlı oyuncuyu {CC.R}[Sorumlu]{CC.W} olarak ekledi");
         }
-        AddOrUpdateSorumluAdminData(y.SteamID, (int)typeRes);
+        AddSorumluAdminData(y.SteamID);
     }
 
-    private void AddOrUpdateSorumluAdminData(ulong steamId, int type)
+    private void AddSorumluAdminData(ulong steamId)
     {
         try
         {
@@ -108,27 +92,13 @@ public partial class JailbreakExtras
                         exist = true;
                     }
                 }
-                if (exist)
-                {
-                    cmd = new MySqlCommand(@$"UPDATE `SorumluAdmin`
-                                          SET
-                                              `TypeId` = @TypeId
-                                          WHERE `SteamId` = @SteamId;
-                ", con);
-
-                    cmd.Parameters.AddWithValue("@SteamId", steamId);
-                    cmd.Parameters.AddWithValue("@TypeId", type);
-
-                    cmd.ExecuteNonQuery();
-                }
-                else
+                if (!exist)
                 {
                     cmd = new MySqlCommand(@$"INSERT INTO `SorumluAdmin`
-                                      (SteamId,TypeId)
-                                      VALUES (@SteamId,@TypeId);", con);
+                                      (SteamId)
+                                      VALUES (@SteamId);", con);
 
                     cmd.Parameters.AddWithValue("@SteamId", steamId);
-                    cmd.Parameters.AddWithValue("@TypeId", type);
 
                     cmd.ExecuteNonQuery();
                 }
@@ -142,7 +112,7 @@ public partial class JailbreakExtras
 
     public static bool SorumluAdminSay(CCSPlayerController? player, CommandInfo info)
     {
-        if (SorumluAdmins.TryGetValue(player.SteamID, out var result) == false)
+        if (SorumluAdmins.Contains(player.SteamID) == false)
         {
             return false;
         }
@@ -161,13 +131,7 @@ public partial class JailbreakExtras
             CsTeam.None => CC.Or,
         };
 
-        var sorumluAdminType = result switch
-        {
-            SorumluAdminTypes.Sabah => "[Sabah Sorumlu]",
-            SorumluAdminTypes.Aksam => "[Akşam Sorumlu]",
-        };
-
-        Server.PrintToChatAll($" {CC.M}{sorumluAdminType} {teamColor}{player.PlayerName} {CC.W}: {chatColor}{info.GetArg(1)}");
+        Server.PrintToChatAll($" {CC.M}[Sorumlu] {teamColor}{player.PlayerName} {CC.W}: {chatColor}{info.GetArg(1)}");
         return true;
     }
 
@@ -178,29 +142,20 @@ public partial class JailbreakExtras
             return;
         }
 
-        MySqlCommand? cmd = new MySqlCommand(@$"SELECT `SteamId`, `TypeId` FROM `SorumluAdmin`;", con);
+        MySqlCommand? cmd = new MySqlCommand(@$"SELECT `SteamId` FROM `SorumluAdmin`;", con);
         using (var reader = cmd.ExecuteReader())
         {
             while (reader.Read())
             {
                 var steamId = reader.IsDBNull(0) ? 0 : reader.GetInt64(0);
-                var typeId = reader.IsDBNull(1) ? 0 : reader.GetInt32(1);
                 if (steamId == 0)
                 {
                     continue;
                 }
-                if (typeId == 0)
-                {
-                    continue;
-                }
 
-                if (SorumluAdmins.ContainsKey((ulong)steamId) == false)
+                if (SorumluAdmins.Contains((ulong)steamId) == false)
                 {
-                    SorumluAdmins.Add((ulong)steamId, (SorumluAdminTypes)typeId);
-                }
-                else
-                {
-                    SorumluAdmins[(ulong)steamId] = (SorumluAdminTypes)typeId;
+                    SorumluAdmins.Add((ulong)steamId);
                 }
             }
         }
