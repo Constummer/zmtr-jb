@@ -145,6 +145,13 @@ public partial class JailbreakExtras
                     await cmd.ExecuteNonQueryAsync();
 
                     cmd = new MySqlCommand(
+                    @"CREATE TABLE IF NOT EXISTS `PlayerCustomTag` (
+                          `SteamId` bigint(20) DEFAULT NULL,
+                          `Tag` TEXT DEFAULT NULL
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
+                    await cmd.ExecuteNonQueryAsync();
+
+                    cmd = new MySqlCommand(
                     @"CREATE TABLE IF NOT EXISTS `PlayerParticleData` (
                              `SteamId` bigint(20) DEFAULT NULL,
                              `BoughtModelIds` TEXT DEFAULT NULL,
@@ -161,6 +168,7 @@ public partial class JailbreakExtras
                     GetAllPlayerIsyanTeamData(con);
                     GetAllPlayerSutTeamData(con);
                     GetAllKomWeeklyCreditData(con);
+                    GetAllCustomTagData(con);
                 }
             }
             catch (Exception ex)

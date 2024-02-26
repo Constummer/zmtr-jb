@@ -28,6 +28,7 @@ public partial class JailbreakExtras
         DizActive = false;
         DizStart = null;
         DizEnd = null;
+        UberSlapTimer?.Kill();
         FFTimer?.Kill();
         fzTimer?.Kill();
         BurnTimer?.Kill();
