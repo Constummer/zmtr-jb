@@ -10,7 +10,6 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-
     private static bool IsEliMenuCheck { get; set; } = false;
     private CounterStrikeSharp.API.Modules.Timers.Timer IseliTimer { get; set; } = null;
 
@@ -151,8 +150,6 @@ public partial class JailbreakExtras
                   .ToList()
                   .ForEach(x =>
                   {
-                      RemoveWeapons(x, true);
-
                       x.PlayerPawn.Value.Teleport(coord.Coord, ANGLE_ZERO, VEC_ZERO);
                   });
     }
