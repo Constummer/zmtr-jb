@@ -197,6 +197,32 @@ public partial class JailbreakExtras
         MenuManager.OpenCenterHtmlMenu(this, player, menu);
     }
 
+    [ConsoleCommand("ccustomcoin")]
+    public void ccustomcoin(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+
+        var Coin = Utilities.CreateEntityByName<CPhysicsPropMultiplayer>("prop_physics_multiplayer");
+        if (Coin == null)
+        {
+            return;
+        }
+
+        Coin.SetModel("models/coop/challenge_coin.vmdl");
+        Coin.Teleport(player.PlayerPawn.Value.AbsOrigin, ANGLE_ZERO, VEC_ZERO);
+        Coin.DispatchSpawn();
+        Coin.AcceptInput("Start");
+        CustomSetParent(Coin, player.PlayerPawn.Value);
+    }
+
     [ConsoleCommand("csteamid")]
     public void csteamid(CCSPlayerController? player, CommandInfo info)
     {
