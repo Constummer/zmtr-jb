@@ -58,6 +58,7 @@ public partial class JailbreakExtras
         KomaEndTimer = null;
         KomalPrintTimer?.Kill();
         KomalPrintTimer = null;
+        KomalTimer?.Kill();
 
         var now = DateTime.UtcNow;
         KomalTimer = AddTimer(30f, () =>
@@ -143,7 +144,7 @@ public partial class JailbreakExtras
                 AlreadyVotedPlayers?.Clear();
                 foreach (var voter in voters)
                 {
-                    KomAlAnswers.Add(voter.SteamID, 0);
+                    KomAlAnswers?.Add(voter.SteamID, 0);
 
                     komalVoteMenu.AddMenuOption(voter.PlayerName, (x, i) =>
                     {
@@ -172,7 +173,7 @@ public partial class JailbreakExtras
                     i++;
                     var hmtl = $"<b>Oylama: <font color='#00FF00'>Komutçu Al Oylaması</font><br>" +
                                 $" Kalan Süre : <font color='{((int)((150 - i) / 10) > 3 ? "#00FF00" : "#FF0000")}'> {(int)((150 - i) / 10)}</font><br>" +
-                string.Join("<br>", KomAlAnswers.Select((x, i) => $"!{i + 1} - {voters.Where(y => y.SteamID == x.Key).Select(y => y.PlayerName).FirstOrDefault()} - {x.Value}")) +
+                string.Join("<br>", KomAlAnswers?.Select((x, i) => $"!{i + 1} - {voters.Where(y => y.SteamID == x.Key).Select(y => y.PlayerName).FirstOrDefault()} - {x.Value}")) +
                                    $"</b>";
                     if (i > 151)
                     {
@@ -191,28 +192,18 @@ public partial class JailbreakExtras
                     {
                         Server.PrintToChatAll($" {CC.R} Komaday sonuçları");
 
-                        var list = KomAlAnswers.OrderByDescending(x => x.Value).ToList();
+                        var list = KomAlAnswers?.OrderByDescending(x => x.Value)?.ToList() ?? new();
 
-                        for (int i = 0; i < list.Count; i++)
+                        foreach (var kvp in list)
                         {
-                            var kvp = list[i];
-                            if (i == 0)
+                            var votedPlayer = GetPlayers().Where(x => x.SteamID == kvp.Key).FirstOrDefault();
+                            if (votedPlayer != null)
                             {
-                                var x = GetPlayers().Where(x => x.SteamID == kvp.Key).FirstOrDefault();
-                                if (x == null)
-                                {
-                                    return;
-                                }
-                                if (ValidateCallerPlayer(x, false) == false) return;
-                                x.SwitchTeam(CsTeam.CounterTerrorist);
-                            }
-
-                            var voter = voters.FirstOrDefault(x => x.SteamID == kvp.Key);
-                            if (voter != null)
-                            {
-                                Server.PrintToChatAll($"{voter.PlayerName} - {kvp.Value}");
+                                if (ValidateCallerPlayer(votedPlayer, false) == false) continue;
+                                Server.PrintToChatAll($"{votedPlayer.PlayerName} - {kvp.Value}");
                             }
                         }
+
                         KomalPrintTimer?.Kill();
                         KomalPrintTimer = null;
                         AlreadyVotedPlayers?.Clear();
@@ -223,6 +214,27 @@ public partial class JailbreakExtras
                         LatestVoteAnswerCommandCalls?.Clear();
                         KomaEndTimer?.Kill();
                         KomaEndTimer = null;
+
+                        var winner = list.FirstOrDefault();
+                        if (winner.Value != 0 && winner.Key != 0)
+                        {
+                            var x = GetPlayers().Where(x => x.SteamID == winner.Key).FirstOrDefault();
+                            if (x == null || ValidateCallerPlayer(x, false) == false)
+                            {
+                                winner = list.Skip(1).FirstOrDefault();
+                                x = GetPlayers().Where(x => x.SteamID == winner.Key).FirstOrDefault();
+                                if (x == null || ValidateCallerPlayer(x, false) == false)
+                                {
+                                    winner = list.Skip(2).FirstOrDefault();
+                                    x = GetPlayers().Where(x => x.SteamID == winner.Key).FirstOrDefault();
+                                    if (x == null || ValidateCallerPlayer(x, false) == false)
+                                    {
+                                        return;
+                                    }
+                                }
+                            }
+                            x.SwitchTeam(CsTeam.CounterTerrorist);
+                        }
                     }
                 }, SOM);
             }
