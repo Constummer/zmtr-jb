@@ -30,8 +30,7 @@ public partial class JailbreakExtras
         }
 
         var targetPlayer = info.ArgString.GetArg(0);
-        var type = info.ArgString.GetArg(1);
-        if (string.IsNullOrWhiteSpace(targetPlayer) || string.IsNullOrWhiteSpace(type))
+        if (string.IsNullOrWhiteSpace(targetPlayer))
         {
             return;
         }
@@ -67,8 +66,8 @@ public partial class JailbreakExtras
         {
             SorumluAdmins.Add(y.SteamID);
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.B} {y.PlayerName}{CC.W} adlı oyuncuyu {CC.R}[Sorumlu]{CC.W} olarak ekledi");
+            AddSorumluAdminData(y.SteamID);
         }
-        AddSorumluAdminData(y.SteamID);
     }
 
     private void AddSorumluAdminData(ulong steamId)
