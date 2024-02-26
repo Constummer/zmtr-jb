@@ -109,28 +109,43 @@ public partial class JailbreakExtras
         }
     }
 
-    public static bool SorumluAdminSay(CCSPlayerController? player, CommandInfo info)
+    public static bool SorumluAdminSay(CCSPlayerController? player, CommandInfo info, bool isSayTeam)
     {
         if (SorumluAdmins.Contains(player.SteamID) == false)
         {
             return false;
         }
-        var teamColor = GetTeam(player) switch
+        var team = GetTeam(player);
+        var teamColor = team switch
         {
             CsTeam.CounterTerrorist => CC.BG,
             CsTeam.Terrorist => CC.Y,
             CsTeam.Spectator => CC.LP,
             CsTeam.None => CC.Or,
         };
-        var chatColor = GetTeam(player) switch
+        var chatColor = team switch
         {
             CsTeam.CounterTerrorist => CC.BG,
             CsTeam.Terrorist => CC.Y,
             CsTeam.Spectator => CC.P,
             CsTeam.None => CC.Or,
         };
-
-        Server.PrintToChatAll($" {CC.M}[Sorumlu] {teamColor}{player.PlayerName} {CC.W}: {chatColor}{info.GetArg(1)}");
+        var teamStr = team switch
+        {
+            CsTeam.CounterTerrorist => $"{CC.B}[GARDİYAN]",
+            CsTeam.Terrorist => $"{CC.R}[MAHKÛM]",
+            CsTeam.Spectator => $"{CC.P}[SPEC]",
+            _ => ""
+        };
+        if (isSayTeam)
+        {
+            GetPlayers(team).ToList()
+                .ForEach(x => x.PrintToChat($" {CC.M}[Sorumlu]{teamStr} {teamColor}{player.PlayerName} {CC.W}: {chatColor}{info.GetArg(1)}"));
+        }
+        else
+        {
+            Server.PrintToChatAll($" {CC.M}[Sorumlu] {teamColor}{player.PlayerName} {CC.W}: {chatColor}{info.GetArg(1)}");
+        }
         return true;
     }
 
