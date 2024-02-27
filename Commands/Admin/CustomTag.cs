@@ -29,7 +29,7 @@ public partial class JailbreakExtras
         }
 
         var targetPlayer = info.ArgString.GetArg(0);
-        var tag = info.ArgString.GetArgSkip(0);
+        var tag = info.ArgString.GetArgSkip(1);
         if (string.IsNullOrWhiteSpace(targetPlayer))
         {
             return;
@@ -75,6 +75,82 @@ public partial class JailbreakExtras
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.B} {y.PlayerName}{CC.W} adlı oyuncuya {CC.R}[{tag}]{CC.W} tagı verdi");
         }
         AddOrUpdateCustomTagData(y.SteamID, tag);
+    }
+
+    [ConsoleCommand("customtagsil")]
+    [ConsoleCommand("customtagkaldir")]
+    [ConsoleCommand("customtagiptal")]
+    [CommandHelper(minArgs: 1, "<custom tagi alinacak kişi>")]
+    public void CustomTagSil(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/yonetim"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player, false) == false)
+        {
+            return;
+        }
+
+        var targetPlayer = info.ArgString.GetArg(0);
+        if (string.IsNullOrWhiteSpace(targetPlayer))
+        {
+            return;
+        }
+
+        var targetArgument = GetTargetArgument(targetPlayer);
+
+        var players = GetPlayers()
+               .Where(x =>
+               (targetArgument == TargetForArgument.UserIdIndex
+               ? GetUserIdIndex(targetPlayer) == x.UserId : targetArgument == TargetForArgument.Me
+               ? x.SteamID == player.SteamID : false)
+               || (x.PlayerName?.ToLower()?.Contains(targetPlayer?.ToLower()) ?? false)
+               || x.SteamID.ToString() == targetPlayer)
+               .ToList();
+        if (players.Count == 0)
+        {
+            player.PrintToChat($"{Prefix} {CC.W}Eşleşen oyuncu bulunamadı!");
+            return;
+        }
+        if (players.Count != 1)
+        {
+            player.PrintToChat($"{Prefix} {CC.W}Birden fazla oyuncu bulundu.");
+            return;
+        }
+        var y = players.FirstOrDefault();
+        if (ValidateCallerPlayer(y, false) == false) return;
+
+        if (CustomPlayerTags.ContainsKey(y.SteamID))
+        {
+            CustomPlayerTags.Remove(y.SteamID, out var tag);
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.B} {y.PlayerName}{CC.W} adlı oyuncuya {CC.R}[{tag}]{CC.W} tagını sildi");
+            RemoveCustomTagData(y.SteamID);
+            return;
+        }
+    }
+
+    private void RemoveCustomTagData(ulong steamId)
+    {
+        try
+        {
+            using (var con = Connection())
+            {
+                if (con == null)
+                {
+                    return;
+                }
+
+                var cmd = new MySqlCommand(@$"Delete From `PlayerCustomTag` WHERE `SteamId` = @SteamId;", con);
+                cmd.Parameters.AddWithValue("@SteamId", steamId);
+                cmd.ExecuteNonQuery();
+            }
+        }
+        catch (Exception e)
+        {
+            Logger.LogError(e, "hata");
+        }
     }
 
     private void AddOrUpdateCustomTagData(ulong steamId, string tag)

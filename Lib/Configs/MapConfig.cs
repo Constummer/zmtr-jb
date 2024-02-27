@@ -99,6 +99,14 @@ namespace JailbreakExtras
                     new("KZ Sol Kulvar",  new VectorTemp(-1183,-2549,-501) ),
                 }
             },
+            {"jb_zmtr_minecraft_party", new List<CoordinateTemplate>()
+                {
+                    new("Hucre",   new VectorTemp(-972,3328,680 ) ),
+                    new("KZ",      new VectorTemp(-2788,2582,675) ),
+                    new("KZ Sag Kulvar",  new VectorTemp(-2434,2720,716) ),
+                    new("KZ Sol Kulvar",  new VectorTemp(-3142,2720,716) ),
+                }
+            },
         };
 
         [JsonPropertyName("KapiAcKapaList")]
@@ -130,7 +138,8 @@ namespace JailbreakExtras
         {
             new ("jb_zmtr_v1" ,new VectorTemp(-718, -765, 24)),
             new ("jb_zmtr_v2" ,new VectorTemp(62, -408, 171)),
-            new ("jb_zmtr_uzay" ,new VectorTemp(-581, -3488, -544))
+            new ("jb_zmtr_uzay" ,new VectorTemp(-581, -3488, -544)),
+            new ("jb_zmtr_minecraft_party" ,new VectorTemp(-767,4398,544))
         };
 
         [JsonPropertyName("KzCellCoords")]
@@ -143,14 +152,13 @@ namespace JailbreakExtras
                     new("RightTop",   new VectorTemp(2222,1505,-13))
                 }
              },
-            {"jb_zmtr_uzay",
+             {"jb_zmtr_uzay",
                 new()
                 {
                     new("LeftBottom", new VectorTemp(-702,-3025,-288)),
                     new("RightTop",   new VectorTemp(-514,-2773,-104))
                 }
              },
-
              {"jb_zmtr_v2",
                 new()
                 {
@@ -158,45 +166,13 @@ namespace JailbreakExtras
                     new("RightTop",   new VectorTemp(2620,140,232))
                 }
              },
-        };
+             {"jb_zmtr_minecraft_party",
+                new()
+                {
+                    new("LeftBottom", new VectorTemp(-2899,3200,926)),
+                    new("RightTop",   new VectorTemp(-2676,3375,1056))
+                }
+             },
+            };
     }
-
-    //public class MapConfig
-    //{
-    //    [JsonPropertyName("MapCellCoords")]
-    //    public List<SkzCoordinate> MapCellCoords { get; set; } = new List<SkzCoordinate>()
-    //    {
-    //        new("jb_zmtr_v1" ,new VectorTemp(-535, 345, -27))
-    //    };
-
-    //    [JsonPropertyName("SkzCoordinates")]
-    //    public List<SkzDatas> SkzCoordinates { get; set; } = new()
-    //    {
-    //       new("jb_zmtr_v1", new List<SkzCoordinate>()
-    //            {
-    //                new("Hücre",   new VectorTemp(-535,345,-27) ),
-    //                new("KZ",      new VectorTemp(2102,739,-357) ),
-    //            }
-    //        ),
-    //        new("jb_zmtr_v2", new List<SkzCoordinate>()
-    //            {
-    //                new("Hücre",   new VectorTemp(-535,345,-27) ),
-    //                new("KZ",      new VectorTemp(2102,739,-357) ),
-    //            }
-    //        ),
-    //    };
-    //}
-
-    //public class SkzDatas
-    //{
-    //    [JsonPropertyName("MapCellCoords")]
-    //    public string Text =
-    //    public List<SkzCoordinate> SkzCoordinates;
-
-    //    public SkzDatas(string v, List<SkzCoordinate> skzCoordinates)
-    //    {
-    //        Text = v;
-    //        SkzCoordinates = skzCoordinates;
-    //    }
-    //}
 }

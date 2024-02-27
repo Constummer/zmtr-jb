@@ -90,6 +90,8 @@ public partial class JailbreakExtras
             "usp" => "usp_silencer",
             "usps" => "usp_silencer",
             "smoke" => "smokegrenade",
+            "hg" => "hegrenade",
+            "heg" => "hegrenade",
             "sg" => "smokegrenade",
             "smk" => "smokegrenade",
             "flash" => "flashbang",
