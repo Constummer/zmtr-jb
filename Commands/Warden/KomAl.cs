@@ -131,7 +131,10 @@ public partial class JailbreakExtras
 
                 if (ValidateCallerPlayer(x, false))
                 {
-                    x.SwitchTeam(CsTeam.CounterTerrorist);
+                    if (GetTeam(x) != CsTeam.CounterTerrorist)
+                    {
+                        x.SwitchTeam(CsTeam.CounterTerrorist);
+                    }
                 }
             }
             else

@@ -47,6 +47,10 @@ public partial class JailbreakExtras
                 }
                 var tempSteamId = @event?.Userid?.SteamID;
                 var tempUserId = @event?.Userid?.UserId;
+                if (tempSteamId.HasValue)
+                {
+                    CreateAuraParticle(tempSteamId.Value);
+                }
                 AddTimer(3f, () =>
                 {
                     _ClientQueue.Enqueue(new(tempSteamId ?? 0, tempUserId, "", QueueItemType.OnPlayerSpawn));
