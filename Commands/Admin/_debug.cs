@@ -30,6 +30,43 @@ public partial class JailbreakExtras
         }
     }
 
+    [ConsoleCommand("cmarkersifirla")]
+    public void cmarkersifirla(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        LatestWCommandUser = player.SteamID;
+        ClearLasers();
+        var xyz = player.PlayerPawn.Value.AbsOrigin;
+
+        CalculateAndPrintEdges(xyz.X, xyz.Y, xyz.Z, 100, 100);
+    }
+
+    [ConsoleCommand("cmarkertest")]
+    public void cmarkertest(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        ClearLasers();
+        var xyz = player.PlayerPawn.Value.AbsOrigin;
+
+        CalculateAndPrintEdges(xyz.X, xyz.Y, xyz.Z, 100, 100);
+    }
+
     [ConsoleCommand("cparticle")]
     public void cparticle(CCSPlayerController? player, CommandInfo info)
     {
@@ -210,17 +247,17 @@ public partial class JailbreakExtras
             return;
         }
 
-        var Coin = Utilities.CreateEntityByName<CPhysicsPropMultiplayer>("prop_physics_multiplayer");
-        if (Coin == null)
+        var coin = Utilities.CreateEntityByName<CPhysicsPropMultiplayer>("prop_physics_multiplayer");
+        if (coin == null)
         {
             return;
         }
-
-        Coin.SetModel("models/coop/challenge_coin.vmdl");
-        Coin.Teleport(player.PlayerPawn.Value.AbsOrigin, ANGLE_ZERO, VEC_ZERO);
-        Coin.DispatchSpawn();
-        Coin.AcceptInput("Start");
-        CustomSetParent(Coin, player.PlayerPawn.Value);
+        var xyz = player.PlayerPawn.Value.AbsOrigin;
+        coin.SetModel("models/coop/challenge_coin.vmdl");
+        coin.Teleport(new Vector(xyz.X, xyz.Y, xyz.Z + 100), ANGLE_ZERO, VEC_ZERO);
+        coin.DispatchSpawn();
+        coin.AcceptInput("Start");
+        CustomSetParent(coin, player.PlayerPawn.Value);
     }
 
     [ConsoleCommand("csteamid")]

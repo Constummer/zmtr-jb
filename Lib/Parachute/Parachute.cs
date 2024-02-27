@@ -6,7 +6,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static readonly Dictionary<int?, CBaseEntity?> gParaModel = new();
+    private static Dictionary<int?, CBaseEntity?> gParaModel = new();
 
     private void ParachuteOnTick(CCSPlayerController player, int i)
     {

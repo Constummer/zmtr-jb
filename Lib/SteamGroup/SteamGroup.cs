@@ -10,8 +10,8 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static readonly List<ulong> PlayerSteamGroup = new();
-    public static Dictionary<ulong, int> SteamGroupCheckTimer = new();
+    private static List<ulong> PlayerSteamGroup = new();
+    private static Dictionary<ulong, int> SteamGroupCheckTimer = new();
 
     private bool OnSteamGroupPlayerChat(CCSPlayerController? player, string arg)
     {

@@ -7,7 +7,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static readonly List<CEnvBeam> Lasers = new();
+    private static List<CEnvBeam> Lasers = new();
 
     private enum LaserType
     {
@@ -42,6 +42,10 @@ public partial class JailbreakExtras
                 }
             }
             Lasers.Clear();
+        }
+        else
+        {
+            Lasers = new();
         }
     }
 
