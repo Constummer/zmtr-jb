@@ -26,6 +26,7 @@ public partial class JailbreakExtras
         SkzV2FailedSteamIds?.Clear();
         DizPlayerId = 0;
         DizActive = false;
+        Config.UnrestrictedFov.Enabled = true;
         DizStart = null;
         DizEnd = null;
         UberSlapTimer?.Kill();

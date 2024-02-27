@@ -35,6 +35,10 @@ public partial class JailbreakExtras
             new(9, "AWP - Dual Baretta", "awp", "elite"),
             new(10, "Auto Sniper - Deagle", "scar20", "deagle"),
             new(11, "Auto Sniper - Dual Baretta", "scar20", "elite"),
+            new(12, "SG 556 - Deagle", "sg556", "deagle"),
+            new(13, "SG 556 - Dual Baretta", "sg556", "elite"),
+            new(14, "MAG-7 - Deagle", "mag7", "deagle"),
+            new(15, "MAG-7 - Dual Baretta", "mag7", "elite"),
         };
     }
 
