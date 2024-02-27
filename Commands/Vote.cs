@@ -74,6 +74,11 @@ public partial class JailbreakExtras
         Answers.Clear();
         AlreadyVotedPlayers.Clear();
         var answers = argCount.Skip(1).Distinct();
+        if (answers.Count() < 2)
+        {
+            player.PrintToChat($"{Prefix}{CC.W} En az 2 şık ve 1 soru belirlemelisin, şıklar arası boşluk bırakmalısın.");
+            return;
+        }
         LatestVoteMenu = new(question);
 
         foreach (var item in answers)
