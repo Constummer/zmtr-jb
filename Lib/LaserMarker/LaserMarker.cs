@@ -18,14 +18,20 @@ public partial class JailbreakExtras
 
     private HookResult EXTRAOnPlayerPing(EventPlayerPing @event, GameEventInfo info)
     {
+        Server.PrintToConsole("EXTRAOnPlayerPing 1");
         if (@event == null)
             return HookResult.Continue;
+        Server.PrintToConsole("EXTRAOnPlayerPing 2");
         var player = @event.Userid;
+        Server.PrintToConsole("EXTRAOnPlayerPing 3");
         if (player.SteamID != LatestWCommandUser)
         {
             return HookResult.Continue;
         }
+        Server.PrintToConsole("EXTRAOnPlayerPing 4");
+        Server.PrintToConsole($"{@event.X},{@event.Y},{@event.Z}");
         LasersEntry(@event.X, @event.Y, @event.Z);
+        Server.PrintToConsole("EXTRAOnPlayerPing 5");
 
         return HookResult.Continue;
     }

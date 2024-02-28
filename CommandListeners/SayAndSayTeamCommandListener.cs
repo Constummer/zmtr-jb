@@ -56,7 +56,7 @@ public partial class JailbreakExtras
         {
             return HookResult.Handled;
         }
-        if (KomutcuAdminSay(player, info))
+        if (KomutcuAdminSay(player, info, isSayTeam))
         {
             return HookResult.Handled;
         }

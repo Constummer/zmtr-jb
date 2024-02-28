@@ -76,28 +76,45 @@ public partial class JailbreakExtras
         KomutcuAdminId = null;
     }
 
-    public static bool KomutcuAdminSay(CCSPlayerController? player, CommandInfo info)
+    public static bool KomutcuAdminSay(CCSPlayerController? player, CommandInfo info, bool isSayTeam)
     {
-        var teamColor = GetTeam(player) switch
+        if (KomutcuAdminId != player.SteamID)
+        {
+            return false;
+        }
+        var team = GetTeam(player);
+        var teamColor = team switch
         {
             CsTeam.CounterTerrorist => CC.BG,
             CsTeam.Terrorist => CC.Y,
             CsTeam.Spectator => CC.LP,
             CsTeam.None => CC.Or,
         };
-        var chatColor = GetTeam(player) switch
+        var chatColor = team switch
         {
             CsTeam.CounterTerrorist => CC.BG,
             CsTeam.Terrorist => CC.Y,
             CsTeam.Spectator => CC.P,
             CsTeam.None => CC.Or,
         };
-        if (KomutcuAdminId == player.SteamID)
+        var teamStr = team switch
         {
-            Server.PrintToChatAll($" {CC.P}[Komutçu Admin] {teamColor}{player.PlayerName} {CC.W}: {chatColor}{info.GetArg(1)}");
-            return true;
+            CsTeam.CounterTerrorist => $"{CC.B}[GARDİYAN]",
+            CsTeam.Terrorist => $"{CC.R}[MAHKÛM]",
+            CsTeam.Spectator => $"{CC.P}[SPEC]",
+            _ => ""
+        };
+        var deadStr = player.PawnIsAlive == false ? $"{CC.R}*ÖLÜ*" : "";
+        if (isSayTeam)
+        {
+            GetPlayers(team).ToList()
+                .ForEach(x => x.PrintToChat($" {deadStr} {CC.M}[Komutçu Admin] {teamStr} {teamColor}{player.PlayerName} {CC.W}: {chatColor}{info.GetArg(1)}"));
         }
-        return false;
+        else
+        {
+            Server.PrintToChatAll($" {deadStr} {CC.M}[Komutçu Admin] {teamColor}{player.PlayerName} {CC.W}: {chatColor}{info.GetArg(1)}");
+        }
+        return true;
     }
 
     #endregion KomutcuAdmin
