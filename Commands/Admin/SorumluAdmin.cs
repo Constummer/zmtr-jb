@@ -137,14 +137,16 @@ public partial class JailbreakExtras
             CsTeam.Spectator => $"{CC.P}[SPEC]",
             _ => ""
         };
+        var deadStr = player.PawnIsAlive == false ? $"{CC.R}*ÖLÜ*" : "";
+
         if (isSayTeam)
         {
             GetPlayers(team).ToList()
-                .ForEach(x => x.PrintToChat($" {CC.M}[Sorumlu]{teamStr} {teamColor}{player.PlayerName} {CC.W}: {chatColor}{info.GetArg(1)}"));
+                .ForEach(x => x.PrintToChat($" {deadStr} {CC.M}[Sorumlu]{teamStr} {teamColor}{player.PlayerName} {CC.W}: {chatColor}{info.GetArg(1)}"));
         }
         else
         {
-            Server.PrintToChatAll($" {CC.M}[Sorumlu] {teamColor}{player.PlayerName} {CC.W}: {chatColor}{info.GetArg(1)}");
+            Server.PrintToChatAll($" {deadStr} {CC.M}[Sorumlu] {teamColor}{player.PlayerName} {CC.W}: {chatColor}{info.GetArg(1)}");
         }
         return true;
     }

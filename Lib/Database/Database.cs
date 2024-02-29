@@ -147,7 +147,10 @@ public partial class JailbreakExtras
                     cmd = new MySqlCommand(
                     @"CREATE TABLE IF NOT EXISTS `PlayerCustomTag` (
                           `SteamId` bigint(20) DEFAULT NULL,
-                          `Tag` TEXT DEFAULT NULL
+                          `Tag` TEXT DEFAULT NULL,
+                          `TagColor` TEXT DEFAULT NULL,
+                          `SayColor` TEXT DEFAULT NULL,
+                          `NickColor` TEXT DEFAULT NULL
                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
                     await cmd.ExecuteNonQueryAsync();
 

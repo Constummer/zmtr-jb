@@ -12,6 +12,7 @@ public partial class JailbreakExtras
         {
             AddCommandListener(command, (player, info) =>
             {
+                Server.PrintToConsole($"BlockRadioCommandsLoad {info.GetCommandString} 1");
                 if (ValidateCallerPlayer(player, false) == false)
                 {
                     return HookResult.Continue;
@@ -20,12 +21,10 @@ public partial class JailbreakExtras
                 if (player!.SteamID == LatestWCommandUser
                     && GetTeam(player) == CsTeam.CounterTerrorist)
                 {
-                    Server.PrintToConsole("marker correct");
-                    Server.PrintToConsole($"{info.GetCommandString}");
-                    Server.PrintToConsole($"{string.Join(",", Config.BlockedRadio.WardenAllowedRadioCommands)}");
-                    Server.PrintToConsole($"{Config.BlockedRadio.WardenAllowedRadioCommands.Contains(info.GetCommandString)}");
+                    Server.PrintToConsole($"BlockRadioCommandsLoad {info.GetCommandString} 2");
                     if (Config.BlockedRadio.WardenAllowedRadioCommands.Contains(info.GetCommandString))
                     {
+                        Server.PrintToConsole($"BlockRadioCommandsLoad {info.GetCommandString} 3");
                         return HookResult.Continue;
                     }
                 }

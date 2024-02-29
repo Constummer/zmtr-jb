@@ -101,7 +101,6 @@ namespace JailbreakExtras
             },
             {"jb_zmtr_minecraft_party", new List<CoordinateTemplate>()
                 {
-                    new("Hucre",   new VectorTemp(-972,3328,680 ) ),
                     new("KZ",      new VectorTemp(-2788,2582,675) ),
                     new("KZ Sag Kulvar",  new VectorTemp(-2434,2720,716) ),
                     new("KZ Sol Kulvar",  new VectorTemp(-3142,2720,716) ),
@@ -139,7 +138,7 @@ namespace JailbreakExtras
             new ("jb_zmtr_v1" ,new VectorTemp(-718, -765, 24)),
             new ("jb_zmtr_v2" ,new VectorTemp(62, -408, 171)),
             new ("jb_zmtr_uzay" ,new VectorTemp(-581, -3488, -544)),
-            new ("jb_zmtr_minecraft_party" ,new VectorTemp(-767,4398,544))
+            new ("jb_zmtr_minecraft_party" ,new VectorTemp(1,1,1))
         };
 
         [JsonPropertyName("KzCellCoords")]

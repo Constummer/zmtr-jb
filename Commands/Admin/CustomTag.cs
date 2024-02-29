@@ -11,26 +11,43 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    public static Dictionary<ulong, string> CustomPlayerTags { get; set; } = new();
+    public class CustomTagData
+    {
+        public string TagName { get; set; }
+        public string TagColor { get; set; }
+        public string SayColor { get; set; }
+        public string TColor { get; set; }
+        public string CTColor { get; set; }
+    }
+
+    public static Dictionary<ulong, CustomTagData> CustomPlayerTags { get; set; } = new();
 
     [ConsoleCommand("customtag")]
     [ConsoleCommand("customtagekle")]
-    [CommandHelper(minArgs: 2, "<custom tag verilcek kişi> <tag (boşluklu olabilir * OPSIYONEL)>")]
+    [CommandHelper(minArgs: 5, "<custom tag verilcek kişi> <tagColor> <tColor> <ctColor> <sayColor> <tag (boşluklu olabilir * OPSIYONEL>")]
     public void CustomTag(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/yonetim"))
-        {
-            player.PrintToChat(NotEnoughPermission);
-            return;
-        }
         if (ValidateCallerPlayer(player, false) == false)
         {
             return;
         }
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
 
         var targetPlayer = info.ArgString.GetArg(0);
-        var tag = info.ArgString.GetArgSkip(1);
-        if (string.IsNullOrWhiteSpace(targetPlayer))
+        var tagColor = info.ArgString.GetArg(1);
+        var tColor = info.ArgString.GetArg(2);
+        var ctColor = info.ArgString.GetArg(3);
+        var sayColor = info.ArgString.GetArg(4);
+        var tag = info.ArgString.GetArgSkip(5);
+        if (string.IsNullOrWhiteSpace(targetPlayer)
+            || string.IsNullOrWhiteSpace(tagColor)
+            || string.IsNullOrWhiteSpace(tColor)
+            || string.IsNullOrWhiteSpace(ctColor)
+            || string.IsNullOrWhiteSpace(sayColor))
         {
             return;
         }
@@ -39,7 +56,14 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix}{CC.W} tag hatali");
             return;
         }
-
+        var data = new CustomTagData()
+        {
+            TagName = tag,
+            TagColor = tagColor,
+            TColor = tColor,
+            CTColor = ctColor,
+            SayColor = sayColor,
+        };
         var targetArgument = GetTargetArgument(targetPlayer);
 
         var players = GetPlayers()
@@ -65,16 +89,16 @@ public partial class JailbreakExtras
 
         if (CustomPlayerTags.ContainsKey(y.SteamID))
         {
-            CustomPlayerTags[y.SteamID] = tag;
+            CustomPlayerTags[y.SteamID] = data;
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.B} {y.PlayerName}{CC.W} adlı oyuncuya {CC.R}[{tag}]{CC.W} tagı verdi");
             return;
         }
         else
         {
-            CustomPlayerTags.Add(y.SteamID, tag);
+            CustomPlayerTags.Add(y.SteamID, data);
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.B} {y.PlayerName}{CC.W} adlı oyuncuya {CC.R}[{tag}]{CC.W} tagı verdi");
         }
-        AddOrUpdateCustomTagData(y.SteamID, tag);
+        AddOrUpdateCustomTagData(y.SteamID, data);
     }
 
     [ConsoleCommand("customtagsil")]
@@ -83,16 +107,15 @@ public partial class JailbreakExtras
     [CommandHelper(minArgs: 1, "<custom tagi alinacak kişi>")]
     public void CustomTagSil(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/yonetim"))
-        {
-            player.PrintToChat(NotEnoughPermission);
-            return;
-        }
         if (ValidateCallerPlayer(player, false) == false)
         {
             return;
         }
-
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
         var targetPlayer = info.ArgString.GetArg(0);
         if (string.IsNullOrWhiteSpace(targetPlayer))
         {
@@ -125,7 +148,7 @@ public partial class JailbreakExtras
         if (CustomPlayerTags.ContainsKey(y.SteamID))
         {
             CustomPlayerTags.Remove(y.SteamID, out var tag);
-            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.B} {y.PlayerName}{CC.W} adlı oyuncuya {CC.R}[{tag}]{CC.W} tagını sildi");
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.B} {y.PlayerName}{CC.W} adlı oyuncuya {CC.R}[{tag.TagName}]{CC.W} tagını sildi");
             RemoveCustomTagData(y.SteamID);
             return;
         }
@@ -153,7 +176,7 @@ public partial class JailbreakExtras
         }
     }
 
-    private void AddOrUpdateCustomTagData(ulong steamId, string tag)
+    private void AddOrUpdateCustomTagData(ulong steamId, CustomTagData data)
     {
         try
         {
@@ -174,29 +197,38 @@ public partial class JailbreakExtras
                         exist = true;
                     }
                 }
-                if (!exist)
-                {
-                    cmd = new MySqlCommand(@$"INSERT INTO `PlayerCustomTag`
-                                      (SteamId,Tag)
-                                      VALUES (@SteamId,@Tag);", con);
-
-                    cmd.Parameters.AddWithValue("@SteamId", steamId);
-                    cmd.Parameters.AddWithValue("@Tag", tag);
-
-                    cmd.ExecuteNonQuery();
-                }
-                else
+                if (exist)
                 {
                     cmd = new MySqlCommand(@$"UPDATE `PlayerCustomTag`
                                           SET
-                                              `Tag` = @Tag
+                                              `Tag` = @Tag,
+                                              `TagColor` = @TagColor,
+                                              `SayColor` = @SayColor,
+                                              `TColor` = @TColor,
+                                              `CTColor` = @CTColor
                                           WHERE `SteamId` = @SteamId;", con);
 
                     cmd.Parameters.AddWithValue("@SteamId", steamId);
-                    cmd.Parameters.AddWithValue("@Tag", tag);
-
-                    cmd.ExecuteNonQuery();
+                    cmd.Parameters.AddWithValue("@Tag", data.TagName);
+                    cmd.Parameters.AddWithValue("@TagColor", data.TagColor);
+                    cmd.Parameters.AddWithValue("@SayColor", data.SayColor);
+                    cmd.Parameters.AddWithValue("@TColor", data.TColor);
+                    cmd.Parameters.AddWithValue("@CTColor", data.CTColor);
                 }
+                else
+                {
+                    cmd = new MySqlCommand(@$"INSERT INTO `PlayerCustomTag`
+                                      (SteamId,Tag,TagColor,SayColor,TColor,CTColor)
+                                      VALUES (@SteamId,@Tag,@TagColor,@SayColor,@TColor,@CTColor);", con);
+
+                    cmd.Parameters.AddWithValue("@SteamId", steamId);
+                    cmd.Parameters.AddWithValue("@Tag", data.TagName);
+                    cmd.Parameters.AddWithValue("@TagColor", data.TagColor);
+                    cmd.Parameters.AddWithValue("@SayColor", data.SayColor);
+                    cmd.Parameters.AddWithValue("@TColor", data.TColor);
+                    cmd.Parameters.AddWithValue("@CTColor", data.CTColor);
+                }
+                cmd.ExecuteNonQuery();
             }
         }
         catch (Exception e)
@@ -207,43 +239,52 @@ public partial class JailbreakExtras
 
     public static bool CustomTagSay(CCSPlayerController? player, CommandInfo info, bool isSayTeam)
     {
-        if (CustomPlayerTags.TryGetValue(player.SteamID, out var tag) == false)
+        if (CustomPlayerTags.TryGetValue(player.SteamID, out var data) == false)
         {
             return false;
         }
         var team = GetTeam(player);
-        var teamColor = team switch
-        {
-            CsTeam.CounterTerrorist => CC.BG,
-            CsTeam.Terrorist => CC.Y,
-            CsTeam.Spectator => CC.LP,
-            CsTeam.None => CC.Or,
-        };
-        var chatColor = team switch
-        {
-            CsTeam.CounterTerrorist => CC.BG,
-            CsTeam.Terrorist => CC.Y,
-            CsTeam.Spectator => CC.P,
-            CsTeam.None => CC.Or,
-        };
         var teamStr = team switch
         {
-            CsTeam.CounterTerrorist => $"{CC.B}[GARDİYAN]",
-            CsTeam.Terrorist => $"{CC.R}[MAHKÛM]",
-            CsTeam.Spectator => $"{CC.P}[SPEC]",
+            CsTeam.CounterTerrorist => $"[GARDİYAN]",
+            CsTeam.Terrorist => $"[MAHKÛM]",
+            CsTeam.Spectator => $"[SPEC]",
             _ => ""
         };
+        var ccRes = GetChatColors(data);
+        var c = team switch
+        {
+            CsTeam.CounterTerrorist => ccRes.CTC,
+            CsTeam.Terrorist => ccRes.TC2,
+            CsTeam.Spectator => CC.W,
+            _ => CC.W
+        };
         var deadStr = player.PawnIsAlive == false ? $"{CC.R}*ÖLÜ*" : "";
+        var str = $" {deadStr}"
+                + $" {ccRes.TC}[{data.TagName}]"
+                + $" {c}{(isSayTeam ? $"{teamStr}" : "")}{player.PlayerName}"
+                + $" {CC.W}:"
+                + $" {ccRes.SC}{info.GetArg(1)}";
         if (isSayTeam)
         {
             GetPlayers(team).ToList()
-                .ForEach(x => x.PrintToChat($" {deadStr} {CC.M}[{tag}]{teamStr} {teamColor}{player.PlayerName} {CC.W}: {chatColor}{info.GetArg(1)}"));
+                .ForEach(x => x.PrintToChat(str));
         }
         else
         {
-            Server.PrintToChatAll($" {deadStr} {CC.M}[{tag}] {teamColor}{player.PlayerName} {CC.W}: {chatColor}{info.GetArg(1)}");
+            Server.PrintToChatAll(str);
         }
         return true;
+    }
+
+    private static (char TC, char TC2, char CTC, char SC) GetChatColors(CustomTagData data)
+    {
+        var tagColor = GetChatColor(data.TagColor);
+        var tColor = GetChatColor(data.TColor);
+        var ctColor = GetChatColor(data.CTColor);
+        var sayColor = GetChatColor(data.SayColor);
+
+        return (tagColor, tColor, ctColor, sayColor);
     }
 
     private void GetAllCustomTagData(MySqlConnection con)
@@ -253,13 +294,17 @@ public partial class JailbreakExtras
             return;
         }
 
-        MySqlCommand? cmd = new MySqlCommand(@$"SELECT `SteamId`,`Tag` FROM `PlayerCustomTag`;", con);
+        MySqlCommand? cmd = new MySqlCommand(@$"SELECT `SteamId`,`Tag`,`TagColor`,`SayColor`,`TColor`,`CTColor` FROM `PlayerCustomTag`;", con);
         using (var reader = cmd.ExecuteReader())
         {
             while (reader.Read())
             {
                 var steamId = reader.IsDBNull(0) ? 0 : reader.GetInt64(0);
                 var tag = reader.IsDBNull(1) ? "" : reader.GetString(1);
+                var tagColor = reader.IsDBNull(2) ? "w" : reader.GetString(2);
+                var sayColor = reader.IsDBNull(3) ? "w" : reader.GetString(3);
+                var tColor = reader.IsDBNull(4) ? "w" : reader.GetString(4);
+                var ctColor = reader.IsDBNull(5) ? "w" : reader.GetString(5);
                 if (steamId == 0)
                 {
                     continue;
@@ -268,14 +313,22 @@ public partial class JailbreakExtras
                 {
                     continue;
                 }
+                var data = new CustomTagData()
+                {
+                    TagName = tag,
+                    TagColor = tagColor,
+                    SayColor = sayColor,
+                    TColor = tColor,
+                    CTColor = ctColor
+                };
 
                 if (CustomPlayerTags.ContainsKey((ulong)steamId) == false)
                 {
-                    CustomPlayerTags.Add((ulong)steamId, tag);
+                    CustomPlayerTags.Add((ulong)steamId, data);
                 }
                 else
                 {
-                    CustomPlayerTags[(ulong)steamId] = tag;
+                    CustomPlayerTags[(ulong)steamId] = data;
                 }
             }
         }
