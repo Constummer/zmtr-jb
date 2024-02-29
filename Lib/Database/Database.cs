@@ -150,7 +150,8 @@ public partial class JailbreakExtras
                           `Tag` TEXT DEFAULT NULL,
                           `TagColor` TEXT DEFAULT NULL,
                           `SayColor` TEXT DEFAULT NULL,
-                          `NickColor` TEXT DEFAULT NULL
+                          `TColor` TEXT DEFAULT NULL,
+                          `CTColor` TEXT DEFAULT NULL
                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
                     await cmd.ExecuteNonQueryAsync();
 
