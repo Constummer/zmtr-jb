@@ -6,12 +6,11 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static void CustomSetParent(CBaseModelEntity x, CCSPlayerPawn pawn)
+    private static void CustomSetParent<T>(T x, CCSPlayerPawn pawn)
     {
         var signature = GetSetParentSignature();
-        MemoryFunctionVoid<CBaseModelEntity, CCSPlayerPawn, bool, bool> func = new(signature);
+        MemoryFunctionVoid<T, CCSPlayerPawn, bool, bool> func = new(signature);
         func.Invoke(x, pawn, true, false);
-        //VirtualFunction.CreateVoid<CParticleSystem>(x.Handle, GameData.GetOffset("CBaseEntity_SetParent"))(x);
     }
 
     private static string GetSetParentSignature()

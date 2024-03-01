@@ -15,7 +15,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        player!.PrintToChat($"{Prefix} {CC.W}IP: {CC.M}185.118.141.160 {CC.W}veya {CC.M}jb.zmtr.org");
+        player!.PrintToChat($"{Prefix} {CC.W}IP: {CC.M}185.171.25.27 {CC.W}veya {CC.M}jb.zmtr.org");
     }
 
     [ConsoleCommand("grup", "steam grup")]

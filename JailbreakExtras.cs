@@ -52,7 +52,6 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
         CreateDataFolder();
         Database();
         LoadPlayerModels();
-        //AddTimers();
 
         #endregion System Releated
 

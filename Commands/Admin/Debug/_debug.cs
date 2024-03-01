@@ -9,6 +9,8 @@ using CounterStrikeSharp.API.Modules.Menu;
 //using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
+using System.Diagnostics;
+using System.Runtime.InteropServices;
 
 namespace JailbreakExtras;
 
@@ -27,6 +29,75 @@ public partial class JailbreakExtras
             return;
         }
         Server.PrintToConsole($"{LatestWCommandUser}");
+    }
+
+    [ConsoleCommand("cspscs")]
+    public void cspscs(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        try
+        {
+            ProcessStartInfo psi = new ProcessStartInfo
+            {
+                FileName = "lscpu",
+                RedirectStandardOutput = true,
+                UseShellExecute = false,
+                CreateNoWindow = true
+            };
+
+            using (Process process = Process.Start(psi))
+            {
+                if (process != null)
+                {
+                    process.WaitForExit();
+                    string output = process.StandardOutput.ReadToEnd();
+                    string[] lines = output.Split('\n');
+
+                    string cpuName = "";
+                    double cpuSpeedMHz = 0;
+
+                    foreach (string line in lines)
+                    {
+                        if (line.StartsWith("Model name:", StringComparison.OrdinalIgnoreCase))
+                        {
+                            cpuName = line.Split(':')[1].Trim();
+                        }
+                        else if (line.StartsWith("CPU MHz:", StringComparison.OrdinalIgnoreCase))
+                        {
+                            cpuSpeedMHz = double.Parse(line.Split(':')[1].Trim());
+                        }
+
+                        // Break the loop if both CPU name and speed are found
+                        if (!string.IsNullOrEmpty(cpuName) && cpuSpeedMHz != 0)
+                        {
+                            break;
+                        }
+                    }
+
+                    if (string.IsNullOrEmpty(cpuName) || cpuSpeedMHz == 0)
+                    {
+                        Server.PrintToChatAll("Unable to retrieve CPU information.");
+                    }
+                    else
+                    {
+                        Server.PrintToChatAll("CPU Name: " + cpuName);
+                        Server.PrintToChatAll("CPU Speed (MHz): " + cpuSpeedMHz);
+                    }
+                }
+                else
+                {
+                    Server.PrintToChatAll("Failed to start lscpu process.");
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Server.PrintToChatAll("Error: " + e.Message);
+        }
     }
 
     [ConsoleCommand("cmarkersifirla")]
@@ -129,7 +200,19 @@ public partial class JailbreakExtras
         {
             return;
         }
-        NativeAPI.IssueClientCommandFromServer(player.Slot, "thirdperson");
+
+        var cam = Utilities.CreateEntityByName<CPointCamera>("point_camera");
+
+        if (cam != null && cam.IsValid)
+        {
+            cam.MoveType = MoveType_t.MOVETYPE_NOCLIP;
+            cam.TakesDamage = false;
+            cam.GravityScale = 0;
+            cam.Teleport(player.PlayerPawn.Value.AbsOrigin, ANGLE_ZERO, VEC_ZERO);
+            cam.DispatchSpawn();
+
+            CustomSetParent(cam, player.PlayerPawn.Value);
+        }
     }
 
     [ConsoleCommand("cthird2")]

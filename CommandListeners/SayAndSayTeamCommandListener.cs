@@ -60,10 +60,6 @@ public partial class JailbreakExtras
         {
             return HookResult.Handled;
         }
-        if (SorumluAdminSay(player, info, isSayTeam))
-        {
-            return HookResult.Handled;
-        }
         if (CustomTagSay(player, info, isSayTeam))
         {
             return HookResult.Handled;
