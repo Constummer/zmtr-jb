@@ -39,7 +39,7 @@ public partial class JailbreakExtras
                                 var data = list.ToList().Where(x => x.Value == i.Text).ToList() ?? new();
                                 foreach (var item in data)
                                 {
-                                    var fkPlayer = Utilities.GetPlayerFromSteamId(item.Key);
+                                    var fkPlayer = GetPlayers().Where(x => x.SteamID == item.Key).FirstOrDefault();
                                     if (fkPlayer != null)
                                     {
                                         if (ValidateCallerPlayer(player, false) == false) return;

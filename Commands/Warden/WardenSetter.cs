@@ -9,7 +9,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static ulong? LatestWCommandUser { get; set; }
+    private static ulong? LatestWCommandUser { get; set; } = 0;
 
     #region OnWCommand
 

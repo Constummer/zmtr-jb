@@ -26,6 +26,8 @@ public partial class JailbreakExtras
 
                 CCSWeaponBase _weapon = weapon.As<CCSWeaponBase>();
                 if (_weapon == null) return;
+                //_weapon.SilencerOn = true;
+                //Utilities.SetStateChanged(_weapon, "CCSWeaponBase", "m_bSilencerOn");
                 if (WeaponDefaults.ContainsKey(entity.DesignerName) == false)
                 {
                     var wepDef = new WeaponDefault();

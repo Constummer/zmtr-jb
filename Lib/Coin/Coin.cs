@@ -17,8 +17,7 @@ public partial class JailbreakExtras
     private static void CoinAfterNewCommander()
     {
         if (LatestWCommandUser.HasValue == false) return;
-        var css = Utilities.GetPlayerFromSteamId(LatestWCommandUser.Value);
-
+        var css = GetPlayers().Where(x => x.SteamID == LatestWCommandUser).FirstOrDefault();
         if (css != null)
         {
             if (ValidateCallerPlayer(css, false))
