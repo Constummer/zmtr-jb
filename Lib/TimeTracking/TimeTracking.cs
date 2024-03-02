@@ -444,7 +444,7 @@ public partial class JailbreakExtras
                                             SET `WeeklyWTime` = 0,
                                                 `WeeklyCTTime` = 0,
                                                 `WeeklyTTime` = 0,
-                                                `WeeklyTotalTime = 0;", con);
+                                                `WeeklyTotalTime` = 0;", con);
                     cmd.ExecuteNonQuery();
                     Server.PrintToChatAll($"{Prefix} {CC.R} SIKI TUTUNDUĞUNUZ İÇİN TŞK, DEVAAAAAM");
                     Server.PrintToChatAll($"{Prefix} {CC.R} SIKI TUTUNDUĞUNUZ İÇİN TŞK, DEVAAAAAM");
