@@ -64,14 +64,12 @@ namespace JailbreakExtras
         public List<CoordinateTemplate> MapCellCoords { get; set; } = new List<CoordinateTemplate>()
         {
             new("jb_zmtr_v1" ,new VectorTemp(-535, 345, -27)),
-            new("jb_zmtr_v2" ,new VectorTemp(-535, 345, -27))
         };
 
         [JsonPropertyName("ParamCoords")]
         public List<CoordinateTemplate> ParamCoords { get; set; } = new List<CoordinateTemplate>()
         {
             new ("jb_zmtr_v1" ,new VectorTemp(4497, 4261, -1880)),
-            new ("jb_zmtr_v2" ,new VectorTemp(-535, 345, -27))
         };
 
         [JsonPropertyName("SkzCoordinates")]
@@ -106,6 +104,14 @@ namespace JailbreakExtras
                     new("KZ Sol Kulvar",  new VectorTemp(-3142,2720,716) ),
                 }
             },
+            {"jb_zmtr_triplex", new List<CoordinateTemplate>()
+                {
+                    new("Hucre",   new VectorTemp(210,3115,-88) ),
+                    new("KZ",      new VectorTemp(-472,-668,-380) ),
+                    new("KZ Sag Kulvar",  new VectorTemp(-606,-315,-337) ),
+                    new("KZ Sol Kulvar",  new VectorTemp(-606,-1019,-337) ),
+                }
+            },
         };
 
         [JsonPropertyName("KapiAcKapaList")]
@@ -117,19 +123,12 @@ namespace JailbreakExtras
                     {"kapi2", "func_door" },
                  }
             },
-            {"jb_zmtr_v2",new Dictionary<string, string>()
-                 {
-                    {"kacak", "func_door" },
-                    {"kapi2", "func_door" },
-                 }
-            },
         };
 
         [JsonPropertyName("ForceOpenDoor")]
         public Dictionary<string, string> ForceOpenDoor { get; set; } = new Dictionary<string, string>()
         {
              {"jb_zmtr_v1","kapi2"},
-             {"jb_zmtr_v2","kapi"},
         };
 
         [JsonPropertyName("CoinCoords")]
@@ -138,7 +137,8 @@ namespace JailbreakExtras
             new ("jb_zmtr_v1" ,new VectorTemp(-718, -765, 24)),
             new ("jb_zmtr_v2" ,new VectorTemp(62, -408, 171)),
             new ("jb_zmtr_uzay" ,new VectorTemp(-581, -3488, -544)),
-            new ("jb_zmtr_minecraft_party" ,new VectorTemp(1,1,1))
+            new ("jb_zmtr_minecraft_party" ,new VectorTemp(1,1,1)),
+            new ("jb_zmtr_triplex" ,new VectorTemp(368, 3618, -60))
         };
 
         [JsonPropertyName("KzCellCoords")]
@@ -170,6 +170,13 @@ namespace JailbreakExtras
                 {
                     new("LeftBottom", new VectorTemp(-2899,3200,926)),
                     new("RightTop",   new VectorTemp(-2676,3375,1056))
+                }
+             },
+             { "jb_zmtr_triplex",
+                new()
+                {
+                    new("LeftBottom", new VectorTemp(-1087,-795,-124)),
+                    new("RightTop",   new VectorTemp(-1274,-540,30))
                 }
              },
             };

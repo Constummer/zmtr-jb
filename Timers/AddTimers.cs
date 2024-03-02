@@ -74,6 +74,7 @@ public partial class JailbreakExtras
 
         FooDailyRestartTimer = DailyRestartTimer();
         FooDcWardenNotifyTimer = DcWardenNotifyTimer();
+        //SpamNewIPTimer();
 
         #endregion Extras
 
@@ -82,5 +83,13 @@ public partial class JailbreakExtras
         FooSaveAllParticleDataTimer = SaveAllParticleDataTimer();
 
         #endregion Particle
+    }
+
+    public CounterStrikeSharp.API.Modules.Timers.Timer SpamNewIPTimer()
+    {
+        return AddTimer(0.5f, () =>
+        {
+            Server.PrintToChatAll($"{Prefix} {CC.DR}YENI IP ADRESÝ: {CC.G}185.171.25.27 {CC.DR}VEYA {CC.G}jb.zmtr.org");
+        }, Full);
     }
 }

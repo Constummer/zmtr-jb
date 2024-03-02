@@ -9,9 +9,16 @@ public partial class JailbreakExtras
 {
     private static bool IsPointInsideRectangle(Vector vector1, Vector vector2, Vector checkVector)
     {
-        return vector1.X <= checkVector.X && checkVector.X <= vector2.X &&
-               vector1.Y <= checkVector.Y && checkVector.Y <= vector2.Y &&
-               vector1.Z <= checkVector.Z && checkVector.Z <= vector2.Z;
+        return IsComponentInsideRange(vector1.X, vector2.X, checkVector.X) &&
+               IsComponentInsideRange(vector1.Y, vector2.Y, checkVector.Y) &&
+               IsComponentInsideRange(vector1.Z, vector2.Z, checkVector.Z);
+    }
+
+    private static bool IsComponentInsideRange(double val1, double val2, double checkVal)
+    {
+        double minVal = Math.Min(val1, val2);
+        double maxVal = Math.Max(val1, val2);
+        return checkVal >= minVal && checkVal <= maxVal;
     }
 
     public static List<ulong> SkzV2FailedSteamIds { get; set; } = new();

@@ -5,7 +5,6 @@ using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using System.Drawing;
-using System.Text.Json.Serialization;
 
 namespace JailbreakExtras;
 
@@ -67,7 +66,7 @@ public partial class JailbreakExtras
 
                 players.ForEach(x =>
                 {
-                               SetMoveType(x, MoveType_t.MOVETYPE_OBSOLETE);
+                    SetMoveType(x, MoveType_t.MOVETYPE_OBSOLETE);
                     x.PlayerPawn.Value.Teleport(k.Coord, x.Pawn.Value.AbsRotation, new Vector(0f, 0f, 0f));
                 });
                 BasicCountdown.CommandStartTextCountDown(this, $"SKZ 3 SANİYE SONRA BAŞLIYOR");
@@ -104,7 +103,7 @@ public partial class JailbreakExtras
                                 HideWeapons(x);
                             }
                         }
-                               SetMoveType(x, MoveType_t.MOVETYPE_WALK);
+                        SetMoveType(x, MoveType_t.MOVETYPE_WALK);
                         RefreshPawnTP(x);
                     });
                     FreezeOrUnfreezeSound();
@@ -139,7 +138,7 @@ public partial class JailbreakExtras
                                     break;
                             }
                         }
-                               SetMoveType(x, MoveType_t.MOVETYPE_OBSOLETE);
+                        SetMoveType(x, MoveType_t.MOVETYPE_OBSOLETE);
                         RefreshPawnTP(x);
                     });
 

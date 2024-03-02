@@ -10,7 +10,7 @@ public partial class JailbreakExtras
         public string KomPermName { get; set; } = "@css/komutcu";
 
         [JsonPropertyName("KomWeeklyCredit")]
-        public int KomWeeklyCredit { get; set; } = 500;
+        public int KomWeeklyCredit { get; set; } = 1000;
 
         [JsonPropertyName("ParachuteEnabled")]
         public bool ParachuteEnabled { get; set; } = true;
