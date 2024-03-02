@@ -1,4 +1,7 @@
 ﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Modules.Entities;
+using JailbreakExtras.Lib.Database;
+using MySqlConnector;
 using System.Net.Http.Headers;
 using System.Text;
 using System.Text.Json;
@@ -34,8 +37,6 @@ public partial class JailbreakExtras
     {
         try
         {
-            var discordPath = Path.Combine(ContentRootPath, "Discord.json");
-            Server.PrintToConsole(discordPath);
             var wardenName = "Komutçu Yok";
             var warden = GetWarden();
             if (warden != null)
@@ -48,17 +49,34 @@ public partial class JailbreakExtras
             var data = new DiscordNotifier()
             {
                 MapName = Server.MapName,
-                MaxPlayerCount = Server.MaxPlayers,
                 PlayerCount = GetPlayers().Count(),
                 WardenName = wardenName
             };
-            var serialized = JsonSerializer.Serialize(data,
-                            new JsonSerializerOptions
-                            {
-                                WriteIndented = true,
-                                Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
-                            });
-            File.WriteAllText(discordPath, serialized);
+            try
+            {
+                using (var con = Connection())
+                {
+                    if (con == null)
+                    {
+                        return;
+                    }
+
+                    var cmd = new MySqlCommand(@$"Delete FROM `DcNotifyData`;
+
+                                      INSERT INTO `DcNotifyData`
+                                      (MapName,WardenName,PlayerCount)
+                                      VALUES (@MapName,@WardenName,@PlayerCount);", con);
+
+                    cmd.Parameters.AddWithValue("@MapName", data.MapName.GetDbValue());
+                    cmd.Parameters.AddWithValue("@WardenName", data.WardenName.GetDbValue());
+                    cmd.Parameters.AddWithValue("@PlayerCount", data.PlayerCount.GetDbValue());
+                    cmd.ExecuteNonQuery();
+                }
+            }
+            catch (Exception e)
+            {
+                Server.PrintToConsole(e.Message);
+            }
         }
         catch (Exception e)
         {

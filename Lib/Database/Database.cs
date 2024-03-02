@@ -157,6 +157,14 @@ public partial class JailbreakExtras
                            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
                     await cmd.ExecuteNonQueryAsync();
 
+                    cmd = new MySqlCommand(
+                    @"CREATE TABLE IF NOT EXISTS `DcNotifyData` (
+                          `MapName` TEXT DEFAULT NULL,
+                          `WardenName` TEXT DEFAULT NULL,
+                          `PlayerCount` mediumint(9) DEFAULT 0
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
+                    await cmd.ExecuteNonQueryAsync();
+
                     GetAllPlayerNameData(con);
                     GetAllCTKitData(con);
                     GetAllTimeTrackingData(con);
