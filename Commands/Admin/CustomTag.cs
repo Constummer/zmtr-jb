@@ -246,9 +246,9 @@ public partial class JailbreakExtras
         var team = GetTeam(player);
         var teamStr = team switch
         {
-            CsTeam.CounterTerrorist => $"[GARDİYAN]",
-            CsTeam.Terrorist => $"[MAHKÛM]",
-            CsTeam.Spectator => $"[SPEC]",
+            CsTeam.CounterTerrorist => $"{CC.B}[GARDİYAN]",
+            CsTeam.Terrorist => $"{CC.R}[MAHKÛM]",
+            CsTeam.Spectator => $"{CC.P}[SPEC]",
             _ => ""
         };
         var ccRes = GetChatColors(data);
@@ -262,7 +262,8 @@ public partial class JailbreakExtras
         var deadStr = player.PawnIsAlive == false ? $"{CC.R}*ÖLÜ*" : "";
         var str = $" {deadStr}"
                 + $" {ccRes.TC}[{data.TagName}]"
-                + $" {c}{(isSayTeam ? $"{teamStr}" : "")}{player.PlayerName}"
+                + $" {(isSayTeam ? $"{teamStr}" : "")}"
+                + $" {c}{player.PlayerName}"
                 + $" {CC.W}:"
                 + $" {ccRes.SC}{info.GetArg(1)}";
         if (isSayTeam)

@@ -243,7 +243,14 @@ public partial class JailbreakExtras
             cam.MoveType = MoveType_t.MOVETYPE_NOCLIP;
             cam.TakesDamage = false;
             cam.GravityScale = 0;
-            cam.Teleport(player.PlayerPawn.Value.AbsOrigin, ANGLE_ZERO, VEC_ZERO);
+            cam.Active = true;
+            cam.IsOn = true;
+            cam.FOV = 90;
+            cam.ZNear = 4;
+            cam.ZFar = 10_000;
+
+            var abs = player.PlayerPawn.Value.AbsOrigin;
+            cam.Teleport(new(abs.X, abs.Y, abs.Z + 40), ANGLE_ZERO, VEC_ZERO);
             cam.DispatchSpawn();
 
             CustomSetParent(cam, player.PlayerPawn.Value);
