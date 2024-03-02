@@ -1,7 +1,6 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
-using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
 using System.Drawing;
@@ -10,11 +9,10 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    #region Hide
-
-    [ConsoleCommand("hide")]
+    [ConsoleCommand("hidet")]
+    [ConsoleCommand("thide")]
     [CommandHelper(1, "<0/1>")]
-    public void Hide(CCSPlayerController? player, CommandInfo info)
+    public void Hidet(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)
         {
@@ -68,6 +66,4 @@ public partial class JailbreakExtras
                 break;
         }
     }
-
-    #endregion Hide
 }
