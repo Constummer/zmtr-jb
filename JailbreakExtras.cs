@@ -32,10 +32,7 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
     private static Dictionary<ulong, string> PlayerNamesDatas = new();
     private static Dictionary<ulong, bool> KomWeeklyWCredits = new();
 
-    private static readonly string[] BaseRequiresPermissions = new[]
-    {
-        "@css/admin1"
-    };
+    private const string BasePermission = "@css/admin1";
 
     public override void Load(bool hotReload)
     {

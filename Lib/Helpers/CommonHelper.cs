@@ -63,12 +63,9 @@ public partial class JailbreakExtras
     private static bool CheckPermission(CCSPlayerController player)
     {
         bool res = false;
-        foreach (var item in BaseRequiresPermissions)
+        if (AdminManager.PlayerHasPermissions(player, BasePermission))
         {
-            if (AdminManager.PlayerHasPermissions(player, item))
-            {
-                res = true; break;
-            }
+            res = true;
         }
         return res;
     }

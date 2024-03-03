@@ -44,6 +44,20 @@ public partial class JailbreakExtras
         return flags.Any(x => x == "@css/root" || x == "@css/admin1");
     }
 
+    public static bool IsBasePermissionPlayer(ulong steamId)
+    {
+        var sid = new SteamID(steamId);
+        if (sid == null || sid.SteamId64 != steamId)
+        {
+            return false;
+        }
+        var data = AdminManager.GetPlayerAdminData(sid);
+        if (data == null) return false;
+        var flags = data.GetAllFlags();
+        if (flags == null) return false;
+        return flags.Any(x => x == BasePermission);
+    }
+
     public void YetkiSistemi()
     {
         //if (AdminManager.GetPlayerAdminData(sid) != null)

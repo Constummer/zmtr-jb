@@ -212,6 +212,10 @@ public partial class JailbreakExtras
                         {
                             LevelTagDisabledPlayers.Add(steamId);
                         }
+                        if (IsBasePermissionPlayer(steamId))
+                        {
+                            LevelTagDisabledPlayers.Add(steamId);
+                        }
                         return;
                     }
                 }
@@ -391,7 +395,7 @@ public partial class JailbreakExtras
         {
             if (PlayerLevels.TryGetValue(steamId, out var levelData))
             {
-                if(levelData==null || levelData.Xp <= 0)
+                if (levelData == null || levelData.Xp <= 0)
                 {
                     return;
                 }

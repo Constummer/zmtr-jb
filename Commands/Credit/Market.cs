@@ -366,6 +366,35 @@ public partial class JailbreakExtras
         return null;
     }
 
+    private static void AddPlayerMarketCredit(ulong steamID, int credit)
+    {
+        var data = GetPlayerMarketModel(steamID);
+        if (data.Model == null) return;
+
+        try
+        {
+            using (var con = Connection())
+            {
+                if (con == null)
+                {
+                    return;
+                }
+
+                var cmd = new MySqlCommand(@$"UPDATE `PlayerMarketModel`
+                                          SET `Credit` = @Credit + `Credit`
+                                          WHERE `SteamId` = @SteamId;", con);
+
+                cmd.Parameters.AddWithValue("@SteamId", data.Model.SteamId);
+                cmd.Parameters.AddWithValue("@Credit", data.Model.Credit.GetDbValue());
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+        catch (Exception e)
+        {
+        }
+    }
+
     private static void UpdatePlayerMarketData(ulong steamID)
     {
         var data = GetPlayerMarketModel(steamID);

@@ -38,6 +38,10 @@ public partial class JailbreakExtras
         }
         if (arg.StartsWith("!") || arg.StartsWith("/") || arg.StartsWith("css_"))
         {
+            if (KomKalanIntercepter(player, arg))
+            {
+                return HookResult.Handled;
+            }
             if (VoteInProgressIntercepter(player, arg) == true)
             {
                 return HookResult.Handled;

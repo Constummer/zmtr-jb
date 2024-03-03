@@ -10,26 +10,16 @@ public partial class JailbreakExtras
 
     public DateTime? KomStartTime { get; set; } = null;
 
-    [ConsoleCommand("komdk")]
-    [ConsoleCommand("komutcudk")]
-    public void KomDk(CCSPlayerController? player, CommandInfo info)
+    private void KomKalanAction(CCSPlayerController? player)
     {
         if (ValidateCallerPlayer(player, false) == false) return;
 
-        player.PrintToChat($"{Prefix} {CC.B}!komkalan {CC.W}komutunu kullanmalısın");
-        return;
-    }
-
-    [ConsoleCommand("komkalan")]
-    [ConsoleCommand("komsure")]
-    public void KomKalan(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player, false) == false) return;
         if (KomStartTime == null)
         {
             player.PrintToChat($"{Prefix} {CC.W}Mevcutta kom yok");
             return;
         }
+        if (ValidateCallerPlayer(player, false) == false) return;
 
         var substract = (DateTime.UtcNow - KomStartTime.Value).TotalSeconds;
         TimeSpan remainingTime = TimeSpan.FromMinutes(45) - TimeSpan.FromSeconds(substract);
@@ -70,6 +60,37 @@ public partial class JailbreakExtras
             KomStartTime = DateTime.UtcNow;
             VoteAction(player, "Komutçu Değiş Kal");
         }
+    }
+
+    private static List<string> komKalanWords = new()
+    {
+        "komkalan",
+        "komkaln",
+        "komkln",
+        "komklan",
+        "komdk",
+        "komutcudk",
+        "k0mdk",
+        "k00mdk",
+        "koomdk",
+        "komdeis",
+        "komdegis",
+        "kom",
+    };
+
+    private bool KomKalanIntercepter(CCSPlayerController player, string arg)
+    {
+        var komkalan = arg.Substring(1);
+        if (string.IsNullOrWhiteSpace(arg))
+        {
+            return false;
+        }
+        if (komKalanWords.Select(x => x.ToLower()).Contains(komkalan.ToLower()))
+        {
+            KomKalanAction(player);
+            return true;
+        }
+        return false;
     }
 
     #endregion KomDk

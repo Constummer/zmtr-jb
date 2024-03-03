@@ -1,6 +1,7 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
+using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 
 namespace JailbreakExtras;
@@ -16,6 +17,11 @@ public partial class JailbreakExtras
     {
         if (ValidateCallerPlayer(player, false) == false)
         {
+            return;
+        }
+        if (AdminManager.PlayerHasPermissions(player, BasePermission))
+        {
+            player.PrintToChat($"{Prefix}{CC.B} !tagkapat{CC.W} komutunu kullanamazsın.");
             return;
         }
         if (LevelTagDisabledPlayers.Any(x => x == player.SteamID) == false)

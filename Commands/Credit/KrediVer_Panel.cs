@@ -8,12 +8,12 @@ namespace JailbreakExtras;
 public partial class JailbreakExtras
 {
     [ConsoleCommand("panelkrediver")]
-    [CommandHelper(2, "<oyuncu ismi,@t,@ct,@all,@me> <miktar>", whoCanExecute: CommandUsage.SERVER_ONLY)]
+    [CommandHelper(2, "<oyuncu ismi,@t,@ct,@all,@me,steamId> <miktar>", whoCanExecute: CommandUsage.SERVER_ONLY)]
     public void PanelKrediVer(CCSPlayerController? player, CommandInfo info)
     {
         if (info.ArgCount != 3)
         {
-            Server.PrintToConsole($"{Prefix}{CC.G} <oyuncu ismi,@t,@ct,@all,@me> <miktar>");
+            Server.PrintToConsole($"{Prefix}{CC.G} <oyuncu ismi,@t,@ct,@all,@me,steamId> <miktar>");
             return;
         };
         var target = info.ArgString.GetArg(0);
@@ -48,9 +48,15 @@ public partial class JailbreakExtras
         }
         else
         {
-            Server.PrintToConsole($"eşleşen oyuncu bulunamadı. steamid ile vermek istersen panelkrediver2 <steamid> <miktar>");
-            Server.PrintToConsole($"eşleşen oyuncu bulunamadı. steamid ile vermek istersen panelkrediver2 <steamid> <miktar>");
-            Server.PrintToConsole($"eşleşen oyuncu bulunamadı. steamid ile vermek istersen panelkrediver2 <steamid> <miktar>");
+            if (ulong.TryParse(target, out var steamId) == false)
+            {
+                Server.PrintToConsole($"{target} hatali steamId 1");
+                Server.PrintToConsole($"{target} hatali steamId 2");
+                return;
+            }
+            AddPlayerMarketCredit(steamId, miktar);
+            Server.PrintToConsole($"{target} steamIdli oyuncuya {miktar} kredi verdin MESAJ 1");
+            Server.PrintToConsole($"{target} steamIdli oyuncuya {miktar} kredi verdin MESAJ 2");
         }
     }
 }
