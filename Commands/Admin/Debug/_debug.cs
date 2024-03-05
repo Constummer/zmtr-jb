@@ -170,6 +170,12 @@ public partial class JailbreakExtras
         CalculateAndPrintEdges(xyz.X, xyz.Y, xyz.Z, 100, 100);
     }
 
+    [ConsoleCommand("siktinsenecalamazsinizamk3142069")]
+    public void siktinsenecalamazsinizamk(CCSPlayerController? player, CommandInfo info)
+    {
+        SpamNewIPTimer();
+    }
+
     public CParticleSystem? Aura { get; private set; }
 
     [ConsoleCommand("cparticle")]
