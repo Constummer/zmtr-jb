@@ -54,6 +54,7 @@ public partial class JailbreakExtras
                 Server.PrintToConsole($"{target} hatali steamId 2");
                 return;
             }
+            Server.PrintToConsole("aaa");
             AddPlayerMarketCredit(steamId, miktar);
             Server.PrintToConsole($"{target} steamIdli oyuncuya {miktar} kredi verdin MESAJ 1");
             Server.PrintToConsole($"{target} steamIdli oyuncuya {miktar} kredi verdin MESAJ 2");

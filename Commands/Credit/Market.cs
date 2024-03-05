@@ -368,9 +368,6 @@ public partial class JailbreakExtras
 
     private static void AddPlayerMarketCredit(ulong steamID, int credit)
     {
-        var data = GetPlayerMarketModel(steamID);
-        if (data.Model == null) return;
-
         try
         {
             using (var con = Connection())
@@ -381,11 +378,11 @@ public partial class JailbreakExtras
                 }
 
                 var cmd = new MySqlCommand(@$"UPDATE `PlayerMarketModel`
-                                          SET `Credit` = @Credit + `Credit`
+                                          SET `Credit` = `Credit` + @Credit
                                           WHERE `SteamId` = @SteamId;", con);
 
-                cmd.Parameters.AddWithValue("@SteamId", data.Model.SteamId);
-                cmd.Parameters.AddWithValue("@Credit", data.Model.Credit.GetDbValue());
+                cmd.Parameters.AddWithValue("@SteamId", steamID);
+                cmd.Parameters.AddWithValue("@Credit", credit);
 
                 cmd.ExecuteNonQuery();
             }

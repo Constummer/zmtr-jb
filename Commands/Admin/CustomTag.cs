@@ -91,7 +91,6 @@ public partial class JailbreakExtras
         {
             CustomPlayerTags[y.SteamID] = data;
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.B} {y.PlayerName}{CC.W} adlı oyuncuya {CC.R}[{tag}]{CC.W} tagı verdi");
-            return;
         }
         else
         {
@@ -261,8 +260,8 @@ public partial class JailbreakExtras
         };
         var deadStr = player.PawnIsAlive == false ? $"{CC.R}*ÖLÜ*" : "";
         var str = $" {deadStr}"
-                + $" {ccRes.TC}[{data.TagName}]"
                 + $" {(isSayTeam ? $"{teamStr}" : "")}"
+                + $" {ccRes.TC}[{data.TagName}]"
                 + $" {c}{player.PlayerName}"
                 + $" {CC.W}:"
                 + $" {ccRes.SC}{info.GetArg(1)}";
