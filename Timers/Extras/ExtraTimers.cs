@@ -28,6 +28,10 @@ public partial class JailbreakExtras
                 Server.PrintToChatAll($"{Prefix} BAKIM GEREĞİ SERVERE 07.00 DA RES GELECEKTİR !!!!");
                 Server.PrintToChatAll($"{Prefix} BAKIM GEREĞİ SERVERE 07.00 DA RES GELECEKTİR !!!!");
             }
+            if (nowTime >= OpenKumarTimer && nowTime <= OpenKumarTimer2)
+            {
+                KumarKapatDisable = false;
+            }
         }, Full);
     }
 

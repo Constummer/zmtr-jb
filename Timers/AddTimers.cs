@@ -26,6 +26,8 @@ public partial class JailbreakExtras
     public static TimeOnly MaintenanceTimer { get => new TimeOnly(6, 54); }
     public static TimeOnly MaintenanceGameTimer { get => new TimeOnly(6, 29); }
     public static TimeOnly MaintenanceTimer2 { get => new TimeOnly(7, 01); }
+    public static TimeOnly OpenKumarTimer { get => new TimeOnly(7, 09); }
+    public static TimeOnly OpenKumarTimer2 { get => new TimeOnly(7, 59); }
 
     private void AddTimers()
     {
