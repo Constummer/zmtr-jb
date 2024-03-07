@@ -261,8 +261,8 @@ public partial class JailbreakExtras
         };
         var deadStr = player.PawnIsAlive == false ? $"{CC.R}*ÖLÜ*" : "";
         var str = $" {deadStr}"
-                + $" {ccRes.TC}[{data.TagName}]"
                 + $" {(isSayTeam ? $"{teamStr}" : "")}"
+                + $" {ccRes.TC}[{data.TagName}]"
                 + $" {c}{player.PlayerName}"
                 + $" {CC.W}:"
                 + $" {ccRes.SC}{info.GetArg(1)}";
