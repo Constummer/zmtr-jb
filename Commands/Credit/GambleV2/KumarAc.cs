@@ -10,19 +10,6 @@ public partial class JailbreakExtras
 {
     private bool KumarKapatDisable = false;
 
-    [ConsoleCommand("kumarkapat")]
-    [ConsoleCommand("kumarkapa")]
-    public void KumarKapat(CCSPlayerController? player, CommandInfo info)
-    {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
-        {
-            player.PrintToChat(NotEnoughPermission);
-            return;
-        }
-        KumarKapatDisable = true;
-        Server.PrintToChatAll($"{Prefix} {CC.R} KUMAR KAPATILDI");
-    }
-
     [ConsoleCommand("kumarac")]
     public void KumarAc(CCSPlayerController? player, CommandInfo info)
     {
