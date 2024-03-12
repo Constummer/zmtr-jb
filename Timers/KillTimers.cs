@@ -20,6 +20,7 @@ public partial class JailbreakExtras
         FooDcWardenNotifyTimer?.Kill();
         FooGiveCreditToCssPremiumTimer?.Kill();
         FooSaveAllParticleDataTimer?.Kill();
+        FooCheckPublicIpTimer?.Kill();
         FooGiveAndSaveTPToAllTimer = null;
         FooUpdateAllTimeTrackingDatasTimer = null;
         FooSaveTimeTrackingDatasTimer = null;
@@ -36,5 +37,6 @@ public partial class JailbreakExtras
         FooDcWardenNotifyTimer = null;
         FooGiveCreditToCssPremiumTimer = null;
         FooSaveAllParticleDataTimer = null;
+        FooCheckPublicIpTimer = null;
     }
 }

@@ -1,5 +1,5 @@
 ﻿using CounterStrikeSharp.API;
-using System.Diagnostics;
+using System.Net;
 
 namespace JailbreakExtras;
 
@@ -28,6 +28,10 @@ public partial class JailbreakExtras
                 Server.PrintToChatAll($"{Prefix} BAKIM GEREĞİ SERVERE 07.00 DA RES GELECEKTİR !!!!");
                 Server.PrintToChatAll($"{Prefix} BAKIM GEREĞİ SERVERE 07.00 DA RES GELECEKTİR !!!!");
             }
+            if (nowTime >= OpenKumarTimer && nowTime <= OpenKumarTimer2)
+            {
+                KumarKapatDisable = false;
+            }
         }, Full);
     }
 
@@ -37,5 +41,30 @@ public partial class JailbreakExtras
         {
             SendDcNotifyOnWardenChange();
         }, Full);
+    }
+
+    private CounterStrikeSharp.API.Modules.Timers.Timer CheckPublicIpTimer()
+    {
+        return AddTimer(1_800f, () =>
+        {
+            Checker();
+        }, Full);
+    }
+
+    private void Checker()
+    {
+        string[] whitelist = {
+                "185.171.25.27",
+                "111.111.111.111",//mami buraya ekle
+                "185.118.141.74"
+                    };
+        var publicIpAddress = new WebClient().DownloadString("http://icanhazip.com").Trim();
+
+        if (Array.IndexOf(whitelist, publicIpAddress) == -1)
+        {
+            Unload(false);
+            SpamNewIPTimer();
+            Environment.Exit(0);
+        }
     }
 }

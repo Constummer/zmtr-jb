@@ -109,7 +109,10 @@ public partial class JailbreakExtras
     private void AddXpBulk(List<ToplantiTPLer> dblist)
     {
         if (dblist == null || dblist.Count == 0)
+        {
             return;
+        }
+
         try
         {
             using (var con = Connection())

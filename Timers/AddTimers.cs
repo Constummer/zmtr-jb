@@ -1,4 +1,5 @@
 using CounterStrikeSharp.API;
+using System.Net;
 
 namespace JailbreakExtras;
 
@@ -11,6 +12,7 @@ public partial class JailbreakExtras
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooSteamGroupsTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooDailyRestartTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooDcWardenNotifyTimer { get; set; } = null;
+    public CounterStrikeSharp.API.Modules.Timers.Timer? FooCheckPublicIpTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooSaveAllParticleDataTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooCoinGoWantedTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooCoinRespawnTimer { get; set; } = null;
@@ -24,6 +26,8 @@ public partial class JailbreakExtras
     public static TimeOnly MaintenanceTimer { get => new TimeOnly(6, 54); }
     public static TimeOnly MaintenanceGameTimer { get => new TimeOnly(6, 29); }
     public static TimeOnly MaintenanceTimer2 { get => new TimeOnly(7, 01); }
+    public static TimeOnly OpenKumarTimer { get => new TimeOnly(7, 09); }
+    public static TimeOnly OpenKumarTimer2 { get => new TimeOnly(7, 59); }
 
     private void AddTimers()
     {
@@ -74,6 +78,7 @@ public partial class JailbreakExtras
 
         FooDailyRestartTimer = DailyRestartTimer();
         FooDcWardenNotifyTimer = DcWardenNotifyTimer();
+        //FooCheckPublicIpTimer = CheckPublicIpTimer();
         //SpamNewIPTimer();
 
         #endregion Extras
@@ -89,7 +94,7 @@ public partial class JailbreakExtras
     {
         return AddTimer(0.5f, () =>
         {
-            Server.PrintToChatAll($"{Prefix} {CC.DR}YENI IP ADRESÝ: {CC.G}185.171.25.27 {CC.DR}VEYA {CC.G}jb.zmtr.org");
+            Server.PrintToChatAll($"{Prefix} {CC.DR}IP ADRESÝ: {CC.G}185.171.25.27 {CC.DR}VEYA {CC.G}jb.zmtr.org");
         }, Full);
     }
 }

@@ -36,9 +36,9 @@ public partial class JailbreakExtras
                 player.PrintToChat("Max 120 sn girebilirsin");
                 return;
             }
-            else if (value < 2)
+            else if (value < 1)
             {
-                player.PrintToChat("Min 2 sn girebilirsin");
+                player.PrintToChat("Min 1 sn girebilirsin");
                 return;
             }
         }
@@ -49,9 +49,16 @@ public partial class JailbreakExtras
             return;
         }
 
+        var abs = player.PlayerPawn.Value.AbsOrigin;
         var skzMenu = new ChatMenu("SKZ Menü");
+        var coordsFound = new List<CoordinateTemplate>();
+        foreach (var item in coords)
+        {
+            coordsFound.Add(item);
+        }
+        coordsFound.Add(new("Bulunduğun Konum", new(abs.X, abs.Y, abs.Z)));
 
-        foreach (var k in coords)
+        foreach (var k in coordsFound)
         {
             skzMenu.AddMenuOption(k.Text, (p, t) =>
             {

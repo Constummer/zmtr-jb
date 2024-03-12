@@ -91,7 +91,6 @@ public partial class JailbreakExtras
         {
             CustomPlayerTags[y.SteamID] = data;
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.B} {y.PlayerName}{CC.W} adlı oyuncuya {CC.R}[{tag}]{CC.W} tagı verdi");
-            return;
         }
         else
         {
