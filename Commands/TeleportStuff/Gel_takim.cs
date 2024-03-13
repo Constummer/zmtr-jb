@@ -114,7 +114,7 @@ public partial class JailbreakExtras
                           }
                       }
                   });
-            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} tüm {res.Msg} Takımındaki Mahkûmları {CC.W}yanına ışınladı.");
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} tüm {res.Msg} takımındaki {T_PluralLowerObjective} {CC.W}yanına ışınladı.");
         }
     }
 
@@ -137,7 +137,7 @@ public partial class JailbreakExtras
                           }
                       }
                   });
-            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} tüm {res.Msg} Takımındaki Mahkûmları {CC.W}yanına ışınladı.");
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} tüm {res.Msg} takımındaki {T_PluralLowerObjective} {CC.W}yanına ışınladı.");
         }
     }
 

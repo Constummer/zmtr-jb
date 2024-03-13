@@ -55,13 +55,13 @@ public partial class JailbreakExtras
         {
             case 0:
                 Config.Additional.ParachuteModelEnabled = true;
-                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W} Mahkûmlar için hide kapadı.");
+                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W} {T_PluralCamel} için hide kapadı.");
                 Server.ExecuteCommand($"sv_teamid_overhead_maxdist 2000");
                 break;
 
             case 1:
                 Config.Additional.ParachuteModelEnabled = false;
-                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W} Mahkûmlar için hide açtı.");
+                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W} {T_PluralCamel} için hide açtı.");
                 Server.ExecuteCommand($"sv_teamid_overhead_maxdist 1");
                 break;
         }

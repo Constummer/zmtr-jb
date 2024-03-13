@@ -44,8 +44,8 @@ public partial class JailbreakExtras
             {
                 var winner = players2.FirstOrDefault();
                 if (ValidateCallerPlayer(winner, false) == false) return;
-                Server.PrintToChatAll($"{Prefix} {CC.Or} {winner.PlayerName}{CC.W} adlı mahkûm kazandı.");
-                PrintToCenterHtmlAll($"{Prefix} {winner.PlayerName} adlı mahkûm kazandı.");
+                Server.PrintToChatAll($"{Prefix} {CC.Or} {winner.PlayerName}{CC.W} adlı {T_AllLower} kazandı.");
+                PrintToCenterHtmlAll($"{Prefix} {winner.PlayerName} adlı {T_AllLower} kazandı.");
                 Clear(true);
             }
             else
@@ -154,8 +154,8 @@ public partial class JailbreakExtras
 
         private void PrintToAll(string pname)
         {
-            Server.PrintToChatAll($"{Prefix}{CC.W} Bomba {CC.Or} {pname}{CC.W} adlı mahkûmda.");
-            PrintToCenterHtmlAll($"Bomba {pname} adlı mahkûmda.");
+            Server.PrintToChatAll($"{Prefix}{CC.W} Bomba {CC.Or} {pname}{CC.W} adlı {T_LowerPositioning}.");
+            PrintToCenterHtmlAll($"Bomba {pname} adlı {T_LowerPositioning}.");
         }
     }
 }

@@ -82,8 +82,8 @@ public partial class JailbreakExtras
         var team = GetTeam(player);
         var teamStr = isSayTeam ? team switch
         {
-            CsTeam.CounterTerrorist => $"{CC.B}[GARDİYAN]",
-            CsTeam.Terrorist => $"{CC.R}[MAHKÛM]",
+            CsTeam.CounterTerrorist => $"{CC.B}[{CT_AllCap}]",
+            CsTeam.Terrorist => $"{CC.R}[{T_AllCap}]",
             CsTeam.Spectator => $"{CC.P}[SPEC]",
             _ => ""
         } : "";

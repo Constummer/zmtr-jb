@@ -65,17 +65,17 @@ public partial class JailbreakExtras
         }
         if (player.PawnIsAlive == false)
         {
-            player.PrintToChat($"{Prefix} {CC.W}Sadece yaşayan son mahkûm lr atabilir.");
+            player.PrintToChat($"{Prefix} {CC.W}Sadece yaşayan son {T_AllLower} lr atabilir.");
             return;
         }
         if (GetTeam(player) != CsTeam.Terrorist)
         {
-            player.PrintToChat($"{Prefix} {CC.W}Sadece yaşayan son mahkûm lr atabilir.");
+            player.PrintToChat($"{Prefix} {CC.W}Sadece yaşayan son {T_AllLower} lr atabilir.");
             return;
         }
         if (GetPlayerCount(CsTeam.Terrorist, true) != 1)
         {
-            player.PrintToChat($"{Prefix} {CC.W}Sadece yaşayan son mahkûm lr atabilir.");
+            player.PrintToChat($"{Prefix} {CC.W}Sadece yaşayan son {T_AllLower} lr atabilir.");
             return;
         }
         if (LrActive)

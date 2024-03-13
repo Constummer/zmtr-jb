@@ -22,6 +22,7 @@ public partial class JailbreakExtras
 
     public static Dictionary<ulong, CustomTagData> CustomPlayerTags { get; set; } = new();
 
+    [ConsoleCommand("tagver")]
     [ConsoleCommand("customtag")]
     [ConsoleCommand("customtagekle")]
     [CommandHelper(minArgs: 5, "<custom tag verilcek kişi> <tagColor> <tColor> <ctColor> <sayColor> <tag (boşluklu olabilir * OPSIYONEL>")]
@@ -100,6 +101,11 @@ public partial class JailbreakExtras
         AddOrUpdateCustomTagData(y.SteamID, data);
     }
 
+    [ConsoleCommand("tagal")]
+    [ConsoleCommand("tagsil")]
+    [ConsoleCommand("tagkaldir")]
+    [ConsoleCommand("tagkapat")]
+    [ConsoleCommand("tagkapa")]
     [ConsoleCommand("customtagsil")]
     [ConsoleCommand("customtagkaldir")]
     [ConsoleCommand("customtagiptal")]
@@ -245,8 +251,8 @@ public partial class JailbreakExtras
         var team = GetTeam(player);
         var teamStr = team switch
         {
-            CsTeam.CounterTerrorist => $"{CC.B}[GARDİYAN]",
-            CsTeam.Terrorist => $"{CC.R}[MAHKÛM]",
+            CsTeam.CounterTerrorist => $"{CC.B}[{CT_AllCap}]",
+            CsTeam.Terrorist => $"{CC.R}[{T_AllCap}]",
             CsTeam.Spectator => $"{CC.P}[SPEC]",
             _ => ""
         };

@@ -23,11 +23,11 @@ public partial class JailbreakExtras
                 {
                     return;
                 }
-                var gardSelectMenu = new ChatMenu("LR Menü | Gardiyan Seçimi");
+                var gardSelectMenu = new ChatMenu($"LR Menü | {CT_CamelCase} Seçimi");
                 var gards = GetPlayers(CsTeam.CounterTerrorist).ToList();
                 if (gards.Any() == false)
                 {
-                    player.PrintToChat($"{Prefix}{CC.W} Hiç gardiyan bulunmadığı için LR atamazsın!.");
+                    player.PrintToChat($"{Prefix}{CC.W} Hiç {CT_AllLower} bulunmadığı için LR atamazsın!.");
 
                     return;
                 }
@@ -72,7 +72,7 @@ public partial class JailbreakExtras
         SutolCommandCalls?.Clear();
         LrActive = true;
         ActivatedLr = new(mahkum.SteamID, gard.SteamID, item);
-       
+
         if (ValidateCallerPlayer(mahkum, false) == false) return;
         if (ValidateCallerPlayer(gard, false) == false) return;
         RemoveWeapons(mahkum, true);
@@ -87,7 +87,7 @@ public partial class JailbreakExtras
         if (ValidateCallerPlayer(gard, false) == false) return;
         ActiveGodMode.Remove(gard.SteamID);
         ActiveGodMode.Remove(mahkum.SteamID);
-        Server.PrintToChatAll($"{Prefix} {CC.G}{mahkum.PlayerName} {CC.W}adlı mahkûm, {CC.B}{gard.PlayerName}{CC.W} adlı gardiyana {CC.LY}{item.Text} {CC.W}LR'si başladı.");
+        Server.PrintToChatAll($"{Prefix} {CC.G}{mahkum.PlayerName} {CC.W}adlı {T_AllLower}, {CC.B}{gard.PlayerName}{CC.W} adlı {CT_LowerPrePosition} {CC.LY}{item.Text} {CC.W}LR'si başladı.");
         LrStartSound();
         if (ValidateCallerPlayer(mahkum, false) == false) return;
         if (ValidateCallerPlayer(gard, false) == false) return;
@@ -142,55 +142,6 @@ public partial class JailbreakExtras
                     }
                     SetAmmo(gardWeapon, 0, 0);
                 });
-                //AddTimer(0.1f, () => SetAmmo(gardWeapon, 0, 0));
-                //AddTimer(0.1f, () => SetAmmo(gardWeapon, 0, 0));
-                //AddTimer(0.1f, () => SetAmmo(mahkumWeapon, 1, 0));
-                //});
-                //.....................................
-                //if (ValidateCallerPlayer(mahkum, false) == false) return;
-                //if (WeaponIsValid(mahkWeapon) == false)
-                //{
-                //    return;
-                //}
-                //Server.NextFrame(() =>
-                //{
-                //    if (mahkWeapon == null) return;
-                //    try
-                //    {
-                //        if (WeaponIsValid(mahkWeapon) == false)
-                //        {
-                //            return;
-                //        }
-                //        mahkWeapon.Clip1 = 1;
-                //        Utilities.SetStateChanged(mahkWeapon, "CBasePlayerWeapon", "m_iClip1");
-                //        mahkWeapon.ReserveAmmo[0] = 0;
-                //        Utilities.SetStateChanged(mahkWeapon, "CBasePlayerWeapon", "m_pReserveAmmo");
-                //    }
-                //    catch (Exception)
-                //    { }
-                //});
-                //if (ValidateCallerPlayer(gard, false) == false) return;
-                //if (WeaponIsValid(gardWeapon) == false)
-                //{
-                //    return;
-                //}
-                //Server.NextFrame(() =>
-                //{
-                //    if (gardWeapon == null) return;
-                //    try
-                //    {
-                //        if (WeaponIsValid(gardWeapon) == false)
-                //        {
-                //            return;
-                //        }
-                //        gardWeapon.Clip1 = 0;
-                //        Utilities.SetStateChanged(gardWeapon, "CBasePlayerWeapon", "m_iClip1");
-                //        gardWeapon.ReserveAmmo[0] = 0;
-                //        Utilities.SetStateChanged(gardWeapon, "CBasePlayerWeapon", "m_pReserveAmmo");
-                //    }
-                //    catch (Exception)
-                //    { }
-                //});
 
                 break;
 

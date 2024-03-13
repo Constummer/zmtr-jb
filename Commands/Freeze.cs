@@ -32,7 +32,7 @@ public partial class JailbreakExtras
             }
             else
             {
-                BasicCountdown.CommandStartTextCountDown(this, $"Mahkûmların donmasına {value} saniye kaldı!");
+                BasicCountdown.CommandStartTextCountDown(this, $"{T_PluralCamelPossesive} donmasına {value} saniye kaldı!");
                 fzTimer?.Kill();
                 fzTimer = AddTimer(value, () =>
                 {
@@ -61,7 +61,7 @@ public partial class JailbreakExtras
                         //x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
                     });
                     FreezeOrUnfreezeSound();
-                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}mahkûmları {CC.B}dondurdu{CC.W}.");
+                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{T_PluralLowerObjective} {CC.B}dondurdu{CC.W}.");
                 }, SOM);
             }
         }
@@ -94,7 +94,7 @@ public partial class JailbreakExtras
                            SetColour(x, Config.Burry.BuryColor);
                        }
 
-                        SetMoveType(x, MoveType_t.MOVETYPE_OBSOLETE);
+                       SetMoveType(x, MoveType_t.MOVETYPE_OBSOLETE);
                        RefreshPawnTP(x);
                        //Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                        //Vector currentSpeed = new Vector(0, 0, 0);

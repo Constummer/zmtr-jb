@@ -4,7 +4,6 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    public static string Prefix { get => $" {CC.LR}[ZMTR]"; }
     public static string NotEnoughPermission { get => $"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor."; }
 
     private static string AdliAdmin(string adminName) => $"{Prefix} {CC.Ol}{adminName}{CC.W} adlý admin,";

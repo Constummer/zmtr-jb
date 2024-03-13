@@ -62,7 +62,7 @@ public partial class JailbreakExtras
         {
             skzMenu.AddMenuOption(k.Text, (p, t) =>
             {
-                Server.PrintToChatAll($"{Prefix} {CC.W}Mahkûmlar {CC.B}{k.Text} {CC.W} ışınlanıyor");
+                Server.PrintToChatAll($"{Prefix} {CC.W}{T_PluralCamel} {CC.B}{k.Text} {CC.W} ışınlanıyor");
 
                 SkzTimer?.Kill();
                 Skz2Timer?.Kill();
@@ -114,7 +114,7 @@ public partial class JailbreakExtras
                         RefreshPawnTP(x);
                     });
                     FreezeOrUnfreezeSound();
-                    BasicCountdown.CommandStartTextCountDown(this, $"Mahkûmlar {value} saniye sonra donacak");
+                    BasicCountdown.CommandStartTextCountDown(this, $"{T_PluralCamel} {value} saniye sonra donacak");
                 }, SOM);
 
                 Skz2Timer = AddTimer(value + 3, () =>
@@ -152,7 +152,7 @@ public partial class JailbreakExtras
                     Config.Additional.ParachuteModelEnabled = true;
 
                     FreezeOrUnfreezeSound();
-                    Server.PrintToChatAll($"{Prefix} {CC.Ol}{value}{CC.W} saniye süren {CC.Ol}SKZ{CC.W} bitti, {CC.G}mahkûmlar {CC.B}dondu{CC.W}.");
+                    Server.PrintToChatAll($"{Prefix} {CC.Ol}{value}{CC.W} saniye süren {CC.Ol}SKZ{CC.W} bitti, {CC.G}{T_PluralCamel} {CC.B}dondu{CC.W}.");
                     Server.PrintToChatAll($"{Prefix} {CC.G}{greenColor}{CC.W} adet kz'yi yapan {CC.R}{redColor}{CC.W} adet kz'yi yapamayan var{CC.W}.");
 
                     var str = $"{Prefix}<br>" +

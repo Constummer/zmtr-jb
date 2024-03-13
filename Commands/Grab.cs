@@ -20,7 +20,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (player.SteamID != 76561198248447996)
+        if (GrabAllowedSteamIds.Contains(player.SteamID) == false)
         {
             player.PrintToChat("-disabled- (for now)");
             return;
@@ -38,7 +38,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (player.SteamID != 76561198248447996)
+        if (GrabAllowedSteamIds.Contains(player.SteamID) == false)
         {
             player.PrintToChat("-disabled- (for now)");
             return;
@@ -56,12 +56,12 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (player.SteamID != 76561198248447996) return;
+        if (GrabAllowedSteamIds.Contains(player.SteamID) == false) return;
 
         bool isFButtonPressed = (player.Pawn.Value.MovementServices!.Buttons.ButtonStates[0] & FButtonIndex) != 0;
         if (isFButtonPressed)
         {
-            //for future, mouse 1 and mouse 2 , get closer etc
+            //TODO: mouse 1 and mouse 2 , get closer etc
             //bool isJumpPressed = (buttons & PlayerButtons.Jump) != 0;
             AllowGrabForWarden(player);
         }

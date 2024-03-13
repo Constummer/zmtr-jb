@@ -57,8 +57,8 @@ public partial class JailbreakExtras
                     var team = FindTeam(attacker.SteamID);
                     if (team.Msg == null)
                     {
-                        Server.PrintToChatAll($"{Prefix} {CC.W} hiçbir takımda olmayan mahkûm kazandi = {attacker.PlayerName}.");
-                        PrintToCenterHtmlAll($"{Prefix} {CC.W} hiçbir takımda olmayan mahkûm kazandi = {attacker.PlayerName}.");
+                        Server.PrintToChatAll($"{Prefix} {CC.W} hiçbir takımda olmayan {T_AllLower} kazandi = {attacker.PlayerName}.");
+                        PrintToCenterHtmlAll($"{Prefix} {CC.W} hiçbir takımda olmayan {T_AllLower} kazandi = {attacker.PlayerName}.");
                     }
                     else
                     {

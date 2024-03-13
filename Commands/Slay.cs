@@ -69,7 +69,7 @@ public partial class JailbreakExtras
                var playerPawn = x.PlayerPawn.Value;
                playerPawn.CommitSuicide(false, true);
            });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}gardiyanları {CC.LR}öldürdü{CC.W}.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{CT_PluralLowerObjective} {CC.LR}öldürdü{CC.W}.");
     }
 
     [ConsoleCommand("slayt", "slay t")]
@@ -87,7 +87,7 @@ public partial class JailbreakExtras
                var playerPawn = x.PlayerPawn.Value;
                playerPawn.CommitSuicide(false, true);
            });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}mahkûmları {CC.LR}öldürdü{CC.W}.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{T_PluralLowerObjective} {CC.LR}öldürdü{CC.W}.");
     }
 
     private static void SlayAllAction()

@@ -53,7 +53,7 @@ public partial class JailbreakExtras
                 if (attacker != null && attacker.IsValid)
                 {
                     if (ValidateCallerPlayer(attacker, false) == false) return;
-                    Server.PrintToChatAll($"{Prefix} {CC.Or} {attacker.PlayerName}{CC.W} adlı mahkûm kazandı.");
+                    Server.PrintToChatAll($"{Prefix} {CC.Or} {attacker.PlayerName}{CC.W} adlı {T_AllLower} kazandı.");
 
                     GetPlayers(CsTeam.Terrorist)
                     .Where(x => x.PawnIsAlive && x.SteamID != attacker.SteamID)

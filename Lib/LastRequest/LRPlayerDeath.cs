@@ -55,11 +55,11 @@ public partial class JailbreakExtras
         }
         if (attacker.SteamID == ActivatedLr.MahkumSteamId)
         {
-            Server.PrintToChatAll($"{Prefix}{CC.G} {mahk.PlayerName} {CC.W}adlı mahkûm, {CC.B}{gard.PlayerName}{CC.W} adlı gardiyanla olan {CC.LY}{ActivatedLr.Text} {CC.W}LR'sini kazandı.");
+            Server.PrintToChatAll($"{Prefix}{CC.G} {mahk.PlayerName} {CC.W}adlı {T_AllLower}, {CC.B}{gard.PlayerName}{CC.W} adlı {CT_LowerPrePosition} olan {CC.LY}{ActivatedLr.Text} {CC.W}LR'sini kazandı.");
         }
         else
         {
-            Server.PrintToChatAll($"{Prefix}{CC.G} {gard.PlayerName} {CC.W}adlı gardiyan, {CC.B}{mahk.PlayerName}{CC.W} adlı mahkûmla olan {CC.LY}{ActivatedLr.Text} {CC.W}LR'sini kazandı.");
+            Server.PrintToChatAll($"{Prefix}{CC.G} {gard.PlayerName} {CC.W}adlı {CT_AllLower}, {CC.B}{mahk.PlayerName}{CC.W} adlı {T_LowerPrePosition} olan {CC.LY}{ActivatedLr.Text} {CC.W}LR'sini kazandı.");
         }
         Config.UnrestrictedFov.Enabled = true;
 

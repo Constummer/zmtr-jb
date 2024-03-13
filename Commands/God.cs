@@ -162,7 +162,7 @@ public partial class JailbreakExtras
                    ActiveGodMode[x.SteamID] = true;
                    RefreshPawn(x);
                });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.B}gardiyanlara {CC.G}god {CC.W}verdi.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.B}{CT_PluralCamelPrePosition} {CC.G}god {CC.W}verdi.");
     }
 
     [ConsoleCommand("qq", "remove godmode ct player")]
@@ -186,7 +186,7 @@ public partial class JailbreakExtras
 
                    RefreshPawn(x);
                });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.B}gardiyanların {CC.G}godunu {CC.W}kaldırdı.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.B}{CT_PluralCamelPossesive} {CC.G}godunu {CC.W}kaldırdı.");
     }
 
     private static void GodHurtCover(EventPlayerHurt @event, CCSPlayerController player)

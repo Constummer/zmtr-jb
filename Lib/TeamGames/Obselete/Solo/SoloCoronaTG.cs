@@ -177,8 +177,8 @@ public partial class JailbreakExtras
 
         private void PrintToAll(string pname)
         {
-            Server.PrintToChatAll($"{Prefix}{CC.W} Corona {CC.Or} {pname}{CC.W} adlı mahkûmda. Kaçın...");
-            PrintToCenterHtmlAll($"Corona {pname} adlı mahkûmda. Kaçın...");
+            Server.PrintToChatAll($"{Prefix}{CC.W} Corona {CC.Or} {pname}{CC.W} adlı {T_LowerPositioning}. Kaçın...");
+            PrintToCenterHtmlAll($"Corona {pname} adlı {T_LowerPositioning}. Kaçın...");
         }
     }
 }

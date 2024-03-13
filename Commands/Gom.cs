@@ -35,7 +35,7 @@ public partial class JailbreakExtras
                   {
                       SetColour(x, Config.Burry.BuryColor);
                   }
-                               SetMoveType(x, MoveType_t.MOVETYPE_OBSOLETE);
+                  SetMoveType(x, MoveType_t.MOVETYPE_OBSOLETE);
                   Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                   Vector currentSpeed = new Vector(0, 0, 0);
                   QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
@@ -69,7 +69,7 @@ public partial class JailbreakExtras
             }
             else
             {
-                BasicCountdown.CommandStartTextCountDown(this, $"Mahkûmların gömülmesine {value} saniye kaldı!");
+                BasicCountdown.CommandStartTextCountDown(this, $"{T_PluralCamelPossesive} gömülmesine {value} saniye kaldı!");
                 _ = AddTimer(value, () =>
                 {
                     GetPlayers()
@@ -87,7 +87,7 @@ public partial class JailbreakExtras
                         {
                             SetColour(x, Config.Burry.BuryColor);
                         }
-                               SetMoveType(x, MoveType_t.MOVETYPE_OBSOLETE);
+                        SetMoveType(x, MoveType_t.MOVETYPE_OBSOLETE);
                         Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                         Vector currentSpeed = new Vector(0, 0, 0);
                         QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
@@ -125,7 +125,7 @@ public partial class JailbreakExtras
                        SetColour(x, DefaultColor);
                    }
 
-                               SetMoveType(x, MoveType_t.MOVETYPE_WALK);
+                   SetMoveType(x, MoveType_t.MOVETYPE_WALK);
                    Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
                    Vector currentSpeed = new Vector(0, 0, 0);
                    QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);

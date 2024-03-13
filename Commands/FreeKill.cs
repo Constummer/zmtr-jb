@@ -48,7 +48,7 @@ public partial class JailbreakExtras
                                         list.Remove(item.Key);
                                         KilledPlayers[player.SteamID] = list;
                                         player.PrintToChat($"{Prefix} {CC.G}{fkPlayer.PlayerName} {CC.W}adlı oyuncuyu canlandırdın.");
-                                        Server.PrintToChatAll($"{Prefix} {CC.B}{player.PlayerName} {CC.W}adlı gardiyan, {CC.Or}{fkPlayer.PlayerName} {CC.W}adlı oyuncuyu canlandırdı.");
+                                        Server.PrintToChatAll($"{Prefix} {CC.B}{player.PlayerName} {CC.W}adlı {CT_AllLower}, {CC.Or}{fkPlayer.PlayerName} {CC.W}adlı oyuncuyu canlandırdı.");
                                     }
                                 }
                             }

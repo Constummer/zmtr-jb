@@ -33,7 +33,7 @@ public partial class JailbreakExtras
             }
             else
             {
-                BasicCountdown.CommandStartTextCountDown(this, $"Mahkûmların donunun bozulmasına {value} saniye kaldı!");
+                BasicCountdown.CommandStartTextCountDown(this, $"{T_PluralCamelPossesive} donunun bozulmasına {value} saniye kaldı!");
                 unfzTimer?.Kill();
                 unfzTimer = AddTimer(value, () =>
                 {
@@ -56,7 +56,7 @@ public partial class JailbreakExtras
                         RefreshPawnTP(x);
                     });
                     FreezeOrUnfreezeSound();
-                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}mahkûmların {CC.B}donunu bozdu{CC.W}.");
+                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{T_PluralCamelPossesive} {CC.B}donunu bozdu{CC.W}.");
                 }, SOM);
             }
         }

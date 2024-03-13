@@ -55,7 +55,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, false);
         });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}mahkûmların {CC.B}silahlarını {CC.W}sildi.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{T_PluralCamelPossesive} {CC.B}silahlarını {CC.W}sildi.");
     }
 
     [ConsoleCommand("stripct", "Bicak dahil silme")]
@@ -73,7 +73,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, false);
         });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}gardiyanların {CC.B}silahlarını {CC.W}sildi.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{CT_PluralCamelPossesive} {CC.B}silahlarını {CC.W}sildi.");
     }
 
     [ConsoleCommand("stripall", "Bicak dahil silme")]

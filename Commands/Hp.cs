@@ -66,7 +66,7 @@ public partial class JailbreakExtras
 
                    RefreshPawn(x);
                });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}mahkûmların canını {CC.B}100 {CC.W}olarak ayarladı.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{T_PluralCamelPossesive} canını {CC.B}100 {CC.W}olarak ayarladı.");
     }
 
     [ConsoleCommand("hpct", "Change ct player's HP.")]
@@ -85,7 +85,7 @@ public partial class JailbreakExtras
 
                    RefreshPawn(x);
                });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}gardiyanların canını {CC.B}100 {CC.W}olarak ayarladı.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{CT_PluralCamelPossesive} canını {CC.B}100 {CC.W}olarak ayarladı.");
     }
 
     [ConsoleCommand("hpall", "Change all player's HP.")]

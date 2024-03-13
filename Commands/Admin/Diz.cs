@@ -50,10 +50,10 @@ public partial class JailbreakExtras
         }
         DizPlayerId = player.SteamID;
         DizActive = true;
-        player.PrintToChat($"{Prefix}{CC.W} Ateş Ettiğin 2 Nokta Arasına Tüm Mahkûmlar Dizilecek.");
-        player.PrintToChat($"{Prefix}{CC.W} Ateş Ettiğin 2 Nokta Arasına Tüm Mahkûmlar Dizilecek.");
-        player.PrintToChat($"{Prefix}{CC.W} Ateş Ettiğin 2 Nokta Arasına Tüm Mahkûmlar Dizilecek.");
-        player.PrintToChat($"{Prefix}{CC.W} Ateş Ettiğin 2 Nokta Arasına Tüm Mahkûmlar Dizilecek.");
+        player.PrintToChat($"{Prefix}{CC.W} Ateş Ettiğin 2 Nokta Arasına Tüm {T_PluralCamel} Dizilecek.");
+        player.PrintToChat($"{Prefix}{CC.W} Ateş Ettiğin 2 Nokta Arasına Tüm {T_PluralCamel} Dizilecek.");
+        player.PrintToChat($"{Prefix}{CC.W} Ateş Ettiğin 2 Nokta Arasına Tüm {T_PluralCamel} Dizilecek.");
+        player.PrintToChat($"{Prefix}{CC.W} Ateş Ettiğin 2 Nokta Arasına Tüm {T_PluralCamel} Dizilecek.");
     }
 
     private void DizAction(EventBulletImpact @event)

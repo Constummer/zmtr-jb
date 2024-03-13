@@ -61,7 +61,7 @@ public partial class JailbreakExtras
                       x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 1, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} tüm {CC.DR}Mahkûmları {CC.W}yanına ışınladı.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} tüm {CC.DR}{T_PluralLowerObjective} {CC.W}yanına ışınladı.");
     }
 
     [ConsoleCommand("gelct")]
@@ -84,7 +84,7 @@ public partial class JailbreakExtras
                       x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 1, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                   }
               });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} tüm {CC.B}Gardiyanları {CC.W}yanına ışınladı.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} tüm {CC.B}{CT_PluralLowerObjective} {CC.W}yanına ışınladı.");
     }
 
     [ConsoleCommand("gelall")]

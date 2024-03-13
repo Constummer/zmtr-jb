@@ -35,9 +35,8 @@ public partial class JailbreakExtras
                              RefreshPawn(x);
                          });
         FreezeOrUnfreezeSound();
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}mahkûmları {CC.B}dondurdu{CC.W}.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{T_PluralLowerObjective} {CC.B}dondurdu{CC.W}.");
     }
-
 
     [ConsoleCommand("tdonboz", "Unfreeze t.")]
     [ConsoleCommand("tdb", "Unfreeze t.")]
@@ -49,7 +48,7 @@ public partial class JailbreakExtras
         }
         TdonbozAction();
         FreezeOrUnfreezeSound();
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}mahkûmların {CC.B}donunu kaldırdı{CC.W}.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{T_PluralCamelPossesive} {CC.B}donunu kaldırdı{CC.W}.");
     }
 
     private static void TdonbozAction()
@@ -63,7 +62,7 @@ public partial class JailbreakExtras
                             {
                                 SetColour(x, DefaultColor);
                             }
-                               SetMoveType(x, MoveType_t.MOVETYPE_WALK);
+                            SetMoveType(x, MoveType_t.MOVETYPE_WALK);
                             RefreshPawn(x);
                         });
     }

@@ -56,7 +56,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, true);
         });
-        Server.PrintToChatAll($"{Prefix} {CC.W}Mahkûmların silahları silindi.");
+        Server.PrintToChatAll($"{Prefix} {CC.W}{T_PluralCamelPossesive} silahları silindi.");
     }
 
     [ConsoleCommand("disarmct", "Bicak dahil silme")]
@@ -74,7 +74,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, true);
         });
-        Server.PrintToChatAll($"{Prefix} {CC.W}Gardiyanların silahları silindi.");
+        Server.PrintToChatAll($"{Prefix} {CC.W}{CT_PluralCamelPossesive} silahları silindi.");
     }
 
     [ConsoleCommand("disarmall", "Bicak dahil silme")]

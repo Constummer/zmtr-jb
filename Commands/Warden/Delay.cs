@@ -54,7 +54,7 @@ public partial class JailbreakExtras
 
     private void DelayCt(int value)
     {
-        Server.PrintToChatAll($"{Prefix} {CC.W}Gardiyanlar, {value} saniye mutelendi.");
+        Server.PrintToChatAll($"{Prefix} {CC.W}{CT_PluralCamel}, {value} saniye mutelendi.");
 
         GetPlayers(CsTeam.CounterTerrorist)
             .ToList()
@@ -63,7 +63,7 @@ public partial class JailbreakExtras
             if (ValidateCallerPlayer(x, false) == false) return;
             x.VoiceFlags |= VoiceFlags.Muted;
         });
-        BasicCountdown.CommandStartTextCountDown(this, $"Gardiyanlar, {value} saniye mutelendi");
+        BasicCountdown.CommandStartTextCountDown(this, $"{CT_PluralCamel}, {value} saniye mutelendi");
 
         _ = AddTimer(value, () =>
         {
@@ -76,7 +76,7 @@ public partial class JailbreakExtras
                 x.VoiceFlags &= ~VoiceFlags.Muted;
             });
             FreezeOrUnfreezeSound();
-            Server.PrintToChatAll($"{Prefix} {CC.W}Gardiyanların, mutesi kaldırıldı.");
+            Server.PrintToChatAll($"{Prefix} {CC.W}{CT_PluralCamelPossesive}, mutesi kaldırıldı.");
         }, SOM);
     }
 

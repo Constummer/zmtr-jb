@@ -35,7 +35,7 @@ public partial class JailbreakExtras
            });
         SlayAllAction();
 
-        Server.PrintToChatAll($"{Prefix} {CC.W}Yaşayan Mahkûmlar, Gardiyan takımına atıldı.");
+        Server.PrintToChatAll($"{Prefix} {CC.W}Yaşayan {T_PluralCamel}, {CT_CamelCase} takımına atıldı.");
     }
 
     #endregion CT AL

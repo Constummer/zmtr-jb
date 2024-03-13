@@ -20,7 +20,7 @@ public partial class JailbreakExtras
         var ordered = AllPlayerCTTimeTracking.OrderByDescending(x => x.Value);
 
         player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
-        player.PrintToChat($"{Prefix} {CC.W} TOP 10 Gardiyan Süreler");
+        player.PrintToChat($"{Prefix} {CC.W} TOP 10 {CT_CamelCase} Süreler");
         foreach (var item in ordered)
         {
             if (PlayerNamesDatas.TryGetValue(item.Key, out var name))
