@@ -215,6 +215,8 @@ public partial class JailbreakExtras
                 {
                     RespawnAcAction();
                 }
+                Server.PrintToChatAll($"{Prefix}{CC.W} Hook el boyunca kapalı.");
+                HookDisabled = true;
                 BasicCountdown.CommandStartTextCountDown(this, $"FF açılmasına {value} saniye kaldı");
                 GetPlayers(CsTeam.Terrorist)
                  .Where(x => x.PawnIsAlive && ValidateCallerPlayer(x, false))

@@ -86,6 +86,8 @@ public partial class JailbreakExtras
 
     private void IsEliStart(int value)
     {
+        Server.PrintToChatAll($"{Prefix}{CC.W} Hook el boyunca kapalı.");
+        HookDisabled = true;
         ForceCloseDoor();
         RespawnAcAction();
         ForceEntInput("func_breakable", "Break");
