@@ -75,7 +75,7 @@ public partial class JailbreakExtras
         _ = PlayerLevels?.Remove(steamId, out _);
         if (Gags?.TryGetValue(steamId, out var date) ?? false)
         {
-            if (date < DateTime.UtcNow.AddMonths(1))
+            if (date > DateTime.UtcNow.AddMonths(1))
             {
                 _ = Gags?.Remove(steamId);
             }
