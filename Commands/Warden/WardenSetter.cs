@@ -176,5 +176,28 @@ public partial class JailbreakExtras
             });
     }
 
+    public static void WardenSay(CCSPlayerController? player, CommandInfo info, bool isSayTeam)
+    {
+        var teamStr = $"{CC.B}[{CT_AllCap}]";
+
+        var deadStr = player.PawnIsAlive == false ? $"{CC.R}*ÖLÜ*" : "";
+
+        var str = $" {deadStr}"
+                + $" {(isSayTeam ? $"{teamStr}" : "")}"
+                + $" {CC.G}[K]"
+                + $" {CC.B}{player.PlayerName}"
+                + $" {CC.W}:"
+                + $" {CC.W}{info.GetArg(1)}";
+        if (isSayTeam)
+        {
+            GetPlayers(CsTeam.CounterTerrorist).ToList()
+                .ForEach(x => x.PrintToChat(str));
+        }
+        else
+        {
+            Server.PrintToChatAll(str);
+        }
+    }
+
     #endregion OnWCommand
 }
