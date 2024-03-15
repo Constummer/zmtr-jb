@@ -11,10 +11,5 @@ public partial class JailbreakExtras
         TeamCommandListener();
         KapilariAcCommandListener();
         SayAndSayTeamCommandListener();
-        AddCommandListener("slot1", (player, info) =>
-        {
-            Logger.LogInformation("aaaaaaaaaaaaaaa");
-            return HookResult.Continue;
-        });
     }
 }
