@@ -15,20 +15,17 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private List<CCSPlayerController> GetRootPlayers()
-    {
-        return GetPlayers()
-            .Where(x => AdminManager.PlayerHasPermissions(x, "@css/root"))
-            .ToList();
-    }
-
     private void PrintToRootChat(string msg)
     {
-        GetRootPlayers()
-           .ForEach(x =>
-           {
-               x.PrintToChat(msg);
-           });
+        GetPlayers()
+             .ToList()
+             .ForEach(x =>
+             {
+                 if (AdminManager.PlayerHasPermissions(x, "@css/root"))
+                 {
+                     x.PrintToChat(msg);
+                 }
+             });
     }
 
     [ConsoleCommand("cwarden")]

@@ -69,8 +69,9 @@ public partial class JailbreakExtras
             if (ValidateCallerPlayer(@event.Userid) == false) return;
             if (!AdminManager.PlayerHasPermissions(@event.Userid, "@css/root")) return;
             BulletImpactVectors.Add(new(@event?.X, @event?.Y, @event?.Z));
-            PrintToRootChat($"{@event?.X},{@event?.Y},{@event?.Z} - {BulletImpactVectors.Count}");
-            Server.PrintToConsole($"{@event?.X},{@event?.Y},{@event?.Z} - {BulletImpactVectors.Count}");
+            var msg = $"{@event?.X},{@event?.Y},{@event?.Z} - {BulletImpactVectors.Count}";
+            PrintToRootChat(msg);
+            Server.PrintToConsole(msg);
         }
     }
 }

@@ -3,7 +3,6 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
-using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
 
@@ -32,31 +31,31 @@ public partial class JailbreakExtras
             {
                 continue;
             }
-            Logger.LogInformation("----------------------------------------");
-            Logger.LogInformation($"DamageFilterName = {ent.DamageFilterName}");
-            Logger.LogInformation($"DesignerName = {ent.DesignerName}");
-            Logger.LogInformation($"Globalname = {ent.Globalname}");
-            Logger.LogInformation($"UniqueHammerID = {ent.UniqueHammerID}");
-            Logger.LogInformation($"Index = {ent.Index}");
+            Server.PrintToChatAll("----------------------------------------");
+            Server.PrintToChatAll($"DamageFilterName = {ent.DamageFilterName}");
+            Server.PrintToChatAll($"DesignerName = {ent.DesignerName}");
+            Server.PrintToChatAll($"Globalname = {ent.Globalname}");
+            Server.PrintToChatAll($"UniqueHammerID = {ent.UniqueHammerID}");
+            Server.PrintToChatAll($"Index = {ent.Index}");
             if (ent.Blocker.IsValid)
             {
                 var bl = ent.Blocker.Value;
-                Logger.LogInformation($"bl DamageFilterName = {bl.DamageFilterName}");
-                Logger.LogInformation($"bl DesignerName = {bl.DesignerName}");
-                Logger.LogInformation($"bl Globalname = {bl.Globalname}");
+                Server.PrintToChatAll($"bl DamageFilterName = {bl.DamageFilterName}");
+                Server.PrintToChatAll($"bl DesignerName = {bl.DesignerName}");
+                Server.PrintToChatAll($"bl Globalname = {bl.Globalname}");
             }
             if (ent.OwnerEntity.IsValid)
             {
                 var bl = ent.OwnerEntity.Value;
-                Logger.LogInformation($"bl DamageFilterName = {bl.DamageFilterName}");
-                Logger.LogInformation($"bl DesignerName = {bl.DesignerName}");
-                Logger.LogInformation($"bl Globalname = {bl.Globalname}");
+                Server.PrintToChatAll($"bl DamageFilterName = {bl.DamageFilterName}");
+                Server.PrintToChatAll($"bl DesignerName = {bl.DesignerName}");
+                Server.PrintToChatAll($"bl Globalname = {bl.Globalname}");
             }
-            Logger.LogInformation($"Entity.Name = {ent.Entity.Name}");
-            Logger.LogInformation($"Entity.DesignerName = {ent.Entity.DesignerName}");
+            Server.PrintToChatAll($"Entity.Name = {ent.Entity.Name}");
+            Server.PrintToChatAll($"Entity.DesignerName = {ent.Entity.DesignerName}");
 
-            Logger.LogInformation($"GetHashCode = {ent.GetHashCode()}");
-            Logger.LogInformation("----------------------------------------");
+            Server.PrintToChatAll($"GetHashCode = {ent.GetHashCode()}");
+            Server.PrintToChatAll("----------------------------------------");
             ent.AcceptInput("Open");
             AddTimer(1, () => ent.AcceptInput("Close"), SOM);
         }
