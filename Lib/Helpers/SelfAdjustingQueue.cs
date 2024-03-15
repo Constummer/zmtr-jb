@@ -13,13 +13,15 @@ public partial class JailbreakExtras
             Queue = new Queue<T>(maxSize);
         }
 
-        public void Enqueue(T item)
+        public T Enqueue(T item)
         {
+            var dequeue = default(T);
             if (Queue.Count >= MaxSize)
             {
-                Queue.Dequeue(); // Remove the oldest item
+                dequeue = Queue.Dequeue(); // Remove the oldest item
             }
             Queue.Enqueue(item); // Add the new item
+            return dequeue;
         }
 
         public T Dequeue()

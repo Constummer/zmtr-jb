@@ -53,6 +53,7 @@ public partial class JailbreakExtras
         ClearParachutes();
         ClearCits();
         ClearLasers();
+        ClearFootbalEntities();
     }
 
     private static void ClearOnDisconnect(ulong steamId, int? userId)
