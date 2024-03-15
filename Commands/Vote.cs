@@ -32,7 +32,7 @@ public partial class JailbreakExtras
         VoteAction(player, command.ArgString);
     }
 
-    private void VoteAction(CCSPlayerController? player, string argstr)
+    private void VoteAction(CCSPlayerController? player, string argstr, short voteTime = 20, Action mapDkFinished = null)
     {
         if (LatestVoteMenu != null)
         {
@@ -101,7 +101,7 @@ public partial class JailbreakExtras
 
         GetPlayers().ToList().ForEach(x =>
         {
-            x.PrintToCenter(player == null ? "Console" : $"{CC.B}{player.PlayerName} - {CC.G}{question} Oylaması 20 saniye sürecek, oy vermeyi unutmayın!");
+            x.PrintToCenter(player == null ? "Console" : $"{CC.B}{player.PlayerName} - {CC.G}{question} Oylaması {voteTime} saniye sürecek, oy vermeyi unutmayın!");
         });
 
         VoteInProgress = true;
@@ -112,14 +112,14 @@ public partial class JailbreakExtras
             if (p == null) continue;
             ChatMenus.OpenMenu(p, LatestVoteMenu);
         }
-        Server.PrintToChatAll($"{Prefix} {(player == null ? "Console" : $"{CC.B}{player.PlayerName} - {CC.G}{question} Oylaması 20 saniye sürecek, oy vermeyi unutmayın!")}");
+        Server.PrintToChatAll($"{Prefix} {(player == null ? "Console" : $"{CC.B}{player.PlayerName} - {CC.G}{question} Oylaması {voteTime} saniye sürecek, oy vermeyi unutmayın!")}");
 
         var i = 0;
         VotePrintTimer = AddTimer(0.1f, () =>
         {
             i++;
             var hmtl = $"<b>Oylama: <font color='#00FF00'>{LatestVoteName}</font><br>" +
-                        $" <font color='{((int)((200 - i) / 10) > 3 ? "#FA2F2F" : "#FF0000")}'>Kalan Süre : {(int)((200 - i) / 10)}</font><br>" +
+                        $" <font color='{((int)(((voteTime * 10) - i) / 10) > 3 ? "#FA2F2F" : "#FF0000")}'>Kalan Süre : {(int)(((voteTime * 10) - i) / 10)}</font><br>" +
         string.Join("<br>",
         Answers.Select((x, i) => $" <font color='#FF7B00'>!{i + 1}</font> || {x.Key} - {x.Value}")) +
                            $"</b>";
@@ -133,13 +133,17 @@ public partial class JailbreakExtras
             });
         }, Full);
 
-        VoteTimer = AddTimer(20, () =>
+        VoteTimer = AddTimer(voteTime, () =>
         {
             Server.PrintToChatAll(question + $" {CC.R}SORUSUNUN YANITLARI");
 
             foreach (KeyValuePair<string, int> kvp in Answers)
             {
                 Server.PrintToChatAll($"{Prefix}{CC.Or} {kvp.Key} {CC.W} - {CC.Y}{kvp.Value}");
+            }
+            if (mapDkFinished != null)
+            {
+                mapDkFinished();
             }
             Answers.Clear();
             VoteInProgress = false;
