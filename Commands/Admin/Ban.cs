@@ -58,23 +58,18 @@ public partial class JailbreakExtras
             return;
         }
 
-        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
-        if (target == null)
-        {
-            return;
-        }
         var godOneTwoStr = info.ArgCount > 2 ? info.ArgString.GetArg(1) : "0";
         if (int.TryParse(godOneTwoStr, out var value) == false)
         {
             return;
         }
 
+        var target = info.ArgString.GetArg(0);
+
         var players = GetPlayers()
-            .Where(x => x.PlayerName?.ToLower()?.Contains(target?.ToLower()) ?? false
-            || GetUserIdIndex(target) == x.UserId
-            || x.SteamID.ToString() == target
-            )
-            .ToList();
+                      .Where(x => GetTargetAction(x, target, player))
+                      .ToList();
+
         if (players.Count == 0)
         {
             player.PrintToChat($"{Prefix} {CC.W}Eşleşen oyuncu bulunamadı!");
