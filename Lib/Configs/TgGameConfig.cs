@@ -13,7 +13,7 @@ namespace JailbreakExtras
                     new("Hucre",   new VectorTemp(-535,345,-27) ),
                 }
             },
-            {"jb_zmtr_v2", new List<CoordinateTemplate>()
+            {"jb_zmtr_v2remake", new List<CoordinateTemplate>()
                 {
                    new("",   new VectorTemp( -168.78194, -307.8784, 107)),
                    new("",   new VectorTemp( 297.2796, -2448.0215, 107)),

@@ -1,65 +1,19 @@
-﻿using CounterStrikeSharp.API.Modules.Utils;
-using System.Text.Json.Serialization;
+﻿using System.Text.Json.Serialization;
 
 namespace JailbreakExtras
 {
-    public class VectorTemp
-    {
-        public VectorTemp()
-        {
-        }
-
-        public VectorTemp(float x, float y, float z)
-        {
-            X = x;
-            Y = y;
-            Z = z;
-        }
-
-        public VectorTemp(double x, double y, double z)
-        {
-            X = (float)x;
-            Y = (float)y;
-            Z = (float)z;
-        }
-
-        public VectorTemp(float? x, float? y, float? z)
-        {
-            X = x ?? 0;
-            Y = y ?? 0;
-            Z = z ?? 0;
-        }
-
-        [JsonPropertyName("X")]
-        public float X { get; set; }
-
-        [JsonPropertyName("Y")]
-        public float Y { get; set; }
-
-        [JsonPropertyName("Z")]
-        public float Z { get; set; }
-    }
-
-    public class CoordinateTemplate
-    {
-        public CoordinateTemplate(string text, VectorTemp coords)
-        {
-            Text = text;
-            Coords = coords;
-        }
-
-        [JsonPropertyName("Text")]
-        public string Text { get; set; } = "";
-
-        [JsonPropertyName("Coord")]
-        public VectorTemp Coords { get; set; } = new VectorTemp(0, 0, 0);
-
-        [JsonIgnore]
-        public Vector Coord { get => new Vector(Coords.X, Coords.Y, Coords.Z); }
-    }
-
     public class MapConfig
     {
+        [JsonPropertyName("MapWorkshopIds")]
+        public Dictionary<string, long> MapWorkshopIds { get; set; } = new Dictionary<string, long>()
+        {
+            {"jb_zmtr_v2remake", 3176846225 },
+            {"jb_zmtr_triplex", 3170722498},
+            {"jb_zmtr_minecraft_party", 3168967727},
+            {"jb_zmtr_uzay", 3164210735},
+            {"jb_zmtr_ramazan", 3183895434},
+        };
+
         [JsonPropertyName("MapCellCoords")]
         public List<CoordinateTemplate> MapCellCoords { get; set; } = new List<CoordinateTemplate>()
         {
@@ -81,7 +35,7 @@ namespace JailbreakExtras
                     new("KZ",      new VectorTemp(2102,739,-357) ),
                 }
             },
-            {"jb_zmtr_v2", new List<CoordinateTemplate>()
+            {"jb_zmtr_v2remake", new List<CoordinateTemplate>()
                 {
                     new("Hucre",   new VectorTemp(-535,345,-27) ),
                     new("KZ",      new VectorTemp(2496,-627,-150) ),
@@ -112,6 +66,14 @@ namespace JailbreakExtras
                     new("KZ Sol Kulvar",  new VectorTemp(-606,-1019,-337) ),
                 }
             },
+            {"jb_zmtr_ramazan", new List<CoordinateTemplate>()
+                {
+                    new("Hucre",   new VectorTemp(-2478,-18,61) ),
+                    new("KZ",      new VectorTemp(1714,589,-151) ),
+                    new("KZ Sag Kulvar",  new VectorTemp(2064,817,-106) ),
+                    new("KZ Sol Kulvar",  new VectorTemp(1356,817,-106) ),
+                }
+            },
         };
 
         [JsonPropertyName("KapiAcKapaList")]
@@ -135,10 +97,11 @@ namespace JailbreakExtras
         public List<CoordinateTemplate> CoinCoords { get; set; } = new List<CoordinateTemplate>()
         {
             new ("jb_zmtr_v1" ,new VectorTemp(-718, -765, 24)),
-            new ("jb_zmtr_v2" ,new VectorTemp(62, -408, 171)),
+            new ("jb_zmtr_v2remake" ,new VectorTemp(62, -408, 171)),
             new ("jb_zmtr_uzay" ,new VectorTemp(-581, -3488, -544)),
             new ("jb_zmtr_minecraft_party" ,new VectorTemp(1,1,1)),
-            new ("jb_zmtr_triplex" ,new VectorTemp(368, 3618, -60))
+            new ("jb_zmtr_triplex" ,new VectorTemp(368, 3618, -60)),
+            new ("jb_zmtr_ramazan" ,new VectorTemp(-874, 1582, 60))
         };
 
         [JsonPropertyName("KzCellCoords")]
@@ -158,7 +121,7 @@ namespace JailbreakExtras
                     new("RightTop",   new VectorTemp(-514,-2773,-104))
                 }
              },
-             {"jb_zmtr_v2",
+             {"jb_zmtr_v2remake",
                 new()
                 {
                     new("LeftBottom", new VectorTemp(2364,-50,107)),
@@ -177,6 +140,13 @@ namespace JailbreakExtras
                 {
                     new("LeftBottom", new VectorTemp(-1087,-795,-124)),
                     new("RightTop",   new VectorTemp(-1274,-540,30))
+                }
+             },
+             { "jb_zmtr_ramazan",
+                new()
+                {
+                    new("LeftBottom", new VectorTemp(1583,1295,106)),
+                    new("RightTop",   new VectorTemp(1814,1590,279))
                 }
              },
             };
