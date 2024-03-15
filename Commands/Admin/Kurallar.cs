@@ -63,8 +63,6 @@ public partial class JailbreakExtras
         player.PrintToConsole(@$"{prefix}  - Map değiştirme görevi komutçuya aittir.");
         player.PrintToConsole(@$"{prefix}  - Komutçuların oyunda aktif oldukları sürece, DISCORD’da bulunmaları zorunludur.");
         player.PrintToConsole(@$"{prefix}  - El başında veya isyan sırasında hook veya grap kullanmak yasaktır.");
-        player.PrintToConsole(@$"{prefix}  - Komutçu isyan varken af çıkaramaz ve hiçbir komutu kullanamaz.");
-        player.PrintToConsole(@$"{prefix}  - Komutçu af çıkarmadan can dolduramaz veya veremez. (Kill çekip kendini revleyemez.)");
         player.PrintToConsole(@$"{prefix} ");
         player.PrintToConsole(@$"{prefix} * Admin/Yetkili Kuralları");
         player.PrintToConsole(@$"{prefix}  - Sunucu adminlerimiz: Sunucumuzda gerek saygı gerek dostluk ortamı açısından sizler örnek teşkil etmelisiniz ki oyuncularımız oyunu zevkle oyanamalı. ");
