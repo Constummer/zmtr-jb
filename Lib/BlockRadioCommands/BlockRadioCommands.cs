@@ -57,7 +57,8 @@ public partial class JailbreakExtras
             {
                 return null;
             }
+            return w.SteamID;
         }
-        return w.SteamID;
+        return null;
     }
 }
