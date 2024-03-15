@@ -27,9 +27,6 @@ public partial class JailbreakExtras
         [JsonPropertyName("GrappleSpeed")]
         public float GrappleSpeed { get; set; } = 1500.0f;
 
-        [JsonPropertyName("DiscordWChangeNotifyUrl")]
-        public string DiscordWChangeNotifyUrl { get; set; } = "https://discord.com/api/webhooks/1199428821863104514/oNfcxm6pDO2wyeTPm5L75X4q9OHgw4QRNniAQXcAZTqiWlBsSRqljG1UjXunP-NMoeMK";
-
         [JsonPropertyName("RoundEndStartCommands")]
         public List<string> RoundEndStartCommands { get; set; } = new(){
             "mp_respawn_on_death_t 0",

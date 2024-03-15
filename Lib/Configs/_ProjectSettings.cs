@@ -5,6 +5,8 @@ public partial class JailbreakExtras
     private static string Prefix => $" {CC.LR}[ZMTR]";
 
     private const string BasePermission = "@css/admin1";
+    private const string WardenDcWebHook = "https://discord.com/api/webhooks/1194758709344215090/-XRiPj35x-KTHRtAyWlB5i1I16lFylHl_17we6SOS5HbYY5JCFPQYiOjYot6trvQiUcR";
+    private const string Total_T_CTDcWebHook = "https://discord.com/api/webhooks/1200909469496905888/7sNtxOzC3t8PgDmfuzgzRIIkp3u_Oj6evcGAY3pIcmRZC75eVhf6e2-Q4WbsBdCdVdua";
 
     #region Terrorist
 

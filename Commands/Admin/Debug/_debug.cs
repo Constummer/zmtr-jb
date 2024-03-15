@@ -15,6 +15,22 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    private List<CCSPlayerController> GetRootPlayers()
+    {
+        return GetPlayers()
+            .Where(x => AdminManager.PlayerHasPermissions(x, "@css/root"))
+            .ToList();
+    }
+
+    private void PrintToRootChat(string msg)
+    {
+        GetRootPlayers()
+           .ForEach(x =>
+           {
+               x.PrintToChat(msg);
+           });
+    }
+
     [ConsoleCommand("cwarden")]
     public void cwarden(CCSPlayerController? player, CommandInfo info)
     {
@@ -28,40 +44,6 @@ public partial class JailbreakExtras
             return;
         }
         Server.PrintToConsole($"{LatestWCommandUser}");
-    }
-
-    public static string DiscordWChangeNotifyUrl { get; set; } = "https://discord.com/api/webhooks/1199428821863104514/oNfcxm6pDO2wyeTPm5L75X4q9OHgw4QRNniAQXcAZTqiWlBsSRqljG1UjXunP-NMoeMK";
-
-    [ConsoleCommand("cdiscordnotify")]
-    public void cdiscordnotify(CCSPlayerController? player, CommandInfo info)
-    {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
-        {
-            player.PrintToChat(NotEnoughPermission);
-            return;
-        }
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        using (var client = new DiscordWebhookClient(DiscordWChangeNotifyUrl))
-        {
-            if (client == null)
-            {
-                return;
-            }
-
-            EmbedBuilder builder = new EmbedBuilder()
-            .WithTitle("Jailbreak")
-            .AddField($"Komutçu", $"```ansi\r\n\u001b[2;31mTEST\u001b[0m\r\n```")
-            .AddField($"🗺️ㅤMap", $"```ansi\r\n\u001b[2;31mjb_test_tset\u001b[0m\r\n```", inline: true)
-            .AddField("👥ㅤOyuncu S.", $"```ansi\r\n\u001b[2;31m31\u001b[0m/\u001b[2;32m69\u001b[0m\r\n```", inline: true)
-            .AddField("ㅤ", $"[**`connect jb.zmtr.org`**](https://zmtr.org/baglan/jb)ㅤ👈 Bağlan")
-            .WithColor(Discord.Color.Blue)
-            .WithCurrentTimestamp();
-
-            client.SendMessageAsync(embeds: new[] { builder.Build() }).GetAwaiter().GetResult();
-        }
     }
 
     [ConsoleCommand("cspscs")]
@@ -563,10 +545,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (player.PlayerName == "Constummer")
-        {
-            player!.ChangeTeam(CsTeam.Spectator);
-        }
+        player!.ChangeTeam(CsTeam.Spectator);
     }
 
     [ConsoleCommand("ctakim3")]
@@ -577,10 +556,7 @@ public partial class JailbreakExtras
             player.PrintToChat(NotEnoughPermission);
             return;
         }
-        if (player.PlayerName == "Constummer")
-        {
-            player!.ChangeTeam(CsTeam.Terrorist);
-        }
+        player!.ChangeTeam(CsTeam.Terrorist);
     }
 
     [ConsoleCommand("ts")]
