@@ -42,7 +42,9 @@ public partial class JailbreakExtras
                 player.PrintToChat($"{Prefix} {CC.W}Seviyen yok, seviye alabilmek için  {CC.DR}!slotol {CC.W},{CC.DR} !seviyeol {CC.W}yazabilirsin!");
             }
         }
-        Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName} {CC.W}adlı oyuncunun {CC.LB}{amount} {CC.W}TP'si var!");
+        var config = GetPlayerLevelConfig(amount);
+
+        Server.PrintToChatAll($"{Prefix}{CC.LB}{config.ClanTag} {CC.G}{player.PlayerName} {CC.W}adlı oyuncunun {CC.LB}{amount} {CC.W}TP'si var!");
         LatestSeviyemCommandCalls[player.SteamID] = DateTime.UtcNow;
     }
 
