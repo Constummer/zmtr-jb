@@ -4,6 +4,8 @@ public partial class JailbreakExtras
 {
     private static string Prefix => $" {CC.LR}[ZMTR]";
 
+    private const string BasePermission = "@css/admin1";
+
     #region Terrorist
 
     private static string T_AllCap => $"MAHKÛM";

@@ -20,6 +20,7 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
 
     private static readonly Random _random = new Random();
     public JailbreakExtrasConfig Config { get; set; } = new JailbreakExtrasConfig();
+
     public static JailbreakExtrasConfig _Config { get; set; } = new JailbreakExtrasConfig();
 
     private static Dictionary<ulong, bool> ActiveGodMode = new();
@@ -31,8 +32,6 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
     private static Dictionary<CCSPlayerController, bool> bUsingPara = new();
     private static Dictionary<ulong, string> PlayerNamesDatas = new();
     private static Dictionary<ulong, bool> KomWeeklyWCredits = new();
-
-    private const string BasePermission = "@css/admin1";
 
     public override void Load(bool hotReload)
     {
