@@ -26,6 +26,7 @@ public partial class JailbreakExtras
         SkzV2FailedSteamIds?.Clear();
         DizPlayerId = 0;
         DizActive = false;
+        CurrentRoundWKillerId = null;
         Config.UnrestrictedFov.Enabled = true;
         DizStart = null;
         DizEnd = null;
@@ -65,6 +66,7 @@ public partial class JailbreakExtras
         UpdatePlayerMarketData(steamId);
         UpdatePlayerLevelDataOnDisonnect(steamId);
         UpdatePlayerParticleDataOnDisonnect(steamId);
+        UpdatePlayerIsTopData(steamId);
 
         _ = ActiveGodMode?.Remove(steamId, out _);
         _ = DeathLocations?.Remove(steamId, out _);
@@ -86,6 +88,7 @@ public partial class JailbreakExtras
         _ = PlayerTimeTracking?.Remove(steamId, out _);
         _ = SpeedActiveDatas?.Remove(steamId, out _);
         _ = FovActivePlayers?.Remove(steamId, out _);
+        _ = IsTopDatas?.Remove(steamId, out _);
 
         _ = SutolCommandCalls?.RemoveAll(x => x == steamId);
         _ = PlayerSteamGroup?.RemoveAll(x => x == steamId);

@@ -96,6 +96,14 @@ public partial class JailbreakExtras
                 }
             }
             LRPlayerDeath(@event.Attacker, @event.Userid);
+            if (LatestWCommandUser.HasValue
+                && @event?.Userid?.SteamID == LatestWCommandUser)
+            {
+                if (GetPlayerCount() > 16)
+                {
+                    IsTopPlayerDeath(@event?.Attacker);
+                }
+            }
             return HookResult.Continue;
         }, HookMode.Pre);
 

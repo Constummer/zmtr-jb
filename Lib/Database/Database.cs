@@ -192,6 +192,13 @@ public partial class JailbreakExtras
                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
                     await cmd.ExecuteNonQueryAsync();
 
+                    cmd = new MySqlCommand(
+                    @"CREATE TABLE IF NOT EXISTS `PlayerIsTop` (
+                          `SteamId` bigint(20) DEFAULT NULL,
+                          `KillCount` mediumint(9) DEFAULT 0
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
+                    await cmd.ExecuteNonQueryAsync();
+
                     GetAllPlayerNameData(con);
                     GetAllCTKitData(con);
                     GetAllTimeTrackingData(con);
@@ -201,6 +208,7 @@ public partial class JailbreakExtras
                     GetAllPlayerSutTeamData(con);
                     GetAllKomWeeklyCreditData(con);
                     GetAllCustomTagData(con);
+                    GetAllIsTopData(con);
                 }
             }
             catch (Exception ex)
@@ -237,7 +245,5 @@ public partial class JailbreakExtras
                 }
             }
         }
-
-        return;
     }
 }

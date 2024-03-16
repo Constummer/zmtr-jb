@@ -446,6 +446,17 @@ public partial class JailbreakExtras
                                                 `WeeklyTTime` = 0,
                                                 `WeeklyTotalTime` = 0;", con);
                     cmd.ExecuteNonQuery();
+
+                    cmd = new MySqlCommand(@"UPDATE `PlayerIsTop`
+                                             SET `KillCount` = 0;", con);
+                    cmd.ExecuteNonQuery();
+
+                    IsTopWeeklyNotifyDc();
+                    foreach (var item in IsTopDatas)
+                    {
+                        IsTopDatas[item.Key] = 0;
+                    }
+
                     Server.PrintToChatAll($"{Prefix} {CC.R} SIKI TUTUNDUĞUNUZ İÇİN TŞK, DEVAAAAAM");
                     Server.PrintToChatAll($"{Prefix} {CC.R} SIKI TUTUNDUĞUNUZ İÇİN TŞK, DEVAAAAAM");
                     Server.PrintToChatAll($"{Prefix} {CC.R} SIKI TUTUNDUĞUNUZ İÇİN TŞK, DEVAAAAAM");
@@ -593,7 +604,7 @@ public partial class JailbreakExtras
             try
             {
                 var tempName = PlayerNamesDatas.TryGetValue((ulong)item.Key, out var name) != false
-                              ? name : "-----(ismi net deil)";
+                              ? name : "-----";
                 if (msg == string.Empty)
                 {
                     msg = $"P.Name = {tempName} | SteamId = {item.Key} | H. {(title ?? "W")}= {(item.Value < 120 ? $"{item.Value} dk" : $"{(int)(item.Value / 60)} s")}";
