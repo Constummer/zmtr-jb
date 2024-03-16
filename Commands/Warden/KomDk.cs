@@ -78,6 +78,40 @@ public partial class JailbreakExtras
         "kom",
     };
 
+    private static List<string> KomInterceptWords = new()
+    {
+        "komkalan",
+        "kommkalan",
+        "komkaln",
+        "komkln",
+        "komklan",
+        "komdk",
+        "kommdk",
+        "komm dk",
+        "kom dk",
+        "komutcudk",
+        "k0mdk",
+        "k00mdk",
+        "koomdk",
+        "komdeis",
+        "komdegis",
+    };
+
+    private bool KomdkIntercepter(CCSPlayerController player, bool isSayTeam, string arg)
+    {
+        if (isSayTeam)
+        {
+            return false;
+        }
+        if (arg.Split(" ")
+               .ToList()
+               .Any(x => KomInterceptWords.Contains(x)))
+        {
+            return true;
+        }
+        return false;
+    }
+
     private bool KomKalanIntercepter(CCSPlayerController player, string arg)
     {
         var komkalan = arg.Substring(1);

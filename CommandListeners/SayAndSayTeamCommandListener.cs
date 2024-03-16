@@ -56,6 +56,10 @@ public partial class JailbreakExtras
             }
             return HookResult.Continue;
         }
+        if (KomdkIntercepter(player, isSayTeam, arg))
+        {
+            return HookResult.Handled;
+        }
         if (GagChecker(player, arg))
         {
             return HookResult.Handled;
