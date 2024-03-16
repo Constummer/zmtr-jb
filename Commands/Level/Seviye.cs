@@ -44,7 +44,7 @@ public partial class JailbreakExtras
         }
         var config = GetPlayerLevelConfig(amount);
 
-        Server.PrintToChatAll($"{Prefix}{CC.LB}{config.ClanTag} {CC.G}{player.PlayerName} {CC.W}adlı oyuncunun {CC.LB}{amount} {CC.W}TP'si var!");
+        Server.PrintToChatAll($"{Prefix} {CC.LB}{config.ClanTag} {CC.G}{player.PlayerName} {CC.W}adlı oyuncunun {CC.LB}{amount} {CC.W}TP'si var!");
         LatestSeviyemCommandCalls[player.SteamID] = DateTime.UtcNow;
     }
 

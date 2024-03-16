@@ -4,7 +4,6 @@ using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
 using JailbreakExtras.Lib.Database;
 using MySqlConnector;
-using System.Linq;
 
 namespace JailbreakExtras;
 
@@ -21,6 +20,8 @@ public partial class JailbreakExtras
     public static ulong? CurrentRoundWKillerId { get; set; } = null;
 
     [ConsoleCommand("istop")]
+    [ConsoleCommand("haftalikis")]
+    [ConsoleCommand("haftalikisyan")]
     public void IsTop(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player, false) == false) return;
@@ -121,7 +122,7 @@ public partial class JailbreakExtras
             {
                 return;
             }
-            MySqlCommand? cmd = new MySqlCommand(@$"SELECT `SteamId`, `KillCount` FROM `PlayerIsTop`", con);
+            MySqlCommand? cmd = new MySqlCommand(@$"SELECT `SteamId`, `KillCount` FROM `PlayerIsTop`;", con);
             using (var reader = cmd.ExecuteReader())
             {
                 while (reader.Read())
@@ -148,6 +149,10 @@ public partial class JailbreakExtras
 
     private void IsTopPlayerDeath(CsTeam? team, ulong? steamId)
     {
+        if (steamId.HasValue == false)
+        {
+            return;
+        }
         if (steamId == 0)
         {
             return;
