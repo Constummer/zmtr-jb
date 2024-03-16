@@ -4,6 +4,7 @@ using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
 using JailbreakExtras.Lib.Database;
 using MySqlConnector;
+using System.Linq;
 
 namespace JailbreakExtras;
 
@@ -145,11 +146,9 @@ public partial class JailbreakExtras
         }
     }
 
-    private void IsTopPlayerDeath(CCSPlayerController? attacker)
+    private void IsTopPlayerDeath(CsTeam? team, ulong? steamId)
     {
-        if (ValidateCallerPlayer(attacker, false) == false) return;
-
-        if (attacker.SteamID == 0)
+        if (steamId == 0)
         {
             return;
         }
@@ -157,26 +156,25 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (IsyanTeamPlayers.Contains(attacker.SteamID) == false)
+        if (IsyanTeamPlayers.Contains(steamId.Value) == false)
         {
             return;
         }
-        if (ValidateCallerPlayer(attacker, false) == false) return;
-        var attackerTeam = GetTeam(attacker);
-        if (attackerTeam != CsTeam.Terrorist)
+        if (team != CsTeam.Terrorist)
         {
             return;
         }
-        CurrentRoundWKillerId = attacker.SteamID;
-        if (IsTopDatas.TryGetValue(attacker.SteamID, out var killCount))
+
+        CurrentRoundWKillerId = steamId;
+        if (IsTopDatas.TryGetValue(steamId.Value, out var killCount))
         {
-            IsTopDatas[attacker.SteamID] = killCount + 1;
-            UpdatePlayerIsTopData(attacker.SteamID);
+            IsTopDatas[steamId.Value] = killCount + 1;
+            UpdatePlayerIsTopData(steamId.Value);
         }
         else
         {
-            IsTopDatas.Add(attacker.SteamID, 1);
-            UpdatePlayerIsTopData(attacker.SteamID);
+            IsTopDatas.Add(steamId.Value, 1);
+            UpdatePlayerIsTopData(steamId.Value);
         }
     }
 

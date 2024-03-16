@@ -95,11 +95,17 @@ public partial class JailbreakExtras
         "koomdk",
         "komdeis",
         "komdegis",
+        "k omdk",
+        "kmdk",
     };
 
     private bool KomdkIntercepter(CCSPlayerController player, bool isSayTeam, string arg)
     {
         if (isSayTeam)
+        {
+            return false;
+        }
+        if (string.IsNullOrWhiteSpace(arg))
         {
             return false;
         }

@@ -47,19 +47,6 @@ public partial class JailbreakExtras
                 SutolCommandCalls?.Remove(@event.Userid.SteamID);
             }
 
-            //@event.Userid.ClientSideRagdoll = false; // not sure what this does, apparently nothing
-            //AddTimer(1.0f, () =>
-            //{
-            //    @event.Userid.ClientSideRagdoll = false;
-            //    CHandle<CBaseEntity> RagdollSource = Schema.GetDeclaredClass<CHandle<CBaseEntity>>(@event.Userid.Handle, "CRagdollProp", "m_hRagdoll"); // tried with m_hRagdollSource too
-
-            //    RagdollSource.Value.Remove();
-            //});
-            //var entities = Utilities.FindAllEntitiesByDesignerName<CRagdollProp>("prop_ragdoll");
-            //foreach (var entity in entities)
-            //{
-            //    entity.AcceptInput("Kill");
-            //}
             //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
             //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
             //-------ATTACKER RELEATED THINGS MUST BE UNDER THIS IF AFTER THIS CHECK---------
@@ -101,7 +88,12 @@ public partial class JailbreakExtras
             {
                 if (GetPlayerCount() > 16)
                 {
-                    IsTopPlayerDeath(@event?.Attacker);
+                    var team = @event?.Attacker?.Team;
+                    var steamId = @event?.Attacker?.SteamID;
+                    if (team != null && steamId != null)
+                    {
+                        IsTopPlayerDeath(team, steamId);
+                    }
                 }
             }
             return HookResult.Continue;
