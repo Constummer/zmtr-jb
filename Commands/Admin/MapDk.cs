@@ -75,8 +75,18 @@ public partial class JailbreakExtras
                 kalCount = item.Value;
             }
         }
+
         if (degisCount > kalCount)
         {
+            if (GetPlayerCount() * 0.4 <= degisCount)
+            {
+                Server.PrintToChatAll($"{Prefix} MAP, SERVERIN %40'I OY VERMEDİĞİ İÇİN MAP DEĞİŞMİYOR");
+                Server.PrintToChatAll($"{Prefix} MAP, SERVERIN %40'I OY VERMEDİĞİ İÇİN MAP DEĞİŞMİYOR");
+                Server.PrintToChatAll($"{Prefix} MAP, SERVERIN %40'I OY VERMEDİĞİ İÇİN MAP DEĞİŞMİYOR");
+                MapStartTime = DateTime.UtcNow;
+                return;
+            }
+
             var player = GetPlayers().Where(x => x.SteamID == MapDKLastVoterSteamId).FirstOrDefault();
             if (player == null)
             {
