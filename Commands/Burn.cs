@@ -52,6 +52,7 @@ public partial class JailbreakExtras
         var targetArgument = GetTargetArgument(target);
         var counter = 0;
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.B}burnledi");
+        BurnTimer?.Kill();
 
         BurnTimer = AddTimer(0.5f, () =>
         {
@@ -67,8 +68,8 @@ public partial class JailbreakExtras
                        .ToList()
             .ForEach(x =>
             {
-                var randSound = Config.Sounds.BurnSounds.Skip(_random.Next(Config.Sounds.BurnSounds.Count())).FirstOrDefault();
-                x.ExecuteClientCommand($"play {randSound}");
+                //var randSound = Config.Sounds.BurnSounds.Skip(_random.Next(Config.Sounds.BurnSounds.Count())).FirstOrDefault();
+                //x.ExecuteClientCommand($"play {randSound}");
                 PerformBurn(x, 1);
             });
         }, Full);

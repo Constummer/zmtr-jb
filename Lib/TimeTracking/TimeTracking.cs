@@ -607,11 +607,11 @@ public partial class JailbreakExtras
                               ? name : "-----";
                 if (msg == string.Empty)
                 {
-                    msg = $"P.Name = {tempName} | SteamId = {item.Key} | H. {(title ?? "W")}= {(item.Value < 120 ? $"{item.Value} dk" : $"{(int)(item.Value / 60)} s")}";
+                    msg = $"{tempName} | {item.Key} | H. {(title ?? "W")}= {(item.Value < 120 ? $"{item.Value} dk" : $"{(int)(item.Value / 60)} s")}";
                 }
                 else
                 {
-                    msg += $"\nP.Name = {tempName} | SteamId = {item.Key} | H. {(title ?? "W")}= {(item.Value < 120 ? $"{item.Value} dk" : $"{(int)(item.Value / 60)} s")}";
+                    msg += $"\n{tempName} | {item.Key} | H. {(title ?? "W")}= {(item.Value < 120 ? $"{item.Value} dk" : $"{(int)(item.Value / 60)} s")}";
                 }
             }
             catch

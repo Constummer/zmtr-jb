@@ -23,6 +23,11 @@ public partial class JailbreakExtras
                 {
                     return;
                 }
+                if (GetPlayerCount(CsTeam.Terrorist, true) != 1)
+                {
+                    player.PrintToChat($"{Prefix} {CC.W}Sadece yaşayan son {T_AllLower} lr atabilir.");
+                    return;
+                }
                 var gardSelectMenu = new ChatMenu($"LR Menü | {CT_CamelCase} Seçimi");
                 var gards = GetPlayers(CsTeam.CounterTerrorist).ToList();
                 if (gards.Any() == false)
@@ -35,6 +40,11 @@ public partial class JailbreakExtras
                 {
                     if (player.PawnIsAlive == false)
                     {
+                        return;
+                    }
+                    if (GetPlayerCount(CsTeam.Terrorist, true) != 1)
+                    {
+                        player.PrintToChat($"{Prefix} {CC.W}Sadece yaşayan son {T_AllLower} lr atabilir.");
                         return;
                     }
                     var gardText = string.Empty;
@@ -56,7 +66,11 @@ public partial class JailbreakExtras
                         {
                             CustomRespawn(gard);
                         }
-
+                        if (GetPlayerCount(CsTeam.Terrorist, true) != 1)
+                        {
+                            player.PrintToChat($"{Prefix} {CC.W}Sadece yaşayan son {T_AllLower} lr atabilir.");
+                            return;
+                        }
                         InitLr(item, player, gard);
                     });
                 });

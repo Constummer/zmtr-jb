@@ -11,6 +11,8 @@ public partial class JailbreakExtras
     private bool KumarKapatDisable = false;
 
     [ConsoleCommand("kumarac")]
+    [ConsoleCommand("ruletac")]
+    [ConsoleCommand("piyangoac")]
     public void KumarAc(CCSPlayerController? player, CommandInfo info)
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))

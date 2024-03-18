@@ -62,6 +62,7 @@ public partial class JailbreakExtras
         }
     }
 
+    //command
     private static List<string> komKalanWords = new()
     {
         "komkalan",
@@ -76,7 +77,10 @@ public partial class JailbreakExtras
         "komdeis",
         "komdegis",
         "kom",
+        "komutdk",
     };
+
+    //say
 
     private static List<string> KomInterceptWords = new()
     {
@@ -86,7 +90,20 @@ public partial class JailbreakExtras
         "komkln",
         "komklan",
         "komdk",
+        "komddk",
+        "komdddk",
+        "komddddk",
+        "komdddddk",
+        "komdkk",
+        "komdkkk",
+        "komdkkkk",
+        "komdkkkkk",
+        "komdegis",
+        "kommdegis",
         "kommdk",
+        "kommmdk",
+        "kommmmdk",
+        "kommmmmdk",
         "komm dk",
         "kom dk",
         "komutcudk",

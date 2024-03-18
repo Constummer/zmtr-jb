@@ -161,10 +161,6 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (IsyanTeamPlayers.Contains(steamId.Value) == false)
-        {
-            return;
-        }
         if (team != CsTeam.Terrorist)
         {
             return;
@@ -187,7 +183,7 @@ public partial class JailbreakExtras
     {
         string url = Total_IsTop_DcWebHook;
         var msg = string.Empty;
-        var datas = IsTopDatas.ToList().OrderByDescending(x => x.Value).Take(5);
+        var datas = IsTopDatas.ToList().OrderByDescending(x => x.Value).Take(10);
         foreach (var item in datas)
         {
             try
@@ -196,11 +192,11 @@ public partial class JailbreakExtras
                               ? name : "-----";
                 if (msg == string.Empty)
                 {
-                    msg = $"P.Name = {tempName} | S.Id = {item.Key} | H. İs.= {item.Value}";
+                    msg = $"{tempName} | {item.Key} | İs.= {item.Value}";
                 }
                 else
                 {
-                    msg += $"\nP.Name = {tempName} | S.Id = {item.Key} | H. İs.= {item.Value}";
+                    msg += $"\n{tempName} | {item.Key} | İs.= {item.Value}";
                 }
             }
             catch

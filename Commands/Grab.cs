@@ -96,20 +96,10 @@ public partial class JailbreakExtras
             }
             ActiveGodMode[Closest.SteamID] = true;
             var @new = ProjectPointOntoLine(start, end, Closest.PlayerPawn.Value.AbsOrigin);
-            Closest.PlayerPawn.Value.Teleport(@new, Closest.PlayerPawn.Value.AbsRotation!, Closest.PlayerPawn.Value.AbsVelocity);
-            Closest.Pawn.Value.Teleport(@new, Closest.PlayerPawn.Value.AbsRotation!, Closest.PlayerPawn.Value.AbsVelocity);
-            Closest.Teleport(@new, Closest.PlayerPawn.Value.AbsRotation!, Closest.PlayerPawn.Value.AbsVelocity);
-            //if (Laser != null && Laser.IsValid)
-            //{
-            //    Laser.EndPos.X = Closest.PlayerPawn.Value.AbsOrigin.X;
-            //    Laser.EndPos.Y = Closest.PlayerPawn.Value.AbsOrigin.Y;
-            //    Laser.EndPos.Z = Closest.PlayerPawn.Value.AbsOrigin.Z;
-            //    Laser.Teleport(start, ANGLE_ZERO, VEC_ZERO);
-            //}
-            //else
-            //{
-            //    Laser = DrawLaser(start, Closest.PlayerPawn.Value.AbsOrigin, LaserType.Grab, false);
-            //}
+            Closest.PlayerPawn.Value.Teleport(@new, Closest.PlayerPawn.Value.AbsRotation!, VEC_ZERO);
+            Closest.Pawn.Value.Teleport(@new, Closest.PlayerPawn.Value.AbsRotation!, VEC_ZERO);
+            Closest.Teleport(@new, Closest.PlayerPawn.Value.AbsRotation!, VEC_ZERO);
+
             var tempClosesSteamid = Closest.SteamID;
             AddTimer(1, () =>
             {

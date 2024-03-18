@@ -7,50 +7,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static Dictionary<ulong, RuletData> RuletPlayers = new();
-
-    private class RuletData
-    {
-        public int Credit { get; set; }
-        public RuletOptions Option { get; set; }
-    }
-
-    private enum RuletOptions
-    {
-        None = 0,
-        Yesil,
-        Siyah,
-        Kirmizi
-    }
-
     #region Rulet
-
-    [ConsoleCommand("ruletiptal")]
-    [ConsoleCommand("ruletayril")]
-    [ConsoleCommand("ruletsil")]
-    [ConsoleCommand("ruletcik")]
-    public void RuletIptal(CCSPlayerController? player, CommandInfo info)
-    {
-        if (RuletPlayers.TryGetValue(player.SteamID, out var ruletPlay))
-        {
-            var data = GetPlayerMarketModel(player.SteamID);
-            if (data.Model == null)
-            {
-                return;
-            }
-            var amount = (int)(ruletPlay.Credit * 0.9);
-            data.Model!.Credit += amount;
-            PlayerMarketModels[player.SteamID] = data.Model;
-
-            RuletPlayers.Remove(player.SteamID, out _);
-            player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Yatırdığınız {CC.R}{amount}{CC.W} kredi vergisi kesilerek iade edildi.");
-            return;
-        }
-        else
-        {
-            player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Rulet oynamamışsın. {CC.B}!rulet <kredi> <yeşil/siyah/kırmızı> {CC.W}yazarak oynayabilirsiniz.");
-        }
-    }
 
     [ConsoleCommand("rulet")]
     [CommandHelper(0, "<kredi> <yeşil/siyah/kırmızı>")]
@@ -188,6 +145,11 @@ public partial class JailbreakExtras
             return;
         }
         var kazananRenk = RuletDondur();
+        LastGambleDatas.Enqueue(new()
+        {
+            Winner = kazananRenk,
+            EndTime = DateTime.UtcNow.AddHours(3),
+        });
         Server.PrintToChatAll($" {CC.Ol}[RULET] {CC.W}Rulet Dönüyor...");
         Server.PrintToChatAll($" {CC.Ol}[RULET] {CC.W}Ruleti Kazanan Renk: {CtOfRulet(kazananRenk)}");
 

@@ -63,9 +63,9 @@ public partial class JailbreakExtras
         var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : "20";
         if (int.TryParse(target, out var value))
         {
-            if (value > 120)
+            if (value > 30)
             {
-                player.PrintToChat("Max 120 sn girebilirsin");
+                player.PrintToChat("Max 30 sn girebilirsin");
                 return;
             }
             else if (value < 5)

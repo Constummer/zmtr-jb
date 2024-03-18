@@ -8,9 +8,12 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-
     [ConsoleCommand("kumarkapat")]
     [ConsoleCommand("kumarkapa")]
+    [ConsoleCommand("ruletkapat")]
+    [ConsoleCommand("ruletkapa")]
+    [ConsoleCommand("piyangokapat")]
+    [ConsoleCommand("piyangokapa")]
     public void KumarKapat(CCSPlayerController? player, CommandInfo info)
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))

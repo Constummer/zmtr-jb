@@ -14,10 +14,13 @@ public partial class JailbreakExtras
     [ConsoleCommand("futbol")]
     public void Futbol(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+        if (player.SteamID != LatestWCommandUser)
         {
-            player.PrintToChat(NotEnoughPermission);
-            return;
+            if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+            {
+                player.PrintToChat(NotEnoughPermission);
+                return;
+            }
         }
         if (ValidateCallerPlayer(player, false) == false)
         {
@@ -49,11 +52,12 @@ public partial class JailbreakExtras
             new Vector(
                 player.PlayerPawn.Value!.AbsOrigin!.X,
                 player.PlayerPawn.Value!.AbsOrigin!.Y,
-                player.PlayerPawn.Value!.AbsOrigin!.Z
+                player.PlayerPawn.Value!.AbsOrigin!.Z + 100
             ),
             player.PlayerPawn.Value!.EyeAngles,
             player.PlayerPawn.Value!.AbsVelocity
         );
+        entity.MoveCollide = MoveCollide_t.MOVECOLLIDE_FLY_BOUNCE;
 
         entity.SetModel("models/props/de_dust/hr_dust/dust_soccerball/dust_soccer_ball001.vmdl");
         entity.DispatchSpawn();

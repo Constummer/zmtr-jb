@@ -3,7 +3,6 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
 
@@ -12,8 +11,6 @@ namespace JailbreakExtras;
 public partial class JailbreakExtras
 {
     private static List<ulong> PGags = new();
-
-    #region Gag
 
     [ConsoleCommand("pgag")]
     [CommandHelper(1, "<playerismi-@all-@t-@ct-@me-@alive-@dead>")]
@@ -135,6 +132,4 @@ public partial class JailbreakExtras
             Logger.LogError(e, "hata");
         }
     }
-
-    #endregion Gag
 }
