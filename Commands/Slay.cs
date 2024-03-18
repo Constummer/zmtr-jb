@@ -30,12 +30,12 @@ public partial class JailbreakExtras
         {
             var playerPawn = x.PlayerPawn.Value;
             playerPawn!.CommitSuicide(false, true);
-            if (targetArgument == TargetForArgument.SingleUser)
+            if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
             {
                 Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu {CC.LR}öldürdü{CC.W}.");
             }
         });
-        if (targetArgument != TargetForArgument.SingleUser)
+        if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.LR}öldürdü{CC.W}.");
         }

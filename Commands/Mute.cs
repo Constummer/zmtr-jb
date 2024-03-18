@@ -51,12 +51,12 @@ public partial class JailbreakExtras
             .ForEach(x =>
             {
                 x.VoiceFlags |= VoiceFlags.Muted;
-                if (targetArgument == TargetForArgument.SingleUser)
+                if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
                 {
                     Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu {CC.B}susturdu{CC.W}.");
                 }
             });
-        if (targetArgument != TargetForArgument.SingleUser)
+        if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.B}susturdu{CC.W}.");
         }

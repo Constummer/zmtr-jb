@@ -34,13 +34,13 @@ public partial class JailbreakExtras
                .ToList()
                .ForEach(x =>
                {
-                   if (targetArgument == TargetForArgument.SingleUser)
+                   if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
                    {
                        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.B}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}{damage} {CC.W}slapledi.");
                    }
                    PerformSlap(x!.Pawn.Value!, damage);
                });
-        if (targetArgument != TargetForArgument.SingleUser)
+        if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefine {CC.B}{damage} {CC.W}slapledi.");
         }
@@ -71,7 +71,7 @@ public partial class JailbreakExtras
             players.ForEach(x =>
             {
                 if (ValidateCallerPlayer(x, false) == false) return;
-                if (targetArgument == TargetForArgument.SingleUser)
+                if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
                 {
                     Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.B}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}{damage} {CC.W}uberslapledi.");
                 }
@@ -86,7 +86,7 @@ public partial class JailbreakExtras
                       PerformSlap(x!.Pawn.Value!, damage);
                   });
               }, Full);
-            if (targetArgument != TargetForArgument.SingleUser)
+            if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
             {
                 Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefine {CC.B}{damage} {CC.W}slapledi.");
             }

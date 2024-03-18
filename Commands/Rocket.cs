@@ -35,7 +35,7 @@ public partial class JailbreakExtras
                     .ToList()
                     .ForEach(x =>
                     {
-                        if (targetArgument == TargetForArgument.SingleUser)
+                        if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
                         {
                             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} roketledi{CC.W}.");
                         }
@@ -53,7 +53,7 @@ public partial class JailbreakExtras
                        x.CommitSuicide(false, true);
                    });
         }, SOM);
-        if (targetArgument != TargetForArgument.SingleUser)
+        if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.B}roketledi");
         }

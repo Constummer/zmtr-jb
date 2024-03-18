@@ -33,12 +33,12 @@ public partial class JailbreakExtras
             {
                 Gags.Remove(gagPlayer.SteamID);
 
-                if (targetArgument == TargetForArgument.SingleUser)
+                if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
                 {
                     Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{gagPlayer.PlayerName} {CC.W}gagını kaldırdı.");
                 }
             });
-        if (targetArgument != TargetForArgument.SingleUser)
+        if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}gagını kaldırdı.");
         }

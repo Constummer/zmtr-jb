@@ -39,12 +39,12 @@ public partial class JailbreakExtras
             {
                 AddPGagData(gagPlayer.SteamID);
                 PGags.Add(gagPlayer.SteamID);
-                if (targetArgument == TargetForArgument.SingleUser)
+                if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
                 {
                     Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{gagPlayer.PlayerName} {CC.W}adlı oyuncuyu {CC.B}sonsuz gagladı{CC.W}.");
                 }
             });
-        if (targetArgument != TargetForArgument.SingleUser)
+        if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.B}gagladı{CC.W}.");
         }

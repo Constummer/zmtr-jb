@@ -65,12 +65,12 @@ public partial class JailbreakExtras
             {
                 Unmuteds.Add(x.SteamID);
                 x.VoiceFlags &= ~VoiceFlags.Muted;
-                if (targetArgument == TargetForArgument.SingleUser)
+                if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
                 {
                     Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun {CC.B}susturmasını{CC.W} kaldırdı.");
                 }
             });
-        if (targetArgument != TargetForArgument.SingleUser)
+        if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin {CC.B}susturmasını{CC.W} kaldırdı.");
         }

@@ -29,12 +29,12 @@ public partial class JailbreakExtras
         .ForEach(x =>
         {
             RemoveWeapons(x, false);
-            if (targetArgument == TargetForArgument.SingleUser)
+            if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
             {
                 Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun {CC.B}silahlarını {CC.W}sildi.");
             }
         });
-        if (targetArgument != TargetForArgument.SingleUser)
+        if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin {CC.B}silahlarını {CC.W}sildi.");
         }

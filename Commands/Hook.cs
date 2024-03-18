@@ -92,12 +92,12 @@ public partial class JailbreakExtras
                  {
                      HookDisablePlayers.Add(x.SteamID);
                  }
-                 if (targetArgument == TargetForArgument.SingleUser)
+                 if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
                  {
                      Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun {CC.B} hookunu el boyunca aldı{CC.W}.");
                  }
              });
-        if (targetArgument != TargetForArgument.SingleUser)
+        if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin {CC.B}hookunu el boyunca aldı{CC.W}.");
         }

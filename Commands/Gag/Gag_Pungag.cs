@@ -40,12 +40,12 @@ public partial class JailbreakExtras
                 PGags = PGags.Where(x => x != gagPlayer.SteamID).ToList();
                 RemoveFromPGag(gagPlayer.SteamID);
 
-                if (targetArgument == TargetForArgument.SingleUser)
+                if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
                 {
                     Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{gagPlayer.PlayerName} {CC.W}pgagını kaldırdı.");
                 }
             });
-        if (targetArgument != TargetForArgument.SingleUser)
+        if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}pgagını kaldırdı.");
         }

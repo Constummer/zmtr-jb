@@ -54,7 +54,7 @@ public partial class JailbreakExtras
                        switch (godOneTwo)
                        {
                            case 0:
-                               if (targetArgument == TargetForArgument.SingleUser)
+                               if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
                                {
                                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}noclip'ini {CC.W}kaldirdi.");
                                }
@@ -63,7 +63,7 @@ public partial class JailbreakExtras
                                break;
 
                            case 1:
-                               if (targetArgument == TargetForArgument.SingleUser)
+                               if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
                                {
                                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}noclip {CC.W}verdi.");
                                }
@@ -79,7 +79,7 @@ public partial class JailbreakExtras
                        }
                        RefreshPawn(x);
                    });
-            if (targetArgument != TargetForArgument.SingleUser)
+            if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
             {
                 switch (godOneTwo)
                 {
