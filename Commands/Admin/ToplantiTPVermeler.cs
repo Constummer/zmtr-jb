@@ -11,9 +11,48 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    public class ToplantiTP
+    {
+        public List<ToplantiTPLer> Data { get; set; } = new();
+    }
+
+    public class ToplantiTPLer
+    {
+        [JsonPropertyName("steamId")]
+        public ulong SteamId { get; set; }
+
+        [JsonPropertyName("xp")]
+        public int Xp { get; set; }
+    }
+
     [ConsoleCommand("ToplantiTPVermeler")]
     [CommandHelper(whoCanExecute: CommandUsage.SERVER_ONLY)]
     public void ToplantiTPVermeler(CCSPlayerController? player, CommandInfo info)
+    {
+        ToplantiTpVermelerAction();
+    }
+
+    [ConsoleCommand("ToplantiTPVermeler2")]
+    [CommandHelper(whoCanExecute: CommandUsage.SERVER_ONLY)]
+    public void ToplantiTPVermeler2(CCSPlayerController? player, CommandInfo info)
+    {
+        Server.NextFrame(() =>
+        {
+            ToplantiTpVermelerAction();
+        });
+    }
+
+    [ConsoleCommand("ToplantiTPVermeler3")]
+    [CommandHelper(whoCanExecute: CommandUsage.SERVER_ONLY)]
+    public void ToplantiTPVermeler3(CCSPlayerController? player, CommandInfo info)
+    {
+        Server.NextWorldUpdate(() =>
+        {
+            ToplantiTpVermelerAction();
+        });
+    }
+
+    private void ToplantiTpVermelerAction()
     {
         ///home/container/game
         var path = Server.GameDirectory;
@@ -46,20 +85,6 @@ public partial class JailbreakExtras
                 }
             }
         }
-    }
-
-    public class ToplantiTP
-    {
-        public List<ToplantiTPLer> Data { get; set; } = new();
-    }
-
-    public class ToplantiTPLer
-    {
-        [JsonPropertyName("steamId")]
-        public ulong SteamId { get; set; }
-
-        [JsonPropertyName("xp")]
-        public int Xp { get; set; }
     }
 
     private void ReadTPlerFromPath(string path, string configName)

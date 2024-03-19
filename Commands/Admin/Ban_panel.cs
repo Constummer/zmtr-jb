@@ -19,6 +19,9 @@ public partial class JailbreakExtras
     */
 
     [ConsoleCommand("panelunban")]
+    [ConsoleCommand("unbanpanel")]
+    [ConsoleCommand("banunpanel")]
+    [ConsoleCommand("panelbankaldir")]
     [CommandHelper(1, "<playerismi | steamid | #userid>", CommandUsage.SERVER_ONLY)]
     public void cUnBan(CCSPlayerController? player, CommandInfo info)
     {

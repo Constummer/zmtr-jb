@@ -188,15 +188,16 @@ public partial class JailbreakExtras
         {
             try
             {
+                var isExist = IsyanTeamPlayers.Contains(item.Key) ? "+" : "-";
                 var tempName = PlayerNamesDatas.TryGetValue((ulong)item.Key, out var name) != false
                               ? name : "-----";
                 if (msg == string.Empty)
                 {
-                    msg = $"{tempName} | {item.Key} | İs.= {item.Value}";
+                    msg = $"{tempName}| {isExist} | {item.Key} | İs.= {item.Value}";
                 }
                 else
                 {
-                    msg += $"\n{tempName} | {item.Key} | İs.= {item.Value}";
+                    msg += $"\n{tempName}| {isExist} | {item.Key} | İs.= {item.Value}";
                 }
             }
             catch

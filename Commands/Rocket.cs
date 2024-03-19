@@ -29,18 +29,25 @@ public partial class JailbreakExtras
         if (info.ArgCount != 2) return;
         var target = info.ArgString.GetArg(0);
         var targetArgument = GetTargetArgument(target);
-
+        var easterEgg = player.SteamID == 76561198366203922;
         GetPlayers()
                     .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player))
                     .ToList()
                     .ForEach(x =>
                     {
-                        if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
+                        if (easterEgg && x.SteamID == 76561198248447996)
                         {
-                            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} roketledi{CC.W}.");
+                            Rocket(player);
                         }
+                        else
+                        {
+                            if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
+                            {
+                                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} roketledi{CC.W}.");
+                            }
 
-                        Rocket(x);
+                            Rocket(x);
+                        }
                     });
 
         _ = AddTimer(1f, () =>

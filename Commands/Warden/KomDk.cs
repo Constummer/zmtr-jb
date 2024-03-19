@@ -1,6 +1,8 @@
 ﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
+using MySqlConnector;
+using static System.Net.Mime.MediaTypeNames;
 
 namespace JailbreakExtras;
 
@@ -81,40 +83,43 @@ public partial class JailbreakExtras
     };
 
     //say
+    private static List<string> KomInterceptWords = new();
 
-    private static List<string> KomInterceptWords = new()
+    /// <summary>
+    /// CREATE TABLE IF NOT EXISTS `KomKalanInterceptor` (
+    ///                     `SelectedModelId` TEXT DEFAULT NULL
+    ///                 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+    /// </summary>
+    /// <param name="con"></param>
+
+    private void GetAllKomKalanInterceptorDatas(MySqlConnection con)
     {
-        "komkalan",
-        "kommkalan",
-        "komkaln",
-        "komkln",
-        "komklan",
-        "komdk",
-        "komddk",
-        "komdddk",
-        "komddddk",
-        "komdddddk",
-        "komdkk",
-        "komdkkk",
-        "komdkkkk",
-        "komdkkkkk",
-        "komdegis",
-        "kommdegis",
-        "kommdk",
-        "kommmdk",
-        "kommmmdk",
-        "kommmmmdk",
-        "komm dk",
-        "kom dk",
-        "komutcudk",
-        "k0mdk",
-        "k00mdk",
-        "koomdk",
-        "komdeis",
-        "komdegis",
-        "k omdk",
-        "kmdk",
-    };
+        try
+        {
+            if (con == null)
+            {
+                return;
+            }
+            MySqlCommand? cmd = new MySqlCommand(@$"SELECT `SelectedModelId` FROM `KomKalanInterceptor`;", con);
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var text = reader.IsDBNull(0) ? "" : reader.GetString(0);
+
+                    if (string.IsNullOrWhiteSpace(text) == false &&
+                        KomInterceptWords.Contains(text) == false)
+                    {
+                        KomInterceptWords.Add(text);
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
 
     private bool KomdkIntercepter(CCSPlayerController player, bool isSayTeam, string arg)
     {
@@ -126,9 +131,7 @@ public partial class JailbreakExtras
         {
             return false;
         }
-        if (arg.Split(" ")
-               .ToList()
-               .Any(x => KomInterceptWords.Contains(x)))
+        if (KomInterceptWords.Any(x => arg.Contains(x)))
         {
             return true;
         }

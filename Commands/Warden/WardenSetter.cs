@@ -121,14 +121,8 @@ public partial class JailbreakExtras
         SetColour(player, DefaultColor);
         RefreshPawn(player);
 
-        Server.PrintToChatAll($"{Prefix} {CC.W}{player.PlayerName} artık komutçu değil!");
-
-        GetPlayers()
-            .ToList()
-            .ForEach((x) =>
-            {
-                x.PrintToCenter($"{Prefix} {CC.W}{player.PlayerName} artık komutçu değil!");
-            });
+        Server.PrintToChatAll($"{Prefix} {CC.B}{player.PlayerName}{CC.W} artık komutçu değil!");
+        Server.PrintToChatAll($"{Prefix} {CC.B}{player.PlayerName}{CC.W} artık komutçu değil!");
     }
 
     [ConsoleCommand("rw")]

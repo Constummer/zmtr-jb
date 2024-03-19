@@ -28,6 +28,7 @@ public partial class JailbreakExtras
         Corona,
         Pubg,
         RedLightGreenLight,
+        Zombie,
         MORESOON,
     }
 
@@ -72,9 +73,9 @@ public partial class JailbreakExtras
 
     public List<TGBaseClass> SoloTGGamesMenu { get; set; } = new()
     {
-        new ("Chicken Hunt",      false,  null, TeamGamesSoloChoices.ChickenHunt),
+        //new ("Chicken Hunt",      false,  null, TeamGamesSoloChoices.ChickenHunt),
         new ("Hot Patato",        false,  null, TeamGamesSoloChoices.HotPatato),
-        new ("Chicken Roulette",  false,  null, TeamGamesSoloChoices.ChickenRoulette),
+        //new ("Chicken Roulette",  false,  null, TeamGamesSoloChoices.ChickenRoulette),
         new ("Gun Fight",         false,  null, TeamGamesSoloChoices.GunFight),
         new ("HeadShot Only",     false,  null, TeamGamesSoloChoices.HeadShotOnly),
         new ("Knife Fight",       false,  null, TeamGamesSoloChoices.KnifeFight),
@@ -90,14 +91,15 @@ public partial class JailbreakExtras
         new ("Hide Fight",        false,  null, TeamGamesSoloChoices.HideFight),
         new ("Corona",            false,  null, TeamGamesSoloChoices.Corona),
         new ("Pubg",              false,  null, TeamGamesSoloChoices.Pubg),
+        new ("Zombie - Credits to Zined19",       false,  null, TeamGamesSoloChoices.Zombie),
         new ("Red Light - Green Light",           true,  null, TeamGamesSoloChoices.Pubg),
         new ("VE ÇOK DAHA FAZLASI... YAKINDA",    true,  null, TeamGamesSoloChoices.MORESOON),
     };
 
     public List<TGBaseClass> MultiTGGamesMenu { get; set; } = new()
     {
-        new ("Chiken Hunt",       false,  TeamGamesMultiChoices.ChickenHunt),
-        new ("Chicken Roulette",  false,  TeamGamesMultiChoices.ChickenRoulette),
+        //new ("Chiken Hunt",       true,  TeamGamesMultiChoices.ChickenHunt),
+        //new ("Chicken Roulette",  true,  TeamGamesMultiChoices.ChickenRoulette),
         new ("Gun Fight",         false,  TeamGamesMultiChoices.GunFight),
         new ("HeadShot Only",     false,  TeamGamesMultiChoices.HeadShotOnly),
         new ("Knife Fight",       false,  TeamGamesMultiChoices.KnifeFight),

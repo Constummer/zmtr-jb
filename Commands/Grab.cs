@@ -123,9 +123,9 @@ public partial class JailbreakExtras
                 ActiveGodMode[closest.SteamID] = true;
                 Closest = closest;
                 var @new = ProjectPointOntoLine(start, end, closest.PlayerPawn.Value.AbsOrigin);
-                closest.PlayerPawn.Value.Teleport(@new, closest.PlayerPawn.Value.AbsRotation!, closest.PlayerPawn.Value.AbsVelocity);
-                closest.Pawn.Value.Teleport(@new, closest.PlayerPawn.Value.AbsRotation!, closest.PlayerPawn.Value.AbsVelocity);
-                closest.Teleport(@new, closest.PlayerPawn.Value.AbsRotation!, closest.PlayerPawn.Value.AbsVelocity);
+                closest.PlayerPawn.Value.Teleport(@new, closest.PlayerPawn.Value.AbsRotation!, VEC_ZERO);
+                closest.Pawn.Value.Teleport(@new, closest.PlayerPawn.Value.AbsRotation!, VEC_ZERO);
+                closest.Teleport(@new, closest.PlayerPawn.Value.AbsRotation!, VEC_ZERO);
                 //if (Laser != null && Laser.IsValid)
                 //{
                 //    Laser.EndPos.X = Closest.PlayerPawn.Value.AbsOrigin.X;
@@ -205,37 +205,6 @@ public partial class JailbreakExtras
         double closestPointZ = start.Z + scalarProjection * lineDirectionZ;
         // Return the closest point as a Vector
         return new Vector((float)closestPointX, (float)closestPointY, (float)closestPointZ);
-    }
-
-    private static bool IsPointOnTriangle(Vector start, Vector end, Vector point, double threshold)
-    {
-        // Check if the point is inside the triangle defined by start, end, and threshold
-
-        // Calculate the vectors representing the edges of the triangle
-        Vector edge1 = new Vector { X = end.X - start.X, Y = end.Y - start.Y, Z = end.Z - start.Z };
-        Vector edge2 = new Vector { X = point.X - start.X, Y = point.Y - start.Y, Z = point.Z - start.Z };
-
-        // Calculate the normal vector of the triangle using the cross product of the edges
-        Vector normal = new Vector
-        {
-            X = edge1.Y * edge2.Z - edge1.Z * edge2.Y,
-            Y = edge1.Z * edge2.X - edge1.X * edge2.Z,
-            Z = edge1.X * edge2.Y - edge1.Y * edge2.X
-        };
-
-        // Calculate the magnitude of the normal vector
-        double normalMagnitude = Math.Sqrt(normal.X * normal.X + normal.Y * normal.Y + normal.Z * normal.Z);
-
-        // Normalize the normal vector
-        normal.X /= (float)normalMagnitude;
-        normal.Y /= (float)normalMagnitude;
-        normal.Z /= (float)normalMagnitude;
-
-        // Calculate the distance from the point to the plane defined by the triangle
-        double distance = Math.Abs(normal.X * (point.X - start.X) + normal.Y * (point.Y - start.Y) + normal.Z * (point.Z - start.Z));
-
-        // Check if the distance is within the specified threshold
-        return distance <= threshold;
     }
 
     private static bool GetClosestPlayer(CCSPlayerController self, CCSPlayerController target)
@@ -323,39 +292,6 @@ public partial class JailbreakExtras
         return false;
     }
 
-    private static bool IsPointOnLine(Vector start, Vector end, Vector point)
-    {
-        // Define the rectangle dimensions
-        float upDistance = 10;
-        float sideDistance = 10;
-        float downDistance = 100;
-
-        // Calculate the direction vector of the line
-        float lineDirectionX = end.X - start.X;
-        float lineDirectionY = end.Y - start.Y;
-        float lineDirectionZ = end.Z - start.Z;
-
-        // Calculate the unit vector of the line direction
-        float length = (float)Math.Sqrt(lineDirectionX * lineDirectionX + lineDirectionY * lineDirectionY + lineDirectionZ * lineDirectionZ);
-        float unitDirectionX = lineDirectionX / length;
-        float unitDirectionY = lineDirectionY / length;
-        float unitDirectionZ = lineDirectionZ / length;
-
-        // Calculate vectors for the rectangle dimensions
-        Vector upVector = new Vector(unitDirectionX * upDistance, unitDirectionY * upDistance, unitDirectionZ * upDistance);
-        Vector sideVector = new Vector(unitDirectionY * sideDistance, -unitDirectionX * sideDistance, 0); // perpendicular to the line
-        Vector downVector = new Vector(0, 0, -downDistance);
-
-        // Calculate the corners of the rectangle
-        Vector topLeft = end + upVector - sideVector;
-        Vector topRight = end + upVector + sideVector;
-        Vector bottomLeft = end - downVector - sideVector;
-        Vector bottomRight = end - downVector + sideVector;
-
-        // Check if the point is within the rectangle
-        return IsPointInPolygon(point, new[] { topLeft, topRight, bottomRight, bottomLeft });
-    }
-
     private static bool IsPointInPolygon(Vector point, Vector[] polygon)
     {
         // Use a ray casting algorithm to determine if the point is inside the polygon
@@ -370,36 +306,6 @@ public partial class JailbreakExtras
         }
 
         return count % 2 == 1;
-    }
-
-    private static bool IsPointOnLineORJINAL(Vector start, Vector end, Vector point, double threshold)
-    {
-        // Check if the point is on the line defined by start and end within the specified threshold
-
-        // Calculate the direction vector of the line
-        double lineDirectionX = end.X - start.X;
-        double lineDirectionY = end.Y - start.Y;
-        double lineDirectionZ = end.Z - start.Z;
-
-        // Calculate the vector from start to the point
-        double pointVectorX = point.X - start.X;
-        double pointVectorY = point.Y - start.Y;
-        double pointVectorZ = point.Z - start.Z;
-
-        // Calculate the scalar projection of pointVector onto the lineDirection
-        double scalarProjection = (pointVectorX * lineDirectionX + pointVectorY * lineDirectionY + pointVectorZ * lineDirectionZ) /
-                                 (lineDirectionX * lineDirectionX + lineDirectionY * lineDirectionY + lineDirectionZ * lineDirectionZ);
-
-        // Calculate the closest point on the line to the given point
-        double closestPointX = start.X + scalarProjection * lineDirectionX;
-        double closestPointY = start.Y + scalarProjection * lineDirectionY;
-        double closestPointZ = start.Z + scalarProjection * lineDirectionZ;
-
-        // Calculate the distance between the given point and the closest point on the line
-        double distance = Math.Sqrt(Math.Pow(point.X - closestPointX, 2) + Math.Pow(point.Y - closestPointY, 2) + Math.Pow(point.Z - closestPointZ, 2));
-
-        // Check if the distance is within the specified threshold
-        return distance <= threshold;
     }
 
     private static Vector GetEndXYZ(CCSPlayerController player)

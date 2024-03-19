@@ -199,6 +199,12 @@ public partial class JailbreakExtras
                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
                     await cmd.ExecuteNonQueryAsync();
 
+                    cmd = new MySqlCommand(
+                    @"CREATE TABLE IF NOT EXISTS `KomKalanInterceptor` (
+                            `SelectedModelId` TEXT DEFAULT NULL
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
+                    await cmd.ExecuteNonQueryAsync();
+
                     GetAllPlayerNameData(con);
                     GetAllCTKitData(con);
                     GetAllTimeTrackingData(con);
@@ -209,6 +215,7 @@ public partial class JailbreakExtras
                     GetAllKomWeeklyCreditData(con);
                     GetAllCustomTagData(con);
                     GetAllIsTopData(con);
+                    GetAllKomKalanInterceptorDatas(con);
                 }
             }
             catch (Exception ex)
