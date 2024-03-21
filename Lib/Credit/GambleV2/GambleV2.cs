@@ -24,11 +24,22 @@ public partial class JailbreakExtras
         public RuletOptions Option { get; set; }
     }
 
-    private enum RuletOptions
+    internal enum RuletOptions
     {
         None = 0,
         Yesil,
         Siyah,
         Kirmizi
     }
+}
+
+internal static class RuletChatShort
+{
+    internal static string GetShort(this JailbreakExtras.RuletOptions opt) => opt switch
+    {
+        JailbreakExtras.RuletOptions.Yesil => "Y",
+        JailbreakExtras.RuletOptions.Siyah => "S",
+        JailbreakExtras.RuletOptions.Kirmizi => "K",
+        _ => ""
+    };
 }

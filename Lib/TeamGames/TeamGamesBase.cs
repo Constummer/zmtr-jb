@@ -91,7 +91,7 @@ public partial class JailbreakExtras
         new ("Hide Fight",        false,  null, TeamGamesSoloChoices.HideFight),
         new ("Corona",            false,  null, TeamGamesSoloChoices.Corona),
         new ("Pubg",              false,  null, TeamGamesSoloChoices.Pubg),
-        new ("Zombie - Credits to Zined19",       false,  null, TeamGamesSoloChoices.Zombie),
+        new ("Zombie - Credits to Zined19",       true,  null, TeamGamesSoloChoices.Zombie),
         new ("Red Light - Green Light",           true,  null, TeamGamesSoloChoices.Pubg),
         new ("VE ÇOK DAHA FAZLASI... YAKINDA",    true,  null, TeamGamesSoloChoices.MORESOON),
     };

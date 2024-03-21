@@ -205,6 +205,13 @@ public partial class JailbreakExtras
                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
                     await cmd.ExecuteNonQueryAsync();
 
+                    cmd = new MySqlCommand(
+                    @"CREATE TABLE IF NOT EXISTS `PlayerWTime` (
+                          `SteamId` bigint(20) DEFAULT NULL,
+                          `WTime` mediumint(9) DEFAULT 0
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
+                    await cmd.ExecuteNonQueryAsync();
+
                     GetAllPlayerNameData(con);
                     GetAllCTKitData(con);
                     GetAllTimeTrackingData(con);
@@ -216,6 +223,7 @@ public partial class JailbreakExtras
                     GetAllCustomTagData(con);
                     GetAllIsTopData(con);
                     GetAllKomKalanInterceptorDatas(con);
+                    GetAllWTimes(con);
                 }
             }
             catch (Exception ex)

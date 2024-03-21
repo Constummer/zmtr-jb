@@ -1,6 +1,7 @@
 ﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using JailbreakExtras.Lib.Database;
 using MySqlConnector;
@@ -19,10 +20,52 @@ public partial class JailbreakExtras
 
     public static ulong? CurrentRoundWKillerId { get; set; } = null;
 
+    //[ConsoleCommand("istop")]
+    //[ConsoleCommand("haftalikis")]
+    //[ConsoleCommand("haftalikisyan")]
+    //public void IsTop(CCSPlayerController? player, CommandInfo info)
+    //{
+    //    if (ValidateCallerPlayer(player, false) == false) return;
+
+    //    var playerIsCount = 0;
+    //    bool exist = false;
+    //    if (player?.SteamID != null && player!.SteamID != 0)
+    //    {
+    //        if (IsTopDatas.TryGetValue(player.SteamID, out playerIsCount))
+    //        {
+    //            exist = true;
+    //        }
+    //    }
+    //    if (exist)
+    //    {
+    //        player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
+    //        player.PrintToChat($"{Prefix} {CC.W} Toplam {CC.G}{playerIsCount} {CC.W}kere isyan yaptın!");
+    //    }
+    //    player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
+    //    player.PrintToChat($"{Prefix} {CC.W} TOP 10 İsyancılar");
+    //    var temp = IsTopDatas.OrderByDescending(x => x.Value).Take(10).ToList();
+    //    foreach (var item in temp)
+    //    {
+    //        if (PlayerNamesDatas.TryGetValue(item.Key, out var name))
+    //        {
+    //            var tempName = name;
+    //            if (tempName?.Length > 20)
+    //            {
+    //                tempName = tempName.Substring(0, 17) + "...";
+    //            }
+    //            tempName = tempName?.PadRight(20, '_');
+    //            player.PrintToChat($"{Prefix} {CC.G}{tempName} {CC.W}| {CC.B}{item.Value} {CC.Ol}kere,");
+    //        }
+    //    }
+    //    player.PrintToChat($"{Prefix} {CC.W} İsyan yapmış.");
+    //    player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
+    //}
+
     [ConsoleCommand("istop")]
+    [ConsoleCommand("topis")]
     [ConsoleCommand("haftalikis")]
     [ConsoleCommand("haftalikisyan")]
-    public void IsTop(CCSPlayerController? player, CommandInfo info)
+    public void IsTop2(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player, false) == false) return;
 
@@ -35,13 +78,12 @@ public partial class JailbreakExtras
                 exist = true;
             }
         }
+        var menu = new CenterHtmlMenu($" TOP 10 İsyancılar");
         if (exist)
         {
-            player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
-            player.PrintToChat($"{Prefix} {CC.W} Toplam {CC.G}{playerIsCount} {CC.W}kere isyan yaptın!");
+            menu.AddMenuOption($"Sen {playerIsCount} Kere,", null, true);
         }
-        player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
-        player.PrintToChat($"{Prefix} {CC.W} TOP 10 İsyancılar");
+        menu.AddMenuOption($"---===------------===------", null, true);
         var temp = IsTopDatas.OrderByDescending(x => x.Value).Take(10).ToList();
         foreach (var item in temp)
         {
@@ -50,14 +92,14 @@ public partial class JailbreakExtras
                 var tempName = name;
                 if (tempName?.Length > 20)
                 {
-                    tempName = tempName.Substring(0, 17) + "...";
+                    tempName = tempName.Substring(0, 9) + "...";
                 }
-                tempName = tempName?.PadRight(20, '_');
-                player.PrintToChat($"{Prefix} {CC.G}{tempName} {CC.W}| {CC.B}{item.Value} {CC.Ol}kere,");
+                tempName = tempName?.PadRight(12, '_');
+                menu.AddMenuOption($"{tempName} | {item.Value} kere", null, true);
             }
         }
-        player.PrintToChat($"{Prefix} {CC.W} İsyan yapmış.");
-        player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
+        menu.AddMenuOption($"İsyan yapmış.", null, true);
+        MenuManager.OpenCenterHtmlMenu(this, player, menu);
     }
 
     private static void UpdatePlayerIsTopData(ulong steamId)

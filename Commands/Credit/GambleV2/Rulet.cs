@@ -147,8 +147,7 @@ public partial class JailbreakExtras
         var kazananRenk = RuletDondur();
         LastGambleDatas.Enqueue(new()
         {
-            Winner = kazananRenk,
-            EndTime = DateTime.UtcNow.AddHours(3),
+            Winner = kazananRenk
         });
         Server.PrintToChatAll($" {CC.Ol}[RULET] {CC.W}Rulet Dönüyor...");
         Server.PrintToChatAll($" {CC.Ol}[RULET] {CC.W}Ruleti Kazanan Renk: {CtOfRulet(kazananRenk)}");

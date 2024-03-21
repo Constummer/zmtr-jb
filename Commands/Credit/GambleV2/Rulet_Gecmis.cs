@@ -13,6 +13,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        player.PrintToChat("TODO");
+        var datas = LastGambleDatas.ToList();
+        player.PrintToChat($"{Prefix} {CC.W} {(string.Join(" ", datas.Select(x => x.Winner.GetShort())))}");
     }
 }

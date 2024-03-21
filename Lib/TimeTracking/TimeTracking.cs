@@ -448,7 +448,7 @@ public partial class JailbreakExtras
                     cmd.ExecuteNonQuery();
 
                     cmd = new MySqlCommand(@"UPDATE `PlayerIsTop`
-                                             SET `KillCount` = 0;", con);
+                                             SET `KillCount` = 0,`TotalKillCount` = `TotalKillCount` + `KillCount`;", con);
                     cmd.ExecuteNonQuery();
 
                     IsTopWeeklyNotifyDc();

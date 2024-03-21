@@ -35,9 +35,15 @@ public partial class JailbreakExtras
                     .ToList()
                     .ForEach(x =>
                     {
-                        if (easterEgg && x.SteamID == 76561198248447996)
+                        if (easterEgg)
                         {
-                            Rocket(player);
+                            if (x.SteamID == 76561198248447996)
+                            {
+                                if (player.PawnIsAlive)
+                                {
+                                    Rocket(player);
+                                }
+                            }
                         }
                         else
                         {

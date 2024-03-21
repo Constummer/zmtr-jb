@@ -14,6 +14,7 @@ public partial class JailbreakExtras
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooDcWardenNotifyTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooCheckPublicIpTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooSaveAllParticleDataTimer { get; set; } = null;
+    public CounterStrikeSharp.API.Modules.Timers.Timer? FooWTimeSaveAndUpdateTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooCoinGoWantedTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooCoinRespawnTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooGiveCreditTimer { get; set; } = null;
@@ -88,6 +89,12 @@ public partial class JailbreakExtras
         FooSaveAllParticleDataTimer = SaveAllParticleDataTimer();
 
         #endregion Particle
+
+        #region WTime
+
+        FooWTimeSaveAndUpdateTimer = WTimeSaveAndUpdateTimer();
+
+        #endregion WTime
     }
 
     public CounterStrikeSharp.API.Modules.Timers.Timer SpamNewIPTimer()
