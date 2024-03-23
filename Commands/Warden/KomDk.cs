@@ -108,9 +108,9 @@ public partial class JailbreakExtras
                     var text = reader.IsDBNull(0) ? "" : reader.GetString(0);
 
                     if (string.IsNullOrWhiteSpace(text) == false &&
-                        KomInterceptWords.Contains(text) == false)
+                        KomInterceptWords.Contains(text.ToLower()) == false)
                     {
-                        KomInterceptWords.Add(text);
+                        KomInterceptWords.Add(text.ToLower());
                     }
                 }
             }
@@ -131,7 +131,7 @@ public partial class JailbreakExtras
         {
             return false;
         }
-        if (KomInterceptWords.Any(x => arg.Contains(x)))
+        if (KomInterceptWords.Any(x => arg.ToLower().Contains(x)))
         {
             return true;
         }

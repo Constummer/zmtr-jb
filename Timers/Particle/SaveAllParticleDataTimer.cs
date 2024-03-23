@@ -1,6 +1,4 @@
-﻿using CounterStrikeSharp.API.Modules.Admin;
-
-namespace JailbreakExtras;
+﻿namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {

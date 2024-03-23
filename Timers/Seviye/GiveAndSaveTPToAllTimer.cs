@@ -1,8 +1,4 @@
-﻿using CounterStrikeSharp.API;
-using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Admin;
-using MySqlConnector;
-using System.Diagnostics;
+﻿using CounterStrikeSharp.API.Modules.Admin;
 
 namespace JailbreakExtras;
 

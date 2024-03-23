@@ -1,5 +1,4 @@
-﻿using CounterStrikeSharp.API;
-using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 
@@ -25,7 +24,7 @@ public partial class JailbreakExtras
             var amount = (int)(ruletPlay.Credit * 0.9);
             data.Model!.Credit += amount;
             PlayerMarketModels[player.SteamID] = data.Model;
-
+            RuletV2OnPlayerCancelBet(player.SteamID, ruletPlay);
             RuletPlayers.Remove(player.SteamID, out _);
             player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Yatırdığınız {CC.R}{amount}{CC.W} kredi vergisi kesilerek iade edildi.");
             return;

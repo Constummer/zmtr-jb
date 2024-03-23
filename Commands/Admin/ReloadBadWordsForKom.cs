@@ -9,7 +9,6 @@ namespace JailbreakExtras;
 public partial class JailbreakExtras
 {
     [ConsoleCommand("ReloadBadWordsForKom")]
-    [CommandHelper(0, "", CommandUsage.CLIENT_ONLY)]
     public void ReloadBadWordsForKom(CCSPlayerController? player, CommandInfo info)
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))

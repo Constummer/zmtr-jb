@@ -101,7 +101,7 @@ public partial class JailbreakExtras
                 if (opt == RuletOptions.None)
                 {
                     player.PrintToChat($" {CC.Ol}[RULET] {CC.W}HATALI RENK.");
-                    player.PrintToChat($" {CC.Ol}[RULET] {CC.R}Kırmızz{CC.W}/{CC.R}K {CC.Ol}x2");
+                    player.PrintToChat($" {CC.Ol}[RULET] {CC.R}Kırmızı{CC.W}/{CC.R}K {CC.Ol}x2");
                     player.PrintToChat($" {CC.Ol}[RULET] {CC.G}Yeşil{CC.W}/{CC.G}Y {CC.Ol}x14");
                     player.PrintToChat($" {CC.Ol}[RULET] {CC.Gr}Siyah{CC.W}/{CC.Gr}S {CC.Ol}x2");
                     player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Kasa = {total}");
@@ -124,7 +124,7 @@ public partial class JailbreakExtras
                         player.PrintToChat($" {CC.Ol}[RULET] {CC.W}Kasa = {total}");
                         return;
                     }
-
+                    RuletV2OnPlayerBet(player.SteamID, credit, opt);
                     ruletPlay = new() { Option = opt, Credit = credit };
                     RuletPlayers.Add(player.SteamID, ruletPlay);
                     data.Model!.Credit -= credit;
@@ -145,10 +145,8 @@ public partial class JailbreakExtras
             return;
         }
         var kazananRenk = RuletDondur();
-        LastGambleDatas.Enqueue(new()
-        {
-            Winner = kazananRenk
-        });
+        RuletV2RoundEnd(kazananRenk);
+
         Server.PrintToChatAll($" {CC.Ol}[RULET] {CC.W}Rulet Dönüyor...");
         Server.PrintToChatAll($" {CC.Ol}[RULET] {CC.W}Ruleti Kazanan Renk: {CtOfRulet(kazananRenk)}");
 

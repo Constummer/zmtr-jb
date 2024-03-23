@@ -13,7 +13,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var datas = LastGambleDatas.ToList();
-        player.PrintToChat($"{Prefix} {CC.W} {(string.Join(" ", datas.Select(x => x.Winner.GetShort())))}");
+        var datas = LastGambleDatas.ToList().OrderByDescending(x => x.Key).Take(20);
+        player.PrintToChat($"{Prefix} {CC.W} {(string.Join(" ", datas.Select(x => x.Value.Winner.GetShort())))}");
     }
 }

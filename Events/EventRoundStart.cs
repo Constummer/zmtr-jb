@@ -16,6 +16,7 @@ public partial class JailbreakExtras
             Server.ExecuteCommand("mp_autoteambalance 0");
             Server.ExecuteCommand("mp_equipment_reset_rounds 1");
             Server.ExecuteCommand("mp_t_default_secondary \"\" ");
+            Ruletv2RoundStart();
             PrepareRoundDefaults();
             ClearAll();
             CoinAfterNewCommander();
@@ -33,7 +34,6 @@ public partial class JailbreakExtras
                 }
             }
             RoundEndParticles = new();
-
             AddTimer(5.0f, () =>
             {
                 HookDisabled = false;

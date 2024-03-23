@@ -1,8 +1,4 @@
-﻿using CounterStrikeSharp.API;
-using CounterStrikeSharp.API.Modules.Timers;
-using System.Diagnostics;
-
-namespace JailbreakExtras;
+﻿namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {

@@ -355,7 +355,9 @@ public partial class JailbreakExtras
                     data = new(steamID);
                 }
 
+                data = RuletV2GetNotExpiredGambleData(steamID, data);
                 PlayerMarketModels.TryAdd(steamID, data);
+
                 return data;
             }
         }

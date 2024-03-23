@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Modules.Admin;
 
 namespace JailbreakExtras;
 
@@ -22,6 +23,12 @@ public partial class JailbreakExtras
     [ConsoleCommand("lastban")]
     public void LastBan(CCSPlayerController? player, CommandInfo info)
     {
+        if (AdminManager.PlayerHasPermissions(player, "@css/yonetim") == false)
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+
         if (ValidateCallerPlayer(player) == false) return;
         var datas = LastBanDatas.ToList();
         datas.Reverse();
