@@ -238,13 +238,5 @@ public partial class JailbreakExtras
         }
     }
 
-    private string CtOfRulet(RuletOptions data) => data switch
-    {
-        RuletOptions.Yesil => $"{CC.G}Yeşil",
-        RuletOptions.Kirmizi => $"{CC.R}Kırmızı",
-        RuletOptions.Siyah => $"{CC.Gr}Siyah",
-        _ => ""
-    };
-
     #endregion Rulet
 }

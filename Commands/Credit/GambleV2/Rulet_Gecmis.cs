@@ -14,6 +14,8 @@ public partial class JailbreakExtras
             return;
         }
         var datas = LastGambleDatas.ToList().OrderByDescending(x => x.Key).Take(20);
-        player.PrintToChat($"{Prefix} {CC.W} {(string.Join(" ", datas.Select(x => x.Value.Winner.GetShort())))}");
+        var first = datas.FirstOrDefault();
+        var others = datas.Skip(1).ToList();
+        player.PrintToChat($"{Prefix} {CC.W} =>[{first.Value.Winner.GetShort()}{CC.W}] {string.Join(", ", others.Select(x => x.Value.Winner.GetShort()))}");
     }
 }

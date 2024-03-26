@@ -34,6 +34,16 @@ public partial class JailbreakExtras
         UnMuteAction(player, "@me");
     }
 
+    [ConsoleCommand("uall")]
+    public void UnMuteAll(CCSPlayerController? player, CommandInfo info)
+    {
+        if (OnCommandValidater(player, true, "@css/seviye10", "@css/seviye10") == false)
+        {
+            return;
+        }
+        UnMuteAction(player, "@all");
+    }
+
     [ConsoleCommand("ut")]
     public void UnMuteT(CCSPlayerController? player, CommandInfo info)
     {

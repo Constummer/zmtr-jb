@@ -42,6 +42,16 @@ public partial class JailbreakExtras
         MuteAction(player, "@ct");
     }
 
+    [ConsoleCommand("mall")]
+    public void MuteALL(CCSPlayerController? player, CommandInfo info)
+    {
+        if (OnCommandValidater(player, true, "@css/seviye10", "@css/seviye10") == false)
+        {
+            return;
+        }
+        MuteAction(player, "@all");
+    }
+
     private static void MuteAction(CCSPlayerController? player, string target)
     {
         var targetArgument = GetTargetArgument(target);

@@ -1,28 +1,32 @@
-﻿using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Entities;
-using Discord;
-using JailbreakExtras.Lib.Database;
+﻿using JailbreakExtras.Lib.Database;
 using JailbreakExtras.Lib.Database.Models;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
-using Newtonsoft.Json.Linq;
-using static System.Runtime.InteropServices.JavaScript.JSType;
+using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
 
 internal static class RuletChatShort
 {
-    internal static string GetShort(this JailbreakExtras.RuletOptions opt) => opt switch
+    internal static string GetShort(this RuletOptions opt) => opt switch
     {
-        JailbreakExtras.RuletOptions.Yesil => "Y",
-        JailbreakExtras.RuletOptions.Siyah => "S",
-        JailbreakExtras.RuletOptions.Kirmizi => "K",
+        RuletOptions.Yesil => $"{CC.G}Y",
+        RuletOptions.Siyah => $"{CC.Gr}S",
+        RuletOptions.Kirmizi => $"{CC.R}K",
         _ => ""
     };
 }
 
 public partial class JailbreakExtras
 {
+    private string CtOfRulet(RuletOptions data) => data switch
+    {
+        RuletOptions.Yesil => $"{CC.G}Yeşil",
+        RuletOptions.Kirmizi => $"{CC.R}Kırmızı",
+        RuletOptions.Siyah => $"{CC.Gr}Siyah",
+        _ => ""
+    };
+
     /*
 
                   CREATE TABLE IF NOT EXISTS `PlayerGambleData` (
