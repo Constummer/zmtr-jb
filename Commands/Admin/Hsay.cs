@@ -28,6 +28,8 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         Server.PrintToChatAll($"{player.PlayerName}: {info.ArgString}");
     }
 
@@ -43,6 +45,8 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         foreach (var item in GetPlayers().ToList())
         {
             item.PrintToCenter(info.ArgString);
@@ -61,6 +65,8 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         foreach (var item in GetPlayers().ToList())
         {
             PrintToCenterHtml(item, info.ArgString);
@@ -79,6 +85,8 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         foreach (var item in GetPlayers().ToList())
         {
             PrintToCenterHtml(item, info.ArgString);
@@ -98,6 +106,8 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         foreach (var item in GetPlayers().ToList())
         {
             PrintToCenterHtml(item, info.ArgString);

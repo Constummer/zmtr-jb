@@ -16,6 +16,8 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         Server.ExecuteCommand("sv_gravity 150");
         Server.PrintToChatAll($"{Prefix} {CC.W}Gravity açıldı.");
     }
@@ -28,6 +30,8 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         Server.ExecuteCommand("sv_gravity 800");
         Server.PrintToChatAll($"{Prefix} {CC.W}Gravity kapandı.");
     }

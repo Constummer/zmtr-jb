@@ -26,6 +26,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+
         var entity = Utilities.CreateEntityByName<CPhysicsPropMultiplayer>("prop_physics_multiplayer");
         var removeEntity = FootballEntities.Enqueue(entity);
         try
@@ -47,6 +48,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         entity.Teleport(
             new Vector(

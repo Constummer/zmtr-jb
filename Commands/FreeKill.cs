@@ -65,9 +65,5 @@ public partial class JailbreakExtras
         }
     }
 
-    private void RespawnSelectedPlayer(CCSPlayerController controller, ChatMenuOption option)
-    {
-    }
-
     #endregion FreeKill
 }

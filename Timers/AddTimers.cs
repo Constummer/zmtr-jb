@@ -12,6 +12,7 @@ public partial class JailbreakExtras
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooSteamGroupsTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooDailyRestartTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooDcWardenNotifyTimer { get; set; } = null;
+    public CounterStrikeSharp.API.Modules.Timers.Timer? FooGetGambleHistoryTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooCheckPublicIpTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooSaveAllParticleDataTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooWTimeSaveAndUpdateTimer { get; set; } = null;
@@ -79,6 +80,7 @@ public partial class JailbreakExtras
 
         FooDailyRestartTimer = DailyRestartTimer();
         FooDcWardenNotifyTimer = DcWardenNotifyTimer();
+        FooGetGambleHistoryTimer = GetGambleHistoryTimer();
         //FooCheckPublicIpTimer = CheckPublicIpTimer();
         //SpamNewIPTimer();
 

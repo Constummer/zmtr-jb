@@ -20,6 +20,8 @@ public partial class JailbreakExtras
             player.PrintToChat(NotEnoughPermission);
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         KumarKapatDisable = false;
         Server.PrintToChatAll($"{Prefix} {CC.R} KUMAR AÇILDI");
     }

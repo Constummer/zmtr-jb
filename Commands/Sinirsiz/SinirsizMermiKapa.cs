@@ -20,6 +20,7 @@ public partial class JailbreakExtras
             return;
         }
         UnlimitedReserverAmmoActive = false;
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         SinirsizMolyTimer = GiveSinirsizCustomNade(0, SinirsizMolyTimer, "weapon_incgrenade");
         SinirsizBombaTimer = GiveSinirsizCustomNade(0, SinirsizBombaTimer, "weapon_hegrenade");

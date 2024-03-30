@@ -63,6 +63,7 @@ public partial class JailbreakExtras
             skzMenu.AddMenuOption(k.Text, (p, t) =>
             {
                 Server.PrintToChatAll($"{Prefix} {CC.W}{T_PluralCamel} {CC.B}{k.Text} {CC.W} ışınlanıyor");
+                LogManagerCommand(player.SteamID, info.GetCommandString);
 
                 SkzTimer?.Kill();
                 Skz2Timer?.Kill();

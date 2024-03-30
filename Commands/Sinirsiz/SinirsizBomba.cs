@@ -30,6 +30,7 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix}{CC.W} 0 = kapatmak icin, 1 = acmak icin.");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         Server.PrintToChatAll($"{Prefix} {CC.W} Sınırsız bomba {oneTwo}.");
 
         SinirsizBombaTimer = GiveSinirsizCustomNade(oneTwo, SinirsizBombaTimer, "weapon_hegrenade");

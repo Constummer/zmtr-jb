@@ -30,11 +30,13 @@ public partial class JailbreakExtras
                 {
                     Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}kendine {CC.B}god {CC.W}verdi.");
                 }
+                LogManagerCommand(player.SteamID, info.GetCommandString);
                 ActiveGodMode[player.SteamID] = !val;
             }
             else
             {
                 Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}kendine {CC.B}god {CC.W}verdi.");
+                LogManagerCommand(player.SteamID, info.GetCommandString);
                 ActiveGodMode.TryAdd(player.SteamID, true);
             }
         }
@@ -50,6 +52,7 @@ public partial class JailbreakExtras
             }
 
             var targetArgument = GetTargetArgument(target);
+            LogManagerCommand(player.SteamID, info.GetCommandString);
             GetPlayers()
                    .Where(x => x.PawnIsAlive
                             && GetTargetAction(x, target, player))
@@ -155,6 +158,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers(CsTeam.CounterTerrorist)
                .ToList()
                .ForEach(x =>
@@ -172,6 +176,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers(CsTeam.CounterTerrorist)
                .ToList()
                .ForEach(x =>

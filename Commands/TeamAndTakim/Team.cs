@@ -72,6 +72,7 @@ public partial class JailbreakExtras
         var x = players.FirstOrDefault();
         Unmuteds = Unmuteds.Where(X => X != x.SteamID).ToList();
         x.VoiceFlags |= VoiceFlags.Muted;
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         if (x?.SteamID != null && x!.SteamID != 0)
         {

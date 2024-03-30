@@ -22,6 +22,8 @@ public partial class JailbreakExtras
             Server.PrintToConsole($"{Prefix}{CC.G} Miktar duzgun deil!");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         var players = GetPlayers()
                .Where(x => GetTargetAction(x, target, null))
                .ToList();

@@ -18,6 +18,8 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         ClearParachutes();
         _Config.Additional.ParachuteEnabled = false;
         _Config.Additional.ParachuteModelEnabled = false;
@@ -32,6 +34,8 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         _Config.Additional.ParachuteEnabled = true;
         _Config.Additional.ParachuteModelEnabled = true;
 

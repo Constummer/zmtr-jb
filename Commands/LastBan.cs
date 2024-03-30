@@ -52,6 +52,7 @@ public partial class JailbreakExtras
                             {
                                 Bans.Add(item.SteamId, DateTime.UtcNow.AddYears(1));
                             }
+                            LogManagerCommand(player.SteamID, info.GetCommandString);
                             AddBanData(item.SteamId, 0, DateTime.UtcNow.AddYears(1));
                             Server.PrintToConsole($"{Prefix} {CC.G}KONSOL {CC.W} adlı admin, {CC.G}{item.SteamId} {CC.B}Sınırsız{CC.W} banladı.");
                         }
@@ -65,6 +66,7 @@ public partial class JailbreakExtras
                             {
                                 Bans.Add(item.SteamId, DateTime.UtcNow.AddMinutes(ban.Value));
                             }
+                            LogManagerCommand(player.SteamID, info.GetCommandString);
                             AddBanData(item.SteamId, 0, DateTime.UtcNow.AddMinutes(ban.Value));
                             Server.PrintToConsole($"{Prefix} {CC.G}KONSOL {CC.W} adlı admin, {CC.G}{item.SteamId} {CC.B}{ban.Value}{CC.W} dakika boyunca banladı.");
                         }

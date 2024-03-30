@@ -28,6 +28,7 @@ public partial class JailbreakExtras
             return;
         }
 
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         Server.PrintToChatAll($"{Prefix}{CC.DR} Çit oluşturma {CC.B}{player.PlayerName} {CC.W}'a açıldı.");
         player.PrintToChat($"{Prefix}{CC.G} Ateş ettiğin yere çit oluşacak.");
         player.PrintToChat($"{Prefix}{CC.G} Kapatmak için !citkapat yaz.");
@@ -50,6 +51,7 @@ public partial class JailbreakExtras
             return;
         }
 
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         Server.PrintToChatAll($"{Prefix}{CC.DR} Çit oluşturma {CC.B}{player.PlayerName} {CC.W}'a kapandı.");
         CitEnabledPlayers = CitEnabledPlayers.Where(x => x != player.SteamID).ToList();
 
@@ -69,6 +71,7 @@ public partial class JailbreakExtras
             return;
         }
 
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         Server.PrintToChatAll($"{Prefix}{CC.DR} Çit oluşturma {CC.B}Herkese {CC.W} kapandı.");
         CitEnabledPlayers?.Clear();
 
@@ -89,6 +92,7 @@ public partial class JailbreakExtras
             return;
         }
 
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         ClearCits();
         return;
     }

@@ -22,6 +22,7 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.W}Yapamayan kimse bulunamadi! {CC.B}!skz {CC.W}ile skz başlattığına emin ol!");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers(CsTeam.Terrorist)
             .Where(x => x.PawnIsAlive && SkzV2FailedSteamIds.Contains(x.SteamID))
             .ToList()

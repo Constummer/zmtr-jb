@@ -42,6 +42,7 @@ public partial class JailbreakExtras
         }
         else if (players.Count == 1)
         {
+            LogManagerCommand(player.SteamID, info.GetCommandString);
             var fastRev = players.FirstOrDefault();
             if (fastRev != null)
             {
@@ -52,6 +53,7 @@ public partial class JailbreakExtras
         }
         else
         {
+            LogManagerCommand(player.SteamID, info.GetCommandString);
             var revmenu = new ChatMenu("Rev Menü");
 
             players.ForEach(x =>

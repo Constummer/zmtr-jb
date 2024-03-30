@@ -18,6 +18,7 @@ public partial class JailbreakExtras
             player.PrintToChat(NotEnoughPermission);
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         TPModifier = 2;
         Server.PrintToChatAll($"{Prefix}{CC.B} 2x{CC.W} tp kazanımı başlamıştır.");
     }
@@ -30,6 +31,7 @@ public partial class JailbreakExtras
             player.PrintToChat(NotEnoughPermission);
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         TPModifier = 3;
         Server.PrintToChatAll($"{Prefix}{CC.B} 3x{CC.W} tp kazanımı başlamıştır.");
     }
@@ -42,6 +44,7 @@ public partial class JailbreakExtras
             player.PrintToChat(NotEnoughPermission);
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         TPModifier = 4;
         Server.PrintToChatAll($"{Prefix}{CC.B} 4x{CC.W} tp kazanımı başlamıştır.");
     }
@@ -61,6 +64,7 @@ public partial class JailbreakExtras
             player.PrintToChat(NotEnoughPermission);
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         TPModifier = 1;
         Server.PrintToChatAll($"{Prefix}{CC.W} tp kazanımları normale dönmüştür.");
     }

@@ -23,6 +23,8 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         DaireAction(player, info, false);
     }
 
@@ -38,6 +40,8 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         DaireAction(player, info, true);
     }
 

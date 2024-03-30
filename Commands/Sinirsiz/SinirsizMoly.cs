@@ -28,6 +28,7 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix}{CC.W} 0 = kapatmak icin, 1 = acmak icin.");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         SinirsizMolyTimer = GiveSinirsizCustomNade(oneTwo, SinirsizMolyTimer, "weapon_incgrenade");
     }
 

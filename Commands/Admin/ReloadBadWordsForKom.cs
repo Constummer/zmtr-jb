@@ -16,6 +16,8 @@ public partial class JailbreakExtras
             player.PrintToChat(NotEnoughPermission);
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         try
         {
             using (var con = Connection())

@@ -15,9 +15,10 @@ public partial class JailbreakExtras
     [ConsoleCommand("kapiac")]
     [ConsoleCommand("kapilariac")]
     [ConsoleCommand("hucrekapiac")]
-    public void KapiAc(CCSPlayerController? invoke, CommandInfo command)
+    public void KapiAc(CCSPlayerController? player, CommandInfo info)
     {
         Server.PrintToChatAll($"{Prefix} {CC.W}Tüm kapılar açıldı!");
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         ForceOpenDoor();
     }
 
@@ -25,9 +26,10 @@ public partial class JailbreakExtras
     [ConsoleCommand("kapikapat")]
     [ConsoleCommand("kapikapa")]
     [ConsoleCommand("kapilarikapat")]
-    public void KapiKapat(CCSPlayerController? invoke, CommandInfo command)
+    public void KapiKapat(CCSPlayerController? player, CommandInfo info)
     {
         Server.PrintToChatAll($"{Prefix} {CC.W}Tüm kapılar kapandı!");
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         ForceCloseDoor();
     }
 

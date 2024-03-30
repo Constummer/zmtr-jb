@@ -21,9 +21,10 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         LastRSoundDisable = true;
         RespawnAc(player, info);
-        FfAc(player, info);
         Noclip(player, info);
         ForceOpenDoor();
     }
@@ -42,6 +43,8 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         KapiAcIptal = !KapiAcIptal;
     }
 }

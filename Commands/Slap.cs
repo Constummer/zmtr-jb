@@ -27,6 +27,7 @@ public partial class JailbreakExtras
         {
             int.TryParse(info.ArgString.GetArg(1), out damage);
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         var targetArgument = GetTargetArgument(target);
         GetPlayers()
                .Where(x => x.PawnIsAlive
@@ -66,6 +67,7 @@ public partial class JailbreakExtras
                .Where(x => x.PawnIsAlive
                           && GetTargetAction(x, target, player))
                .ToList();
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         if (players.Count > 0)
         {
             players.ForEach(x =>
@@ -103,6 +105,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         UberSlapTimer?.Kill();
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}uberslapi kapadı.");
     }

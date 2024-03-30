@@ -67,6 +67,7 @@ public partial class JailbreakExtras
 
     private static Dictionary<long, GambleHistory> LastGambleDatas { get; set; } = new Dictionary<long, GambleHistory>();
     private static Dictionary<ulong, RuletData> RuletPlayers { get; set; } = new();
+    private static List<RuletOptions> GambleLast70HistoryData { get; set; } = new();
 
     private class RuletData
     {
@@ -115,6 +116,41 @@ public partial class JailbreakExtras
         catch (Exception ex)
         {
             Logger.LogError(ex, "hata");
+        }
+    }
+
+    private void GetGambleHistoryData()
+    {
+        try
+        {
+            GambleLast70HistoryData = new();
+
+            using (var con = Connection())
+            {
+                if (con == null)
+                {
+                    return;
+                }
+                MySqlCommand? cmd = new MySqlCommand(@$"
+                    select `Winner` from `GambleData`
+                    where `Winner` != 0 and `TourFinalized` = 1
+                    order by `Id` desc
+                    limit 70", con);
+
+                using (var reader = cmd.ExecuteReader())
+                {
+                    while (reader.Read())
+                    {
+                        var data = reader.IsDBNull(0) ? 0 : reader.GetInt32(0);
+
+                        GambleLast70HistoryData.Add((RuletOptions)data);
+                    }
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
         }
     }
 

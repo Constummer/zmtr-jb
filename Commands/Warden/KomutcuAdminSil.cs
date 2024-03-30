@@ -40,6 +40,7 @@ public partial class JailbreakExtras
             return;
         }
         if (ValidateCallerPlayer(x, false) == false) return;
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         KomutcuAdminId = null;
         x.Clan = null;
         AddTimer(0.2f, () =>

@@ -23,6 +23,7 @@ public partial class JailbreakExtras
         var swap2res = SwapTargetOne(info.ArgString.GetArg(1), player);
         if (swap1res.Res && swap2res.Res)
         {
+            LogManagerCommand(player.SteamID, info.GetCommandString);
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{swap1res.PName} {CC.W} ile {CC.B}{swap2res.PName} {CC.W} swapladı.");
         }
     }

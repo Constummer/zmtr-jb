@@ -29,11 +29,13 @@ public partial class JailbreakExtras
             }
             else
             {
+                LogManagerCommand(player.SteamID, info.GetCommandString);
                 Server.ExecuteCommand($"mp_restartgame {target}");
             }
         }
         else
         {
+            LogManagerCommand(player.SteamID, info.GetCommandString);
             Server.ExecuteCommand($"mp_restartgame 1");
         }
     }

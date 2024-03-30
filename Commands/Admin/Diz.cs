@@ -29,6 +29,8 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         DizPlayerId = 0;
         DizActive = false;
         DizLazer?.Remove();
@@ -48,6 +50,8 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         DizPlayerId = player.SteamID;
         DizActive = true;
         player.PrintToChat($"{Prefix}{CC.W} Ateş Ettiğin 2 Nokta Arasına Tüm {T_PluralCamel} Dizilecek.");

@@ -35,6 +35,14 @@ public partial class JailbreakExtras
         }, Full);
     }
 
+    private CounterStrikeSharp.API.Modules.Timers.Timer GetGambleHistoryTimer()
+    {
+        return AddTimer(60f, () =>
+        {
+            GetGambleHistoryData();
+        }, Full);
+    }
+
     private CounterStrikeSharp.API.Modules.Timers.Timer DcWardenNotifyTimer()
     {
         return AddTimer(300f, () =>

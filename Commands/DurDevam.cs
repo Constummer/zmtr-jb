@@ -16,6 +16,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         Server.ExecuteCommand($"sv_maxspeed 0");
         Server.PrintToChatAll($"{Prefix} {CC.W}Herkes durduruldu.");
     }
@@ -27,6 +28,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         Server.ExecuteCommand($"sv_maxspeed 320");
         Server.PrintToChatAll($"{Prefix} {CC.W}Yürüme düzeltildi.");
     }

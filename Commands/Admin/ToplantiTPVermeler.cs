@@ -25,13 +25,6 @@ public partial class JailbreakExtras
         public int Xp { get; set; }
     }
 
-    [ConsoleCommand("ToplantiTPVermeler")]
-    [CommandHelper(whoCanExecute: CommandUsage.SERVER_ONLY)]
-    public void ToplantiTPVermeler(CCSPlayerController? player, CommandInfo info)
-    {
-        ToplantiTpVermelerAction();
-    }
-
     [ConsoleCommand("ToplantiTPVermeler2")]
     [CommandHelper(whoCanExecute: CommandUsage.SERVER_ONLY)]
     public void ToplantiTPVermeler2(CCSPlayerController? player, CommandInfo info)

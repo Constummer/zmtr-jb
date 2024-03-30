@@ -42,6 +42,8 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.W}Birden fazla oyuncu bulundu.");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         var x = players.FirstOrDefault();
 
         if (ValidateCallerPlayer(x, false) == false) return;

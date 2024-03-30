@@ -33,6 +33,7 @@ public partial class JailbreakExtras
             }
             else
             {
+                LogManagerCommand(player.SteamID, info.GetCommandString);
                 BasicCountdown.CommandStartTextCountDown(this, $"{T_PluralCamelPossesive} donunun bozulmasına {value} saniye kaldı!");
                 unfzTimer?.Kill();
                 unfzTimer = AddTimer(value, () =>
@@ -75,6 +76,7 @@ public partial class JailbreakExtras
         var target = info.ArgString.GetArg(0);
         var targetArgument = GetTargetArgument(target);
 
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         bool randomFreeze = false;
         GetPlayers()
             .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player))

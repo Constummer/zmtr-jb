@@ -35,6 +35,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         GetPlayers()
             .Where(x => x.PlayerName?.ToLower()?.Contains(target?.ToLower()) ?? false
@@ -82,6 +83,7 @@ public partial class JailbreakExtras
             return;
         }
         var x = players.FirstOrDefault();
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         if (value <= 0)
         {

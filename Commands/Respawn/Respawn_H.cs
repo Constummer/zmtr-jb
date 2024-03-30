@@ -33,6 +33,7 @@ public partial class JailbreakExtras
         }
         var x = players.FirstOrDefault();
         if (ValidateCallerPlayer(x, false) == false) return;
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         RespawnPlayer(x);
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu öldüğü yerde {CC.B}canlandırdı{CC.W}.");

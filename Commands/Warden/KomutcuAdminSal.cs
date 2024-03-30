@@ -44,6 +44,7 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.W}Aktif hiç admin bulunamadı");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         var kaMenu = new ChatMenu("Komutçu Admin Menü");
         kaMenu.AddMenuOption("Seçeceğin Admin Komutçu Admin Olacak!", null, true);
         players.ForEach(x =>

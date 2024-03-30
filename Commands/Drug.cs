@@ -28,6 +28,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         DrugTimer?.Kill();
         DrugTimer = null;
         return;
@@ -71,6 +72,7 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix}{CC.W} 0 = kapatmak icin, 1 = acmak icin.");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         var targetArgument = GetTargetArgument(target);
         DrugTimer = AddTimer(1f, () =>
         {
@@ -126,6 +128,7 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix}{CC.W} 0 = kapatmak icin, 1 = acmak icin.");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         var targetArgument = GetTargetArgument(target);
         DrugTimer = AddTimer(1f, () =>
         {
@@ -213,6 +216,7 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix}{CC.W} 0 = kapatmak icin, 1 = acmak icin.");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         var targetArgument = GetTargetArgument(target);
         DrugTimer = AddTimer(1f, () =>
         {

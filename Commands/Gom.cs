@@ -23,6 +23,7 @@ public partial class JailbreakExtras
         var target = info.ArgString.GetArg(0);
         var targetArgument = GetTargetArgument(target);
 
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers()
              .Where(x => x.PawnIsAlive
                      && GetTargetAction(x, target, player))
@@ -69,6 +70,7 @@ public partial class JailbreakExtras
             }
             else
             {
+                LogManagerCommand(player.SteamID, info.GetCommandString);
                 BasicCountdown.CommandStartTextCountDown(this, $"{T_PluralCamelPossesive} gömülmesine {value} saniye kaldı!");
                 _ = AddTimer(value, () =>
                 {
@@ -112,6 +114,7 @@ public partial class JailbreakExtras
         var target = info.ArgString.GetArg(0);
         var targetArgument = GetTargetArgument(target);
 
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers()
            .Where(x => x.PawnIsAlive
                    && GetTargetAction(x, target, player))

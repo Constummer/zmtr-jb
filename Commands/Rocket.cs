@@ -28,6 +28,7 @@ public partial class JailbreakExtras
         }
         if (info.ArgCount != 2) return;
         var target = info.ArgString.GetArg(0);
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         var targetArgument = GetTargetArgument(target);
         GetPlayers()
                     .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player))

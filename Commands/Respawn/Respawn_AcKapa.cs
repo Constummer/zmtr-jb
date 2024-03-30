@@ -20,6 +20,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers()
             .Where(x => x.PawnIsAlive == false)
             .ToList()
@@ -38,6 +39,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         RespawnKapatAction();
     }
 

@@ -17,6 +17,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers(CsTeam.CounterTerrorist)
            .Where(x => x.SteamID != LatestWCommandUser)
            .ToList()

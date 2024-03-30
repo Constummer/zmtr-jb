@@ -18,6 +18,7 @@ public partial class JailbreakExtras
             return;
         }
 
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers(CsTeam.Terrorist)
                          .Where(x => x.PawnIsAlive)
                          .ToList()
@@ -46,6 +47,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         TdonbozAction();
         FreezeOrUnfreezeSound();
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{T_PluralCamelPossesive} {CC.B}donunu kaldırdı{CC.W}.");

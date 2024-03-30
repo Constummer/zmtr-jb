@@ -48,6 +48,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         RemoveWeapons(mahk, true);
         RemoveWeapons(gard, true);
         SetColour(gard, DefaultColor);

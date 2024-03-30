@@ -22,6 +22,7 @@ public partial class JailbreakExtras
         }
         if (ValidateCallerPlayer(player, false) == false) return;
 
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         CheckAndGiveWeeklyKomCredit(player);
     }
 

@@ -38,6 +38,7 @@ public partial class JailbreakExtras
         }
         else
         {
+            LogManagerCommand(player.SteamID, info.GetCommandString);
             var fastRev = players.FirstOrDefault();
             if (fastRev != null)
             {

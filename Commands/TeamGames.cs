@@ -32,6 +32,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         TgActive = false;
         TgTimer?.Kill();
         TgTimer = null;
@@ -59,6 +60,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         InitializeTG(player);
     }
 }

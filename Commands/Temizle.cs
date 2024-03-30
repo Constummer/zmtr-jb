@@ -18,6 +18,7 @@ public partial class JailbreakExtras
         }
         var target = Utilities.FindAllEntitiesByDesignerName<CBaseEntity>("weapon_");
 
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         var playerWeaponIndexes = new List<uint>();
         GetPlayers()
             .Where(x => x.PawnIsAlive)

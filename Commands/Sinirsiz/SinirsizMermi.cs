@@ -20,6 +20,7 @@ public partial class JailbreakExtras
             return;
         }
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W} sınırsız mermi açtı.");
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         UnlimitedReserverAmmoActive = true;
     }

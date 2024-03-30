@@ -26,6 +26,8 @@ public partial class JailbreakExtras
             player!.PrintToChat($"{Prefix}{CC.G} Miktar duzgun deil!");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         GetPlayers()
                .Where(x => GetTargetAction(x, target, player))
                .ToList()

@@ -36,6 +36,7 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.W}Komutçu olabilmek için CT takımında olman gerekmektedir!");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         player.VoiceFlags &= ~VoiceFlags.Muted;
         SetColour(player, Color.FromArgb(255, 0, 0, 255));
@@ -81,6 +82,7 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.W}Şu an {CC.G}{warden.PlayerName}{CC.W} isimli oyuncu komutçu. Bu komutu sadece komutçu kullanabilir!");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         player.PrintToChat($"{Prefix} {CC.W}!w - komutçu ol");
         player.PrintToChat($"{Prefix} {CC.W}!uw - komutçuluktan ayrıl.");
@@ -109,6 +111,7 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.W}Şu an {CC.G}{warden.PlayerName}{CC.W} isimli oyuncu komutçu. Bu komutu sadece komutçu kullanabilir!");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         KomStartTime = null;
         LatestWCommandUser = null;
         ClearLasers();
@@ -132,6 +135,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         var warden = GetWarden();
         if (warden == null)
         {

@@ -18,6 +18,7 @@ public partial class JailbreakExtras
             return;
         }
         if (info.ArgCount != 2) return;
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         var target = info.ArgString.GetArg(0);
         MuteAction(player, target);
     }
@@ -29,6 +30,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         MuteAction(player, "@t");
     }
 
@@ -39,6 +41,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         MuteAction(player, "@ct");
     }
 
@@ -49,6 +52,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         MuteAction(player, "@all");
     }
 

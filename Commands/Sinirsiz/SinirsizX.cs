@@ -22,6 +22,7 @@ public partial class JailbreakExtras
             return;
         }
         var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         if (info.ArgCount > 2)
         {
             var weapon = info.ArgCount > 2 ? info.ArgString.GetArg(1) : null;

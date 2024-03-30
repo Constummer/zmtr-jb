@@ -19,6 +19,8 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         Server.ExecuteCommand($"mp_damage_headshot_only 0");
         Server.PrintToChatAll($"{Prefix} {CC.W} Headshot-only kapandı.");
     }
@@ -31,6 +33,8 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         Server.ExecuteCommand($"mp_damage_headshot_only 1");
         Server.PrintToChatAll($"{Prefix} {CC.W} Headshot-only açıldı.");
     }

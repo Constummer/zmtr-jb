@@ -45,6 +45,7 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.W}Hayatta olmayan birisinin ismini verdin.");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         ResGelHpAction(x, health, player.PlayerName);
     }

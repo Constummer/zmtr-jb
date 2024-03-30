@@ -18,6 +18,8 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         Server.ExecuteCommand($"sv_enablebunnyhopping 1;sv_autobunnyhopping 1");
         Server.PrintToChatAll($"{Prefix} {CC.W}Bunny açıldı.");
     }
@@ -31,6 +33,8 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         Server.ExecuteCommand($"sv_enablebunnyhopping 0;sv_autobunnyhopping 0");
         Server.PrintToChatAll($"{Prefix} {CC.W}Bunny kapandı.");
     }

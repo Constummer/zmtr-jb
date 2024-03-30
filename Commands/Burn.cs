@@ -20,6 +20,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         BurnTimer?.Kill();
         BurnTimer = null;
         return;
@@ -52,6 +53,7 @@ public partial class JailbreakExtras
         var targetArgument = GetTargetArgument(target);
         var counter = 0;
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.B}burnledi");
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         BurnTimer?.Kill();
 
         BurnTimer = AddTimer(0.5f, () =>

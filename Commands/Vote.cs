@@ -23,13 +23,14 @@ public partial class JailbreakExtras
     [ConsoleCommand("oyla")]
     [ConsoleCommand("oylama")]
     [CommandHelper(minArgs: 2, usage: "<soru> [... şıklar ...]", whoCanExecute: CommandUsage.CLIENT_AND_SERVER)]
-    public void OnVoteCommand(CCSPlayerController? player, CommandInfo command)
+    public void OnVoteCommand(CCSPlayerController? player, CommandInfo info)
     {
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         if (OnCommandValidater(player, true, "@css/seviye26", "@css/seviye26") == false)
         {
             return;
         }
-        VoteAction(player, command.ArgString);
+        VoteAction(player, info.ArgString);
     }
 
     private void VoteAction(CCSPlayerController? player, string argstr, short voteTime = 20, Action mapDkFinished = null)
@@ -159,12 +160,13 @@ public partial class JailbreakExtras
 
     [ConsoleCommand("cancelvote")]
     [ConsoleCommand("oylamaiptal")]
-    public void CancelVote(CCSPlayerController? player, CommandInfo command)
+    public void CancelVote(CCSPlayerController? player, CommandInfo info)
     {
         if (OnCommandValidater(player, true, "@css/seviye26", "@css/seviye26") == false)
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         Answers?.Clear();
 
         VoteInProgress = false;

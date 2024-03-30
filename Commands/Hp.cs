@@ -25,6 +25,7 @@ public partial class JailbreakExtras
             player!.PrintToChat($"{Prefix}{CC.G} Can değeri yanlış!");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         var targetArgument = GetTargetArgument(target);
         GetPlayers()
                .Where(x => x.PawnIsAlive
@@ -57,6 +58,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers(CsTeam.Terrorist)
                .Where(x => x.PawnIsAlive)
                .ToList()
@@ -76,6 +78,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers(CsTeam.CounterTerrorist)
                .Where(x => x.PawnIsAlive)
                .ToList()
@@ -95,6 +98,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers()
                .Where(x => x.PawnIsAlive)
                .ToList()

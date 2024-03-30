@@ -17,6 +17,7 @@ public partial class JailbreakExtras
             return;
         }
         if (info.ArgCount <= 1) return;
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         BasicCountdown.CommandStartTextCountDown(this, info.ArgString);
     }
 

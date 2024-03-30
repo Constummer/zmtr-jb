@@ -42,6 +42,7 @@ public partial class JailbreakExtras
                 return;
             }
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         TakimYapAction(chunk);
     }
@@ -55,6 +56,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         TakimBozAction();
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.W} Takımları sildi");
     }

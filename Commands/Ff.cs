@@ -48,6 +48,7 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix}{CC.W} 0 = kapatmak icin, 1 = acmak icin.");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         switch (oneZero)
         {
             case 0:
@@ -68,6 +69,7 @@ public partial class JailbreakExtras
             return;
         }
         BasicCountdown.StopCountdown();
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         FFTimer?.Kill();
         fzTimer?.Kill();
@@ -83,6 +85,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         Ff(true);
     }
 
@@ -94,6 +97,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         Ff(false);
     }
 
@@ -107,6 +111,7 @@ public partial class JailbreakExtras
         }
         if (info.ArgCount != 2) return;
         var target = info.ArgString.GetArg(0);
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         if (int.TryParse(target, out int value))
         {
@@ -157,6 +162,7 @@ public partial class JailbreakExtras
             }
             else
             {
+                LogManagerCommand(player.SteamID, info.GetCommandString);
                 BasicCountdown.CommandStartTextCountDown(this, $"[{msg}] {Environment.NewLine}Donmak için {value} saniye!");
                 FFTimer?.Kill();
                 FFTimer = AddTimer(value, () =>
@@ -217,6 +223,7 @@ public partial class JailbreakExtras
                 }
                 Server.PrintToChatAll($"{Prefix}{CC.W} Hook el boyunca kapalı.");
                 HookDisabled = true;
+                LogManagerCommand(player.SteamID, info.GetCommandString);
                 BasicCountdown.CommandStartTextCountDown(this, $"FF açılmasına {value} saniye kaldı");
                 GetPlayers(CsTeam.Terrorist)
                  .Where(x => x.PawnIsAlive && ValidateCallerPlayer(x, false))

@@ -32,6 +32,7 @@ public partial class JailbreakExtras
 
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         var targetArgument = GetTargetArgument(target);
         GetPlayers()

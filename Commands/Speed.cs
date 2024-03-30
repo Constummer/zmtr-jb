@@ -26,6 +26,7 @@ public partial class JailbreakExtras
         var target = info.ArgString.GetArg(0);
         var targetArgument = GetTargetArgument(target);
         SpeedActive = false;
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers()
                .Where(x => x.PawnIsAlive
                         && x.Pawn.Value != null
@@ -64,6 +65,7 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix}{CC.W} 0-1 kapatmak için, 2-9 hız ayarlamak için.");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         var targetArgument = GetTargetArgument(target);
         GetPlayers()
                .Where(x => x.PawnIsAlive

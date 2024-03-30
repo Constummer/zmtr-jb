@@ -18,6 +18,7 @@ public partial class JailbreakExtras
         }
         var players = GetPlayers();
 
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         CekilisAction(players);
     }
 
@@ -33,6 +34,7 @@ public partial class JailbreakExtras
         }
         var players = GetPlayers(CsTeam.Terrorist);
 
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         CekilisAction(players);
     }
 
@@ -48,6 +50,7 @@ public partial class JailbreakExtras
         }
         var players = GetPlayers().Where(x => x.PawnIsAlive == false);
 
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         CekilisAction(players);
     }
 
@@ -63,6 +66,7 @@ public partial class JailbreakExtras
         }
         var players = GetPlayers().Where(x => x.PawnIsAlive);
 
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         CekilisAction(players);
     }
 
@@ -78,6 +82,7 @@ public partial class JailbreakExtras
         }
         var players = GetPlayers(CsTeam.CounterTerrorist);
 
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         CekilisAction(players);
     }
 

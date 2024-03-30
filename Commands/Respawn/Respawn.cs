@@ -25,6 +25,7 @@ public partial class JailbreakExtras
         if (info.ArgCount != 2) return;
         var target = info.ArgString.GetArg(0);
         var targetArgument = GetTargetArgument(target);
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         GetPlayers()
                    .Where(x => x.PawnIsAlive == false && GetTargetAction(x, target, player))
@@ -53,6 +54,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         GetPlayers(CsTeam.Terrorist)
                    .Where(x => x.PawnIsAlive == false)
@@ -74,6 +76,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers(CsTeam.CounterTerrorist)
                    .Where(x => x.PawnIsAlive == false)
                    .ToList()
@@ -94,6 +97,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         GetPlayers()
                    .Where(x => x.PawnIsAlive == false)

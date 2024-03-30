@@ -36,6 +36,7 @@ public partial class JailbreakExtras
         KomalTimer = null;
         KomalPrintTimer?.Kill();
         KomalPrintTimer = null;
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         Server.PrintToChatAll($"{Prefix} {CC.DR}{player.PlayerName} {CC.W}Komutçu alımı iptal edildi.");
         Server.PrintToChatAll($"{Prefix} {CC.DR}{player.PlayerName} {CC.W}Komutçu alımı iptal edildi.");
     }
@@ -50,6 +51,7 @@ public partial class JailbreakExtras
         KomActive = false;
         KomAdays?.Clear();
         KomAlAnswers?.Clear();
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         Server.PrintToChatAll($"{Prefix} {CC.G}Komutçu alımı başladı! Komutçu adayı olmak için !komaday yazın.");
         Server.PrintToChatAll($"{Prefix} {CC.G}Komutçu alımı başladı! Komutçu adayı olmak için !komaday yazın.");
         Server.PrintToChatAll($"{Prefix} {CC.G}Komutçu adaylığından ayrılmak için !komadayiptal yazın.");

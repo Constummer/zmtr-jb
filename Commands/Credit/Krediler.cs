@@ -23,6 +23,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         GetPlayers()
                 .ToList()

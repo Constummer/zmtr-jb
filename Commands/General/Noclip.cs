@@ -18,19 +18,21 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         if (info.ArgCount < 2)
         {
             if (player.PlayerPawn.Value.MoveType == MoveType_t.MOVETYPE_NOCLIP)
             {
                 Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}kendi {CC.B}noclip'ini {CC.W}kaldirdi.");
-                        SetMoveType(player, MoveType_t.MOVETYPE_WALK);
+                SetMoveType(player, MoveType_t.MOVETYPE_WALK);
             }
             else
             {
                 Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}kendine {CC.B}noclip {CC.W}verdi.");
-                        SetMoveType(player, MoveType_t.MOVETYPE_NOCLIP);
+                SetMoveType(player, MoveType_t.MOVETYPE_NOCLIP);
             }
+
             RefreshPawn(player);
         }
         else

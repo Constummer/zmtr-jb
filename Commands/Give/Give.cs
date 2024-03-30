@@ -27,6 +27,8 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         var targetArgument = GetTargetArgument(target);
         GiveAction(player, target, weapon, targetArgument, true);
         if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
@@ -51,6 +53,8 @@ public partial class JailbreakExtras
             return;
         }
         if (info.ArgCount != 3) return;
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         var target = info.ArgString.GetArg(0);
         var weapon = GiveHandler(info.ArgString.GetArg(1));
         var targetArgument = GetTargetArgument(target);

@@ -21,6 +21,7 @@ public partial class JailbreakExtras
             return;
         }
         var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         SinirsizXKapaAction(target, player);
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.Ol}{target} {CC.W} hedefinin {CC.DB}SMX{CC.W}'ini kapattı.");

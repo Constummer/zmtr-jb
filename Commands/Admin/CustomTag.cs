@@ -57,6 +57,8 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix}{CC.W} tag hatali");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         var data = new CustomTagData()
         {
             TagName = tag,
@@ -147,6 +149,8 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.W}Birden fazla oyuncu bulundu.");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         var y = players.FirstOrDefault();
         if (ValidateCallerPlayer(y, false) == false) return;
 

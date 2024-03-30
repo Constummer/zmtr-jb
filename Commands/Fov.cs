@@ -29,6 +29,7 @@ public partial class JailbreakExtras
             return;
         }
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W} FOV'u kapadı.");
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         FovKapaAction(player);
     }
@@ -41,6 +42,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W} FOV'u açtı.");
         Config.UnrestrictedFov.Enabled = true;
     }

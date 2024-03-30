@@ -46,6 +46,7 @@ public partial class JailbreakExtras
             return;
         }
         var y = players.FirstOrDefault();
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         if (ValidateCallerPlayer(y, false) == false) return;
 
         if (SutTeamPlayers.Any(x => x == y.SteamID))

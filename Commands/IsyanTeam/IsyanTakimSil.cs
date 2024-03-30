@@ -48,6 +48,7 @@ public partial class JailbreakExtras
         }
         var y = players.FirstOrDefault();
         if (ValidateCallerPlayer(y, false) == false) return;
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         if (IsyanTeamPlayers.Any(x => x == y.SteamID) == false)
         {

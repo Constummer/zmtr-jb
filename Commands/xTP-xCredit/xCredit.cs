@@ -18,6 +18,7 @@ public partial class JailbreakExtras
             player.PrintToChat(NotEnoughPermission);
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         CreditModifier = 2;
         Server.PrintToChatAll($"{Prefix}{CC.B} 2x{CC.W} kredi kazanımı başlamıştır.");
     }
@@ -30,6 +31,7 @@ public partial class JailbreakExtras
             player.PrintToChat(NotEnoughPermission);
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         CreditModifier = 3;
         Server.PrintToChatAll($"{Prefix}{CC.B} 3x{CC.W} kredi kazanımı başlamıştır.");
     }
@@ -42,6 +44,7 @@ public partial class JailbreakExtras
             player.PrintToChat(NotEnoughPermission);
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         CreditModifier = 4;
         Server.PrintToChatAll($"{Prefix}{CC.B} 4x{CC.W} kredi kazanımı başlamıştır.");
     }
@@ -61,6 +64,7 @@ public partial class JailbreakExtras
             player.PrintToChat(NotEnoughPermission);
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         CreditModifier = 1;
         Server.PrintToChatAll($"{Prefix}{CC.W} kredi kazanımları normale dönmüştür.");
     }

@@ -54,6 +54,8 @@ public partial class JailbreakExtras
         }
         else
         {
+            LogManagerCommand(player.SteamID, info.GetCommandString);
+
             MapDKLastVoterSteamId = player.SteamID;
             VoteAction(player, "Map Değiş Kal", 20, MapDkFinished);
         }

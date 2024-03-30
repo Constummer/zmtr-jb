@@ -38,6 +38,7 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.B}Sadece {CC.W} Komutçu bu komutu kullanabilir");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         IseliTimer?.Kill();
         RespawnKapatAction();
         IsEliMenuCheck = false;
@@ -75,11 +76,13 @@ public partial class JailbreakExtras
             }
             else
             {
+                LogManagerCommand(player.SteamID, info.GetCommandString);
                 IsEliStart(value); return;
             }
         }
         else
         {
+            LogManagerCommand(player.SteamID, info.GetCommandString);
             IsEliStart(value); return;
         }
     }

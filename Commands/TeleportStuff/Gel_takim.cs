@@ -34,11 +34,13 @@ public partial class JailbreakExtras
             }
             else
             {
+                LogManagerCommand(player.SteamID, info.GetCommandString);
                 GelTeam(player, value);
             }
         }
         else
         {
+            LogManagerCommand(player.SteamID, info.GetCommandString);
             GelTeam(player, value);
         }
     }
@@ -50,6 +52,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GelTeam(player, CC.R);
     }
 
@@ -60,6 +63,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GelTeam(player, CC.B);
     }
 
@@ -70,6 +74,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GelTeam(player, CC.G);
     }
 
@@ -80,6 +85,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GelTeam(player, CC.Gr);
     }
 

@@ -50,6 +50,7 @@ public partial class JailbreakExtras
         }
         if (info.ArgCount != 2) return;
         var target = info.ArgString.GetArg(0);
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers()
               .Where(x => GetTargetAction(x, target, null))
               .ToList()
@@ -82,6 +83,7 @@ public partial class JailbreakExtras
         var target = info.ArgString.GetArg(0);
         var targetArgument = GetTargetArgument(target);
 
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers()
              .Where(x => x.PawnIsAlive
                      && GetTargetAction(x, target, player))
@@ -114,6 +116,7 @@ public partial class JailbreakExtras
         }
         if (info.ArgCount != 2) return;
         var target = info.ArgString.GetArg(0);
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers()
               .Where(x => GetTargetAction(x, target, null))
               .ToList()
@@ -155,6 +158,7 @@ public partial class JailbreakExtras
             return;
         }
         Server.PrintToChatAll($"{Prefix}{CC.W} Hook el boyunca kapalı.");
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         HookDisabled = true;
     }

@@ -42,6 +42,7 @@ public partial class JailbreakExtras
             return;
         }
         var team = sk.TeamNum;
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers((CsTeam)team)
           .Where(x => x.PawnIsAlive && x.SteamID != sk.SteamID)
           .ToList()

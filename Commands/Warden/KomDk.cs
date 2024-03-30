@@ -51,6 +51,7 @@ public partial class JailbreakExtras
         }
         var substract = (DateTime.UtcNow - KomStartTime.Value).TotalSeconds;
         TimeSpan remainingTime = TimeSpan.FromMinutes(45) - TimeSpan.FromSeconds(substract);
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         if (remainingTime.TotalSeconds > 0)
         {
             var dk = $"{CC.B}{remainingTime.ToString("mm")}{CC.W}";
