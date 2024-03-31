@@ -1,6 +1,8 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Commands;
+using Microsoft.Extensions.Logging;
+using MySqlConnector;
 using System.ComponentModel.Design;
 
 namespace JailbreakExtras;
@@ -11,6 +13,31 @@ public partial class JailbreakExtras
     {
         AddCommandListener("say", OnSay);
         AddCommandListener("say_team", OnSayTeam);
+    }
+
+    private void LogPlayerChat(ulong steamId, string msg)
+    {
+        try
+        {
+            using (var con = Connection())
+            {
+                if (con == null)
+                {
+                    return;
+                }
+                var cmd = new MySqlCommand(@$"INSERT INTO `PlayerChat`
+                                     (SteamId,Msg)
+                                     VALUES (@SteamId,@Msg);", con);
+
+                cmd.Parameters.AddWithValue("@SteamId", steamId);
+                cmd.Parameters.AddWithValue("@Msg", msg);
+                cmd.ExecuteNonQuery();
+            }
+        }
+        catch (Exception e)
+        {
+            Logger.LogError(e, "hata");
+        }
     }
 
     private HookResult OnSayTeam(CCSPlayerController? player, CommandInfo commandInfo)
@@ -36,6 +63,8 @@ public partial class JailbreakExtras
         {
             return HookResult.Continue;
         }
+        LogPlayerChat(player.SteamID, arg);
+
         if (arg.StartsWith("!") || arg.StartsWith("/") || arg.StartsWith("css_"))
         {
             if (KomKalanIntercepter(player, arg))

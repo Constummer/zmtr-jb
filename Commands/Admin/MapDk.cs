@@ -20,7 +20,7 @@ public partial class JailbreakExtras
         if (ValidateCallerPlayer(player, false) == false) return;
 
         var substract = (DateTime.UtcNow - MapStartTime.Value).TotalSeconds;
-        TimeSpan remainingTime = TimeSpan.FromHours(4) - TimeSpan.FromSeconds(substract);
+        TimeSpan remainingTime = TimeSpan.FromHours(8) - TimeSpan.FromSeconds(substract);
         if (remainingTime.TotalSeconds > 0)
         {
             var saat = $"{CC.B}{remainingTime.ToString("hh")}{CC.W}";
@@ -44,7 +44,7 @@ public partial class JailbreakExtras
     {
         if (ValidateCallerPlayer(player) == false) return;
         var substract = (DateTime.UtcNow - MapStartTime.Value).TotalSeconds;
-        TimeSpan remainingTime = TimeSpan.FromHours(4) - TimeSpan.FromSeconds(substract);
+        TimeSpan remainingTime = TimeSpan.FromHours(8) - TimeSpan.FromSeconds(substract);
         if (remainingTime.TotalSeconds > 0)
         {
             var saat = $"{CC.B}{remainingTime.ToString("hh")}{CC.W}";
@@ -80,15 +80,6 @@ public partial class JailbreakExtras
 
         if (degisCount > kalCount)
         {
-            if (GetPlayerCount() * 0.4 <= degisCount)
-            {
-                Server.PrintToChatAll($"{Prefix} MAP, SERVERIN %40'I OY VERMEDİĞİ İÇİN MAP DEĞİŞMİYOR");
-                Server.PrintToChatAll($"{Prefix} MAP, SERVERIN %40'I OY VERMEDİĞİ İÇİN MAP DEĞİŞMİYOR");
-                Server.PrintToChatAll($"{Prefix} MAP, SERVERIN %40'I OY VERMEDİĞİ İÇİN MAP DEĞİŞMİYOR");
-                MapStartTime = DateTime.UtcNow;
-                return;
-            }
-
             var player = GetPlayers().Where(x => x.SteamID == MapDKLastVoterSteamId).FirstOrDefault();
             if (player == null)
             {
@@ -109,6 +100,14 @@ public partial class JailbreakExtras
     {
         var tempAnswers = Answers;
         var highest = tempAnswers.OrderByDescending(x => x.Value).FirstOrDefault();
+        if (GetPlayerCount() * 0.4 > highest.Value)
+        {
+            Server.PrintToChatAll($"{Prefix} MAP, SERVERIN %40'I AYNI MAPE OY VERMEDİĞİ İÇİN MAP DEĞİŞMİYOR");
+            Server.PrintToChatAll($"{Prefix} MAP, SERVERIN %40'I AYNI MAPE OY VERMEDİĞİ İÇİN MAP DEĞİŞMİYOR");
+            Server.PrintToChatAll($"{Prefix} MAP, SERVERIN %40'I AYNI MAPE OY VERMEDİĞİ İÇİN MAP DEĞİŞMİYOR");
+            MapStartTime = DateTime.UtcNow;
+            return;
+        }
 
         Config.Map.MapWorkshopIds.TryGetValue(highest.Key, out var mapWorkshopId);
         if (mapWorkshopId != 0)

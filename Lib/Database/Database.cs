@@ -105,6 +105,15 @@ public partial class JailbreakExtras
                     await cmd.ExecuteNonQueryAsync();
 
                     cmd = new MySqlCommand(
+                    @"CREATE TABLE IF NOT EXISTS `PlayerChat` (
+                         `Id` bigint(20) PRIMARY KEY AUTO_INCREMENT,
+                         `SteamId` bigint(20) DEFAULT NULL,
+                         `Msg` TEXT DEFAULT NULL,
+                         `Time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
+                       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
+                    await cmd.ExecuteNonQueryAsync();
+
+                    cmd = new MySqlCommand(
                     @"CREATE TABLE IF NOT EXISTS `PlayerBan` (
                           `SteamId` bigint(20) DEFAULT NULL,
                           `BannedBySteamId` bigint(20) DEFAULT NULL,

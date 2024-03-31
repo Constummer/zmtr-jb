@@ -9,9 +9,9 @@ namespace JailbreakExtras
         {
             {"jb_zmtr_v2remake", 3176846225 },
             {"jb_zmtr_triplex", 3170722498},
-            {"jb_zmtr_minecraft_party", 3168967727},
-            {"jb_zmtr_uzay", 3164210735},
             {"jb_zmtr_ramazan", 3183895434},
+            //{"jb_zmtr_minecraft_party ", 3168967727},
+            //{"jb_zmtr_uzay ", 3164210735},
         };
 
         [JsonPropertyName("MapCellCoords")]
