@@ -91,11 +91,6 @@ public partial class JailbreakExtras
 
     private static void GelTeam(CCSPlayerController? player, char color)
     {
-        if (player.PawnIsAlive == false)
-        {
-            return;
-        }
-
         var index = GetTeamIndexByColor(color);
 
         if (index == -1)
@@ -115,7 +110,7 @@ public partial class JailbreakExtras
                       {
                           if (plist.Contains(x.SteamID))
                           {
-                              var playerAbs = player.PlayerPawn.Value.AbsOrigin;
+                              var playerAbs = player.PawnIsAlive == false ? player.Pawn.Value.AbsOrigin : player.PlayerPawn.Value.AbsOrigin;
                               x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 1, playerAbs.Z), new QAngle(0f, 0f, 0f), new Vector(0f, 0f, 0f));
                           }
                       }
