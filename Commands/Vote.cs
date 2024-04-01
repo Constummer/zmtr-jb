@@ -142,10 +142,6 @@ public partial class JailbreakExtras
             {
                 Server.PrintToChatAll($"{Prefix}{CC.Or} {kvp.Key} {CC.W} - {CC.Y}{kvp.Value}");
             }
-            if (mapDkFinished != null)
-            {
-                mapDkFinished();
-            }
             Answers.Clear();
             VoteInProgress = false;
             LatestVoteMenu = null;
@@ -153,6 +149,10 @@ public partial class JailbreakExtras
             VotePrintTimer = null;
             LatestVoteAnswerCommandCalls?.Clear();
             AlreadyVotedPlayers.Clear();
+            if (mapDkFinished != null)
+            {
+                mapDkFinished();
+            }
         }, SOM);
 
         return;
