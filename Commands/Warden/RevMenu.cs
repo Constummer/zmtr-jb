@@ -10,6 +10,7 @@ namespace JailbreakExtras;
 public partial class JailbreakExtras
 {
     private static int CurrentCtRespawns = 0;
+    private static bool CurrentCtRespawnFirst = false;
 
     #region RevMenu
 

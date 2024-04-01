@@ -17,6 +17,7 @@ public partial class JailbreakExtras
         KilledPlayers?.Clear();
         LatestHediyeCommandCalls?.Clear();
         HookDisablePlayers?.Clear();
+        CurrentCtRespawnFirst = false;
         HookDisabled = false;
         CitEnabledPlayers?.Clear();
         TeamSteamIds?.Clear();
