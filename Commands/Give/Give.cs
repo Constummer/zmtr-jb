@@ -100,6 +100,13 @@ public partial class JailbreakExtras
             "smk" => "smokegrenade",
             "flash" => "flashbang",
             "fb" => "flashbang",
+            "cz" => "cz75a",
+            "cz7" => "cz75a",
+            "cz75" => "cz75a",
+            "dual" => "elite",
+            "baretta" => "elite",
+            "dual baretta" => "elite",
+            "baret" => "elite",
             null => "",
             _ => input
         };
