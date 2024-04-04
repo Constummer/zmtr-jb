@@ -74,7 +74,7 @@ public partial class JailbreakExtras
     public List<TGBaseClass> SoloTGGamesMenu { get; set; } = new()
     {
         //new ("Chicken Hunt",      false,  null, TeamGamesSoloChoices.ChickenHunt),
-        new ("Hot Patato",        false,  null, TeamGamesSoloChoices.HotPatato),
+        new ("Hot Patato",        true,  null, TeamGamesSoloChoices.HotPatato),
         //new ("Chicken Roulette",  false,  null, TeamGamesSoloChoices.ChickenRoulette),
         new ("Gun Fight",         false,  null, TeamGamesSoloChoices.GunFight),
         new ("HeadShot Only",     false,  null, TeamGamesSoloChoices.HeadShotOnly),
