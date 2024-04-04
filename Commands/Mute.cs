@@ -56,6 +56,17 @@ public partial class JailbreakExtras
         MuteAction(player, "@all");
     }
 
+    [ConsoleCommand("mme")]
+    public void MuteMe(CCSPlayerController? player, CommandInfo info)
+    {
+        if (OnCommandValidater(player, true, "@css/seviye10", "@css/seviye10") == false)
+        {
+            return;
+        }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+        MuteAction(player, "@me");
+    }
+
     private static void MuteAction(CCSPlayerController? player, string target)
     {
         var targetArgument = GetTargetArgument(target);
