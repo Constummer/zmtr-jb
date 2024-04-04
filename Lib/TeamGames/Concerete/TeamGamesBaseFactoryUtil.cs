@@ -26,6 +26,7 @@ public partial class JailbreakExtras
             TeamGamesSoloChoices.Pubg => new SoloPubgTG(),
             TeamGamesSoloChoices.RedLightGreenLight => new SoloRedLightGreenLightTG(),
             TeamGamesSoloChoices.Zombie => new SoloZombieTG(),
+            TeamGamesSoloChoices.Zombie2 => new SoloZombie2TG(),
             _ => null
         };
     }
