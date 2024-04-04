@@ -76,6 +76,7 @@ public partial class JailbreakExtras
         _ = LatestHediyeCommandCalls?.Remove(steamId, out _);
         _ = PlayerMarketModels?.Remove(steamId, out _);
         _ = PlayerLevels?.Remove(steamId, out _);
+        _ = bUsingPara?.Remove(steamId, out _);
         if (Gags?.TryGetValue(steamId, out var date) ?? false)
         {
             if (date > DateTime.UtcNow.AddMonths(1))

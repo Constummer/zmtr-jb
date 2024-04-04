@@ -24,25 +24,25 @@ public partial class JailbreakExtras
             var buttons = player.Buttons;
             if ((buttons & PlayerButtons.Use) != 0 && !player.PlayerPawn.Value!.OnGroundLastTick)
             {
-                if (bUsingPara.TryGetValue(player, out bool _))
+                if (bUsingPara.TryGetValue(player.SteamID, out bool _))
                 {
-                    bUsingPara[player] = true;
+                    bUsingPara[player.SteamID] = true;
                 }
                 else
                 {
-                    bUsingPara.TryAdd(player, true);
+                    bUsingPara.TryAdd(player.SteamID, true);
                 }
                 StartParachute(player);
             }
-            else if (bUsingPara.TryGetValue(player, out bool data) && data)
+            else if (bUsingPara.TryGetValue(player.SteamID, out bool data) && data)
             {
-                if (bUsingPara.TryGetValue(player, out bool _))
+                if (bUsingPara.TryGetValue(player.SteamID, out bool _))
                 {
-                    bUsingPara[player] = false;
+                    bUsingPara[player.SteamID] = false;
                 }
                 else
                 {
-                    bUsingPara.TryAdd(player, false);
+                    bUsingPara.TryAdd(player.SteamID, false);
                 }
                 StopParachute(player);
             }

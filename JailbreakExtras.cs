@@ -29,7 +29,7 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
     private static Dictionary<ulong, bool> HookPlayers = new();
     private static List<ulong> HookDisablePlayers = new();
     private static Dictionary<ulong, Dictionary<ulong, string>> KilledPlayers = new();
-    private static Dictionary<CCSPlayerController, bool> bUsingPara = new();
+    private static Dictionary<ulong, bool> bUsingPara = new();
     private static Dictionary<ulong, string> PlayerNamesDatas = new();
     private static Dictionary<ulong, bool> KomWeeklyWCredits = new();
 
