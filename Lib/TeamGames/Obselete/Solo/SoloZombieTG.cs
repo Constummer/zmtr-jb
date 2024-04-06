@@ -30,9 +30,12 @@ public partial class JailbreakExtras
                         CustomRespawn(x);
                     }
                     if (ValidateCallerPlayer(x, false) == false) return;
-                    SetHp(x, 8_000);
-                    if (ValidateCallerPlayer(x, false) == false) return;
-                    RefreshPawn(x);
+                    Global?.AddTimer(0.5f, () =>
+                   {
+                       SetHp(x, 8_000);
+                       if (ValidateCallerPlayer(x, false) == false) return;
+                       RefreshPawn(x);
+                   });
                 });
             base.StartGame(callback);
         }
