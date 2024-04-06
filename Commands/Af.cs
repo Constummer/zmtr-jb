@@ -18,10 +18,13 @@ public partial class JailbreakExtras
             player.PrintToChat(NotEnoughPermission);
             return;
         }
-        if (CurrentCtRespawnFirst == false)
+        if (IsEliGivenCheck == false)
         {
-            CurrentCtRespawns = 0;
-            CurrentCtRespawnFirst = true;
+            if (CurrentCtRespawnFirst == false)
+            {
+                CurrentCtRespawns = 0;
+                CurrentCtRespawnFirst = true;
+            }
         }
         LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers()

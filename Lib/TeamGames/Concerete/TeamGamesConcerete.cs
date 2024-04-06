@@ -155,5 +155,7 @@ public partial class JailbreakExtras
         internal virtual void EventPlayerHurt(EventPlayerHurt @event)
         {
         }
+
+        internal virtual HookResult OnWeaponCanAcquire(CCSPlayerController client, string weaponName) => HookResult.Continue;
     }
 }

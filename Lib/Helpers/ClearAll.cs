@@ -23,6 +23,7 @@ public partial class JailbreakExtras
         TeamSteamIds?.Clear();
         FFMenuCheck = false;
         SpeedActive = false;
+        IsEliGivenCheck = false;
         SpeedActiveDatas?.Clear();
         SkzV2FailedSteamIds?.Clear();
         DizPlayerId = 0;

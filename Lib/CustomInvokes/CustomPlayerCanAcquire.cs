@@ -1,6 +1,7 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Memory.DynamicFunctions;
+using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
 
@@ -52,7 +53,11 @@ public partial class JailbreakExtras
             hook.SetReturn(AcquireResult.InvalidItem);
         }
 
-        if (PatronuKoruActive)
+        if (ActiveTeamGamesGameBase != null)
+        {
+            return ActiveTeamGamesGameBase?.OnWeaponCanAcquire(client, vdata.Name) ?? HookResult.Continue;
+        }
+        else if (PatronuKoruActive)
         {
             if (ValidateCallerPlayer(client, false) == false) return HookResult.Continue;
             if (client?.SteamID == PatronuKoruCTLider

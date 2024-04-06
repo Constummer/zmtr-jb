@@ -10,6 +10,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    private static bool IsEliGivenCheck { get; set; } = false;
     private static bool IsEliMenuCheck { get; set; } = false;
     private CounterStrikeSharp.API.Modules.Timers.Timer IseliTimer { get; set; } = null;
 
@@ -89,6 +90,7 @@ public partial class JailbreakExtras
 
     private void IsEliStart(int value)
     {
+        IsEliGivenCheck = true;
         Server.PrintToChatAll($"{Prefix}{CC.W} Hook el boyunca kapalı.");
         HookDisabled = true;
         ForceCloseDoor();

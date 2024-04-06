@@ -83,6 +83,23 @@ public partial class JailbreakExtras
             base.EventPlayerDeath(@event);
         }
 
+        internal override HookResult OnWeaponCanAcquire(CCSPlayerController client, string weaponName)
+        {
+            if (GetTeam(client) == CsTeam.CounterTerrorist)
+            {
+                if (weaponName.Contains("knife"))
+                {
+                    return HookResult.Continue;
+                }
+                if (weaponName.Contains("bayonet"))
+                {
+                    return HookResult.Continue;
+                }
+                return HookResult.Stop;
+            }
+            return HookResult.Continue;
+        }
+
         internal override void EventPlayerDisconnect(ulong? tempSteamId)
         {
             if (tempSteamId == null) return;
