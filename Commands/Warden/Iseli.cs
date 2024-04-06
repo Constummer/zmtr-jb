@@ -69,7 +69,7 @@ public partial class JailbreakExtras
                 player.PrintToChat("Max 30 sn girebilirsin");
                 return;
             }
-            else if (value < 5)
+            if (value < 5)
             {
                 player.PrintToChat("Min 5 sn girebilirsin");
                 return;
@@ -83,7 +83,7 @@ public partial class JailbreakExtras
         else
         {
             LogManagerCommand(player.SteamID, info.GetCommandString);
-            IsEliStart(value); return;
+            IsEliStart(20); return;
         }
     }
 
