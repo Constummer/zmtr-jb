@@ -61,6 +61,35 @@ public partial class JailbreakExtras
         return steamids;
     }
 
+    private static void RemoveAllWeaponsCT(bool giveKnife, bool giveFists = false, string custom = null, int? setHp = null)
+    {
+        GetPlayers(CsTeam.CounterTerrorist)
+            .Where(x => x.PawnIsAlive)
+            .ToList()
+            .ForEach(x =>
+            {
+                if (ValidateCallerPlayer(x, false) == false) return;
+                x.RemoveWeapons();
+                if (giveKnife)
+                {
+                    x.GiveNamedItem("weapon_knife");
+                }
+                if (giveFists)
+                {
+                    x.GiveNamedItem("weapon_fists");
+                }
+                if (custom != null)
+                {
+                    x.GiveNamedItem(custom);
+                }
+                if (setHp != null)
+                {
+                    SetHp(x, setHp.Value);
+                    RefreshPawnTP(x);
+                }
+            });
+    }
+
     private static void RemoveWeapon(CCSPlayerController x, string weaponName)
     {
         if (x?.PlayerPawn?.Value?.WeaponServices?.MyWeapons != null)

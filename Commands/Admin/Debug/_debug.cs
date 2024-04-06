@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Memory;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
@@ -41,6 +42,23 @@ public partial class JailbreakExtras
             return;
         }
         Server.PrintToConsole($"{LatestWCommandUser}");
+    }
+
+    [ConsoleCommand("csoundtest")]
+    public void csoundtest(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        //var sound = entity.EmitSound("Weapon_AK47.Single");
+        //sound.SetParameter("volume", 100f);
+        //sound.SetParameter("pitch", 2f);
     }
 
     [ConsoleCommand("cspscs")]
@@ -527,7 +545,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        CBaseEntity_EmitSoundParams(player, "sounds/player/burn_damage3.vsnd_c", p, v, d);
+        //CBaseEntity_EmitSoundParams(player, "sounds/player/burn_damage3.vsnd_c", p, v, d);
     }
 
     [ConsoleCommand("ctakim2")]

@@ -59,6 +59,7 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
 
         #region OtherPlugins
 
+        //EmitSoundExtension.Init();
         GetCSWeaponDataFromKeyFunc = new(GameData.GetSignature("GetCSWeaponDataFromKey"));
         CCSPlayer_CanAcquireFunc = new(GameData.GetSignature("CCSPlayer_CanAcquire"));
         CCSPlayer_CanAcquireFunc.Hook(OnWeaponCanAcquire, HookMode.Pre);
@@ -83,6 +84,8 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
 
     public override void Unload(bool hotReload)
     {
+        //EmitSoundExtension.CleanUp();
+
         CCSPlayer_CanAcquireFunc.Unhook(OnWeaponCanAcquire, HookMode.Pre);
         base.Unload(hotReload);
     }

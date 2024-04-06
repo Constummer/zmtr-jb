@@ -15,28 +15,9 @@ public partial class JailbreakExtras
 
         internal override void StartGame(Action callback)
         {
+            FfActive = false;
             PlayerCount = RemoveAllWeapons(giveKnife: false, custom: "weapon_ak47", setHp: 100);
-            GetPlayers(CsTeam.CounterTerrorist)
-                .ToList()
-                .ForEach(x =>
-                {
-                    if (ValidateCallerPlayer(x, false) == false) return;
-                    x.RemoveWeapons();
-                    if (ValidateCallerPlayer(x, false) == false) return;
-                    x.GiveNamedItem("weapon_knife");
-                    if (ValidateCallerPlayer(x, false) == false) return;
-                    if (x.PawnIsAlive == false)
-                    {
-                        CustomRespawn(x);
-                    }
-                    if (ValidateCallerPlayer(x, false) == false) return;
-                    Global?.AddTimer(0.5f, () =>
-                   {
-                       SetHp(x, 8_000);
-                       if (ValidateCallerPlayer(x, false) == false) return;
-                       RefreshPawn(x);
-                   });
-                });
+            RemoveAllWeaponsCT(true, false, null, 8000);
             base.StartGame(callback);
         }
 
@@ -44,17 +25,7 @@ public partial class JailbreakExtras
         {
             PlayerCount = new();
             RemoveAllWeapons(giveKnife: true);
-            GetPlayers(CsTeam.CounterTerrorist)
-              .Where(x => x.PawnIsAlive)
-              .ToList()
-              .ForEach(x =>
-              {
-                  if (ValidateCallerPlayer(x, false) == false) return;
-                  SetHp(x, 100);
-
-                  if (ValidateCallerPlayer(x, false) == false) return;
-                  RefreshPawn(x);
-              });
+            RemoveAllWeaponsCT(true, false, null, 100);
             base.Clear(printMsg);
         }
 
@@ -69,21 +40,45 @@ public partial class JailbreakExtras
             {
                 var steamid = @event.Userid.SteamID;
                 @event.Userid.ChangeTeam(CsTeam.CounterTerrorist);
-                Global?.AddTimer(0.2f, () =>
+                if (ValidateCallerPlayer(@event.Userid, false) == false) return;
+                Global?.AddTimer(2f, () =>
                 {
-                    var x = GetPlayers().Where(x => x.PawnIsAlive == false && x.SteamID == steamid).FirstOrDefault();
-                    if (ValidateCallerPlayer(x, false) == false) return;
-                    if (x.PawnIsAlive == false)
+                    var x = GetPlayers().Where(x => x.SteamID == steamid).FirstOrDefault();
+                    if (x != null)
                     {
                         if (ValidateCallerPlayer(x, false) == false) return;
                         CustomRespawn(x);
+                        Global?.AddTimer(2f, () =>
+                        {
+                            if (ValidateCallerPlayer(x, false) == false) return;
+                            if (x.PawnIsAlive)
+                            {
+                                x.RemoveWeapons();
+                                if (ValidateCallerPlayer(x, false) == false) return;
+                                x.GiveNamedItem("weapon_knife");
+                                if (ValidateCallerPlayer(x, false) == false) return;
+                                SetHp(x, 8000);
+                                if (ValidateCallerPlayer(x, false) == false) return;
+                                RefreshPawnTP(x);
+                            }
+                        }, SOM);
                     }
-                    if (ValidateCallerPlayer(x, false) == false) return;
-                    SetHp(x, 8_000);
-                    RefreshPawn(x);
-                });
+                }, SOM);
+                //Global?.AddTimer(3f, () =>
+                //{
+                //    var x = GetPlayers().Where(x => x.PawnIsAlive == false && x.SteamID == steamid).FirstOrDefault();
+                //    if (ValidateCallerPlayer(x, false) == false) return;
+                //    if (x.PawnIsAlive == false)
+                //    {
+                //        if (ValidateCallerPlayer(x, false) == false) return;
+                //        CustomRespawn(x);
+                //    }
+                //    if (ValidateCallerPlayer(x, false) == false) return;
+                //    SetHp(x, 8_000);
+                //    RefreshPawn(x);
+                //});
             }
-            SoloCheckGameFinished(this, @event.Userid.SteamID, PlayerCount, @event.Attacker.PlayerName);
+            //SoloCheckGameFinished(this, @event.Userid.SteamID, PlayerCount, @event.Attacker.PlayerName);
 
             base.EventPlayerDeath(@event);
         }
@@ -91,7 +86,7 @@ public partial class JailbreakExtras
         internal override void EventPlayerDisconnect(ulong? tempSteamId)
         {
             if (tempSteamId == null) return;
-            SoloCheckGameFinished(this, tempSteamId.Value, PlayerCount, null);
+            //SoloCheckGameFinished(this, tempSteamId.Value, PlayerCount, null);
 
             base.EventPlayerDisconnect(tempSteamId);
         }
