@@ -9,6 +9,13 @@ public partial class JailbreakExtras
     {
         RegisterListener<Listeners.OnMapStart>(name =>
         {
+            PatronuKoruActive = false;
+            PatronuKoruTLider = null;
+            PatronuKoruCTLider = null;
+            PatronuKoruCTKoruma1 = null;
+            PatronuKoruCTKoruma2 = null;
+            PatronuKoruTKoruma1 = null;
+            PatronuKoruTKoruma2 = null;
             MapStartTime = DateTime.UtcNow;
             Server.ExecuteCommand("mp_force_pick_time 3000");
             Server.ExecuteCommand("mp_autoteambalance 0");

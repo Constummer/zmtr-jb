@@ -13,11 +13,20 @@ public partial class JailbreakExtras
         {
             RoundStartTime = DateTime.UtcNow;
             Server.ExecuteCommand("mp_force_pick_time 3000");
-            Server.ExecuteCommand("mp_autoteambalance 0");
+            if (PatronuKoruActive)
+            {
+                HookDisabled = true;
+                Server.ExecuteCommand($"sv_enablebunnyhopping 0;sv_autobunnyhopping 0");
+                Server.ExecuteCommand("mp_autoteambalance 1");
+            }
+            else
+            {
+                Server.ExecuteCommand("mp_autoteambalance 0");
+                PrepareRoundDefaults();
+            }
             Server.ExecuteCommand("mp_equipment_reset_rounds 1");
             Server.ExecuteCommand("mp_t_default_secondary \"\" ");
             Ruletv2RoundStart();
-            PrepareRoundDefaults();
             ClearAll();
             CoinAfterNewCommander();
             AddTimer(1.0f, () =>
@@ -34,10 +43,14 @@ public partial class JailbreakExtras
                 }
             }
             RoundEndParticles = new();
-            AddTimer(5.0f, () =>
+            if (!PatronuKoruActive)
             {
-                HookDisabled = false;
-            }, SOM);
+                AddTimer(5.0f, () =>
+                {
+                    HookDisabled = false;
+                }, SOM);
+            }
+
             for (int i = 0; i < Server.MaxPlayers; i++)
             {
                 var x = Utilities.GetPlayerFromSlot(i);

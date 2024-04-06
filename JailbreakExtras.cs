@@ -1,6 +1,10 @@
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
+using CounterStrikeSharp.API.Modules.Admin;
+using CounterStrikeSharp.API.Modules.Memory.DynamicFunctions;
 using CounterStrikeSharp.API.Modules.Utils;
+using Microsoft.Extensions.Logging;
 using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
@@ -44,6 +48,7 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
         {
             throw new AccessViolationException("Bu plugin Constummer yapýmýdýr. Çalamazsýn :}");
         }
+
         Checker();
         LoadCredit();
         CreateDataFolder();
@@ -53,6 +58,10 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
         #endregion System Releated
 
         #region OtherPlugins
+
+        GetCSWeaponDataFromKeyFunc = new(GameData.GetSignature("GetCSWeaponDataFromKey"));
+        CCSPlayer_CanAcquireFunc = new(GameData.GetSignature("CCSPlayer_CanAcquire"));
+        CCSPlayer_CanAcquireFunc.Hook(OnWeaponCanAcquire, HookMode.Pre);
 
         BlockRadioCommandsLoad();
         BlockGroupCommandsLoad();
@@ -74,6 +83,7 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
 
     public override void Unload(bool hotReload)
     {
+        CCSPlayer_CanAcquireFunc.Unhook(OnWeaponCanAcquire, HookMode.Pre);
         base.Unload(hotReload);
     }
 }

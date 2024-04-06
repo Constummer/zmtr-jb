@@ -1,6 +1,7 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
 
@@ -39,15 +40,9 @@ public partial class JailbreakExtras
         }
     }
 
-    private HookResult OnSayTeam(CCSPlayerController? player, CommandInfo commandInfo)
-    {
-        return OnSayOrSayTeam(player, commandInfo, true);
-    }
+    private HookResult OnSayTeam(CCSPlayerController? player, CommandInfo commandInfo) => OnSayOrSayTeam(player, commandInfo, true);
 
-    private HookResult OnSay(CCSPlayerController? player, CommandInfo commandInfo)
-    {
-        return OnSayOrSayTeam(player, commandInfo, false);
-    }
+    private HookResult OnSay(CCSPlayerController? player, CommandInfo commandInfo) => OnSayOrSayTeam(player, commandInfo, false);
 
     private HookResult OnSayOrSayTeam(CCSPlayerController? player, CommandInfo info, bool isSayTeam)
     {
@@ -91,6 +86,13 @@ public partial class JailbreakExtras
         if (GagChecker(player, arg))
         {
             return HookResult.Handled;
+        }
+        if (PatronuKoruActive)
+        {
+            if (PatronuKoruSay(player, info, isSayTeam))
+            {
+                return HookResult.Handled;
+            }
         }
         if (KomutcuAdminSay(player, info, isSayTeam))
         {

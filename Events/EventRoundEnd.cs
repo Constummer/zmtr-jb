@@ -17,6 +17,10 @@ public partial class JailbreakExtras
                 RuletActivate();
                 PiyangoKazananSonuc();
             }
+            if (PatronuKoruActive)
+            {
+                ChooseRandomTwoGuardian();
+            }
             RoundEndParticle(@event.Winner);
             return HookResult.Continue;
         });

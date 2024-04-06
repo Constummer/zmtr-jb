@@ -237,8 +237,6 @@ public partial class JailbreakExtras
         }
 
         SetupPlayerGuns(player);
-
-        // mute.spawn(player);
     }
 
     internal static readonly List<string> weaponList = new()
@@ -272,34 +270,69 @@ public partial class JailbreakExtras
             return;
         }
 
-        // cvars take care of this for us now
-        // player.strip_weapons();
         if (player == null || !IsValidAlive(player))
         {
             return;
         }
 
-        //var randomX = weaponList.Skip(_random.Next(weaponList.Count)).FirstOrDefault();
-        //player.GiveNamedItem(randomX);
-
-        if (IsCt(player))
+        if (PatronuKoruActive)
         {
-            // if(config.ct_guns)
-            if (CTKitDatas.TryGetValue(player.SteamID, out var data) && data > 0)
+            if (player == null || !IsValidAlive(player))
             {
-                var kit = Config.CTKit.CTKits.FirstOrDefault(x => x.Id == data);
-                if (kit != null && kit.Id > 0)
+                return;
+            }
+            if (player.SteamID == PatronuKoruCTLider || player.SteamID == PatronuKoruTLider)
+            {
+                if (player == null || !IsValidAlive(player))
                 {
-                    if (player == null || !IsValidAlive(player))
+                    return;
+                }
+                player.GiveNamedItem($"weapon_deagle");
+                SetHp(player, 500);
+            }
+            if (player.SteamID == PatronuKoruCTKoruma1
+                || player.SteamID == PatronuKoruCTKoruma2
+                || player.SteamID == PatronuKoruTKoruma1
+                || player.SteamID == PatronuKoruTKoruma2)
+            {
+                SetHp(player, 250);
+            }
+            player.GiveNamedItem("item_assaultsuit");
+        }
+        else
+        {
+            if (IsCt(player))
+            {
+                // if(config.ct_guns)
+                if (CTKitDatas.TryGetValue(player.SteamID, out var data) && data > 0)
+                {
+                    var kit = Config.CTKit.CTKits.FirstOrDefault(x => x.Id == data);
+                    if (kit != null && kit.Id > 0)
                     {
-                        return;
+                        if (player == null || !IsValidAlive(player))
+                        {
+                            return;
+                        }
+                        player.GiveNamedItem($"weapon_{kit.GiveSecondary}");
+                        if (player == null || !IsValidAlive(player))
+                        {
+                            return;
+                        }
+                        player.GiveNamedItem($"weapon_{kit.GivePrimary}");
                     }
-                    player.GiveNamedItem($"weapon_{kit.GiveSecondary}");
-                    if (player == null || !IsValidAlive(player))
+                    else
                     {
-                        return;
+                        if (player == null || !IsValidAlive(player))
+                        {
+                            return;
+                        }
+                        player.GiveNamedItem("weapon_deagle");
+                        if (player == null || !IsValidAlive(player))
+                        {
+                            return;
+                        }
+                        player.GiveNamedItem("weapon_m4a1");
                     }
-                    player.GiveNamedItem($"weapon_{kit.GivePrimary}");
                 }
                 else
                 {
@@ -314,26 +347,13 @@ public partial class JailbreakExtras
                     }
                     player.GiveNamedItem("weapon_m4a1");
                 }
-            }
-            else
-            {
-                if (player == null || !IsValidAlive(player))
-                {
-                    return;
-                }
-                player.GiveNamedItem("weapon_deagle");
-                if (player == null || !IsValidAlive(player))
-                {
-                    return;
-                }
-                player.GiveNamedItem("weapon_m4a1");
-            }
 
-            if (player == null || !IsValidAlive(player))
-            {
-                return;
+                if (player == null || !IsValidAlive(player))
+                {
+                    return;
+                }
+                player.GiveNamedItem("item_assaultsuit");
             }
-            player.GiveNamedItem("item_assaultsuit");
         }
     }
 
