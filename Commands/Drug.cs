@@ -3,8 +3,8 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Timers;
-using static JailbreakExtras.JailbreakExtras;
+using CounterStrikeSharp.API.Modules.Utils;
+using System.Drawing;
 
 namespace JailbreakExtras;
 
@@ -13,12 +13,14 @@ public partial class JailbreakExtras
     #region Drug
 
     private CounterStrikeSharp.API.Modules.Timers.Timer DrugTimer;
+    private List<CEnvShake?> Drugs = new();
+    private List<CEnvFade?> Blinds = new();
 
     [ConsoleCommand("drugiptal")]
     [ConsoleCommand("drugsil")]
     public void OnUnDrugCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -29,80 +31,124 @@ public partial class JailbreakExtras
             return;
         }
         LogManagerCommand(player.SteamID, info.GetCommandString);
-        DrugTimer?.Kill();
-        DrugTimer = null;
+        ClearDrugs();
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}herkesin {CC.B}drugunu {CC.W}kaldirdi.");
         return;
     }
 
-    [ConsoleCommand("drug1")]
-    [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me> <0,1>")]
-    public void OnDrugCommand(CCSPlayerController? player, CommandInfo info)
+    [ConsoleCommand("blindiptal")]
+    [ConsoleCommand("blindsil")]
+    public void OnUnBlindCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
         }
-        Server.PrintToChatAll("1");
 
         if (ValidateCallerPlayer(player) == false)
         {
             return;
         }
-        Server.PrintToChatAll("2");
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+        ClearBlinds(true);
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}herkesin {CC.B}blindini {CC.W}kaldirdi.");
 
-        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
-        var godOneTwoStr = info.ArgCount > 2 ? info.ArgString.GetArg(1) : null;
-        Server.PrintToChatAll("3");
-        if (string.IsNullOrWhiteSpace(target) || string.IsNullOrWhiteSpace(godOneTwoStr))
+        return;
+    }
+
+    private void ClearBlinds(bool withNew = false)
+    {
+        foreach (var item in Blinds)
         {
-            Server.PrintToChatAll($"{target}");
-            Server.PrintToChatAll($"{godOneTwoStr}");
+            if (item?.IsValid ?? false)
+            {
+                if (withNew)
+                {
+                    item.Duration = 0f;
+                    item.HoldDuration = 600f;
+                    item.FadeColor = Color.Transparent;
+                    item.AcceptInput("Fade");
+                }
+                item?.Remove();
+            }
+        }
+        Blinds.Clear();
+    }
 
+    private void ClearDrugs()
+    {
+        foreach (var item in Drugs)
+        {
+            if (item?.IsValid ?? false)
+            {
+                item.Duration = 1f;
+                item.AcceptInput("StartShake");
+                item?.Remove();
+            }
+        }
+        Drugs.Clear();
+    }
+
+    [ConsoleCommand("blind")]
+    public void OnBlindCommand(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+        {
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
-        Server.PrintToChatAll("4");
-        if (int.TryParse(godOneTwoStr, out var value) == false)
+
+        if (ValidateCallerPlayer(player) == false)
         {
-            player.PrintToChat($"{Prefix}{CC.W} gecersiz miktar");
-            return;
-        }
-        if (value < 0 || value > 1)
-        {
-            player.PrintToChat($"{Prefix}{CC.W} 0 = kapatmak icin, 1 = acmak icin.");
             return;
         }
         LogManagerCommand(player.SteamID, info.GetCommandString);
-        var targetArgument = GetTargetArgument(target);
-        DrugTimer = AddTimer(1f, () =>
+        //var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
+
+        //var targetArgument = GetTargetArgument(target);
+
+        //GetPlayers()
+        //           .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player))
+        //           .ToList()
+        //           .ForEach(x =>
+        //           {
+        //               if (ValidateCallerPlayer(x, false) == false) return;
+
+        var blind = Utilities.CreateEntityByName<CEnvFade>("env_fade");
+        if (blind == null)
         {
-            GetPlayers()
-                       .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player))
-                       .ToList()
-                       .ForEach(x =>
-                       {
-                           if (ValidateCallerPlayer(x, false) == false) return;
-                           Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.B}drugladi");
+            return;
+        }
 
-                           var @event = new EventFlashbangDetonate(false)
-                           {
-                               Userid = x,
-                               X = x.PlayerPawn.Value.AbsOrigin.X,
-                               Y = x.PlayerPawn.Value.AbsOrigin.Y,
-                               Z = x.PlayerPawn.Value.AbsOrigin.Z,
-                           };
-                           @event.FireEvent(false);
+        var xyz = player.PlayerPawn.Value.AbsOrigin;
+        blind.Duration = 1f;
+        blind.HoldDuration = 600f;
+        blind.FadeColor = Color.Black;
 
-                           @event = null;
-                       });
-        }, Full);
+        blind.Teleport(new Vector(xyz.X, xyz.Y, xyz.Z + 100), ANGLE_ZERO, VEC_ZERO);
+        blind.DispatchSpawn();
+        blind.AcceptInput("Fade");
+
+        CustomSetParent(blind, player.PlayerPawn.Value);
+        Blinds.Add(blind);
+        //    if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
+        //    {
+        //        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B} blind {CC.W}verdi.");
+        //    }
+        //});
+        //if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
+        //{
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}herkese {CC.B}blind {CC.W}verdi.");
+        //Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefine {CC.B}blind {CC.W}verdi.");
+        //}
     }
 
-    [ConsoleCommand("drug2")]
-    [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me> <0,1>")]
+    [ConsoleCommand("drug")]
+    [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me>")]
     public void OnDrug2Command(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -112,133 +158,51 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
-        var godOneTwoStr = info.ArgCount > 2 ? info.ArgString.GetArg(1) : null;
-        if (string.IsNullOrWhiteSpace(target) || string.IsNullOrWhiteSpace(godOneTwoStr))
-        {
-            return;
-        }
-        if (int.TryParse(godOneTwoStr, out var value) == false)
-        {
-            player.PrintToChat($"{Prefix}{CC.W} gecersiz miktar");
-            return;
-        }
-        if (value < 0 || value > 1)
-        {
-            player.PrintToChat($"{Prefix}{CC.W} 0 = kapatmak icin, 1 = acmak icin.");
-            return;
-        }
         LogManagerCommand(player.SteamID, info.GetCommandString);
-        var targetArgument = GetTargetArgument(target);
-        DrugTimer = AddTimer(1f, () =>
-        {
-            GetPlayers()
-                       .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player))
-                       .ToList()
-                       .ForEach(x =>
-                       {
-                           if (ValidateCallerPlayer(x, false) == false) return;
-
-                           //var @event = new EventPlayerBlind(true)
-                           //{
-                           //    BlindDuration = 5f,
-                           //    Userid = x,
-                           //    Attacker = player
-                           //};
-
-                           //SetStateChanged(x.PlayerPawn.Value, "CCSPlayerPawnBase", "m_flFlashDuration");
-                           //@event.FireEventToClient(x);
-                           //@event.FireEvent(true);
-
-                           x.PlayerPawn.Value.FlashDuration = 5f;
-                           x.PlayerPawn.Value.BlindStartTime = 5f;
-                           Utilities.SetStateChanged(x.PlayerPawn.Value, "CCSPlayerPawnBase", "m_flFlashDuration");
-
-                           //@event = null;
-
-                           //x.GiveNamedItem("weapon_flashbang");
-                           //var ent = GetWeapon(x, "weapon_flashbang");
-                           //if (ent != null && ent.IsValid)
-                           //{
-                           //    var @event = new EventPlayerBlind(false)
-                           //    {
-                           //        Userid = x,
-                           //        BlindDuration = 5f,
-                           //        Entityid = (int)ent.Index,
-                           //        Attacker = x,
-                           //    };
-                           //    //var @event1 = new EventFlashbangDetonate(false)
-                           //    //{
-                           //    //    Userid = x,
-                           //    //    X = x.PlayerPawn.Value.AbsOrigin.X,
-                           //    //    Y = x.PlayerPawn.Value.AbsOrigin.Y,
-                           //    //    Z = x.PlayerPawn.Value.AbsOrigin.Z,
-                           //    //    Entityid = (int)ent.Index,
-                           //    //};
-                           //    @event.FireEventToClient(x);
-                           //    @event.FireEvent(false);
-                           //    //@event1.FireEventToClient(x);
-
-                           //    //@event1 = null;
-                           //    @event = null;
-                           //}
-                       });
-        }, Full);
-    }
-
-    [ConsoleCommand("drug3")]
-    [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me> <0,1>")]
-    public void OnDrug3Command(CCSPlayerController? player, CommandInfo info)
-    {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
-        {
-            player.PrintToChat(NotEnoughPermission);
-            return;
-        }
-
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
         var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
-        var godOneTwoStr = info.ArgCount > 2 ? info.ArgString.GetArg(1) : null;
-        if (string.IsNullOrWhiteSpace(target) || string.IsNullOrWhiteSpace(godOneTwoStr))
-        {
-            return;
-        }
-        if (int.TryParse(godOneTwoStr, out var value) == false)
-        {
-            player.PrintToChat($"{Prefix}{CC.W} gecersiz miktar");
-            return;
-        }
-        if (value < 0 || value > 1)
-        {
-            player.PrintToChat($"{Prefix}{CC.W} 0 = kapatmak icin, 1 = acmak icin.");
-            return;
-        }
-        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         var targetArgument = GetTargetArgument(target);
-        DrugTimer = AddTimer(1f, () =>
-        {
-            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.B}drugladi");
 
-            GetPlayers()
-                       .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player))
-                       .ToList()
-                       .ForEach(x =>
+        GetPlayers()
+                   .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player))
+                   .ToList()
+                   .ForEach(x =>
+                   {
+                       if (ValidateCallerPlayer(x, false) == false) return;
+
+                       var drug = Utilities.CreateEntityByName<CEnvShake>("env_shake");
+                       if (drug == null)
                        {
-                           if (ValidateCallerPlayer(x, false) == false) return;
+                           return;
+                       }
 
-                           var @event = new EventPlayerFalldamage(false)
-                           {
-                               Userid = x,
-                               Damage = 0.1f
-                           };
-                           @event.FireEvent(false);
+                       var xyz = x.PlayerPawn.Value.AbsOrigin;
 
-                           @event = null;
-                       });
-        }, Full);
+                       drug.Amplitude = 10;
+                       drug.Frequency = 255;
+                       drug.Duration = 60;
+                       drug.Radius = 50;
+
+                       //coin.Duration = 50;
+                       //coin.StopTime = 10;
+                       //coin.NextShake = 10;
+                       //coin.CurrentAmp = 10;
+
+                       drug.Teleport(new Vector(xyz.X, xyz.Y, xyz.Z + 72), ANGLE_ZERO, VEC_ZERO);
+                       drug.DispatchSpawn();
+                       drug.AcceptInput("StartShake");
+
+                       CustomSetParent(drug, x.PlayerPawn.Value);
+                       Drugs.Add(drug);
+                       if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
+                       {
+                           Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuya{CC.B} drug {CC.W}verdi.");
+                       }
+                   });
+        if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
+        {
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefine {CC.B}drug {CC.W}verdi.");
+        }
     }
 
     #endregion Drug

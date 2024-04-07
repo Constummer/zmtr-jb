@@ -1,10 +1,6 @@
-using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
-using CounterStrikeSharp.API.Modules.Admin;
-using CounterStrikeSharp.API.Modules.Memory.DynamicFunctions;
 using CounterStrikeSharp.API.Modules.Utils;
-using Microsoft.Extensions.Logging;
 using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
@@ -44,12 +40,12 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
 
         #region System Releated
 
-        if (IsExistPlayer() == false)
-        {
-            throw new AccessViolationException("Bu plugin Constummer yapýmýdýr. Çalamazsýn :}");
-        }
+        //if (IsExistPlayer() == false)
+        //{
+        //    throw new AccessViolationException("Bu plugin Constummer yapýmýdýr. Çalamazsýn :}");
+        //}
 
-        Checker();
+        //Checker();
         LoadCredit();
         CreateDataFolder();
         Database();
@@ -79,6 +75,7 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
 
         #endregion CSS releated
 
+        //EmitSoundExtension.Init();
         base.Load(hotReload);
     }
 

@@ -243,20 +243,45 @@ public partial class JailbreakExtras
 
         if (cam != null && cam.IsValid)
         {
-            cam.MoveType = MoveType_t.MOVETYPE_NOCLIP;
-            cam.TakesDamage = false;
-            cam.GravityScale = 0;
+            player.PrintToChat("1");
             cam.Active = true;
+            //cam.MoveType = MoveType_t.MOVETYPE_NOCLIP;
+            //cam.TakesDamage = false;
+            //cam.GravityScale = 0;
+            //cam.SentToClients = 1;
             cam.IsOn = true;
+            cam.AspectRatio = 1;
+            cam.UseScreenAspectRatio = false;
+            cam.FogEnable = false;
+            cam.CanHLTVUse = true;
+            //player.PlayerPawn.Value.ObserverServices.ObserverTarget. = 0;
+            //player.PlayerPawn.Value.ObserverServices.ObserverMode = (int)ObserverMode_t.OBS_MODE_CHASE;
+            //player.PlayerPawn.Value.ObserverServices.ObserverMode = 1;
+            //Utilities.SetStateChanged(player.PlayerPawn.Value, "CBaseEntity", "m_hObserverTarget");
+
             cam.FOV = 90;
             cam.ZNear = 4;
             cam.ZFar = 10_000;
+            player.PrintToChat("2");
 
             var abs = player.PlayerPawn.Value.AbsOrigin;
-            cam.Teleport(new(abs.X, abs.Y, abs.Z + 40), ANGLE_ZERO, VEC_ZERO);
+            player.PrintToChat("3");
+
+            player.PrintToChat("4");
+
+            cam.Teleport(new(abs.X, abs.Y, abs.Z + 40), player.PlayerPawn.Value.EyeAngles, player.PlayerPawn.Value.AbsVelocity);
+            player.PrintToChat("5");
+
+            cam.AcceptInput("SetOnAndTurnOthersOff");
+            player.PrintToChat("6");
+
+            cam.AcceptInput("Enable");
+            player.PrintToChat("7");
+
             cam.DispatchSpawn();
 
-            CustomSetParent(cam, player.PlayerPawn.Value);
+            //CustomSetParent(cam, player.PlayerPawn.Value);
+            player.PrintToChat("8");
         }
     }
 

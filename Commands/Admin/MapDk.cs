@@ -109,7 +109,7 @@ public partial class JailbreakExtras
             return;
         }
 
-        Config.Map.MapWorkshopIds.TryGetValue(highest.Key, out var mapWorkshopId);
+        Config.Map.MapWorkshopIds.TryGetValue(highest.Key.Trim(), out var mapWorkshopId);
         if (mapWorkshopId != 0)
         {
             Server.PrintToChatAll($"{Prefix} MAP DEĞİŞİYOR");

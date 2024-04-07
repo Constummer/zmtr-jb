@@ -103,17 +103,23 @@ public partial class JailbreakExtras
                     return;
                 }
                 List<MySqlParameter> parameters = new List<MySqlParameter>();
-
+                Server.PrintToChatAll("1");
                 var cmdText = "";
                 var i = 0;
                 GetPlayers()
                  .ToList()
                  .ForEach(x =>
                  {
+                     Server.PrintToChatAll("2");
+
                      if (AdminManager.PlayerHasPermissions(x, "@css/komutcu"))
                      {
+                         Server.PrintToChatAll("3");
+
                          if (PlayerWTimeDatas.TryGetValue(x.SteamID, out var value))
                          {
+                             Server.PrintToChatAll("4");
+
                              cmdText += @$"UPDATE `PlayerWTime`
                                          SET `WTime` = @Wtime_{i}
                                         WHERE `SteamId` = @SteamId_{i};";
@@ -134,9 +140,12 @@ public partial class JailbreakExtras
                 {
                     return;
                 }
+                Server.PrintToChatAll("5");
+
                 var cmd = new MySqlCommand(cmdText, con);
                 cmd.Parameters.AddRange(parameters.ToArray());
                 cmd.ExecuteNonQuery();
+                Server.PrintToChatAll("6");
             }
         }
         catch (Exception e)
