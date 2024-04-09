@@ -39,9 +39,9 @@ public partial class JailbreakExtras
             bool isFButtonPressed = (player.Pawn.Value.MovementServices!.Buttons.ButtonStates[0] & FButtonIndex) != 0;
             if (isFButtonPressed)
             {
-                var end = GetEndXYZ(player, 40);
+                var end = GetEndXYZ(player, 80);
                 end.Z = end.Z + 65;
-                _ = DrawLaser(new Vector(end.X, end.Y, end.Z - 1), end, LaserType.CizRgb, true, 10f);
+                _ = DrawLaser(new Vector(end.X, end.Y, end.Z - 1), end, LaserType.CizRgb, true, 30f);
             }
         }
     }

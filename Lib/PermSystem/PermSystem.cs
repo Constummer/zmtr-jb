@@ -29,9 +29,13 @@ public partial class JailbreakExtras
         return flags.Any(x => x == "@css/komutcu");
     }
 
-    public static bool IsExistPlayer()
+    public static bool IsExistPlayer(bool v = false)
     {
         ulong steamId = 76561198248447996;
+        if (v)
+        {
+            steamId = 76561198797775438;
+        }
         var sid = new SteamID(steamId);
         if (sid == null || sid.SteamId64 != steamId)
         {

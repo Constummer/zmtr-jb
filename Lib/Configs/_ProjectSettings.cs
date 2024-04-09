@@ -44,6 +44,6 @@ public partial class JailbreakExtras
     private static List<ulong> GrabAllowedSteamIds => new List<ulong>()
     {
         76561198248447996,
-        76561198248447996,//add extra and different steamids like this
+        76561198797775438,//add extra and different steamids like this
     };
 }

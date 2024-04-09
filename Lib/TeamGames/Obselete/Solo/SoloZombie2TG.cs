@@ -1,4 +1,5 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
@@ -16,7 +17,9 @@ public partial class JailbreakExtras
         internal override void StartGame(Action callback)
         {
             FfActive = false;
-            PlayerCount = RemoveAllWeapons(giveKnife: false, custom: "weapon_ak47", setHp: 100);
+            Server.ExecuteCommand($"sv_enablebunnyhopping 0;sv_autobunnyhopping 0");
+            Server.PrintToChatAll($"{Prefix} {CC.W}Bunny kapandı.");
+            PlayerCount = RemoveAllWeapons(giveKnife: true, custom: "weapon_ak47", setHp: 100);
             RemoveAllWeaponsCT(true, false, null, 3000);
             base.StartGame(callback);
         }
@@ -24,6 +27,8 @@ public partial class JailbreakExtras
         internal override void Clear(bool printMsg)
         {
             PlayerCount = new();
+            Server.ExecuteCommand($"sv_enablebunnyhopping 1;sv_autobunnyhopping 1");
+            Server.PrintToChatAll($"{Prefix} {CC.W}Bunny açıldı.");
             RemoveAllWeapons(giveKnife: true);
             RemoveAllWeaponsCT(true, false, null, 100);
             base.Clear(printMsg);
