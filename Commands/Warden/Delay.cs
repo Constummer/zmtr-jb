@@ -43,11 +43,13 @@ public partial class JailbreakExtras
             }
             else
             {
+                LogManagerCommand(player.SteamID, info.GetCommandString);
                 DelayCt(value); return;
             }
         }
         else
         {
+            LogManagerCommand(player.SteamID, info.GetCommandString);
             DelayCt(value); return;
         }
     }

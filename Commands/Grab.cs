@@ -52,10 +52,7 @@ public partial class JailbreakExtras
 
     private void GrabOnTick(CCSPlayerController player)
     {
-        if (ValidateCallerPlayer(player, false) == false)
-        {
-            return;
-        }
+        if (ValidateCallerPlayer(player, false) == false) { return; }
         if (GrabAllowedSteamIds.Contains(player.SteamID) == false) return;
 
         bool isFButtonPressed = (player.Pawn.Value.MovementServices!.Buttons.ButtonStates[0] & FButtonIndex) != 0;
@@ -308,7 +305,7 @@ public partial class JailbreakExtras
         return count % 2 == 1;
     }
 
-    private static Vector GetEndXYZ(CCSPlayerController player)
+    private static Vector GetEndXYZ(CCSPlayerController player, double distance = 1000)
     {
         double karakterX = player.PlayerPawn.Value.AbsOrigin.X;
         double karakterY = player.PlayerPawn.Value.AbsOrigin.Y;
@@ -321,9 +318,6 @@ public partial class JailbreakExtras
         // Açıları dereceden radyana çevir
         double radianA = (Math.PI / 180) * angleA;
         double radianB = (Math.PI / 180) * angleB;
-
-        // Uzaklık
-        double distance = 1000;
 
         // Açılara göre XYZ koordinatlarını hesapla
         double x = karakterX + distance * Math.Cos(radianA) * Math.Cos(radianB);

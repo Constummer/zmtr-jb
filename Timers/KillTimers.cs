@@ -12,15 +12,10 @@ public partial class JailbreakExtras
         FooCoinGoWantedTimer?.Kill();
         FooCoinRespawnTimer?.Kill();
         FooGiveCreditTimer?.Kill();
-        FooGiveCreditToGroupTimer?.Kill();
-        FooGiveCreditToCssAdmin1Timer?.Kill();
-        FooGiveCreditToCssLiderTimer?.Kill();
         FooSaveCreditTimer?.Kill();
         FooDailyRestartTimer?.Kill();
         FooDcWardenNotifyTimer?.Kill();
-        FooGiveCreditToCssPremiumTimer?.Kill();
         FooSaveAllParticleDataTimer?.Kill();
-        FooCheckPublicIpTimer?.Kill();
         FooWTimeSaveAndUpdateTimer?.Kill();
         FooGetGambleHistoryTimer?.Kill();
         FooGiveAndSaveTPToAllTimer = null;
@@ -31,15 +26,10 @@ public partial class JailbreakExtras
         FooCoinGoWantedTimer = null;
         FooCoinRespawnTimer = null;
         FooGiveCreditTimer = null;
-        FooGiveCreditToGroupTimer = null;
-        FooGiveCreditToCssAdmin1Timer = null;
-        FooGiveCreditToCssLiderTimer = null;
         FooSaveCreditTimer = null;
         FooDailyRestartTimer = null;
         FooDcWardenNotifyTimer = null;
-        FooGiveCreditToCssPremiumTimer = null;
         FooSaveAllParticleDataTimer = null;
-        FooCheckPublicIpTimer = null;
         FooWTimeSaveAndUpdateTimer = null;
         FooGetGambleHistoryTimer = null;
     }

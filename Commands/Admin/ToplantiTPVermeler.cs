@@ -29,6 +29,7 @@ public partial class JailbreakExtras
     [CommandHelper(whoCanExecute: CommandUsage.SERVER_ONLY)]
     public void ToplantiTPVermeler2(CCSPlayerController? player, CommandInfo info)
     {
+        LogManagerCommand(1, info.GetCommandString);
         Server.NextFrame(() =>
         {
             ToplantiTpVermelerAction();
@@ -39,6 +40,7 @@ public partial class JailbreakExtras
     [CommandHelper(whoCanExecute: CommandUsage.SERVER_ONLY)]
     public void ToplantiTPVermeler3(CCSPlayerController? player, CommandInfo info)
     {
+        LogManagerCommand(1, info.GetCommandString);
         Server.NextWorldUpdate(() =>
         {
             ToplantiTpVermelerAction();
@@ -82,40 +84,48 @@ public partial class JailbreakExtras
 
     private void ReadTPlerFromPath(string path, string configName)
     {
-        var cfgPath = Path.Combine(path, configName);
-        if (File.Exists(cfgPath))
+        try
         {
-            var data = File.ReadAllText(cfgPath);
-            if (string.IsNullOrWhiteSpace(data) == false)
+            var cfgPath = Path.Combine(path, configName);
+            if (File.Exists(cfgPath))
             {
-                var temp = JsonSerializer.Deserialize<ToplantiTP>(data);
-                if (temp != null && temp.Data != null)
+                var data = File.ReadAllText(cfgPath);
+                if (string.IsNullOrWhiteSpace(data) == false)
                 {
-                    Server.PrintToConsole($"Dosya okundu = {temp.Data.Count} adet entry var");
-                    var dblist = new List<ToplantiTPLer>();
-                    foreach (var item in temp.Data)
+                    var temp = JsonSerializer.Deserialize<ToplantiTP>(data);
+                    if (temp != null && temp.Data != null)
                     {
-                        var p = GetPlayers().Where(x => x.SteamID == item.SteamId).FirstOrDefault();
-                        if (p == null)
+                        Server.PrintToConsole($"Dosya okundu = {temp.Data.Count} adet entry var");
+                        var dblist = new List<ToplantiTPLer>();
+                        foreach (var item in temp.Data)
                         {
-                            dblist.Add(item);
-                            continue;
+                            var p = GetPlayers().Where(x => x.SteamID == item.SteamId).FirstOrDefault();
+                            if (p == null)
+                            {
+                                dblist.Add(item);
+                                continue;
+                            }
+                            if (PlayerLevels.TryGetValue(item.SteamId, out var level) == false)
+                            {
+                                dblist.Add(item);
+                                continue;
+                            }
+                            level.Xp += item.Xp;
+                            PlayerLevels[item.SteamId] = level;
                         }
-                        if (PlayerLevels.TryGetValue(item.SteamId, out var level) == false)
-                        {
-                            dblist.Add(item);
-                            continue;
-                        }
-                        level.Xp += item.Xp;
-                        PlayerLevels[item.SteamId] = level;
+                        AddXpBulk(dblist);
                     }
-                    AddXpBulk(dblist);
-                }
-                else
-                {
-                    Server.PrintToConsole($"Dosya okunamadi");
+                    else
+                    {
+                        Server.PrintToConsole($"Dosya okunamadi");
+                    }
                 }
             }
+        }
+        catch (Exception e)
+        {
+            Server.PrintToConsole(e.Message);
+            Console.WriteLine(e);
         }
     }
 

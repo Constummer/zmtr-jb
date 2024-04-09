@@ -13,17 +13,12 @@ public partial class JailbreakExtras
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooDailyRestartTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooDcWardenNotifyTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooGetGambleHistoryTimer { get; set; } = null;
-    public CounterStrikeSharp.API.Modules.Timers.Timer? FooCheckPublicIpTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooSaveAllParticleDataTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooWTimeSaveAndUpdateTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooCoinGoWantedTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooCoinRespawnTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooGiveCreditTimer { get; set; } = null;
-    public CounterStrikeSharp.API.Modules.Timers.Timer? FooGiveCreditToGroupTimer { get; set; } = null;
-    public CounterStrikeSharp.API.Modules.Timers.Timer? FooGiveCreditToCssAdmin1Timer { get; set; } = null;
-    public CounterStrikeSharp.API.Modules.Timers.Timer? FooGiveCreditToCssLiderTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooSaveCreditTimer { get; set; } = null;
-    public CounterStrikeSharp.API.Modules.Timers.Timer? FooGiveCreditToCssPremiumTimer { get; set; } = null;
 
     public static TimeOnly MaintenanceTimer { get => new TimeOnly(6, 54); }
     public static TimeOnly MaintenanceGameTimer { get => new TimeOnly(6, 29); }
@@ -36,11 +31,7 @@ public partial class JailbreakExtras
         #region Credit
 
         FooGiveCreditTimer = GiveCreditTimer();
-        FooGiveCreditToGroupTimer = GiveCreditToGroupTimer();
-        FooGiveCreditToCssAdmin1Timer = GiveCreditToCssAdmin1Timer();
-        FooGiveCreditToCssLiderTimer = GiveCreditToCssLiderTimer();
         FooSaveCreditTimer = SaveCreditTimer();
-        FooGiveCreditToCssPremiumTimer = GiveCreditToCssPremiumTimer();
 
         #endregion Credit
 
@@ -78,7 +69,7 @@ public partial class JailbreakExtras
 
         #region Extras
 
-        FooDailyRestartTimer = DailyRestartTimer();
+        //FooDailyRestartTimer = DailyRestartTimer();
         FooDcWardenNotifyTimer = DcWardenNotifyTimer();
         FooGetGambleHistoryTimer = GetGambleHistoryTimer();
         //FooCheckPublicIpTimer = CheckPublicIpTimer();

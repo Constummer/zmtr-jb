@@ -100,14 +100,6 @@ public partial class JailbreakExtras
     {
         var tempAnswers = Answers;
         var highest = tempAnswers.OrderByDescending(x => x.Value).FirstOrDefault();
-        if (GetPlayerCount() * 0.4 > highest.Value)
-        {
-            Server.PrintToChatAll($"{Prefix} MAP, SERVERIN %40'I AYNI MAPE OY VERMEDİĞİ İÇİN MAP DEĞİŞMİYOR");
-            Server.PrintToChatAll($"{Prefix} MAP, SERVERIN %40'I AYNI MAPE OY VERMEDİĞİ İÇİN MAP DEĞİŞMİYOR");
-            Server.PrintToChatAll($"{Prefix} MAP, SERVERIN %40'I AYNI MAPE OY VERMEDİĞİ İÇİN MAP DEĞİŞMİYOR");
-            MapStartTime = DateTime.UtcNow;
-            return;
-        }
 
         Config.Map.MapWorkshopIds.TryGetValue(highest.Key.Trim(), out var mapWorkshopId);
         if (mapWorkshopId != 0)

@@ -24,7 +24,11 @@ public partial class JailbreakExtras
             return;
         }
         LogManagerCommand(player.SteamID, info.GetCommandString);
+        Model0Action();
+    }
 
+    private static void Model0Action()
+    {
         GetPlayers()
             .Where(x => x.PawnIsAlive)
             .ToList()

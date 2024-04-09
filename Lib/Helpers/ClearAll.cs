@@ -52,6 +52,7 @@ public partial class JailbreakExtras
         TgTimer = null;
         ActiveTeamGamesGameBase?.Clear(false);
         ActiveTeamGamesGameBase = null;
+        TPActive = false;
         LrCancel();
         ClearParachutes();
         ClearCits();
@@ -87,6 +88,7 @@ public partial class JailbreakExtras
                 _ = Gags?.Remove(steamId);
             }
         }
+        _ = SmoothThirdPersonPool?.Remove(steamId, out _);
         _ = HideFoots?.Remove(steamId, out _);
         _ = HookPlayers?.Remove(steamId, out _);
         _ = PlayerTimeTracking?.Remove(steamId, out _);

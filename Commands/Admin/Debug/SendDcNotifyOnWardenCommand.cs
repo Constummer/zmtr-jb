@@ -10,6 +10,7 @@ public partial class JailbreakExtras
     [CommandHelper(whoCanExecute: CommandUsage.SERVER_ONLY)]
     public void SendDcNotifyOnWardenCommand(CCSPlayerController? player, CommandInfo info)
     {
+        LogManagerCommand(1, info.GetCommandString);
         SendDcNotifyOnWardenChange();
     }
 }

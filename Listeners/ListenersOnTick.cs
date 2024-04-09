@@ -27,8 +27,41 @@ public partial class JailbreakExtras
                     continue;
                 ParachuteOnTick(player, i);
                 SpeedoMeterOnTick(player);
-                GrabOnTick(player);
+                if (GrabOrCizPlayers.TryGetValue(player.SteamID, out var c) && c)
+                {
+                    CizOnTick(player);
+                }
+                else
+                {
+                    GrabOnTick(player);
+                }
                 changed = BasicCountdown.CountdownEnableTextHandler(changed, player);
+                //try
+                //{
+                //    if (ThirdPersonPool.TryGetValue(player.SteamID, out var cam))
+                //    {
+                //        UpdateCamera(cam, player);
+                //    }
+                //}
+                //catch (Exception e)
+                //{
+                //}
+                try
+                {
+                    if (SmoothThirdPersonPool.TryGetValue(player.SteamID, out var cam2))
+                    {
+                        if (cam2 != null)
+                        {
+                            if (cam2.IsValid)
+                            {
+                                UpdateCameraSmooth(cam2, player);
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                }
             }
         }));
     }

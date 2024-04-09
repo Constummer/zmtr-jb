@@ -30,6 +30,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(1, info.GetCommandString);
 
         Bans.ToList()
              .Where(x => x.Key.ToString() == target)
@@ -77,6 +78,7 @@ public partial class JailbreakExtras
             return;
         }
 
+        LogManagerCommand(1, info.GetCommandString);
         var x = players.FirstOrDefault();
         if (x == null)
         {

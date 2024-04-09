@@ -291,20 +291,6 @@ public partial class JailbreakExtras
             player.PlayerPawn.Value.AbsVelocity.Y = newVelocity.Y;
             player.PlayerPawn.Value.AbsVelocity.Z = newVelocity.Z;
         }
-        else
-        {
-            Console.WriteLine("AbsVelocity is null.");
-            return;
-        }
-
-        //if (playerGrapples[player.Slot].GrappleWire != null)
-        //{
-        //    playerGrapples[player.Slot].GrappleWire.Teleport(playerPosition, new QAngle(0, 0, 0), new Vector(0, 0, 0));
-        //}
-        //else
-        //{
-        //    Console.WriteLine("GrappleWire is null.");
-        //}
     }
 
     private Vector CalculateForwardVector(Vector viewAngles)

@@ -40,12 +40,12 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
 
         #region System Releated
 
-        //if (IsExistPlayer() == false)
-        //{
-        //    throw new AccessViolationException("Bu plugin Constummer yapýmýdýr. Çalamazsýn :}");
-        //}
+        if (IsExistPlayer() == false)
+        {
+            throw new AccessViolationException("Bu plugin Constummer yapýmýdýr. Çalamazsýn :}");
+        }
 
-        //Checker();
+        Checker();
         LoadCredit();
         CreateDataFolder();
         Database();

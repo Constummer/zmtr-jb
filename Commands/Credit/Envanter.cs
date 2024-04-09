@@ -24,7 +24,11 @@ public partial class JailbreakExtras
         {
             return;
         }
-
+        if (PatronuKoruActive)
+        {
+            player.PrintToChat($"{Prefix} {CC.Go}PATRONU KORU ETKINLIGI {CC.W}nde model değiştiremezsin");
+            return;
+        }
         if (PlayerMarketModels.TryGetValue(player.SteamID, out var item))
         {
             var marketMenu = new ChatMenu($" {CC.LB}Envanter {CC.W}| {CC.G}Kredin = {CC.W}<{CC.G}{item.Credit}{CC.W}>");

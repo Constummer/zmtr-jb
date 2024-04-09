@@ -2,11 +2,14 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using JailbreakExtras.Lib.Database;
 using JailbreakExtras.Lib.Database.Models;
 using MySqlConnector;
+using Newtonsoft.Json.Linq;
+using System.Xml;
 
 //using Microsoft.Data.Sqlite;
 
@@ -42,7 +45,11 @@ public partial class JailbreakExtras
         {
             return;
         }
-
+        if (PatronuKoruActive)
+        {
+            player.PrintToChat($"{Prefix} {CC.Go}PATRONU KORU ETKINLIGI {CC.W}nde model değiştiremezsin");
+            return;
+        }
         var data = GetPlayerMarketModel(player.SteamID);
         if (data.Model == null) return;
 
@@ -531,12 +538,59 @@ public partial class JailbreakExtras
 
     private void UpdateAllModels()
     {
-        foreach (var player in GetPlayers())
+        try
         {
-            if (player?.SteamID != null && player!.SteamID != 0)
+            using (var con = Connection())
             {
-                UpdatePlayerMarketData(player!.SteamID);
+                if (con == null)
+                {
+                    return;
+                }
+                var cmdText = "";
+                var i = 0;
+                List<MySqlParameter> parameters = new List<MySqlParameter>();
+
+                foreach (var player in GetPlayers())
+                {
+                    if (player?.SteamID != null && player!.SteamID != 0)
+                    {
+                        var data = GetPlayerMarketModel(player.SteamID);
+                        if (data.Model == null) continue;
+
+                        cmdText += $@"INSERT INTO `PlayerMarketModel` (`SteamId`, `ModelIdCT`, `ModelIdT`, `DefaultIdCT`, `DefaultIdT`, `Credit`)
+                                      VALUES (@SteamId_{i}, @ModelIdCT_{i}, @ModelIdT_{i}, @DefaultIdCT_{i}, @DefaultIdT_{i}, @Credit_{i})
+                                      ON DUPLICATE KEY UPDATE
+                                          `ModelIdCT`= IFNULL(VALUES(`ModelIdCT`), `ModelIdCT`),
+                                          `ModelIdT`= IFNULL(VALUES(`ModelIdT`), `ModelIdT`),
+                                          `DefaultIdCT`= IFNULL(VALUES(`DefaultIdCT`), `DefaultIdCT`),
+                                          `DefaultIdT`= IFNULL(VALUES(`DefaultIdT`), `DefaultIdT`),
+                                          `Credit`= IFNULL(VALUES(`Credit`), `Credit`);
+                                      ";
+
+                        parameters.Add(new MySqlParameter($"@SteamId_{i}", player.SteamID));
+                        parameters.Add(new MySqlParameter($"@ModelIdCT_{i}", data.Model?.ModelIdCT?.GetDbValue()));
+                        parameters.Add(new MySqlParameter($"@ModelIdT_{i}", data.Model?.ModelIdT?.GetDbValue()));
+                        parameters.Add(new MySqlParameter($"@DefaultIdCT_{i}", data.Model?.DefaultIdCT?.GetDbValue()));
+                        parameters.Add(new MySqlParameter($"@DefaultIdT_{i}", data.Model?.DefaultIdT?.GetDbValue()));
+                        parameters.Add(new MySqlParameter($"@Credit_{i}", data.Model?.Credit.GetDbValue()));
+
+                        i++;
+                    }
+                }
+                if (string.IsNullOrWhiteSpace(cmdText))
+                {
+                    return;
+                }
+
+                var cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddRange(parameters.ToArray());
+                cmd.ExecuteNonQuery();
             }
+        }
+        catch (Exception e)
+        {
+            Server.PrintToChatAll(e.Message);
+            Console.WriteLine(e);
         }
     }
 

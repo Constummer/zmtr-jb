@@ -18,6 +18,7 @@ public partial class JailbreakExtras
                 HookDisabled = true;
                 Server.ExecuteCommand($"sv_enablebunnyhopping 0;sv_autobunnyhopping 0");
                 Server.ExecuteCommand("mp_autoteambalance 1");
+                Model0Action();
             }
             else
             {

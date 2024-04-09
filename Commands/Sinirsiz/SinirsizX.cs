@@ -35,6 +35,11 @@ public partial class JailbreakExtras
             }
             else
             {
+                weapon = GiveHandler(weapon);
+                if (ValidWantedWeapon(weapon) == false)
+                {
+                    return;
+                }
                 SinirsizXAction(player, target, weapon);
                 Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.Ol}{target}{CC.W} hedefine {CC.P}{weapon} {CC.W} silahıyla {CC.DB}SMX{CC.W} başlattı.");
             }

@@ -6,10 +6,10 @@ public partial class JailbreakExtras
     {
         return AddTimer(300f, () =>
          {
-             //if (GetPlayerCount() > 16)
-             //{
-             //SaveWTimes();
-             //}
+             if (GetPlayerCount() > 16)
+             {
+                 SaveWTimes();
+             }
          }, Full);
     }
 }

@@ -1,8 +1,10 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
 using JailbreakExtras.Lib.Configs;
+using JailbreakExtras.Lib.Database;
 using JailbreakExtras.Lib.Database.Models;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
@@ -321,32 +323,6 @@ public partial class JailbreakExtras
         return Config?.Level?.LevelGifts?.Where(x => x?.Permission == $"@css/seviye{item}")?.Select(x => x?.CreditReward)?.FirstOrDefault() ?? 0;
     }
 
-    private async Task UpdatePlayerLevelData(ulong steamId, int xp)
-    {
-        try
-        {
-            using (var con = Connection())
-            {
-                if (con == null)
-                {
-                    return;
-                }
-                var cmd = new MySqlCommand(@$"UPDATE `PlayerLevel`
-                                          SET `Xp` = @Xp
-                                          WHERE `SteamId` = @SteamId;", con);
-
-                cmd.Parameters.AddWithValue("@SteamId", steamId);
-                cmd.Parameters.AddWithValue("@Xp", xp);
-
-                await cmd.ExecuteNonQueryAsync();
-            }
-        }
-        catch (Exception e)
-        {
-            Logger.LogError(e, "hata");
-        }
-    }
-
     private void UpdatePlayerLevelTagDisableData(ulong steamId, bool disable)
     {
         try
@@ -370,6 +346,61 @@ public partial class JailbreakExtras
         catch (Exception e)
         {
             Logger.LogError(e, "hata");
+        }
+    }
+
+    private static void BulkUpdatePlayerLevels()
+    {
+        try
+        {
+            using (var con = Connection())
+            {
+                if (con == null)
+                {
+                    return;
+                }
+                List<MySqlParameter> parameters = new List<MySqlParameter>();
+
+                var cmdText = "";
+                var i = 0;
+                GetPlayers()
+                 .ToList()
+                 .ForEach(x =>
+                 {
+                     if (PlayerLevels.TryGetValue(x.SteamID, out var data))
+                     {
+                         data.Xp += (1 * 6 * TPModifier);
+
+                         if (AdminManager.PlayerHasPermissions(x, "@css/liderkredi"))
+                         {
+                             data.Xp += (int)(0.5 * 6 * TPModifier);
+                         }
+                         if (AdminManager.PlayerHasPermissions(x, "@css/premium"))
+                         {
+                             data.Xp += (1 * 6 * TPModifier);
+                         }
+                         cmdText += @$"UPDATE `PlayerLevel`
+                                         SET
+                                            `Xp` = @Xp_{i}
+                                        WHERE `SteamId` = @SteamId_{i};";
+
+                         parameters.Add(new MySqlParameter($"@SteamId_{i}", x.SteamID));
+                         parameters.Add(new MySqlParameter($"@Xp_{i}", data.Xp.GetDbValue()));
+                         i++;
+                     }
+                 });
+                if (string.IsNullOrWhiteSpace(cmdText))
+                {
+                    return;
+                }
+                var cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddRange(parameters.ToArray());
+                cmd.ExecuteNonQuery();
+            }
+        }
+        catch (Exception ex)
+        {
+            Console.WriteLine(ex);
         }
     }
 

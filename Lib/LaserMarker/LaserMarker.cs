@@ -13,7 +13,8 @@ public partial class JailbreakExtras
     {
         Hook,
         Grab,
-        Marker
+        Marker,
+        CizRgb
     }
 
     private HookResult EXTRAOnPlayerPing(EventPlayerPing @event, GameEventInfo info)
@@ -88,7 +89,7 @@ public partial class JailbreakExtras
         }
     }
 
-    private CEnvBeam DrawLaser(Vector start, Vector end, LaserType laserType, bool clearAfter = true)
+    private CEnvBeam DrawLaser(Vector start, Vector end, LaserType laserType, bool clearAfter = true, float clearTimer = 0.1f)
     {
         CEnvBeam? laser = Utilities.CreateEntityByName<CEnvBeam>("env_beam");
 
@@ -110,6 +111,10 @@ public partial class JailbreakExtras
                 laser.Render = Color.FromArgb(255, 153, 255, 255);
                 break;
 
+            case LaserType.CizRgb:
+                laser.Render = Color.FromArgb(_random.Next(255), _random.Next(255), _random.Next(255), 255);
+                break;
+
             default:
                 break;
         }
@@ -126,7 +131,7 @@ public partial class JailbreakExtras
         if (clearAfter)
         {
             //oto remove - cok tatli
-            AddTimer(0.1f, () =>
+            AddTimer(clearTimer, () =>
             {
                 laser.Remove();
             }, SOM);
