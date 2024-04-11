@@ -226,27 +226,6 @@ public partial class JailbreakExtras
         };
     }
 
-    private static bool ExecuteFreezeOrUnfreeze(CCSPlayerController x, string target, string self, out bool randomFreeze)
-    {
-        randomFreeze = _random.NextDouble() >= 0.5;
-
-        var targetArgument = GetTargetArgument(target);
-        return targetArgument switch
-        {
-            TargetForArgument.T => GetTeam(x) == CsTeam.Terrorist,
-            TargetForArgument.Ct => GetTeam(x) == CsTeam.CounterTerrorist,
-            TargetForArgument.Random => randomFreeze,
-            TargetForArgument.RandomT => randomFreeze && GetTeam(x) == CsTeam.Terrorist,
-            TargetForArgument.RandomCt => randomFreeze && GetTeam(x) == CsTeam.CounterTerrorist,
-            TargetForArgument.All => true,
-            TargetForArgument.Alive => true,
-            TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target?.ToLower()) ?? false,
-            TargetForArgument.Me => x.PlayerName == self,
-            TargetForArgument.UserIdIndex => GetUserIdIndex(target) == x.UserId,
-            _ => false,
-        };
-    }
-
     [Obsolete("Bundayken çökme yaşandığı oluyordu, bundan mı emin değilim ama iptal")]
     private static CsTeam GetTeamOld(CCSPlayerController x) => x.PendingTeamNum != x.TeamNum ? (CsTeam)x.PendingTeamNum : (CsTeam)x.TeamNum;
 

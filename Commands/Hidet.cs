@@ -38,17 +38,13 @@ public partial class JailbreakExtras
                 {
                     case 0:
                         if (ValidateCallerPlayer(x, false) == false) return;
-                        SetColour(x, DefaultColor);
-                        ShowWeapons(x);
-                        ReAddAllParticleAures();
+                        ShowPlayer(x);
 
                         break;
 
                     case 1:
                         if (ValidateCallerPlayer(x, false) == false) return;
-                        SetColour(x, Color.FromArgb(0, 0, 0, 0));
-                        HideWeapons(x);
-                        RemoveAllParticleAures();
+                        HidePlayer(x);
                         break;
                 }
             });
@@ -66,5 +62,19 @@ public partial class JailbreakExtras
                 Server.ExecuteCommand($"sv_teamid_overhead_maxdist 1");
                 break;
         }
+    }
+
+    private void ShowPlayer(CCSPlayerController x)
+    {
+        SetColour(x, DefaultColor);
+        ShowWeapons(x);
+        ReAddAllParticleAures();
+    }
+
+    private void HidePlayer(CCSPlayerController x)
+    {
+        SetColour(x, Color.FromArgb(0, 0, 0, 0));
+        HideWeapons(x);
+        RemoveAllParticleAures();
     }
 }

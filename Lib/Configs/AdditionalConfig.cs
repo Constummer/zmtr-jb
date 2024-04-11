@@ -12,6 +12,15 @@ public partial class JailbreakExtras
         [JsonPropertyName("KomWeeklyCredit")]
         public int KomWeeklyCredit { get; set; } = 1000;
 
+        [JsonPropertyName("BayramCredit")]
+        public int BayramCredit { get; set; } = 500;
+
+        [JsonPropertyName("BayramCreditStart")]
+        public DateTime BayramCreditStart { get; set; } = new DateTime(2024, 10, 10);
+
+        [JsonPropertyName("BayramCreditEnd")]
+        public DateTime BayramCreditEnd { get; set; } = new DateTime(2024, 10, 12);
+
         [JsonPropertyName("ParachuteEnabled")]
         public bool ParachuteEnabled { get; set; } = true;
 

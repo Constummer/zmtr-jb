@@ -3,7 +3,6 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 
@@ -11,16 +10,6 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    //todos:
-    /* 3178317288
-     * takim esitleme kapancak
-     * lider secilcek
-     *      lider her el 500 hp alcak
-     * her el 2 taraftan 2 koruma secilcek random
-     * ctkit kapatilcak
-     * ct - t ye 100 armor verilcek
-     *
-     */
     private bool PatronuKoruActive { get; set; } = false;
     private ulong? PatronuKoruCTLider { get; set; } = null;
     private ulong? PatronuKoruTLider { get; set; } = null;
@@ -72,29 +61,6 @@ public partial class JailbreakExtras
         Server.ExecuteCommand($"host_workshop_map 3178317288");
     }
 
-    [ConsoleCommand("PatronuKoruMapDeis")]
-    public void PatronuKoruMapDeis(CCSPlayerController? player, CommandInfo info)
-    {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
-        {
-            player.PrintToChat(NotEnoughPermission);
-            return;
-        }
-        if (ValidateCallerPlayer(player) == false)
-        {
-            return;
-        }
-        LogManagerCommand(player.SteamID, info.GetCommandString);
-
-        MapDKLastVoterSteamId = player.SteamID;
-        Answers = new()
-            {
-                {"Değiş",1 },
-                {"Kal",0 },
-            };
-        MapDkFinished();
-    }
-
     [ConsoleCommand("PatronuKoruCTLider")]
     public void PatronuKoruCTLiderSec(CCSPlayerController? player, CommandInfo info)
     {
@@ -125,6 +91,14 @@ public partial class JailbreakExtras
         }
         SetPatronuKoruLider(CsTeam.Terrorist, player);
         LogManagerCommand(player.SteamID, info.GetCommandString);
+    }
+
+    private static void PatronuKoruRoundStart()
+    {
+        HookDisabled = true;
+        Server.ExecuteCommand($"sv_enablebunnyhopping 0;sv_autobunnyhopping 0");
+        Server.ExecuteCommand("mp_autoteambalance 1");
+        Model0Action();
     }
 
     private void SetPatronuKoruLider(CsTeam team, CCSPlayerController? player)

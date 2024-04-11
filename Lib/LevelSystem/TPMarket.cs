@@ -1,5 +1,6 @@
 ﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Menu;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace JailbreakExtras;
 
@@ -76,31 +77,5 @@ public partial class JailbreakExtras
             });
         }
         ChatMenus.OpenMenu(player, marketMenu);
-    }
-
-    private static void ConfirmMenu(CCSPlayerController player, int credit, string text, Action confirmed)
-    {
-        var eminMisinMenu = new ChatMenu($"{text} satın almak istedine emin misin? | Krediniz = [{credit}]");
-        for (int i = 0; i < 2; i++)
-        {
-            var testz = "Evet";
-            if (i == 1)
-            {
-                testz = "Hayır";
-            }
-            eminMisinMenu.AddMenuOption(testz, (p, i) =>
-            {
-                if (i.Text == "Evet")
-                {
-                    confirmed();
-                }
-                else
-                {
-                    player.PrintToChat($"{Prefix}{CC.G} {text} satın almaktan vazgeçtin.");
-                    return;
-                }
-            });
-        }
-        ChatMenus.OpenMenu(player, eminMisinMenu);
     }
 }

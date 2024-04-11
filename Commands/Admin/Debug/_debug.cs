@@ -263,9 +263,11 @@ public partial class JailbreakExtras
             cam.ZNear = 4;
             cam.ZFar = 10_000;
             player.PrintToChat("2");
+            player.PlayerPawn.Value!.CameraServices!.ViewEntity.Raw = cam.EntityHandle.Raw;
+            Utilities.SetStateChanged(player.PlayerPawn.Value, "CBasePlayerPawn", "m_pCameraServices");
+            player.PrintToChat("3");
 
             var abs = player.PlayerPawn.Value.AbsOrigin;
-            player.PrintToChat("3");
 
             player.PrintToChat("4");
 
@@ -402,6 +404,97 @@ public partial class JailbreakExtras
         RefreshPawnTP(x);
     }
 
+    [ConsoleCommand("cinventoryService")]
+    public void cinventoryService(CCSPlayerController? x, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(x, "@css/root"))
+        {
+            x.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        ;
+        x.PrintToChat($"{x.InventoryServices.PersonaDataXpTrailLevel}");
+        x.PrintToChat($"{x.InventoryServices.PersonaDataPublicCommendsLeader}");
+        x.PrintToChat($"{x.InventoryServices.PersonaDataPublicCommendsTeacher}");
+        x.PrintToChat($"{x.InventoryServices.PersonaDataPublicCommendsFriendly}");
+        x.PrintToChat($"{x.InventoryServices.PersonaDataPublicLevel}");
+        var i = 0;
+        foreach (var item in x.InventoryServices.Rank)
+        {
+            x.PrintToChat($"{item}_{i}");
+            i++;
+        }
+    }
+
+    [ConsoleCommand("cteamimage")]
+    public void cteamimage(CCSPlayerController? x, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(x, "@css/root"))
+        {
+            x.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        var ent = Utilities.FindAllEntitiesByDesignerName<CCSTeam>("cs_team_manager");
+
+        var ctScore = ent.Where(team => team.Teamname == "CT")
+                         .FirstOrDefault();
+        x.PrintToChat($"{ctScore.TeamFlagImage}");
+        x.PrintToChat($"{ctScore.TeamLogoImage}");
+        x.PrintToChat($"{ctScore.TeamMatchStat}");
+        x.PrintToChat($"{ctScore.Teamname}");
+        x.PrintToChat($"{ctScore.ClanTeamname}");
+        x.PrintToChat($"{ctScore.InitialTeamNum}");
+    }
+
+    [ConsoleCommand("csutol")]
+    public void csutol(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        var position = player.PlayerPawn.Value.CBodyComponent?.SceneNode?.Origin;
+        string model = player.PlayerPawn.Value.CBodyComponent?.SceneNode?.GetSkeletonInstance()?.ModelState.ModelName ?? string.Empty;
+
+        var sutModel = Utilities.CreateEntityByName<CDynamicProp>("prop_dynamic_override");
+        sutModel.Target = ""; // TODO : ??
+        sutModel.SetModel(model);
+        sutModel.Teleport(player.PlayerPawn.Value.AbsOrigin, ANGLE_ZERO, VEC_ZERO);
+
+        sutModel.DispatchSpawn();
+        var anim = _random.Next();
+        var animStr = "";
+        if (anim >= 0.5)
+        {
+            animStr = "deathpose_lowviolence";
+        }
+        else
+        {
+            animStr = "surrender";
+        }
+        sutModel.IdleAnim = animStr;
+        sutModel.AcceptInput("SetAnimation");
+        sutModel.AcceptInput("Enable");
+
+        HidePlayer(player);
+        SetMoveType(player, MoveType_t.MOVETYPE_NONE);
+        RefreshPawn(player);
+        AddTimer(6f, () =>
+        {
+            SetMoveType(player, MoveType_t.MOVETYPE_WALK);
+            RefreshPawn(player);
+            ShowPlayer(player);
+        }, SOM);
+        /*
+        DispatchKeyValue(Surrender_Prop[client], "targetname", iTarget)
+        */
+    }
+
     [ConsoleCommand("cdeath")]
     public void cdeath(CCSPlayerController? player, CommandInfo info)
     {
@@ -418,25 +511,6 @@ public partial class JailbreakExtras
         Logger.LogInformation(player.Pawn.Value.AbsOrigin.ToString());
         Logger.LogInformation(player.PlayerPawn.Value.AbsOrigin.ToString());
         Logger.LogInformation(player.PlayerPawn.Value.CameraServices.Pawn.Value.AbsOrigin.ToString());
-    }
-
-    [ConsoleCommand("ctp")]
-    public void ctp(CCSPlayerController? player, CommandInfo info)
-    {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
-        {
-            player.PrintToChat(NotEnoughPermission);
-            return;
-        }
-        try
-        {
-            var a = Schema.GetSchemaValue<byte>(player.PlayerPawn.Value.Handle, "CPlayer_ObserverServices", "m_iObserverMode");
-            Schema.SetSchemaValue<byte>(player.Handle, "CPlayer_ObserverServices", "m_iObserverMode", 1);
-            //Schema.SetCustomMarshalledType<byte>(player.PlayerPawn.Value.Handle, "CPlayer_ObserverServices", "m_iObserverMode", 1);
-        }
-        catch (Exception e)
-        {
-        }
     }
 
     [ConsoleCommand("cwtf")]
@@ -494,9 +568,28 @@ public partial class JailbreakExtras
         {
             return;
         }
+        //p.PlayerPawn.Value!.CameraServices!.ViewEntity.Raw = cameraProp.EntityHandle.Raw;
+        //Utilities.SetStateChanged(p.PlayerPawn.Value, "CBasePlayerPawn", "m_pCameraServices");
+
+        //var weapon2 = new CBasePlayerWeapon(knife.);
+        if (player?.PlayerPawn?.Value?.WeaponServices?.MyWeapons != null)
+        {
+            foreach (var weapon in player.PlayerPawn.Value.WeaponServices!.MyWeapons)
+            {
+                if (weapon.Value != null
+                    && string.IsNullOrWhiteSpace(weapon.Value.DesignerName) == false
+                    && weapon.Value.DesignerName != "[null]")
+                {
+                    if (weapon.Value.DesignerName.Contains("knife")
+                       || weapon.Value.DesignerName.Contains("bayonet"))
+                    {
+                    }
+                }
+            }
+        }
         Server.NextFrame(() =>
         {
-            knife.SetModel("weapons/models/nozb1/aloneelxy/aloneelxy_freebayonety.vmdl");
+            knife.SetModel("models/coop/challenge_coin.vmdl");
         });
         Server.PrintToChatAll("1");
     }

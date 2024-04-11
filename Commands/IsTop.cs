@@ -83,7 +83,6 @@ public partial class JailbreakExtras
         {
             menu.AddMenuOption($"Sen {playerIsCount} Kere,", null, true);
         }
-        menu.AddMenuOption($"---===------------===------", null, true);
         var temp = IsTopDatas.OrderByDescending(x => x.Value).Take(10).ToList();
         foreach (var item in temp)
         {

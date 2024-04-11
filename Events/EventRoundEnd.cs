@@ -10,6 +10,8 @@ public partial class JailbreakExtras
         RegisterEventHandler<EventRoundEnd>((@event, _) =>
         {
             PrepareRoundDefaults();
+            RoundDefaultCommands();
+
             CoinRemove();
             CheckAllLevelTags();
             if (KumarKapatDisable == false)
@@ -26,12 +28,16 @@ public partial class JailbreakExtras
         });
     }
 
-    private void PrepareRoundDefaults()
+    private void RoundDefaultCommands()
     {
         foreach (var item in _Config.Additional.RoundEndStartCommands)
         {
             Server.ExecuteCommand(item);
         }
+    }
+
+    private void PrepareRoundDefaults()
+    {
         LastRSoundDisable = false;
         CurrentCtRespawns = 0;
         LrActive = false;

@@ -9,22 +9,20 @@ public partial class JailbreakExtras
 
     private void EventRoundStart()
     {
-        RegisterEventHandler<EventRoundStart>((@event, _) =>
+        RegisterEventHandler((GameEventHandler<EventRoundStart>)((@event, _) =>
         {
             RoundStartTime = DateTime.UtcNow;
             Server.ExecuteCommand("mp_force_pick_time 3000");
             if (PatronuKoruActive)
             {
-                HookDisabled = true;
-                Server.ExecuteCommand($"sv_enablebunnyhopping 0;sv_autobunnyhopping 0");
-                Server.ExecuteCommand("mp_autoteambalance 1");
-                Model0Action();
+                PatronuKoruRoundStart();
             }
             else
             {
                 Server.ExecuteCommand("mp_autoteambalance 0");
-                PrepareRoundDefaults();
+                RoundDefaultCommands();
             }
+            PrepareRoundDefaults();
             Server.ExecuteCommand("mp_equipment_reset_rounds 1");
             Server.ExecuteCommand("mp_t_default_secondary \"\" ");
             Ruletv2RoundStart();
@@ -84,6 +82,6 @@ public partial class JailbreakExtras
                 }, SOM);
             }
             return HookResult.Continue;
-        });
+        }));
     }
 }
