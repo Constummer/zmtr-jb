@@ -19,13 +19,14 @@ public partial class JailbreakExtras
                     }
                     if (ent.Entity != null)
                     {
-                        if (Config.Map.ForceOpenDoor
-                            .TryGetValue(Server.MapName, out var door) != true)
+                        if (Config.Map.MapConfigDatums
+                            .TryGetValue(Server.MapName, out var door) != true
+                            || door == null || door.ForceOpenDoor == null)
                         {
                             return HookResult.Continue;
                         }
 
-                        if (ent.Entity.Name != door)
+                        if (ent.Entity.Name != door.ForceOpenDoor)
                         {
                             return HookResult.Continue;
                         }

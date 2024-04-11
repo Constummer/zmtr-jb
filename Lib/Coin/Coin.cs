@@ -53,12 +53,14 @@ public partial class JailbreakExtras
         //var playerAbs = x.PlayerPawn.Value.AbsOrigin;
         //var vector = new Vector(playerAbs.X, playerAbs.Y, playerAbs.Z + 100);
         //var vector = VEC_ZERO;
-        var data = _Config.Map.CoinCoords
-            .Where(x => x.Text == Server.MapName)
-            .Select(x => x.Coord)
-            .FirstOrDefault() ?? new Vector(-718, -765, 24);
+        var data = _Config.Map.MapConfigDatums.TryGetValue(Server.MapName, out var conf);
+        var coords = new Vector(0, 0, 0);
+        if (data && data != null)
+        {
+            coords = new Vector(conf.CoinCoords.X, conf.CoinCoords.Y, conf.CoinCoords.Z);
+        }
 
-        Coin.Teleport(data, new QAngle(0.0f, 0.0f, 0.0f), VEC_ZERO);
+        Coin.Teleport(coords, new QAngle(0.0f, 0.0f, 0.0f), VEC_ZERO);
         Coin.DispatchSpawn();
         Coin.SetModel("models/coop/challenge_coin.vmdl");
 

@@ -32,6 +32,6 @@ public partial class JailbreakExtras
                 {"Değiş",1 },
                 {"Kal",0 },
             };
-        MapDkFinished();
+        MapDkFinished(Answers);
     }
 }

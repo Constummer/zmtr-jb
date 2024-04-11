@@ -149,15 +149,18 @@ public partial class JailbreakExtras
 
     private void IsEliTerroristTp()
     {
-        var coord = Config.Map.MapCellCoords?.Where(x => x?.Text == Server.MapName)?.FirstOrDefault();
-        if (coord == null) return;
-
-        GetPlayers(CsTeam.Terrorist)
-           .Where(x => x.PawnIsAlive)
-                  .ToList()
-                  .ForEach(x =>
-                  {
-                      x.PlayerPawn.Value.Teleport(coord.Coord, ANGLE_ZERO, VEC_ZERO);
-                  });
+        if (Config.Map.MapConfigDatums.TryGetValue(Server.MapName, out var val) && val != null && val.MapCellCoords != null)
+        {
+            var coord = val.MapCellCoords;
+            if (coord == null) return;
+            var vector = new Vector(coord.X, coord.Y, coord.Z);
+            GetPlayers(CsTeam.Terrorist)
+               .Where(x => x.PawnIsAlive)
+                      .ToList()
+                      .ForEach(x =>
+                      {
+                          x.PlayerPawn.Value.Teleport(vector, x.PlayerPawn.Value.EyeAngles, VEC_ZERO);
+                      });
+        }
     }
 }

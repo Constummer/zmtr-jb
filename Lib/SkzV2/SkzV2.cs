@@ -26,10 +26,10 @@ public partial class JailbreakExtras
     private static int PaintPlayersBasedOnTheirPos(CCSPlayerController x)
     {
         if (ValidateCallerPlayer(x, false) == false) return 0;
-        if (_Config.Map.KzCellCoords.TryGetValue(Server.MapName, out var poses))
+        if (_Config.Map.MapConfigDatums.TryGetValue(Server.MapName, out var conf) && conf != null && conf.KzCellCoords != null)
         {
-            var vec1 = poses.Where(x => x.Text == "LeftBottom").FirstOrDefault();
-            var vec2 = poses.Where(x => x.Text == "RightTop").FirstOrDefault();
+            var vec1 = conf.KzCellCoords.Where(x => x.Text == "LeftBottom").FirstOrDefault();
+            var vec2 = conf.KzCellCoords.Where(x => x.Text == "RightTop").FirstOrDefault();
             if (vec1 != null && vec2 != null)
             {
                 var validVec1 = vec1.Coord.X == 0 && vec1.Coord.Y == 0 && vec1.Coord.Z == 0;

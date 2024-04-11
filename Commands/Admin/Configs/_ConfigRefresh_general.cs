@@ -145,15 +145,15 @@ public partial class JailbreakExtras
                 }
                 else
                 {
-                    _Config.Map2.MapConfig = new();
-                    Config.Map2.MapConfig = new();
+                    _Config.Map.MapConfigDatums = new();
+                    Config.Map.MapConfigDatums = new();
                     foreach (var item in files)
                     {
                         var temp = ReadCustomConfigFromPath<MapConfigDetailed>(item.All);
                         if (temp != null)
                         {
-                            _Config.Map2.MapConfig.TryAdd(item.Extensionless, temp);
-                            Config.Map2.MapConfig.TryAdd(item.Extensionless, temp);
+                            _Config.Map.MapConfigDatums.TryAdd(item.Extensionless, temp);
+                            Config.Map.MapConfigDatums.TryAdd(item.Extensionless, temp);
                         }
                     }
                 }

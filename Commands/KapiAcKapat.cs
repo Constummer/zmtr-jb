@@ -83,16 +83,19 @@ public partial class JailbreakExtras
 
     public void ForceOpenDoor()
     {
-        if (Config.Map.KapiAcKapaList.TryGetValue(Server.MapName, out var list))
+        if (Config.Map.MapConfigDatums.TryGetValue(Server.MapName, out var list))
         {
-            foreach (var item in list)
+            if (list != null && list.KapiAcKapaList != null)
             {
-                var act = item.Value switch
+                foreach (var item in list.KapiAcKapaList)
                 {
-                    "func_breakable" => "Break",
-                    _ => "Open"
-                };
-                ForceEntInput(item.Value, act, item.Key);
+                    var act = item.Value switch
+                    {
+                        "func_breakable" => "Break",
+                        _ => "Open"
+                    };
+                    ForceEntInput(item.Value, act, item.Key);
+                }
             }
         }
         else
@@ -107,16 +110,19 @@ public partial class JailbreakExtras
 
     public void ForceCloseDoor()
     {
-        if (Config.Map.KapiAcKapaList.TryGetValue(Server.MapName, out var list))
+        if (Config.Map.MapConfigDatums.TryGetValue(Server.MapName, out var list))
         {
-            foreach (var item in list)
+            if (list != null && list.KapiAcKapaList != null)
             {
-                var act = item.Value switch
+                foreach (var item in list.KapiAcKapaList)
                 {
-                    "func_breakable" => "Break",
-                    _ => "Close"
-                };
-                ForceEntInput(item.Value, act, item.Key);
+                    var act = item.Value switch
+                    {
+                        "func_breakable" => "Break",
+                        _ => "Close"
+                    };
+                    ForceEntInput(item.Value, act, item.Key);
+                }
             }
         }
         else

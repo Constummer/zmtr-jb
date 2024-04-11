@@ -43,7 +43,10 @@ public partial class JailbreakExtras
             }
         }
 
-        if ((Config.Map.SkzCoordinates?.TryGetValue(Server.MapName, out var coords) ?? false) == false || coords == null || coords.Count == 0)
+        if (Config.Map.MapConfigDatums.TryGetValue(Server.MapName, out var mapConfig) == false
+            || mapConfig == null
+            || mapConfig.SkzCoordinates == null
+            || mapConfig.SkzCoordinates.Count == 0)
         {
             player.PrintToChat("SKZ konumları girilmemiş bir mapte oynamaktasınız. Admin ile görüşmelisiniz");
             return;
@@ -52,7 +55,7 @@ public partial class JailbreakExtras
         var abs = player.PlayerPawn.Value.AbsOrigin;
         var skzMenu = new ChatMenu("SKZ Menü");
         var coordsFound = new List<CoordinateTemplate>();
-        foreach (var item in coords)
+        foreach (var item in mapConfig.SkzCoordinates)
         {
             coordsFound.Add(item);
         }
