@@ -62,6 +62,22 @@ public partial class JailbreakExtras
                 catch (Exception e)
                 {
                 }
+                try
+                {
+                    if (SmoothThirdPersonPool2.TryGetValue(player.SteamID, out var cam2))
+                    {
+                        if (cam2 != null)
+                        {
+                            if (cam2.IsValid)
+                            {
+                                UpdateCameraSmooth2(cam2, player);
+                            }
+                        }
+                    }
+                }
+                catch (Exception e)
+                {
+                }
             }
         }));
     }

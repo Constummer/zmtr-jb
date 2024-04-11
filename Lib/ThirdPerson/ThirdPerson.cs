@@ -1,5 +1,6 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Utils;
 using System.Drawing;
 
@@ -7,8 +8,8 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    public static Dictionary<ulong, CDynamicProp> ThirdPersonPool = new();
     public static Dictionary<ulong, CPhysicsPropMultiplayer> SmoothThirdPersonPool = new();
+    public static Dictionary<ulong, CPointCamera> SmoothThirdPersonPool2 = new();
 
     public static void SetTPColor<T>(T? prop, Color colour) where T : CBreakableProp
     {
@@ -25,6 +26,20 @@ public partial class JailbreakExtras
     }
 
     public static void UpdateCameraSmooth(CPhysicsPropMultiplayer _cameraProp, CCSPlayerController player)
+    {
+        if (_cameraProp != null)
+        {
+            if (_cameraProp.IsValid)
+            {
+                if (ValidateCallerPlayer(player, false) == false) return;
+
+                Vector velocity = CalculateVelocity(_cameraProp.AbsOrigin!, CalculatePositionInFront(player, -110, 90), 0.01f);
+                _cameraProp.Teleport(_cameraProp.AbsOrigin!, player.PlayerPawn.Value!.V_angle, velocity);
+            }
+        }
+    }
+
+    public static void UpdateCameraSmooth2(CPointCamera _cameraProp, CCSPlayerController player)
     {
         if (_cameraProp != null)
         {
@@ -94,6 +109,79 @@ public partial class JailbreakExtras
             return positionInFront;
         }
         return null;
+    }
+
+    public void SmoothThirdPerson2(CCSPlayerController p)
+    {
+        if (!SmoothThirdPersonPool2.ContainsKey(p.SteamID))
+        {
+            var cam = Utilities.CreateEntityByName<CPointCamera>("point_camera");
+
+            if (cam != null && cam.IsValid)
+            {
+                cam.Active = true;
+                //cam.MoveType = MoveType_t.MOVETYPE_NOCLIP;
+                //cam.TakesDamage = false;
+                //cam.GravityScale = 0;
+                //cam.SentToClients = 1;
+                cam.IsOn = true;
+                cam.AspectRatio = 1;
+                cam.UseScreenAspectRatio = false;
+                cam.FogEnable = false;
+                cam.CanHLTVUse = true;
+                //player.PlayerPawn.Value.ObserverServices.ObserverTarget. = 0;
+                //player.PlayerPawn.Value.ObserverServices.ObserverMode = (int)ObserverMode_t.OBS_MODE_CHASE;
+                //player.PlayerPawn.Value.ObserverServices.ObserverMode = 1;
+                //Utilities.SetStateChanged(player.PlayerPawn.Value, "CBaseEntity", "m_hObserverTarget");
+
+                cam.FOV = 90;
+                cam.ZNear = 4;
+                cam.ZFar = 10_000;
+                p.PlayerPawn.Value!.CameraServices!.ViewEntity.Raw = cam.EntityHandle.Raw;
+                Utilities.SetStateChanged(p.PlayerPawn.Value, "CBasePlayerPawn", "m_pCameraServices");
+
+                var abs = p.PlayerPawn.Value.AbsOrigin;
+
+                cam.Teleport(new(abs.X, abs.Y, abs.Z + 40), p.PlayerPawn.Value.EyeAngles, p.PlayerPawn.Value.AbsVelocity);
+                cam.AcceptInput("SetOnAndTurnOthersOff");
+                cam.AcceptInput("Enable");
+                cam.DispatchSpawn();
+
+                //CustomSetParent(cam, player.PlayerPawn.Value);
+                //var cameraProp = Utilities.CreateEntityByName<CPhysicsPropMultiplayer>("prop_physics_multiplayer");
+
+                //if (cameraProp == null || !cameraProp.IsValid) return;
+
+                //cameraProp.DispatchSpawn();
+
+                //cameraProp.Collision.CollisionGroup = 1;
+                //cameraProp.Collision.SolidFlags = 12;
+                //cameraProp.Collision.SolidType = SolidType_t.SOLID_VPHYSICS;
+
+                //SetTPColor(cameraProp, Color.FromArgb(0, 255, 255, 255));
+
+                //Changes players view to camera prop- ViewEntity Raw value can be set to uint.MaxValue to change back to normal player cam
+                p.PlayerPawn.Value!.CameraServices!.ViewEntity.Raw = cam.EntityHandle.Raw;
+                Utilities.SetStateChanged(p.PlayerPawn.Value, "CBasePlayerPawn", "m_pCameraServices");
+
+                cam.Teleport(CalculatePositionInFront(p, -110, 90), p.PlayerPawn.Value.V_angle, new Vector());
+
+                SmoothThirdPersonPool2.Add(p.SteamID, cam);
+
+                p.PrintToChat($"{Prefix} {CC.W} Third person aktifleştirildi");
+            }
+        }
+        else
+        {
+            p!.PlayerPawn!.Value!.CameraServices!.ViewEntity.Raw = uint.MaxValue;
+            AddTimer(0.3f, () => Utilities.SetStateChanged(p.PlayerPawn!.Value!, "CBasePlayerPawn", "m_pCameraServices"));
+            if (SmoothThirdPersonPool2[p.SteamID] != null && SmoothThirdPersonPool2[p.SteamID].IsValid)
+            {
+                SmoothThirdPersonPool2[p.SteamID].Remove();
+            }
+            p.PrintToChat($"{Prefix} {CC.W} Third person deaktifleştirildi");
+            SmoothThirdPersonPool2.Remove(p.SteamID);
+        }
     }
 
     public void SmoothThirdPerson(CCSPlayerController p)

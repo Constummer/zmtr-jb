@@ -28,10 +28,25 @@ public partial class JailbreakExtras
         }
     }
 
+    [ConsoleCommand("tp2")]
+    public void Tp2(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/premium"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player, false) == false)
+        {
+            return;
+        }
+        SmoothThirdPerson2(player);
+    }
+
     [ConsoleCommand("TpActive")]
     public void TpActive(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, "@css/premium"))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
