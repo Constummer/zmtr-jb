@@ -1,6 +1,4 @@
 ﻿using CounterStrikeSharp.API.Core;
-using System.ComponentModel.DataAnnotations;
-using System.Net.Http.Headers;
 
 namespace JailbreakExtras;
 
@@ -11,6 +9,7 @@ public partial class JailbreakExtras
         public CounterStrikeSharp.API.Modules.Timers.Timer? LightActionTimer { get; set; } = null;
         public CounterStrikeSharp.API.Modules.Timers.Timer? ChangeLightTimer { get; set; } = null;
         public GLRLBase CurrentLight { get; set; } = null;
+
         public readonly List<GLRLBase> GLRLDatas = new()
         {
             new GLRLBase(true,"...",3),
@@ -18,14 +17,15 @@ public partial class JailbreakExtras
             new GLRLBase(true,"...",5),
             new GLRLBase(false,"...",5),
         };
+
         public Dictionary<ulong, GLRLCoords> Coords { get; set; }
         public List<ulong> PlayerCount { get; set; } = new();
         public const float Treshold = 25 * 25;
         public bool MusicPlaying { get; set; } = false;
+
         public SoloRedLightGreenLightTG() : base(TeamGamesSoloChoices.RedLightGreenLight)
         {
         }
-
 
         internal override void StartGame(Action callback)
         {
@@ -70,6 +70,7 @@ public partial class JailbreakExtras
 
             base.EventPlayerDisconnect(tempSteamId);
         }
+
         private void GameTimerStart()
         {
             LightActionTimer?.Kill();
@@ -174,6 +175,7 @@ public partial class JailbreakExtras
                 Coords.Add(x.SteamID, new(abs, eyeSqr));
             }
         }
+
         public class GLRLCoords
         {
             public GLRLCoords(float abs, float eyes)
@@ -185,6 +187,7 @@ public partial class JailbreakExtras
             public float Abs { get; set; }
             public float Eyes { get; set; }
         }
+
         public class GLRLBase
         {
             public GLRLBase(bool isRed, string musicName, decimal time)

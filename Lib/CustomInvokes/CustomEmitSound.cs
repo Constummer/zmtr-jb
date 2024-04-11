@@ -1,8 +1,3 @@
-using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Memory;
-using CounterStrikeSharp.API.Modules.Memory.DynamicFunctions;
-using System.Runtime.InteropServices;
-
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras

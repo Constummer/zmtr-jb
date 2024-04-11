@@ -1,7 +1,4 @@
-﻿using CounterStrikeSharp.API;
-using System.Diagnostics;
-
-namespace JailbreakExtras;
+﻿namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {

@@ -70,5 +70,4 @@ public partial class JailbreakExtras
             return 0;
         }
     }
-
 }

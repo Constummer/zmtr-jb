@@ -1,6 +1,4 @@
 ﻿using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API;
-using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
 

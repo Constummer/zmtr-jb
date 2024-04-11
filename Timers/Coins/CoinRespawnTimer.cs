@@ -1,6 +1,4 @@
-﻿using CounterStrikeSharp.API.Modules.Timers;
-
-namespace JailbreakExtras;
+﻿namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {

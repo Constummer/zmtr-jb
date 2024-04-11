@@ -2,7 +2,6 @@
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using MySqlConnector;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace JailbreakExtras;
 

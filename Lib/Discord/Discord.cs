@@ -1,5 +1,4 @@
 ﻿using CounterStrikeSharp.API;
-using CounterStrikeSharp.API.Modules.Entities;
 using JailbreakExtras.Lib.Database;
 using MySqlConnector;
 using System.Net.Http.Headers;

@@ -12,6 +12,7 @@ public partial class JailbreakExtras
             player.ExecuteClientCommand($"play {musicPath}");
         }
     }
+
     private static void LastAliveTSound()
     {
         if (LastRSoundDisable)

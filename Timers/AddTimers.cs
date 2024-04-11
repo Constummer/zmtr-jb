@@ -1,5 +1,4 @@
 using CounterStrikeSharp.API;
-using System.Net;
 
 namespace JailbreakExtras;
 

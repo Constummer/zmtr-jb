@@ -1,5 +1,3 @@
-using System.Linq;
-
 namespace JailbreakExtras;
 
 public static class JailbreakExtrasHelper

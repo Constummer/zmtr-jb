@@ -1,6 +1,5 @@
 ﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Menu;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace JailbreakExtras;
 

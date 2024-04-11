@@ -1,8 +1,4 @@
-﻿using CounterStrikeSharp.API.Modules.Admin;
-using JailbreakExtras.Lib.Database;
-using MySqlConnector;
-
-namespace JailbreakExtras;
+﻿namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
