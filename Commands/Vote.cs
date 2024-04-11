@@ -33,7 +33,7 @@ public partial class JailbreakExtras
         VoteAction(player, info.ArgString);
     }
 
-    private void VoteAction(CCSPlayerController? player, string argstr, short voteTime = 20, Action mapDkFinished = null)
+    private void VoteAction(CCSPlayerController? player, string argstr, short voteTime = 20, Action<Dictionary<string, int>> voteFinished = null)
     {
         if (LatestVoteMenu != null)
         {
@@ -142,6 +142,7 @@ public partial class JailbreakExtras
             {
                 Server.PrintToChatAll($"{Prefix}{CC.Or} {kvp.Key} {CC.W} - {CC.Y}{kvp.Value}");
             }
+            var answersTemp = new Dictionary<string, int>(Answers);
             Answers.Clear();
             VoteInProgress = false;
             LatestVoteMenu = null;
@@ -149,10 +150,7 @@ public partial class JailbreakExtras
             VotePrintTimer = null;
             LatestVoteAnswerCommandCalls?.Clear();
             AlreadyVotedPlayers.Clear();
-            if (mapDkFinished != null)
-            {
-                mapDkFinished();
-            }
+            voteFinished?.Invoke(answersTemp);
         }, SOM);
 
         return;

@@ -61,12 +61,11 @@ public partial class JailbreakExtras
         }
     }
 
-    private void MapDkFinished()
+    private void MapDkFinished(Dictionary<string, int> answers)
     {
-        var tempAnswers = Answers;
         var degisCount = 0;
         var kalCount = 0;
-        foreach (var item in tempAnswers)
+        foreach (var item in answers)
         {
             if (item.Key == "Değiş")
             {
@@ -96,10 +95,9 @@ public partial class JailbreakExtras
         }
     }
 
-    private void MapVoteFinished()
+    private void MapVoteFinished(Dictionary<string, int> answers)
     {
-        var tempAnswers = Answers;
-        var highest = tempAnswers.OrderByDescending(x => x.Value).FirstOrDefault();
+        var highest = answers.OrderByDescending(x => x.Value).FirstOrDefault();
 
         Config.Map.MapWorkshopIds.TryGetValue(highest.Key.Trim(), out var mapWorkshopId);
         if (mapWorkshopId != 0)
