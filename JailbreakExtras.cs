@@ -51,6 +51,14 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
         Checker();
         LoadCredit();
         CreateDataFolder();
+
+        #region Configs
+
+        ConfigReadPath();
+        ReadInitConfig();
+
+        #endregion Configs
+
         Database();
         LoadPlayerModels();
 
