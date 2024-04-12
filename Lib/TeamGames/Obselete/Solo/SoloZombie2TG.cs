@@ -20,7 +20,7 @@ public partial class JailbreakExtras
             Server.ExecuteCommand($"sv_enablebunnyhopping 0;sv_autobunnyhopping 0");
             Server.PrintToChatAll($"{Prefix} {CC.W}Bunny kapandı.");
             PlayerCount = RemoveAllWeapons(giveKnife: true, custom: "weapon_ak47", setHp: 100);
-            RemoveAllWeaponsCT(true, false, null, 3000);
+            RemoveAllWeaponsCT(true, false, null, 8000);
             base.StartGame(callback);
         }
 
