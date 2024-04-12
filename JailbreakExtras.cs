@@ -1,12 +1,11 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
 using CounterStrikeSharp.API.Modules.Utils;
-using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
 
 [MinimumApiVersion(140)]
-public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtrasConfig>
+public partial class JailbreakExtras : BasePlugin
 {
     private static HttpClient _httpClient;
 
@@ -22,15 +21,6 @@ public partial class JailbreakExtras : BasePlugin, IPluginConfig<JailbreakExtras
     public JailbreakExtrasConfig Config { get; set; } = new JailbreakExtrasConfig();
 
     public static JailbreakExtrasConfig _Config { get; set; } = new JailbreakExtrasConfig();
-
-    private static Dictionary<ulong, bool> ActiveGodMode = new();
-    private static Dictionary<ulong, Vector> DeathLocations = new();
-    private static Dictionary<ulong, bool> HideFoots = new();
-    private static Dictionary<ulong, bool> HookPlayers = new();
-    private static List<ulong> HookDisablePlayers = new();
-    private static Dictionary<ulong, Dictionary<ulong, string>> KilledPlayers = new();
-    private static Dictionary<ulong, bool> bUsingPara = new();
-    private static Dictionary<ulong, string> PlayerNamesDatas = new();
 
     public override void Load(bool hotReload)
     {

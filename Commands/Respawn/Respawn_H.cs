@@ -2,11 +2,14 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    private static Dictionary<ulong, Vector> DeathLocations = new();
+
     [ConsoleCommand("hrespawn", "öldüğü yerde canlanır")]
     [ConsoleCommand("1up", "öldüğü yerde canlanır")]
     [CommandHelper(1, "<playerismi>")]

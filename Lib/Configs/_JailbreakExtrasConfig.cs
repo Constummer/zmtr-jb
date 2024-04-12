@@ -8,56 +8,55 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    public class JailbreakExtrasConfig : BasePluginConfig
+    public class JailbreakExtrasConfig
     {
         public JailbreakExtrasConfig()
         {
-            Version = 10;
         }
 
-        [JsonPropertyName("Database")]
+        [JsonIgnore]
         public DatabaseConfig Database { get; set; } = new DatabaseConfig();
 
-        [JsonPropertyName("Additional")]
+        [JsonIgnore]
         public AdditionalConfig Additional { get; set; } = new AdditionalConfig();
 
-        [JsonPropertyName("Map")]
+        [JsonIgnore]
         public MapConfig Map { get; set; } = new MapConfig();
 
-        [JsonPropertyName("UnrestrictedFov")]
+        [JsonIgnore]
         public UnrestrictedFovConfig UnrestrictedFov { get; set; } = new UnrestrictedFovConfig();
 
-        [JsonPropertyName("Sounds")]
+        [JsonIgnore]
         public SoundsConfig Sounds { get; set; } = new SoundsConfig();
 
-        [JsonPropertyName("Laser")]
+        [JsonIgnore]
         public LaserConfig Laser { get; set; } = new LaserConfig();
 
-        [JsonPropertyName("Credit")]
+        [JsonIgnore]
         public CreditConfig Credit { get; set; } = new CreditConfig();
 
-        [JsonPropertyName("Burry")]
+        [JsonIgnore]
         public BurryConfig Burry { get; set; } = new BurryConfig();
 
-        [JsonPropertyName("Market")]
+        [JsonIgnore]
         public MarketConfig Market { get; set; } = new MarketConfig();
 
-        [JsonPropertyName("Particle")]
+        [JsonIgnore]
         public ParticleConfig Particle { get; set; } = new ParticleConfig();
 
-        [JsonPropertyName("SteamGroup")]
+        [JsonIgnore]
         public SteamGroupConfig SteamGroup { get; set; } = new SteamGroupConfig();
 
-        [JsonPropertyName("Model")]
+        [JsonIgnore]
         public ModelConfig Model { get; set; } = new ModelConfig();
 
-        [JsonPropertyName("BlockedRadio")]
+        [JsonIgnore]
         public BlockedRadioConfig BlockedRadio { get; set; } = new BlockedRadioConfig();
 
-        [JsonPropertyName("DontBlockOnGagged")]
+        [JsonIgnore]
         public DontBlockOnGaggedConfig DontBlockOnGagged { get; set; } = new DontBlockOnGaggedConfig();
 
-        [JsonPropertyName("CTKit")]
+        [JsonIgnore]
         public CTKitConfig CTKit { get; set; } = new CTKitConfig();
 
         [JsonIgnore]
@@ -65,31 +64,5 @@ public partial class JailbreakExtras
 
         [JsonIgnore]
         public TgGameConfig TgGame { get; set; } = new TgGameConfig();
-    }
-
-    public void OnConfigParsed(JailbreakExtrasConfig config)
-    {
-        if (config.Version < ModuleConfigVersion)
-        {
-            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
-            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
-            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
-            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
-            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
-            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
-            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
-            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
-            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
-            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
-            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
-            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
-            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
-            Logger.LogInformation($"CONFIG SURUMU ESKI, YENISINI OLUSTURUP DATABASE CONFIGI GIRMEYI UNUTMA");
-        }
-        _Config = Config = config;
-        SetLevelPermissionDictionary();
-        config.Burry.BuryColor = Color.FromArgb(config.Burry.BurryColorR, config.Burry.BurryColorG, config.Burry.BurryColorB);
-        //Re-assign after adjustments
-        _Config = Config = config;
     }
 }

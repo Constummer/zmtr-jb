@@ -8,6 +8,8 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    private static Dictionary<ulong, bool> ActiveGodMode = new();
+
     #region God
 
     [ConsoleCommand("god", "godmode a player")]

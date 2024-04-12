@@ -8,6 +8,7 @@ namespace JailbreakExtras;
 public partial class JailbreakExtras
 {
     private static Dictionary<int?, CBaseEntity?> gParaModel = new();
+    private static Dictionary<ulong, bool> bUsingPara = new();
 
     private void ParachuteOnTick(CCSPlayerController player, int i)
     {

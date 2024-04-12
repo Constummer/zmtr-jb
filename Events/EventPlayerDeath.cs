@@ -5,6 +5,8 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    private static Dictionary<ulong, Dictionary<ulong, string>> KilledPlayers = new();
+
     private void EventPlayerDeath()
     {
         RegisterEventHandler<EventPlayerDeath>((@event, info) =>

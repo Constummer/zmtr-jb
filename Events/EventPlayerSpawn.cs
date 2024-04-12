@@ -8,6 +8,8 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    private static Dictionary<ulong, bool> HideFoots = new();
+
     private void EventPlayerSpawn()
     {
         RegisterEventHandler<EventPlayerSpawn>(CTKitOnPlayerSpawn);

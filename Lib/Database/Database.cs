@@ -5,6 +5,8 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    private static Dictionary<ulong, string> PlayerNamesDatas = new();
+
     private static MySqlConnection? Connection()
     {
         try

@@ -10,6 +10,8 @@ namespace JailbreakExtras;
 public partial class JailbreakExtras
 {
     public static bool HookDisabled { get; set; } = false;
+    private static Dictionary<ulong, bool> HookPlayers = new();
+    private static List<ulong> HookDisablePlayers = new();
 
     #region Hook
 

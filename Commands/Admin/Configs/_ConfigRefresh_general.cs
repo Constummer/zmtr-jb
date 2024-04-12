@@ -1,5 +1,6 @@
 ﻿using CounterStrikeSharp.API;
 using JailbreakExtras.Lib.Configs;
+using System.Drawing;
 using System.Text.Json;
 
 namespace JailbreakExtras;
@@ -122,6 +123,10 @@ public partial class JailbreakExtras
         }
 
         ReadMapConfigs();
+        SetLevelPermissionDictionary();
+        _Config.Burry.BuryColor
+            = Config.Burry.BuryColor
+            = Color.FromArgb(Config.Burry.BurryColorR, Config.Burry.BurryColorG, Config.Burry.BurryColorB);
     }
 
     private void ReadMapConfigs()
