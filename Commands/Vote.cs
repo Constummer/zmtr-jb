@@ -150,7 +150,10 @@ public partial class JailbreakExtras
             VotePrintTimer = null;
             LatestVoteAnswerCommandCalls?.Clear();
             AlreadyVotedPlayers.Clear();
-            voteFinished?.Invoke(answersTemp);
+            if (voteFinished != null)
+            {
+                voteFinished?.Invoke(answersTemp);
+            }
         }, SOM);
 
         return;

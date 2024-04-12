@@ -32,6 +32,32 @@ public partial class JailbreakExtras
         Server.PrintToConsole($"{LatestWCommandUser}");
     }
 
+    [ConsoleCommand("cspawnweapon")]
+    public void cspawnweapon(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        var asdf = new CAK47(player.Handle);
+        Server.PrintToChatAll("a");
+        if (asdf != null && asdf.IsValid)
+        {
+            Server.PrintToChatAll("b");
+
+            asdf.Teleport(player.PlayerPawn.Value.AbsOrigin, ANGLE_ZERO, VEC_ZERO);
+            Server.PrintToChatAll("c");
+
+            asdf.DispatchSpawn();
+            Server.PrintToChatAll("d");
+        }
+    }
+
     [ConsoleCommand("csoundtest")]
     public void csoundtest(CCSPlayerController? player, CommandInfo info)
     {
