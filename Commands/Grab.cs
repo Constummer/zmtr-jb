@@ -92,9 +92,9 @@ public partial class JailbreakExtras
             }
             ActiveGodMode[Closest.SteamID] = true;
             var @new = ProjectPointOntoLine(start, end, Closest.PlayerPawn.Value.AbsOrigin);
-            Closest.PlayerPawn.Value.Teleport(@new, Closest.PlayerPawn.Value.AbsRotation!, VEC_ZERO);
-            Closest.Pawn.Value.Teleport(@new, Closest.PlayerPawn.Value.AbsRotation!, VEC_ZERO);
-            Closest.Teleport(@new, Closest.PlayerPawn.Value.AbsRotation!, VEC_ZERO);
+            Closest.PlayerPawn.Value.Teleport(@new, Closest.PlayerPawn.Value.EyeAngles!, VEC_ZERO);
+            Closest.Pawn.Value.Teleport(@new, Closest.PlayerPawn.Value.EyeAngles!, VEC_ZERO);
+            Closest.Teleport(@new, Closest.PlayerPawn.Value.EyeAngles!, VEC_ZERO);
 
             var tempClosesSteamid = Closest.SteamID;
             AddTimer(1, () =>
@@ -119,9 +119,9 @@ public partial class JailbreakExtras
                 ActiveGodMode[closest.SteamID] = true;
                 Closest = closest;
                 var @new = ProjectPointOntoLine(start, end, closest.PlayerPawn.Value.AbsOrigin);
-                closest.PlayerPawn.Value.Teleport(@new, closest.PlayerPawn.Value.AbsRotation!, VEC_ZERO);
-                closest.Pawn.Value.Teleport(@new, closest.PlayerPawn.Value.AbsRotation!, VEC_ZERO);
-                closest.Teleport(@new, closest.PlayerPawn.Value.AbsRotation!, VEC_ZERO);
+                closest.PlayerPawn.Value.Teleport(@new, closest.PlayerPawn.Value.EyeAngles!, VEC_ZERO);
+                closest.Pawn.Value.Teleport(@new, closest.PlayerPawn.Value.EyeAngles!, VEC_ZERO);
+                closest.Teleport(@new, closest.PlayerPawn.Value.EyeAngles!, VEC_ZERO);
                 //if (Laser != null && Laser.IsValid)
                 //{
                 //    Laser.EndPos.X = Closest.PlayerPawn.Value.AbsOrigin.X;

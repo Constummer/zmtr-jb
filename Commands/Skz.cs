@@ -78,7 +78,7 @@ public partial class JailbreakExtras
                 players.ForEach(x =>
                 {
                     SetMoveType(x, MoveType_t.MOVETYPE_OBSOLETE);
-                    x.PlayerPawn.Value.Teleport(k.Coord, x.Pawn.Value.AbsRotation, new Vector(0f, 0f, 0f));
+                    x.PlayerPawn.Value.Teleport(k.Coord, x.PlayerPawn.Value.EyeAngles, new Vector(0f, 0f, 0f));
                 });
                 BasicCountdown.CommandStartTextCountDown(this, $"SKZ 3 SANİYE SONRA BAŞLIYOR");
 

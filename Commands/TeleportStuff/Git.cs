@@ -41,7 +41,7 @@ public partial class JailbreakExtras
             if (x.SteamID != player.SteamID)
             {
                 var playerAbs = x.PlayerPawn.Value.AbsOrigin;
-                player.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 1, playerAbs.Z), ANGLE_ZERO, VEC_ZERO);
+                player.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 1, playerAbs.Z), x.PlayerPawn.Value.EyeAngles, VEC_ZERO);
                 Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.DR}{x.PlayerName} {CC.W} adlı oyuncunun yanına ışınladı.");
             }
         }

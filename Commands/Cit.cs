@@ -129,7 +129,7 @@ public partial class JailbreakExtras
             return;
         }
         var vector = new Vector(@event.X, @event.Y, @event.Z);
-        cit.Teleport(vector, @event.Userid.PlayerPawn.Value.AbsRotation, VEC_ZERO);
+        cit.Teleport(vector, @event.Userid.PlayerPawn.Value.EyeAngles, VEC_ZERO);
         //cit.Health = 1;
         //cit.TakeDamageFlags = TakeDamageFlags_t.DFLAG_FORCE_DEATH;
         //cit.TakesDamage = true;

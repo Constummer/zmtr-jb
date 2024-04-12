@@ -116,7 +116,7 @@ public partial class JailbreakExtras
 
                     x.PlayerPawn.Value.Teleport(
                         new Vector(DizStart.Item1, DizStart.Item2, player.PlayerPawn.Value.AbsOrigin.Z),
-                        x.PlayerPawn.Value.AbsRotation ?? ANGLE_ZERO,
+                        x.PlayerPawn.Value.EyeAngles,
                         VEC_ZERO);
                 }
             }
@@ -129,11 +129,11 @@ public partial class JailbreakExtras
 
                 first.PlayerPawn.Value.Teleport(
                     new Vector(DizStart.Item1, DizStart.Item2, player.PlayerPawn.Value.AbsOrigin.Z),
-                    first.PlayerPawn.Value.AbsRotation ?? ANGLE_ZERO,
+                    first.PlayerPawn.Value.EyeAngles,
                     VEC_ZERO);
                 second.PlayerPawn.Value.Teleport(
                   new Vector(DizEnd.Item1, DizEnd.Item2, player.PlayerPawn.Value.AbsOrigin.Z),
-                  second.PlayerPawn.Value.AbsRotation ?? ANGLE_ZERO,
+                  second.PlayerPawn.Value.EyeAngles,
                   VEC_ZERO);
             }
             else if (res.Count == players.Count)
@@ -154,7 +154,7 @@ public partial class JailbreakExtras
 
                     x.PlayerPawn.Value.Teleport(
                         new Vector(coord.Item1, coord.Item2, player.PlayerPawn.Value.AbsOrigin.Z),
-                        x.PlayerPawn.Value.AbsRotation ?? ANGLE_ZERO,
+                        x.PlayerPawn.Value.EyeAngles,
                         VEC_ZERO);
                 }
             }

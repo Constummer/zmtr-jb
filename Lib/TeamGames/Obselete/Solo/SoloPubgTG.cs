@@ -33,7 +33,7 @@ public partial class JailbreakExtras
                         Global?.AddTimer(0.5f, () =>
                         {
                             if (ValidateCallerPlayer(x, false) == false) return;
-                            x.PlayerPawn.Value.Teleport(new Vector(tpValue.X, tpValue.Y, tpValue.Z), ANGLE_ZERO, VEC_ZERO);
+                            x.PlayerPawn.Value.Teleport(new Vector(tpValue.X, tpValue.Y, tpValue.Z), x.PlayerPawn.Value.EyeAngles, VEC_ZERO);
                         }, SOM);
                     }
                 });
