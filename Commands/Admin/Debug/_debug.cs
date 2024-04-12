@@ -14,15 +14,7 @@ public partial class JailbreakExtras
 {
     private void PrintToRootChat(string msg)
     {
-        GetPlayers()
-             .ToList()
-             .ForEach(x =>
-             {
-                 if (AdminManager.PlayerHasPermissions(x, "@css/root"))
-                 {
-                     x.PrintToChat(msg);
-                 }
-             });
+        Server.PrintToChatAll(msg);
     }
 
     [ConsoleCommand("cwarden")]

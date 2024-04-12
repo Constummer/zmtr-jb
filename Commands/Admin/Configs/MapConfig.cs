@@ -16,5 +16,6 @@ public partial class JailbreakExtras
         {
             _Config.Map = Config.Map = temp;
         }
+        ReadMapConfigs();
     }
 }

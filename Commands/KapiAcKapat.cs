@@ -83,19 +83,17 @@ public partial class JailbreakExtras
 
     public void ForceOpenDoor()
     {
-        if (Config.Map.MapConfigDatums.TryGetValue(Server.MapName, out var list))
+        if (Config.Map.MapConfigDatums.TryGetValue(Server.MapName, out var list)
+            && list != null && list.KapiAcKapaList != null && list.KapiAcKapaList.Count > 0)
         {
-            if (list != null && list.KapiAcKapaList != null)
+            foreach (var item in list.KapiAcKapaList)
             {
-                foreach (var item in list.KapiAcKapaList)
+                var act = item.Value switch
                 {
-                    var act = item.Value switch
-                    {
-                        "func_breakable" => "Break",
-                        _ => "Open"
-                    };
-                    ForceEntInput(item.Value, act, item.Key);
-                }
+                    "func_breakable" => "Break",
+                    _ => "Open"
+                };
+                ForceEntInput(item.Value, act, item.Key);
             }
         }
         else
@@ -110,19 +108,17 @@ public partial class JailbreakExtras
 
     public void ForceCloseDoor()
     {
-        if (Config.Map.MapConfigDatums.TryGetValue(Server.MapName, out var list))
+        if (Config.Map.MapConfigDatums.TryGetValue(Server.MapName, out var list)
+            && list != null && list.KapiAcKapaList != null && list.KapiAcKapaList.Count > 0)
         {
-            if (list != null && list.KapiAcKapaList != null)
+            foreach (var item in list.KapiAcKapaList)
             {
-                foreach (var item in list.KapiAcKapaList)
+                var act = item.Value switch
                 {
-                    var act = item.Value switch
-                    {
-                        "func_breakable" => "Break",
-                        _ => "Close"
-                    };
-                    ForceEntInput(item.Value, act, item.Key);
-                }
+                    "func_breakable" => "Break",
+                    _ => "Close"
+                };
+                ForceEntInput(item.Value, act, item.Key);
             }
         }
         else

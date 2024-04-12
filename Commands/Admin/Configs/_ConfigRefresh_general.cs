@@ -152,8 +152,9 @@ public partial class JailbreakExtras
                         var temp = ReadCustomConfigFromPath<MapConfigDetailed>(item.All);
                         if (temp != null)
                         {
-                            _Config.Map.MapConfigDatums.TryAdd(item.Extensionless, temp);
-                            Config.Map.MapConfigDatums.TryAdd(item.Extensionless, temp);
+                            Server.PrintToChatAll(item.Extensionless.Substring(4));
+                            _Config.Map.MapConfigDatums.TryAdd(item.Extensionless.Substring(4), temp);
+                            Config.Map.MapConfigDatums.TryAdd(item.Extensionless.Substring(4), temp);
                         }
                     }
                 }
