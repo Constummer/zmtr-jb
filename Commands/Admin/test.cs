@@ -1,191 +1,176 @@
 ﻿//using CounterStrikeSharp.API;
 //using CounterStrikeSharp.API.Core;
-//using CounterStrikeSharp.API.Core.Attributes.Registration;
 //using CounterStrikeSharp.API.Modules.Commands;
+//using CounterStrikeSharp.API.Modules.Memory.DynamicFunctions;
 //using CounterStrikeSharp.API.Modules.Utils;
-//using Microsoft.Extensions.Logging;
+//using System.Drawing;
 
-//namespace JailbreakExtras;
+//namespace AmbrosianSutOl;
 
-//public partial class JailbreakExtras
+//public class AmbrosianSutOl : BasePlugin
 //{
-//    private readonly List<ulong> _connectedPlayers = new();
-//    private readonly Dictionary<ulong, bool> _playerUsingThirdPerson = new();
-//    private readonly Dictionary<ulong, bool> _playerIsCrouching = new();
-//    private readonly Dictionary<ulong, bool> _playerCanToggle = new();
-//    private readonly Dictionary<ulong, CPointCamera> _playerThirdPerson = new();
+//    public override string ModuleName => "Süt Ol";
+//    public override string ModuleAuthor => "Ambrosian";
+//    public override string ModuleVersion => "1.0";
+//    public bool ElSonu { get; set; } = false;
+
+//    private static readonly int?[] SutMu = new int?[65];
+
+//    public int TSayi;
 
 //    public override void Load(bool hotReload)
 //    {
-//        Logger.LogDebug($"{ModuleName} v{ModuleVersion} yukleniyor...");
+//        GetCSWeaponDataFromKeyFunc = new(GameData.GetSignature("GetCSWeaponDataFromKey"));
+//        CCSPlayer_CanAcquireFunc = new(GameData.GetSignature("CCSPlayer_CanAcquire"));
+//        CCSPlayer_CanAcquireFunc.Hook(OnWeaponCanAcquire, HookMode.Pre);
 
-//        RegisterListener<Listeners.OnTick>(() =>
+//        RegisterEventHandler<EventRoundStart>(RoundBasi);
+//        RegisterEventHandler<EventRoundEnd>(RoundSonu);
+//        RegisterEventHandler<EventPlayerDeath>(OyuncuOldugunde);
+//        AddCommand("css_sutol", "Süt Ol", OnSutOlCommand);
+//    }
+
+//    public override void Unload(bool hotReload)
+//    {
+//        CCSPlayer_CanAcquireFunc.Unhook(OnWeaponCanAcquire, HookMode.Pre);
+
+//        base.Unload(hotReload);
+//    }
+
+//    public void OnSutOlCommand(CCSPlayerController? x, CommandInfo command)
+//    {
+//        if (x == null || !x.IsValid || x.IsBot || x.IsHLTV) return;
+
+//        if (!IsAlive(x))
 //        {
-//            foreach (var playerSteamId in _connectedPlayers)
+//            x.PrintToChat(" \x02[Volts]\x10 Bu komutu sadece yaşayan oyuncular kullanabilir.");
+//        }
+
+//        if (ElSonu)
+//        {
+//            x.PrintToChat(" \x02[Volts]\x10 Bu komut el sonu kullanılamaz.");
+//        }
+
+//        if ((CsTeam)x.TeamNum != CsTeam.Terrorist)
+//        {
+//            x.PrintToChat(" \x02[Volts]\x10 Bu komutu sadece isyancılar kullanabilir.");
+//        }
+
+//        if (SutMu[x.Index] == 1)
+//        {
+//            x.PrintToChat(" \x02[Volts]\x10 Bu komutu süt olmayan isyancılar kullanabilir.");
+//        }
+
+//        var SutOlan = x.PlayerName;
+//        Server.PrintToChatAll(" \x02[Volts] \x0C" + SutOlan + " \x10isimli oyuncu süt oldu.");
+//        SutMu[x.Index] = 1;
+//        x.RemoveWeapons();
+//        if (x.PlayerPawn != null && x.PlayerPawn.Value != null)
+//        {
+//            x.PlayerPawn.Value.Render = Color.FromArgb(255, 0, 255);
+//        }
+//    }
+
+//    private HookResult RoundSonu(EventRoundEnd @event, GameEventInfo info)
+//    {
+//        ElSonu = true;
+//        return HookResult.Continue;
+//    }
+
+//    private HookResult RoundBasi(EventRoundStart @event, GameEventInfo info)
+//    {
+//        ElSonu = false;
+//        Utilities.GetPlayers().Where(IsValid).ToList().ForEach(x =>
+//        {
+//            if (IsValid(x) == false)
 //            {
-//                var player = Utilities.GetPlayers().Where(x => x.SteamID == playerSteamId).FirstOrDefault();
-//                if (player is { IsValid: true, IsBot: false, PawnIsAlive: true } == false)
-//                {
-//                    continue;
-//                }
-//                ToggleThirdPerson(player);
-
-//                if (_playerCanToggle[playerSteamId] == false) continue;
-
-//                if ((player.Buttons & PlayerButtons.Use) != 0)
-//                {
-//                    _playerCanToggle[playerSteamId] = false;
-
-//                    if (_playerUsingThirdPerson[playerSteamId] == false)
-//                    {
-//                        _playerUsingThirdPerson[playerSteamId] = true;
-
-//                        AddTimer(0.1f, () =>
-//                        {
-//                            _playerCanToggle[playerSteamId] = true;
-//                        });
-//                    }
-//                    else
-//                    {
-//                        _playerUsingThirdPerson[playerSteamId] = false;
-
-//                        AddTimer(0.1f, () =>
-//                        {
-//                            _playerCanToggle[playerSteamId] = true;
-//                        });
-//                    }
-//                }
-
-//                if ((player.Buttons & PlayerButtons.Duck) != 0)
-//                {
-//                    _playerIsCrouching[playerSteamId] = true;
-//                }
-//                else
-//                {
-//                    _playerIsCrouching[playerSteamId] = false;
-//                }
+//                return;
 //            }
+//            SutMu[x.Index] = 0;
 //        });
-
-//        //Logger.LogDebug($"{ModuleDisplayName/*ambro bu nedir bilmiorum*/} v{ModuleVersion} yuklendi!");
-//    }
-
-//    [GameEventHandler]
-//    public HookResult OnPlayerConnectFull(EventPlayerConnectFull @event, GameEventInfo info)
-//    {
-//        var player = @event.Userid;
-
-//        if (!player.IsValid || player.IsBot) return HookResult.Continue;
-
-//        _connectedPlayers.Add(player.SteamID);
-//        _playerUsingThirdPerson[player.SteamID] = false;
-//        _playerIsCrouching[player.SteamID] = false;
-//        _playerCanToggle[player.SteamID] = true;
-
 //        return HookResult.Continue;
 //    }
 
-//    [GameEventHandler]
-//    public HookResult OnPlayerDisconnect(EventPlayerDisconnect @event, GameEventInfo info)
+//    private HookResult OyuncuOldugunde(EventPlayerDeath @event, GameEventInfo info)
 //    {
-//        var player = @event.Userid;
+//        TSayi = YasayanT(CsTeam.Terrorist);
 
-//        if (!player.IsValid || player.IsBot) return HookResult.Continue;
-
-//        _connectedPlayers.Remove(player.SteamID);
-//        _playerUsingThirdPerson.Remove(player.SteamID);
-//        _playerIsCrouching.Remove(player.SteamID);
-//        _playerCanToggle.Remove(player.SteamID);
-
-//        _playerThirdPerson.TryGetValue(player.SteamID, out var ThirdPerson);
-//        ThirdPerson?.Remove();
-//        _playerThirdPerson.Remove(player.SteamID);
-
-//        return HookResult.Continue;
-//    }
-
-//    [GameEventHandler]
-//    public HookResult OnPlayerSpawn(EventPlayerSpawn @event, GameEventInfo info)
-//    {
-//        var player = @event.Userid;
-
-//        if (!player.IsValid || player.IsBot) return HookResult.Continue;
-
-//        if (_connectedPlayers.Contains(player.SteamID) == false)
+//        ///TODO: check if the <see cref="TSayi"></see> must be equal to 1 or 2, i believe it must be 2 since this event triggers like in secs.
+//        if (TSayi == 2)
 //        {
-//            _connectedPlayers.Add(player.SteamID);
-//            _playerUsingThirdPerson[player.SteamID] = false;
-//            _playerIsCrouching[player.SteamID] = false;
-//            _playerCanToggle[player.SteamID] = true;
-//        }
-
-//        _playerUsingThirdPerson[player.SteamID] = false;
-
-//        return HookResult.Continue;
-//    }
-
-//    [GameEventHandler]
-//    public HookResult OnPlayerDeath(EventPlayerDeath @event, GameEventInfo info)
-//    {
-//        var player = @event.Userid;
-
-//        if (!player.IsValid || player.IsBot) return HookResult.Continue;
-
-//        _playerUsingThirdPerson[player.SteamID] = false;
-
-//        return HookResult.Continue;
-//    }
-
-//    public void ToggleThirdPerson(CCSPlayerController player)
-//    {
-//        if (_playerUsingThirdPerson[player.SteamID] == false)
-//        {
-//            if (_playerThirdPerson.TryGetValue(player.SteamID, out var value))
+//            Utilities.GetPlayers().Where(IsValid).ToList().ForEach(x =>
 //            {
-//                value.Remove();
-//                _playerThirdPerson.Remove(player.SteamID);
-//            }
+//                if (IsValid(x) == false)
+//                {
+//                    return;
+//                }
 
-//            return;
+//                SutMu[x.Index] = 0;
+//            });
 //        }
-
-//        var entity = _playerThirdPerson.TryGetValue(player.SteamID, out var ThirdPerson) ? ThirdPerson : Utilities.CreateEntityByName<CPointCamera>("point_camera");
-
-//        if (entity == null || !entity.IsValid)
-//        {
-//            Logger.LogError("Entity olusturalamadi.");
-//            return;
-//        }
-
-//        entity.Teleport(
-//            new Vector(
-//                player.PlayerPawn.Value!.AbsOrigin!.X, -4.02f +
-//                player.PlayerPawn.Value!.AbsOrigin!.Y,
-//                player.PlayerPawn.Value!.AbsOrigin!.Z + (_playerIsCrouching[player.SteamID] ? 46.03f : 64.03f)
-//            ),
-//            player.PlayerPawn.Value!.EyeAngles,
-//            player.PlayerPawn.Value!.AbsVelocity
-//        );
-
-//        entity.Active = true;
-//        entity.DispatchSpawn();
-//        _playerThirdPerson[player.SteamID] = entity;
+//        return HookResult.Continue;
 //    }
 
-//    [ConsoleCommand("css_tp", "Toggles the ThirdPerson")]
-//    [CommandHelper(whoCanExecute: CommandUsage.CLIENT_ONLY)]
-//    public void ToggleThirdPerson(CCSPlayerController player, CommandInfo? info)
+//    public static bool IsValid(CCSPlayerController? x)
 //    {
-//        if (!player.IsValid || !player.PawnIsAlive) return;
+//        return x != null && x.IsValid && x.PlayerPawn.IsValid && x.Connected == PlayerConnectedState.PlayerConnected;
+//    }
 
-//        if (_playerCanToggle[player.SteamID] == false) return;
+//    public static bool IsAlive(CCSPlayerController x)
+//    {
+//        return x?.PlayerPawn.Value?.LifeState == (byte)LifeState_t.LIFE_ALIVE;
+//    }
 
-//        _playerUsingThirdPerson[player.SteamID] = !_playerUsingThirdPerson[player.SteamID];
-//        _playerCanToggle[player.SteamID] = false;
+//    public static int YasayanT(CsTeam? csTeam = null)
+//    {
+//        return Utilities.GetPlayers().Count(player => IsValid(player) && IsAlive(player) && (csTeam.HasValue ? csTeam.Value == player.Team : true));
+//    }
 
-//        AddTimer(0.1f, () =>
+//    public enum AcquireResult : int
+//    {
+//        Allowed = 0,
+//        InvalidItem,
+//        AlreadyOwned,
+//        AlreadyPurchased,
+//        ReachedGrenadeTypeLimit,
+//        ReachedGrenadeTotalLimit,
+//        NotAllowedByTeam,
+//        NotAllowedByMap,
+//        NotAllowedByMode,
+//        NotAllowedForPurchase,
+//        NotAllowedByProhibition,
+//    };
+
+//    // Possible results for CSPlayer::CanAcquire
+//    public enum AcquireMethod : int
+//    {
+//        PickUp = 0,
+//        Buy,
+//    };
+
+//    public MemoryFunctionWithReturn<CCSPlayer_ItemServices, CEconItemView, AcquireMethod, NativeObject, AcquireResult> CCSPlayer_CanAcquireFunc;
+
+//    public MemoryFunctionWithReturn<int, string, CCSWeaponBaseVData> GetCSWeaponDataFromKeyFunc;
+
+//    public HookResult OnWeaponCanAcquire(DynamicHook hook)
+//    {
+//        var x = hook.GetParam<CCSPlayer_ItemServices>(0).Pawn.Value!.Controller.Value!.As<CCSPlayerController>();
+
+//        if (x == null || !x.IsValid || !x.PawnIsAlive)
+//            return HookResult.Continue;
+
+//        if (hook.GetParam<AcquireMethod>(2) != AcquireMethod.PickUp)
 //        {
-//            _playerCanToggle[player.SteamID] = true;
-//        });
+//            hook.SetReturn(AcquireResult.AlreadyOwned);
+//        }
+//        else
+//        {
+//            hook.SetReturn(AcquireResult.InvalidItem);
+//        }
+//        if (IsValid(x) && IsAlive(x) && SutMu[x.Index] == 1)
+//        {
+//            return HookResult.Stop;
+//        }
+//        return HookResult.Continue;
 //    }
 //}

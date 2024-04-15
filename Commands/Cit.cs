@@ -4,13 +4,14 @@ using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
+using Discord;
 
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
     private static List<CFuncWall> Cits = new();
-    private static List<ulong> CitEnabledPlayers = new();
+    private static Dictionary<ulong, string> CitEnabledPlayers = new();
 
     [ConsoleCommand("citac")]
     [ConsoleCommand("citolustur")]
@@ -29,11 +30,19 @@ public partial class JailbreakExtras
         }
 
         LogManagerCommand(player.SteamID, info.GetCommandString);
-        Server.PrintToChatAll($"{Prefix}{CC.DR} Çit oluşturma {CC.B}{player.PlayerName} {CC.W}'a açıldı.");
+        Server.PrintToChatAll($"{Prefix}{CC.DR}Varsayılan Çit oluşturma {CC.B}{player.PlayerName} {CC.W}'a açıldı.");
         player.PrintToChat($"{Prefix}{CC.G} Ateş ettiğin yere çit oluşacak.");
         player.PrintToChat($"{Prefix}{CC.G} Kapatmak için !citkapat yaz.");
         player.PrintToChat($"{Prefix}{CC.G} Çitleri silmek çin !cittemizle yaz.");
-        CitEnabledPlayers.Add(player.SteamID);
+        var path = "models/props/de_nuke/hr_nuke/chainlink_fence_001/chainlink_fence_001_256_capped.vmdl";
+        if (CitEnabledPlayers.ContainsKey(player.SteamID))
+        {
+            CitEnabledPlayers[player.SteamID] = path;
+        }
+        else
+        {
+            CitEnabledPlayers.Add(player.SteamID, path);
+        }
         return;
     }
 
@@ -53,12 +62,15 @@ public partial class JailbreakExtras
 
         LogManagerCommand(player.SteamID, info.GetCommandString);
         Server.PrintToChatAll($"{Prefix}{CC.DR} Çit oluşturma {CC.B}{player.PlayerName} {CC.W}'a kapandı.");
-        CitEnabledPlayers = CitEnabledPlayers.Where(x => x != player.SteamID).ToList();
+        CitEnabledPlayers.Remove(player.SteamID);
 
         return;
     }
 
-    [ConsoleCommand("ckall")]
+    [ConsoleCommand("citkapaall")]
+    [ConsoleCommand("citkapatall")]
+    [ConsoleCommand("citkapaherkes")]
+    [ConsoleCommand("citkapatherkes")]
     public void CitKapaAll(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player, false) == false)
@@ -120,21 +132,24 @@ public partial class JailbreakExtras
     {
         if (ValidateCallerPlayer(@event.Userid) == false && LatestWCommandUser != @event.Userid.SteamID)
             return;
-        if (CitEnabledPlayers.Contains(@event.Userid.SteamID) == false)
+        if (CitEnabledPlayers.ContainsKey(@event.Userid.SteamID) == false)
             return;
-
+        if (CitEnabledPlayers.TryGetValue(@event.Userid.SteamID, out var citPath) == false)
+            return;
         CFuncWall? cit = Utilities.CreateEntityByName<CFuncWall>("func_wall");
         if (cit == null)
         {
             return;
         }
         var vector = new Vector(@event.X, @event.Y, @event.Z);
-        cit.Teleport(vector, ANGLE_ZERO, VEC_ZERO);
+
+        cit.Teleport(vector, @event.Userid.PlayerPawn.Value.AbsRotation, VEC_ZERO);
         //cit.Health = 1;
         //cit.TakeDamageFlags = TakeDamageFlags_t.DFLAG_FORCE_DEATH;
         //cit.TakesDamage = true;
         cit.DispatchSpawn();
-        cit.SetModel("models/props/de_nuke/hr_nuke/chainlink_fence_001/chainlink_fence_001_256_capped.vmdl");
+
+        cit.SetModel(citPath);
         Cits.Add(cit);
     }
 }

@@ -32,6 +32,21 @@ public partial class JailbreakExtras
         Server.PrintToConsole($"{LatestWCommandUser}");
     }
 
+    [ConsoleCommand("cwelcome")]
+    public void cwelcome(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        player.PrintToCenterHtml("<img src='https://zmtr.org/assets/welcome.gif'</img>");
+    }
+
     [ConsoleCommand("cspawnweapon")]
     public void cspawnweapon(CCSPlayerController? player, CommandInfo info)
     {

@@ -2,9 +2,7 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
-using JailbreakExtras.Lib.Database;
 using MySqlConnector;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace JailbreakExtras;
 
@@ -28,7 +26,14 @@ public partial class JailbreakExtras
 
     private void CheckAndGiveBayramCredit(CCSPlayerController? player)
     {
-        if (CanGetBayramCredit(player.SteamID))
+        var now = DateTime.UtcNow.AddHours(3).Date;
+        if (now < Config.Additional.BayramCreditStart
+            || now > Config.Additional.BayramCreditEnd)
+        {
+            player.PrintToChat($"{Prefix} {CC.W} Bayramda olmadığımız için malesef kredi alamazsın.");
+            return;
+        }
+        else if (CanGetBayramCredit(player.SteamID))
         {
             if (PlayerMarketModels.TryGetValue(player.SteamID, out var item))
             {

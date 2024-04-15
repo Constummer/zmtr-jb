@@ -81,6 +81,7 @@ public partial class JailbreakExtras
         _ = PlayerMarketModels?.Remove(steamId, out _);
         _ = PlayerLevels?.Remove(steamId, out _);
         _ = bUsingPara?.Remove(steamId, out _);
+        _ = CitEnabledPlayers?.Remove(steamId, out _);
         if (Gags?.TryGetValue(steamId, out var date) ?? false)
         {
             if (date > DateTime.UtcNow.AddMonths(1))
@@ -100,6 +101,5 @@ public partial class JailbreakExtras
         _ = SpeedoMeterActive?.RemoveAll(x => x == steamId);
         _ = LevelTagDisabledPlayers?.RemoveAll(x => x == steamId);
         _ = HookDisablePlayers?.RemoveAll(x => x == steamId);
-        _ = CitEnabledPlayers?.RemoveAll(x => x == steamId);
     }
 }
