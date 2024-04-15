@@ -476,7 +476,7 @@ public partial class JailbreakExtras
         var dicct = new Dictionary<long, int>();
         var dict = new Dictionary<long, int>();
         var dictotal = new Dictionary<long, int>();
-        var cmd = new MySqlCommand(@$"SELECT `SteamId`,`WeeklyWTime` FROM `PlayerTime`;", con);
+        var cmd = new MySqlCommand(@$"SELECT `SteamId`,`WeeklyWTime` FROM `PlayerTime` order by `WeeklyWTime` desc;", con);
         using (var reader = cmd.ExecuteReader())
         {
             while (reader.Read())
