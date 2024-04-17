@@ -3,12 +3,30 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
     #region KapiAcKapat
+
+    [RequiresPermissions("@css/lider")]
+    [ConsoleCommand("qk")]
+    public void GodKapiAc(CCSPlayerController? player, CommandInfo info)
+    {
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+        GetPlayers(CsTeam.CounterTerrorist)
+              .ToList()
+              .ForEach(x =>
+              {
+                  ActiveGodMode[x.SteamID] = true;
+                  RefreshPawn(x);
+              });
+        ForceOpenDoor();
+        Server.PrintToChatAll($"{Prefix} {CC.W}Tüm kapılar açıldı!");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.B}{CT_PluralCamelPrePosition} {CC.G}god {CC.W}verdi.");
+    }
 
     [RequiresPermissions("@css/lider")]
     [ConsoleCommand("kapiac")]

@@ -87,7 +87,10 @@ public partial class JailbreakExtras
         {
             "ak" => "ak47",
             "m4a4" => "m4a1",
+            "m4" => "m4a1",
             "m4a1" => "m4a1_silencer",
+            "m1" => "m4a1_silencer",
+            "ssg" => "ssg08",
             "m4a1s" => "m4a1_silencer",
             "p2000" => "hkp2000",
             "xm" => "xm1014",

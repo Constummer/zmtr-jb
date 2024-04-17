@@ -22,6 +22,7 @@ public partial class JailbreakExtras
             return;
         }
         LogManagerCommand(player.SteamID, info.GetCommandString);
+        ClearCits();
 
         SandalyeAction(player, info, true);
     }
