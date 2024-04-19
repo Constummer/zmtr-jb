@@ -44,7 +44,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        player.PrintToCenterHtml("<img src='https://zmtr.org/assets/welcome.gif'</img>");
+        player.PrintToCenterHtml("<img src='https://zmtr.org/assets/welcome.gif'></img>");
     }
 
     [ConsoleCommand("cspawnweapon")]

@@ -1,6 +1,7 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
+using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
 
@@ -151,6 +152,28 @@ public partial class JailbreakExtras
                 }
             }
         }
+    }
+
+    [ConsoleCommand("qk")]
+    public void QK(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/premium"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player, false) == false) return;
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+        GetPlayers(CsTeam.CounterTerrorist)
+              .ToList()
+              .ForEach(x =>
+              {
+                  ActiveGodMode[x.SteamID] = true;
+                  RefreshPawn(x);
+              });
+        ForceOpenDoor();
+        Server.PrintToChatAll($"{Prefix} {CC.W}Tüm kapılar açıldı!");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.B}{CT_PluralCamelPrePosition} {CC.G}god {CC.W}verdi.");
     }
 
     [ConsoleCommand("q", "godmode ct player")]

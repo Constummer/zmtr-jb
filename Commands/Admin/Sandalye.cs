@@ -12,7 +12,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("sandalye")]
     public void Sandalye(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, "@css/premium"))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -48,7 +48,10 @@ public partial class JailbreakExtras
         var players = GetPlayers(CsTeam.Terrorist).Where(x => x.PawnIsAlive);
         float z = player.PlayerPawn.Value.AbsOrigin.Z;
         int numberOfPoints = players.Count() - 1;
-
+        if (numberOfPoints == 0)
+        {
+            numberOfPoints = 1;
+        }
         // Calculate maximum radius based on the number of points
         int maxRadius = maxRad;
 
@@ -68,12 +71,16 @@ public partial class JailbreakExtras
             double angle = i * angleIncrement;
             int x = (int)(middleX + maxRadius * Math.Cos(angle));
             int y = (int)(middleY + maxRadius * Math.Sin(angle));
-            // Calculate the direction vector from the node towards the middle point
-            var direction = new Vector(middleX - x, middleY - y, 0);
+            double dotProduct = middleX * x + middleY * y;
 
-            // Rotate the direction vector by 90 degrees (to make it 'look away' from the middle point)
-            var awayFromMiddlePoint = new QAngle(-direction.Y, direction.X, 0);
-            cit.Teleport(new Vector(x, y, z), ANGLE_ZERO, VEC_ZERO);
+            double length1 = Math.Sqrt(middleX * middleX + middleY * middleY);
+            double length2 = Math.Sqrt(x * x + y * y);
+
+            double cosTheta = dotProduct / (length1 * length2);
+            double angleInRadians = Math.Acos(cosTheta);
+
+            double angleInDegrees = angleInRadians * 180 / Math.PI;
+            cit.Teleport(new Vector(x, y, z), new QAngle(0, (float)angleInDegrees, 0), VEC_ZERO);
             cit.DispatchSpawn();
 
             cit.SetModel(path);

@@ -31,7 +31,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("tp2")]
     public void Tp2(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/premium"))
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -46,7 +46,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("TpActive")]
     public void TpActive(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/premium"))
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
             player.PrintToChat(NotEnoughPermission);
             return;

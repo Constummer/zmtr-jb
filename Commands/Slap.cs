@@ -39,7 +39,7 @@ public partial class JailbreakExtras
                    {
                        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.B}{x.PlayerName} {CC.W}adlı oyuncuya {CC.B}{damage} {CC.W}slapledi.");
                    }
-                   PerformSlap(x!.Pawn.Value!, damage);
+                   PerformSlap(x!.Pawn.Value!, x.PlayerPawn.Value.EyeAngles, damage);
                });
         if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
         {
@@ -85,7 +85,7 @@ public partial class JailbreakExtras
                   players.ForEach(x =>
                   {
                       if (ValidateCallerPlayer(x, false) == false) return;
-                      PerformSlap(x!.Pawn.Value!, damage);
+                      PerformSlap(x!.Pawn.Value!, x.PlayerPawn.Value.EyeAngles, damage);
                   });
               }, Full);
             if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
@@ -96,9 +96,9 @@ public partial class JailbreakExtras
     }
 
     [ConsoleCommand("uberslapkapa")]
+    [ConsoleCommand("uskapa")]
     [ConsoleCommand("uberslapkapat")]
     [ConsoleCommand("uberslapiptal")]
-    [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me> ")]
     public void OnUberSlapKapaCommand(CCSPlayerController? player, CommandInfo info)
     {
         if (OnCommandValidater(player, true, "@css/seviye10") == false)
@@ -110,7 +110,7 @@ public partial class JailbreakExtras
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}uberslapi kapadı.");
     }
 
-    private static void PerformSlap(CBasePlayerPawn pawn, int damage = 0)
+    private static void PerformSlap(CBasePlayerPawn pawn, QAngle eyeAngles, int damage = 0)
     {
         if (pawn.LifeState != (int)LifeState_t.LIFE_ALIVE)
             return;
@@ -121,7 +121,7 @@ public partial class JailbreakExtras
         vel.Y += ((_random.Next(180) + 50) * ((_random.Next(2) == 1) ? -1 : 1));
         vel.Z += _random.Next(200) + 100;
 
-        pawn.Teleport(pawn.AbsOrigin!, pawn.AbsRotation!, vel);
+        pawn.Teleport(pawn.AbsOrigin!, eyeAngles, vel);
 
         if (damage <= 0)
             return;

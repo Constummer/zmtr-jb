@@ -104,10 +104,6 @@ public partial class JailbreakExtras
     }
 
     [ConsoleCommand("tagal")]
-    [ConsoleCommand("tagsil")]
-    [ConsoleCommand("tagkaldir")]
-    [ConsoleCommand("tagkapat")]
-    [ConsoleCommand("tagkapa")]
     [ConsoleCommand("customtagsil")]
     [ConsoleCommand("customtagkaldir")]
     [ConsoleCommand("customtagiptal")]

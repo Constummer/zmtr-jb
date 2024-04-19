@@ -124,7 +124,8 @@ public partial class JailbreakExtras
                 ConfirmMenuHtml(player, data.Model.Credit, item.Text, () =>
                 {
                     if (ValidateCallerPlayer(player, false) == false) return;
-
+                    player.PrintToChat("kasa kapali guzel kardesim");
+                    return;
                     data.Model.Credit -= item.CreditCost;
                     PlayerMarketModels[player.SteamID] = data.Model;
 
