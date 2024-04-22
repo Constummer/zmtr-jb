@@ -140,20 +140,20 @@ public partial class JailbreakExtras
             return;
         }
         if (info.ArgCount < 3) return;
-        var target = info.ArgString.GetArg(0);
-        int index = info.ArgString.IndexOf($"{target} ");
+        var firstArg = info.ArgString.GetArg(0);
+        int index = info.ArgString.IndexOf($"{firstArg} ");
 
         var msg = string.Empty;
         if (index != -1)
         {
-            msg = info.ArgString.Remove(index, target.Length + 1);
+            msg = info.ArgString.Remove(index, firstArg.Length + 1);
         }
         else
         {
             msg = info.ArgString;
         }
 
-        if (int.TryParse(target, out int value))
+        if (int.TryParse(firstArg, out int value))
         {
             if (value > 120)
             {
@@ -161,36 +161,52 @@ public partial class JailbreakExtras
             }
             else
             {
-                LogManagerCommand(player.SteamID, info.GetCommandString);
-                BasicCountdown.CommandStartTextCountDown(this, $"[{msg}] {Environment.NewLine}Donmak için {value} saniye!");
-                FFTimer?.Kill();
-                FFTimer = AddTimer(value, () =>
-                {
-                    GetPlayers()
-                    .Where(x => x != null
-                         && x.PlayerPawn.IsValid
-                         && x.PawnIsAlive
-                         && x.IsValid
-                         && x?.PlayerPawn?.Value != null
-                         && GetTeam(x) == CsTeam.Terrorist)
-                    .ToList()
-                    .ForEach(x =>
-                    {
-                        if (ValidateCallerPlayer(x, false) == false) return;
-                        if (TeamActive == false)
-                        {
-                            SetColour(x, Config.Burry.BuryColor);
-                        }
-                        SetMoveType(x, MoveType_t.MOVETYPE_OBSOLETE);
-
-                        Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
-                        Vector currentSpeed = new Vector(0, 0, 0);
-                        QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
-                        x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
-                    });
-                    Ff(false);
-                }, SOM);
+                ACTION(player, info, msg, value);
             }
+        }
+        else if (int.TryParse(msg, out value))
+        {
+            if (value > 120)
+            {
+                player.PrintToChat("Max 120 sn girebilirsin");
+            }
+            else
+            {
+                ACTION(player, info, msg, value);
+            }
+        }
+
+        void ACTION(CCSPlayerController? player, CommandInfo info, string msg, int value)
+        {
+            LogManagerCommand(player.SteamID, info.GetCommandString);
+            BasicCountdown.CommandStartTextCountDown(this, $"[{msg}] {Environment.NewLine}Donmak için {value} saniye!");
+            FFTimer?.Kill();
+            FFTimer = AddTimer(value, () =>
+            {
+                GetPlayers()
+                .Where(x => x != null
+                     && x.PlayerPawn.IsValid
+                     && x.PawnIsAlive
+                     && x.IsValid
+                     && x?.PlayerPawn?.Value != null
+                     && GetTeam(x) == CsTeam.Terrorist)
+                .ToList()
+                .ForEach(x =>
+                {
+                    if (ValidateCallerPlayer(x, false) == false) return;
+                    if (TeamActive == false)
+                    {
+                        SetColour(x, Config.Burry.BuryColor);
+                    }
+                    SetMoveType(x, MoveType_t.MOVETYPE_OBSOLETE);
+
+                    Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
+                    Vector currentSpeed = new Vector(0, 0, 0);
+                    QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
+                    x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
+                });
+                Ff(false);
+            }, SOM);
         }
     }
 
