@@ -6,21 +6,19 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    #region TopTime
-
-    [ConsoleCommand("topka")]
-    [ConsoleCommand("katop")]
-    public void TopKa(CCSPlayerController? player, CommandInfo info)
+    [ConsoleCommand("haftalikka")]
+    [ConsoleCommand("haftaka")]
+    public void HaftalikKa(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player, false) == false)
         {
             return;
         }
 
-        var ordered = AllPlayerKaTimeTracking.OrderByDescending(x => x.Value);
+        var ordered = AllPlayerWeeklyKaTimeTracking.OrderByDescending(x => x.Value);
 
         player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
-        player.PrintToChat($"{Prefix} {CC.W} TOP 10 Komutçu Admin Süreler");
+        player.PrintToChat($"{Prefix} {CC.W} TOP 10 Haftalık Komutçu Admin Süreler");
         foreach (var item in ordered)
         {
             if (PlayerNamesDatas.TryGetValue(item.Key, out var name))
@@ -37,6 +35,4 @@ public partial class JailbreakExtras
         player.PrintToChat($"{Prefix} {CC.B}!surem {CC.W}yazarak kendi süreni görebilirsin");
         player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
     }
-
-    #endregion TopTime
 }

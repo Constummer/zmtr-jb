@@ -82,10 +82,12 @@ public partial class JailbreakExtras
                           `CTTime` mediumint(9) DEFAULT NULL,
                           `TTime` mediumint(9) DEFAULT NULL,
                           `WTime` mediumint(9) DEFAULT NULL,
+                          `KaTime` mediumint(9) DEFAULT NULL,
                           `WeeklyWTime` mediumint(9) DEFAULT NULL,
                           `WeeklyCTTime` mediumint(9) DEFAULT NULL,
                           `WeeklyTTime` mediumint(9) DEFAULT NULL,
-                          `WeeklyTotalTime` mediumint(9) DEFAULT NULL
+                          `WeeklyTotalTime` mediumint(9) DEFAULT NULL,
+                          `WeeklyKaTime` mediumint(9) DEFAULT NULL
                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
                     await cmd.ExecuteNonQueryAsync();
 

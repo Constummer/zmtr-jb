@@ -6,7 +6,7 @@ public partial class JailbreakExtras
 
     public CounterStrikeSharp.API.Modules.Timers.Timer SaveTimeTrackingDatasTimer()
     {
-        return AddTimer(60f, () =>
+        return AddTimer(60 * 15f, () =>
         {
             UpdatePlayerTimeDataBulk();
         }, Full);

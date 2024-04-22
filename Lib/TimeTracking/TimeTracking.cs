@@ -15,33 +15,39 @@ public partial class JailbreakExtras
     public static Dictionary<ulong, int> AllPlayerCTTimeTracking { get; set; } = new();
     public static Dictionary<ulong, int> AllPlayerTTimeTracking { get; set; } = new();
     public static Dictionary<ulong, int> AllPlayerWTimeTracking { get; set; } = new();
+    public static Dictionary<ulong, int> AllPlayerKaTimeTracking { get; set; } = new();
     public static Dictionary<ulong, int> AllPlayerWeeklyWTimeTracking { get; set; } = new();
     public static Dictionary<ulong, int> AllPlayerWeeklyCTTimeTracking { get; set; } = new();
     public static Dictionary<ulong, int> AllPlayerWeeklyTTimeTracking { get; set; } = new();
+    public static Dictionary<ulong, int> AllPlayerWeeklyKaTimeTracking { get; set; } = new();
     public static Dictionary<ulong, int> AllPlayerWeeklyTotalTimeTracking { get; set; } = new();
 
     public class PlayerTime
     {
-        public PlayerTime(int total, int cTTime, int tTime, int wTime, int weeklyWTime, int weeklyCTTime, int weeklyTTime, int weeklyTotalTime)
+        public PlayerTime(int total, int cTTime, int tTime, int wTime, int kaTime, int weeklyWTime, int weeklyCTTime, int weeklyTTime, int weeklyTotalTime, int weeklyKaTime)
         {
             Total = total;
             CTTime = cTTime;
             TTime = tTime;
             WTime = wTime;
+            KaTime = kaTime;
             WeeklyWTime = weeklyWTime;
             WeeklyCTTime = weeklyCTTime;
             WeeklyTTime = weeklyTTime;
             WeeklyTotalTime = weeklyTotalTime;
+            WeeklyKaTime = weeklyKaTime;
         }
 
         public int Total { get; set; } = 0;
         public int CTTime { get; set; } = 0;
         public int TTime { get; set; } = 0;
         public int WTime { get; set; } = 0;
+        public int KaTime { get; set; } = 0;
         public int WeeklyWTime { get; set; } = 0;
         public int WeeklyTTime { get; set; } = 0;
         public int WeeklyCTTime { get; set; } = 0;
         public int WeeklyTotalTime { get; set; } = 0;
+        public int WeeklyKaTime { get; set; } = 0;
     }
 
     /*
@@ -270,6 +276,54 @@ public partial class JailbreakExtras
                     }
                 }
             }
+
+            AllPlayerKaTimeTracking?.Clear();
+            cmd = new MySqlCommand(@$"SELECT `KaTime`,`SteamId`
+                                          FROM `PlayerTime` order by `KaTime` desc limit 10;", con);
+
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var data = reader.IsDBNull(0) ? 0 : reader.GetInt32(0);
+                    var steamid = reader.IsDBNull(1) ? 0 : reader.GetInt64(1);
+                    if (steamid != 0)
+                    {
+                        if (AllPlayerKaTimeTracking.ContainsKey((ulong)steamid) == false)
+                        {
+                            AllPlayerKaTimeTracking.Add((ulong)steamid, data);
+                        }
+                        else
+                        {
+                            AllPlayerKaTimeTracking[(ulong)steamid] = data;
+                        }
+                    }
+                }
+            }
+
+            AllPlayerWeeklyKaTimeTracking?.Clear();
+            cmd = new MySqlCommand(@$"SELECT `WeeklyKaTime`,`SteamId`
+                                          FROM `PlayerTime` order by `WeeklyKaTime` desc limit 10;", con);
+
+            using (var reader = cmd.ExecuteReader())
+            {
+                while (reader.Read())
+                {
+                    var data = reader.IsDBNull(0) ? 0 : reader.GetInt32(0);
+                    var steamid = reader.IsDBNull(1) ? 0 : reader.GetInt64(1);
+                    if (steamid != 0)
+                    {
+                        if (AllPlayerWeeklyKaTimeTracking.ContainsKey((ulong)steamid) == false)
+                        {
+                            AllPlayerWeeklyKaTimeTracking.Add((ulong)steamid, data);
+                        }
+                        else
+                        {
+                            AllPlayerWeeklyKaTimeTracking[(ulong)steamid] = data;
+                        }
+                    }
+                }
+            }
         }
         catch (Exception e)
         {
@@ -288,7 +342,7 @@ public partial class JailbreakExtras
                     return;
                 }
                 PlayerTime data = null;
-                var cmd = new MySqlCommand(@$"SELECT `Total`,`CTTime`,`TTime`,`WTime`,`WeeklyWTime`,`WeeklyCTTime`,`WeeklyTTime`,`WeeklyTotalTime`
+                var cmd = new MySqlCommand(@$"SELECT `Total`,`CTTime`,`TTime`,`WTime`,`KaTime`,`WeeklyWTime`,`WeeklyCTTime`,`WeeklyTTime`,`WeeklyTotalTime`,`WeeklyKaTime`
                                           FROM `PlayerTime`
                                           WHERE `SteamId` = @SteamId;", con);
                 cmd.Parameters.AddWithValue("@SteamId", steamID);
@@ -305,7 +359,9 @@ public partial class JailbreakExtras
                            reader.IsDBNull(4) ? 0 : reader.GetInt32(4),
                            reader.IsDBNull(5) ? 0 : reader.GetInt32(5),
                            reader.IsDBNull(6) ? 0 : reader.GetInt32(6),
-                           reader.IsDBNull(7) ? 0 : reader.GetInt32(7));
+                           reader.IsDBNull(7) ? 0 : reader.GetInt32(7),
+                           reader.IsDBNull(8) ? 0 : reader.GetInt32(8),
+                           reader.IsDBNull(9) ? 0 : reader.GetInt32(9));
 
                         if (PlayerTimeTracking.ContainsKey(steamID) == false)
                         {
@@ -320,13 +376,14 @@ public partial class JailbreakExtras
                 }
 
                 cmd = new MySqlCommand(@$"INSERT INTO `PlayerTime`
-                                          (`SteamId`,`Total`,`CTTime`,`TTime`,`WTime`,`WeeklyWTime`,`WeeklyCTTime`,`WeeklyTTime`,`WeeklyTotalTime`)
+                                          (`SteamId`,`Total`,`CTTime`,`TTime`,`WTime`,`WeeklyWTime`,`WeeklyCTTime`,`WeeklyTTime`,`WeeklyTotalTime`,`WeeklyKaTime`,`KaTime`
+)
                                           VALUES
-                                          (@SteamId, 0, 0, 0, 0, 0, 0, 0, 0);", con);
+                                          (@SteamId, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);", con);
 
                 cmd.Parameters.AddWithValue("@SteamId", steamID);
                 cmd.ExecuteNonQuery();
-                data = new PlayerTime(0, 0, 0, 0, 0, 0, 0, 0);
+                data = new PlayerTime(0, 0, 0, 0, 0, 0, 0, 0, 0, 0);
 
                 if (PlayerTimeTracking.ContainsKey(steamID) == false)
                 {
@@ -373,10 +430,12 @@ public partial class JailbreakExtras
                                             `CTTime` = @CTTime_{i},
                                             `TTime` = @TTime_{i},
                                             `WTime` = @Wtime_{i},
+                                            `KaTime` = @KaTime_{i},
                                             `WeeklyWTime` = @WeeklyWTime_{i},
                                             `WeeklyTotalTime` = @WeeklyTotalTime_{i},
                                             `WeeklyTTime` = @WeeklyTTime_{i},
-                                            `WeeklyCTTime` = @WeeklyCTTime_{i}
+                                            `WeeklyCTTime` = @WeeklyCTTime_{i},
+                                            `WeeklyKaTime` = @WeeklyKaTime_{i}
                                         WHERE `SteamId` = @SteamId_{i};";
                             value.Total++;
                             value.WeeklyTotalTime++;
@@ -396,16 +455,23 @@ public partial class JailbreakExtras
                                 value.TTime++;
                                 value.WeeklyTTime++;
                             }
+                            if (KomutcuAdminId == x.SteamID)
+                            {
+                                value.KaTime++;
+                                value.WeeklyKaTime++;
+                            }
 
                             parameters.Add(new MySqlParameter($"@SteamId_{i}", x.SteamID));
                             parameters.Add(new MySqlParameter($"@Total_{i}", value.Total));
                             parameters.Add(new MySqlParameter($"@CTTime_{i}", value.CTTime));
                             parameters.Add(new MySqlParameter($"@TTime_{i}", value.TTime));
                             parameters.Add(new MySqlParameter($"@WTime_{i}", value.WTime));
+                            parameters.Add(new MySqlParameter($"@KaTime_{i}", value.KaTime));
                             parameters.Add(new MySqlParameter($"@WeeklyWTime_{i}", value.WeeklyWTime));
                             parameters.Add(new MySqlParameter($"@WeeklyCTTime_{i}", value.WeeklyCTTime));
                             parameters.Add(new MySqlParameter($"@WeeklyTTime_{i}", value.WeeklyTTime));
                             parameters.Add(new MySqlParameter($"@WeeklyTotalTime_{i}", value.WeeklyTotalTime));
+                            parameters.Add(new MySqlParameter($"@WeeklyKaTime_{i}", value.WeeklyKaTime));
                             PlayerTimeTracking[x.SteamID] = value;
                             i++;
                         }
@@ -432,19 +498,22 @@ public partial class JailbreakExtras
                         item.Value.WeeklyTTime = 0;
                         item.Value.WeeklyCTTime = 0;
                         item.Value.WeeklyTotalTime = 0;
+                        item.Value.WeeklyKaTime = 0;
                         PlayerTimeTracking[item.Key] = item.Value;
                     }
                     AllPlayerWeeklyWTimeTracking?.Clear();
                     AllPlayerWeeklyCTTimeTracking?.Clear();
                     AllPlayerWeeklyTTimeTracking?.Clear();
                     AllPlayerWeeklyTotalTimeTracking?.Clear();
+                    AllPlayerWeeklyKaTimeTracking?.Clear();
                     KomWeeklyWCredits?.Clear();
 
                     var cmd = new MySqlCommand(@"UPDATE `PlayerTime`
                                             SET `WeeklyWTime` = 0,
                                                 `WeeklyCTTime` = 0,
                                                 `WeeklyTTime` = 0,
-                                                `WeeklyTotalTime` = 0;", con);
+                                                `WeeklyTotalTime` = 0,
+                                                `WeeklyKaTime` = 0;", con);
                     cmd.ExecuteNonQuery();
 
                     cmd = new MySqlCommand(@"UPDATE `PlayerIsTop`
@@ -476,6 +545,7 @@ public partial class JailbreakExtras
         var dicct = new Dictionary<long, int>();
         var dict = new Dictionary<long, int>();
         var dictotal = new Dictionary<long, int>();
+        var dicka = new Dictionary<long, int>();
         var cmd = new MySqlCommand(@$"SELECT `SteamId`,`WeeklyWTime` FROM `PlayerTime` order by `WeeklyWTime` desc;", con);
         using (var reader = cmd.ExecuteReader())
         {
@@ -531,6 +601,19 @@ public partial class JailbreakExtras
                 }
             }
         }
+        cmd = new MySqlCommand(@$"SELECT `SteamId`,`WeeklyKaTime` FROM `PlayerTime` order by `WeeklyKaTime` desc limit 10;", con);
+        using (var reader = cmd.ExecuteReader())
+        {
+            while (reader.Read())
+            {
+                var steamid = reader.IsDBNull(0) ? 0 : reader.GetInt64(0);
+                var weeklyTime = reader.IsDBNull(1) ? 0 : reader.GetInt32(1);
+                if (steamid > 0)
+                {
+                    AddToDic(dicka, steamid, weeklyTime);
+                }
+            }
+        }
 
         if (dicw.Count > 0)
         {
@@ -566,6 +649,7 @@ public partial class JailbreakExtras
         SendWarningForLessThan7HrsAWeekKomutcu(dicct, false, "CT");
         SendWarningForLessThan7HrsAWeekKomutcu(dict, false, "T");
         SendWarningForLessThan7HrsAWeekKomutcu(dictotal, false, "Total");
+        SendWarningForLessThan7HrsAWeekKomutcu(dicka, false, "KA");
     }
 
     private static void AddToDic(Dictionary<long, int> dic, long steamid, int time)
