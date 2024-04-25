@@ -1,6 +1,7 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
 
@@ -107,6 +108,10 @@ public partial class JailbreakExtras
             return HookResult.Handled;
         }
         if (LevelSystemPlayer(player, info, isSayTeam))
+        {
+            return HookResult.Handled;
+        }
+        if (WLevelPlayer(player, info, isSayTeam))
         {
             return HookResult.Handled;
         }

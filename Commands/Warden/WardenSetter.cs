@@ -197,5 +197,62 @@ public partial class JailbreakExtras
         }
     }
 
+    private bool WLevelPlayer(CCSPlayerController player, CommandInfo info, bool isSayTeam)
+    {
+        if (PlayerTimeTracking.TryGetValue(player.SteamID, out var item) == false)
+        {
+            return false;
+        }
+        if (!HasPerm(player.SteamID, "@css/komutcu"))
+        {
+            return false;
+        }
+        var team = GetTeam(player);
+        var teamStr = team switch
+        {
+            CsTeam.CounterTerrorist => $"{CC.B}[{CT_AllCap}]",
+            CsTeam.Terrorist => $"{CC.R}[{T_AllCap}]",
+            CsTeam.Spectator => $"{CC.P}[SPEC]",
+            _ => ""
+        };
+        var c = team switch
+        {
+            CsTeam.CounterTerrorist => CC.B,
+            CsTeam.Terrorist => CC.Or,
+            CsTeam.Spectator => CC.W,
+            _ => CC.W
+        };
+        var tagname = "";
+        if (item.WTime < 20 * 60)
+        {
+            tagname = "Junior Komutçu";
+        }
+        else if (item.WTime < 30 * 60)
+        {
+            tagname = "Mid Komutçu";
+        }
+        else
+        {
+            tagname = "Senior Komutçu";
+        }
+        var deadStr = player.PawnIsAlive == false ? $"{CC.R}*ÖLÜ*" : "";
+        var str = $" {deadStr}"
+                + $" {(isSayTeam ? $"{teamStr}" : "")}"
+                + $" {CC.G}[{tagname}]"
+                + $" {c}{player.PlayerName}"
+                + $" {CC.W}:"
+                + $" {info.GetArg(1)}";
+        if (isSayTeam)
+        {
+            GetPlayers(team).ToList()
+                .ForEach(x => x.PrintToChat(str));
+        }
+        else
+        {
+            Server.PrintToChatAll(str);
+        }
+        return true;
+    }
+
     #endregion OnWCommand
 }

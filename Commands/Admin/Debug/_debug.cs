@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
@@ -30,6 +31,117 @@ public partial class JailbreakExtras
             return;
         }
         Server.PrintToConsole($"{LatestWCommandUser}");
+    }
+
+    [ConsoleCommand("csut")]
+    public void csut(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+
+        SetModelNextServerFrame(player.PlayerPawn.Value!, "characters/models/ambrosian/zmtr/sut/sut.vmdl");
+    }
+
+    private CParticleSystem auratest = null;
+
+    [ConsoleCommand("cAuraTest")]
+    public void cAuraTest(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        var target = info.ArgString.GetArg(0);
+
+        Server.PrintToChatAll(info.GetArg(1));
+        var snd = target switch
+        {
+            //"4" => "particles/kolka/4_particle.vpcf",
+            "1" => "particles/kolka/1_particle.vpcf",
+            "2" => "particles/kolka/2_particle.vpcf",
+            "3" => "particles/kolka/3_particle.vpcf",
+            "5" => "particles/kolka/5_particle.vpcf",//rocket
+            "6" => "particles/kolka/6_particle.vpcf",
+            "7" => "particles/kolka/7_particle.vpcf",
+            "8" => "particles/kolka/8_particle.vpcf",
+            "9" => "particles/kolka/9_particle.vpcf",
+            "10" => "particles/kolka/10_particle.vpcf",
+            "11" => "particles/kolka/11_particle.vpcf",
+            "12" => "particles/kolka/12_particle.vpcf",
+            "13" => "particles/kolka/13_particle.vpcf",
+            "14" => "particles/kolka/14_particle.vpcf",
+            "15" => "particles/kolka/15_particle.vpcf",
+            "16" => "particles/kolka/16_particle.vpcf",
+            "17" => "particles/kolka/17_particle.vpcf",
+            "18" => "particles/kolka/18_particle.vpcf",
+        };
+        if (auratest != null && auratest.IsValid)
+        {
+            auratest.Remove();
+        }
+        auratest = Utilities.CreateEntityByName<CParticleSystem>("info_particle_system");
+        if (auratest != null && auratest.IsValid)
+        {
+            auratest.EffectName = snd;
+            auratest.TintCP = 1;
+            auratest.Teleport(player.PlayerPawn.Value.AbsOrigin, ANGLE_ZERO, VEC_ZERO);
+            auratest.DispatchSpawn();
+            auratest.AcceptInput("Start");
+            RoundEndParticles.Add(auratest);
+            CustomSetParent(auratest, player.PlayerPawn.Value);
+        }
+    }
+
+    [ConsoleCommand("cParach")]
+    public void cParach(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        var target = info.ArgString.GetArg(0);
+
+        var snd = target switch
+        {
+            "1" => "models/zmtr/parasut.vmdl",
+            "2" => "models/parachute/parachute_rainbow.vmdl",
+            "3" => "models/parachute/parachute_bf2.vmdl",
+            "4" => "models/parachute/parachute_bf2142.vmdl",
+            "5" => "models/parachute/parachute_spongebob.vmdl",
+            "6" => "models/ptrunners/parachute/umbrella_big2.vmdl"
+        };
+
+        var entity = Utilities.CreateEntityByName<CBaseProp>("prop_dynamic_override");
+        if (entity != null && entity.IsValid)
+        {
+            entity.SetModel(snd);
+            entity.MoveType = MoveType_t.MOVETYPE_NOCLIP;
+            entity.Collision.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_NONE;
+            entity.Collision.CollisionAttribute.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_NONE;
+
+            entity.Teleport(player.PlayerPawn.Value.AbsOrigin, ANGLE_ZERO, VEC_ZERO);
+
+            entity.DispatchSpawn();
+
+            gParaModel[player.UserId] = entity;
+        }
     }
 
     [ConsoleCommand("cwelcome")]

@@ -11,7 +11,6 @@ public partial class JailbreakExtras
 {
     #region Sut
 
-    private static Dictionary<ulong, DateTime> LatestSutolCommandCalls = new Dictionary<ulong, DateTime>();
     private static List<ulong> SutolCommandCalls = new();
 
     [ConsoleCommand("sut")]
@@ -27,25 +26,19 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix}{CC.W} Sadece T ler bu komutu kullanabilir.");
             return;
         }
-        if (LatestSutolCommandCalls.TryGetValue(player.SteamID, out var call))
-        {
-            if (DateTime.UtcNow < call.AddSeconds(30))
-            {
-                player.PrintToChat($"{Prefix} {CC.W}Tekrar sutol diyebilmek için {CC.DR}30 {CC.W}saniye beklemelisin!");
-                return;
-            }
-        }
+
         GetPlayers()
         .Where(x => x.PawnIsAlive && x.SteamID == player!.SteamID)
         .ToList()
         .ForEach(x =>
         {
             SutolCommandCalls.Add(x.SteamID);
-            SetColour(x, Color.FromArgb(128, 0, 128));
+            //SetColour(x, Color.FromArgb(128, 0, 128));
+            SetModelNextServerFrame(x.PlayerPawn.Value!, "characters/models/ambrosian/zmtr/sut/sut.vmdl");
+
             RefreshPawnTP(x);
             RemoveWeapons(x, false);
 
-            LatestSutolCommandCalls[x.SteamID] = DateTime.UtcNow;
             Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı oyuncu, {CC.LP}süt oldu.");
         });
     }

@@ -4,6 +4,7 @@ using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
+using Discord;
 
 namespace JailbreakExtras;
 
@@ -30,7 +31,14 @@ public partial class JailbreakExtras
             {
                 if (OnCommandValidater(player, true, "@css/seviye30", "@css/seviye30") == false)
                 {
-                    return;
+                    if (PlayerTimeTracking.TryGetValue(player.SteamID, out var item) == false)
+                    {
+                        return;
+                    }
+                    if (item.WTime < 30 * 60)
+                    {
+                        return;
+                    }
                 }
             }
         }

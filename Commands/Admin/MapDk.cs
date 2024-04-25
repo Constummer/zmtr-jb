@@ -20,7 +20,7 @@ public partial class JailbreakExtras
         if (ValidateCallerPlayer(player, false) == false) return;
 
         var substract = (DateTime.UtcNow - MapStartTime.Value).TotalSeconds;
-        TimeSpan remainingTime = TimeSpan.FromHours(8) - TimeSpan.FromSeconds(substract);
+        TimeSpan remainingTime = TimeSpan.FromHours(6) - TimeSpan.FromSeconds(substract);
         if (remainingTime.TotalSeconds > 0)
         {
             var saat = $"{CC.B}{remainingTime.ToString("hh")}{CC.W}";
@@ -44,7 +44,7 @@ public partial class JailbreakExtras
     {
         if (ValidateCallerPlayer(player) == false) return;
         var substract = (DateTime.UtcNow - MapStartTime.Value).TotalSeconds;
-        TimeSpan remainingTime = TimeSpan.FromHours(8) - TimeSpan.FromSeconds(substract);
+        TimeSpan remainingTime = TimeSpan.FromHours(6) - TimeSpan.FromSeconds(substract);
         if (remainingTime.TotalSeconds > 0)
         {
             var saat = $"{CC.B}{remainingTime.ToString("hh")}{CC.W}";

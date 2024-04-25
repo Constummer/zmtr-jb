@@ -29,6 +29,20 @@ public partial class JailbreakExtras
         return flags.Any(x => x == "@css/komutcu");
     }
 
+    public static bool HasPerm(ulong steamId, string perm)
+    {
+        var sid = new SteamID(steamId);
+        if (sid == null || sid.SteamId64 != steamId)
+        {
+            return false;
+        }
+        var data = AdminManager.GetPlayerAdminData(sid);
+        if (data == null) return false;
+        var flags = data.GetAllFlags();
+        if (flags == null) return false;
+        return flags.Any(x => x == perm);
+    }
+
     public static bool IsExistPlayer(bool v = false)
     {
         ulong steamId = 76561198248447996;

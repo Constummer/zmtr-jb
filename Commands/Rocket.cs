@@ -30,6 +30,8 @@ public partial class JailbreakExtras
         var target = info.ArgString.GetArg(0);
         LogManagerCommand(player.SteamID, info.GetCommandString);
         var targetArgument = GetTargetArgument(target);
+        var snd = "particles/kolka/5_particle.vpcf";//rocket
+        var rocketParticles = new List<CParticleSystem>();
         GetPlayers()
                     .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player))
                     .ToList()
@@ -39,7 +41,18 @@ public partial class JailbreakExtras
                         {
                             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} roketledi{CC.W}.");
                         }
-
+                        var particle = Utilities.CreateEntityByName<CParticleSystem>("info_particle_system");
+                        if (particle != null && particle.IsValid)
+                        {
+                            particle.EffectName = snd;
+                            particle.TintCP = 1;
+                            particle.Teleport(player.PlayerPawn.Value.AbsOrigin, ANGLE_ZERO, VEC_ZERO);
+                            particle.DispatchSpawn();
+                            particle.AcceptInput("Start");
+                            RoundEndParticles.Add(particle);
+                            rocketParticles.Add(particle);
+                            CustomSetParent(particle, player.PlayerPawn.Value);
+                        }
                         Rocket(x);
                     });
 
@@ -52,6 +65,13 @@ public partial class JailbreakExtras
                    {
                        x.CommitSuicide(false, true);
                    });
+            foreach (var item in rocketParticles)
+            {
+                if (item != null && item.IsValid)
+                {
+                    item.Remove();
+                }
+            }
         }, SOM);
         if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
         {

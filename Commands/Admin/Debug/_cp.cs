@@ -83,7 +83,56 @@ public partial class JailbreakExtras
             player.PrintToChat(NotEnoughPermission);
             return;
         }
-        var target = Utilities.FindAllEntitiesByDesignerName<CBaseEntity>("func_door");
+        cinputaction("func_door");
+    }
+
+    [ConsoleCommand("cpa")]
+    public void cinputa(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        cinputaction("func_movelinear");
+    }
+
+    [ConsoleCommand("cpb")]
+    public void cinputb(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        cinputaction("func_door_rotating");
+    }
+
+    [ConsoleCommand("cpc")]
+    public void cinputc(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        cinputaction("prop_door_rotating");
+    }
+
+    [ConsoleCommand("cpd")]
+    public void cinputd(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        cinputaction("func_breakable");
+    }
+
+    private void cinputaction(string name)
+    {
+        var target = Utilities.FindAllEntitiesByDesignerName<CBaseEntity>(name);
 
         var queue = new Queue<CBaseEntity?>();
         foreach (var item in target)

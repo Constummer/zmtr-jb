@@ -42,6 +42,87 @@ public partial class JailbreakExtras
         }
     }
 
+    [ConsoleCommand("skirmizi", "slay")]
+    [ConsoleCommand("slaykirmizi", "slay")]
+    public void SlayKirmizi(CCSPlayerController? player, CommandInfo info)
+    {
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+        SlayTakim(player, CC.R);
+    }
+
+    [ConsoleCommand("smavi", "slay")]
+    [ConsoleCommand("slaymavi", "slay")]
+    public void SlayMavi(CCSPlayerController? player, CommandInfo info)
+    {
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+        SlayTakim(player, CC.B);
+    }
+
+    [ConsoleCommand("syesil", "slay")]
+    [ConsoleCommand("slayyesil", "slay")]
+    public void SlayYesil(CCSPlayerController? player, CommandInfo info)
+    {
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+        SlayTakim(player, CC.G);
+    }
+
+    [ConsoleCommand("sgri", "slay")]
+    [ConsoleCommand("slaygri", "slay")]
+    public void SlayGri(CCSPlayerController? player, CommandInfo info)
+    {
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+        SlayTakim(player, CC.Gr);
+    }
+
+    private static void SlayTakim(CCSPlayerController? player, char color)
+    {
+        var index = GetTeamIndexByColor(color);
+
+        if (index == -1)
+        {
+            return;
+        }
+
+        if (TeamSteamIds.TryGetValue(index, out var plist))
+        {
+            var res = GetTeamColorAndTextByIndex(index);
+            GetPlayers(CsTeam.Terrorist)
+                  .Where(x => x.PawnIsAlive)
+                  .ToList()
+                  .ForEach(x =>
+                  {
+                      if (plist != null)
+                      {
+                          if (plist.Contains(x.SteamID))
+                          {
+                              x!.CommitSuicide(false, true);
+                          }
+                      }
+                  });
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} tüm {res.Msg} takımındaki {T_PluralLowerObjective} {CC.W}öldürdü.");
+        }
+    }
+
     [ConsoleCommand("sall", "slay all")]
     [ConsoleCommand("slayall", "slay all")]
     public void SlayAll(CCSPlayerController? player, CommandInfo info)

@@ -33,7 +33,7 @@ public partial class JailbreakExtras
             RemoveWeapons(x, true);
         });
         Server.PrintToChatAll($"{Prefix} {CC.W}{T_PluralCamelPossesive} silahları silindi.");
-        Server.PrintToChatAll($"{AdliAdmin(Prefix)} {CC.W}Yerdeki tum silahları sildi.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}Yerdeki tum silahları sildi.");
     }
 
     [ConsoleCommand("disarm", "Bicak dahil silme")]

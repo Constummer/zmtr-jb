@@ -1,6 +1,7 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
+using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
@@ -140,6 +141,25 @@ public partial class JailbreakExtras
             return;
         }
         if (info.ArgCount < 3) return;
+        FDShort(player, info);
+    }
+
+    [ConsoleCommand("fd")]
+    [CommandHelper(2, "<saniye> <mesaj>")]
+    public void fd(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/premium"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player, false) == false) return;
+        if (info.ArgCount < 3) return;
+        FDShort(player, info);
+    }
+
+    private void FDShort(CCSPlayerController? player, CommandInfo info)
+    {
         var firstArg = info.ArgString.GetArg(0);
         int index = info.ArgString.IndexOf($"{firstArg} ");
 
@@ -158,10 +178,11 @@ public partial class JailbreakExtras
             if (value > 120)
             {
                 player.PrintToChat("Max 120 sn girebilirsin");
+                return;
             }
             else
             {
-                ACTION(player, info, msg, value);
+                FFDACTION(player, info, msg, value);
             }
         }
         else if (int.TryParse(msg, out value))
@@ -169,45 +190,46 @@ public partial class JailbreakExtras
             if (value > 120)
             {
                 player.PrintToChat("Max 120 sn girebilirsin");
+                return;
             }
             else
             {
-                ACTION(player, info, msg, value);
+                FFDACTION(player, info, firstArg, value);
             }
         }
+    }
 
-        void ACTION(CCSPlayerController? player, CommandInfo info, string msg, int value)
+    private void FFDACTION(CCSPlayerController? player, CommandInfo info, string msg, int value)
+    {
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+        BasicCountdown.CommandStartTextCountDown(this, $"[{msg}] {Environment.NewLine}Donmak için {value} saniye!");
+        FFTimer?.Kill();
+        FFTimer = AddTimer(value, () =>
         {
-            LogManagerCommand(player.SteamID, info.GetCommandString);
-            BasicCountdown.CommandStartTextCountDown(this, $"[{msg}] {Environment.NewLine}Donmak için {value} saniye!");
-            FFTimer?.Kill();
-            FFTimer = AddTimer(value, () =>
+            GetPlayers()
+            .Where(x => x != null
+                 && x.PlayerPawn.IsValid
+                 && x.PawnIsAlive
+                 && x.IsValid
+                 && x?.PlayerPawn?.Value != null
+                 && GetTeam(x) == CsTeam.Terrorist)
+            .ToList()
+            .ForEach(x =>
             {
-                GetPlayers()
-                .Where(x => x != null
-                     && x.PlayerPawn.IsValid
-                     && x.PawnIsAlive
-                     && x.IsValid
-                     && x?.PlayerPawn?.Value != null
-                     && GetTeam(x) == CsTeam.Terrorist)
-                .ToList()
-                .ForEach(x =>
+                if (ValidateCallerPlayer(x, false) == false) return;
+                if (TeamActive == false)
                 {
-                    if (ValidateCallerPlayer(x, false) == false) return;
-                    if (TeamActive == false)
-                    {
-                        SetColour(x, Config.Burry.BuryColor);
-                    }
-                    SetMoveType(x, MoveType_t.MOVETYPE_OBSOLETE);
+                    SetColour(x, Config.Burry.BuryColor);
+                }
+                SetMoveType(x, MoveType_t.MOVETYPE_OBSOLETE);
 
-                    Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
-                    Vector currentSpeed = new Vector(0, 0, 0);
-                    QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
-                    x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
-                });
-                Ff(false);
-            }, SOM);
-        }
+                Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
+                Vector currentSpeed = new Vector(0, 0, 0);
+                QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
+                x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
+            });
+            Ff(false);
+        }, SOM);
     }
 
     [ConsoleCommand("ffmenu")]

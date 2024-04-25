@@ -342,7 +342,9 @@ public partial class JailbreakExtras
                     return;
                 }
                 PlayerTime data = null;
-                var cmd = new MySqlCommand(@$"SELECT `Total`,`CTTime`,`TTime`,`WTime`,`KaTime`,`WeeklyWTime`,`WeeklyCTTime`,`WeeklyTTime`,`WeeklyTotalTime`,`WeeklyKaTime`
+                var cmd = new MySqlCommand(@$"SELECT
+                                        `Total`,`CTTime`,`TTime`,`WTime`,`KaTime`,
+                                        `WeeklyWTime`,`WeeklyCTTime`,`WeeklyTTime`,`WeeklyTotalTime`,`WeeklyKaTime`
                                           FROM `PlayerTime`
                                           WHERE `SteamId` = @SteamId;", con);
                 cmd.Parameters.AddWithValue("@SteamId", steamID);
@@ -376,10 +378,10 @@ public partial class JailbreakExtras
                 }
 
                 cmd = new MySqlCommand(@$"INSERT INTO `PlayerTime`
-                                          (`SteamId`,`Total`,`CTTime`,`TTime`,`WTime`,`WeeklyWTime`,`WeeklyCTTime`,`WeeklyTTime`,`WeeklyTotalTime`,`WeeklyKaTime`,`KaTime`
-)
+                                          (`SteamId`,`Total`,`CTTime`,`TTime`,`WTime`,`KaTime`,
+                                           `WeeklyWTime`,`WeeklyCTTime`,`WeeklyTTime`,`WeeklyTotalTime`,`WeeklyKaTime`)
                                           VALUES
-                                          (@SteamId, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);", con);
+                                          (@SteamId, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);", con);
 
                 cmd.Parameters.AddWithValue("@SteamId", steamID);
                 cmd.ExecuteNonQuery();
@@ -400,7 +402,7 @@ public partial class JailbreakExtras
         }
     }
 
-    private void UpdatePlayerTimeDataBulk()
+    private void UpdatePlayerTimeDataBulk(int multipler)
     {
         try
         {
@@ -415,9 +417,10 @@ public partial class JailbreakExtras
                 if (calcRemainTime > 1)
                 {
                     List<MySqlParameter> parameters = new List<MySqlParameter>();
-
+                    var count = GetPlayerCount();
                     var cmdText = "";
                     var i = 0;
+
                     GetPlayers()
                      .ToList()
                      .ForEach(x =>
@@ -437,28 +440,28 @@ public partial class JailbreakExtras
                                             `WeeklyCTTime` = @WeeklyCTTime_{i},
                                             `WeeklyKaTime` = @WeeklyKaTime_{i}
                                         WHERE `SteamId` = @SteamId_{i};";
-                            value.Total++;
-                            value.WeeklyTotalTime++;
+                            value.Total += 1 * multipler;
+                            value.WeeklyTotalTime += 1 * multipler;
                             var team = GetTeam(x);
                             if (team == CsTeam.CounterTerrorist)
                             {
-                                value.CTTime++;
-                                value.WeeklyCTTime++;
+                                value.CTTime += 1 * multipler;
+                                value.WeeklyCTTime += 1 * multipler;
                                 if (LatestWCommandUser == x.SteamID)
                                 {
-                                    value.WTime++;
-                                    value.WeeklyWTime++;
+                                    value.WTime += 1 * multipler;
+                                    value.WeeklyWTime += 1 * multipler;
                                 }
                             }
                             else if (team == CsTeam.Terrorist)
                             {
-                                value.TTime++;
-                                value.WeeklyTTime++;
+                                value.TTime += 1 * multipler;
+                                value.WeeklyTTime += 1 * multipler;
                             }
                             if (KomutcuAdminId == x.SteamID)
                             {
-                                value.KaTime++;
-                                value.WeeklyKaTime++;
+                                value.KaTime += 1 * multipler;
+                                value.WeeklyKaTime += 1 * multipler;
                             }
 
                             parameters.Add(new MySqlParameter($"@SteamId_{i}", x.SteamID));
