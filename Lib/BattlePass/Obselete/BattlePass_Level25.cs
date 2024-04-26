@@ -18,5 +18,24 @@ public partial class JailbreakExtras
         public BattlePass_Level25() : base(25, 350, 0, 0, "oyuncu modeli")
         {
         }
+
+        internal override void OnRoundCTWinCommand()
+        {
+            CurrentCTWin++;
+            base.OnRoundCTWinCommand();
+            CheckIfLevelUp(false);
+        }
+
+        internal override void CheckIfLevelUp(bool completed)
+        {
+            if (CurrentTime >= Time && CurrentCTWin >= CTWin)
+            {
+                base.CheckIfLevelUp(true);
+            }
+            else
+            {
+                base.CheckIfLevelUp(false);
+            }
+        }
     }
 }

@@ -22,10 +22,27 @@ public partial class JailbreakExtras
         internal override void OnSutCommand()
         {
             CurrentSut++;
-            if (CurrentSut >= Sut)
-            {
-            }
             base.OnSutCommand();
+            CheckIfLevelUp(false);
+        }
+
+        internal override void OnRoundTWinCommand()
+        {
+            CurrentTWin++;
+            base.OnRoundTWinCommand();
+            CheckIfLevelUp(false);
+        }
+
+        internal override void CheckIfLevelUp(bool completed)
+        {
+            if (CurrentSut >= Sut && CurrentTime >= Time && CurrentTWin >= TWin)
+            {
+                base.CheckIfLevelUp(true);
+            }
+            else
+            {
+                base.CheckIfLevelUp(false);
+            }
         }
     }
 }

@@ -1,4 +1,5 @@
 ﻿using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
@@ -6,9 +7,8 @@ public partial class JailbreakExtras
 {
     public partial class BattlePassBase
     {
-        internal virtual void CheckIfLevelUp()
-        {
-        }
+        internal virtual void CheckIfLevelUp(bool completed) =>
+            UpdateBattlePassData(this, completed);
 
         internal virtual void EventEntityKilled(EventEntityKilled @event)
         {
@@ -39,6 +39,14 @@ public partial class JailbreakExtras
         }
 
         internal virtual void OnSutCommand()
+        {
+        }
+
+        internal virtual void OnRoundTWinCommand()
+        {
+        }
+
+        internal virtual void OnRoundCTWinCommand()
         {
         }
     }

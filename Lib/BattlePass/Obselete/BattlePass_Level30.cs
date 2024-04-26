@@ -22,5 +22,24 @@ public partial class JailbreakExtras
         public BattlePass_Level30() : base(30, 500, 10000, 5000)
         {
         }
+
+        internal override void OnSutCommand()
+        {
+            CurrentSut++;
+            base.OnSutCommand();
+            CheckIfLevelUp(false);
+        }
+
+        internal override void CheckIfLevelUp(bool completed)
+        {
+            if (CurrentSut >= Sut && CurrentTime >= Time)
+            {
+                base.CheckIfLevelUp(true);
+            }
+            else
+            {
+                base.CheckIfLevelUp(false);
+            }
+        }
     }
 }

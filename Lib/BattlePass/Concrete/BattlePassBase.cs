@@ -16,6 +16,9 @@ public partial class JailbreakExtras
         }
 
         [JsonIgnore]
+        public ulong SteamId { get; set; } = 0;
+
+        [JsonIgnore]
         public int Level { get; set; } = 0;
 
         [JsonIgnore]

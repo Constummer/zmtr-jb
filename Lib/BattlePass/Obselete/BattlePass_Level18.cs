@@ -18,5 +18,24 @@ public partial class JailbreakExtras
         public BattlePass_Level18() : base(18, 200, 2500, 1000)
         {
         }
+
+        internal override void OnRoundCTWinCommand()
+        {
+            CurrentCTWin++;
+            base.OnRoundCTWinCommand();
+            CheckIfLevelUp(false);
+        }
+
+        internal override void CheckIfLevelUp(bool completed)
+        {
+            if (CurrentTime >= Time && CurrentCTWin >= CTWin)
+            {
+                base.CheckIfLevelUp(true);
+            }
+            else
+            {
+                base.CheckIfLevelUp(false);
+            }
+        }
     }
 }
