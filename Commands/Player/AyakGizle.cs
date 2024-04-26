@@ -44,8 +44,7 @@ public partial class JailbreakExtras
         }
         else
         {
-            RefreshPawnTP(player);
-            player!.PrintToChat($" {CC.G}[ZMTR] {CC.DR}Ayakların otomatik olarak gizlendi. !ayakgoster ile tekrar gösterebilirsin");
+            player!.PrintToChat($" {CC.G}[ZMTR] {CC.DR}Ayaklarını gizlemek için !ayakgizle, göstermek için !ayakgoster");
         }
     }
 

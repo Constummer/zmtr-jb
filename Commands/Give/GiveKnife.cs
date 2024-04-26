@@ -12,10 +12,23 @@ public partial class JailbreakExtras
     [ConsoleCommand("gk", "bicak Verir")]
     public void GiveKnife(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye9", "@css/seviye9") == false)
-        {
-            return;
-        }
+        if (ValidateCallerPlayer(player) == false) return;
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
+        //GetPlayers()
+        //       .Where(x => x.PawnIsAlive)
+        //       .ToList()
+        //       .ForEach(x =>
+        //       {
+        //           x.GiveNamedItem($"weapon_knife");
+        //       });
+        //Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}@all {CC.W}hedefine {CC.B}knife {CC.W}adlı silahı verdi.");
+    }
+
+    [ConsoleCommand("gdd", "bicak Verir")]
+    public void gdd(CCSPlayerController? player, CommandInfo info)
+    {
+        if (ValidateCallerPlayer(player) == false) return;
         LogManagerCommand(player.SteamID, info.GetCommandString);
 
         GetPlayers()
@@ -23,9 +36,9 @@ public partial class JailbreakExtras
                .ToList()
                .ForEach(x =>
                {
-                   x.GiveNamedItem($"weapon_knife");
+                   RemoveAllButKnife(x);
                });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}@all {CC.W}hedefine {CC.B}knife {CC.W}adlı silahı verdi.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}@all {CC.W}hedefine {CC.B}gdd.");
     }
 
     #endregion GK

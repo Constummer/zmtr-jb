@@ -1,6 +1,8 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Entities;
 using System.Drawing;
+using System.Numerics;
 
 namespace JailbreakExtras;
 
@@ -14,7 +16,8 @@ public partial class JailbreakExtras
         OnClientConnect,
         OnClientDisconnect,
         OnWChange,
-        OnPlayerSpawn
+        OnPlayerSpawn,
+        OnRefreshPawn
     }
 
     public class QueueItems
@@ -112,6 +115,26 @@ public partial class JailbreakExtras
                             SendDcNotifyOnWardenChange();
                             break;
 
+                        case QueueItemType.OnRefreshPawn:
+                            //var player = Utilities.GetPlayerFromSteamId(tempSteamId);
+                            //if (ValidateCallerPlayer(player, false))
+                            //{
+                            //    var weaponServices = player.PlayerPawn.Value!.WeaponServices;
+                            //    if (weaponServices == null) return;
+                            //    if (weaponServices.MyWeapons != null)
+                            //    {
+                            //        foreach (var weapon in weaponServices.MyWeapons)
+                            //        {
+                            //            if (weapon != null && weapon.IsValid && weapon.Value != null && weapon.Value!.DesignerName == "weapon_healthshot")
+                            //            {
+                            //                weapon.Value.Remove();
+                            //                break;
+                            //            }
+                            //        }
+                            //    }
+                            //}
+                            break;
+
                         case QueueItemType.OnPlayerSpawn:
                             CCSPlayerController? x = null;
                             if (tempUserId.HasValue)
@@ -140,7 +163,6 @@ public partial class JailbreakExtras
                                     SetColour(x, DefaultColor);
                                 }
                             }
-
                             if (CheckPlayerIsTeamTag(tempSteamId) == false)
                             {
                                 CheckPlayerSutTeamTag(tempSteamId);

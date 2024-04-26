@@ -69,16 +69,16 @@ public partial class JailbreakExtras
                     }
                 }
 
-                //if (weaponValues[2].Length > 0 && weaponValues[2] != "-1")
-                //{
-                //    if (_weapon.VData != null)
-                //    {
-                //        _weapon.VData.PrimaryReserveAmmoMax = int.Parse(weaponValues[2]);
-                //    }
-                //    _weapon.ReserveAmmo[0] = int.Parse(weaponValues[2]);
+                if (Config.Additional.UnlimitedReserver)
+                {
+                    if (_weapon.VData != null)
+                    {
+                        _weapon.VData.PrimaryReserveAmmoMax = int.Parse(weaponValues[2]);
+                    }
+                    _weapon.ReserveAmmo[0] = int.Parse(weaponValues[2]);
 
-                //    Utilities.SetStateChanged(weapon.As<CCSWeaponBase>(), "CBasePlayerWeapon", "m_pReserveAmmo");
-                //}
+                    Utilities.SetStateChanged(weapon.As<CCSWeaponBase>(), "CBasePlayerWeapon", "m_pReserveAmmo");
+                }
             });
         }
     }

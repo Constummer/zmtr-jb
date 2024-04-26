@@ -36,6 +36,12 @@ public partial class JailbreakExtras
         [JsonPropertyName("GrappleSpeed")]
         public float GrappleSpeed { get; set; } = 1500.0f;
 
+        [JsonPropertyName("UnlimitedReserver")]
+        public bool UnlimitedReserver { get; set; } = false;
+
+        [JsonPropertyName("NoBlockActive")]
+        public bool NoBlockActive { get; set; } = true;
+
         [JsonPropertyName("RoundEndStartCommands")]
         public List<string> RoundEndStartCommands { get; set; } = new(){
             "mp_respawn_on_death_t 0",

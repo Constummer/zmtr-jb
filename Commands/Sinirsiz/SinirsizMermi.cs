@@ -1,6 +1,7 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
+using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 
 namespace JailbreakExtras;
@@ -23,6 +24,24 @@ public partial class JailbreakExtras
         LogManagerCommand(player.SteamID, info.GetCommandString);
 
         UnlimitedReserverAmmoActive = true;
+    }
+
+    [ConsoleCommand("smac2")]
+    public void SinirsizMermiAc2(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W} sınırsız mermi 2 deistirdi.");
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
+        Config.Additional.UnlimitedReserver = !Config.Additional.UnlimitedReserver;
     }
 
     #endregion SinirsizMermi

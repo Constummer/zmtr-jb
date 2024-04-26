@@ -252,6 +252,15 @@ public partial class JailbreakExtras
                           `GotTheReward` bit DEFAULT 0
                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
 
+                    cmd = new MySqlCommand(
+                   @"CREATE TABLE IF NOT EXISTS `PlayerBattlePass` (
+					    `Id` bigint(20) PRIMARY KEY AUTO_INCREMENT,
+                        `SteamId` bigint(20) DEFAULT NULL,
+                        `Level` mediumint(9) DEFAULT NULL,
+                        `Config` TEXT DEFAULT NULL,
+                        `Completed` bit DEFAULT 0
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
+
                     await cmd.ExecuteNonQueryAsync();
                     GetAllPlayerNameData(con);
                     GetAllCTKitData(con);

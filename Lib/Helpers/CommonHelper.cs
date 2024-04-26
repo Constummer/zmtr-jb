@@ -119,19 +119,6 @@ public partial class JailbreakExtras
                 return false;
             }
         }
-        //if (player == null
-        //    || !player.IsValid
-        //    //|| player.PlayerPawn == null
-        //    //|| !player.PlayerPawn.IsValid
-        //    //|| player.PlayerPawn.Value == null
-        //    //|| !player.PlayerPawn.Value.IsValid
-        //    ) return false;
-        //if (player.AuthorizedSteamID == null
-        //    || player.AuthorizedSteamID.SteamId64 != player.SteamID)
-        //{
-        //    return false;
-        //}
-        //if (player.AuthorizedSteamID.IsValid() == false) return false;//todo chjeck
         if (x.IsBot) return false;
         if (x.Connected == PlayerConnectedState.PlayerConnected
             && x.Index != 32767

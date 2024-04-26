@@ -13,8 +13,9 @@ public partial class JailbreakExtras
     private void EventPlayerSpawn()
     {
         RegisterEventHandler<EventPlayerSpawn>(CTKitOnPlayerSpawn);
+        RegisterEventHandler<EventPlayerSpawn>(NoBlockOnPlayerSpawn, HookMode.Post);
 
-        RegisterEventHandler<EventPlayerSpawn>((@event, _) =>
+        RegisterEventHandler((GameEventHandler<EventPlayerSpawn>)((@event, _) =>
         {
             if (@event == null)
                 return HookResult.Continue;
@@ -26,12 +27,12 @@ public partial class JailbreakExtras
                 if (HideFoots.TryGetValue(x.SteamID, out var _) == false && Config.Additional.HideFootsOnConnect)
                 {
                     AddTimer(2f, () =>
-                   {
-                       if (ValidateCallerPlayer(x, false))
-                       {
-                           AyakGizle(x, true);
-                       }
-                   }, SOM);
+                    {
+                        if (ValidateCallerPlayer(x, false))
+                        {
+                            AyakGizle(x, true);
+                        }
+                    }, SOM);
                 }
                 if (x.SteamID != LatestWCommandUser)
                 {
@@ -47,10 +48,19 @@ public partial class JailbreakExtras
                             }, SOM);
                     }
                 }
-                var tempSteamId = @event?.Userid?.SteamID;
                 var tempUserId = @event?.Userid?.UserId;
+                var tempSteamId = @event?.Userid?.SteamID;
                 if (tempSteamId.HasValue)
                 {
+                    AddTimer(0.3f, () =>
+                    {
+                        GiveSkin(x, tempSteamId);
+                        //AddTimer(0.2f, () =>
+                        //{
+                        //    x.GiveNamedItem(CsItem.Healthshot);
+                        //});
+                    });
+
                     CreateAuraParticle(tempSteamId.Value);
                 }
                 AddTimer(3f, () =>
@@ -58,68 +68,6 @@ public partial class JailbreakExtras
                     _ClientQueue.Enqueue(new(tempSteamId ?? 0, tempUserId, "", QueueItemType.OnPlayerSpawn));
                 });
 
-                var data = GetPlayerMarketModel(tempSteamId);
-                if (data.Model == null || data.ChooseRandom)
-                {
-                    if (ValidateCallerPlayer(x, false))
-                    {
-                        GiveRandomSkin(x);
-                    }
-                }
-                else
-                {
-                    if (ValidateCallerPlayer(x, false))
-                    {
-                        PlayerModel? model;
-                        switch (GetTeam(x!))
-                        {
-                            case CsTeam.Terrorist:
-                                if (string.IsNullOrWhiteSpace(data.Model.DefaultIdT) == false)
-                                {
-                                    if (int.TryParse(data.Model.DefaultIdT, out var modelId)
-                                        && PlayerModels.TryGetValue(modelId, out model))
-                                    {
-                                        if (ValidateCallerPlayer(x, false))
-                                        {
-                                            SetModelNextServerFrame(x!.PlayerPawn.Value!, model.PathToModel);
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    if (ValidateCallerPlayer(x, false))
-                                    {
-                                        GiveRandomSkin(x);
-                                    }
-                                }
-                                break;
-
-                            case CsTeam.CounterTerrorist:
-                                if (string.IsNullOrWhiteSpace(data.Model.DefaultIdCT) == false)
-                                {
-                                    if (int.TryParse(data.Model.DefaultIdCT, out var modelId)
-                                        && PlayerModels.TryGetValue(modelId, out model))
-                                    {
-                                        if (ValidateCallerPlayer(x, false))
-                                        {
-                                            SetModelNextServerFrame(x!.PlayerPawn.Value!, model.PathToModel);
-                                        }
-                                    }
-                                }
-                                else
-                                {
-                                    if (ValidateCallerPlayer(x, false))
-                                    {
-                                        GiveRandomSkin(x);
-                                    }
-                                }
-                                break;
-
-                            default:
-                                break;
-                        }
-                    }
-                }
                 AddTimer(0.5f, () =>
                 {
                     if (ValidateCallerPlayer(x, false) == false) return;
@@ -136,7 +84,73 @@ public partial class JailbreakExtras
                 }, SOM);
             }
             return HookResult.Continue;
-        });
+        }));
+    }
+
+    private static void GiveSkin(CCSPlayerController x, ulong? tempSteamId)
+    {
+        var data = GetPlayerMarketModel(tempSteamId);
+        if (data.Model == null || data.ChooseRandom)
+        {
+            if (ValidateCallerPlayer(x, false))
+            {
+                GiveRandomSkin(x);
+            }
+        }
+        else
+        {
+            if (ValidateCallerPlayer(x, false))
+            {
+                PlayerModel? model;
+                switch (GetTeam(x!))
+                {
+                    case CsTeam.Terrorist:
+                        if (string.IsNullOrWhiteSpace(data.Model.DefaultIdT) == false)
+                        {
+                            if (int.TryParse(data.Model.DefaultIdT, out var modelId)
+                                && PlayerModels.TryGetValue(modelId, out model))
+                            {
+                                if (ValidateCallerPlayer(x, false))
+                                {
+                                    SetModelNextServerFrame(x!.PlayerPawn.Value!, model.PathToModel);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (ValidateCallerPlayer(x, false))
+                            {
+                                GiveRandomSkin(x);
+                            }
+                        }
+                        break;
+
+                    case CsTeam.CounterTerrorist:
+                        if (string.IsNullOrWhiteSpace(data.Model.DefaultIdCT) == false)
+                        {
+                            if (int.TryParse(data.Model.DefaultIdCT, out var modelId)
+                                && PlayerModels.TryGetValue(modelId, out model))
+                            {
+                                if (ValidateCallerPlayer(x, false))
+                                {
+                                    SetModelNextServerFrame(x!.PlayerPawn.Value!, model.PathToModel);
+                                }
+                            }
+                        }
+                        else
+                        {
+                            if (ValidateCallerPlayer(x, false))
+                            {
+                                GiveRandomSkin(x);
+                            }
+                        }
+                        break;
+
+                    default:
+                        break;
+                }
+            }
+        }
     }
 
     private static void GiveRandomSkin(CCSPlayerController? x)

@@ -29,6 +29,37 @@ public partial class JailbreakExtras
         }
     }
 
+    private static void RemoveAllButKnife(CCSPlayerController player)
+    {
+        if (player != null)
+        {
+            if (ValidateCallerPlayer(player, false) == false)
+                return;
+            var weaponServices = player.PlayerPawn.Value!.WeaponServices;
+            if (weaponServices == null) return;
+
+            if (weaponServices.MyWeapons != null)
+            {
+                foreach (var weapon in weaponServices.MyWeapons)
+                {
+                    if (weapon != null
+                        && weapon.IsValid
+                        && weapon.Value != null
+                        && string.IsNullOrWhiteSpace(weapon.Value!.DesignerName) == false
+                        && weapon.Value!.DesignerName != "[null]")
+                    {
+                        if ((weapon.Value!.DesignerName.Contains("healthshot")))
+                        {
+                            weapon.Value.Remove();
+                            return;
+                        }
+                    }
+                }
+            }
+            RefreshPawn(player);
+        }
+    }
+
     private static List<ulong> RemoveAllWeapons(bool giveKnife, bool giveFists = false, string custom = null, int? setHp = null)
     {
         List<ulong> steamids = new List<ulong>();
