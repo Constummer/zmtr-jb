@@ -14,11 +14,15 @@ public partial class JailbreakExtras
         {
         }
 
-        internal virtual void EventPlayerDeath(EventPlayerDeath @event)
+        internal virtual void EventCTKilled()
         {
         }
 
-        internal virtual void EventWeaponZoom(EventWeaponZoom @event)
+        internal virtual void EventTKilled()
+        {
+        }
+
+        internal virtual void EventWKilled()
         {
         }
 

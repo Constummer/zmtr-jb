@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
 
@@ -26,9 +27,16 @@ public partial class JailbreakExtras
             CheckIfLevelUp(false);
         }
 
+        internal override void EventCTKilled()
+        {
+            CurrentCTKill++;
+            base.EventCTKilled();
+            CheckIfLevelUp(false);
+        }
+
         internal override void CheckIfLevelUp(bool completed)
         {
-            if (CurrentTime >= Time && CurrentCTWin >= CTWin)
+            if (CurrentTime >= Time && CurrentCTWin >= CTWin && CurrentCTKill >= CTKill)
             {
                 base.CheckIfLevelUp(true);
             }

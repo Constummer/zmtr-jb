@@ -98,6 +98,9 @@ public partial class JailbreakExtras
                     }
                 }
             }
+
+            BattlePassBase.EventPlayerDeath(@event);
+
             return HookResult.Continue;
         }, HookMode.Pre);
 
@@ -128,6 +131,7 @@ public partial class JailbreakExtras
             {
                 return HookResult.Continue;
             }
+
             return HookResult.Continue;
         }, HookMode.Post);
     }

@@ -18,5 +18,24 @@ public partial class JailbreakExtras
         public BattlePass_Level05() : base(5, 50, 1250, 500)
         {
         }
+
+        internal override void EventCTKilled()
+        {
+            CurrentCtKill++;
+            base.EventCTKilled();
+            CheckIfLevelUp(false);
+        }
+
+        internal override void CheckIfLevelUp(bool completed)
+        {
+            if (CurrentCtKill >= CtKill && CurrentTime >= Time)
+            {
+                base.CheckIfLevelUp(true);
+            }
+            else
+            {
+                base.CheckIfLevelUp(false);
+            }
+        }
     }
 }

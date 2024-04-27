@@ -32,5 +32,33 @@ public partial class JailbreakExtras
                       }
                   });
         }
+
+        internal static void EventPlayerDeath(EventPlayerDeath @event)
+        {
+            if (BattlePassDatas.TryGetValue(@event.Attacker.SteamID, out var battlePassData))
+            {
+                var deadOne = @event.Userid;
+                var attacker = @event.Attacker;
+                if (GetTeam(deadOne) == CsTeam.CounterTerrorist &&
+                    GetTeam(attacker) == CsTeam.Terrorist)
+                {
+                    //t->ct
+                    battlePassData.EventCTKilled();
+                }
+                else if (GetTeam(deadOne) == CsTeam.Terrorist &&
+                    GetTeam(attacker) == CsTeam.CounterTerrorist)
+                {
+                    //ct->t
+                    battlePassData.EventTKilled();
+                }
+                else if (GetTeam(deadOne) == CsTeam.CounterTerrorist &&
+                    GetTeam(attacker) == CsTeam.Terrorist &&
+                    deadOne.SteamID == LatestWCommandUser)
+                {
+                    //w
+                    battlePassData.EventWKilled();
+                }
+            }
+        }
     }
 }

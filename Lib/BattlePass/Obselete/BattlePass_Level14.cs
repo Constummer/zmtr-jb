@@ -1,4 +1,5 @@
 ﻿using System.Text.Json.Serialization;
+using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
 
@@ -21,6 +22,32 @@ public partial class JailbreakExtras
 
         public BattlePass_Level14() : base(14, 160, 1000, 0)
         {
+        }
+
+        internal override void EventCTKilled()
+        {
+            CurrentCTKill++;
+            base.EventCTKilled();
+            CheckIfLevelUp(false);
+        }
+
+        internal override void EventWKilled()
+        {
+            CurrentWKill++;
+            base.EventWKilled();
+            CheckIfLevelUp(false);
+        }
+
+        internal override void CheckIfLevelUp(bool completed)
+        {
+            if (CurrentCTKill >= CTKill && CurrentTime >= Time && CurrentWKill >= WKill)
+            {
+                base.CheckIfLevelUp(true);
+            }
+            else
+            {
+                base.CheckIfLevelUp(false);
+            }
         }
     }
 }
