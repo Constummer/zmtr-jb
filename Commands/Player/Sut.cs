@@ -38,7 +38,10 @@ public partial class JailbreakExtras
 
             RefreshPawnTP(x);
             RemoveWeapons(x, false);
-
+            if (BattlePassDatas.TryGetValue(x.SteamID, out var battlePassData))
+            {
+                battlePassData?.OnSutCommand();
+            }
             Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı oyuncu, {CC.LP}süt oldu.");
         });
     }

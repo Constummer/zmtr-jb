@@ -28,27 +28,35 @@ public partial class JailbreakExtras
             return HookResult.Continue;
         }
 
-        CHandle<CCSPlayerPawn> pawn = player.PlayerPawn;
         if (ValidateCallerPlayer(player, false) == false) return HookResult.Continue;
 
-        Server.NextFrame(() => PlayerSpawnNextFrame(player, pawn));
+        PlayerSpawnNextFrame(player);
         if (ValidateCallerPlayer(player, false) == false) return HookResult.Continue;
 
-        void PlayerSpawnNextFrame(CCSPlayerController player, CHandle<CCSPlayerPawn> pawn)
-        {
-            if (ValidateCallerPlayer(player, false) == false) return;
-            pawn.Value.Collision.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DISSOLVING;
-
-            if (ValidateCallerPlayer(player, false) == false) return;
-            pawn.Value.Collision.CollisionAttribute.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DISSOLVING;
-            if (ValidateCallerPlayer(player, false) == false) return;
-
-            VirtualFunctionVoid<nint> collisionRulesChanged = new VirtualFunctionVoid<nint>(pawn.Value.Handle, OnCollisionRulesChangedOffset.Get());
-
-            if (ValidateCallerPlayer(player, false) == false) return;
-            collisionRulesChanged.Invoke(pawn.Value.Handle);
-        }
         return HookResult.Continue;
+    }
+
+    private void PlayerSpawnNextFrame(CCSPlayerController player)
+    {
+        if (ValidateCallerPlayer(player, false) == false) return;
+        player.PlayerPawn.Value.Collision.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DISSOLVING;
+        if (player?.Collision?.CollisionGroup != null)
+        {
+            player.Collision.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DISSOLVING;
+        }
+
+        if (ValidateCallerPlayer(player, false) == false) return;
+        if (player?.Collision?.CollisionAttribute?.CollisionGroup != null)
+        {
+            player.Collision.CollisionAttribute.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DISSOLVING;
+        }
+        player.PlayerPawn.Value.Collision.CollisionAttribute.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_DISSOLVING;
+        if (ValidateCallerPlayer(player, false) == false) return;
+
+        VirtualFunctionVoid<nint> collisionRulesChanged = new VirtualFunctionVoid<nint>(player.PlayerPawn.Value.Handle, OnCollisionRulesChangedOffset.Get());
+
+        if (ValidateCallerPlayer(player, false) == false) return;
+        collisionRulesChanged.Invoke(player.PlayerPawn.Value.Handle);
     }
 
     public class WIN_LINUX<T>

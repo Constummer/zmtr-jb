@@ -17,7 +17,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (info.ArgCount != 2) return;
+        if (info.ArgCount < -2) return;
         var target = info.ArgString.GetArg(0);
         var targetArgument = GetTargetArgument(target);
 

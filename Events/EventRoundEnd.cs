@@ -1,5 +1,6 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
@@ -24,6 +25,17 @@ public partial class JailbreakExtras
                 ChooseRandomTwoGuardian();
             }
             RoundEndParticle(@event.Winner);
+
+            switch ((CsTeam)@event.Winner)
+            {
+                case CsTeam.Terrorist:
+                    BattlePassBase.RoundTWin();
+                    break;
+
+                case CsTeam.CounterTerrorist:
+                    BattlePassBase.RoundCTWin();
+                    break;
+            };
             return HookResult.Continue;
         });
     }
