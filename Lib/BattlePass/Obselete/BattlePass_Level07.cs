@@ -23,6 +23,13 @@ public partial class JailbreakExtras
         {
         }
 
+        internal override void EventNoScopeKill()
+        {
+            CurrentNoScopeKill++;
+            base.EventNoScopeKill();
+            CheckIfLevelUp(false);
+        }
+
         internal override void EventCTKilled()
         {
             CurrentCtKill++;
@@ -39,7 +46,10 @@ public partial class JailbreakExtras
 
         internal override void CheckIfLevelUp(bool completed)
         {
-            if (CurrentCtKill >= CTKill && CurrentTime >= Time && CurrentWKill >= WKill)
+            if (CurrentNoScopeKill >= NoScopeKill &&
+                CurrentCtKill >= CTKill &&
+                CurrentTime >= Time &&
+                CurrentWKill >= WKill)
             {
                 base.CheckIfLevelUp(true);
             }

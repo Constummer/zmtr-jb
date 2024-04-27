@@ -39,8 +39,16 @@ public partial class JailbreakExtras
             {
                 var deadOne = @event.Userid;
                 var attacker = @event.Attacker;
+                if (GetTeam(deadOne) != GetTeam(attacker))
+                {
+                    if (@event.Noscope)
+                    {
+                        battlePassData.EventNoScopeKill();
+                    }
+                }
+
                 if (GetTeam(deadOne) == CsTeam.CounterTerrorist &&
-                    GetTeam(attacker) == CsTeam.Terrorist)
+                GetTeam(attacker) == CsTeam.Terrorist)
                 {
                     //t->ct
                     battlePassData.EventCTKilled();
