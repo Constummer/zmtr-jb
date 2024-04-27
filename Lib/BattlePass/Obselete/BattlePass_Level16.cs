@@ -19,6 +19,13 @@ public partial class JailbreakExtras
         {
         }
 
+        internal override void OnEventPlayerJump()
+        {
+            CurrentJump++;
+            base.OnEventPlayerJump();
+            CheckIfLevelUp(false);
+        }
+
         internal override void OnRoundCTWinCommand()
         {
             CurrentCTWin++;
@@ -28,7 +35,9 @@ public partial class JailbreakExtras
 
         internal override void CheckIfLevelUp(bool completed)
         {
-            if (CurrentTime >= Time && CurrentCTWin >= CTWin)
+            if (CurrentJump >= Jump &&
+                CurrentTime >= Time &&
+                CurrentCTWin >= CTWin)
             {
                 base.CheckIfLevelUp(true);
             }

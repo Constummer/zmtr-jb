@@ -23,6 +23,13 @@ public partial class JailbreakExtras
         {
         }
 
+        internal override void OnEventPlayerJump()
+        {
+            CurrentJump++;
+            base.OnEventPlayerJump();
+            CheckIfLevelUp(false);
+        }
+
         internal override void EventNoScopeKill()
         {
             CurrentNoScopeKill++;
@@ -39,7 +46,8 @@ public partial class JailbreakExtras
 
         internal override void CheckIfLevelUp(bool completed)
         {
-            if (CurrentNoScopeKill >= NoScopeKill &&
+            if (CurrentJump >= Jump &&
+                CurrentNoScopeKill >= NoScopeKill &&
                 CurrentSut >= Sut &&
                 CurrentTime >= Time)
             {

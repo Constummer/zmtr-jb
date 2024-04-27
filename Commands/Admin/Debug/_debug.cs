@@ -642,6 +642,43 @@ public partial class JailbreakExtras
         Logger.LogInformation(player.PlayerPawn.Value.CameraServices.Pawn.Value.AbsOrigin.ToString());
     }
 
+    private static bool cDeathActive = false;
+
+    [ConsoleCommand("cdeath2")]
+    public void cdeath2(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        cDeathActive = !cDeathActive;
+    }
+
+    /// <summary>
+    /// EventName=player_death
+    /// </summary>
+    private static bool cplayerJumpActive = false;
+
+    [ConsoleCommand("cplayerJump")]
+    public void cplayerJump(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        cplayerJumpActive = !cplayerJumpActive;
+    }
+
     [ConsoleCommand("cwtf")]
     public void cwtf(CCSPlayerController? player, CommandInfo info)
     {

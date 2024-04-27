@@ -5,6 +5,7 @@ public partial class JailbreakExtras
     private void CallEvents()
     {
         EventRoundStart();
+        EventPlayerJump();
         EventRoundEnd();
         EventPlayerDeath();
         EventPlayerHurt();

@@ -37,5 +37,13 @@ public partial class JailbreakExtras
         internal virtual void EventNoScopeKill()
         {
         }
+
+        internal virtual void GetLevelMenu()
+        {
+        }
+
+        internal virtual void OnEventPlayerJump()
+        {
+        }
     }
 }
