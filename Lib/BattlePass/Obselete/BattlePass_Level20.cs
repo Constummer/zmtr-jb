@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using CounterStrikeSharp.API.Modules.Menu;
+using System.Text.Json.Serialization;
+using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
 
@@ -15,8 +17,15 @@ public partial class JailbreakExtras
         public int CurrentTWin { get; set; } = 0;
         public int CurrentKnifeKill { get; set; } = 0;
 
-        public BattlePass_Level20() : base(20, 300, 0, 1000)
+        public BattlePass_Level20() : base(20, 80, 0, 1000)
         {
+        }
+
+        internal override void EventKnifeKill()
+        {
+            CurrentKnifeKill++;
+            base.EventKnifeKill();
+            CheckIfLevelUp(false);
         }
 
         internal override void OnRoundTWinCommand()
@@ -28,7 +37,9 @@ public partial class JailbreakExtras
 
         internal override void CheckIfLevelUp(bool completed)
         {
-            if (CurrentTime >= Time && CurrentTWin >= TWin)
+            if (CurrentKnifeKill >= KnifeKill &&
+                CurrentTime >= Time &&
+                CurrentTWin >= TWin)
             {
                 base.CheckIfLevelUp(true);
             }
@@ -36,6 +47,13 @@ public partial class JailbreakExtras
             {
                 base.CheckIfLevelUp(false);
             }
+        }
+
+        internal override void BuildLevelMenu(CenterHtmlMenu menu)
+        {
+            base.BuildLevelMenu(menu);
+            menu.AddMenuOption($"{CurrentTWin}/{TWin} {T_LowerPositioning} kazanma", null, true);
+            menu.AddMenuOption($"{CurrentKnifeKill}/{KnifeKill} Knife Kill", null, true);
         }
     }
 }

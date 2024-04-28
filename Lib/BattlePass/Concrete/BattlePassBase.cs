@@ -9,7 +9,7 @@ public partial class JailbreakExtras
         public BattlePassBase(int level, int time, int credit, int tP, string other = null)
         {
             Level = level;
-            Time = time;
+            Time = time * 60;
             Credit = credit;
             TP = tP;
             Other = other;
@@ -34,5 +34,6 @@ public partial class JailbreakExtras
         public string Other { get; set; } = null;
 
         public int CurrentTime { get; set; } = 0;
+        public bool Completed { get; set; } = false;
     }
 }

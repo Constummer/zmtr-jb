@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using CounterStrikeSharp.API.Modules.Menu;
+using System.Text.Json.Serialization;
+using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
 
@@ -19,7 +21,7 @@ public partial class JailbreakExtras
         public int CurrentNoScopeKill { get; set; } = 0;
         public int CurrentJump { get; set; } = 0;
 
-        public BattlePass_Level30() : base(30, 500, 10000, 5000)
+        public BattlePass_Level30() : base(30, 100, 10000, 5000)
         {
         }
 
@@ -57,6 +59,14 @@ public partial class JailbreakExtras
             {
                 base.CheckIfLevelUp(false);
             }
+        }
+
+        internal override void BuildLevelMenu(CenterHtmlMenu menu)
+        {
+            base.BuildLevelMenu(menu);
+            menu.AddMenuOption($"{CurrentJump}/{Jump} Zıplama", null, true);
+            menu.AddMenuOption($"{CurrentSut}/{Sut} Süt Olma", null, true);
+            menu.AddMenuOption($"{CurrentNoScopeKill}/{NoScopeKill} No Scope Kill", null, true);
         }
     }
 }

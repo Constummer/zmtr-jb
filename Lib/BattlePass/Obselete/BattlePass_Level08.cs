@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using CounterStrikeSharp.API.Modules.Menu;
+using System.Text.Json.Serialization;
 using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
@@ -16,8 +17,15 @@ public partial class JailbreakExtras
         public int CurrentP90Kill { get; set; } = 0;
         public int CurrentWKill { get; set; } = 0;
 
-        public BattlePass_Level08() : base(8, 80, 1500, 0)
+        public BattlePass_Level08() : base(8, 10, 1500, 0)
         {
+        }
+
+        internal override void EventP90Kill()
+        {
+            CurrentP90Kill++;
+            base.EventP90Kill();
+            CheckIfLevelUp(false);
         }
 
         internal override void EventWKilled()
@@ -29,7 +37,9 @@ public partial class JailbreakExtras
 
         internal override void CheckIfLevelUp(bool completed)
         {
-            if (CurrentTime >= Time && CurrentWKill >= WKill)
+            if (CurrentP90Kill >= P90Kill &&
+                CurrentTime >= Time &&
+                CurrentWKill >= WKill)
             {
                 base.CheckIfLevelUp(true);
             }
@@ -37,6 +47,13 @@ public partial class JailbreakExtras
             {
                 base.CheckIfLevelUp(false);
             }
+        }
+
+        internal override void BuildLevelMenu(CenterHtmlMenu menu)
+        {
+            base.BuildLevelMenu(menu);
+            menu.AddMenuOption($"{CurrentP90Kill}/{P90Kill} P90 Kill", null, true);
+            menu.AddMenuOption($"{CurrentWKill}/{WKill} Komutçu Kill", null, true);
         }
     }
 }

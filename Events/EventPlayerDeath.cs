@@ -101,33 +101,6 @@ public partial class JailbreakExtras
                     }
                 }
             }
-            if (cDeathActive)
-            {
-                if (AdminManager.PlayerHasPermissions(@event.Attacker, "@css/root"))
-                {
-                    Server.PrintToChatAll($"EventName=\t\t{@event.EventName}");
-                    Server.PrintToChatAll($"Noreplay=\t\t{@event.Noreplay}");
-                    Server.PrintToChatAll($"Assistedflash=\t\t{@event.Assistedflash}");
-                    Server.PrintToChatAll($"DmgArmor=\t\t{@event.DmgArmor}");
-                    Server.PrintToChatAll($"Attackerblind=\t\t{@event.Attackerblind}");
-                    Server.PrintToChatAll($"Attackerinair=\t\t{@event.Attackerinair}");
-                    Server.PrintToChatAll($"Distance=\t\t{@event.Distance}");
-                    Server.PrintToChatAll($"DmgArmor=\t\t{@event.DmgArmor}");
-                    Server.PrintToChatAll($"DmgHealth=\t\t{@event.DmgHealth}");
-                    Server.PrintToChatAll($"Dominated=\t\t{@event.Dominated}");
-                    Server.PrintToChatAll($"Headshot=\t\t{@event.Headshot}");
-                    Server.PrintToChatAll($"Hitgroup=\t\t{@event.Hitgroup}");
-                    Server.PrintToChatAll($"Noscope=\t\t{@event.Noscope}");
-                    Server.PrintToChatAll($"Penetrated=\t\t{@event.Penetrated}");
-                    Server.PrintToChatAll($"Revenge=\t\t{@event.Revenge}");
-                    Server.PrintToChatAll($"Thrusmoke=\t\t{@event.Thrusmoke}");
-                    Server.PrintToChatAll($"Weapon=\t\t{@event.Weapon}");
-                    Server.PrintToChatAll($"WeaponFauxitemid=\t\t{@event.WeaponFauxitemid}");
-                    Server.PrintToChatAll($"WeaponItemid=\t\t{@event.WeaponItemid}");
-                    Server.PrintToChatAll($"WeaponOriginalownerXuid=\t\t{@event.WeaponOriginalownerXuid}");
-                    Server.PrintToChatAll($"Wipe=\t\t{@event.Wipe}");
-                }
-            }
             BattlePassBase.EventPlayerDeath(@event);
 
             return HookResult.Continue;

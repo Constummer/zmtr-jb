@@ -1,5 +1,4 @@
-﻿using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Utils;
+﻿using CounterStrikeSharp.API.Modules.Menu;
 
 namespace JailbreakExtras;
 
@@ -7,8 +6,11 @@ public partial class JailbreakExtras
 {
     public partial class BattlePassBase
     {
-        internal virtual void CheckIfLevelUp(bool completed) =>
+        internal virtual void CheckIfLevelUp(bool completed)
+        {
+            this.Completed = completed;
             UpdateBattlePassData(this, completed);
+        }
 
         internal virtual void EventCTKilled()
         {
@@ -38,11 +40,45 @@ public partial class JailbreakExtras
         {
         }
 
-        internal virtual void GetLevelMenu()
+        internal virtual void BuildLevelMenu(CenterHtmlMenu menu)
         {
+            if (Completed)
+            {
+                menu.AddMenuOption($"!bpLevelAtla yazarak", null, true);
+                menu.AddMenuOption($"level atlayabilirsin", null, true);
+            }
+            menu.AddMenuOption($"{(int)(CurrentTime / 60)}/{(int)(Time / 60)} Saat", null, true);
         }
 
         internal virtual void OnEventPlayerJump()
+        {
+        }
+
+        internal virtual void EventSSG08Kill()
+        {
+        }
+
+        internal virtual void EventM4A4Kill()
+        {
+        }
+
+        internal virtual void EventMAG7Kill()
+        {
+        }
+
+        internal virtual void EventAWPKill()
+        {
+        }
+
+        internal virtual void EventAK47Kill()
+        {
+        }
+
+        internal virtual void EventP90Kill()
+        {
+        }
+
+        internal virtual void EventKnifeKill()
         {
         }
     }

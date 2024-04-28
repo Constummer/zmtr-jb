@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using CounterStrikeSharp.API.Modules.Menu;
+using System.Text.Json.Serialization;
+using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
 
@@ -11,8 +13,34 @@ public partial class JailbreakExtras
 
         public int CurrentAWPKill { get; set; } = 0;
 
-        public BattlePass_Level29() : base(29, 390, 4000, 1000)
+        public BattlePass_Level29() : base(29, 10, 4000, 1000)
         {
+        }
+
+        internal override void EventAWPKill()
+        {
+            CurrentAWPKill++;
+            base.EventAWPKill();
+            CheckIfLevelUp(false);
+        }
+
+        internal override void CheckIfLevelUp(bool completed)
+        {
+            if (CurrentTime >= Time &&
+                CurrentAWPKill >= AWPKill)
+            {
+                base.CheckIfLevelUp(true);
+            }
+            else
+            {
+                base.CheckIfLevelUp(false);
+            }
+        }
+
+        internal override void BuildLevelMenu(CenterHtmlMenu menu)
+        {
+            base.BuildLevelMenu(menu);
+            menu.AddMenuOption($"{CurrentAWPKill}/{AWPKill} AWP Kill", null, true);
         }
     }
 }

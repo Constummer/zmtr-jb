@@ -1,4 +1,6 @@
-﻿using System.Text.Json.Serialization;
+﻿using CounterStrikeSharp.API.Modules.Menu;
+using System.Text.Json.Serialization;
+using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
 
@@ -15,8 +17,15 @@ public partial class JailbreakExtras
         public int CurrentCTWin { get; set; } = 0;
         public int CurrentAWPKill { get; set; } = 0;
 
-        public BattlePass_Level12() : base(12, 140, 0, 500)
+        public BattlePass_Level12() : base(12, 10, 0, 500)
         {
+        }
+
+        internal override void EventAWPKill()
+        {
+            CurrentAWPKill++;
+            base.EventAWPKill();
+            CheckIfLevelUp(false);
         }
 
         internal override void OnRoundCTWinCommand()
@@ -28,7 +37,9 @@ public partial class JailbreakExtras
 
         internal override void CheckIfLevelUp(bool completed)
         {
-            if (CurrentAWPKill >= AWPKill && CurrentTime >= Time && CurrentCTWin >= CTWin)
+            if (CurrentAWPKill >= AWPKill &&
+                CurrentTime >= Time &&
+                CurrentCTWin >= CTWin)
             {
                 base.CheckIfLevelUp(true);
             }
@@ -36,6 +47,13 @@ public partial class JailbreakExtras
             {
                 base.CheckIfLevelUp(false);
             }
+        }
+
+        internal override void BuildLevelMenu(CenterHtmlMenu menu)
+        {
+            base.BuildLevelMenu(menu);
+            menu.AddMenuOption($"{CurrentAWPKill}/{AWPKill} AWP Kill", null, true);
+            menu.AddMenuOption($"{CurrentCTWin}/{CTWin} {CT_LowerPositioning} kazanma", null, true);
         }
     }
 }

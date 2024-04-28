@@ -131,20 +131,6 @@ public partial class JailbreakExtras
                 cmd.Parameters.AddWithValue("@Completed", completed);
                 cmd.Parameters.AddWithValue("@EndTime", completed == true ? DateTime.UtcNow : DBNull.Value);
                 cmd.ExecuteNonQuery();
-                if (completed)
-                {
-                    var conf = GetBattlePassLevelConfig(config.Level + 1);
-                    cmd = new MySqlCommand(@$"INSERT INTO `PlayerBattlePass`
-                                          (SteamId,Level,Config,Completed)
-                                          VALUES (@SteamId,@Level,@Config,0);", con);
-
-                    cmd.Parameters.AddWithValue("@SteamId", steamId);
-                    cmd.Parameters.AddWithValue("@Level", conf.Level);
-                    cmd.Parameters.AddWithValue("@Config", JsonSerializer.Serialize(conf));
-                    cmd.ExecuteNonQuery();
-                    conf.SteamId = steamId;
-                    BattlePassDatas[conf.SteamId] = conf;
-                }
             }
         }
         catch (Exception e)

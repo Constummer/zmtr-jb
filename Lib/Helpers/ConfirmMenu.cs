@@ -33,7 +33,7 @@ public partial class JailbreakExtras
 
     private void ConfirmMenuHtml(CCSPlayerController player, int credit, string text, Action confirmed, List<string> extraDisabledTexts = null)
     {
-        var eminMisinMenu = new CenterHtmlMenu($"Satýn almak istedine emin misin?");
+        var eminMisinMenu = new CenterHtmlMenu($"Satýn almak istedine emin misin?", this);
         eminMisinMenu.AddMenuOption(text, null, true);
         eminMisinMenu.AddMenuOption($"Kredin {credit}", null, true);
         for (int i = 0; i < 2; i++)

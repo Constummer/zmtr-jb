@@ -20,47 +20,6 @@ public partial class JailbreakExtras
 
     public static ulong? CurrentRoundWKillerId { get; set; } = null;
 
-    //[ConsoleCommand("istop")]
-    //[ConsoleCommand("haftalikis")]
-    //[ConsoleCommand("haftalikisyan")]
-    //public void IsTop(CCSPlayerController? player, CommandInfo info)
-    //{
-    //    if (ValidateCallerPlayer(player, false) == false) return;
-
-    //    var playerIsCount = 0;
-    //    bool exist = false;
-    //    if (player?.SteamID != null && player!.SteamID != 0)
-    //    {
-    //        if (IsTopDatas.TryGetValue(player.SteamID, out playerIsCount))
-    //        {
-    //            exist = true;
-    //        }
-    //    }
-    //    if (exist)
-    //    {
-    //        player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
-    //        player.PrintToChat($"{Prefix} {CC.W} Toplam {CC.G}{playerIsCount} {CC.W}kere isyan yaptın!");
-    //    }
-    //    player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
-    //    player.PrintToChat($"{Prefix} {CC.W} TOP 10 İsyancılar");
-    //    var temp = IsTopDatas.OrderByDescending(x => x.Value).Take(10).ToList();
-    //    foreach (var item in temp)
-    //    {
-    //        if (PlayerNamesDatas.TryGetValue(item.Key, out var name))
-    //        {
-    //            var tempName = name;
-    //            if (tempName?.Length > 20)
-    //            {
-    //                tempName = tempName.Substring(0, 17) + "...";
-    //            }
-    //            tempName = tempName?.PadRight(20, '_');
-    //            player.PrintToChat($"{Prefix} {CC.G}{tempName} {CC.W}| {CC.B}{item.Value} {CC.Ol}kere,");
-    //        }
-    //    }
-    //    player.PrintToChat($"{Prefix} {CC.W} İsyan yapmış.");
-    //    player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
-    //}
-
     [ConsoleCommand("istop")]
     [ConsoleCommand("topis")]
     [ConsoleCommand("haftalikis")]
@@ -78,7 +37,7 @@ public partial class JailbreakExtras
                 exist = true;
             }
         }
-        var menu = new CenterHtmlMenu($" TOP 10 İsyancılar");
+        var menu = new CenterHtmlMenu($" TOP 10 İsyancılar", this);
         if (exist)
         {
             menu.AddMenuOption($"Sen {playerIsCount} Kere,", null, true);

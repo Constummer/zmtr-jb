@@ -105,7 +105,7 @@ public partial class JailbreakExtras
         }
         var data = GetPlayerMarketModel(player.SteamID);
         if (data.Model == null) return;
-        var menu = new CenterHtmlMenu($"KASA - Kredin {data.Model.Credit}");
+        var menu = new CenterHtmlMenu($"KASA - Kredin {data.Model.Credit}", this);
         foreach (var item in KasaDatas.Where(x => x.Results?.Any() ?? false))
         {
             if (ValidateCallerPlayer(player, false) == false) return;

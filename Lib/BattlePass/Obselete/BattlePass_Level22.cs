@@ -1,4 +1,5 @@
-﻿using System.Text.Json.Serialization;
+﻿using CounterStrikeSharp.API.Modules.Menu;
+using System.Text.Json.Serialization;
 
 namespace JailbreakExtras;
 
@@ -11,7 +12,7 @@ public partial class JailbreakExtras
 
         public int CurrentSut { get; set; } = 0;
 
-        public BattlePass_Level22() : base(22, 320, 3000, 0)
+        public BattlePass_Level22() : base(22, 10, 3000, 0)
         {
         }
 
@@ -24,7 +25,8 @@ public partial class JailbreakExtras
 
         internal override void CheckIfLevelUp(bool completed)
         {
-            if (CurrentSut >= Sut && CurrentTime >= Time)
+            if (CurrentSut >= Sut &&
+                CurrentTime >= Time)
             {
                 base.CheckIfLevelUp(true);
             }
@@ -32,6 +34,12 @@ public partial class JailbreakExtras
             {
                 base.CheckIfLevelUp(false);
             }
+        }
+
+        internal override void BuildLevelMenu(CenterHtmlMenu menu)
+        {
+            base.BuildLevelMenu(menu);
+            menu.AddMenuOption($"{CurrentSut}/{Sut} Süt Olma", null, true);
         }
     }
 }
