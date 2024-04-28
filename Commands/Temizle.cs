@@ -18,7 +18,6 @@ public partial class JailbreakExtras
         }
         LogManagerCommand(player.SteamID, info.GetCommandString);
         TemizleAction(player);
-        Server.PrintToChatAll($"{AdliAdmin(Prefix)} {CC.W}Yerdeki tum silahları sildi.");
     }
 
     private static void TemizleAction(CCSPlayerController? player)

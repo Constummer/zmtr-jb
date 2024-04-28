@@ -354,6 +354,11 @@ public partial class JailbreakExtras
                     	and gd.`EndTime` is null
                     	and pgd.`Expired` = 0
                     	and pgd.`ExpiredTime` is null
+	                    and EXISTS (
+                            SELECT 1
+                            FROM `GambleData` gd2
+                            WHERE gd2.`Id` > gd.`Id`
+                        )
                     	and pgd.`SteamId` = @SteamId", con);
                 cmd.Parameters.AddWithValue("@SteamId", tempSteamId);
 
