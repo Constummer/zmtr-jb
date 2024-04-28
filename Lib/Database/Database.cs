@@ -33,13 +33,12 @@ public partial class JailbreakExtras
             {
                 using (var con = Connection())
                 {
-                    var cmd = (MySqlCommand)null;
                     if (con == null)
                     {
                         return;
                     }
 
-                    cmd = new MySqlCommand($"CREATE DATABASE IF NOT EXISTS {Config.Database.Database}", con);
+                    var cmd = new MySqlCommand($"CREATE DATABASE IF NOT EXISTS {Config.Database.Database}", con);
                     await cmd.ExecuteNonQueryAsync();
 
                     cmd = new MySqlCommand(

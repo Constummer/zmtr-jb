@@ -28,10 +28,10 @@ public partial class JailbreakExtras
                 }
             });
         }
-        ChatMenus.OpenMenu(player, eminMisinMenu);
+        MenuManager.OpenChatMenu(player, eminMisinMenu);
     }
 
-    private void ConfirmMenuHtml(CCSPlayerController player, int credit, string text, Action confirmed, List<string> extraDisabledTexts = null)
+    private void ConfirmMenuHtml(CCSPlayerController player, int credit, string text, Action confirmed, List<string>? extraDisabledTexts = null)
     {
         var eminMisinMenu = new CenterHtmlMenu($"Satýn almak istedine emin misin?", this);
         eminMisinMenu.AddMenuOption(text, null, true);

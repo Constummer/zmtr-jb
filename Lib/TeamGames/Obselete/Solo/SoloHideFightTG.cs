@@ -30,7 +30,7 @@ public partial class JailbreakExtras
                     base.AdditionalChoiceMenu(player, value);
                 });
             }
-            ChatMenus.OpenMenu(player, soloTGMenu);
+            MenuManager.OpenChatMenu(player, soloTGMenu);
         }
 
         internal override void StartGame(Action callback)

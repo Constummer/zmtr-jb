@@ -56,7 +56,7 @@ public partial class JailbreakExtras
                 Server.PrintToChatAll($"{Prefix} {CC.B}{x.PlayerName} {CC.P} [Komutçu Admin]{CC.W} Olarak seçildi");
             });
         });
-        ChatMenus.OpenMenu(player, kaMenu);
+        MenuManager.OpenChatMenu(player, kaMenu);
     }
 
     private void CleanTagOnKomutcuAdmin()

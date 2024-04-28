@@ -28,6 +28,7 @@ internal static class JailbreakExtrasDatabaseExtension
         }
         catch (Exception e)
         {
+            Console.WriteLine(e.Message);
             return 0;
         }
     }

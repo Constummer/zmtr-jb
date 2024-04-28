@@ -6,7 +6,7 @@ public partial class JailbreakExtras
 {
     public partial class BattlePassBase
     {
-        public BattlePassBase(int level, int time, int credit, int tP, string other = null)
+        public BattlePassBase(int level, int time, int credit, int tP, string? other = null)
         {
             Level = level;
             Time = time * 60;

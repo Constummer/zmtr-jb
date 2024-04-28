@@ -8,7 +8,7 @@ public partial class JailbreakExtras
     {
         public static char D => ChatColors.Default;
         public static char W => ChatColors.White;
-        public static char DR => ChatColors.Darkred;
+        public static char DR => ChatColors.DarkRed;
         public static char G => ChatColors.Green;
         public static char LY => ChatColors.LightYellow;
         public static char LB => ChatColors.LightBlue;

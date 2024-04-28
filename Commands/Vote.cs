@@ -111,7 +111,7 @@ public partial class JailbreakExtras
         {
             ValidateCallerPlayer(p, false);
             if (p == null) continue;
-            ChatMenus.OpenMenu(p, LatestVoteMenu);
+            MenuManager.OpenChatMenu(p, LatestVoteMenu);
         }
         Server.PrintToChatAll($"{Prefix} {(player == null ? "Console" : $"{CC.B}{player.PlayerName} - {CC.G}{question} Oylaması {voteTime} saniye sürecek, oy vermeyi unutmayın!")}");
 

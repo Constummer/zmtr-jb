@@ -66,7 +66,7 @@ public partial class JailbreakExtras
                        Server.PrintToChatAll($"{Prefix} {CC.B}{x.PlayerName} {CC.W} Rev menüden revlendi | Son {3 - CurrentCtRespawns} rev");
                    });
                });
-            ChatMenus.OpenMenu(player, revmenu);
+            MenuManager.OpenChatMenu(player, revmenu);
         }
     }
 

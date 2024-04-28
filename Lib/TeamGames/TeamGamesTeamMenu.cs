@@ -81,6 +81,6 @@ public partial class JailbreakExtras
                 }
             }, item.Disabled);
         }
-        ChatMenus.OpenMenu(player, teamTGMenu);
+        MenuManager.OpenChatMenu(player, teamTGMenu);
     }
 }

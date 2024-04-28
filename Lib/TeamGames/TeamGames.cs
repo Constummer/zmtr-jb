@@ -25,6 +25,6 @@ public partial class JailbreakExtras
         tgMenu.AddMenuOption("Takımlı", TeamedTeamGamesMenu);
         tgMenu.AddMenuOption("Herkes Tek", SoloTeamGamesMenu);
 
-        ChatMenus.OpenMenu(player, tgMenu);
+        MenuManager.OpenChatMenu(player, tgMenu);
     }
 }

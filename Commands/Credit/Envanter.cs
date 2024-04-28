@@ -36,7 +36,7 @@ public partial class JailbreakExtras
             marketMenu.AddMenuOption(TOyuncuModeli, OpenSelectedModelEnv);
             marketMenu.AddMenuOption("Aura Market", AuraMarketSelected);
 
-            ChatMenus.OpenMenu(player, marketMenu);
+            MenuManager.OpenChatMenu(player, marketMenu);
         }
         else
         {

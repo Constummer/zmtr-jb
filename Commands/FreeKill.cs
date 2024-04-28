@@ -56,7 +56,7 @@ public partial class JailbreakExtras
                     });
                 }
 
-                ChatMenus.OpenMenu(player, killMenu);
+                MenuManager.OpenChatMenu(player, killMenu);
             }
         }
         else

@@ -74,11 +74,11 @@ public partial class JailbreakExtras
                         InitLr(item, player, gard);
                     });
                 });
-                ChatMenus.OpenMenu(player, gardSelectMenu);
+                MenuManager.OpenChatMenu(player, gardSelectMenu);
             });
         }
 
-        ChatMenus.OpenMenu(player, lrMenu);
+        MenuManager.OpenChatMenu(player, lrMenu);
     }
 
     private void InitLr(LrData item, CCSPlayerController? mahkum, CCSPlayerController gard)

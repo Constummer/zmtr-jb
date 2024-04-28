@@ -65,7 +65,7 @@ public partial class JailbreakExtras
                             }
                         });
                     }
-                    ChatMenus.OpenMenu(player, marketMenu);
+                    MenuManager.OpenChatMenu(player, marketMenu);
                 }
                 else
                 {
@@ -74,7 +74,7 @@ public partial class JailbreakExtras
                 }
             });
         }
-        ChatMenus.OpenMenu(player, marketMenu);
+        MenuManager.OpenChatMenu(player, marketMenu);
     }
 
     #endregion SeviyeIptal

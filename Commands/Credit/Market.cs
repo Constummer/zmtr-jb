@@ -56,7 +56,7 @@ public partial class JailbreakExtras
         marketMenu.AddMenuOption("Aura Market", AuraMarketSelected);
         marketMenu.AddMenuOption("TP Market", TPMarketSelected);
 
-        ChatMenus.OpenMenu(player, marketMenu);
+        MenuManager.OpenChatMenu(player, marketMenu);
     }
 
     private void OpenSelectedModelMarket(CCSPlayerController player, ChatMenuOption option)
@@ -154,7 +154,7 @@ public partial class JailbreakExtras
                 }, !player.PawnIsAlive || MarketEnvDisable);
             }
         }
-        ChatMenus.OpenMenu(player, marketMenu);
+        MenuManager.OpenChatMenu(player, marketMenu);
     }
 
     private void SetModel(CCSPlayerController player, PlayerModel model, PlayerMarketModel playerData, string? text, bool isBoughtAlready)
@@ -221,7 +221,7 @@ public partial class JailbreakExtras
                         }
                     });
                 }
-                ChatMenus.OpenMenu(player, marketMenu);
+                MenuManager.OpenChatMenu(player, marketMenu);
             }
         }
         else
@@ -395,6 +395,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
+            Console.WriteLine(e.Message);
         }
     }
 
@@ -462,6 +463,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
+            Console.WriteLine(e.Message);
         }
     }
 

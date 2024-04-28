@@ -116,7 +116,7 @@ public partial class JailbreakExtras
 
              var gunMenu = new ChatMenu("Silah Menu");
              WeaponMenuHelper.GetGuns(gunMenu, hideIseli: true);
-             ChatMenus.OpenMenu(x, gunMenu);
+             MenuManager.OpenChatMenu(x, gunMenu);
              x.PrintToChat($"{Prefix} {CC.W}Iseli başlayana kadar silah değiştirebilirsin !guns");
          });
         IsEliMenuCheck = true;

@@ -99,7 +99,7 @@ public partial class JailbreakExtras
         }
         if (ValidateCallerPlayer(player, false) == false) return;
 
-        ChatMenus.OpenMenu(player!, ctKitMenu);
+        MenuManager.OpenChatMenu(player!, ctKitMenu);
     }
 
     private void GetAllCTKitData(MySqlConnection con)

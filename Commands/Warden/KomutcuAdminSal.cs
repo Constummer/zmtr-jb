@@ -63,7 +63,7 @@ public partial class JailbreakExtras
                 Server.PrintToChatAll($"{Prefix} {CC.B}{player.PlayerName} {CC.P} [Komutçu Admin]{CC.W}'liğini {CC.B}{x.PlayerName} {CC.W}'e saldı.");
             });
         });
-        ChatMenus.OpenMenu(player, kaMenu);
+        MenuManager.OpenChatMenu(player, kaMenu);
     }
 
     #endregion KomutcuAdminSal

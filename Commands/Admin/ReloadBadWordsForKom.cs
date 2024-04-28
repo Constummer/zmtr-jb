@@ -13,16 +13,15 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
         {
-            player.PrintToChat(NotEnoughPermission);
+            player!.PrintToChat(NotEnoughPermission);
             return;
         }
-        LogManagerCommand(player.SteamID, info.GetCommandString);
+        LogManagerCommand(player!.SteamID, info.GetCommandString);
 
         try
         {
             using (var con = Connection())
             {
-                var cmd = (MySqlCommand)null;
                 if (con == null)
                 {
                     return;

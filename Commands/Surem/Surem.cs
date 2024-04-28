@@ -17,7 +17,7 @@ public partial class JailbreakExtras
             return;
         }
 
-        var item = (PlayerTime)null;
+        var item = (PlayerTime?)null;
         if (player?.SteamID != null && player!.SteamID != 0)
         {
             if (PlayerTimeTracking.TryGetValue(player.SteamID, out item) == false)

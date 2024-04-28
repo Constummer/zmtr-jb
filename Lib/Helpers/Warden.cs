@@ -13,7 +13,6 @@ public partial class JailbreakExtras
         if (warden != null && warden.PawnIsAlive)
         {
             return;
-            RefreshPawn(warden);
         }
     }
 

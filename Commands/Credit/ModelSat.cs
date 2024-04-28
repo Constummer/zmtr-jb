@@ -30,7 +30,7 @@ public partial class JailbreakExtras
             marketMenu.AddMenuOption(CTOyuncuModeli, OpenSelectedModelEnv);
             marketMenu.AddMenuOption(TOyuncuModeli, OpenSelectedModelEnv);
 
-            ChatMenus.OpenMenu(player, marketMenu);
+            MenuManager.OpenChatMenu(player, marketMenu);
         }
         else
         {

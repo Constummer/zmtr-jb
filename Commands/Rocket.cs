@@ -93,8 +93,8 @@ public partial class JailbreakExtras
         var start = new Vector((float)x, (float)y, (float)z);
         var end = new Vector((float)x, (float)y, (float)z + 650f);
 
-        Vector playerPosition = player.PlayerPawn?.Value.CBodyComponent?.SceneNode?.AbsOrigin;
-        QAngle viewAngles = player.PlayerPawn.Value.EyeAngles;
+        Vector? playerPosition = player.PlayerPawn?.Value?.CBodyComponent?.SceneNode?.AbsOrigin ?? VEC_ZERO;
+        QAngle? viewAngles = player?.PlayerPawn?.Value?.EyeAngles ?? ANGLE_ZERO;
 
         PullPlayerToUp(player, end, playerPosition, viewAngles);
 

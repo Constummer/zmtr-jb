@@ -196,7 +196,7 @@ public partial class JailbreakExtras
                 }
             });
         });
-        ChatMenus.OpenMenu(player, kaMenu);
+        MenuManager.OpenChatMenu(player, kaMenu);
     }
 
     private void ChooseRandomTwoGuardian()

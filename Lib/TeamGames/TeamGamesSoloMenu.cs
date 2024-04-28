@@ -81,7 +81,7 @@ public partial class JailbreakExtras
                 }
             }, item.Disabled);
         }
-        ChatMenus.OpenMenu(player, soloTGMenu);
+        MenuManager.OpenChatMenu(player, soloTGMenu);
     }
 
     private static void SetRedColorForTeamGames()

@@ -168,7 +168,7 @@ public partial class JailbreakExtras
                 foreach (var x in players)
                 {
                     if (ValidateCallerPlayer(x, false) == false) continue;
-                    ChatMenus.OpenMenu(x, komalVoteMenu);
+                    MenuManager.OpenChatMenu(x, komalVoteMenu);
                 }
                 var i = 0;
                 KomalPrintTimer?.Kill();

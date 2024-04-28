@@ -174,7 +174,7 @@ public partial class JailbreakExtras
                 }, SOM);
             });
         }
-        ChatMenus.OpenMenu(player, skzMenu);
+        MenuManager.OpenChatMenu(player, skzMenu);
     }
 
     #endregion SKZ

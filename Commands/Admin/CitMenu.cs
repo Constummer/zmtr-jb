@@ -33,7 +33,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (AdminManager.PlayerHasPermissions(player, "@css/premium") == false && LatestWCommandUser != player.SteamID)
+        if (AdminManager.PlayerHasPermissions(player, "@css/premium") == false && LatestWCommandUser != player!.SteamID)
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -60,6 +60,6 @@ public partial class JailbreakExtras
                 player.PrintToChat($"{Prefix}{CC.G} Çitleri silmek çin !cittemizle yaz.");
             });
         }
-        ChatMenus.OpenMenu(player, marketMenu);
+        MenuManager.OpenChatMenu(player, marketMenu);
     }
 }

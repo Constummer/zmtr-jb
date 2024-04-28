@@ -23,7 +23,7 @@ public partial class JailbreakExtras
         public TeamGamesSoloChoices SoloChoice { get; set; } = TeamGamesSoloChoices.None;
         public string GameName { get; set; } = "";
 
-        internal void SoloCheckGameFinished(TeamGamesGameBase caller, ulong steamid, List<ulong> playerCount, string attackerPname, Action action = null)
+        internal void SoloCheckGameFinished(TeamGamesGameBase caller, ulong steamid, List<ulong> playerCount, string attackerPname, Action? action = null)
         {
             playerCount.RemoveAll(x => x == steamid);
 

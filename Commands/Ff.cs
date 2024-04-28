@@ -281,7 +281,7 @@ public partial class JailbreakExtras
 
                      var gunMenu = new ChatMenu("Silah Menu");
                      WeaponMenuHelper.GetGuns(gunMenu);
-                     ChatMenus.OpenMenu(x, gunMenu);
+                     MenuManager.OpenChatMenu(x, gunMenu);
                      x.PrintToChat($"{Prefix} {CC.W}FF başlayana kadar veya FF boyunca silah değiştirebilirsin, !guns");
                  });
                 FFMenuCheck = true;

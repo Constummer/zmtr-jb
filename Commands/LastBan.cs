@@ -74,11 +74,11 @@ public partial class JailbreakExtras
                     });
                 }
                 if (ValidateCallerPlayer(player) == false) return;
-                ChatMenus.OpenMenu(player, lastBanInternalMenu);
+                MenuManager.OpenChatMenu(player, lastBanInternalMenu);
             });
         }
         if (ValidateCallerPlayer(player) == false) return;
-        ChatMenus.OpenMenu(player, LastBanMenu);
+        MenuManager.OpenChatMenu(player, LastBanMenu);
     }
 
     public class LastBanData

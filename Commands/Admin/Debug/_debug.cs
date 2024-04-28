@@ -220,7 +220,7 @@ public partial class JailbreakExtras
                 CreateNoWindow = true
             };
 
-            using (Process process = Process.Start(psi))
+            using (Process? process = Process.Start(psi))
             {
                 if (process != null)
                 {
@@ -443,7 +443,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var menu = new CenterHtmlMenu("123456780qwertyuio");
+        var menu = new CenterHtmlMenu("123456780qwertyuio", this);
         for (int i = 0; i < 20; i++)
         {
             var key = $"test_{i}";

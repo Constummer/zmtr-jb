@@ -27,7 +27,7 @@ public partial class JailbreakExtras
         {
             var gunMenu = new ChatMenu("Silah Menu");
             WeaponMenuHelper.GetGuns(gunMenu);
-            ChatMenus.OpenMenu(player, gunMenu);
+            MenuManager.OpenChatMenu(player, gunMenu);
         }
         else if (IsEliMenuCheck == true)
         {
@@ -35,7 +35,7 @@ public partial class JailbreakExtras
             {
                 var gunMenu = new ChatMenu("Silah Menu");
                 WeaponMenuHelper.GetGuns(gunMenu, hideIseli: true);
-                ChatMenus.OpenMenu(player, gunMenu);
+                MenuManager.OpenChatMenu(player, gunMenu);
             }
         }
         else

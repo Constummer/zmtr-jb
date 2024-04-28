@@ -82,6 +82,7 @@ public partial class JailbreakExtras
             }
             catch (Exception e)
             {
+                Console.WriteLine(e.Message);
             }
         }
     }

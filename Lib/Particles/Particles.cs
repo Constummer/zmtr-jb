@@ -291,7 +291,7 @@ public partial class JailbreakExtras
                 }
             }, !player.PawnIsAlive);
         }
-        ChatMenus.OpenMenu(player, marketMenu);
+        MenuManager.OpenChatMenu(player, marketMenu);
     }
 
     private void CreateAuraParticle(ulong tempUserId)
