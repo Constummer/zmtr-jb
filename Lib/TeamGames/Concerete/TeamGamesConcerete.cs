@@ -92,11 +92,11 @@ public partial class JailbreakExtras
             {
                 if (MultiChoice != TeamGamesMultiChoices.None)
                 {
-                    Server.PrintToChatAll($"{CC.W}{GameName} takım oyununu kapatıldı.");
+                    Server.PrintToChatAll($"{Prefix} {CC.B}{GameName} {CC.Ol}takım {CC.W}oyunu {CC.R}kapatıldı.");
                 }
                 else
                 {
-                    Server.PrintToChatAll($"{CC.W}{GameName} tekli oyununu kapatıldı.");
+                    Server.PrintToChatAll($"{Prefix}  {CC.B}{GameName} {CC.Ol}tekli {CC.W}oyunu {CC.R}kapatıldı.");
                 }
             }
             TgActive = false;

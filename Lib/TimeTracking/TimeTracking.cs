@@ -490,50 +490,7 @@ public partial class JailbreakExtras
                 }
                 else
                 {
-                    Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ 00.00 İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
-                    Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ 00.00 İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
-                    Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ 00.00 İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
-                    Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ 00.00 İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
-
-                    UpdateWeeklyTime(con);
-                    foreach (var item in PlayerTimeTracking.ToList())
-                    {
-                        item.Value.WeeklyWTime = 0;
-                        item.Value.WeeklyTTime = 0;
-                        item.Value.WeeklyCTTime = 0;
-                        item.Value.WeeklyTotalTime = 0;
-                        item.Value.WeeklyKaTime = 0;
-                        PlayerTimeTracking[item.Key] = item.Value;
-                    }
-                    AllPlayerWeeklyWTimeTracking?.Clear();
-                    AllPlayerWeeklyCTTimeTracking?.Clear();
-                    AllPlayerWeeklyTTimeTracking?.Clear();
-                    AllPlayerWeeklyTotalTimeTracking?.Clear();
-                    AllPlayerWeeklyKaTimeTracking?.Clear();
-                    KomWeeklyWCredits?.Clear();
-
-                    var cmd = new MySqlCommand(@"UPDATE `PlayerTime`
-                                            SET `WeeklyWTime` = 0,
-                                                `WeeklyCTTime` = 0,
-                                                `WeeklyTTime` = 0,
-                                                `WeeklyTotalTime` = 0,
-                                                `WeeklyKaTime` = 0;", con);
-                    cmd.ExecuteNonQuery();
-
-                    cmd = new MySqlCommand(@"UPDATE `PlayerIsTop`
-                                             SET `KillCount` = 0,`TotalKillCount` = `TotalKillCount` + `KillCount`;", con);
-                    cmd.ExecuteNonQuery();
-
-                    IsTopWeeklyNotifyDc();
-                    foreach (var item in IsTopDatas)
-                    {
-                        IsTopDatas[item.Key] = 0;
-                    }
-
-                    Server.PrintToChatAll($"{Prefix} {CC.R} SIKI TUTUNDUĞUNUZ İÇİN TŞK, DEVAAAAAM");
-                    Server.PrintToChatAll($"{Prefix} {CC.R} SIKI TUTUNDUĞUNUZ İÇİN TŞK, DEVAAAAAM");
-                    Server.PrintToChatAll($"{Prefix} {CC.R} SIKI TUTUNDUĞUNUZ İÇİN TŞK, DEVAAAAAM");
-                    Server.PrintToChatAll($"{Prefix} {CC.R} SIKI TUTUNDUĞUNUZ İÇİN TŞK, DEVAAAAAM");
+                    SendWeeklyAllData(con);
                 }
             }
         }
@@ -541,6 +498,54 @@ public partial class JailbreakExtras
         {
             Logger.LogError(e, "hata");
         }
+    }
+
+    private void SendWeeklyAllData(MySqlConnection? con)
+    {
+        Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ 00.00 İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
+        Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ 00.00 İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
+        Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ 00.00 İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
+        Server.PrintToChatAll($"{Prefix} {CC.R} BİRKAÇ SANİYE LAG GİRECEK PAZAR GECESİ 00.00 İŞLEMİ OLDUĞU İÇİN, SIKI TUTUNUN");
+
+        UpdateWeeklyTime(con);
+        foreach (var item in PlayerTimeTracking.ToList())
+        {
+            item.Value.WeeklyWTime = 0;
+            item.Value.WeeklyTTime = 0;
+            item.Value.WeeklyCTTime = 0;
+            item.Value.WeeklyTotalTime = 0;
+            item.Value.WeeklyKaTime = 0;
+            PlayerTimeTracking[item.Key] = item.Value;
+        }
+        AllPlayerWeeklyWTimeTracking?.Clear();
+        AllPlayerWeeklyCTTimeTracking?.Clear();
+        AllPlayerWeeklyTTimeTracking?.Clear();
+        AllPlayerWeeklyTotalTimeTracking?.Clear();
+        AllPlayerWeeklyKaTimeTracking?.Clear();
+        KomWeeklyWCredits?.Clear();
+
+        var cmd = new MySqlCommand(@"UPDATE `PlayerTime`
+                                            SET `WeeklyWTime` = 0,
+                                                `WeeklyCTTime` = 0,
+                                                `WeeklyTTime` = 0,
+                                                `WeeklyTotalTime` = 0,
+                                                `WeeklyKaTime` = 0;", con);
+        cmd.ExecuteNonQuery();
+
+        cmd = new MySqlCommand(@"UPDATE `PlayerIsTop`
+                                             SET `KillCount` = 0,`TotalKillCount` = `TotalKillCount` + `KillCount`;", con);
+        cmd.ExecuteNonQuery();
+
+        IsTopWeeklyNotifyDc();
+        foreach (var item in IsTopDatas)
+        {
+            IsTopDatas[item.Key] = 0;
+        }
+
+        Server.PrintToChatAll($"{Prefix} {CC.R} SIKI TUTUNDUĞUNUZ İÇİN TŞK, DEVAAAAAM");
+        Server.PrintToChatAll($"{Prefix} {CC.R} SIKI TUTUNDUĞUNUZ İÇİN TŞK, DEVAAAAAM");
+        Server.PrintToChatAll($"{Prefix} {CC.R} SIKI TUTUNDUĞUNUZ İÇİN TŞK, DEVAAAAAM");
+        Server.PrintToChatAll($"{Prefix} {CC.R} SIKI TUTUNDUĞUNUZ İÇİN TŞK, DEVAAAAAM");
     }
 
     private void UpdateWeeklyTime(MySqlConnection con)
