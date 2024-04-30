@@ -101,6 +101,11 @@ public partial class JailbreakExtras
         {
             _Config.Particle = Config.Particle = temp12;
         }
+        var temp121 = ReadCustomConfigFromPath<ParachuteConfig>("ParachuteConfig.json");
+        if (temp121 != null)
+        {
+            _Config.Parachute = Config.Parachute = temp121;
+        }
         var temp13 = ReadCustomConfigFromPath<SoundsConfig>("SoundsConfig.json");
         if (temp13 != null)
         {

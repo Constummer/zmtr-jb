@@ -421,7 +421,7 @@ public partial class JailbreakExtras
         }
     }
 
-    private static void UpdatePlayerLevelDataOnDisonnect(ulong steamId)
+    private static void UpdatePlayerLevelDataOnDisconnect(ulong steamId)
     {
         try
         {

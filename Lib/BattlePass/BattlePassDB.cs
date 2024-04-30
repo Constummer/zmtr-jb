@@ -142,7 +142,7 @@ public partial class JailbreakExtras
         }
     }
 
-    private static void UpdatePlayerBattlePassDataOnDisonnect(ulong steamId)
+    private static void UpdatePlayerBattlePassDataOnDisconnect(ulong steamId)
     {
         try
         {

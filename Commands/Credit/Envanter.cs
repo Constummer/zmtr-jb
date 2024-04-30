@@ -35,6 +35,7 @@ public partial class JailbreakExtras
             marketMenu.AddMenuOption(CTOyuncuModeli, OpenSelectedModelEnv);
             marketMenu.AddMenuOption(TOyuncuModeli, OpenSelectedModelEnv);
             marketMenu.AddMenuOption("Aura Market", AuraMarketSelected);
+            marketMenu.AddMenuOption("Paraşüt Market", ParachuteMarketSelected);
 
             MenuManager.OpenChatMenu(player, marketMenu);
         }

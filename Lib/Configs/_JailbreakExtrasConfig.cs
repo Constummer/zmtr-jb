@@ -45,6 +45,9 @@ public partial class JailbreakExtras
         public ParticleConfig Particle { get; set; } = new ParticleConfig();
 
         [JsonIgnore]
+        public ParachuteConfig Parachute { get; set; } = new ParachuteConfig();
+
+        [JsonIgnore]
         public SteamGroupConfig SteamGroup { get; set; } = new SteamGroupConfig();
 
         [JsonIgnore]

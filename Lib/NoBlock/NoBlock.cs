@@ -1,8 +1,6 @@
-﻿using CounterStrikeSharp.API;
-using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CounterStrikeSharp.API.Modules.Memory;
-using CounterStrikeSharp.API.Modules.Utils;
 using System.Runtime.InteropServices;
 using System.Text.Json.Serialization;
 
@@ -17,16 +15,6 @@ public partial class JailbreakExtras
         if (Config.Additional.NoBlockActive == false) return HookResult.Continue;
         var player = @event?.Userid;
         if (ValidateCallerPlayer(player, false) == false) return HookResult.Continue;
-
-        if (player.Connected != PlayerConnectedState.PlayerConnected)
-        {
-            return HookResult.Continue;
-        }
-
-        if (!player.PlayerPawn.IsValid)
-        {
-            return HookResult.Continue;
-        }
 
         if (ValidateCallerPlayer(player, false) == false) return HookResult.Continue;
 

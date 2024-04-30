@@ -7,6 +7,7 @@ using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
+using Newtonsoft.Json;
 using System.Diagnostics;
 
 namespace JailbreakExtras;
@@ -590,6 +591,24 @@ public partial class JailbreakExtras
             return;
         }
         GetPlayerBattlePassData(x.SteamID);
+    }
+
+    [ConsoleCommand("cbpjson")]
+    public void cbpjson(CCSPlayerController? x, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(x, "@css/root"))
+        {
+            x.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (int.TryParse(info.ArgString.GetArg(0), out var d) == false)
+        {
+            d = 1;
+        }
+
+        var data = GetBattlePassLevelConfig(d);
+        var s = JsonConvert.SerializeObject(data, Formatting.None);
+        x.PrintToConsole(s);
     }
 
     [ConsoleCommand("cteamimage")]

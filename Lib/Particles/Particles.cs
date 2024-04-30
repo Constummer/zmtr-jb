@@ -161,7 +161,7 @@ public partial class JailbreakExtras
         }
     }
 
-    private static void UpdatePlayerParticleDataOnDisonnect(ulong steamId)
+    private static void UpdatePlayerParticleDataOnDisconnect(ulong steamId)
     {
         try
         {

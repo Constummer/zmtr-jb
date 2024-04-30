@@ -1,4 +1,7 @@
-﻿namespace JailbreakExtras;
+﻿using JailbreakExtras.Lib.Database;
+using MySqlConnector;
+
+namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
@@ -69,9 +72,12 @@ public partial class JailbreakExtras
             RemoveGivenParachute(userId.Value);
         }
         UpdatePlayerMarketData(steamId);
-        UpdatePlayerLevelDataOnDisonnect(steamId);
-        UpdatePlayerParticleDataOnDisonnect(steamId);
+        UpdatePlayerLevelDataOnDisconnect(steamId);
+        UpdatePlayerParticleDataOnDisconnect(steamId);
+        UpdatePlayerBattlePassDataOnDisconnect(steamId);
+        UpdatePlayerParachuteDataOnDisconnect(steamId);
 
+        _ = BattlePassDatas?.Remove(steamId, out _);
         _ = ActiveGodMode?.Remove(steamId, out _);
         _ = DeathLocations?.Remove(steamId, out _);
         _ = KilledPlayers?.Remove(steamId, out _);

@@ -75,7 +75,7 @@ public partial class JailbreakExtras
                 {
                     if (tempUserId != -1)
                     {
-                        CreateParachute(tempUserId);
+                        CreateParachute(tempUserId, tempSteamId);
                     }
                     if (tempSteamId != 0)
                     {
