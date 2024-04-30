@@ -18,6 +18,7 @@ public partial class JailbreakExtras
         FooSaveAllParticleDataTimer?.Kill();
         FooWTimeSaveAndUpdateTimer?.Kill();
         FooGetGambleHistoryTimer?.Kill();
+        FooBattlePassTimer?.Kill();
         FooGiveAndSaveTPToAllTimer = null;
         FooUpdateAllTimeTrackingDatasTimer = null;
         FooSaveTimeTrackingDatasTimer = null;
@@ -32,5 +33,6 @@ public partial class JailbreakExtras
         FooSaveAllParticleDataTimer = null;
         FooWTimeSaveAndUpdateTimer = null;
         FooGetGambleHistoryTimer = null;
+        FooBattlePassTimer = null;
     }
 }

@@ -1,7 +1,8 @@
 ﻿using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Utils;
 using MySqlConnector;
-using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace JailbreakExtras;
 
@@ -61,14 +62,28 @@ public partial class JailbreakExtras
                 {
                     if (con != null)
                     {
+                        var cmd = new MySqlCommand(@$"UPDATE `PlayerBattlePass`
+                                          SET Config = @Config,
+                                             Completed = @Completed,
+                                             EndTime = @EndTime
+                                          where `SteamId` = @SteamId and Level = @Level;
+                        ", con);
+
+                        cmd.Parameters.AddWithValue("@SteamId", data.SteamId);
+                        cmd.Parameters.AddWithValue("@Config", JsonConvert.SerializeObject(data));
+                        cmd.Parameters.AddWithValue("@Completed", true);
+                        cmd.Parameters.AddWithValue("@Level", data.Level);
+                        cmd.Parameters.AddWithValue("@EndTime", DateTime.UtcNow);
+                        cmd.ExecuteNonQuery();
+
                         var conf = GetBattlePassLevelConfig(data.Level + 1);
-                        var cmd = new MySqlCommand(@$"INSERT INTO `PlayerBattlePass`
+                        cmd = new MySqlCommand(@$"INSERT INTO `PlayerBattlePass`
                                       (SteamId,Level,Config,Completed)
                                       VALUES (@SteamId,@Level,@Config,0);", con);
 
                         cmd.Parameters.AddWithValue("@SteamId", player.SteamID);
                         cmd.Parameters.AddWithValue("@Level", conf.Level);
-                        cmd.Parameters.AddWithValue("@Config", JsonSerializer.Serialize(conf));
+                        cmd.Parameters.AddWithValue("@Config", JsonConvert.SerializeObject(conf));
                         cmd.ExecuteNonQuery();
                         conf.SteamId = player.SteamID;
                         BattlePassDatas[conf.SteamId] = conf;
@@ -160,15 +175,15 @@ public partial class JailbreakExtras
                     //t->ct
                     battlePassData.EventCTKilled();
                 }
-                else if (GetTeam(deadOne) == CsTeam.Terrorist &&
-                    GetTeam(attacker) == CsTeam.CounterTerrorist)
+                if (GetTeam(deadOne) == CsTeam.Terrorist &&
+                   GetTeam(attacker) == CsTeam.CounterTerrorist)
                 {
                     //ct->t
                     battlePassData.EventTKilled();
                 }
-                else if (GetTeam(deadOne) == CsTeam.CounterTerrorist &&
-                    GetTeam(attacker) == CsTeam.Terrorist &&
-                    deadOne.SteamID == LatestWCommandUser)
+                if (GetTeam(deadOne) == CsTeam.CounterTerrorist &&
+                   GetTeam(attacker) == CsTeam.Terrorist &&
+                   deadOne.SteamID == LatestWCommandUser)
                 {
                     //w
                     battlePassData.EventWKilled();

@@ -407,7 +407,7 @@ public partial class JailbreakExtras
 
             var abs = player.PlayerPawn.Value.AbsOrigin;
 
-            cam.Teleport(new(abs.X, abs.Y, abs.Z + 40), player.PlayerPawn.Value.EyeAngles, player.PlayerPawn.Value.AbsVelocity);
+            cam.Teleport(new(abs.X, abs.Y, abs.Z + 40), null, player.PlayerPawn.Value.AbsVelocity);
             cam.AcceptInput("SetOnAndTurnOthersOff");
             cam.AcceptInput("Enable");
             cam.DispatchSpawn();
@@ -553,6 +553,43 @@ public partial class JailbreakExtras
             x.PrintToChat($"{item}_{i}");
             i++;
         }
+    }
+
+    [ConsoleCommand("cviewdata")]
+    public void cviewdata(CCSPlayerController? x, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(x, "@css/root"))
+        {
+            x.PrintToChat(NotEnoughPermission);
+            return;
+        }
+
+        x.PrintToChat($"{x.PlayerPawn.Value.AbsOrigin}");
+        x.PrintToChat($"{x.PlayerPawn.Value.AbsVelocity}");
+        x.PrintToChat($"{x.PlayerPawn.Value.AbsRotation}");
+        x.PrintToChat($"{x.AbsOrigin}");
+        x.PrintToChat($"{x.AbsVelocity}");
+        x.PrintToChat($"{x.AbsRotation}");
+        x.PrintToChat($"{x.AngVelocity}");
+        x.PrintToChat($"{x.BaseVelocity}");
+        x.PrintToChat($"{x.Pawn.Value.AbsOrigin}");
+        x.PrintToChat($"{x.Pawn.Value.AbsVelocity}");
+        x.PrintToChat($"{x.Pawn.Value.AbsRotation}");
+        x.PrintToChat($"{x.Pawn.Value.V_angle}");
+        x.PrintToChat($"{x.PlayerPawn.Value.DeathEyeAngles}");
+        x.PrintToChat($"{x.PlayerPawn.Value.EyeAngles}");
+        x.Teleport(x.PlayerPawn.Value.AbsOrigin, null, null);
+    }
+
+    [ConsoleCommand("cbattlepassLogin")]
+    public void cbattlepassLogin(CCSPlayerController? x, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(x, "@css/root"))
+        {
+            x.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        GetPlayerBattlePassData(x.SteamID);
     }
 
     [ConsoleCommand("cteamimage")]

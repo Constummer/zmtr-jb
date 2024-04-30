@@ -1,5 +1,5 @@
 ﻿using CounterStrikeSharp.API.Modules.Menu;
-using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace JailbreakExtras;
 

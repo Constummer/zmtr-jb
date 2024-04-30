@@ -1,5 +1,5 @@
 ﻿using MySqlConnector;
-using System.Text.Json;
+using Newtonsoft.Json;
 
 namespace JailbreakExtras;
 
@@ -50,7 +50,7 @@ public partial class JailbreakExtras
                 if (exist)
                 {
                     cmd = new MySqlCommand(@$"SELECT
-                                `Level`,`Config`
+                                `Level`,`Config`,`Completed`
                                 FROM `PlayerBattlePass`
                                 where `SteamId` = @SteamId
                                 order by `Level` desc limit 1;", con);
@@ -67,9 +67,11 @@ public partial class JailbreakExtras
                             else
                             {
                                 var config = reader.IsDBNull(1) ? null : reader.GetString(1);
+                                var completed = reader.IsDBNull(2) ? false : reader.GetBoolean(2);
                                 if (config == null)
                                 {
                                     res = GetBattlePassLevelConfig(level);
+                                    res.Completed = completed;
                                 }
                                 else
                                 {
@@ -102,7 +104,7 @@ public partial class JailbreakExtras
 
             cmd.Parameters.AddWithValue("@SteamId", steamId);
             cmd.Parameters.AddWithValue("@Level", 1);
-            var config = JsonSerializer.Serialize(new BattlePass_Level01());
+            var config = JsonConvert.SerializeObject(new BattlePass_Level01());
             cmd.Parameters.AddWithValue("@Config", config);
             cmd.ExecuteNonQuery();
             return new BattlePass_Level01();
@@ -124,11 +126,12 @@ public partial class JailbreakExtras
                                           SET Config = @Config,
                                              Completed = @Completed,
                                              EndTime = @EndTime
-                                          where `SteamId` = @SteamId;", con);
+                                          where `SteamId` = @SteamId and Level = @Level;", con);
 
                 cmd.Parameters.AddWithValue("@SteamId", steamId);
-                cmd.Parameters.AddWithValue("@Config", JsonSerializer.Serialize(config));
+                cmd.Parameters.AddWithValue("@Config", JsonConvert.SerializeObject(config));
                 cmd.Parameters.AddWithValue("@Completed", completed);
+                cmd.Parameters.AddWithValue("@Level", config.Level);
                 cmd.Parameters.AddWithValue("@EndTime", completed == true ? DateTime.UtcNow : DBNull.Value);
                 cmd.ExecuteNonQuery();
             }
@@ -136,6 +139,21 @@ public partial class JailbreakExtras
         catch (Exception e)
         {
             Console.WriteLine(e.Message);
+        }
+    }
+
+    private static void UpdatePlayerBattlePassDataOnDisonnect(ulong steamId)
+    {
+        try
+        {
+            if (BattlePassDatas.TryGetValue(steamId, out var data))
+            {
+                UpdateBattlePassData(data, data.Completed);
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
         }
     }
 }

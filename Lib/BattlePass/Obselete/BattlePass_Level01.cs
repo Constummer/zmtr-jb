@@ -1,6 +1,5 @@
 ﻿using CounterStrikeSharp.API.Modules.Menu;
-using System.Text.Json.Serialization;
-using static System.Net.Mime.MediaTypeNames;
+using Newtonsoft.Json;
 
 namespace JailbreakExtras;
 
