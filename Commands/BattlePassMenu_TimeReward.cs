@@ -23,8 +23,29 @@ public partial class JailbreakExtras
 
         if (TimeRewardDatas.TryGetValue(player.SteamID, out var data))
         {
+            if (data.Completed)
+            {
+                player.PrintToChat($"{Prefix} {CC.W}Time Reward - {data.Level} levelini");
+                player.PrintToChat($"{Prefix} {CC.G}Tamamlamışsın. Tebrikler.");
+                if (data.Level != 31)
+                {
+                    player.PrintToChat($"{Prefix} {CC.W}yapman gereken {data.Level + 1} level görevleri görebilirsin.");
+                    TimeRewardBase.GiveReward(data, player);
+                }
+                goto next;
+            }
+
             var menu = new CenterHtmlMenu($"Time Reward - {data.Level} Level", this);
             data.BuildLevelMenu(menu);
+            MenuManager.OpenCenterHtmlMenu(this, player, menu);
+        }
+        return;
+
+    next:
+        if (TimeRewardDatas.TryGetValue(player.SteamID, out var data2))
+        {
+            var menu = new CenterHtmlMenu($"Time Reward - {data2.Level} Level", this);
+            data2.BuildLevelMenu(menu);
             MenuManager.OpenCenterHtmlMenu(this, player, menu);
         }
     }

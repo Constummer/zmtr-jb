@@ -42,11 +42,6 @@ public partial class JailbreakExtras
 
         internal virtual void BuildLevelMenu(CenterHtmlMenu menu)
         {
-            if (Completed)
-            {
-                menu.AddMenuOption($"!bpLevelAtla yazarak", null, true);
-                menu.AddMenuOption($"level atlayabilirsin", null, true);
-            }
             menu.AddMenuOption($"{(int)(CurrentTime / 60)}/{(int)(Time / 60)} Saat", null, true);
         }
 
