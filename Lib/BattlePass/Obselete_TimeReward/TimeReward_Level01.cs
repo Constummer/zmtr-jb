@@ -1,0 +1,13 @@
+﻿using CounterStrikeSharp.API.Modules.Menu;
+
+namespace JailbreakExtras;
+
+public partial class JailbreakExtras
+{
+    internal class TimeReward_Level01 : TimeRewardBase
+    {
+        public TimeReward_Level01() : base(1, 10, 250, 0)
+        {
+        }
+    }
+}

@@ -252,13 +252,40 @@ public partial class JailbreakExtras
                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
 
                     cmd = new MySqlCommand(
-                   @"CREATE TABLE IF NOT EXISTS `PlayerBattlePass` (
-					    `Id` bigint(20) PRIMARY KEY AUTO_INCREMENT,
-                        `SteamId` bigint(20) DEFAULT NULL,
-                        `Level` mediumint(9) DEFAULT NULL,
-                        `Config` TEXT DEFAULT NULL,
-                        `Completed` bit DEFAULT 0
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
+                   @"CREATE TABLE `PlayerTimeReward` (
+                      `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+                      `SteamId` bigint(20) DEFAULT NULL,
+                      `Level` mediumint(9) DEFAULT NULL,
+                      `Config` text DEFAULT NULL,
+                      `Completed` bit(1) DEFAULT b'0',
+                      `StartTime` datetime NOT NULL DEFAULT current_timestamp(),
+                      `EndTime` datetime DEFAULT NULL,
+                      PRIMARY KEY (`Id`)
+                    ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci", con);
+
+                    cmd = new MySqlCommand(
+               @"CREATE TABLE `PlayerBattlePassPremium` (
+                      `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+                      `SteamId` bigint(20) DEFAULT NULL,
+                      `Level` mediumint(9) DEFAULT NULL,
+                      `Config` text DEFAULT NULL,
+                      `Completed` bit(1) DEFAULT b'0',
+                      `StartTime` datetime NOT NULL DEFAULT current_timestamp(),
+                      `EndTime` datetime DEFAULT NULL,
+                      PRIMARY KEY (`Id`)
+                    ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci", con);
+
+                    cmd = new MySqlCommand(
+               @"CREATE TABLE `PlayerBattlePass` (
+                      `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+                      `SteamId` bigint(20) DEFAULT NULL,
+                      `Level` mediumint(9) DEFAULT NULL,
+                      `Config` text DEFAULT NULL,
+                      `Completed` bit(1) DEFAULT b'0',
+                      `StartTime` datetime NOT NULL DEFAULT current_timestamp(),
+                      `EndTime` datetime DEFAULT NULL,
+                      PRIMARY KEY (`Id`)
+                    ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci", con);
 
                     await cmd.ExecuteNonQueryAsync();
                     GetAllPlayerNameData(con);

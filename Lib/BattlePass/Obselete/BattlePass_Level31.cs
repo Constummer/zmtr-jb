@@ -18,7 +18,6 @@ public partial class JailbreakExtras
 
         internal override void BuildLevelMenu(CenterHtmlMenu menu)
         {
-            base.BuildLevelMenu(menu);
             menu.AddMenuOption($"Battle Passi Tamamladın", null, true);
         }
     }

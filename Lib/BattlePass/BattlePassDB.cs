@@ -304,4 +304,147 @@ public partial class JailbreakExtras
     }
 
     #endregion BPPremium
+
+    #region odul
+
+    public static Dictionary<ulong, TimeRewardBase> TimeRewardDatas { get; set; } = new();
+
+    private static TimeRewardBase GetPlayerTimeRewardData(ulong steamId)
+    {
+        try
+        {
+            if (TimeRewardDatas.TryGetValue(steamId, out var data) && data != null)
+            {
+                return data;
+            }
+
+            using (var con = Connection())
+            {
+                if (con == null)
+                {
+                    return null;
+                }
+                var res = (TimeRewardBase)null;
+
+                var cmd = new MySqlCommand(@$"SELECT 1 FROM `PlayerTimeReward` where `SteamId` = @SteamId;", con);
+                bool exist = false;
+                cmd.Parameters.AddWithValue("@SteamId", steamId);
+                using (var reader = cmd.ExecuteReader())
+                {
+                    if (reader.Read())
+                    {
+                        exist = true;
+                    }
+                }
+                if (exist)
+                {
+                    cmd = new MySqlCommand(@$"SELECT
+                                `Level`,`Config`,`Completed`
+                                FROM `PlayerTimeReward`
+                                where `SteamId` = @SteamId
+                                order by `Level` desc limit 1;", con);
+                    cmd.Parameters.AddWithValue("@SteamId", steamId);
+                    using (var reader = cmd.ExecuteReader())
+                    {
+                        if (reader.Read())
+                        {
+                            var level = reader.IsDBNull(0) ? 0 : reader.GetInt32(0);
+                            if (level == 0)
+                            {
+                                res = InsertFreshAndReturn(steamId, con, out cmd);
+                            }
+                            else
+                            {
+                                var config = reader.IsDBNull(1) ? null : reader.GetString(1);
+                                var completed = reader.IsDBNull(2) ? false : reader.GetBoolean(2);
+                                if (config == null)
+                                {
+                                    res = GetTimeRewardLevelConfig(level);
+                                    res.Completed = completed;
+                                }
+                                else
+                                {
+                                    res = GetTimeRewardLevelConfigFromString(level, config);
+                                }
+                            }
+                        }
+                    }
+                }
+                else
+                {
+                    res = InsertFreshAndReturn(steamId, con, out cmd);
+                }
+                res.SteamId = steamId;
+                TimeRewardDatas.TryAdd(steamId, res);
+                return res;
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+        return null;
+
+        static TimeRewardBase InsertFreshAndReturn(ulong steamId, MySqlConnection? con, out MySqlCommand cmd)
+        {
+            cmd = new MySqlCommand(@$"INSERT INTO `PlayerTimeReward`
+                                          (SteamId,Level,Config,Completed)
+                                          VALUES (@SteamId,@Level,@Config,0);", con);
+
+            cmd.Parameters.AddWithValue("@SteamId", steamId);
+            cmd.Parameters.AddWithValue("@Level", 1);
+            var config = JsonConvert.SerializeObject(new TimeReward_Level01());
+            cmd.Parameters.AddWithValue("@Config", config);
+            cmd.ExecuteNonQuery();
+            return new TimeReward_Level01();
+        }
+    }
+
+    private static void UpdateTimeRewardData(TimeRewardBase config, bool completed)
+    {
+        try
+        {
+            ulong steamId = config.SteamId;
+            using (var con = Connection())
+            {
+                if (con == null)
+                {
+                    return;
+                }
+                var cmd = new MySqlCommand(@$"UPDATE `PlayerTimeReward`
+                                          SET Config = @Config,
+                                             Completed = @Completed,
+                                             EndTime = @EndTime
+                                          where `SteamId` = @SteamId and Level = @Level;", con);
+
+                cmd.Parameters.AddWithValue("@SteamId", steamId);
+                cmd.Parameters.AddWithValue("@Config", JsonConvert.SerializeObject(config));
+                cmd.Parameters.AddWithValue("@Completed", completed);
+                cmd.Parameters.AddWithValue("@Level", config.Level);
+                cmd.Parameters.AddWithValue("@EndTime", completed == true ? DateTime.UtcNow : DBNull.Value);
+                cmd.ExecuteNonQuery();
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e.Message);
+        }
+    }
+
+    private static void UpdatePlayerTimeRewardDataOnDisconnect(ulong steamId)
+    {
+        try
+        {
+            if (TimeRewardDatas.TryGetValue(steamId, out var data))
+            {
+                UpdateTimeRewardData(data, data.Completed);
+            }
+        }
+        catch (Exception e)
+        {
+            Console.WriteLine(e);
+        }
+    }
+
+    #endregion odul
 }

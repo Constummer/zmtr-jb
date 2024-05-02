@@ -24,16 +24,6 @@ public partial class JailbreakExtras
                 && x?.SteamID != null
                 && x!.SteamID != 0)
             {
-                if (HideFoots.TryGetValue(x.SteamID, out var _) == false && Config.Additional.HideFootsOnConnect)
-                {
-                    AddTimer(2f, () =>
-                    {
-                        if (ValidateCallerPlayer(x, false))
-                        {
-                            AyakGizle(x, true);
-                        }
-                    }, SOM);
-                }
                 if (x.SteamID != LatestWCommandUser)
                 {
                     if (Unmuteds.Contains(x.SteamID) == false)
@@ -55,10 +45,6 @@ public partial class JailbreakExtras
                     AddTimer(0.3f, () =>
                     {
                         GiveSkin(x, tempSteamId);
-                        //AddTimer(0.2f, () =>
-                        //{
-                        //    x.GiveNamedItem(CsItem.Healthshot);
-                        //});
                     });
 
                     CreateAuraParticle(tempSteamId.Value);
@@ -75,6 +61,13 @@ public partial class JailbreakExtras
                     {
                         if (ValidateCallerPlayer(x, false) == false) return;
                         SetColour(x, Color.FromArgb(255, 0, 0, 255));
+                    }
+                    else if (Config.Additional.HideFootsOnConnect && HideFoots.TryGetValue(x.SteamID, out var _) == false)
+                    {
+                        if (ValidateCallerPlayer(x, false))
+                        {
+                            AyakGizle(x, true);
+                        }
                     }
                     else
                     {

@@ -7,27 +7,27 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    [ConsoleCommand("bplevelatla")]
-    [ConsoleCommand("battlepasslevelatla")]
-    [ConsoleCommand("battleplevelatla")]
-    [ConsoleCommand("bpasslevelatla")]
-    public void BattlePassLevelAtla(CCSPlayerController? player, CommandInfo info)
+    [ConsoleCommand("trlevelatla")]
+    [ConsoleCommand("timerewardlevelatla")]
+    [ConsoleCommand("timerlevelatla")]
+    [ConsoleCommand("trewardlevelatla")]
+    public void TimeRewardLevelAtla(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player, false) == false) return;
-        if (!Config.Additional.BattlePassActive) return;
+        if (!Config.Additional.TimeRewardActive) return;
 
-        if (BattlePassDatas.TryGetValue(player.SteamID, out var data))
+        if (TimeRewardDatas.TryGetValue(player.SteamID, out var data))
         {
             if (!data.Completed)
             {
-                player.PrintToChat($"{Prefix} {CC.W}Battle Pass - {data.Level} levelini");
+                player.PrintToChat($"{Prefix} {CC.W}Time Reward - {data.Level} levelini");
                 player.PrintToChat($"{Prefix} {CC.R}Tamamlamamışsın");
                 player.PrintToChat($"{Prefix} {CC.B}!bp{CC.W} yazarak");
                 player.PrintToChat($"{Prefix} {CC.W}yapman gereken {data.Level} level görevleri görebilirsin.");
             }
             else
             {
-                player.PrintToChat($"{Prefix} {CC.W}Battle Pass - {data.Level} levelini");
+                player.PrintToChat($"{Prefix} {CC.W}Time Reward - {data.Level} levelini");
                 player.PrintToChat($"{Prefix} {CC.G}Tamamlamışsın. Tebrikler.");
                 if (data.Level == 31)
                 {
@@ -35,7 +35,7 @@ public partial class JailbreakExtras
                 }
                 player.PrintToChat($"{Prefix} {CC.B}!bp{CC.W} yazarak");
                 player.PrintToChat($"{Prefix} {CC.W}yapman gereken {data.Level + 1} level görevleri görebilirsin.");
-                BattlePassBase.GiveReward(data, player);
+                TimeRewardBase.GiveReward(data, player);
             }
         }
     }

@@ -16,7 +16,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-
+        HideFoots[player.SteamID] = true;
         AyakGizle(player);
     }
 
@@ -35,7 +35,6 @@ public partial class JailbreakExtras
 
     private void AyakGizle(CCSPlayerController player, bool refreshTp = false)
     {
-        HideFoots[player.SteamID] = true;
         player!.PlayerPawn.Value!.Render = Color.FromArgb(254, 254, 254, 254);
         if (refreshTp == false)
         {

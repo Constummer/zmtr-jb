@@ -67,6 +67,9 @@ public partial class JailbreakExtras
                     switch (item.Type)
                     {
                         case QueueItemType.OnClientConnect:
+
+                            #region OnClientConnect
+
                             if (Utilities.GetPlayers().Count() >= 45)
                             {
                                 Server.ExecuteCommand($"cs2f_fix_disconnects 1");
@@ -97,11 +100,19 @@ public partial class JailbreakExtras
 
                                 GetPlayerBattlePassPremiumData(tempSteamId);
 
+                                GetPlayerTimeRewardData(tempSteamId);
+
                                 CheckPlayerGroups(tempSteamId);
                             }
+
+                            #endregion OnClientConnect
+
                             break;
 
                         case QueueItemType.OnClientDisconnect:
+
+                            #region OnClientDisconnect
+
                             if (Utilities.GetPlayers().Count() < 45)
                             {
                                 Server.ExecuteCommand($"cs2f_fix_disconnects 0");
@@ -114,6 +125,8 @@ public partial class JailbreakExtras
                             {
                                 CoinRemove();
                             }
+
+                            #endregion OnClientDisconnect
 
                             break;
 
@@ -142,6 +155,9 @@ public partial class JailbreakExtras
                             break;
 
                         case QueueItemType.OnPlayerSpawn:
+
+                            #region OnPlayerSpawn
+
                             CCSPlayerController? x = null;
                             if (tempUserId.HasValue)
                             {
@@ -173,6 +189,9 @@ public partial class JailbreakExtras
                             {
                                 CheckPlayerSutTeamTag(tempSteamId);
                             }
+
+                            #endregion OnPlayerSpawn
+
                             break;
 
                         default:
