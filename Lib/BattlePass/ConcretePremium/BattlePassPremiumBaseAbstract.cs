@@ -1,5 +1,4 @@
 ﻿using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Utils;
 using MySqlConnector;
 using Newtonsoft.Json;
@@ -8,9 +7,9 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    public partial class BattlePassBase
+    public partial class BattlePassPremiumBase
     {
-        internal static void GiveReward(BattlePassBase data, CCSPlayerController player)
+        internal static void GiveReward(BattlePassPremiumBase data, CCSPlayerController player)
         {
             if (data.Other != null)
             {
@@ -62,7 +61,7 @@ public partial class JailbreakExtras
                 {
                     if (con != null)
                     {
-                        var cmd = new MySqlCommand(@$"UPDATE `PlayerBattlePass`
+                        var cmd = new MySqlCommand(@$"UPDATE `PlayerBattlePassPremium`
                                           SET Config = @Config,
                                              Completed = @Completed,
                                              EndTime = @EndTime
@@ -76,7 +75,7 @@ public partial class JailbreakExtras
                         cmd.Parameters.AddWithValue("@EndTime", DateTime.UtcNow);
                         cmd.ExecuteNonQuery();
 
-                        var conf = GetBattlePassLevelConfig(data.Level + 1);
+                        var conf = GetBattlePassPremiumLevelConfig(data.Level + 1);
                         cmd = new MySqlCommand(@$"INSERT INTO `PlayerBattlePass`
                                       (SteamId,Level,Config,Completed)
                                       VALUES (@SteamId,@Level,@Config,0);", con);
@@ -86,7 +85,7 @@ public partial class JailbreakExtras
                         cmd.Parameters.AddWithValue("@Config", JsonConvert.SerializeObject(conf));
                         cmd.ExecuteNonQuery();
                         conf.SteamId = player.SteamID;
-                        BattlePassDatas[conf.SteamId] = conf;
+                        BattlePassPremiumDatas[conf.SteamId] = conf;
                     }
                 }
             }
@@ -102,7 +101,7 @@ public partial class JailbreakExtras
                   .ToList()
                   .ForEach(x =>
                   {
-                      if (BattlePassDatas.TryGetValue(x.SteamID, out var battlePassData))
+                      if (BattlePassPremiumDatas.TryGetValue(x.SteamID, out var battlePassData))
                       {
                           battlePassData?.OnRoundTWinCommand();
                       }
@@ -115,7 +114,7 @@ public partial class JailbreakExtras
                   .ToList()
                   .ForEach(x =>
                   {
-                      if (BattlePassDatas.TryGetValue(x.SteamID, out var battlePassData))
+                      if (BattlePassPremiumDatas.TryGetValue(x.SteamID, out var battlePassData))
                       {
                           battlePassData?.OnRoundCTWinCommand();
                       }
@@ -124,47 +123,49 @@ public partial class JailbreakExtras
 
         internal static void EventPlayerDeath(EventPlayerDeath? @event)
         {
-            if (BattlePassDatas.TryGetValue(@event?.Attacker?.SteamID ?? 0, out var battlePassData))
+            if (BattlePassPremiumDatas.TryGetValue(@event.Attacker.SteamID, out var battlePassData))
             {
-                var deadOne = @event?.Userid;
-                var attacker = @event?.Attacker;
-
-                if (@event.Noscope)
+                var deadOne = @event.Userid;
+                var attacker = @event.Attacker;
+                if (GetTeam(deadOne) != GetTeam(attacker))
                 {
-                    battlePassData.EventNoScopeKill();
-                }
-                switch (@event.Weapon)
-                {
-                    case "p90":
-                        battlePassData.EventP90Kill();
-                        break;
+                    if (@event.Noscope)
+                    {
+                        battlePassData.EventNoScopeKill();
+                    }
+                    switch (@event.Weapon)
+                    {
+                        case "p90":
+                            battlePassData.EventP90Kill();
+                            break;
 
-                    case "ak47":
-                        battlePassData.EventAK47Kill();
-                        break;
+                        case "ak47":
+                            battlePassData.EventAK47Kill();
+                            break;
 
-                    case "awp":
-                        battlePassData.EventAWPKill();
-                        break;
+                        case "awp":
+                            battlePassData.EventAWPKill();
+                            break;
 
-                    case "mag7":
-                        battlePassData.EventMAG7Kill();
-                        break;
+                        case "mag7":
+                            battlePassData.EventMAG7Kill();
+                            break;
 
-                    case "m4a1":
-                        battlePassData.EventM4A4Kill();
-                        break;
+                        case "m4a1":
+                            battlePassData.EventM4A4Kill();
+                            break;
 
-                    case "ssg08":
-                        battlePassData.EventSSG08Kill();
-                        break;
+                        case "ssg08":
+                            battlePassData.EventSSG08Kill();
+                            break;
 
-                    default:
-                        break;
-                }
-                if (@event.Weapon.Contains("knife") || @event.Weapon.Contains("bayonet"))
-                {
-                    battlePassData.EventKnifeKill();
+                        default:
+                            break;
+                    }
+                    if (@event.Weapon.Contains("knife") || @event.Weapon.Contains("bayonet"))
+                    {
+                        battlePassData.EventKnifeKill();
+                    }
                 }
 
                 if (GetTeam(deadOne) == CsTeam.CounterTerrorist &&

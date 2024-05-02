@@ -593,6 +593,17 @@ public partial class JailbreakExtras
         GetPlayerBattlePassData(x.SteamID);
     }
 
+    [ConsoleCommand("cbattlepasspremiumLogin")]
+    public void cbattlepassPremiumLogin(CCSPlayerController? x, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(x, "@css/root"))
+        {
+            x.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        GetPlayerBattlePassPremiumData(x.SteamID);
+    }
+
     [ConsoleCommand("cbpjson")]
     public void cbpjson(CCSPlayerController? x, CommandInfo info)
     {

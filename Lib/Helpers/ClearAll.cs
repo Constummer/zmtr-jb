@@ -75,9 +75,11 @@ public partial class JailbreakExtras
         UpdatePlayerLevelDataOnDisconnect(steamId);
         UpdatePlayerParticleDataOnDisconnect(steamId);
         UpdatePlayerBattlePassDataOnDisconnect(steamId);
+        UpdatePlayerBattlePassPremiumDataOnDisconnect(steamId);
         UpdatePlayerParachuteDataOnDisconnect(steamId);
 
         _ = BattlePassDatas?.Remove(steamId, out _);
+        _ = BattlePassPremiumDatas?.Remove(steamId, out _);
         _ = ActiveGodMode?.Remove(steamId, out _);
         _ = DeathLocations?.Remove(steamId, out _);
         _ = KilledPlayers?.Remove(steamId, out _);

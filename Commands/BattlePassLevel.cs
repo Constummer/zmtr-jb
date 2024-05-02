@@ -14,6 +14,7 @@ public partial class JailbreakExtras
     public void BattlePassLevelAtla(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player, false) == false) return;
+        //if (!Config.Additional.BattlePassActive) return;
 
         if (BattlePassDatas.TryGetValue(player.SteamID, out var data))
         {

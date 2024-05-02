@@ -30,10 +30,12 @@ public partial class JailbreakExtras
             {
                 case CsTeam.Terrorist:
                     BattlePassBase.RoundTWin();
+                    BattlePassPremiumBase.RoundTWin();
                     break;
 
                 case CsTeam.CounterTerrorist:
                     BattlePassBase.RoundCTWin();
+                    BattlePassPremiumBase.RoundCTWin();
                     break;
             };
             return HookResult.Continue;

@@ -42,6 +42,10 @@ public partial class JailbreakExtras
             {
                 battlePassData?.OnSutCommand();
             }
+            if (BattlePassPremiumDatas.TryGetValue(x.SteamID, out var battlePassPremiumData))
+            {
+                battlePassPremiumData?.OnSutCommand();
+            }
             Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı oyuncu, {CC.LP}süt oldu.");
         });
     }

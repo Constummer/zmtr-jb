@@ -19,6 +19,12 @@ public partial class JailbreakExtras
                                data.CheckIfLevelUp(false);
                                BattlePassDatas[x.SteamID] = data;
                            }
+                           if (BattlePassPremiumDatas.TryGetValue(x.SteamID, out var data2))
+                           {
+                               data2.CurrentTime = data2.CurrentTime + 5;
+                               data2.CheckIfLevelUp(false);
+                               BattlePassPremiumDatas[x.SteamID] = data2;
+                           }
                        }
                    });
         }, Full);

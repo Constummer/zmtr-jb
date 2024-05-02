@@ -19,6 +19,8 @@ public partial class JailbreakExtras
     {
         if (ValidateCallerPlayer(player, false) == false) return;
 
+        //if (!Config.Additional.BattlePassActive) return;
+
         if (BattlePassDatas.TryGetValue(player.SteamID, out var data))
         {
             var menu = new CenterHtmlMenu($"Battle Pass - {data.Level} Level", this);

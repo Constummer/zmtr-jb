@@ -38,6 +38,7 @@ public partial class JailbreakExtras
             28 => JsonConvert.DeserializeObject<BattlePass_Level28>(config),
             29 => JsonConvert.DeserializeObject<BattlePass_Level29>(config),
             30 => JsonConvert.DeserializeObject<BattlePass_Level30>(config),
+            31 => JsonConvert.DeserializeObject<BattlePass_Level31>(config),
             _ => null
         };
     }

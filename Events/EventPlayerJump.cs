@@ -16,6 +16,10 @@ public partial class JailbreakExtras
                     {
                         data.OnEventPlayerJump();
                     }
+                    if (BattlePassPremiumDatas.TryGetValue(@event.Userid.SteamID, out var battlePassPremiumData))
+                    {
+                        battlePassPremiumData?.OnEventPlayerJump();
+                    }
                 }
             }
             return HookResult.Continue;

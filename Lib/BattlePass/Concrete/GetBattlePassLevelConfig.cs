@@ -36,6 +36,7 @@ public partial class JailbreakExtras
             28 => new BattlePass_Level28(),
             29 => new BattlePass_Level29(),
             30 => new BattlePass_Level30(),
+            31 => new BattlePass_Level31(),
             _ => null
         };
     }

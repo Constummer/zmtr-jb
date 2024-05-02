@@ -94,6 +94,10 @@ public partial class JailbreakExtras
                                 GetPlayerParachuteData(tempSteamId);
 
                                 CheckPlayerGroups(tempSteamId);
+
+                                //GetPlayerBattlePassData(tempSteamId);
+
+                                //GetPlayerBattlePassPremiumData(tempSteamId);
                             }
                             break;
 
