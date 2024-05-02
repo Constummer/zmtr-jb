@@ -250,6 +250,7 @@ public partial class JailbreakExtras
                           `Won` mediumint(9) DEFAULT 0,
                           `GotTheReward` bit DEFAULT 0
                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
+                    await cmd.ExecuteNonQueryAsync();
 
                     cmd = new MySqlCommand(
                    @"CREATE TABLE IF NOT EXISTS `PlayerTimeReward` (
@@ -262,32 +263,34 @@ public partial class JailbreakExtras
                       `EndTime` datetime DEFAULT NULL,
                       PRIMARY KEY (`Id`)
                     ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci", con);
-
-                    cmd = new MySqlCommand(
-               @"CREATE TABLE IF NOT EXISTS `PlayerBattlePassPremium` (
-                      `Id` bigint(20) NOT NULL AUTO_INCREMENT,
-                      `SteamId` bigint(20) DEFAULT NULL,
-                      `Level` mediumint(9) DEFAULT NULL,
-                      `Config` text DEFAULT NULL,
-                      `Completed` bit(1) DEFAULT b'0',
-                      `StartTime` datetime NOT NULL DEFAULT current_timestamp(),
-                      `EndTime` datetime DEFAULT NULL,
-                      PRIMARY KEY (`Id`)
-                    ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci", con);
-
-                    cmd = new MySqlCommand(
-               @"CREATE TABLE IF NOT EXISTS `PlayerBattlePass` (
-                      `Id` bigint(20) NOT NULL AUTO_INCREMENT,
-                      `SteamId` bigint(20) DEFAULT NULL,
-                      `Level` mediumint(9) DEFAULT NULL,
-                      `Config` text DEFAULT NULL,
-                      `Completed` bit(1) DEFAULT b'0',
-                      `StartTime` datetime NOT NULL DEFAULT current_timestamp(),
-                      `EndTime` datetime DEFAULT NULL,
-                      PRIMARY KEY (`Id`)
-                    ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci", con);
-
                     await cmd.ExecuteNonQueryAsync();
+
+                    cmd = new MySqlCommand(
+                    @"CREATE TABLE IF NOT EXISTS `PlayerBattlePassPremium` (
+                      `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+                      `SteamId` bigint(20) DEFAULT NULL,
+                      `Level` mediumint(9) DEFAULT NULL,
+                      `Config` text DEFAULT NULL,
+                      `Completed` bit(1) DEFAULT b'0',
+                      `StartTime` datetime NOT NULL DEFAULT current_timestamp(),
+                      `EndTime` datetime DEFAULT NULL,
+                      PRIMARY KEY (`Id`)
+                    ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci", con);
+                    await cmd.ExecuteNonQueryAsync();
+
+                    cmd = new MySqlCommand(
+                    @"CREATE TABLE IF NOT EXISTS `PlayerBattlePass` (
+                      `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+                      `SteamId` bigint(20) DEFAULT NULL,
+                      `Level` mediumint(9) DEFAULT NULL,
+                      `Config` text DEFAULT NULL,
+                      `Completed` bit(1) DEFAULT b'0',
+                      `StartTime` datetime NOT NULL DEFAULT current_timestamp(),
+                      `EndTime` datetime DEFAULT NULL,
+                      PRIMARY KEY (`Id`)
+                    ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci", con);
+                    await cmd.ExecuteNonQueryAsync();
+
                     GetAllPlayerNameData(con);
                     GetAllCTKitData(con);
                     GetAllTimeTrackingData(con);

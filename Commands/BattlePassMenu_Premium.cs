@@ -35,10 +35,6 @@ public partial class JailbreakExtras
             return;
         }
 
-        if (ValidateCallerPlayer(player, false) == false) return;
-
-        if (!Config.Additional.BattlePassActive) return;
-
         if (BattlePassPremiumDatas.TryGetValue(player.SteamID, out var data))
         {
             if (data.Completed)

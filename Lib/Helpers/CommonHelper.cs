@@ -29,14 +29,20 @@ public partial class JailbreakExtras
 
     private static int GetPlayerCount(CsTeam? team = null, bool? alive = null)
     {
-        List<CCSPlayerController> players = new();
+        int players = 0;
 
         for (int i = 0; i < Server.MaxPlayers; i++)
         {
             var controller = Utilities.GetPlayerFromSlot(i);
 
-            if (!controller.IsValid || controller.UserId == -1)
+            if (controller == null
+                || !controller.IsValid
+                || controller.UserId == -1
+                || controller.PlayerPawn == null
+                || controller.PlayerPawn.Value == null
+                || !controller.PlayerPawn.IsValid)
                 continue;
+
             if ((team.HasValue ? team.Value == GetTeam(controller) : true) == false)
             {
                 continue;
@@ -48,11 +54,11 @@ public partial class JailbreakExtras
 
             if ((GetTeam(controller) == CsTeam.Terrorist || GetTeam(controller) == CsTeam.CounterTerrorist))
             {
-                players.Add(controller);
+                players++;
             }
         }
 
-        return players.Count;
+        return players;
     }
 
     private static CCSPlayerController? GetWarden()
