@@ -27,7 +27,7 @@ public partial class JailbreakExtras
     public void BattlePassPremiumMenu(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player, false) == false) return;
-        //if (!Config.Additional.BattlePassPremiumActive) return;
+        if (!Config.Additional.BattlePassPremiumActive) return;
 
         if (!AdminManager.PlayerHasPermissions(player, "@css/premium"))
         {

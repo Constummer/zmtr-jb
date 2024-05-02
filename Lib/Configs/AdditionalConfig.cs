@@ -42,11 +42,11 @@ public partial class JailbreakExtras
         [JsonPropertyName("NoBlockActive")]
         public bool NoBlockActive { get; set; } = true;
 
-        //[JsonPropertyName("BattlePassActive")]
-        //public bool BattlePassActive { get; set; } = true;
+        [JsonPropertyName("BattlePassActive")]
+        public bool BattlePassActive { get; set; } = true;
 
-        //[JsonPropertyName("BattlePassPremiumActive")]
-        //public bool BattlePassPremiumActive { get; set; } = true;
+        [JsonPropertyName("BattlePassPremiumActive")]
+        public bool BattlePassPremiumActive { get; set; } = true;
 
         [JsonPropertyName("RoundEndStartCommands")]
         public List<string> RoundEndStartCommands { get; set; } = new(){
