@@ -252,7 +252,7 @@ public partial class JailbreakExtras
                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
 
                     cmd = new MySqlCommand(
-                   @"CREATE TABLE `PlayerTimeReward` (
+                   @"CREATE TABLE IF NOT EXISTS `PlayerTimeReward` (
                       `Id` bigint(20) NOT NULL AUTO_INCREMENT,
                       `SteamId` bigint(20) DEFAULT NULL,
                       `Level` mediumint(9) DEFAULT NULL,
@@ -264,7 +264,7 @@ public partial class JailbreakExtras
                     ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci", con);
 
                     cmd = new MySqlCommand(
-               @"CREATE TABLE `PlayerBattlePassPremium` (
+               @"CREATE TABLE IF NOT EXISTS `PlayerBattlePassPremium` (
                       `Id` bigint(20) NOT NULL AUTO_INCREMENT,
                       `SteamId` bigint(20) DEFAULT NULL,
                       `Level` mediumint(9) DEFAULT NULL,
@@ -276,7 +276,7 @@ public partial class JailbreakExtras
                     ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci", con);
 
                     cmd = new MySqlCommand(
-               @"CREATE TABLE `PlayerBattlePass` (
+               @"CREATE TABLE IF NOT EXISTS `PlayerBattlePass` (
                       `Id` bigint(20) NOT NULL AUTO_INCREMENT,
                       `SteamId` bigint(20) DEFAULT NULL,
                       `Level` mediumint(9) DEFAULT NULL,

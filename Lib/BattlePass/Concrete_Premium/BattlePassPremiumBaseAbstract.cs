@@ -76,7 +76,7 @@ public partial class JailbreakExtras
                         cmd.ExecuteNonQuery();
 
                         var conf = GetBattlePassPremiumLevelConfig(data.Level + 1);
-                        cmd = new MySqlCommand(@$"INSERT INTO `PlayerBattlePass`
+                        cmd = new MySqlCommand(@$"INSERT INTO `PlayerBattlePassPremium`
                                       (SteamId,Level,Config,Completed)
                                       VALUES (@SteamId,@Level,@Config,0);", con);
 
