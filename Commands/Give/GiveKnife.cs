@@ -15,14 +15,14 @@ public partial class JailbreakExtras
         if (ValidateCallerPlayer(player) == false) return;
         LogManagerCommand(player.SteamID, info.GetCommandString);
 
-        //GetPlayers()
-        //       .Where(x => x.PawnIsAlive)
-        //       .ToList()
-        //       .ForEach(x =>
-        //       {
-        //           x.GiveNamedItem($"weapon_knife");
-        //       });
-        //Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}@all {CC.W}hedefine {CC.B}knife {CC.W}adlı silahı verdi.");
+        GetPlayers()
+               .Where(x => x.PawnIsAlive)
+               .ToList()
+               .ForEach(x =>
+               {
+                   x.GiveNamedItem($"weapon_knife");
+               });
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}@all {CC.W}hedefine {CC.B}knife {CC.W}adlı silahı verdi.");
     }
 
     [ConsoleCommand("gdd", "bicak Verir")]

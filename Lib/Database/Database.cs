@@ -42,40 +42,32 @@ public partial class JailbreakExtras
                     await cmd.ExecuteNonQueryAsync();
 
                     cmd = new MySqlCommand(
-                    @"CREATE TABLE IF NOT EXISTS `PlayerMarketModel` (
-                        `SteamId` bigint(20) DEFAULT NULL,
-                        `ModelIdCT` varchar(0) DEFAULT NULL,
-                        `ModelIdT` varchar(1) DEFAULT NULL,
-                        `DefaultIdCT` varchar(0) DEFAULT NULL,
-                        `DefaultIdT` varchar(1) DEFAULT NULL,
-                        `Credit` mediumint(9) DEFAULT NULL
-                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-                    await cmd.ExecuteNonQueryAsync();
+                    @"  CREATE TABLE IF NOT EXISTS `PlayerMarketModel` (
+                         `SteamId` bigint(20) DEFAULT NULL,
+                         `ModelIdCT` varchar(0) DEFAULT NULL,
+                         `ModelIdT` varchar(1) DEFAULT NULL,
+                         `DefaultIdCT` varchar(0) DEFAULT NULL,
+                         `DefaultIdT` varchar(1) DEFAULT NULL,
+                         `Credit` mediumint(9) DEFAULT NULL
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-                    cmd = new MySqlCommand(
-                    @"CREATE TABLE IF NOT EXISTS `PlayerLevel` (
-                        `SteamId` bigint(20) DEFAULT NULL,
-                        `Xp` mediumint(9) DEFAULT NULL,
-                        `TagDisable` bit DEFAULT 0,
-                        `GivenRewards` TEXT DEFAULT NULL
-                    ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-                    await cmd.ExecuteNonQueryAsync();
+                        CREATE TABLE IF NOT EXISTS `PlayerLevel` (
+                         `SteamId` bigint(20) DEFAULT NULL,
+                         `Xp` mediumint(9) DEFAULT NULL,
+                         `TagDisable` bit DEFAULT 0,
+                         `GivenRewards` TEXT DEFAULT NULL
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-                    cmd = new MySqlCommand(
-                     @"CREATE TABLE IF NOT EXISTS `PlayerName` (
+                        CREATE TABLE IF NOT EXISTS `PlayerName` (
                         `SteamId` bigint(20) DEFAULT NULL,
                         `Name` TEXT DEFAULT NULL
-                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-                    await cmd.ExecuteNonQueryAsync();
+                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-                    cmd = new MySqlCommand(
-                     @"CREATE TABLE IF NOT EXISTS `PlayerGag` (
+                        CREATE TABLE IF NOT EXISTS `PlayerGag` (
                           `SteamId` bigint(20) DEFAULT NULL
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-                    await cmd.ExecuteNonQueryAsync();
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-                    cmd = new MySqlCommand(
-                    @"CREATE TABLE IF NOT EXISTS `PlayerTime` (
+                        CREATE TABLE IF NOT EXISTS `PlayerTime` (
                           `SteamId` bigint(20) DEFAULT NULL,
                           `Total` mediumint(9) DEFAULT NULL,
                           `CTTime` mediumint(9) DEFAULT NULL,
@@ -87,115 +79,87 @@ public partial class JailbreakExtras
                           `WeeklyTTime` mediumint(9) DEFAULT NULL,
                           `WeeklyTotalTime` mediumint(9) DEFAULT NULL,
                           `WeeklyKaTime` mediumint(9) DEFAULT NULL
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-                    await cmd.ExecuteNonQueryAsync();
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-                    cmd = new MySqlCommand(
-                    @"CREATE TABLE IF NOT EXISTS `PlayerCTBan` (
+                        CREATE TABLE IF NOT EXISTS `PlayerCTBan` (
                          `SteamId` bigint(20) DEFAULT NULL,
                          `BannedBySteamId` bigint(20) DEFAULT NULL,
                          `Time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-                       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-                    await cmd.ExecuteNonQueryAsync();
+                       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-                    cmd = new MySqlCommand(
-                    @"CREATE TABLE IF NOT EXISTS `ManagerCommands` (
+                        CREATE TABLE IF NOT EXISTS `ManagerCommands` (
                          `Id` bigint(20) PRIMARY KEY AUTO_INCREMENT,
                          `SteamId` bigint(20) DEFAULT NULL,
                          `Command` TEXT DEFAULT NULL,
                          `Time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-                       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-                    await cmd.ExecuteNonQueryAsync();
+                       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-                    cmd = new MySqlCommand(
-                    @"CREATE TABLE IF NOT EXISTS `PlayerChat` (
+                        CREATE TABLE IF NOT EXISTS `PlayerChat` (
                          `Id` bigint(20) PRIMARY KEY AUTO_INCREMENT,
                          `SteamId` bigint(20) DEFAULT NULL,
                          `Msg` TEXT DEFAULT NULL,
                          `Time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-                       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-                    await cmd.ExecuteNonQueryAsync();
+                       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-                    cmd = new MySqlCommand(
-                    @"CREATE TABLE IF NOT EXISTS `PlayerBan` (
+                        CREATE TABLE IF NOT EXISTS `PlayerBan` (
                           `SteamId` bigint(20) DEFAULT NULL,
                           `BannedBySteamId` bigint(20) DEFAULT NULL,
                           `Time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-                    await cmd.ExecuteNonQueryAsync();
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-                    cmd = new MySqlCommand(
-                    @"CREATE TABLE IF NOT EXISTS `PlayerWeeklyWTime` (
+                        CREATE TABLE IF NOT EXISTS `PlayerWeeklyWTime` (
                           `SteamId` bigint(20) DEFAULT NULL,
                           `WTime` mediumint(9) DEFAULT NULL,
                           `WeekNo` mediumint(9) DEFAULT NULL
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-                    await cmd.ExecuteNonQueryAsync();
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-                    cmd = new MySqlCommand(
-                    @"CREATE TABLE IF NOT EXISTS `BayramCredit` (
+                        CREATE TABLE IF NOT EXISTS `BayramCredit` (
                           `Id` bigint(20) PRIMARY KEY AUTO_INCREMENT,
                           `SteamId` bigint(20) DEFAULT NULL,
                           `RecieveTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-                    await cmd.ExecuteNonQueryAsync();
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-                    cmd = new MySqlCommand(
-                    @"CREATE TABLE IF NOT EXISTS `KomWeeklyWCredit` (
+                        CREATE TABLE IF NOT EXISTS `KomWeeklyWCredit` (
                           `SteamId` bigint(20) DEFAULT NULL,
                           `Recieved` bit DEFAULT 0,
                           `WeekNo` mediumint(9) DEFAULT NULL
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-                    await cmd.ExecuteNonQueryAsync();
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-                    cmd = new MySqlCommand(
-                    @"CREATE TABLE IF NOT EXISTS `PlayerIsyanTeam` (
+                        CREATE TABLE IF NOT EXISTS `PlayerIsyanTeam` (
                           `SteamId` bigint(20) DEFAULT NULL
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-                    await cmd.ExecuteNonQueryAsync();
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-                    cmd = new MySqlCommand(
-                    @"CREATE TABLE IF NOT EXISTS `PlayerSutTeam` (
+                        CREATE TABLE IF NOT EXISTS `PlayerSutTeam` (
                           `SteamId` bigint(20) DEFAULT NULL
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-                    await cmd.ExecuteNonQueryAsync();
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-                    cmd = new MySqlCommand(
-                    @"CREATE TABLE IF NOT EXISTS `PlayerCTKit` (
+                        CREATE TABLE IF NOT EXISTS `PlayerCTKit` (
                           `SteamId` bigint(20) DEFAULT NULL,
                           `KitId` mediumint(9) DEFAULT 0
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-                    await cmd.ExecuteNonQueryAsync();
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-                    cmd = new MySqlCommand(
-                    @"CREATE TABLE IF NOT EXISTS `PlayerCustomTag` (
+                        CREATE TABLE IF NOT EXISTS `PlayerCustomTag` (
                           `SteamId` bigint(20) DEFAULT NULL,
                           `Tag` TEXT DEFAULT NULL,
                           `TagColor` TEXT DEFAULT NULL,
                           `SayColor` TEXT DEFAULT NULL,
                           `TColor` TEXT DEFAULT NULL,
                           `CTColor` TEXT DEFAULT NULL
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-                    await cmd.ExecuteNonQueryAsync();
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-                    cmd = new MySqlCommand(
-                    @"CREATE TABLE IF NOT EXISTS `PlayerParticleData` (
+                        CREATE TABLE IF NOT EXISTS `PlayerParticleData` (
                           `SteamId` bigint(20) DEFAULT NULL,
                           `BoughtModelIds` TEXT DEFAULT NULL,
                           `SelectedModelId` TEXT DEFAULT NULL
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-                    await cmd.ExecuteNonQueryAsync();
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-                    cmd = new MySqlCommand(
-                    @"CREATE TABLE IF NOT EXISTS `DcNotifyData` (
+                        CREATE TABLE IF NOT EXISTS `DcNotifyData` (
                           `MapName` TEXT DEFAULT NULL,
                           `WardenName` TEXT DEFAULT NULL,
                           `PlayerCount` mediumint(9) DEFAULT 0
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-                    await cmd.ExecuteNonQueryAsync();
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-                    cmd = new MySqlCommand(
-                    @"CREATE TABLE IF NOT EXISTS `PlayerGambleData` (
+                        CREATE TABLE IF NOT EXISTS `PlayerGambleData` (
                          `Id` bigint(20) PRIMARY KEY AUTO_INCREMENT,
                          `GambleDataId` bigint(20) DEFAULT 0,
                          `SteamId` bigint(20) DEFAULT NULL,
@@ -204,11 +168,9 @@ public partial class JailbreakExtras
                          `Expired` bit DEFAULT 0,
                          `PlayedTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
                          `ExpiredTime` DATETIME NULL
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-                    await cmd.ExecuteNonQueryAsync();
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-                    cmd = new MySqlCommand(
-                    @"CREATE TABLE IF NOT EXISTS `GambleData` (
+                        CREATE TABLE IF NOT EXISTS `GambleData` (
                          `Id` bigint(20) PRIMARY KEY AUTO_INCREMENT,
                          `StartTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
                          `EndTime` DATETIME NULL,
@@ -218,77 +180,63 @@ public partial class JailbreakExtras
                          `Winner` mediumint(9) DEFAULT 0,
                          `ParticipationCount` mediumint(9) DEFAULT 0,
                          `TourFinalized` bit DEFAULT 0
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-                    await cmd.ExecuteNonQueryAsync();
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-                    cmd = new MySqlCommand(
-                    @"CREATE TABLE IF NOT EXISTS `PlayerIsTop` (
+                        CREATE TABLE IF NOT EXISTS `PlayerIsTop` (
                           `SteamId` bigint(20) DEFAULT NULL,
                           `KillCount` mediumint(9) DEFAULT 0
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-                    await cmd.ExecuteNonQueryAsync();
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-                    cmd = new MySqlCommand(
-                    @"CREATE TABLE IF NOT EXISTS `KomKalanInterceptor` (
+                        CREATE TABLE IF NOT EXISTS `KomKalanInterceptor` (
                             `SelectedModelId` TEXT DEFAULT NULL
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-                    await cmd.ExecuteNonQueryAsync();
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-                    cmd = new MySqlCommand(
-                    @"CREATE TABLE IF NOT EXISTS `PlayerWTime` (
+                        CREATE TABLE IF NOT EXISTS `PlayerWTime` (
                           `SteamId` bigint(20) DEFAULT NULL,
                           `WTime` mediumint(9) DEFAULT 0
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-                    await cmd.ExecuteNonQueryAsync();
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
-                    cmd = new MySqlCommand(
-                    @"CREATE TABLE IF NOT EXISTS `PlayerKasa` (
+                        CREATE TABLE IF NOT EXISTS `PlayerKasa` (
                           `Id` bigint(20) PRIMARY KEY AUTO_INCREMENT,
                           `StartTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
                           `SteamId` bigint(20) DEFAULT NULL,
                           `Opened` mediumint(9) DEFAULT 0,
                           `Won` mediumint(9) DEFAULT 0,
                           `GotTheReward` bit DEFAULT 0
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+                        CREATE TABLE IF NOT EXISTS `PlayerTimeReward` (
+                          `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+                          `SteamId` bigint(20) DEFAULT NULL,
+                          `Level` mediumint(9) DEFAULT NULL,
+                          `Config` text DEFAULT NULL,
+                          `Completed` bit(1) DEFAULT b'0',
+                          `StartTime` datetime NOT NULL DEFAULT current_timestamp(),
+                          `EndTime` datetime DEFAULT NULL,
+                          PRIMARY KEY (`Id`)
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+                        CREATE TABLE IF NOT EXISTS `PlayerBattlePassPremium` (
+                          `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+                          `SteamId` bigint(20) DEFAULT NULL,
+                          `Level` mediumint(9) DEFAULT NULL,
+                          `Config` text DEFAULT NULL,
+                          `Completed` bit(1) DEFAULT b'0',
+                          `StartTime` datetime NOT NULL DEFAULT current_timestamp(),
+                          `EndTime` datetime DEFAULT NULL,
+                          PRIMARY KEY (`Id`)
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+                        CREATE TABLE IF NOT EXISTS `PlayerBattlePass` (
+                          `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+                          `SteamId` bigint(20) DEFAULT NULL,
+                          `Level` mediumint(9) DEFAULT NULL,
+                          `Config` text DEFAULT NULL,
+                          `Completed` bit(1) DEFAULT b'0',
+                          `StartTime` datetime NOT NULL DEFAULT current_timestamp(),
+                          `EndTime` datetime DEFAULT NULL,
+                          PRIMARY KEY (`Id`)
                         ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
-                    await cmd.ExecuteNonQueryAsync();
-
-                    cmd = new MySqlCommand(
-                   @"CREATE TABLE IF NOT EXISTS `PlayerTimeReward` (
-                      `Id` bigint(20) NOT NULL AUTO_INCREMENT,
-                      `SteamId` bigint(20) DEFAULT NULL,
-                      `Level` mediumint(9) DEFAULT NULL,
-                      `Config` text DEFAULT NULL,
-                      `Completed` bit(1) DEFAULT b'0',
-                      `StartTime` datetime NOT NULL DEFAULT current_timestamp(),
-                      `EndTime` datetime DEFAULT NULL,
-                      PRIMARY KEY (`Id`)
-                    ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci", con);
-                    await cmd.ExecuteNonQueryAsync();
-
-                    cmd = new MySqlCommand(
-                    @"CREATE TABLE IF NOT EXISTS `PlayerBattlePassPremium` (
-                      `Id` bigint(20) NOT NULL AUTO_INCREMENT,
-                      `SteamId` bigint(20) DEFAULT NULL,
-                      `Level` mediumint(9) DEFAULT NULL,
-                      `Config` text DEFAULT NULL,
-                      `Completed` bit(1) DEFAULT b'0',
-                      `StartTime` datetime NOT NULL DEFAULT current_timestamp(),
-                      `EndTime` datetime DEFAULT NULL,
-                      PRIMARY KEY (`Id`)
-                    ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci", con);
-                    await cmd.ExecuteNonQueryAsync();
-
-                    cmd = new MySqlCommand(
-                    @"CREATE TABLE IF NOT EXISTS `PlayerBattlePass` (
-                      `Id` bigint(20) NOT NULL AUTO_INCREMENT,
-                      `SteamId` bigint(20) DEFAULT NULL,
-                      `Level` mediumint(9) DEFAULT NULL,
-                      `Config` text DEFAULT NULL,
-                      `Completed` bit(1) DEFAULT b'0',
-                      `StartTime` datetime NOT NULL DEFAULT current_timestamp(),
-                      `EndTime` datetime DEFAULT NULL,
-                      PRIMARY KEY (`Id`)
-                    ) ENGINE=InnoDB AUTO_INCREMENT=36 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci", con);
                     await cmd.ExecuteNonQueryAsync();
 
                     GetAllPlayerNameData(con);
