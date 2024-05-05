@@ -12,6 +12,7 @@ public partial class JailbreakExtras
     #region Sut
 
     private static List<ulong> SutolCommandCalls = new();
+    private static List<ulong> SutolCommandCallForBPs = new();
 
     [ConsoleCommand("sut")]
     [ConsoleCommand("sutol")]
@@ -32,20 +33,28 @@ public partial class JailbreakExtras
         .ToList()
         .ForEach(x =>
         {
-            SutolCommandCalls.Add(x.SteamID);
             //SetColour(x, Color.FromArgb(128, 0, 128));
             SetModelNextServerFrame(x.PlayerPawn.Value!, "characters/models/ambrosian/zmtr/sut/sut.vmdl");
+            SutolCommandCalls.Add(x.SteamID);
 
             RefreshPawnTP(x);
             RemoveWeapons(x, false);
-            if (BattlePassDatas.TryGetValue(x.SteamID, out var battlePassData))
+            if (GetPlayerCount() > 10 && LatestWCommandUser != null)
             {
-                battlePassData?.OnSutCommand();
+                if (SutolCommandCallForBPs.Any(y => y == x.SteamID) == false)
+                {
+                    SutolCommandCallForBPs.Add(x.SteamID);
+                    if (BattlePassDatas.TryGetValue(x.SteamID, out var battlePassData))
+                    {
+                        battlePassData?.OnSutCommand();
+                    }
+                    if (BattlePassPremiumDatas.TryGetValue(x.SteamID, out var battlePassPremiumData))
+                    {
+                        battlePassPremiumData?.OnSutCommand();
+                    }
+                }
             }
-            if (BattlePassPremiumDatas.TryGetValue(x.SteamID, out var battlePassPremiumData))
-            {
-                battlePassPremiumData?.OnSutCommand();
-            }
+
             Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı oyuncu, {CC.LP}süt oldu.");
         });
     }

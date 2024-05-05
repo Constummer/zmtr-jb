@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
+using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
 
@@ -17,6 +18,8 @@ public partial class JailbreakExtras
     public CEnvBeam DizLazer { get; set; } = null;
 
     [ConsoleCommand("dizkapa")]
+    [ConsoleCommand("dizkapat")]
+    [ConsoleCommand("dizcancel")]
     public void DizKapa(CCSPlayerController? player, CommandInfo info)
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
@@ -60,6 +63,52 @@ public partial class JailbreakExtras
         player.PrintToChat($"{Prefix}{CC.W} Ateş Ettiğin 2 Nokta Arasına Tüm {T_PluralCamel} Dizilecek.");
     }
 
+    [ConsoleCommand("diz1")]
+    public void Diz1(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+
+        if (ValidateCallerPlayer(player, false) == false)
+        {
+            return;
+        }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
+        player.PrintToChat($"{Prefix}{CC.B} !diz2 {CC.W} ile bitiş noktasını belirtebilirsin.");
+        player.PrintToChat($"{Prefix}{CC.W} Tüm {T_PluralCamel} {CC.B}!diz1{CC.W} ve {CC.B} !diz2 {CC.W} arasina Dizilecek.");
+        DizStart = new Tuple<float, float>(player.PlayerPawn.Value.AbsOrigin.X, player.PlayerPawn.Value.AbsOrigin.Y);
+    }
+
+    [ConsoleCommand("diz2")]
+    public void Diz2(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+
+        if (ValidateCallerPlayer(player, false) == false)
+        {
+            return;
+        }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
+        player.PrintToChat($"{Prefix}{CC.W} Tüm {T_PluralCamel} {CC.B}!diz1{CC.W} ve {CC.B} !diz2 {CC.W} arasina Dizilecek.");
+        if (DizStart == null)
+        {
+            player.PrintToChat($"{Prefix}{CC.W} Önce {CC.B}!diz1{CC.W} yazman lazim.");
+            return;
+        }
+        DizEnd = new Tuple<float, float>(player.PlayerPawn.Value.AbsOrigin.X, player.PlayerPawn.Value.AbsOrigin.Y);
+        DizActive = true;
+        DizMake(player);
+    }
+
     private void DizAction(EventBulletImpact @event)
     {
         if (DizActive == false)
@@ -90,11 +139,17 @@ public partial class JailbreakExtras
 
         DizEnd ??= new Tuple<float, float>(@event.X, @event.Y);
 
+        DizMake(player);
+    }
+
+    private void DizMake(CCSPlayerController? player)
+    {
         if (DizLazer?.IsValid ?? false)
         {
             DizLazer?.Remove();
         }
         DizLazer = null;
+
         var players = GetPlayers(CsTeam.Terrorist).Where(x => x.PawnIsAlive).ToList();
         if (players.Count > 0)
         {

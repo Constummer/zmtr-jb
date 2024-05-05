@@ -10,6 +10,7 @@ public partial class JailbreakExtras
 {
     #region lr
 
+    [ConsoleCommand("lrcancel")]
     [ConsoleCommand("lriptal")]
     [ConsoleCommand("lrsil")]
     [ConsoleCommand("lrkaldir")]

@@ -62,6 +62,11 @@ public partial class JailbreakExtras
             {
                 return;
             }
+            if (player.PawnIsAlive == false)
+            {
+                player!.PrintToChat($"{Prefix} {CC.W}Bu komutu sadece hayatta olanlar kullanabilir.");
+                return;
+            }
             if (FFMenuCheck == true)
             {
                 if (_weapons.TryGetValue(option.Text, out var selectedWeapon))
