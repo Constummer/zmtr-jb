@@ -38,6 +38,8 @@ public partial class JailbreakExtras
             new(13, "SG 556 - Dual Baretta", "sg556", "elite"),
             new(14, "MAG-7 - Deagle", "mag7", "deagle"),
             new(15, "MAG-7 - Dual Baretta", "mag7", "elite"),
+            new(16, "M4A1-S - Deagle", "m4a1_silencer", "elite"),
+            new(17, "M4A1-S - Dual Baretta", "m4a1_silencer", "elite"),
         };
     }
 

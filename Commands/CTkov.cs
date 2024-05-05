@@ -13,7 +13,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("ctkov")]
     public void CTkov(CCSPlayerController? player, CommandInfo info)
     {
-        if (ValidateCallerPlayer(player) == false && LatestWCommandUser != player.SteamID)
+        if (ValidateCallerPlayer(player, true, false) == false && LatestWCommandUser != player.SteamID)
         {
             return;
         }

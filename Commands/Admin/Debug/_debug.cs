@@ -157,7 +157,36 @@ public partial class JailbreakExtras
         {
             return;
         }
-        player.PrintToCenterHtml("<img src='https://zmtr.org/assets/welcome.gif'></img>");
+        var t = AddTimer(0.1f, () =>
+        {
+            player.PrintToCenterHtml("<img src='https://zmtr.org/assets/welcome.gif'></img>");
+        }, Full);
+        AddTimer(30f, () =>
+        {
+            t.Kill();
+        }, SOM);
+    }
+
+    [ConsoleCommand("crgb")]
+    public void crgb(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        var t = AddTimer(0.1f, () =>
+          {
+              player.PrintToCenterHtml("<img src='https://zmtr.org/assets/rgb.jpg'></img>");
+          }, Full);
+        AddTimer(30f, () =>
+        {
+            t.Kill();
+        }, SOM);
     }
 
     [ConsoleCommand("cspawnweapon")]

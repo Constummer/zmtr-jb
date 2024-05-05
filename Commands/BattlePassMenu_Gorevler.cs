@@ -26,6 +26,7 @@ public partial class JailbreakExtras
                     var menu = new CenterHtmlMenu($"Battle Pass - {data2.Level} Level", this);
                     GetNextLvlOptions(menu, lvl);
                     data2.BuildLevelMenu(menu);
+                    GetRewardOptions(menu, data2);
                     MenuManager.OpenCenterHtmlMenu(this, player, menu);
                     PlayerBPMenus.AddOrUpdate(player.SteamID, lvl, (k, v) => lvl);
                 }
@@ -46,6 +47,7 @@ public partial class JailbreakExtras
                 var menu = new CenterHtmlMenu($"Battle Pass - {data2.Level} Level", this);
                 GetNextLvlOptions(menu, data2.Level);
                 data2.BuildLevelMenu(menu);
+                GetRewardOptions(menu, data2);
                 MenuManager.OpenCenterHtmlMenu(this, player, menu);
                 PlayerBPMenus.AddOrUpdate(player.SteamID, data2.Level, (k, v) => data2.Level);
             }
@@ -67,12 +69,29 @@ public partial class JailbreakExtras
             });
         }
 
+        void GetRewardOptions(CenterHtmlMenu menu, BattlePassBase lvl)
+        {
+            if (lvl.TP != 0)
+            {
+                menu.AddMenuOption($"Ödül - {lvl.TP} TP", null, true);
+            }
+            if (lvl.Credit != 0)
+            {
+                menu.AddMenuOption($"Ödül - {lvl.Credit} Kredi", null, true);
+            }
+            if (lvl.Other != null && lvl.Level == 25)
+            {
+                menu.AddMenuOption($"Ödül - Oyuncu Modeli", null, true);
+            }
+        }
+
         void OpenLvlMenu(CCSPlayerController? player, int lvl)
         {
             var data = GetBattlePassLevelConfig(lvl);
             var menu = new CenterHtmlMenu($"Battle Pass - {data.Level} Level", this);
             GetNextLvlOptions(menu, lvl);
             data.BuildLevelMenu(menu);
+            GetRewardOptions(menu, data);
             MenuManager.OpenCenterHtmlMenu(this, player, menu);
             PlayerBPMenus.AddOrUpdate(player.SteamID, lvl, (k, v) => lvl);
         }

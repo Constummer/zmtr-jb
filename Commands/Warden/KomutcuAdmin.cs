@@ -109,7 +109,7 @@ public partial class JailbreakExtras
         if (isSayTeam)
         {
             GetPlayers(team).ToList()
-                .ForEach(x => x.PrintToChat($" {deadStr} {CC.M}[Komutçu Admin] {teamStr} {teamColor}{player.PlayerName} {CC.W}: {chatColor}{info.GetArg(1)}"));
+                .ForEach(x => x.PrintToChat($" {deadStr} {teamStr} {CC.M}[Komutçu Admin] {teamColor}{player.PlayerName} {CC.W}: {chatColor}{info.GetArg(1)}"));
         }
         else
         {

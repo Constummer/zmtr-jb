@@ -32,6 +32,7 @@ public partial class JailbreakExtras
                     var menu = new CenterHtmlMenu($"Battle Pass Premium - {data2.Level} Level", this);
                     GetNextLvlOptions(menu, lvl);
                     data2.BuildLevelMenu(menu);
+                    GetRewardOptions(menu, data2);
                     MenuManager.OpenCenterHtmlMenu(this, player, menu);
                     PlayerBPPMenus.AddOrUpdate(player.SteamID, lvl, (k, v) => lvl);
                 }
@@ -52,12 +53,25 @@ public partial class JailbreakExtras
                 var menu = new CenterHtmlMenu($"Battle Pass Premium - {data2.Level} Level", this);
                 GetNextLvlOptions(menu, data2.Level);
                 data2.BuildLevelMenu(menu);
+                GetRewardOptions(menu, data2);
                 MenuManager.OpenCenterHtmlMenu(this, player, menu);
                 PlayerBPPMenus.AddOrUpdate(player.SteamID, data2.Level, (k, v) => data2.Level);
             }
             else
             {
                 OpenLvlMenu(player, 1);
+            }
+        }
+
+        void GetRewardOptions(CenterHtmlMenu menu, BattlePassPremiumBase lvl)
+        {
+            if (lvl.TP != 0)
+            {
+                menu.AddMenuOption($"Ödül - {lvl.TP} TP", null, true);
+            }
+            if (lvl.Credit != 0)
+            {
+                menu.AddMenuOption($"Ödül - {lvl.Credit} Kredi", null, true);
             }
         }
 
@@ -79,6 +93,7 @@ public partial class JailbreakExtras
             var menu = new CenterHtmlMenu($"Battle Pass Premium - {data.Level} Level", this);
             GetNextLvlOptions(menu, lvl);
             data.BuildLevelMenu(menu);
+            GetRewardOptions(menu, data);
             MenuManager.OpenCenterHtmlMenu(this, player, menu);
             PlayerBPPMenus.AddOrUpdate(player.SteamID, lvl, (k, v) => lvl);
         }

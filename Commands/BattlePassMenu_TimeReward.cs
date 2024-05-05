@@ -23,8 +23,9 @@ public partial class JailbreakExtras
 
         if (TimeRewardDatas.TryGetValue(player.SteamID, out var data))
         {
-            if (data.Completed)
+            if (data.CurrentTime >= data.Time)
             {
+                data.Completed = true;
                 player.PrintToChat($"{Prefix} {CC.W}Time Reward - {data.Level} levelini");
                 player.PrintToChat($"{Prefix} {CC.G}Tamamlamışsın. Tebrikler.");
                 if (data.Level != 31)
