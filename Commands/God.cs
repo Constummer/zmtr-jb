@@ -164,6 +164,7 @@ public partial class JailbreakExtras
         }
         if (ValidateCallerPlayer(player, false) == false) return;
         LogManagerCommand(player.SteamID, info.GetCommandString);
+        HookDisabled = false;
         GetPlayers(CsTeam.CounterTerrorist)
               .ToList()
               .ForEach(x =>
@@ -174,6 +175,7 @@ public partial class JailbreakExtras
         ForceOpenDoor();
         Server.PrintToChatAll($"{Prefix} {CC.W}Tüm kapılar açıldı!");
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.B}{CT_PluralCamelPrePosition} {CC.G}god {CC.W}verdi.");
+        Server.PrintToChatAll($"{Prefix}{CC.W} Hook açıldı.");
     }
 
     [ConsoleCommand("q", "godmode ct player")]

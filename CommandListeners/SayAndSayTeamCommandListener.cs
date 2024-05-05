@@ -1,5 +1,6 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
@@ -61,6 +62,20 @@ public partial class JailbreakExtras
 
         if (arg.StartsWith("!") || arg.StartsWith("/") || arg.StartsWith("css_"))
         {
+            if (csaytestActive && AdminManager.PlayerHasPermissions(player, "@css/root"))
+            {
+                Server.PrintToChatAll("arg=>" + arg);
+                var key = string.IsNullOrWhiteSpace(arg) ? "" : arg.Split(" ")[0];
+                if (key.StartsWith("!") || key.StartsWith("/") || key.StartsWith("css_"))
+                {
+                    key = key.Substring(1);
+                }
+                Server.PrintToChatAll("key=>" + key);
+
+                ExecuteCommand(key, player);
+                return HookResult.Handled;
+            }
+
             if (KomKalanIntercepter(player, arg))
             {
                 return HookResult.Handled;

@@ -77,7 +77,7 @@ public partial class JailbreakExtras
                 }
                 if (giveFists)
                 {
-                    x.GiveNamedItem("weapon_fists");
+                    x.GiveNamedItem("weapon_knife");
                 }
                 if (custom != null)
                 {
@@ -107,7 +107,7 @@ public partial class JailbreakExtras
                 }
                 if (giveFists)
                 {
-                    x.GiveNamedItem("weapon_fists");
+                    x.GiveNamedItem("weapon_knife");
                 }
                 if (custom != null)
                 {

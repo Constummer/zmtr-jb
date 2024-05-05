@@ -34,6 +34,93 @@ public partial class JailbreakExtras
         Server.PrintToConsole($"{LatestWCommandUser}");
     }
 
+    private bool csaytestActive = false;
+
+    [ConsoleCommand("csaytest")]
+    public void csaytest(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        csaytestActive = !csaytestActive;
+    }
+
+    [ConsoleCommand("csaytest2")]
+    public void csaytest2(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        Server.PrintToChatAll("csaytest2");
+        Server.PrintToChatAll($"_ =>{info.ArgString}");
+        Server.PrintToChatAll($"_ =>{info.ArgString.GetArg(0)}");
+    }
+
+    [ConsoleCommand("cprintall")]
+    public void cprintall(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        player.PrintToConsole("---------CommandHandlers------------");
+        foreach (var item in base.CommandHandlers.Keys)
+        {
+            player.PrintToConsole(item.GetType().Name);
+            player.PrintToConsole(item.GetType().FullName);
+            player.PrintToConsole(item.GetType().ToString());
+            player.PrintToConsole(item.Method.Name?.ToLower());
+            player.PrintToConsole("-");
+            player.PrintToConsole(item.GetType().BaseType.Name);
+            player.PrintToConsole(item.GetType().BaseType.FullName);
+            player.PrintToConsole(item.GetType().BaseType.ToString());
+            player.PrintToConsole("------");
+        }
+        player.PrintToConsole("--------Handlers-------------");
+        foreach (var item in base.Handlers.Keys)
+        {
+            player.PrintToConsole(item.GetType().Name);
+            player.PrintToConsole(item.GetType().FullName);
+            player.PrintToConsole(item.GetType().ToString());
+            player.PrintToConsole(item.Method.Name?.ToLower());
+            player.PrintToConsole("-");
+            player.PrintToConsole(item.GetType().BaseType.Name);
+            player.PrintToConsole(item.GetType().BaseType.FullName);
+            player.PrintToConsole(item.GetType().BaseType.ToString());
+            player.PrintToConsole("------");
+        }
+        player.PrintToConsole("--------CommandListeners-------------");
+        foreach (var item in base.CommandListeners.Keys)
+        {
+            player.PrintToConsole(item.GetType().Name);
+            player.PrintToConsole(item.GetType().FullName);
+            player.PrintToConsole(item.GetType().ToString());
+            player.PrintToConsole(item.Method.Name?.ToLower());
+            player.PrintToConsole("-");
+            player.PrintToConsole(item.GetType().BaseType.Name);
+            player.PrintToConsole(item.GetType().BaseType.FullName);
+            player.PrintToConsole(item.GetType().BaseType.ToString());
+            player.PrintToConsole("------");
+        }
+    }
+
     [ConsoleCommand("csut")]
     public void csut(CCSPlayerController? player, CommandInfo info)
     {
@@ -157,14 +244,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var t = AddTimer(0.1f, () =>
-        {
-            player.PrintToCenterHtml("<img src='https://zmtr.org/assets/welcome.gif'></img>");
-        }, Full);
-        AddTimer(30f, () =>
-        {
-            t.Kill();
-        }, SOM);
+        WelcomeMsgSpam(player);
     }
 
     [ConsoleCommand("crgb")]

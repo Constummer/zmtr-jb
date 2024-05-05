@@ -131,6 +131,14 @@ public partial class JailbreakExtras
     {
         foreach (var item in base.CommandHandlers.Keys)
         {
+            player.PrintToConsole(item.GetType().Name);
+            player.PrintToConsole(item.GetType().FullName);
+            player.PrintToConsole(item.GetType().ToString());
+            player.PrintToConsole("-");
+            player.PrintToConsole(item.GetType().BaseType.Name);
+            player.PrintToConsole(item.GetType().BaseType.FullName);
+            player.PrintToConsole(item.GetType().BaseType.ToString());
+            player.PrintToConsole("------");
             if (item.Method.Name?.ToLower() == key?.ToLower())
             {
                 Logger.LogInformation($"{item.Method.Name} event invoked.");

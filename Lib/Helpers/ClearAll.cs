@@ -75,6 +75,7 @@ public partial class JailbreakExtras
         UpdatePlayerBattlePassPremiumDataOnDisconnect(steamId);
         UpdatePlayerParachuteDataOnDisconnect(steamId);
 
+        _ = WelcomeMsgDatas?.Remove(steamId);
         _ = PlayerBPMenus?.Remove(steamId, out _);
         _ = PlayerBPPMenus?.Remove(steamId, out _);
         _ = BattlePassDatas?.Remove(steamId, out _);
