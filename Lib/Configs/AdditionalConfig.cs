@@ -51,6 +51,9 @@ public partial class JailbreakExtras
         [JsonPropertyName("TimeRewardActive")]
         public bool TimeRewardActive { get; set; } = true;
 
+        [JsonPropertyName("WelcomeActive")]
+        public bool WelcomeActive { get; set; } = true;
+
         [JsonPropertyName("RoundEndStartCommands")]
         public List<string> RoundEndStartCommands { get; set; } = new(){
             "mp_respawn_on_death_t 0",

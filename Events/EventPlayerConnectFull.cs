@@ -56,6 +56,10 @@ public partial class JailbreakExtras
             var tempPlayerName = @event?.Userid?.PlayerName;
             var tempUserId = @event?.Userid?.UserId;
             _ClientQueue.Enqueue(new(tempSteamId ?? 0, tempUserId, tempPlayerName, QueueItemType.OnClientConnect));
+            if (Config.Additional.WelcomeActive && @event?.Userid != null && is_valid(@event?.Userid))
+            {
+                WelcomeMsgSpam(@event?.Userid);
+            }
 
             return HookResult.Continue;
         });
