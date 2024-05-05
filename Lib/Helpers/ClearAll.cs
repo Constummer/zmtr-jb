@@ -5,6 +5,8 @@ public partial class JailbreakExtras
     private void ClearAll()
     {
         SutolCommandCallForBPs?.Clear();
+        JumpCount?.Clear();
+        JumpCountActive = false;
         SutolCommandCalls?.Clear();
         SinirsizXKapaAction("@all", null);
         CountdownText = "";
