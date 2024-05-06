@@ -1,5 +1,4 @@
-﻿using CounterStrikeSharp.API;
-using MySqlConnector;
+﻿using MySqlConnector;
 using Newtonsoft.Json;
 
 namespace JailbreakExtras;

@@ -2,10 +2,8 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Entities;
 using Microsoft.Extensions.Logging;
 using MySqlConnector;
-using System.Numerics;
 using System.Text.Json;
 using System.Text.Json.Serialization;
 

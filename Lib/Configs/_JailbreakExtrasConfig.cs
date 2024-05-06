@@ -1,7 +1,4 @@
-﻿using CounterStrikeSharp.API.Core;
-using JailbreakExtras.Lib.Configs;
-using Microsoft.Extensions.Logging;
-using System.Drawing;
+﻿using JailbreakExtras.Lib.Configs;
 using System.Text.Json.Serialization;
 
 namespace JailbreakExtras;
