@@ -41,7 +41,7 @@ public partial class JailbreakExtras
             {
                 player.PrintToChat($"{Prefix} {CC.W}Battle Pass Premium - {data.Level} levelini");
                 player.PrintToChat($"{Prefix} {CC.G}Tamamlamışsın. Tebrikler.");
-                if (data.Level != 21)
+                if (data.Level != 16)
                 {
                     player.PrintToChat($"{Prefix} {CC.W}yapman gereken {data.Level + 1} level görevleri görebilirsin.");
                     BattlePassPremiumBase.GiveReward(data, player);

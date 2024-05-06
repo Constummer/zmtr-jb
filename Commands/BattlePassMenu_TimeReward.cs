@@ -1,6 +1,5 @@
 ﻿using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
-using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Menu;
 
@@ -9,6 +8,7 @@ namespace JailbreakExtras;
 public partial class JailbreakExtras
 {
     [ConsoleCommand("tr")]
+    [ConsoleCommand("odul")]
     [ConsoleCommand("timereward")]
     [ConsoleCommand("treward")]
     [ConsoleCommand("timer")]

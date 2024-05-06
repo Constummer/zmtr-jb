@@ -37,7 +37,7 @@ public partial class JailbreakExtras
                             WriteIndented = true,
                             Encoder = System.Text.Encodings.Web.JavaScriptEncoder.UnsafeRelaxedJsonEscaping
                         });
-        var savePath = Path.Combine(ContentRootPath, $"{Server.MapName}.json");
+        var savePath = Path.Combine(ContentRootPath, $"pubg_{Server.MapName}.json");
 
         File.WriteAllText(savePath, serialized);
         BulletImpactVectors?.Clear();

@@ -8,14 +8,14 @@ public partial class JailbreakExtras
 
     internal void CreateDataFolder()
     {
-        //var contentRootPath = ModulePath.Replace(
-        //    ModulePath.Split(new[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }).Last(), "datas");
+        var contentRootPath = ModulePath.Replace(
+            ModulePath.Split(new[] { Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar }).Last(), "datas");
 
-        //if (!Directory.Exists(contentRootPath))
-        //{
-        //    Directory.CreateDirectory(contentRootPath);
-        //}
-        //ContentRootPath = contentRootPath;
+        if (!Directory.Exists(contentRootPath))
+        {
+            Directory.CreateDirectory(contentRootPath);
+        }
+        ContentRootPath = contentRootPath;
     }
 
     private static List<ulong> WelcomeMsgDatas = new();

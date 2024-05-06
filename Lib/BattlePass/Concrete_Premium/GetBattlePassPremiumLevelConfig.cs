@@ -22,11 +22,6 @@ public partial class JailbreakExtras
             14 => new BattlePassPremium_Level14(),
             15 => new BattlePassPremium_Level15(),
             16 => new BattlePassPremium_Level16(),
-            17 => new BattlePassPremium_Level17(),
-            18 => new BattlePassPremium_Level18(),
-            19 => new BattlePassPremium_Level19(),
-            20 => new BattlePassPremium_Level20(),
-            21 => new BattlePassPremium_Level21(),
             _ => null
         };
     }
