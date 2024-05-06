@@ -189,7 +189,7 @@ public partial class JailbreakExtras
 
             if (int.TryParse(voteNoStr, out var voteNo))
             {
-                if (voteNo < 1 || voteNo > 5)
+                if (voteNo < 1 || voteNo > 7)
                 {
                     return false;
                 }
