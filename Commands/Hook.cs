@@ -26,11 +26,15 @@ public partial class JailbreakExtras
 
         if (LatestWCommandUser != player.SteamID)
         {
-            if (HookPlayers.TryGetValue(player.SteamID, out bool canUse) == false)
+            if (HookPlayers.ContainsKey(player.SteamID) == false)
             {
                 if (OnCommandValidater(player, true, "@css/seviye30", "@css/seviye30") == false)
                 {
                     if (PlayerTimeTracking.TryGetValue(player.SteamID, out var item) == false)
+                    {
+                        return;
+                    }
+                    if (!HasPerm(player.SteamID, "@css/komutcu"))
                     {
                         return;
                     }
@@ -221,21 +225,15 @@ public partial class JailbreakExtras
         return;
     }
 
+    private static int CTWin = 0;
+    private static int TWin = 0;
+
     private string GetHookText()
     {
         try
         {
-            var ent = Utilities.FindAllEntitiesByDesignerName<CCSTeam>("cs_team_manager");
-            int ctScore = ent.Where(team => team.Teamname == "CT")
-                             .Select(team => team.Score)
-                             .FirstOrDefault();
-
-            int tScore = ent.Where(team => team.Teamname == "TERRORIST")
-                            .Select(team => team.Score)
-                            .FirstOrDefault();
-
             TimeSpan remainingTime = TimeSpan.FromMinutes(60) - ((DateTime.UtcNow - RoundStartTime));
-            return $"{ctScore} - {tScore} | {(new DateTime(remainingTime.Ticks).ToString("mm:ss"))}";
+            return $"{CTWin} - {TWin} | {(new DateTime(remainingTime.Ticks).ToString("mm:ss"))}";
         }
         catch (Exception)
         {

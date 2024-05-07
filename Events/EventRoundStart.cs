@@ -26,6 +26,21 @@ public partial class JailbreakExtras
             Server.ExecuteCommand("mp_equipment_reset_rounds 1");
             Server.ExecuteCommand("mp_t_default_secondary \"\" ");
             Ruletv2RoundStart();
+            try
+            {
+                var ent = Utilities.FindAllEntitiesByDesignerName<CCSTeam>("cs_team_manager");
+                CTWin = ent.Where(team => team.Teamname == "CT")
+                                 .Select(team => team.Score)
+                                 .FirstOrDefault();
+
+                TWin = ent.Where(team => team.Teamname == "TERRORIST")
+                                .Select(team => team.Score)
+                                .FirstOrDefault();
+            }
+            catch (Exception e)
+            {
+            }
+
             ClearAll();
             CoinAfterNewCommander();
             AddTimer(1.0f, () =>
