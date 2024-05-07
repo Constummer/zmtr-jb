@@ -30,24 +30,15 @@ public partial class JailbreakExtras
             return;
         }
 
-        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
-        if (target == null)
+        var target = info.ArgString.GetArgSkip(0);
+        if (FindSinglePlayer(player, target, out var x) == false || ValidateCallerPlayer(x, false) == false)
         {
             return;
         }
         LogManagerCommand(player.SteamID, info.GetCommandString);
-
-        GetPlayers()
-            .Where(x => x.PlayerName?.ToLower()?.Contains(target?.ToLower()) ?? false
-            || GetUserIdIndex(target) == x.UserId
-            || x.SteamID.ToString() == target)
-            .ToList()
-            .ForEach(x =>
-            {
-                Bans.Remove(x.SteamID, out var _);
-                RemoveBanData(x.SteamID);
-                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W} Banını kaldırdı.");
-            });
+        Bans.Remove(x.SteamID, out var _);
+        RemoveBanData(x.SteamID);
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W} Banını kaldırdı.");
     }
 
     [ConsoleCommand("ban")]
@@ -65,24 +56,11 @@ public partial class JailbreakExtras
             return;
         }
 
-        var target = info.ArgString.GetArg(0);
-
-        var players = GetPlayers()
-                      .Where(x => GetTargetAction(x, target, player))
-                      .ToList();
-
-        if (players.Count == 0)
+        var target = info.ArgString.GetArgSkip(0);
+        if (FindSinglePlayer(player, target, out var x) == false || ValidateCallerPlayer(x, false) == false)
         {
-            player.PrintToChat($"{Prefix} {CC.W}Eşleşen oyuncu bulunamadı!");
             return;
         }
-        if (players.Count != 1)
-        {
-            player.PrintToChat($"{Prefix} {CC.W}Birden fazla oyuncu bulundu.");
-
-            return;
-        }
-        var x = players.FirstOrDefault();
         LogManagerCommand(player.SteamID, info.GetCommandString);
 
         if (value <= 0)

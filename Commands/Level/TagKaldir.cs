@@ -71,6 +71,7 @@ public partial class JailbreakExtras
                 Utilities.SetStateChanged(x, "CCSPlayerController", "m_szClan");
                 Utilities.SetStateChanged(x, "CBasePlayerController", "m_iszPlayerName");
             }, SOM);
+            player.PrintToChat($"{Prefix} {CC.B}{x.PlayerName}{CC.W} Adlı oyuncunun tagını kapattın.");
             x.PrintToChat($"{AdliAdmin(player.PlayerName)}{CC.B} SEVIYE {CC.W} tagini kapatti.");
         }
     }

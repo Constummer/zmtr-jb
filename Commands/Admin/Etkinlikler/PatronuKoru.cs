@@ -98,7 +98,12 @@ public partial class JailbreakExtras
         HookDisabled = true;
         Server.ExecuteCommand($"sv_enablebunnyhopping 0;sv_autobunnyhopping 0");
         Server.ExecuteCommand("mp_autoteambalance 1");
+        Server.ExecuteCommand("mp_forcecamera 1");
         Model0Action();
+        Global?.AddTimer(3f, () =>
+        {
+            Model0Action();
+        });
     }
 
     private void SetPatronuKoruLider(CsTeam team, CCSPlayerController? player)

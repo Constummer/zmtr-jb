@@ -22,5 +22,6 @@ public partial class JailbreakExtras
         EventItemPickup();
         EventBombPickup();
         EventCsWinPanelRound();
+        //EventSpecTargetUpdated();
     }
 }

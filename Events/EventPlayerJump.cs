@@ -1,3 +1,4 @@
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 
 namespace JailbreakExtras;
@@ -12,13 +13,16 @@ public partial class JailbreakExtras
             {
                 if (ValidateCallerPlayer(@event.Userid, false))
                 {
-                    if (BattlePassDatas.TryGetValue(@event.Userid.SteamID, out var data))
+                    if ((@event.Userid.Buttons & PlayerButtons.Jump) != 0)
                     {
-                        data.OnEventPlayerJump();
-                    }
-                    if (BattlePassPremiumDatas.TryGetValue(@event.Userid.SteamID, out var battlePassPremiumData))
-                    {
-                        battlePassPremiumData?.OnEventPlayerJump();
+                        if (BattlePassDatas.TryGetValue(@event.Userid.SteamID, out var data))
+                        {
+                            data.OnEventPlayerJump();
+                        }
+                        if (BattlePassPremiumDatas.TryGetValue(@event.Userid.SteamID, out var battlePassPremiumData))
+                        {
+                            battlePassPremiumData?.OnEventPlayerJump();
+                        }
                     }
                     if (JumpCountActive)
                     {
