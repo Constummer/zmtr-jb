@@ -15,7 +15,6 @@ public partial class JailbreakExtras
         var total = 0;
         foreach (var second in jumpPerSecondDatas)
         {
-            Server.PrintToChatAll($"{second.Key}_{second.Value}");
             if (second.Value > 3)
             {
                 total += 3;
