@@ -19,7 +19,7 @@ public partial class JailbreakExtras
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooGiveCreditTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooSaveCreditTimer { get; set; } = null;
     public CounterStrikeSharp.API.Modules.Timers.Timer? FooBattlePassTimer { get; set; } = null;
-
+    public CounterStrikeSharp.API.Modules.Timers.Timer? FooBattlePassPlayerJumpSaveTimer { get; set; } = null;
     public static TimeOnly MaintenanceTimer { get => new TimeOnly(6, 54); }
     public static TimeOnly MaintenanceGameTimer { get => new TimeOnly(6, 29); }
     public static TimeOnly MaintenanceTimer2 { get => new TimeOnly(7, 01); }
@@ -38,6 +38,7 @@ public partial class JailbreakExtras
         #region BattlePass
 
         FooBattlePassTimer = BattlePassTimer();
+        FooBattlePassPlayerJumpSaveTimer = BattlePassPlayerJumpSaveTimer();
 
         #endregion BattlePass
 

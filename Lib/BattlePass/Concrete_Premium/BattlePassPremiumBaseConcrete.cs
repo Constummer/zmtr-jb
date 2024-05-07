@@ -45,7 +45,7 @@ public partial class JailbreakExtras
             menu.AddMenuOption($"{(int)(CurrentTime / 60)}/{(int)(Time / 60)} Saat", null, true);
         }
 
-        internal virtual void OnEventPlayerJump()
+        internal virtual void OnEventPlayerJump(int jumpAmount)
         {
         }
 

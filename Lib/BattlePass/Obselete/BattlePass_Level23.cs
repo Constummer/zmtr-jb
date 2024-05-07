@@ -16,10 +16,10 @@ public partial class JailbreakExtras
         {
         }
 
-        internal override void OnEventPlayerJump()
+        internal override void OnEventPlayerJump(int jumpAmount)
         {
-            CurrentJump++;
-            base.OnEventPlayerJump();
+            CurrentJump += jumpAmount;
+            base.OnEventPlayerJump(jumpAmount);
             CheckIfLevelUp(false);
         }
 
