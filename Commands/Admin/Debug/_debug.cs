@@ -19,6 +19,27 @@ public partial class JailbreakExtras
         Server.PrintToChatAll(msg);
     }
 
+    [ConsoleCommand("crename")]
+    public void crename(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+
+        player.PlayerName = "test";
+        Global?.AddTimer(0.2f, () =>
+        {
+            if (ValidateCallerPlayer(player, false) == false) return;
+            Utilities.SetStateChanged(player, "CCSPlayerController", "m_iszPlayerName");
+        }, SOM);
+    }
+
     [ConsoleCommand("cwarden")]
     public void cwarden(CCSPlayerController? player, CommandInfo info)
     {

@@ -42,6 +42,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("taginikaldir")]
     [ConsoleCommand("taginikapat")]
     [ConsoleCommand("taginisil")]
+    [CommandHelper(1, "<Seviye tagi kaldirilacak kişi>")]
     public void TaginiKaldir(CCSPlayerController? player, CommandInfo info)
     {
         if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
@@ -54,7 +55,6 @@ public partial class JailbreakExtras
             return;
         }
         var target = info.ArgString.GetArgSkip(0);
-
         if (FindSinglePlayer(player, target, out var x) == false || ValidateCallerPlayer(x, false) == false)
         {
             return;
@@ -71,7 +71,7 @@ public partial class JailbreakExtras
                 Utilities.SetStateChanged(x, "CCSPlayerController", "m_szClan");
                 Utilities.SetStateChanged(x, "CBasePlayerController", "m_iszPlayerName");
             }, SOM);
-            x.PrintToChat($"{AdliAdmin(player.PlayerName)}{CC.B} tagini {CC.W} kapatti.");
+            x.PrintToChat($"{AdliAdmin(player.PlayerName)}{CC.B} SEVIYE {CC.W} tagini kapatti.");
         }
     }
 
