@@ -63,6 +63,6 @@ public partial class JailbreakExtras
         public LevelConfig Level { get; set; } = new LevelConfig();
 
         [JsonIgnore]
-        public TgGameConfig TgGame { get; set; } = new TgGameConfig();
+        public PubgConfig Pubg { get; set; } = new PubgConfig();
     }
 }

@@ -69,14 +69,14 @@ public partial class JailbreakExtras
         private static Dictionary<ulong, VectorTemp>? GetTpPoints()
         {
             PlayerCount = GetPlayers(CsTeam.Terrorist).Where(x => x.PawnIsAlive).Select(x => x.SteamID).ToList();
-            if (_Config.TgGame.PubgCoords.TryGetValue(Server.MapName, out var coordsList))
+            if (_Config.Pubg.PubgCoords.TryGetValue(Server.MapName, out var coordsList))
             {
                 if (coordsList == null) return null;
                 if (coordsList.Count == 0) return null;
                 if (coordsList.Count < PlayerCount.Count) return null;
 
                 // Make a copy of list1 to avoid modifying the original list
-                List<CoordinateTemplate> remainingElements = new List<CoordinateTemplate>(coordsList);
+                List<VectorTemp> remainingElements = new List<VectorTemp>(coordsList);
 
                 // Shuffle the remainingElements list to randomize the order
                 remainingElements = ShuffleList(remainingElements);
@@ -102,7 +102,7 @@ public partial class JailbreakExtras
             return list;
         }
 
-        private static Dictionary<ulong, VectorTemp>? PairLists(List<CoordinateTemplate>? coords, List<ulong> players)
+        private static Dictionary<ulong, VectorTemp>? PairLists(List<VectorTemp>? coords, List<ulong> players)
         {
             if (coords == null) return null;
             Dictionary<ulong, VectorTemp> pairings = new Dictionary<ulong, VectorTemp>();
@@ -111,7 +111,7 @@ public partial class JailbreakExtras
             {
                 if (i < coords.Count)
                 {
-                    pairings.Add(players[i], coords[i]?.Coords ?? new(0, 0, 0));
+                    pairings.Add(players[i], coords[i] ?? new(0, 0, 0));
                 }
                 else
                 {

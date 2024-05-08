@@ -82,7 +82,7 @@ public partial class JailbreakExtras : BasePlugin
     public override void Unload(bool hotReload)
     {
         //EmitSoundExtension.CleanUp();
-        CCSPlayer_CanAcquireFunc.Unhook(OnWeaponCanAcquire, HookMode.Pre);
+        CCSPlayer_CanAcquireFunc?.Unhook(OnWeaponCanAcquire, HookMode.Pre);
         base.Unload(hotReload);
     }
 }

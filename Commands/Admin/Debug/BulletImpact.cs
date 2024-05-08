@@ -26,7 +26,7 @@ public partial class JailbreakExtras
             return;
         }
         BulletImpactActive = false;
-        var data = new
+        var data = new PubgConfigConverted
         {
             MapName = Server.MapName,
             Data = BulletImpactVectors

@@ -4,7 +4,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    public void ceventbulletimpactwithsave()
+    public void AllEvents()
     {
         RegisterEventHandler<EventBombDropped>((@event, _) => HookResult.Continue);
         RegisterEventHandler<EventAchievementEarned>((@event, _) => HookResult.Continue);
