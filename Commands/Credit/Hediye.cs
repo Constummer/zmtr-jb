@@ -28,9 +28,7 @@ public partial class JailbreakExtras
             }
         }
 
-        if (info.ArgCount != 3) return;
-        var target = info.ArgString.GetArg(0);
-        if (!int.TryParse(info.ArgString.GetArg(1), out var miktar) || miktar <= 0)
+        if (!int.TryParse(info.ArgString.GetArgLast(), out var miktar) || miktar <= 0)
         {
             player.PrintToChat($"{Prefix} {CC.W}Miktar yanlış!");
             return;
@@ -41,20 +39,11 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.W}Yetersiz Bakiye!");
             return;
         }
-        var players = GetPlayers()
-               .Where(x => GetTargetAction(x, target, player))
-               .ToList();
-        if (players.Count == 0)
+        var target = info.ArgString.GetArgSkipFromLast(1);
+        if (FindSinglePlayer(player, target, out var x) == false || ValidateCallerPlayer(x, false) == false)
         {
-            player.PrintToChat($"{Prefix} {CC.W}Eşleşen oyuncu bulunamadı!");
             return;
         }
-        if (players.Count != 1)
-        {
-            player.PrintToChat($"{Prefix} {CC.W}Birden fazla oyuncu bulundu.");
-            return;
-        }
-        var x = players.FirstOrDefault();
         LogManagerCommand(player.SteamID, info.GetCommandString);
 
         if (x?.SteamID != null && x!.SteamID != 0)

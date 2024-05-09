@@ -1,3 +1,4 @@
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
 
@@ -21,10 +22,20 @@ public partial class JailbreakExtras : BasePlugin
 
     public static JailbreakExtrasConfig _Config { get; set; } = new JailbreakExtrasConfig();
 
+    public HookResult OnSpecTargetUpdated(EventSpecTargetUpdated @event, GameEventInfo info)
+    {
+        if (@event == null) return HookResult.Continue;
+
+        Server.PrintToChatAll($"{@event.EventName}");
+        Server.PrintToChatAll($"{@event.Target}");
+        return HookResult.Continue;
+    }
+
     public override void Load(bool hotReload)
     {
         Global = this;
         //!!!!DO NOT CHANGE ORDER OF CALLS IN THIS METHOD !!!!!
+        RegisterEventHandler<EventSpecTargetUpdated>(OnSpecTargetUpdated, HookMode.Pre);
 
         #region System Releated
 

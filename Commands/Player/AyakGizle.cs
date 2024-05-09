@@ -33,7 +33,7 @@ public partial class JailbreakExtras
         player!.PrintToChat($"{Prefix} {CC.G}Ayakların artık gözüküyor!");
     }
 
-    private void AyakGizle(CCSPlayerController player, bool refreshTp = false)
+    private void AyakGizle(CCSPlayerController player, bool refreshTp = false, bool prntmsg = true)
     {
         player!.PlayerPawn.Value!.Render = Color.FromArgb(254, 254, 254, 254);
         if (refreshTp == false)
@@ -43,7 +43,8 @@ public partial class JailbreakExtras
         }
         else
         {
-            player!.PrintToChat($" {CC.G}[ZMTR] {CC.DR}Ayaklarını gizlemek için !ayakgizle, göstermek için !ayakgoster");
+            if (prntmsg)
+                player!.PrintToChat($" {CC.G}[ZMTR] {CC.DR}Ayaklarını gizlemek için !ayakgizle, göstermek için !ayakgoster");
         }
     }
 

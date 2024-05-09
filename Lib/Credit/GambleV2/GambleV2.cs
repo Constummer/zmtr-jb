@@ -181,12 +181,11 @@ public partial class JailbreakExtras
                         UPDATE `PlayerGambleData`
                         SET `Expired` = 1,
                             `ExpiredTime` = @EndTime
-                            WHERE `GambleDataId` = @Id and `ExpiredTime` = @ExpiredTime;", con);
+                            WHERE `GambleDataId` = @Id and `ExpiredTime` is null;", con);
 
                     cmd.Parameters.AddWithValue("@Id", LastGambleDataId.GetDbValue());
                     cmd.Parameters.AddWithValue("@EndTime", DateTime.UtcNow.AddHours(3));
                     cmd.Parameters.AddWithValue("@Winner", kazananRenk.GetDbValue());
-                    cmd.Parameters.AddWithValue("@ExpiredTime", DBNull.Value);
 
                     cmd.ExecuteNonQuery();
                 }

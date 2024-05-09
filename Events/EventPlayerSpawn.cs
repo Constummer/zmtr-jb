@@ -66,7 +66,7 @@ public partial class JailbreakExtras
                     {
                         if (ValidateCallerPlayer(x, false))
                         {
-                            AyakGizle(x, true);
+                            AyakGizle(x, true, false);
                         }
                     }
                     else

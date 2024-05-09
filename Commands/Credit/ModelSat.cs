@@ -9,6 +9,9 @@ public partial class JailbreakExtras
 {
     [ConsoleCommand("modelsat")]
     [ConsoleCommand("satmodel")]
+    [ConsoleCommand("iade")]
+    [ConsoleCommand("marketiade")]
+    [ConsoleCommand("modeliade")]
     public void ModelSat(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player, false) == false)
