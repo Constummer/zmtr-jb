@@ -43,5 +43,29 @@ public partial class JailbreakExtras
         }
     }
 
+    private void ForceRemoveEntity(string name, string entityName)
+    {
+        var target = Utilities.FindAllEntitiesByDesignerName<CBaseEntity>(name);
+
+        foreach (var ent in target)
+        {
+            if (!ent.IsValid)
+            {
+                continue;
+            }
+
+            if (string.IsNullOrEmpty(entityName) == false)
+            {
+                if (ent.Entity != null
+                && ent.Entity.Name != entityName)
+                {
+                    continue;
+                }
+            }
+
+            ent.Remove();
+        }
+    }
+
     #endregion KapiAcKapat
 }

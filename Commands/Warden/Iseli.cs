@@ -124,10 +124,30 @@ public partial class JailbreakExtras
         IseliTimer?.Kill();
         IseliTimer = AddTimer(value, () =>
         {
-            ForceOpenDoor();
+            ForceRemoveDoors();
             RespawnKapatAction();
             IsEliMenuCheck = false;
         }, SOM);
+    }
+
+    private void ForceRemoveDoors()
+    {
+        if (Config.Map.MapConfigDatums.TryGetValue(Server.MapName, out var list)
+          && list != null && list.KapiAcKapaList != null && list.KapiAcKapaList.Count > 0)
+        {
+            foreach (var item in list.KapiAcKapaList)
+            {
+                ForceRemoveEntity(item.Value, item.Key);
+            }
+        }
+        else
+        {
+            ForceEntInput("func_door", "Open");
+            ForceEntInput("func_movelinear", "Open");
+            ForceEntInput("func_door_rotating", "Open");
+            ForceEntInput("prop_door_rotating", "Open");
+            ForceEntInput("func_breakable", "Break");
+        }
     }
 
     private static void IsEliWardenNotify()

@@ -31,7 +31,7 @@ public partial class JailbreakExtras
         ForceCloseDoor();
     }
 
-    private void ForceEntInput(String name, String input, string entityName = null)
+    private void ForceEntInput(string name, string input, string entityName = null)
     {
         var target = Utilities.FindAllEntitiesByDesignerName<CBaseEntity>(name);
 
