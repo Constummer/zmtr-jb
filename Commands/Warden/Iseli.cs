@@ -142,11 +142,11 @@ public partial class JailbreakExtras
         }
         else
         {
-            ForceEntInput("func_door", "Open");
-            ForceEntInput("func_movelinear", "Open");
-            ForceEntInput("func_door_rotating", "Open");
-            ForceEntInput("prop_door_rotating", "Open");
-            ForceEntInput("func_breakable", "Break");
+            ForceRemoveEntity("func_door");
+            ForceRemoveEntity("func_movelinear");
+            ForceRemoveEntity("func_door_rotating");
+            ForceRemoveEntity("prop_door_rotating");
+            ForceRemoveEntity("func_breakable");
         }
     }
 
