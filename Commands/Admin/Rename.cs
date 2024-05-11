@@ -25,7 +25,7 @@ public partial class JailbreakExtras
         }
         var target = info.ArgString.GetArgSkipFromLast(1);
         var newName = info.ArgString.GetArgLast();
-        if (FindSinglePlayer(player, target, out var x) == false || ValidateCallerPlayer(x, false) == false)
+        if (FindSinglePlayer(player, target, out var x) == false)
         {
             return;
         }

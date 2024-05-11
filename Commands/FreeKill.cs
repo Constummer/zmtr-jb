@@ -25,7 +25,7 @@ public partial class JailbreakExtras
             return;
         }
         var target = info.ArgString.GetArgSkip(0);
-        if (FindSinglePlayer(player, target, out var z) == false || ValidateCallerPlayer(z, false) == false)
+        if (FindSinglePlayer(player, target, out var z) == false)
         {
             if (KilledPlayers.TryGetValue(player.SteamID, out var killedPlayers))
             {

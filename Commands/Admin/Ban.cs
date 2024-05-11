@@ -31,7 +31,7 @@ public partial class JailbreakExtras
         }
 
         var target = info.ArgString.GetArgSkip(0);
-        if (FindSinglePlayer(player, target, out var x) == false || ValidateCallerPlayer(x, false) == false)
+        if (FindSinglePlayer(player, target, out var x) == false)
         {
             return;
         }
@@ -57,7 +57,7 @@ public partial class JailbreakExtras
         }
 
         var target = info.ArgString.GetArgSkip(0);
-        if (FindSinglePlayer(player, target, out var x) == false || ValidateCallerPlayer(x, false) == false)
+        if (FindSinglePlayer(player, target, out var x) == false)
         {
             return;
         }

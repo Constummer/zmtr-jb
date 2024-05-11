@@ -9,7 +9,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static List<CFuncWall> Cits = new();
+    private static SelfAdjustingQueue<CFuncWall> Cits = new(64);
     private static Dictionary<ulong, string> CitEnabledPlayers = new();
 
     [ConsoleCommand("citac")]
@@ -112,14 +112,14 @@ public partial class JailbreakExtras
     {
         if (Cits != null)
         {
-            foreach (var item in Cits)
+            foreach (var item in Cits.ToList())
             {
                 if (item.IsValid)
                 {
                     item.Remove();
                 }
             }
-            Cits.Clear();
+            Cits = new(64);
             if (displayMsg)
             {
                 Server.PrintToChatAll($"{Prefix}{CC.DR} Tüm çitler silindi.");
@@ -149,6 +149,6 @@ public partial class JailbreakExtras
         cit.DispatchSpawn();
 
         cit.SetModel(citPath);
-        Cits.Add(cit);
+        Cits.Enqueue(cit);
     }
 }

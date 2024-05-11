@@ -19,23 +19,11 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var target = info.ArgString;
-        var targetArgument = GetTargetArgument(target);
-        var players = GetPlayers()
-               .Where(x => x.PawnIsAlive == false && GetTargetAction(x, target, player))
-               .ToList();
-        if (players.Count == 0)
+        var target = info.ArgString.GetArgSkip(0);
+        if (FindSinglePlayer(player, target, out var x, (y => y.PawnIsAlive)) == false)
         {
-            player.PrintToChat($"{Prefix} {CC.W}Eşleşen oyuncu bulunamadı!");
             return;
         }
-        if (players.Count != 1)
-        {
-            player.PrintToChat($"{Prefix} {CC.W}Birden fazla oyuncu bulundu.");
-            return;
-        }
-        var x = players.FirstOrDefault();
-        if (ValidateCallerPlayer(x, false) == false) return;
         LogManagerCommand(player.SteamID, info.GetCommandString);
 
         RespawnPlayer(x);
