@@ -43,12 +43,8 @@ public partial class JailbreakExtras
         LogManagerCommand(player.SteamID, info.GetCommandString);
         KomutcuAdminId = null;
         x.Clan = null;
-        AddTimer(0.2f, () =>
-        {
-            if (ValidateCallerPlayer(x, false) == false) return;
-            Utilities.SetStateChanged(x, "CCSPlayerController", "m_szClan");
-            Utilities.SetStateChanged(x, "CBasePlayerController", "m_iszPlayerName");
-        }, SOM);
+        SetStatusClanTag(x);
+
         Server.PrintToChatAll($"{Prefix} {CC.B}{x.PlayerName} {CC.P} [Komutçu Admin]{CC.W}'likten çıkartıldı");
     }
 

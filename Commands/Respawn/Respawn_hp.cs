@@ -17,28 +17,17 @@ public partial class JailbreakExtras
     {
         if (ValidateCallerPlayer(player) == false) return;
 
-        var target = info.ArgString.GetArg(0);
-        if (!int.TryParse(info.ArgString.GetArg(1), out var health) || health < 1)
+        if (!int.TryParse(info.ArgString.GetArgLast(), out var miktar) || miktar <= 0)
         {
             player!.PrintToChat($"{Prefix}{CC.G} Can değeri yanlış!");
             return;
         }
-        var targetArgument = GetTargetArgument(target);
-        var players = GetPlayers()
-                 .Where(x => GetTargetAction(x, target, player))
-                 .ToList();
 
-        if (players.Count == 0)
+        var target = info.ArgString.GetArgSkipFromLast(1);
+        if (FindSinglePlayer(player, target, out var x) == false)
         {
-            player.PrintToChat($"{Prefix} {CC.W}Eşleşen oyuncu bulunamadı!");
             return;
         }
-        if (players.Count != 1)
-        {
-            player.PrintToChat($"{Prefix} {CC.W}Birden fazla oyuncu bulundu.");
-            return;
-        }
-        var x = players.FirstOrDefault();
 
         if (x.PawnIsAlive == false)
         {
@@ -47,7 +36,7 @@ public partial class JailbreakExtras
         }
         LogManagerCommand(player.SteamID, info.GetCommandString);
 
-        ResGelHpAction(x, health, player.PlayerName);
+        ResGelHpAction(x, miktar, player.PlayerName);
     }
 
     private void ResGelHpAction(CCSPlayerController? player, int health, string adminName)

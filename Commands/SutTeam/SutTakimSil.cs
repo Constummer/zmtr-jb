@@ -42,12 +42,8 @@ public partial class JailbreakExtras
             SutTeamPlayers.Remove(y.SteamID);
             RemovePlayerSutteamData(y.SteamID);
             y.Clan = null;
-            AddTimer(0.2f, () =>
-            {
-                if (ValidateCallerPlayer(y, false) == false) return;
-                Utilities.SetStateChanged(y, "CCSPlayerController", "m_szClan");
-                Utilities.SetStateChanged(y, "CBasePlayerController", "m_iszPlayerName");
-            }, SOM);
+            SetStatusClanTag(y);
+
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.B} {y.PlayerName}{CC.W} adlı oyuncuyu {CC.R}[Süt Team]{CC.W}'dan çıkardı");
         }
     }

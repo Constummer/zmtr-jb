@@ -38,6 +38,8 @@ public partial class JailbreakExtras
                             }, SOM);
                     }
                 }
+                SetStatusClanTag(@event.Userid);
+
                 var tempUserId = @event?.Userid?.UserId;
                 var tempSteamId = @event?.Userid?.SteamID;
                 if (tempSteamId.HasValue)
@@ -48,6 +50,23 @@ public partial class JailbreakExtras
                     });
 
                     CreateAuraParticle(tempSteamId.Value);
+                }
+                if (x.PawnIsAlive && get_health(x) > 0)
+                {
+                    if (LatestWCommandUser == x.SteamID)
+                    {
+                        if (ValidateCallerPlayer(x, false))
+                        {
+                            SetColour(x, Color.FromArgb(255, 0, 0, 255));
+                        };
+                    }
+                    else
+                    {
+                        if (ValidateCallerPlayer(x, false))
+                        {
+                            SetColour(x, DefaultColor);
+                        };
+                    }
                 }
                 AddTimer(3f, () =>
                 {

@@ -29,12 +29,8 @@ public partial class JailbreakExtras
             LevelTagDisabledPlayers.Add(player.SteamID);
             UpdatePlayerLevelTagDisableData(player.SteamID, true);
             player.Clan = null;
-            AddTimer(0.2f, () =>
-            {
-                if (ValidateCallerPlayer(player, false) == false) return;
-                Utilities.SetStateChanged(player, "CCSPlayerController", "m_szClan");
-                Utilities.SetStateChanged(player, "CBasePlayerController", "m_iszPlayerName");
-            }, SOM);
+            SetStatusClanTag(player);
+
             player.PrintToChat($"{Prefix}{CC.B} !tagac{CC.W} ile tagini tekrardan acabilirsin.");
         }
     }
@@ -65,12 +61,7 @@ public partial class JailbreakExtras
             LevelTagDisabledPlayers.Add(x.SteamID);
             UpdatePlayerLevelTagDisableData(x.SteamID, true);
             x.Clan = null;
-            AddTimer(0.2f, () =>
-            {
-                if (ValidateCallerPlayer(x, false) == false) return;
-                Utilities.SetStateChanged(x, "CCSPlayerController", "m_szClan");
-                Utilities.SetStateChanged(x, "CBasePlayerController", "m_iszPlayerName");
-            }, SOM);
+            SetStatusClanTag(x);
             player.PrintToChat($"{Prefix} {CC.B}{x.PlayerName}{CC.W} Adlı oyuncunun tagını kapattın.");
             x.PrintToChat($"{AdliAdmin(player.PlayerName)}{CC.B} SEVIYE {CC.W} tagini kapatti.");
         }

@@ -40,6 +40,75 @@ public partial class JailbreakExtras
         }, SOM);
     }
 
+    [ConsoleCommand("cscore")]
+    public void cscore(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        if (PlayerLevels.TryGetValue(player.SteamID, out var item))
+        {
+            player.CompetitiveWins = 10;
+            Utilities.SetStateChanged(player, "CCSPlayerController", "m_iCompetitiveWins");
+            player.CompetitiveRankType = (sbyte)(11);
+            Utilities.SetStateChanged(player, "CCSPlayerController", "m_iCompetitiveRankType");
+            player.CompetitiveRanking = item.Xp;
+            Utilities.SetStateChanged(player, "CCSPlayerController", "m_iCompetitiveRanking");
+        }
+    }
+
+    [ConsoleCommand("cscore2")]
+    public void cscore2(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        if (PlayerLevels.TryGetValue(player.SteamID, out var item))
+        {
+            player.CompetitiveWins = 10;
+            Utilities.SetStateChanged(player, "CCSPlayerController", "m_iCompetitiveWins");
+            player.CompetitiveRankType = (sbyte)(12);
+            Utilities.SetStateChanged(player, "CCSPlayerController", "m_iCompetitiveRankType");
+            player.CompetitiveRanking = item.Xp;
+            Utilities.SetStateChanged(player, "CCSPlayerController", "m_iCompetitiveRanking");
+        }
+    }
+
+    [ConsoleCommand("cscore3")]
+    public void cscore3(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        Server.PrintToChatAll("---");
+        Server.PrintToChatAll($"{player.CompetitiveWins}");
+        Server.PrintToChatAll($"{player.CompetitiveRankType}");
+        Server.PrintToChatAll($"{player.CompTeammateColor}");
+        Server.PrintToChatAll($"{player.CompetitiveRanking}");
+        Server.PrintToChatAll($"{player.CompetitiveRankingPredicted_Win}");
+        Server.PrintToChatAll($"{player.CompetitiveRankingPredicted_Tie}");
+        Server.PrintToChatAll($"{player.CompetitiveRankingPredicted_Loss}");
+        Server.PrintToChatAll("---");
+    }
+
     [ConsoleCommand("cwarden")]
     public void cwarden(CCSPlayerController? player, CommandInfo info)
     {

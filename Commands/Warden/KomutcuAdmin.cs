@@ -46,13 +46,9 @@ public partial class JailbreakExtras
             {
                 if (ValidateCallerPlayer(x, false) == false) return;
                 KomutcuAdminId = x.SteamID;
-                x.Clan = $"{CC.P}[Komutçu Admin]";
-                AddTimer(0.2f, () =>
-                {
-                    if (ValidateCallerPlayer(x, false) == false) return;
-                    Utilities.SetStateChanged(x, "CCSPlayerController", "m_szClan");
-                    Utilities.SetStateChanged(x, "CBasePlayerController", "m_iszPlayerName");
-                }, SOM);
+                x.Clan = $"[Komutçu Admin]";
+                SetStatusClanTag(x);
+
                 Server.PrintToChatAll($"{Prefix} {CC.B}{x.PlayerName} {CC.P} [Komutçu Admin]{CC.W} Olarak seçildi");
             });
         });
@@ -66,13 +62,8 @@ public partial class JailbreakExtras
         var ka = GetPlayers().Where(x => ValidateCallerPlayer(x, false) && x.SteamID == KomutcuAdminId).FirstOrDefault();
         if (ka != null)
         {
-            ka.Clan = "";
-            AddTimer(0.2f, () =>
-            {
-                if (ValidateCallerPlayer(ka, false) == false) return;
-                Utilities.SetStateChanged(ka, "CCSPlayerController", "m_szClan");
-                Utilities.SetStateChanged(ka, "CBasePlayerController", "m_iszPlayerName");
-            }, SOM);
+            ka.Clan = null;
+            SetStatusClanTag(ka);
         }
         KomutcuAdminId = null;
     }

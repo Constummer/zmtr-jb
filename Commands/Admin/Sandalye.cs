@@ -84,7 +84,7 @@ public partial class JailbreakExtras
             cit.DispatchSpawn();
 
             cit.SetModel(path);
-            Cits.Add(cit);
+            Cits.Enqueue(cit);
         }
     }
 }

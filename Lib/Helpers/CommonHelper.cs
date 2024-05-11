@@ -27,6 +27,29 @@ public partial class JailbreakExtras
         Utilities.SetStateChanged(x.PlayerPawn.Value, "CBaseEntity", "m_MoveType");
     }
 
+    private static void SetStatusClanTag(CCSPlayerController? player)
+    {
+        if (ValidateCallerPlayer(player, false) == false) return;
+        if (string.IsNullOrWhiteSpace(player.Clan))
+        {
+            player.Clan = $"[#{player.UserId}]";
+        }
+        else
+        {
+            if (!player.Clan.Contains($"[#{player.UserId}]"))
+            {
+                player.Clan += $"[#{player.UserId}]";
+            }
+        }
+        Global?.AddTimer(0.2f, () =>
+        {
+            if (ValidateCallerPlayer(player, false) == false) return;
+            Utilities.SetStateChanged(player, "CCSPlayerController", "m_szClan");
+            if (ValidateCallerPlayer(player, false) == false) return;
+            Utilities.SetStateChanged(player, "CBasePlayerController", "m_iszPlayerName");
+        }, SOM);
+    }
+
     private static int GetPlayerCount(CsTeam? team = null, bool? alive = null)
     {
         int players = 0;

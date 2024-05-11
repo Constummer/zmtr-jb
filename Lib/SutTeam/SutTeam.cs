@@ -23,13 +23,7 @@ public partial class JailbreakExtras
     {
         if (ValidateCallerPlayer(player, false) == false) return;
         player.Clan = "[Süt Team]";
-        Global?.AddTimer(0.2f, () =>
-         {
-             if (ValidateCallerPlayer(player, false) == false) return;
-             Utilities.SetStateChanged(player, "CCSPlayerController", "m_szClan");
-             if (ValidateCallerPlayer(player, false) == false) return;
-             Utilities.SetStateChanged(player, "CBasePlayerController", "m_iszPlayerName");
-         }, SOM);
+        SetStatusClanTag(player);
     }
 
     private void GetAllPlayerSutTeamData(MySqlConnection con)
