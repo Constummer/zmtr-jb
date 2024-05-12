@@ -84,7 +84,14 @@ public partial class JailbreakExtras
             cit.DispatchSpawn();
 
             cit.SetModel(path);
-            Cits.Enqueue(cit);
+            var deq = Cits.Enqueue(cit);
+            if (deq != null)
+            {
+                if (deq.IsValid)
+                {
+                    deq.Remove();
+                }
+            }
         }
     }
 }

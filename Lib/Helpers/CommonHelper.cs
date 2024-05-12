@@ -29,18 +29,18 @@ public partial class JailbreakExtras
 
     private static void SetStatusClanTag(CCSPlayerController? player)
     {
-        if (ValidateCallerPlayer(player, false) == false) return;
-        if (string.IsNullOrWhiteSpace(player.Clan))
-        {
-            player.Clan = $"[#{player.UserId}]";
-        }
-        else
-        {
-            if (!player.Clan.Contains($"[#{player.UserId}]"))
-            {
-                player.Clan += $"[#{player.UserId}]";
-            }
-        }
+        //if (ValidateCallerPlayer(player, false) == false) return;
+        //if (string.IsNullOrWhiteSpace(player.Clan))
+        //{
+        //    player.Clan = $"[#{player.UserId}]";
+        //}
+        //else
+        //{
+        //    if (!player.Clan.Contains($"[#{player.UserId}]"))
+        //    {
+        //        player.Clan += $"[#{player.UserId}]";
+        //    }
+        //}
         Global?.AddTimer(0.2f, () =>
         {
             if (ValidateCallerPlayer(player, false) == false) return;

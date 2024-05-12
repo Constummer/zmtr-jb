@@ -9,7 +9,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static SelfAdjustingQueue<CFuncWall> Cits = new(64);
+    private static SelfAdjustingQueue<CFuncWall> Cits { get; set; } = new(64);
     private static Dictionary<ulong, string> CitEnabledPlayers = new();
 
     [ConsoleCommand("citac")]
@@ -149,6 +149,13 @@ public partial class JailbreakExtras
         cit.DispatchSpawn();
 
         cit.SetModel(citPath);
-        Cits.Enqueue(cit);
+        var deq = Cits.Enqueue(cit);
+        if (deq != null)
+        {
+            if (deq.IsValid)
+            {
+                deq.Remove();
+            }
+        }
     }
 }
