@@ -307,10 +307,6 @@ public partial class JailbreakExtras
 
     private static PlayerMarketModel? GetPlayerMarketData(ulong steamID)
     {
-        if (PlayerMarketModels == null)
-        {
-            PlayerMarketModels = new();
-        }
         if (PlayerMarketModels.ContainsKey(steamID))
         {
             return null;
@@ -470,28 +466,12 @@ public partial class JailbreakExtras
 
     private static (PlayerMarketModel Model, bool ChooseRandom) GetPlayerMarketModel(ulong? steamId)
     {
-        bool chooseRandom = false;
         PlayerMarketModel? data = null;
 
         if (steamId.HasValue == false || steamId == 0)
             return (null!, true);
 
-        if (PlayerMarketModels == null)
-        {
-            data = new PlayerMarketModel(steamId.Value);
-            PlayerMarketModels = new()
-            {
-                {steamId.Value,data }
-            };
-            chooseRandom = true;
-        }
-
-        var res = false;
-        if (PlayerMarketModels.TryGetValue(steamId.Value, out data))
-        {
-            res = true;
-        }
-        else if (res == false)
+        if (PlayerMarketModels.TryGetValue(steamId.Value, out data) == false)
         {
             data = GetPlayerMarketData(steamId.Value);
             if (data != null)
@@ -502,38 +482,43 @@ public partial class JailbreakExtras
             {
                 data = new PlayerMarketModel(steamId.Value);
                 PlayerMarketModels[steamId.Value] = data;
-                chooseRandom = true;
             }
         }
-        else
+
+        if (data == null)
         {
             data = new PlayerMarketModel(steamId.Value);
             PlayerMarketModels[steamId.Value] = data;
-            chooseRandom = true;
         }
 
+        var cttrue = false;
         if (string.IsNullOrWhiteSpace(data.DefaultIdCT) == false)
         {
             if (int.TryParse(data.DefaultIdCT, out var parsed))
             {
                 if (parsed < 0)
                 {
-                    return (data, true);
+                    cttrue = true;
                 }
             }
         }
-
+        var ttrue = false;
         if (string.IsNullOrWhiteSpace(data.DefaultIdT) == false)
         {
             if (int.TryParse(data.DefaultIdT, out var parsed))
             {
                 if (parsed < 0)
                 {
-                    return (data, true);
+                    ttrue = true;
                 }
             }
         }
-        return (data, chooseRandom);
+
+        if (cttrue || ttrue)
+        {
+            return (data, true);
+        }
+        return (data, false);
     }
 
     private void UpdateAllModels()
