@@ -11,30 +11,6 @@ public partial class JailbreakExtras
 {
     #region Disarm
 
-    [ConsoleCommand("dt")]
-    public void DisarmTemizle(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player, false) == false)
-        {
-            return;
-        }
-        if (!AdminManager.PlayerHasPermissions(player, "@css/premium"))
-        {
-            player.PrintToChat(NotEnoughPermission);
-            return;
-        }
-        LogManagerCommand(player.SteamID, info.GetCommandString);
-        TemizleAction(player);
-        GetPlayers(CsTeam.Terrorist)
-        .Where(x => x.PawnIsAlive)
-        .ToList()
-        .ForEach(x =>
-        {
-            RemoveWeapons(x, true);
-        });
-        Server.PrintToChatAll($"{Prefix} {CC.W}{T_PluralCamelPossesive} silahları silindi.");
-    }
-
     [ConsoleCommand("disarm", "Bicak dahil silme")]
     [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me>")]
     public void Disarm(CCSPlayerController? player, CommandInfo info)
