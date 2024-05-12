@@ -50,13 +50,13 @@ public partial class JailbreakExtras
             return;
         }
 
-        var godOneTwoStr = info.ArgCount > 2 ? info.ArgString.GetArg(1) : "0";
+        var godOneTwoStr = info.ArgString.GetArgLast();
         if (int.TryParse(godOneTwoStr, out var value) == false)
         {
             return;
         }
 
-        var target = info.ArgString.GetArgSkip(0);
+        var target = info.ArgString.GetArgSkipFromLast(1);
         if (FindSinglePlayer(player, target, out var x) == false)
         {
             return;

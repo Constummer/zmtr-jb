@@ -20,7 +20,7 @@ public partial class JailbreakExtras
             return;
         }
         var target = info.ArgString.GetArgSkip(0);
-        if (FindSinglePlayer(player, target, out var x, (y => y.PawnIsAlive)) == false)
+        if (FindSinglePlayer(player, target, out var x, (y => y.PawnIsAlive == false)) == false)
         {
             return;
         }
