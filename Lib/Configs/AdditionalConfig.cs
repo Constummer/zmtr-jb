@@ -57,6 +57,9 @@ public partial class JailbreakExtras
         [JsonPropertyName("HideMsg")]
         public bool HideMsg { get; set; } = true;
 
+        [JsonPropertyName("CitMaxCount")]
+        public int CitMaxCount { get; set; } = 128;
+
         [JsonPropertyName("RoundEndStartCommands")]
         public List<string> RoundEndStartCommands { get; set; } = new(){
             "mp_respawn_on_death_t 0",

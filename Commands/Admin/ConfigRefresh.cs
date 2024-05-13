@@ -12,6 +12,7 @@ public partial class JailbreakExtras
     [CommandHelper(whoCanExecute: CommandUsage.SERVER_ONLY)]
     public void ConfigLoad(CCSPlayerController? player, CommandInfo info)
     {
+        return;
         ///home/container/game
         var path = Server.GameDirectory;
         if (Directory.Exists(path))

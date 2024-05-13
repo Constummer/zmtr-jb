@@ -61,6 +61,14 @@ public partial class JailbreakExtras
 
         if (arg.StartsWith("!") || arg.StartsWith("/") || arg.StartsWith("css_"))
         {
+            if (arg.Contains("!skins"))
+            {
+                player.PrintToChat($"{Prefix} {CC.W} LÜTFEN BU MENÜYÜ KULLANMAK YERÝNE {CC.R}skin.zmtr.org {CC.W} SÝTESÝNDEN SKÝN SEÇÝNÝZ.");
+                player.PrintToChat($"{Prefix} {CC.W} LÜTFEN BU MENÜYÜ KULLANMAK YERÝNE {CC.R}skin.zmtr.org {CC.W} SÝTESÝNDEN SKÝN SEÇÝNÝZ.");
+                player.PrintToChat($"{Prefix} {CC.W} LÜTFEN BU MENÜYÜ KULLANMAK YERÝNE {CC.R}skin.zmtr.org {CC.W} SÝTESÝNDEN SKÝN SEÇÝNÝZ.");
+                return HookResult.Handled;
+            }
+
             if (csaytestActive && AdminManager.PlayerHasPermissions(player, "@css/root"))
             {
                 Server.PrintToChatAll("arg=>" + arg);

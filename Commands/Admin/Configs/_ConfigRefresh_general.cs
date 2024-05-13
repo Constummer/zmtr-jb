@@ -57,6 +57,7 @@ public partial class JailbreakExtras
             if (temp1 != null)
             {
                 _Config.Additional = Config.Additional = temp1;
+                Cits = new(_Config.Additional.CitMaxCount);
             }
         }
         catch (Exception e)

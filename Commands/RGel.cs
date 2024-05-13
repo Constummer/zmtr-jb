@@ -26,7 +26,7 @@ public partial class JailbreakExtras
         var target = info.ArgString.GetArgSkip(0);
         var targetArgument = GetTargetArgument(target);
         LogManagerCommand(player.SteamID, info.GetCommandString);
-
+        var revIds = new List<ulong>();
         GetPlayers()
                    .Where(x => x.PawnIsAlive == false && GetTargetAction(x, target, player))
                    .ToList()
@@ -36,6 +36,7 @@ public partial class JailbreakExtras
                        {
                            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} revledi{CC.W}.");
                        }
+                       revIds.Add(x.SteamID);
                        CustomRespawn(x);
                    });
         if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
@@ -44,24 +45,17 @@ public partial class JailbreakExtras
         }
 
         GetPlayers()
-                   .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player))
+                   .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player) && revIds.Contains(x.SteamID))
                    .ToList()
                    .ForEach(x =>
                    {
                        if (x.SteamID != player.SteamID)
                        {
-                           if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
-                           {
-                               Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} yanına ışınladı{CC.W}.");
-                           }
+                           Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} yanına ışınladı{CC.W}.");
                            var playerAbs = player.PawnIsAlive == false ? player.Pawn.Value.AbsOrigin : player.PlayerPawn.Value.AbsOrigin;
                            x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 1, playerAbs.Z), x.PlayerPawn.Value.EyeAngles, VEC_ZERO);
                        }
                    });
-        if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
-        {
-            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.B}yanına ışınladı");
-        }
     }
 
     #endregion Disarm

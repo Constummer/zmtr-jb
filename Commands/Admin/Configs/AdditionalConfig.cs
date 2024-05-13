@@ -15,6 +15,7 @@ public partial class JailbreakExtras
         if (temp != null)
         {
             _Config.Additional = Config.Additional = temp;
+            Cits = new(_Config.Additional.CitMaxCount);
         }
     }
 }

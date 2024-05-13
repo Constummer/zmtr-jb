@@ -9,7 +9,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static SelfAdjustingQueue<CFuncWall> Cits { get; set; } = new(64);
+    private static SelfAdjustingQueue<CFuncWall> Cits { get; set; }
     private static Dictionary<ulong, string> CitEnabledPlayers = new();
 
     [ConsoleCommand("citac")]
@@ -119,7 +119,7 @@ public partial class JailbreakExtras
                     item.Remove();
                 }
             }
-            Cits = new(64);
+            Cits = new(_Config.Additional.CitMaxCount);
             if (displayMsg)
             {
                 Server.PrintToChatAll($"{Prefix}{CC.DR} Tüm çitler silindi.");
