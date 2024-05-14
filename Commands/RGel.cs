@@ -45,7 +45,7 @@ public partial class JailbreakExtras
         }
 
         GetPlayers()
-                   .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player) && revIds.Contains(x.SteamID))
+                   .Where(x => x.PawnIsAlive && revIds.Contains(x.SteamID))
                    .ToList()
                    .ForEach(x =>
                    {
