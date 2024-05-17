@@ -87,23 +87,11 @@ public partial class JailbreakExtras
 
     private (Vector? Vector, string PlayerName) GonderGetVector(CCSPlayerController player, CommandInfo info)
     {
-        if (info.ArgCount != 2) return (null, null);
-        var target = info.ArgString.GetArg(0);
-
-        var players = GetPlayers()
-               .Where(x => x.PlayerName?.ToLowerInvariant()?.Contains(target?.ToLowerInvariant()) ?? false)
-               .ToList();
-        if (players.Count == 0)
+        var target = info.ArgString.GetArgSkip(0);
+        if (FindSinglePlayer(player, target, out var x) == false)
         {
-            player.PrintToChat($"{Prefix} {CC.W}Eşleşen oyuncu bulunamadı!");
             return (null, null);
         }
-        if (players.Count != 1)
-        {
-            player.PrintToChat($"{Prefix} {CC.W}Birden fazla oyuncu bulundu.");
-            return (null, null);
-        }
-        var x = players.FirstOrDefault();
 
         if (x?.SteamID != null && x!.SteamID != 0)
         {

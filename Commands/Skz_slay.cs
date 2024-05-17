@@ -17,20 +17,33 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (SkzV2FailedSteamIds?.Count == 0)
+        if (SkzTimeDatas.Where(x => x.Done == false).Any() == false)
         {
             player.PrintToChat($"{Prefix} {CC.W}Yapamayan kimse bulunamadi! {CC.B}!skz {CC.W}ile skz başlattığına emin ol!");
             return;
         }
         LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers(CsTeam.Terrorist)
-            .Where(x => x.PawnIsAlive && SkzV2FailedSteamIds.Contains(x.SteamID))
+            .Where(x => x.PawnIsAlive)
             .ToList()
             .ForEach(x =>
             {
-                if (ValidateCallerPlayer(x, false) == false) return;
-                var playerPawn = x.PlayerPawn.Value;
-                playerPawn.CommitSuicide(false, true);
+                var skzData = SkzTimeDatas.FirstOrDefault(y => y.SteamId == x.SteamID);
+                if (skzData != null)
+                {
+                    if (skzData.Done == false)
+                    {
+                        if (ValidateCallerPlayer(x, false) == false) return;
+                        var playerPawn = x.PlayerPawn.Value;
+                        playerPawn.CommitSuicide(false, true);
+                    }
+                }
+                else
+                {
+                    if (ValidateCallerPlayer(x, false) == false) return;
+                    var playerPawn = x.PlayerPawn.Value;
+                    playerPawn.CommitSuicide(false, true);
+                }
             });
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.R}SKZ'yi {CC.W}yapamayan oyunculari {CC.LR}öldürdü{CC.W}.");
     }

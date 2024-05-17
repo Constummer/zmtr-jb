@@ -6,6 +6,8 @@ public partial class JailbreakExtras
     {
         SutolCommandCallForBPs?.Clear();
         JumpCount?.Clear();
+        SkzTimeDatas?.Clear();
+        SkzStartTime = null;
         JumpCountActive = false;
         SutolCommandCalls?.Clear();
         SinirsizXKapaAction("@all", null);
@@ -28,7 +30,6 @@ public partial class JailbreakExtras
         SpeedActive = false;
         IsEliGivenCheck = false;
         SpeedActiveDatas?.Clear();
-        SkzV2FailedSteamIds?.Clear();
         DizPlayerId = 0;
         DizActive = false;
         CurrentRoundWKillerId = null;

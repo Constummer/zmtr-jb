@@ -12,6 +12,7 @@ public partial class JailbreakExtras
 {
     private CounterStrikeSharp.API.Modules.Timers.Timer SkzTimer = null;
     private CounterStrikeSharp.API.Modules.Timers.Timer Skz2Timer = null;
+    private static DateTime? SkzStartTime = null;
 
     #region SKZ
 
@@ -67,10 +68,10 @@ public partial class JailbreakExtras
             {
                 Server.PrintToChatAll($"{Prefix} {CC.W}{T_PluralCamel} {CC.B}{k.Text} {CC.W} ışınlanıyor");
                 LogManagerCommand(player.SteamID, info.GetCommandString);
+                SkzTimeDatas = new();
 
                 SkzTimer?.Kill();
                 Skz2Timer?.Kill();
-                SkzV2FailedSteamIds?.Clear();
                 var players = GetPlayers(CsTeam.Terrorist)
                     .Where(x => x.PawnIsAlive == true)
                     .ToList();
@@ -92,13 +93,26 @@ public partial class JailbreakExtras
                     {
                         Config.Additional.ParachuteModelEnabled = false;
                     }
-                    GetPlayers()
+                    var plist = GetPlayers()
                     .Where(x => x != null
                          && x.IsValid
                          && x.PawnIsAlive
                          && GetTeam(x) == CsTeam.Terrorist)
-                    .ToList()
-                    .ForEach(x =>
+                    .ToList();
+                    SkzTimeDatas.AddRange(plist.Select(x => new SkzTimes(x.SteamID, x.PlayerName)));
+                    SkzStartTime = DateTime.UtcNow;
+                    var t = AddTimer(0.1f, () =>
+                    {
+                        PrintToCenterHtmlAll(GetFormattedSKZPrintData("SKZ Süreleri"));
+                        PrintToCenterHtmlAll(GetFormattedSKZPrintData("SKZ Süreleri"));
+                        PrintToCenterHtmlAll(GetFormattedSKZPrintData("SKZ Süreleri"));
+                        PrintToCenterHtmlAll(GetFormattedSKZPrintData("SKZ Süreleri"));
+                    }, Full);
+                    AddTimer(value + 4, () =>
+                    {
+                        t.Kill();
+                    }, SOM);
+                    plist.ForEach(x =>
                     {
                         if (ValidateCallerPlayer(x, false) == false) return;
                         if (TeamActive == false)
@@ -125,7 +139,6 @@ public partial class JailbreakExtras
                 {
                     var greenColor = 0;
                     var redColor = 0;
-                    SkzV2FailedSteamIds?.Clear();
                     GetPlayers()
                     .Where(x => x != null
                          && x.IsValid
@@ -154,6 +167,7 @@ public partial class JailbreakExtras
                     });
 
                     Config.Additional.ParachuteModelEnabled = true;
+                    SkzStartTime = null;
 
                     FreezeOrUnfreezeSound();
                     Server.PrintToChatAll($"{Prefix} {CC.Ol}{value}{CC.W} saniye süren {CC.Ol}SKZ{CC.W} bitti, {CC.G}{T_PluralCamel} {CC.B}dondu{CC.W}.");
@@ -175,6 +189,18 @@ public partial class JailbreakExtras
             });
         }
         MenuManager.OpenChatMenu(player, skzMenu);
+    }
+
+    private static string GetFormattedSKZPrintData(string firstLine)
+    {
+        var str = string.Join(" <br> ",
+                SkzTimeDatas
+                    .ToList()
+                    .Where(x => x.Time != 0)
+                    .OrderBy(x => x.Time)
+                    .Take(4)
+                    .Select(x => $"{x.Name} - {(x.Time)} sn"));
+        return $"{firstLine} <br> {str}";
     }
 
     #endregion SKZ

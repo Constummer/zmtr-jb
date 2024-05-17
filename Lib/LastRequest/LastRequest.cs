@@ -101,6 +101,12 @@ public partial class JailbreakExtras
         if (ValidateCallerPlayer(gard, false) == false) return;
         ActiveGodMode.Remove(gard.SteamID);
         ActiveGodMode.Remove(mahkum.SteamID);
+        gard.TakesDamage = true;
+        gard.PlayerPawn.Value.TakesDamage = true;
+        gard.Pawn.Value.TakesDamage = true;
+        mahkum.TakesDamage = true;
+        mahkum.PlayerPawn.Value.TakesDamage = true;
+        mahkum.Pawn.Value.TakesDamage = true;
         Server.PrintToChatAll($"{Prefix} {CC.G}{mahkum.PlayerName} {CC.W}adlı {T_AllLower}, {CC.B}{gard.PlayerName}{CC.W} adlı {CT_LowerPrePosition} {CC.LY}{item.Text} {CC.W}LR'si başladı.");
         LrStartSound();
         if (ValidateCallerPlayer(mahkum, false) == false) return;

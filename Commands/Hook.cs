@@ -28,18 +28,21 @@ public partial class JailbreakExtras
         {
             if (HookPlayers.ContainsKey(player.SteamID) == false)
             {
-                if (OnCommandValidater(player, true, "@css/seviye30", "@css/seviye30") == false)
+                if (OnCommandValidater(player, true, "@css/seviye30", "@css/seviye30", false) == false)
                 {
                     if (PlayerTimeTracking.TryGetValue(player.SteamID, out var item) == false)
                     {
+                        player.PrintToChat(NotEnoughPermission);
                         return;
                     }
                     if (!HasPerm(player.SteamID, "@css/komutcu"))
                     {
+                        player.PrintToChat(NotEnoughPermission);
                         return;
                     }
                     if (item.WTime < 30 * 60)
                     {
+                        player.PrintToChat(NotEnoughPermission);
                         return;
                     }
                 }

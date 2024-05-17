@@ -1,5 +1,6 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Entities;
 
 namespace JailbreakExtras;
 
@@ -27,6 +28,15 @@ public partial class JailbreakExtras
                     continue;
                 ParachuteOnTick(player, i);
                 SpeedoMeterOnTick(player);
+                if (SkzStartTime != null && SkzTimeDatas.Count > 0)
+                {
+                    var data = SkzTimeDatas.Where(x => x.SteamId == player.SteamID).FirstOrDefault();
+                    if (data != null && !data.Done)
+                    {
+                        UpdatePlayersBasedOnTheirPos(player?.PlayerPawn?.Value?.AbsOrigin ?? VEC_ZERO, player.SteamID);
+                    }
+                }
+
                 if (GrabOrCizPlayers.TryGetValue(player.SteamID, out var c) && c)
                 {
                     CizOnTick(player);

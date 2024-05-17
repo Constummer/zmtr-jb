@@ -21,8 +21,6 @@ public partial class JailbreakExtras
         return checkVal >= minVal && checkVal <= maxVal;
     }
 
-    public static List<ulong> SkzV2FailedSteamIds { get; set; } = new();
-
     private static int PaintPlayersBasedOnTheirPos(CCSPlayerController x)
     {
         if (ValidateCallerPlayer(x, false) == false) return 0;
@@ -37,17 +35,26 @@ public partial class JailbreakExtras
 
                 if (validVec1 == false && validVec2 == false)
                 {
-                    if (IsPointInsideRectangle(vec1.Coord, vec2.Coord, x.PlayerPawn.Value.AbsOrigin))
+                    var skzData = SkzTimeDatas.Where(y => y.SteamId == x.SteamID).FirstOrDefault();
+                    if (skzData != null)
                     {
-                        if (ValidateCallerPlayer(x, false) == false) return 0;
-                        SetColour(x, Color.FromArgb(0, 255, 0));
-                        return 1;
+                        if (skzData.Done)
+                        {
+                            if (ValidateCallerPlayer(x, false) == false) return 0;
+                            SetColour(x, Color.FromArgb(0, 255, 0));
+                            return 1;
+                        }
+                        else
+                        {
+                            if (ValidateCallerPlayer(x, false) == false) return 0;
+                            SetColour(x, Color.FromArgb(255, 0, 0));
+                            return -1;
+                        }
                     }
                     else
                     {
                         if (ValidateCallerPlayer(x, false) == false) return 0;
                         SetColour(x, Color.FromArgb(255, 0, 0));
-                        SkzV2FailedSteamIds.Add(x.SteamID);
                         return -1;
                     }
                 }
@@ -56,5 +63,53 @@ public partial class JailbreakExtras
         if (ValidateCallerPlayer(x, false) == false) return 0;
         SetColour(x, _Config.Burry.BuryColor);
         return 0;
+    }
+
+    private static void UpdatePlayersBasedOnTheirPos(Vector checkVector, ulong steamId)
+    {
+        if (checkVector == VEC_ZERO && SkzStartTime != null)
+        {
+            return;
+        }
+        if (_Config.Map.MapConfigDatums.TryGetValue(Server.MapName, out var conf) && conf != null && conf.KzCellCoords != null)
+        {
+            var vec1 = conf.KzCellCoords.Where(x => x.Text == "LeftBottom").FirstOrDefault();
+            var vec2 = conf.KzCellCoords.Where(x => x.Text == "RightTop").FirstOrDefault();
+            if (vec1 != null && vec2 != null)
+            {
+                var validVec1 = vec1.Coord.X == 0 && vec1.Coord.Y == 0 && vec1.Coord.Z == 0;
+                var validVec2 = vec2.Coord.X == 0 && vec2.Coord.Y == 0 && vec2.Coord.Z == 0;
+
+                if (validVec1 == false && validVec2 == false)
+                {
+                    if (IsPointInsideRectangle(vec1.Coord, vec2.Coord, checkVector))
+                    {
+                        var data = SkzTimeDatas.Where(x => x.SteamId == steamId).FirstOrDefault();
+                        if (data != null)
+                        {
+                            data.Time = (DateTime.UtcNow - SkzStartTime.Value).TotalSeconds;
+                            Server.PrintToChatAll($"{Prefix}{CC.Ol} {data.Name} {CC.W} adlı oyuncu, SKZ'yi {CC.G}{data.Time} {CC.W}saniyede bitirdi.");
+                            data.Done = true;
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    private static List<SkzTimes> SkzTimeDatas = new();
+
+    public class SkzTimes
+    {
+        public SkzTimes(ulong steamId, string name)
+        {
+            SteamId = steamId;
+            Name = name;
+        }
+
+        public bool Done { get; set; }
+        public ulong SteamId { get; set; }
+        public string Name { get; set; }
+        public double Time { get; set; }
     }
 }
