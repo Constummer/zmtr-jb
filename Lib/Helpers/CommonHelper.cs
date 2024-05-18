@@ -229,17 +229,22 @@ public partial class JailbreakExtras
 
         return targetArgument switch
         {
-            TargetForArgument.All => true,
-            TargetForArgument.Alive => x.PawnIsAlive == true,
-            TargetForArgument.Dead => x.PawnIsAlive == false,
-            TargetForArgument.T => GetTeam(x) == CsTeam.Terrorist,
-            TargetForArgument.Ct => GetTeam(x) == CsTeam.CounterTerrorist,
+            TargetForArgument.All => true || GetExtraCheck(x, "@all"),
+            TargetForArgument.Alive => x.PawnIsAlive == true || GetExtraCheck(x, "@alive"),
+            TargetForArgument.Dead => x.PawnIsAlive == false || GetExtraCheck(x, "@dead"),
+            TargetForArgument.T => GetTeam(x) == CsTeam.Terrorist || GetExtraCheck(x, "@t"),
+            TargetForArgument.Ct => GetTeam(x) == CsTeam.CounterTerrorist || GetExtraCheck(x, "@ct"),
             TargetForArgument.None => (x.PlayerName?.ToLower()?.Contains(target?.ToLower() ?? "") ?? false) || x.SteamID.ToString() == target,
-            TargetForArgument.Me => x.SteamID == self?.SteamID,
+            TargetForArgument.Me => x.SteamID == self?.SteamID || GetExtraCheck(x, "@me"),
             TargetForArgument.UserIdIndex => GetUserIdIndex(target) == x.UserId,
             TargetForArgument.Aim => GetClosestPlayer(self, x),
+            TargetForArgument.Sut => IsSutPlayer(x) || GetExtraCheck(x, "@sut"),
             _ => false
         };
+
+        static bool GetExtraCheck(CCSPlayerController x, string text) => x.PlayerName?.ToLower() == text;
+
+        static bool IsSutPlayer(CCSPlayerController x) => SutolCommandCalls.Contains(x.SteamID);
     }
 
     [Obsolete("Bundayken çökme yaşandığı oluyordu, bundan mı emin değilim ama iptal")]
@@ -262,6 +267,7 @@ public partial class JailbreakExtras
         "@randomct" => TargetForArgument.RandomCt,
         "@me" => TargetForArgument.Me,
         "@aim" => TargetForArgument.Aim,
+        "@sut" => TargetForArgument.Sut,
         _ when IsUserIdIndexChecker(target, out var userId) && userId != null => TargetForArgument.UserIdIndex,
         _ => TargetForArgument.None,
     };

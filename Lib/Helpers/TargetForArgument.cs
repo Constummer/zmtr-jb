@@ -17,6 +17,7 @@ public partial class JailbreakExtras
         Dead = 1 << 8,
         UserIdIndex = 1 << 9,
         Aim = 1 << 10,
+        Sut = 1 << 11,
         SingleUser = Me | UserIdIndex | Aim | None
     }
 }
