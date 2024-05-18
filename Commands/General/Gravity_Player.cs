@@ -7,15 +7,15 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static Dictionary<ulong, float> SpeedActiveDatas = new();
-    private bool SpeedActive = false;
+    private static Dictionary<ulong, float> GravityActiveDatas = new();
+    private bool GravityActive = false;
 
-    #region Speed
+    #region Gravity
 
-    [ConsoleCommand("speedkapa")]
-    [ConsoleCommand("speedkapat")]
+    [ConsoleCommand("gravitykapa")]
+    [ConsoleCommand("gravitykapat")]
     [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me>")]
-    public void OnSpeedKapatCommand(CCSPlayerController? player, CommandInfo info)
+    public void OnGravityKapatCommand(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)
         {
@@ -24,7 +24,7 @@ public partial class JailbreakExtras
 
         var target = info.ArgString.GetArgSkip(0);
         var targetArgument = GetTargetArgument(target);
-        SpeedActive = false;
+        GravityActive = false;
         LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers()
                .Where(x => x.PawnIsAlive
@@ -37,7 +37,7 @@ public partial class JailbreakExtras
                    {
                        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin hızını sıfırladı.");
                    }
-                   SpeedActiveDatas.Remove(x.SteamID);
+                   GravityActiveDatas.Remove(x.SteamID);
                    x.PlayerPawn.Value.VelocityModifier = 1.0f;
                    RefreshPawn(x);
                });
@@ -48,9 +48,9 @@ public partial class JailbreakExtras
         }
     }
 
-    [ConsoleCommand("speed")]
-    [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me> <0-1 kapatmak için, 2-9 hız ayarlamak için>")]
-    public void OnSpeedCommand(CCSPlayerController? player, CommandInfo info)
+    [ConsoleCommand("gravity")]
+    [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me> <0-1 kapatmak için, 2-9 gravity ayarlamak için>")]
+    public void OnGravityCommand(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false)
         {
@@ -58,9 +58,9 @@ public partial class JailbreakExtras
         }
 
         var target = info.ArgString.GetArgSkipFromLast(1);
-        if (!float.TryParse(info.ArgString.GetArgLast(), out var speed) || speed < 0 || speed > 10)
+        if (!float.TryParse(info.ArgString.GetArgLast(), out var gravity) || gravity < 0 || gravity > 10)
         {
-            player.PrintToChat($"{Prefix}{CC.W} 0-1 kapatmak için, 2-9 hız ayarlamak için.");
+            player.PrintToChat($"{Prefix}{CC.W} 0-1 kapatmak için, 2-9 gravity ayarlamak için.");
             return;
         }
         LogManagerCommand(player.SteamID, info.GetCommandString);
@@ -72,69 +72,69 @@ public partial class JailbreakExtras
                .ToList()
                .ForEach(x =>
                {
-                   switch (speed)
+                   switch (gravity)
                    {
                        case 0:
                        case 1:
                            if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
                            {
-                               Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin hızını sıfırladı.");
+                               Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin gravitysini sıfırladı.");
                            }
-                           SpeedActiveDatas.Remove(x.SteamID);
-                           x.PlayerPawn.Value.VelocityModifier = 1.0f;
+                           GravityActiveDatas.Remove(x.SteamID);
+                           x.PlayerPawn.Value.GravityScale = 1.0f;
                            break;
 
                        default:
                            if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
                            {
-                               Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun hızını {CC.B}{speed} {CC.W}olarak ayarladı.");
+                               Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun gravitysini {CC.B}{gravity} {CC.W}olarak ayarladı.");
                            }
-                           if (SpeedActiveDatas.ContainsKey(x.SteamID))
+                           if (GravityActiveDatas.ContainsKey(x.SteamID))
                            {
-                               SpeedActiveDatas[x.SteamID] = speed;
+                               GravityActiveDatas[x.SteamID] = gravity;
                            }
                            else
                            {
-                               SpeedActiveDatas.Add(x.SteamID, speed);
+                               GravityActiveDatas.Add(x.SteamID, gravity);
                            }
-                           x.PlayerPawn.Value.VelocityModifier = speed;
+                           x.PlayerPawn.Value.GravityScale = gravity;
                            break;
                    }
                    RefreshPawn(x);
                });
-        switch (speed)
+        switch (gravity)
         {
             case 0:
             case 1:
 
-                SpeedActive = false;
+                GravityActive = false;
                 if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
                 {
-                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin hızını sıfırladı.");
+                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin gravitysini sıfırladı.");
                 }
                 break;
 
             default:
-                SpeedActive = true;
+                GravityActive = true;
                 if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
                 {
-                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin hızını {CC.B}{speed}{CC.W} olarak ayarladı.");
+                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin gravitysini {CC.B}{gravity}{CC.W} olarak ayarladı.");
                 }
                 break;
         }
     }
 
-    private void SpeedActiveCheck(CCSPlayerController? x)
+    private void GravityActiveCheck(CCSPlayerController? x)
     {
         if (ValidateCallerPlayer(x, false) == false) return;
         if (x.PawnIsAlive == false) return;
         if (x.Health == 0) return;
 
-        if (SpeedActiveDatas.TryGetValue(x.SteamID, out var speed))
+        if (GravityActiveDatas.TryGetValue(x.SteamID, out var speed))
         {
-            x.PlayerPawn.Value.VelocityModifier = speed;
+            x.PlayerPawn.Value.GravityScale = speed;
         }
     }
 
-    #endregion Speed
+    #endregion Gravity
 }

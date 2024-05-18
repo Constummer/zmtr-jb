@@ -44,7 +44,7 @@ public partial class JailbreakExtras
 
                 if (attackerPname != null)
                 {
-                    Server.PrintToChatAll($"{Prefix} {CC.Or} {attackerPname}{CC.W} adlı {T_AllLower} kazandı.");
+                    Server.PrintToChatAll($"{Prefix} {CC.Or}{attackerPname}{CC.W} adlı {T_AllLower} kazandı.");
                     PrintToCenterHtmlAll($"{Prefix} {attackerPname} adlı {T_AllLower} kazandı.");
                 }
 

@@ -164,13 +164,13 @@ public partial class JailbreakExtras
         KomStartTime = null;
         _ClientQueue.Enqueue(new(warden.SteamID, null, "", QueueItemType.OnWChange));
 
-        Server.PrintToChatAll($"{Prefix} {CC.W}{warden.PlayerName} artık komutçu değil!");
+        Server.PrintToChatAll($"{Prefix} {CC.B}{warden.PlayerName} {CC.W}artık komutçu değil!");
 
         GetPlayers()
             .ToList()
             .ForEach((x) =>
             {
-                x.PrintToCenter($"{Prefix} {CC.W}{warden.PlayerName} artık komutçu değil!");
+                x.PrintToCenter($"{Prefix} {CC.B}{warden.PlayerName} {CC.W} artık komutçu değil!");
             });
     }
 

@@ -37,6 +37,14 @@ public partial class JailbreakExtras
         var players = GetPlayers(CsTeam.CounterTerrorist)
             .Where(x => x.PawnIsAlive == false)
             .ToList();
+        var revColor = (3 - CurrentCtRespawns) switch
+        {
+            3 => CC.G,
+            2 => CC.Go,
+            1 => CC.R,
+            _ => CC.W,
+        };
+
         if (players == null || players.Count == 0)
         {
             player.PrintToChat($"{Prefix} {CC.W} Revlenecek Hiç Ölü CT yok");
@@ -49,7 +57,7 @@ public partial class JailbreakExtras
             {
                 CustomRespawn(fastRev);
                 CurrentCtRespawns++;
-                Server.PrintToChatAll($"{Prefix} {CC.B}{fastRev.PlayerName} {CC.W} Rev menüden revlendi | Son {3 - CurrentCtRespawns} rev");
+                Server.PrintToChatAll($"{Prefix} {CC.B}{fastRev.PlayerName} {CC.W} Rev menüden revlendi | Son {revColor}{3 - CurrentCtRespawns}{CC.W} rev");
             }
         }
         else
@@ -63,7 +71,7 @@ public partial class JailbreakExtras
                    {
                        CustomRespawn(x);
                        CurrentCtRespawns++;
-                       Server.PrintToChatAll($"{Prefix} {CC.B}{x.PlayerName} {CC.W} Rev menüden revlendi | Son {3 - CurrentCtRespawns} rev");
+                       Server.PrintToChatAll($"{Prefix} {CC.B}{x.PlayerName} {CC.W} Rev menüden revlendi | Son {revColor}{3 - CurrentCtRespawns}{CC.W} rev");
                    });
                });
             MenuManager.OpenChatMenu(player, revmenu);

@@ -30,6 +30,7 @@ public partial class JailbreakExtras
         SpeedActive = false;
         IsEliGivenCheck = false;
         SpeedActiveDatas?.Clear();
+        GravityActiveDatas?.Clear();
         DizPlayerId = 0;
         DizActive = false;
         CurrentRoundWKillerId = null;
@@ -106,6 +107,7 @@ public partial class JailbreakExtras
         _ = HookPlayers?.Remove(steamId, out _);
         _ = PlayerTimeTracking?.Remove(steamId, out _);
         _ = SpeedActiveDatas?.Remove(steamId, out _);
+        _ = GravityActiveDatas?.Remove(steamId, out _);
         _ = FovActivePlayers?.Remove(steamId, out _);
 
         _ = SutolCommandCalls?.RemoveAll(x => x == steamId);
