@@ -22,6 +22,9 @@ public partial class JailbreakExtras
         {
             if (PlayerTimeTracking.TryGetValue(player.SteamID, out item) == false)
             {
+                player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
+                player.PrintToChat($"{Prefix} {CC.W}Toplam {CC.G}1 {CC.W}saattir sunucudasın!");
+                player.PrintToChat($"{Prefix} {CC.W} ------===------------===------");
                 return;
             }
         }

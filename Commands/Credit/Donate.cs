@@ -92,11 +92,11 @@ public partial class JailbreakExtras
             Server.PrintToChatAll($"{Prefix} {CC.Ol}{player.PlayerName}{CC.W},{CC.B} {x.PlayerName} {CC.W}adlı komutçuya {CC.G}{miktar} {CC.W}kredi donateledi!");
             if (string.IsNullOrWhiteSpace(msg))
             {
-                PrintToCenterAll($"{player.PlayerName}, {x.PlayerName} adlı komutçuya {miktar} kredi donateledi!");
+                PrintToCenterAll($"{player.PlayerName}, Komutçuya {miktar} kredi donateledi!");
             }
             else
             {
-                PrintToCenterAll($"{player.PlayerName}, {x.PlayerName} | {miktar} kredi!\n " + msg);
+                PrintToCenterAll($"{player.PlayerName}, Komutçuya | {miktar} kredi!\n " + msg);
             }
         }
     }

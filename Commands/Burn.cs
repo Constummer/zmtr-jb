@@ -33,8 +33,8 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
-        var godOneTwoStr = info.ArgCount > 2 ? info.ArgString.GetArg(1) : null;
+        var target = info.ArgString.GetArgSkipFromLast(1);
+        var godOneTwoStr = info.ArgString.GetArgLast();
         if (string.IsNullOrWhiteSpace(target) || string.IsNullOrWhiteSpace(godOneTwoStr))
         {
             return;

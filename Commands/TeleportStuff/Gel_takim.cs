@@ -10,41 +10,6 @@ public partial class JailbreakExtras
 {
     #region Gel
 
-    [ConsoleCommand("geltakim")]
-    [CommandHelper(1, "<takimno>")]
-    public void geltakim(CCSPlayerController? player, CommandInfo info)
-    {
-        if (OnCommandValidater(player, true, Perm_Seviye9) == false)
-        {
-            return;
-        }
-        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : "0";
-
-        if (int.TryParse(target, out var value))
-        {
-            if (value > 18)
-            {
-                player.PrintToChat("Max 18 girebilirsin");
-                return;
-            }
-            else if (value < 0)
-            {
-                player.PrintToChat("Min 0 girebilirsin");
-                return;
-            }
-            else
-            {
-                LogManagerCommand(player.SteamID, info.GetCommandString);
-                GelTeam(player, value);
-            }
-        }
-        else
-        {
-            LogManagerCommand(player.SteamID, info.GetCommandString);
-            GelTeam(player, value);
-        }
-    }
-
     [ConsoleCommand("gelkirmizi")]
     public void gelkirmizi(CCSPlayerController? player, CommandInfo info)
     {
