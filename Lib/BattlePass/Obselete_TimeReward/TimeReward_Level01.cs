@@ -1,6 +1,4 @@
-﻿using CounterStrikeSharp.API.Modules.Menu;
-
-namespace JailbreakExtras;
+﻿namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {

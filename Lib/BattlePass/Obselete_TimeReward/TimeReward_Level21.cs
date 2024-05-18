@@ -1,8 +1,4 @@
-﻿using CounterStrikeSharp.API.Modules.Menu;
-using Newtonsoft.Json;
-using static JailbreakExtras.JailbreakExtras;
-
-namespace JailbreakExtras;
+﻿namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
