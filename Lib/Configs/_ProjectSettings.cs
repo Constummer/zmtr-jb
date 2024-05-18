@@ -4,7 +4,6 @@ public partial class JailbreakExtras
 {
     private static string Prefix => $" {CC.LR}[ZMTR]";
 
-    private const string BasePermission = "@css/admin1";
     private const string WardenDcWebHook = "https://discord.com/api/webhooks/1194758709344215090/-XRiPj35x-KTHRtAyWlB5i1I16lFylHl_17we6SOS5HbYY5JCFPQYiOjYot6trvQiUcR";
     private const string Total_T_CTDcWebHook = "https://discord.com/api/webhooks/1200909469496905888/7sNtxOzC3t8PgDmfuzgzRIIkp3u_Oj6evcGAY3pIcmRZC75eVhf6e2-Q4WbsBdCdVdua";
     private const string Total_IsTop_DcWebHook = "https://discord.com/api/webhooks/1218352252201336862/mdqHjf60NSnI87m_vWo2rzm58hRLNdzKfieViCOcciLFxpsqTc0CzgggYu-pzADAMcv9";
@@ -47,8 +46,14 @@ public partial class JailbreakExtras
         76561198797775438,//add extra and different steamids like this
     };
 
-    private const string Perm_Lider = "@css/lider";
+    #region Perms
+
+    private const string Perm_Root = "@css/root";
     private const string Perm_Premium = "@css/premium";
+    private const string Perm_Lider = "@css/lider";
+
+    private const string Perm_Admin1 = "@css/admin1";
+
     private const string Perm_Komutcu = "@css/komutcu";
 
     internal const string Perm_Seviye1 = "@css/seviye1";
@@ -81,4 +86,6 @@ public partial class JailbreakExtras
     internal const string Perm_Seviye28 = "@css/seviye28";
     internal const string Perm_Seviye29 = "@css/seviye29";
     internal const string Perm_Seviye30 = "@css/seviye30";
+
+    #endregion Perms
 }

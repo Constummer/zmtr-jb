@@ -92,7 +92,7 @@ public partial class JailbreakExtras
     private static bool CheckPermission(CCSPlayerController player)
     {
         bool res = false;
-        if (AdminManager.PlayerHasPermissions(player, BasePermission))
+        if (AdminManager.PlayerHasPermissions(player, Perm_Admin1))
         {
             res = true;
         }
@@ -161,7 +161,7 @@ public partial class JailbreakExtras
         return false;
     }
 
-    private bool OnCommandValidater(CCSPlayerController? player, bool checkPermission, string? seviyeLevel = null, string permLevel = BasePermission, bool printMsg = true)
+    private bool OnCommandValidater(CCSPlayerController? player, bool checkPermission, string? seviyeLevel = null, string permLevel = Perm_Admin1, bool printMsg = true)
     {
         if (ValidateCallerPlayer(player, false, printMsg) == false)
         {

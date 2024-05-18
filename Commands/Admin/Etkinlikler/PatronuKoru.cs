@@ -10,7 +10,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private bool PatronuKoruActive { get; set; } = false;
+    private static bool PatronuKoruActive { get; set; } = false;
     private ulong? PatronuKoruCTLider { get; set; } = null;
     private ulong? PatronuKoruTLider { get; set; } = null;
     private ulong? PatronuKoruTKoruma1 { get; set; } = null;
@@ -22,7 +22,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("PatronuKoruBasla")]
     public void PatronuKoru(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -48,7 +48,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("PatronuKoruMapAc")]
     public void PatronuKoruMapAc(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -64,7 +64,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("PatronuKoruCTLider")]
     public void PatronuKoruCTLiderSec(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -80,7 +80,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("PatronuKoruTLider")]
     public void PatronuKoruTLiderSec(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -99,6 +99,12 @@ public partial class JailbreakExtras
         Server.ExecuteCommand($"sv_enablebunnyhopping 0;sv_autobunnyhopping 0");
         Server.ExecuteCommand("mp_autoteambalance 1");
         Server.ExecuteCommand("mp_forcecamera 1");
+
+        Server.ExecuteCommand("mp_free_armor 1");
+        Server.ExecuteCommand("sv_alltalk 1");
+        Server.ExecuteCommand("sv_deadtalk 1");
+        Server.ExecuteCommand("mp_forcecamera 0");
+        Server.ExecuteCommand("sv_voiceenable 1");
         Model0Action();
         Global?.AddTimer(3f, () =>
         {

@@ -69,7 +69,7 @@ public partial class JailbreakExtras
                 return HookResult.Handled;
             }
 
-            if (csaytestActive && AdminManager.PlayerHasPermissions(player, "@css/root"))
+            if (csaytestActive && AdminManager.PlayerHasPermissions(player, Perm_Root))
             {
                 Server.PrintToChatAll("arg=>" + arg);
                 var key = string.IsNullOrWhiteSpace(arg) ? "" : arg.Split(" ")[0];

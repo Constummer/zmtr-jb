@@ -16,7 +16,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (AdminManager.PlayerHasPermissions(player, BasePermission))
+        if (AdminManager.PlayerHasPermissions(player, Perm_Admin1))
         {
             player.PrintToChat($"{Prefix}{CC.B} !tagac{CC.W} komutunu kullanamazsın.");
             return;

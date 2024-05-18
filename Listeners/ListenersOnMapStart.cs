@@ -9,6 +9,7 @@ public partial class JailbreakExtras
     {
         RegisterListener<Listeners.OnMapStart>(name =>
         {
+            TelliSeferActive = false;
             PatronuKoruActive = false;
             PatronuKoruTLider = null;
             PatronuKoruCTLider = null;

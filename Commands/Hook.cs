@@ -199,7 +199,7 @@ public partial class JailbreakExtras
         warden?.PrintToConsole($"{Prefix} {hookText} {player.PlayerName} Hook bastı");
 
         GetPlayers()
-         .Where(x => AdminManager.PlayerHasPermissions(x, BasePermission))
+         .Where(x => AdminManager.PlayerHasPermissions(x, Perm_Admin1))
          .ToList()
          .ForEach(x => x.PrintToConsole($"{Prefix} {hookText} {player.PlayerName} Hook bastı"));
 

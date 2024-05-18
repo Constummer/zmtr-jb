@@ -16,7 +16,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("ceventbulletimpactwithsave")]
     public void ceventbulletimpactwithsave(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -46,7 +46,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("ceventbulletimpact")]
     public void ceventbulletimpact(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -67,7 +67,7 @@ public partial class JailbreakExtras
         {
             if (@event == null) return;
             if (ValidateCallerPlayer(@event.Userid) == false) return;
-            if (!AdminManager.PlayerHasPermissions(@event.Userid, "@css/root")) return;
+            if (!AdminManager.PlayerHasPermissions(@event.Userid, Perm_Root)) return;
             BulletImpactVectors.Add(new(@event?.X, @event?.Y, @event?.Z));
             var msg = $"{@event?.X},{@event?.Y},{@event?.Z} - {BulletImpactVectors.Count}";
             PrintToRootChat(msg);

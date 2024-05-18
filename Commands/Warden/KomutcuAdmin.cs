@@ -29,7 +29,7 @@ public partial class JailbreakExtras
             return;
         }
         var players = GetPlayers()
-        .Where(x => AdminManager.PlayerHasPermissions(x, BasePermission))
+        .Where(x => AdminManager.PlayerHasPermissions(x, Perm_Admin1))
         .ToList();
 
         if (players.Count == 0)

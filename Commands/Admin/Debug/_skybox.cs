@@ -12,7 +12,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cskybox1")]
     public void cskybox1(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -60,7 +60,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cskybox2")]
     public void cskybox2(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -121,7 +121,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cskybox3")]
     public void cskybox3(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;

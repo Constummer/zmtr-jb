@@ -59,7 +59,7 @@ public partial class JailbreakExtras
         if (data == null) return false;
         var flags = data.GetAllFlags();
         if (flags == null) return false;
-        return flags.Any(x => x == "@css/root" || x == BasePermission);
+        return flags.Any(x => x == Perm_Root || x == Perm_Admin1);
     }
 
     public static bool IsBasePermissionPlayer(ulong steamId)
@@ -73,7 +73,7 @@ public partial class JailbreakExtras
         if (data == null) return false;
         var flags = data.GetAllFlags();
         if (flags == null) return false;
-        return flags.Any(x => x == BasePermission);
+        return flags.Any(x => x == Perm_Admin1);
     }
 
     public void YetkiSistemi()

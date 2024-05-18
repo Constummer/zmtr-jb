@@ -13,7 +13,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("2xkrediac")]
     public void Command2xKrediAc(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -26,7 +26,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("3xkrediac")]
     public void Command3xKrediAc(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -39,7 +39,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("4xkrediac")]
     public void Command4xKrediAc(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -59,7 +59,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("4xkredikapat")]
     public void CommandxKrediAc(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;

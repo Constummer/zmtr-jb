@@ -15,7 +15,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("piyangoac")]
     public void KumarAc(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;

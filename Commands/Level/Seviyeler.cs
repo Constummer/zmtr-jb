@@ -13,7 +13,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("seviyeler")]
     public void Seviyeler(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;

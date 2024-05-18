@@ -78,6 +78,11 @@ public partial class JailbreakExtras
             .ForEach(x =>
             {
                 Unmuteds.Add(x.SteamID);
+                if (TelliSeferActive || PatronuKoruActive)
+                {
+                    x.VoiceFlags &= ~VoiceFlags.All;
+                    x.VoiceFlags &= ~VoiceFlags.ListenAll;
+                }
                 x.VoiceFlags &= ~VoiceFlags.Muted;
                 if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
                 {

@@ -17,6 +17,10 @@ public partial class JailbreakExtras
             {
                 PatronuKoruRoundStart();
             }
+            else if (TelliSeferActive)
+            {
+                TelliogluVsSeferogluRoundStart();
+            }
             else
             {
                 Server.ExecuteCommand("mp_autoteambalance 0");
@@ -57,7 +61,7 @@ public partial class JailbreakExtras
                 }
             }
             RoundEndParticles = new();
-            if (!PatronuKoruActive)
+            if (!PatronuKoruActive && !TelliSeferActive)
             {
                 AddTimer(5.0f, () =>
                 {

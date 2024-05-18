@@ -300,6 +300,10 @@ public partial class JailbreakExtras
             }
             player.GiveNamedItem("item_assaultsuit");
         }
+        else if (TelliSeferActive)
+        {
+            return;
+        }
         else
         {
             if (IsCt(player))

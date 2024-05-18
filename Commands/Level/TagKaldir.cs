@@ -18,7 +18,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (AdminManager.PlayerHasPermissions(player, BasePermission))
+        if (AdminManager.PlayerHasPermissions(player, Perm_Admin1))
         {
             player.PrintToChat($"{Prefix}{CC.B} !tagkapat{CC.W} komutunu kullanamazsın.");
             return;
@@ -40,7 +40,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<Seviye tagi kaldirilacak kişi>")]
     public void TaginiKaldir(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;

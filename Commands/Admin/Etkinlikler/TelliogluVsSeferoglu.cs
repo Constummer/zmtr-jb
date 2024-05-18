@@ -8,6 +8,8 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    private static bool TelliSeferActive { get; set; } = false;
+
     [ConsoleCommand("TelliSefer")]
     [ConsoleCommand("TelliogluSeferoglu")]
     [ConsoleCommand("TelliogluSeferogluBasla")]
@@ -15,7 +17,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("TelliogluVsSeferogluBasla")]
     public void TelliogluSeferoglu(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -25,8 +27,8 @@ public partial class JailbreakExtras
             return;
         }
         LogManagerCommand(player.SteamID, info.GetCommandString);
-        PatronuKoruActive = !PatronuKoruActive;
-        switch (PatronuKoruActive)
+        TelliSeferActive = !TelliSeferActive;
+        switch (TelliSeferActive)
         {
             case true:
                 Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.Go} TELLİ OĞULLARI VS SEFER OĞULLARI{CC.W} etkinliğini başlattı");
@@ -41,7 +43,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("TelliogluVsSeferogluMapAc")]
     public void TelliogluVsSeferogluMapAc(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -51,7 +53,7 @@ public partial class JailbreakExtras
             return;
         }
         LogManagerCommand(player.SteamID, info.GetCommandString);
-        Server.ExecuteCommand($"host_workshop_map 3178317288");
+        Server.ExecuteCommand($"host_workshop_map 3239955866");
     }
 
     private static void TelliogluVsSeferogluRoundStart()
@@ -70,5 +72,18 @@ public partial class JailbreakExtras
         Server.ExecuteCommand("mp_forcecamera 0");
         Server.ExecuteCommand("sv_voiceenable 1");
         Model0Action();
+
+        Global?.AddTimer(7f, () =>
+        {
+            GetPlayers()
+             .Where(x => x.PawnIsAlive)
+             .ToList()
+             .ForEach(x =>
+             {
+                 SetHp(x, 45);
+
+                 RefreshPawn(x);
+             });
+        });
     }
 }

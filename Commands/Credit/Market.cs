@@ -47,6 +47,11 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.Go}PATRONU KORU ETKINLIGI {CC.W}nde model değiştiremezsin");
             return;
         }
+        if (TelliSeferActive)
+        {
+            player.PrintToChat($"{Prefix} {CC.Go}TELLI VS SEFER ETKINLIGI {CC.W}nde model değiştiremezsin");
+            return;
+        }
         var data = GetPlayerMarketModel(player.SteamID);
         if (data.Model == null) return;
 

@@ -47,7 +47,7 @@ public partial class JailbreakExtras
         }
         if (targetTeam == CsTeam.Spectator)
         {
-            if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+            if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
             {
                 player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor, Spec yasakli.");
                 return;

@@ -73,6 +73,11 @@ public partial class JailbreakExtras
             .ToList()
             .ForEach(x =>
             {
+                if (TelliSeferActive || PatronuKoruActive)
+                {
+                    x.VoiceFlags |= VoiceFlags.ListenTeam;
+                    x.VoiceFlags |= VoiceFlags.Team;
+                }
                 x.VoiceFlags |= VoiceFlags.Muted;
                 if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
                 {

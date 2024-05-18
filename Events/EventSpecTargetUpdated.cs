@@ -36,7 +36,7 @@ public partial class JailbreakExtras
                    return HookResult.Continue;
                }
                Server.PrintToChatAll($"{@event.Target}");
-               if (!AdminManager.PlayerHasPermissions(@event.Userid, "@css/root"))
+               if (!AdminManager.PlayerHasPermissions(@event.Userid, Perm_Root))
                {
                    return HookResult.Continue;
                }

@@ -6,6 +6,7 @@ using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
+using Discord;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Diagnostics;
@@ -19,10 +20,10 @@ public partial class JailbreakExtras
         Server.PrintToChatAll(msg);
     }
 
-    [ConsoleCommand("crename")]
-    public void crename(CCSPlayerController? player, CommandInfo info)
+    [ConsoleCommand("cvoiceunmute")]
+    public void cvoiceunmute(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -31,19 +32,50 @@ public partial class JailbreakExtras
         {
             return;
         }
+        var target = info.ArgString.GetArg(0);
 
-        player.PlayerName = "test";
-        Global?.AddTimer(0.2f, () =>
+        var snd = target switch
         {
-            if (ValidateCallerPlayer(player, false) == false) return;
-            Utilities.SetStateChanged(player, "CCSPlayerController", "m_iszPlayerName");
-        }, SOM);
+            "1" => VoiceFlags.Normal,
+            "2" => VoiceFlags.Muted,
+            "3" => VoiceFlags.All,
+            "4" => VoiceFlags.ListenAll,
+            "5" => VoiceFlags.Team,
+            "6" => VoiceFlags.ListenTeam,
+        };
+        player.VoiceFlags |= snd;
+    }
+
+    [ConsoleCommand("cvoicemute")]
+    public void cvoicemute(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        var target = info.ArgString.GetArg(0);
+
+        var snd = target switch
+        {
+            "1" => VoiceFlags.Normal,
+            "2" => VoiceFlags.Muted,
+            "3" => VoiceFlags.All,
+            "4" => VoiceFlags.ListenAll,
+            "5" => VoiceFlags.Team,
+            "6" => VoiceFlags.ListenTeam,
+        };
+        player.VoiceFlags &= ~snd;
     }
 
     [ConsoleCommand("cscore")]
     public void cscore(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -66,7 +98,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cscore2")]
     public void cscore2(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -89,7 +121,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cscore3")]
     public void cscore3(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -112,7 +144,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cwarden")]
     public void cwarden(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -129,7 +161,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("csaytest")]
     public void csaytest(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -144,7 +176,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("csaytest2")]
     public void csaytest2(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -161,7 +193,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cprintall")]
     public void cprintall(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -214,7 +246,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("csut")]
     public void csut(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -232,7 +264,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cAuraTest")]
     public void cAuraTest(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -285,7 +317,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cParach")]
     public void cParach(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -325,7 +357,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cwelcome")]
     public void cwelcome(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -340,7 +372,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("crgb")]
     public void crgb(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -362,7 +394,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cspawnweapon")]
     public void cspawnweapon(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -388,7 +420,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("csoundtest")]
     public void csoundtest(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -405,7 +437,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cspscs")]
     public void cspscs(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -474,7 +506,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cmarkersifirla")]
     public void cmarkersifirla(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -493,7 +525,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cmarkertest")]
     public void cmarkertest(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -519,7 +551,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cparticle")]
     public void cparticle(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -552,7 +584,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cparticlekill")]
     public void cparticlekill(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -570,7 +602,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cthird")]
     public void cthird(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -619,7 +651,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cthird2")]
     public void cthird2(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -634,7 +666,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("ccentermenu")]
     public void ccentermenu(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -658,7 +690,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("ccustomcoin")]
     public void ccustomcoin(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -684,7 +716,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cstop")]
     public void cstop(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -705,7 +737,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cbuneamk")]
     public void cbuneamk(CCSPlayerController? x, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(x, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(x, Perm_Root))
         {
             x.PrintToChat(NotEnoughPermission);
             return;
@@ -736,7 +768,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cinventoryService")]
     public void cinventoryService(CCSPlayerController? x, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(x, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(x, Perm_Root))
         {
             x.PrintToChat(NotEnoughPermission);
             return;
@@ -758,7 +790,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cviewdata")]
     public void cviewdata(CCSPlayerController? x, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(x, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(x, Perm_Root))
         {
             x.PrintToChat(NotEnoughPermission);
             return;
@@ -784,7 +816,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cbattlepassLogin")]
     public void cbattlepassLogin(CCSPlayerController? x, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(x, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(x, Perm_Root))
         {
             x.PrintToChat(NotEnoughPermission);
             return;
@@ -795,7 +827,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cbattlepasspremiumLogin")]
     public void cbattlepassPremiumLogin(CCSPlayerController? x, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(x, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(x, Perm_Root))
         {
             x.PrintToChat(NotEnoughPermission);
             return;
@@ -806,7 +838,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cbpjson")]
     public void cbpjson(CCSPlayerController? x, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(x, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(x, Perm_Root))
         {
             x.PrintToChat(NotEnoughPermission);
             return;
@@ -824,7 +856,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cteamimage")]
     public void cteamimage(CCSPlayerController? x, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(x, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(x, Perm_Root))
         {
             x.PrintToChat(NotEnoughPermission);
             return;
@@ -844,7 +876,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("csutol")]
     public void csutol(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -893,7 +925,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cdeath")]
     public void cdeath(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -913,7 +945,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cdeath2")]
     public void cdeath2(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -933,7 +965,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cplayerJump")]
     public void cplayerJump(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -948,7 +980,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cwtf")]
     public void cwtf(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -959,7 +991,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cbichaha")]
     public void cbichaha(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -986,7 +1018,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cbicdeneme")]
     public void cbicdeneme(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -1029,7 +1061,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cbicdeneme2")]
     public void cbicdeneme2(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -1053,7 +1085,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("cbicdeneme3")]
     public void cbicdeneme3(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -1079,7 +1111,7 @@ public partial class JailbreakExtras
     [CommandHelper(3, "<pitch> <volume> <delay>")]
     public void ctparty(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -1101,7 +1133,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("ctakim2")]
     public void takim2(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -1116,7 +1148,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("ctakim3")]
     public void ctakim3(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -1127,7 +1159,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("ts")]
     public void testses(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;

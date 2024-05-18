@@ -15,7 +15,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("EtkinlikBitir")]
     public void PatronuKoruMapDeis(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;

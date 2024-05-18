@@ -13,7 +13,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("2xtpac")]
     public void Command2xTPAc(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -26,7 +26,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("3xtpac")]
     public void Command3xTPAc(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -39,7 +39,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("4xtpac")]
     public void Command4xTPAc(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -59,7 +59,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("4xtpkapat")]
     public void CommandxTPAc(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;

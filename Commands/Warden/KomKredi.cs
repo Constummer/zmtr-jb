@@ -14,7 +14,7 @@ public partial class JailbreakExtras
     {
         if (!AdminManager.PlayerHasPermissions(player, Config.Additional.KomPermName))
         {
-            if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+            if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
             {
                 player.PrintToChat($"{Prefix}{CC.W} Bu komutu sadece komutçular kullanabilir.");
                 return;

@@ -12,7 +12,7 @@ public partial class JailbreakExtras
     [CommandHelper(2, "<oyuncu ismi,@t,@ct,@all,@me> <miktar>")]
     public void KrediVer(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;

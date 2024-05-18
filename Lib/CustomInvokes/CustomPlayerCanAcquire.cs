@@ -56,6 +56,25 @@ public partial class JailbreakExtras
         {
             return ActiveTeamGamesGameBase?.OnWeaponCanAcquire(client, vdata.Name) ?? HookResult.Continue;
         }
+        else if (TelliSeferActive)
+        {
+            if (ValidateCallerPlayer(client, false) == false) return HookResult.Continue;
+
+            if (ValidateCallerPlayer(client, false) == false) return HookResult.Continue;
+            if (vdata.Name != null
+                && vdata.Name != "")
+            {
+                if (vdata.Name.Contains("knife"))
+                {
+                    return HookResult.Continue;
+                }
+                if (vdata.Name.Contains("bayonet"))
+                {
+                    return HookResult.Continue;
+                }
+                return HookResult.Stop;
+            }
+        }
         else if (PatronuKoruActive)
         {
             if (ValidateCallerPlayer(client, false) == false) return HookResult.Continue;
