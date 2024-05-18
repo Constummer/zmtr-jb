@@ -11,7 +11,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("csay")]
     public void csay(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/sorumlu"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Sorumlu))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -28,7 +28,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("hsay")]
     public void hsay(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/sorumlu"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Sorumlu))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -48,7 +48,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("hsay2")]
     public void hsay2(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/sorumlu"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Sorumlu))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -68,7 +68,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("hsay3")]
     public void hsay3(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/sorumlu"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Sorumlu))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -89,7 +89,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("hsay4")]
     public void hsay4(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/sorumlu"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Sorumlu))
         {
             player.PrintToChat(NotEnoughPermission);
             return;

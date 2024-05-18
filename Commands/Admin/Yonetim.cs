@@ -12,7 +12,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("consjoy")]
     public void consjoy(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/yonetim"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Yonetim))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
