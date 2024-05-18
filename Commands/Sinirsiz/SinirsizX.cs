@@ -21,35 +21,25 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
+        var target = info.ArgString.GetArgSkip(0);
         LogManagerCommand(player.SteamID, info.GetCommandString);
-        if (info.ArgCount > 2)
-        {
-            var weapon = info.ArgCount > 2 ? info.ArgString.GetArg(1) : null;
-            if (string.IsNullOrWhiteSpace(weapon))
-            {
-                player.PrintToChat($"{Prefix} {CC.G} Silah ismini vermeniz gerekmektedir..");
-                player.PrintToChat($"{Prefix} {CC.G} Örnek = !sinirsizx @all ssg08.");
-                player.PrintToChat($"{Prefix} {CC.G} Örnek = !smx @all ssg08.");
-                return;
-            }
-            else
-            {
-                weapon = GiveHandler(weapon);
-                if (ValidWantedWeapon(weapon) == false)
-                {
-                    return;
-                }
-                SinirsizXAction(player, target, weapon);
-                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.Ol}{target}{CC.W} hedefine {CC.P}{weapon} {CC.W} silahıyla {CC.DB}SMX{CC.W} başlattı.");
-            }
-        }
-        else
+        var weapon = info.ArgString.GetArgLast();
+        if (string.IsNullOrWhiteSpace(weapon))
         {
             player.PrintToChat($"{Prefix} {CC.G} Silah ismini vermeniz gerekmektedir..");
             player.PrintToChat($"{Prefix} {CC.G} Örnek = !sinirsizx @all ssg08.");
             player.PrintToChat($"{Prefix} {CC.G} Örnek = !smx @all ssg08.");
             return;
+        }
+        else
+        {
+            weapon = GiveHandler(weapon);
+            if (ValidWantedWeapon(weapon) == false)
+            {
+                return;
+            }
+            SinirsizXAction(player, target, weapon);
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.Ol}{target}{CC.W} hedefine {CC.P}{weapon} {CC.W} silahıyla {CC.DB}SMX{CC.W} başlattı.");
         }
     }
 

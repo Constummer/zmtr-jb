@@ -60,7 +60,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("suresine")]
     public void suresine(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/yonetim"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Yonetim))
         {
             player.PrintToChat(NotEnoughPermission);
             return;

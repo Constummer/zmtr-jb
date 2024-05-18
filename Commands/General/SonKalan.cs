@@ -19,8 +19,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (info.ArgCount != 2) return;
-        var target = info.ArgString.GetArg(0);
+        var target = info.ArgString.GetArgSkip(0);
 
         var players = GetPlayers()
                 .Where(x => x.PlayerName?.ToLowerInvariant()?.Contains(target?.ToLowerInvariant()) ?? false)

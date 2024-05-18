@@ -22,8 +22,7 @@ public partial class JailbreakExtras
             return;
         }
 
-        if (info.ArgCount != 2) return;
-        var target = info.ArgString.GetArg(0);
+        var target = info.ArgString.GetArgSkip(0);
         var targetArgument = GetTargetArgument(target);
         SpeedActive = false;
         LogManagerCommand(player.SteamID, info.GetCommandString);
@@ -58,9 +57,8 @@ public partial class JailbreakExtras
             return;
         }
 
-        if (info.ArgCount != 3) return;
-        var target = info.ArgString.GetArg(0);
-        if (!float.TryParse(info.ArgString.GetArg(1), out var speed) || speed < 0 || speed > 10)
+        var target = info.ArgString.GetArgSkip(0);
+        if (!float.TryParse(info.ArgString.GetArgLast(), out var speed) || speed < 0 || speed > 10)
         {
             player.PrintToChat($"{Prefix}{CC.W} 0-1 kapatmak için, 2-9 hız ayarlamak için.");
             return;

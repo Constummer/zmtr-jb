@@ -20,9 +20,8 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (info.ArgCount != 3) return;
-        var target = info.ArgString.GetArg(0);
-        var weapon = GiveHandler(info.ArgString.GetArg(1));
+        var target = info.ArgString.GetArgSkip(0);
+        var weapon = GiveHandler(info.ArgString.GetArgLast());
         if (ValidWantedWeapon(weapon) == false)
         {
             return;
@@ -43,7 +42,7 @@ public partial class JailbreakExtras
     [CommandHelper(2, "<oyuncu ismi,@t,@ct,@all,@me> <silah kisa ismi>")]
     public void Give2(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/yonetim"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Sorumlu))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -52,11 +51,10 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (info.ArgCount != 3) return;
         LogManagerCommand(player.SteamID, info.GetCommandString);
 
-        var target = info.ArgString.GetArg(0);
-        var weapon = GiveHandler(info.ArgString.GetArg(1));
+        var target = info.ArgString.GetArgSkip(0);
+        var weapon = GiveHandler(info.ArgString.GetArgLast());
         var targetArgument = GetTargetArgument(target);
         GiveAction(player, target, weapon, targetArgument, true);
         if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)

@@ -25,10 +25,6 @@ public partial class JailbreakExtras
             return;
         }
 
-        if (info.ArgCount != 2)
-        {
-            return;
-        }
         var target = info.ArgString.GetArg(0);
         if (int.TryParse(target, out var value))
         {

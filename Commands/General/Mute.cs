@@ -15,9 +15,8 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (info.ArgCount != 2) return;
         LogManagerCommand(player.SteamID, info.GetCommandString);
-        var target = info.ArgString.GetArg(0);
+        var target = info.ArgString.GetArgSkip(0);
         MuteAction(player, target);
     }
 

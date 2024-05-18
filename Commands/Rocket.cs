@@ -26,8 +26,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (info.ArgCount != 2) return;
-        var target = info.ArgString.GetArg(0);
+        var target = info.ArgString.GetArgSkip(0);
         LogManagerCommand(player.SteamID, info.GetCommandString);
         var targetArgument = GetTargetArgument(target);
         var snd = "particles/kolka/5_particle.vpcf";//rocket

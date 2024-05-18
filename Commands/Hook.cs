@@ -58,13 +58,12 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<oyuncu ismi>")]
     public void HookVer(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/yonetim"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Yonetim))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
         }
-        if (info.ArgCount != 2) return;
-        var target = info.ArgString.GetArg(0);
+        var target = info.ArgString.GetArgSkip(0);
         LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers()
               .Where(x => GetTargetAction(x, target, null))
@@ -93,9 +92,8 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (info.ArgCount != 2) return;
 
-        var target = info.ArgString.GetArg(0);
+        var target = info.ArgString.GetArgSkip(0);
         var targetArgument = GetTargetArgument(target);
 
         LogManagerCommand(player.SteamID, info.GetCommandString);
@@ -124,13 +122,12 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<oyuncu ismi>")]
     public void HookAl(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/yonetim"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Yonetim))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
         }
-        if (info.ArgCount != 2) return;
-        var target = info.ArgString.GetArg(0);
+        var target = info.ArgString.GetArgSkip(0);
         LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers()
               .Where(x => GetTargetAction(x, target, null))

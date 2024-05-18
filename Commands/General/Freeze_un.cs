@@ -22,8 +22,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (info.ArgCount != 2) return;
-        var target = info.ArgString.GetArg(0);
+        var target = info.ArgString.GetArgSkip(0);
 
         if (int.TryParse(target, out int value))
         {
@@ -72,12 +71,10 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (info.ArgCount != 2) return;
-        var target = info.ArgString.GetArg(0);
+        var target = info.ArgString.GetArgSkip(0);
         var targetArgument = GetTargetArgument(target);
 
         LogManagerCommand(player.SteamID, info.GetCommandString);
-        bool randomFreeze = false;
         GetPlayers()
             .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player))
             .ToList()

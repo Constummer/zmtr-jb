@@ -15,7 +15,7 @@ public partial class JailbreakExtras
     [CommandHelper(minArgs: 1, "<sut takimdan silinecek kişi>")]
     public void SutTakimKaldir(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/yonetim"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Yonetim))
         {
             player.PrintToChat(NotEnoughPermission);
             return;

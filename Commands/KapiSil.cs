@@ -14,7 +14,7 @@ public partial class JailbreakExtras
     public void kapiSil(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false) return;
-        if (!AdminManager.PlayerHasPermissions(player, "@css/sorumlu"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Sorumlu))
         {
             player.PrintToChat(NotEnoughPermission);
             return;

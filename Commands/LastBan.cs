@@ -23,7 +23,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("lastban")]
     public void LastBan(CCSPlayerController? player, CommandInfo info)
     {
-        if (AdminManager.PlayerHasPermissions(player, "@css/sorumlu") == false)
+        if (AdminManager.PlayerHasPermissions(player, Perm_Sorumlu) == false)
         {
             player.PrintToChat(NotEnoughPermission);
             return;

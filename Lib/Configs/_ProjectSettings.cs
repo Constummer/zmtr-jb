@@ -49,10 +49,14 @@ public partial class JailbreakExtras
     #region Perms
 
     private const string Perm_Root = "@css/root";
+    private const string Perm_Yonetim = "@css/yonetim";
+    private const string Perm_Sorumlu = "@css/sorumlu";
     private const string Perm_Premium = "@css/premium";
     private const string Perm_Lider = "@css/lider";
+    private const string Perm_LiderKredi = "@css/liderkredi";
 
     private const string Perm_Admin1 = "@css/admin1";
+    private const string Perm_AdminKredi = "@css/adminkredi";
 
     private const string Perm_Komutcu = "@css/komutcu";
 

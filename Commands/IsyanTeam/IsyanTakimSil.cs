@@ -17,7 +17,7 @@ public partial class JailbreakExtras
     [CommandHelper(minArgs: 1, "<isyan takimdan silinecek kişi>")]
     public void IsyanTakimKaldir(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/yonetim"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Yonetim))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -27,27 +27,11 @@ public partial class JailbreakExtras
             return;
         }
 
-        if (info.ArgCount != 2) return;
-        var targetPlayer = info.ArgString.GetArg(0);
-        var targetArgument = GetTargetArgument(targetPlayer);
-
-        var players = GetPlayers()
-               .Where(x =>
-               (targetArgument == TargetForArgument.UserIdIndex
-               ? GetUserIdIndex(targetPlayer) == x.UserId : targetArgument == TargetForArgument.Me ? x.SteamID == player.SteamID : false) || (x.PlayerName?.ToLower()?.Contains(targetPlayer?.ToLower()) ?? false))
-               .ToList();
-        if (players.Count == 0)
+        var target = info.ArgString.GetArgSkip(0);
+        if (FindSinglePlayer(player, target, out var y) == false)
         {
-            player.PrintToChat($"{Prefix} {CC.W}Eşleşen oyuncu bulunamadı!");
             return;
         }
-        if (players.Count != 1)
-        {
-            player.PrintToChat($"{Prefix} {CC.W}Birden fazla oyuncu bulundu.");
-            return;
-        }
-        var y = players.FirstOrDefault();
-        if (ValidateCallerPlayer(y, false) == false) return;
         LogManagerCommand(player.SteamID, info.GetCommandString);
 
         if (IsyanTeamPlayers.Any(x => x == y.SteamID) == false)

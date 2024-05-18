@@ -20,7 +20,6 @@ public partial class JailbreakExtras
             return;
         }
 
-        if (info.ArgCount < 2) return;
         var oneTwoStr = info.ArgCount == 2 ? info.ArgString.GetArg(0) : "0";
         int.TryParse(oneTwoStr, out var oneTwo);
         if (oneTwo < 0 || oneTwo > 1)

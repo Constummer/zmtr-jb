@@ -18,10 +18,6 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (info.ArgCount != 2)
-        {
-            return;
-        }
         var target = info.ArgString.GetArg(0);
         int.TryParse(target, out var godOneTwo);
         if (godOneTwo < 0 || godOneTwo > 1)

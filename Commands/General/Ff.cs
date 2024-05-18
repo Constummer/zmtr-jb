@@ -144,20 +144,6 @@ public partial class JailbreakExtras
         FDShort(player, info);
     }
 
-    [ConsoleCommand("fd")]
-    [CommandHelper(2, "<saniye> <mesaj>")]
-    public void fd(CCSPlayerController? player, CommandInfo info)
-    {
-        if (!AdminManager.PlayerHasPermissions(player, Perm_Premium))
-        {
-            player.PrintToChat(NotEnoughPermission);
-            return;
-        }
-        if (ValidateCallerPlayer(player, false) == false) return;
-        if (info.ArgCount < 3) return;
-        FDShort(player, info);
-    }
-
     private void FDShort(CCSPlayerController? player, CommandInfo info)
     {
         var firstArg = info.ArgString.GetArg(0);
