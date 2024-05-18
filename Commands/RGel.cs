@@ -18,7 +18,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (!AdminManager.PlayerHasPermissions(player, "@css/premium"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Premium))
         {
             player.PrintToChat(NotEnoughPermission);
             return;

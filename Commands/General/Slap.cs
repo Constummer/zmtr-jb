@@ -16,7 +16,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me> [hasar]")]
     public void OnSlapCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye10") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye10) == false)
         {
             return;
         }
@@ -51,7 +51,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me> [hasar]")]
     public void OnUberSlapCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye10") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye10) == false)
         {
             return;
         }
@@ -101,7 +101,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("uberslapiptal")]
     public void OnUberSlapKapaCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye10") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye10) == false)
         {
             return;
         }

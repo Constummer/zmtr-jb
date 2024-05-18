@@ -25,7 +25,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<playerismi | steamid | #userid>", CommandUsage.CLIENT_ONLY)]
     public void UnBan(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye30", "@css/lider") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye30, Perm_Lider) == false)
         {
             return;
         }
@@ -45,7 +45,7 @@ public partial class JailbreakExtras
     [CommandHelper(2, "<playerismi | steamid | #userid> <dakika/0 süresiz>", CommandUsage.CLIENT_ONLY)]
     public void Ban(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye30", "@css/lider") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye30, Perm_Lider) == false)
         {
             return;
         }

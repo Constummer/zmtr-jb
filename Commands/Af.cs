@@ -13,7 +13,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("af", "af")]
     public void Af(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/admin1"))
+        if (!AdminManager.PlayerHasPermissions(player, BasePermission))
         {
             player.PrintToChat(NotEnoughPermission);
             return;

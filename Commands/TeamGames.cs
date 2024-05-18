@@ -22,7 +22,7 @@ public partial class JailbreakExtras
     {
         if (LatestWCommandUser != player.SteamID)
         {
-            if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+            if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
             {
                 player.PrintToChat(NotEnoughPermission);
                 return;
@@ -50,7 +50,7 @@ public partial class JailbreakExtras
     {
         if (LatestWCommandUser != player.SteamID)
         {
-            if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+            if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
             {
                 player.PrintToChat(NotEnoughPermission);
                 return;

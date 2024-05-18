@@ -13,7 +13,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("ziplama")]
     public void Ziplama(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/premium"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Premium))
         {
             player.PrintToChat(NotEnoughPermission);
             return;

@@ -15,7 +15,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<playerismi-@all-@t-@ct-@me-@alive-@dead>")]
     public void OnPunGagCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
         {
             player.PrintToChat(NotEnoughPermission);
             return;

@@ -16,7 +16,7 @@ public partial class JailbreakExtras
     [CommandHelper(2, "<oyuncu ismi,@t,@ct,@all,@me> <silah kisa ismi>")]
     public void Give(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye9", "@css/seviye9") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye9, Perm_Seviye9) == false)
         {
             return;
         }

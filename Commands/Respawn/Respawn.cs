@@ -16,7 +16,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("revive")]
     public void Respawn(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye6") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye6) == false)
         {
             return;
         }
@@ -47,7 +47,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("revivet")]
     public void RespawnT(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye6") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye6) == false)
         {
             return;
         }
@@ -69,7 +69,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("revivect")]
     public void RespawnCt(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye6") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye6) == false)
         {
             return;
         }
@@ -90,7 +90,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("reviveall")]
     public void RespawnAll(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye6") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye6) == false)
         {
             return;
         }

@@ -16,7 +16,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me>")]
     public void OnRocketCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
         {
             player.PrintToChat(NotEnoughPermission);
             return;

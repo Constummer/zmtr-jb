@@ -157,7 +157,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("qk")]
     public void QK(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/premium"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Premium))
         {
             player.PrintToChat(NotEnoughPermission);
             return;

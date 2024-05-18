@@ -14,7 +14,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<takimno>")]
     public void geltakim(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye9") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye9) == false)
         {
             return;
         }
@@ -48,7 +48,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("gelkirmizi")]
     public void gelkirmizi(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye9") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye9) == false)
         {
             return;
         }
@@ -59,7 +59,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("gelmavi")]
     public void gelmavi(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye9") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye9) == false)
         {
             return;
         }
@@ -70,7 +70,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("gelyesil")]
     public void gelyesil(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye9") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye9) == false)
         {
             return;
         }
@@ -81,7 +81,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("gelgri")]
     public void gelgri(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye9") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye9) == false)
         {
             return;
         }

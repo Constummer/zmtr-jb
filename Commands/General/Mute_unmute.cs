@@ -13,7 +13,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<playerismi-@all-@t-@ct-@me-@alive-@dead>")]
     public void UnMute(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye10", "@css/seviye10") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye10, Perm_Seviye10) == false)
         {
             return;
         }
@@ -27,7 +27,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("ume")]
     public void UnMuteMe(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye10", "@css/seviye10") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye10, Perm_Seviye10) == false)
         {
             return;
         }
@@ -38,7 +38,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("uall")]
     public void UnMuteAll(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye10", "@css/seviye10") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye10, Perm_Seviye10) == false)
         {
             return;
         }
@@ -49,7 +49,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("ut")]
     public void UnMuteT(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye10", "@css/seviye10") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye10, Perm_Seviye10) == false)
         {
             return;
         }
@@ -61,7 +61,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("umct")]
     public void UnMuteCT(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye10", "@css/seviye10") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye10, Perm_Seviye10) == false)
         {
             return;
         }

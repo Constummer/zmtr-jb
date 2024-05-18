@@ -20,7 +20,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("drugsil")]
     public void OnUnDrugCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -40,7 +40,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("blindsil")]
     public void OnUnBlindCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -93,7 +93,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("blind")]
     public void OnBlindCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -148,7 +148,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me>")]
     public void OnDrug2Command(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
         {
             player.PrintToChat(NotEnoughPermission);
             return;

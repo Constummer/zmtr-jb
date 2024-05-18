@@ -106,7 +106,7 @@ public partial class JailbreakExtras
                  .ToList()
                  .ForEach(x =>
                  {
-                     if (AdminManager.PlayerHasPermissions(x, "@css/komutcu"))
+                     if (AdminManager.PlayerHasPermissions(x, Perm_Komutcu))
                      {
                          if (PlayerWTimeDatas.TryGetValue(x.SteamID, out var value))
                          {

@@ -27,7 +27,7 @@ public partial class JailbreakExtras
 
         if (LatestWCommandUser != player.SteamID)
         {
-            if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+            if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
             {
                 player.PrintToChat($"{Prefix} {CC.B}Sadece {CC.W} Komutçu bu komutu kullanabilir");
                 return;
@@ -56,7 +56,7 @@ public partial class JailbreakExtras
 
         if (LatestWCommandUser != player.SteamID)
         {
-            if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+            if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
             {
                 player.PrintToChat($"{Prefix} {CC.B}Sadece {CC.W} Komutçu bu komutu kullanabilir");
                 return;

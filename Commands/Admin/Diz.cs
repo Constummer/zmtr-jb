@@ -21,7 +21,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("dizcancel")]
     public void DizKapa(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -42,7 +42,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("diz")]
     public void Diz(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -65,7 +65,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("diz1")]
     public void Diz1(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -85,7 +85,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("diz2")]
     public void Diz2(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
         {
             player.PrintToChat(NotEnoughPermission);
             return;

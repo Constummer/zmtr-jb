@@ -19,7 +19,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("ffler")]
     public void Ffler(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye22", "@css/seviye22") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye22, Perm_Seviye22) == false)
         {
             return;
         }
@@ -35,7 +35,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<0/1>")]
     public void Ff(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye22", "@css/seviye22") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye22, Perm_Seviye22) == false)
         {
             return;
         }
@@ -64,7 +64,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("ffiptal")]
     public void Ffiptal(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye22", "@css/seviye22") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye22, Perm_Seviye22) == false)
         {
             return;
         }
@@ -81,7 +81,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("ffac", "ff acar")]
     public void FfAc(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye22", "@css/seviye22") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye22, Perm_Seviye22) == false)
         {
             return;
         }
@@ -93,7 +93,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("ffkapat", "ff kapatir")]
     public void FfKapa(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye22", "@css/seviye22") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye22, Perm_Seviye22) == false)
         {
             return;
         }
@@ -105,7 +105,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<saniye>")]
     public void FfSure(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye22", "@css/seviye22") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye22, Perm_Seviye22) == false)
         {
             return;
         }
@@ -136,7 +136,7 @@ public partial class JailbreakExtras
     [CommandHelper(2, "<saniye> <mesaj>")]
     public void FfDondur(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye25", "@css/seviye25") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye25, Perm_Seviye25) == false)
         {
             return;
         }
@@ -148,7 +148,7 @@ public partial class JailbreakExtras
     [CommandHelper(2, "<saniye> <mesaj>")]
     public void fd(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/premium"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Premium))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -236,7 +236,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<saniye>")]
     public void FfMenu(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye22", "@css/seviye22") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye22, Perm_Seviye22) == false)
         {
             return;
         }

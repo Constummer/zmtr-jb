@@ -28,14 +28,14 @@ public partial class JailbreakExtras
         {
             if (HookPlayers.ContainsKey(player.SteamID) == false)
             {
-                if (OnCommandValidater(player, true, "@css/seviye30", "@css/seviye30", false) == false)
+                if (OnCommandValidater(player, true, Perm_Seviye30, Perm_Seviye30, false) == false)
                 {
                     if (PlayerTimeTracking.TryGetValue(player.SteamID, out var item) == false)
                     {
                         player.PrintToChat(NotEnoughPermission);
                         return;
                     }
-                    if (!HasPerm(player.SteamID, "@css/komutcu"))
+                    if (!HasPerm(player.SteamID, Perm_Komutcu))
                     {
                         player.PrintToChat(NotEnoughPermission);
                         return;
@@ -83,7 +83,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me> [el boyunca hooku iptal eder]")]
     public void HookDisable(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -152,7 +152,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("ha")]
     public void HookAc(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -167,7 +167,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("hk")]
     public void HookKapat(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -199,7 +199,7 @@ public partial class JailbreakExtras
         warden?.PrintToConsole($"{Prefix} {hookText} {player.PlayerName} Hook bastı");
 
         GetPlayers()
-         .Where(x => AdminManager.PlayerHasPermissions(x, "@css/admin1"))
+         .Where(x => AdminManager.PlayerHasPermissions(x, BasePermission))
          .ToList()
          .ForEach(x => x.PrintToConsole($"{Prefix} {hookText} {player.PlayerName} Hook bastı"));
 

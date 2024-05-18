@@ -376,7 +376,7 @@ public partial class JailbreakExtras
                          {
                              data.Xp += (int)(0.5 * 6 * TPModifier);
                          }
-                         if (AdminManager.PlayerHasPermissions(x, "@css/premium"))
+                         if (AdminManager.PlayerHasPermissions(x, Perm_Premium))
                          {
                              data.Xp += (1 * 6 * TPModifier);
                          }

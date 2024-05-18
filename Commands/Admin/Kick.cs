@@ -19,7 +19,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (AdminManager.PlayerHasPermissions(player, "@css/lider") == false)
+        if (AdminManager.PlayerHasPermissions(player, Perm_Lider) == false)
         {
             player.PrintToChat(NotEnoughPermission);
             return;

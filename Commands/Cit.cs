@@ -22,7 +22,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (AdminManager.PlayerHasPermissions(player, "@css/lider") == false && LatestWCommandUser != player.SteamID)
+        if (AdminManager.PlayerHasPermissions(player, Perm_Lider) == false && LatestWCommandUser != player.SteamID)
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -53,7 +53,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (AdminManager.PlayerHasPermissions(player, "@css/lider") == false && LatestWCommandUser != player.SteamID)
+        if (AdminManager.PlayerHasPermissions(player, Perm_Lider) == false && LatestWCommandUser != player.SteamID)
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -76,7 +76,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (AdminManager.PlayerHasPermissions(player, "@css/lider") == false && LatestWCommandUser != player.SteamID)
+        if (AdminManager.PlayerHasPermissions(player, Perm_Lider) == false && LatestWCommandUser != player.SteamID)
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -97,7 +97,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (AdminManager.PlayerHasPermissions(player, "@css/lider") == false && LatestWCommandUser != player.SteamID)
+        if (AdminManager.PlayerHasPermissions(player, Perm_Lider) == false && LatestWCommandUser != player.SteamID)
         {
             player.PrintToChat(NotEnoughPermission);
             return;

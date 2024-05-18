@@ -14,7 +14,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("daire2")]
     public void TDaireOlustur2(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -31,7 +31,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("daire")]
     public void TDaireOlustur(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
         {
             player.PrintToChat(NotEnoughPermission);
             return;

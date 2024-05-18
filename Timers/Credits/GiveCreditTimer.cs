@@ -38,7 +38,7 @@ public partial class JailbreakExtras
                                item.Credit += Config.Credit.RetrieveCreditEvery5MinRewardCssLider * CreditModifier;
                                x.PrintToChat($"{Prefix} {CC.R}Lider{CC.W} olduğun için {CC.LB}{Config.Credit.RetrieveCreditEvery5MinRewardCssLider * CreditModifier} {CC.W}kredi kazandın!");
                            }
-                           if (AdminManager.PlayerHasPermissions(x, "@css/premium"))
+                           if (AdminManager.PlayerHasPermissions(x, Perm_Premium))
                            {
                                item.Credit += Config.Credit.RetrieveCreditEvery5MinRewardCssPremium * CreditModifier;
                                x.PrintToChat($"{Prefix} {CC.R}Premium{CC.W} olduğun için {CC.LB}{Config.Credit.RetrieveCreditEvery5MinRewardCssPremium * CreditModifier} {CC.W}kredi kazandın!");

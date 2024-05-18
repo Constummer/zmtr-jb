@@ -33,7 +33,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (AdminManager.PlayerHasPermissions(player, "@css/premium") == false && LatestWCommandUser != player!.SteamID)
+        if (AdminManager.PlayerHasPermissions(player, Perm_Premium) == false && LatestWCommandUser != player!.SteamID)
         {
             player.PrintToChat(NotEnoughPermission);
             return;

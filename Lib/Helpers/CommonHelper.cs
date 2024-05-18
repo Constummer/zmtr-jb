@@ -161,7 +161,7 @@ public partial class JailbreakExtras
         return false;
     }
 
-    private bool OnCommandValidater(CCSPlayerController? player, bool checkPermission, string? seviyeLevel = null, string permLevel = "@css/admin1", bool printMsg = true)
+    private bool OnCommandValidater(CCSPlayerController? player, bool checkPermission, string? seviyeLevel = null, string permLevel = BasePermission, bool printMsg = true)
     {
         if (ValidateCallerPlayer(player, false, printMsg) == false)
         {

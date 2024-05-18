@@ -27,7 +27,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<playerismi>")]
     public void CTUnBan(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
@@ -65,7 +65,7 @@ public partial class JailbreakExtras
     [CommandHelper(2, "<playerismi> <dakika/0 süresiz>")]
     public void CTBan(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
         {
             player.PrintToChat(NotEnoughPermission);
             return;

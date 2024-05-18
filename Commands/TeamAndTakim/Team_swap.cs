@@ -14,7 +14,7 @@
 //    [CommandHelper(0, "<nick-#userid-@me>")]
 //    public void OnSwapCommand(CCSPlayerController? player, CommandInfo info)
 //    {
-//        if (OnCommandValidater(player, true, "@css/seviye6") == false)
+//        if (OnCommandValidater(player, true, Perm_Seviye6) == false)
 //        {
 //            return;
 //        }

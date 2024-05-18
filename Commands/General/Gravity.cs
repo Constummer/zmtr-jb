@@ -12,7 +12,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("gravityac")]
     public void GravityAc(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye28", "@css/seviye28") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye28, Perm_Seviye28) == false)
         {
             return;
         }
@@ -26,7 +26,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("gravitykapat")]
     public void GravityKapat(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye28", "@css/seviye28") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye28, Perm_Seviye28) == false)
         {
             return;
         }

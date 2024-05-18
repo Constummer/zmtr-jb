@@ -25,7 +25,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("komcancel")]
     public void KomAlIptal(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye10", "@css/seviye10") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye10, Perm_Seviye10) == false)
         {
             return;
         }
@@ -44,7 +44,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("komal")]
     public void KomAl(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye10", "@css/seviye10") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye10, Perm_Seviye10) == false)
         {
             return;
         }

@@ -203,7 +203,7 @@ public partial class JailbreakExtras
         {
             return false;
         }
-        if (!HasPerm(player.SteamID, "@css/komutcu"))
+        if (!HasPerm(player.SteamID, Perm_Komutcu))
         {
             return false;
         }

@@ -26,7 +26,7 @@ public partial class JailbreakExtras
     public void OnVoteCommand(CCSPlayerController? player, CommandInfo info)
     {
         LogManagerCommand(player.SteamID, info.GetCommandString);
-        if (OnCommandValidater(player, true, "@css/seviye26", "@css/seviye26") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye26, Perm_Seviye26) == false)
         {
             return;
         }
@@ -163,7 +163,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("oylamaiptal")]
     public void CancelVote(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye26", "@css/seviye26") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye26, Perm_Seviye26) == false)
         {
             return;
         }
@@ -200,7 +200,7 @@ public partial class JailbreakExtras
                 }
                 if (AlreadyVotedPlayers.TryGetValue(player.SteamID, out string votedKey))
                 {
-                    if (HasLevelPermissionToActivate(player.SteamID, "@css/seviye2") == false)
+                    if (HasLevelPermissionToActivate(player.SteamID, Perm_Seviye2) == false)
                     {
                         if (ValidateCallerPlayer(player) == false)
                         {
@@ -283,7 +283,7 @@ public partial class JailbreakExtras
                 }
                 if (AlreadyVotedPlayers.TryGetValue(player.SteamID, out string votedKey))
                 {
-                    if (HasLevelPermissionToActivate(player.SteamID, "@css/seviye2") == false)
+                    if (HasLevelPermissionToActivate(player.SteamID, Perm_Seviye2) == false)
                     {
                         if (ValidateCallerPlayer(player) == false)
                         {

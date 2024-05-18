@@ -14,7 +14,7 @@ public partial class JailbreakExtras
     [CommandHelper(minArgs: 1, "<hedefteki oyuncu>")]
     public void Git(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye10") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye10) == false)
         {
             return;
         }

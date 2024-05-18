@@ -15,7 +15,7 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<playerismi>")]
     public void HRespawn(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye8", "@css/seviye8") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye8, Perm_Seviye8) == false)
         {
             return;
         }

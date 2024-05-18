@@ -14,7 +14,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("respawnac")]
     public void RespawnAc(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye27", "@css/seviye27") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye27, Perm_Seviye27) == false)
         {
             return;
         }
@@ -33,7 +33,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("respawnkapat")]
     public void RespawnKapat(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye27", "@css/seviye27") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye27, Perm_Seviye27) == false)
         {
             return;
         }

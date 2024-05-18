@@ -7,7 +7,7 @@ public partial class JailbreakExtras
     public class AdditionalConfig
     {
         [JsonPropertyName("KomPermName")]
-        public string KomPermName { get; set; } = "@css/komutcu";
+        public string KomPermName { get; set; } = Perm_Komutcu;
 
         [JsonPropertyName("KomWeeklyCredit")]
         public int KomWeeklyCredit { get; set; } = 1000;

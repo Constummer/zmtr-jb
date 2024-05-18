@@ -13,7 +13,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("ba", "bunny acar")]
     public void BunnyAc(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye29", "@css/seviye29") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye29, Perm_Seviye29) == false)
         {
             return;
         }
@@ -28,7 +28,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("bunnykapat", "bunny kapar")]
     public void BunnyKapat(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye29", "@css/seviye29") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye29, Perm_Seviye29) == false)
         {
             return;
         }

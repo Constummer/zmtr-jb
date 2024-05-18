@@ -36,7 +36,7 @@ public partial class JailbreakExtras
         }
         var players = GetPlayers()
                         .Where(x => x.SteamID != KomutcuAdminId
-                                    && AdminManager.PlayerHasPermissions(x, "@css/admin1"))
+                                    && AdminManager.PlayerHasPermissions(x, BasePermission))
                         .ToList();
 
         if (players.Count == 0)

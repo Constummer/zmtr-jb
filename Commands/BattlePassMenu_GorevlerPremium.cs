@@ -17,7 +17,7 @@ public partial class JailbreakExtras
         if (ValidateCallerPlayer(player, false) == false) return;
         if (!Config.Additional.BattlePassPremiumActive) return;
 
-        if (!AdminManager.PlayerHasPermissions(player, "@css/premium"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Premium))
         {
             player.PrintToChat($"{Prefix} {CC.W}Bu menu sadece {CC.M}PREMIUM{CC.W}'lara özeldir.");
             return;

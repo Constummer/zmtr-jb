@@ -12,7 +12,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("sandalye")]
     public void Sandalye(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/premium"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Premium))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
