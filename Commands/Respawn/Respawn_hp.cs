@@ -13,7 +13,7 @@ public partial class JailbreakExtras
     [ConsoleCommand("reshp")]
     [ConsoleCommand("revhp")]
     [CommandHelper(2, "<gonderilecek kişi> <hp>")]
-    public void RespawnHp(CCSPlayerController? player, CommandInfo info)
+    public void Reshp(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player) == false) return;
 

@@ -65,6 +65,7 @@ public partial class JailbreakExtras
         public DateTime? EndTime { get; set; }
     }
 
+    private RuletOptions LatestRuletWinner { get; set; } = RuletOptions.None;
     private static Dictionary<long, GambleHistory> LastGambleDatas { get; set; } = new Dictionary<long, GambleHistory>();
     private static Dictionary<ulong, RuletData> RuletPlayers { get; set; } = new();
     private static List<RuletOptions> GambleLast70HistoryData { get; set; } = new();
@@ -158,6 +159,7 @@ public partial class JailbreakExtras
     {
         try
         {
+            LatestRuletWinner = kazananRenk;
             if (LastGambleDatas.TryGetValue(LastGambleDataId, out var gambleHistory))
             {
                 gambleHistory.Winner = kazananRenk;

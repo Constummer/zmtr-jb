@@ -9,7 +9,6 @@ using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Diagnostics;
-using System.Reflection;
 
 namespace JailbreakExtras;
 
@@ -20,36 +19,38 @@ public partial class JailbreakExtras
         Server.PrintToChatAll(msg);
     }
 
-    [ConsoleCommand("callMethods")]
-    public void callMethods(CCSPlayerController? player, CommandInfo info)
+    [ConsoleCommand("cchangemodel")]
+    public void cchangemodel(CCSPlayerController? player, CommandInfo info)
     {
         if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
             player.PrintToChat(NotEnoughPermission);
             return;
         }
-        if (ValidateCallerPlayer(player) == false)
+
+        if (!int.TryParse(info.ArgString.GetArgLast(), out var id))
+        {
+            player!.PrintToChat($"{Prefix}{CC.G} id yanlış!");
+            return;
+        }
+
+        var target = info.ArgString.GetArgSkipFromLast(1);
+        if (FindSinglePlayer(player, target, out var x) == false)
         {
             return;
         }
-        var eventHandlers = Global.GetType()
-             .GetMethods()
-             .Where(method => method.GetCustomAttributes<ConsoleCommandAttribute>().Any())
-             .ToArray();
-
-        player.PrintToConsole("%%%%%%%%%%%%%%%%%");
-        foreach (var eventHandler in eventHandlers)
+        if (id <= 0)
         {
-            var attributes = eventHandler.GetCustomAttributes<ConsoleCommandAttribute>();
-            foreach (var commandInfo in attributes)
-            {
-                player.PrintToConsole("-----------");
-                player.PrintToConsole("Name: " + commandInfo.Command);
-                player.PrintToConsole("Description: " + commandInfo.Description);
-            }
-            player.PrintToConsole("#######################");
+            GiveRandomSkin(x);
         }
-        player.PrintToConsole("%%%%%%%%%%%%%%%%%");
+        else
+        {
+            var model = Config.Market.MarketModeller.Where(x => x.Id == id).FirstOrDefault();
+            if (model != null)
+            {
+                SetModelNextServerFrame(x!.PlayerPawn.Value!, model.PathToModel);
+            }
+        }
     }
 
     [ConsoleCommand("cvoiceunmute")]
