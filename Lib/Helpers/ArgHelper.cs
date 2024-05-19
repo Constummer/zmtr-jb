@@ -2,14 +2,6 @@ namespace JailbreakExtras;
 
 public static class JailbreakExtrasHelper
 {
-    public static string GetArg(this string? arg, int argIndex)
-    {
-        var argCount = GetArgCountWithFormatted(arg);
-        if (argCount == null) return null;
-        var res = argCount.Skip(argIndex).FirstOrDefault();
-        return res;
-    }
-
     private static string[]? GetArgCountWithFormatted(string? arg)
     {
         if (string.IsNullOrWhiteSpace(arg))
@@ -23,6 +15,14 @@ public static class JailbreakExtrasHelper
             return null;
         }
         return argCount;
+    }
+
+    public static string GetArg(this string? arg, int argIndex)
+    {
+        var argCount = GetArgCountWithFormatted(arg);
+        if (argCount == null) return null;
+        var res = argCount.Skip(argIndex).FirstOrDefault();
+        return res;
     }
 
     public static string GetArgSkip(this string? arg, int argIndex)

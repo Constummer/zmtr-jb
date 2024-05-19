@@ -18,7 +18,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var target = info.ArgString.GetArgSkip(0);
+        var target = info.ArgString.GetArgSkipFromLast(1);
         if (!int.TryParse(info.ArgString.GetArgLast(), out var health) || health < 1)
         {
             player!.PrintToChat($"{Prefix}{CC.G} Can değeri yanlış!");

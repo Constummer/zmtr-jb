@@ -223,22 +223,22 @@ public partial class JailbreakExtras
         }
     }
 
-    internal static bool GetTargetAction(CCSPlayerController x, string target, CCSPlayerController? self)
+    internal static bool GetTargetAction(CCSPlayerController x, string target, CCSPlayerController? self, bool forSingle = false)
     {
         var targetArgument = GetTargetArgument(target);
 
         return targetArgument switch
         {
-            TargetForArgument.All => true || GetExtraCheck(x, "@all"),
-            TargetForArgument.Alive => x.PawnIsAlive == true || GetExtraCheck(x, "@alive"),
-            TargetForArgument.Dead => x.PawnIsAlive == false || GetExtraCheck(x, "@dead"),
-            TargetForArgument.T => GetTeam(x) == CsTeam.Terrorist || GetExtraCheck(x, "@t"),
-            TargetForArgument.Ct => GetTeam(x) == CsTeam.CounterTerrorist || GetExtraCheck(x, "@ct"),
+            TargetForArgument.All => forSingle ? GetExtraCheck(x, "@all") : true,
+            TargetForArgument.Alive => forSingle ? GetExtraCheck(x, "@alive") : x.PawnIsAlive == true,
+            TargetForArgument.Dead => forSingle ? GetExtraCheck(x, "@dead") : x.PawnIsAlive == false,
+            TargetForArgument.T => forSingle ? GetExtraCheck(x, "@t") : GetTeam(x) == CsTeam.Terrorist,
+            TargetForArgument.Ct => forSingle ? GetExtraCheck(x, "@ct") : GetTeam(x) == CsTeam.CounterTerrorist,
             TargetForArgument.None => (x.PlayerName?.ToLower()?.Contains(target?.ToLower() ?? "") ?? false) || x.SteamID.ToString() == target,
-            TargetForArgument.Me => x.SteamID == self?.SteamID || GetExtraCheck(x, "@me"),
+            TargetForArgument.Me => forSingle ? GetExtraCheck(x, "@me") : x.SteamID == self?.SteamID,
             TargetForArgument.UserIdIndex => GetUserIdIndex(target) == x.UserId,
             TargetForArgument.Aim => GetClosestPlayer(self, x),
-            TargetForArgument.Sut => IsSutPlayer(x) || GetExtraCheck(x, "@sut"),
+            TargetForArgument.Sut => forSingle ? GetExtraCheck(x, "@sut") : IsSutPlayer(x),
             _ => false
         };
 

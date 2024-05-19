@@ -20,7 +20,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var targetPlayer = info.ArgString.GetArgSkip(0);
+        var targetPlayer = info.ArgString.GetArgSkipFromLast(1);
         var targetArgument = GetTargetArgument(targetPlayer);
         var arg = info.ArgString.GetArgLast();
         var targetTeam = arg switch

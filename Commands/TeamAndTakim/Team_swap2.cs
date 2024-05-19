@@ -18,9 +18,22 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (info.ArgCount != 3) return;
-        var swap1res = SwapTargetOne(info.ArgString.GetArg(0), player);
-        var swap2res = SwapTargetOne(info.ArgString.GetArg(1), player);
+        if (FindSinglePlayer(player, info.ArgString.GetArg(0), out var x) == false)
+        {
+            return;
+        }
+        if (FindSinglePlayer(player, info.ArgString.GetArg(1), out var y) == false)
+        {
+            return;
+        }
+        if (x.SteamID == y.SteamID)
+        {
+            player.PrintToChat($"{Prefix} {CC.W}Aynı oyuncuyu swaplayamazsın.");
+            return;
+        }
+
+        var swap1res = SwapTargetOne(x, player);
+        var swap2res = SwapTargetOne(y, player);
         if (swap1res.Res && swap2res.Res)
         {
             LogManagerCommand(player.SteamID, info.GetCommandString);
@@ -28,26 +41,8 @@ public partial class JailbreakExtras
         }
     }
 
-    private (bool Res, string PName) SwapTargetOne(string target, CCSPlayerController? player)
+    private (bool Res, string PName) SwapTargetOne(CCSPlayerController x, CCSPlayerController? player)
     {
-        var targetArgument = GetTargetArgument(target);
-        var players = GetPlayers()
-             .Where(x =>
-             (targetArgument == TargetForArgument.UserIdIndex
-             ? GetUserIdIndex(target) == x.UserId : targetArgument == TargetForArgument.Me ? x.SteamID == player.SteamID : false)
-                          || (x.PlayerName?.ToLower()?.Contains(target?.ToLower()) ?? false))
-             .ToList();
-        if (players.Count == 0)
-        {
-            player.PrintToChat($"{Prefix} {CC.W}Eşleşen oyuncu bulunamadı!");
-            return (false, null);
-        }
-        if (players.Count != 1)
-        {
-            player.PrintToChat($"{Prefix} {CC.W}Birden fazla oyuncu bulundu.");
-            return (false, null);
-        }
-        var x = players.FirstOrDefault();
         Unmuteds = Unmuteds.Where(X => X != x.SteamID).ToList();
         x.VoiceFlags |= VoiceFlags.Muted;
 

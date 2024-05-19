@@ -58,10 +58,10 @@ public partial class JailbreakExtras
 
     private void CreateParachute(int? userid, ulong steamID)
     {
-        var entity = Utilities.CreateEntityByName<CBaseProp>("prop_dynamic_override");
+        var entity = Utilities.CreateEntityByName<CDynamicProp>("prop_dynamic_override");
         if (entity != null && entity.IsValid)
         {
-            var model = "models/props_survival/parachute/chute.vmdl";
+            var model = "models/zmtr/special.vmdl";
             if (PlayerParachuteDatas.TryGetValue(steamID, out var parachuteData))
             {
                 if (string.IsNullOrWhiteSpace(parachuteData?.SelectedModelId) == false &&
@@ -79,7 +79,6 @@ public partial class JailbreakExtras
                     }
                 }
             }
-            entity.SetModel(model);
             entity.MoveType = MoveType_t.MOVETYPE_NOCLIP;
             entity.Collision.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_NONE;
             entity.Collision.CollisionAttribute.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_NONE;
@@ -94,6 +93,8 @@ public partial class JailbreakExtras
                 entity.Teleport(VEC_ZERO, ANGLE_ZERO, VEC_ZERO);
             }
             entity.DispatchSpawn();
+
+            entity.SetModel(model);
 
             gParaModel[userid] = entity;
         }
@@ -225,7 +226,7 @@ public partial class JailbreakExtras
                         data.Model.Credit -= item.Cost;
                         PlayerMarketModels[player.SteamID] = data.Model;
 
-                        player.PrintToChat($"{Prefix} {CC.B}{item.Cost} {CC.W}Kredi Karşılığında {CC.B}{item.Text} {CC.W}Aura Satın Aldın!");
+                        player.PrintToChat($"{Prefix} {CC.B}{item.Cost} {CC.W}Kredi Karşılığında {CC.B}{item.Text} {CC.W}Paraşüt Aldın!");
                         player.PrintToChat($"{Prefix} {CC.W}Mevcut Kredin = {CC.B}{data.Model.Credit}{CC.R}");
                         if (parachuteData == null)
                         {

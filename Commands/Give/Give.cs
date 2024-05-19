@@ -20,7 +20,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var target = info.ArgString.GetArgSkip(0);
+        var target = info.ArgString.GetArgSkipFromLast(1);
         var weapon = GiveHandler(info.ArgString.GetArgLast());
         if (ValidWantedWeapon(weapon) == false)
         {
@@ -53,7 +53,7 @@ public partial class JailbreakExtras
         }
         LogManagerCommand(player.SteamID, info.GetCommandString);
 
-        var target = info.ArgString.GetArgSkip(0);
+        var target = info.ArgString.GetArgSkipFromLast(1);
         var weapon = GiveHandler(info.ArgString.GetArgLast());
         var targetArgument = GetTargetArgument(target);
         GiveAction(player, target, weapon, targetArgument, true);

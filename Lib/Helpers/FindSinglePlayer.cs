@@ -9,7 +9,7 @@ public partial class JailbreakExtras
     {
         result = null;
         var players = GetPlayers()
-           .Where(x => GetTargetAction(x, target, player));
+           .Where(x => GetTargetAction(x, target, player, true));
         if (predicate != null)
         {
             players = players.Where(x => predicate(x));

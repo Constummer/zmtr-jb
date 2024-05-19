@@ -21,7 +21,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var target = info.ArgString.GetArgSkip(0);
+        var target = info.ArgString.GetArgSkipFromLast(1);
         LogManagerCommand(player.SteamID, info.GetCommandString);
         var weapon = info.ArgString.GetArgLast();
         if (string.IsNullOrWhiteSpace(weapon))

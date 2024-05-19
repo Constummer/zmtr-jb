@@ -35,16 +35,16 @@ public partial class JailbreakExtras
                {
                    if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
                    {
-                       Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin hızını sıfırladı.");
+                       Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin gravitysini sıfırladı.");
                    }
                    GravityActiveDatas.Remove(x.SteamID);
-                   x.PlayerPawn.Value.VelocityModifier = 1.0f;
+                   x.PlayerPawn.Value.GravityScale = 1.0f;
                    RefreshPawn(x);
                });
 
         if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
         {
-            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin hızını sıfırladı.");
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin gravitysini sıfırladı.");
         }
     }
 

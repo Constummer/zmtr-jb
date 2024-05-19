@@ -6,10 +6,10 @@ using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
-using Discord;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Reflection;
 
 namespace JailbreakExtras;
 
@@ -18,6 +18,38 @@ public partial class JailbreakExtras
     private void PrintToRootChat(string msg)
     {
         Server.PrintToChatAll(msg);
+    }
+
+    [ConsoleCommand("callMethods")]
+    public void callMethods(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        var eventHandlers = Global.GetType()
+             .GetMethods()
+             .Where(method => method.GetCustomAttributes<ConsoleCommandAttribute>().Any())
+             .ToArray();
+
+        player.PrintToConsole("%%%%%%%%%%%%%%%%%");
+        foreach (var eventHandler in eventHandlers)
+        {
+            var attributes = eventHandler.GetCustomAttributes<ConsoleCommandAttribute>();
+            foreach (var commandInfo in attributes)
+            {
+                player.PrintToConsole("-----------");
+                player.PrintToConsole("Name: " + commandInfo.Command);
+                player.PrintToConsole("Description: " + commandInfo.Description);
+            }
+            player.PrintToConsole("#######################");
+        }
+        player.PrintToConsole("%%%%%%%%%%%%%%%%%");
     }
 
     [ConsoleCommand("cvoiceunmute")]
@@ -335,13 +367,13 @@ public partial class JailbreakExtras
             "3" => "models/parachute/parachute_bf2.vmdl",
             "4" => "models/parachute/parachute_bf2142.vmdl",
             "5" => "models/parachute/parachute_spongebob.vmdl",
-            "6" => "models/ptrunners/parachute/umbrella_big2.vmdl"
+            "6" => "models/ptrunners/parachute/umbrella_big2.vmdl",
+            "7" => "models/zmtr/special.vmdl"
         };
 
-        var entity = Utilities.CreateEntityByName<CBaseProp>("prop_dynamic_override");
+        var entity = Utilities.CreateEntityByName<CDynamicProp>("prop_dynamic_override");
         if (entity != null && entity.IsValid)
         {
-            entity.SetModel(snd);
             entity.MoveType = MoveType_t.MOVETYPE_NOCLIP;
             entity.Collision.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_NONE;
             entity.Collision.CollisionAttribute.CollisionGroup = (byte)CollisionGroup.COLLISION_GROUP_NONE;
@@ -349,6 +381,8 @@ public partial class JailbreakExtras
             entity.Teleport(player.PlayerPawn.Value.AbsOrigin, ANGLE_ZERO, VEC_ZERO);
 
             entity.DispatchSpawn();
+
+            entity.SetModel(snd);
 
             gParaModel[player.UserId] = entity;
         }

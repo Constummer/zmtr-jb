@@ -19,7 +19,7 @@ public partial class JailbreakExtras
             player.PrintToChat(NotEnoughPermission);
             return;
         }
-        var target = info.ArgString.GetArgSkip(0);
+        var target = info.ArgString.GetArgSkipFromLast(1);
         if (!int.TryParse(info.ArgString.GetArgLast(), out var miktar))
         {
             player!.PrintToChat($"{Prefix}{CC.G} Miktar duzgun deil!");
