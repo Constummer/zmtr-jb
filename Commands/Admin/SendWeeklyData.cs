@@ -21,9 +21,9 @@ public partial class JailbreakExtras
                 SendWeeklyAllData(con);
             }
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            Console.WriteLine(ex.Message);
+            ConsMsg(e.Message);
         }
     }
 }

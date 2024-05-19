@@ -30,7 +30,7 @@ public partial class JailbreakExtras
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
+                    ConsMsg(e.Message);
                 }
             }
             if (data.TP != 0)
@@ -52,7 +52,7 @@ public partial class JailbreakExtras
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
+                    ConsMsg(e.Message);
                 }
             }
             try
@@ -91,7 +91,7 @@ public partial class JailbreakExtras
             }
             catch (Exception e)
             {
-                Console.WriteLine(e.Message);
+                ConsMsg(e.Message);
             }
         }
 

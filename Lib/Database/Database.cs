@@ -18,9 +18,9 @@ public partial class JailbreakExtras
 
             return database;
         }
-        catch
+        catch (Exception e)
         {
-            //Console.WriteLine(ex.ToString());
+            ConsMsg(e.Message);
             return null;
         }
     }
@@ -253,9 +253,9 @@ public partial class JailbreakExtras
                     GetAllWTimes(con);
                 }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Logger.LogError(ex, "hata");
+                ConsMsg(e.Message);
             }
         });
     }

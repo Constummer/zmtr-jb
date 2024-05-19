@@ -114,7 +114,7 @@ public partial class JailbreakExtras
         catch (Exception e)
         {
             Server.PrintToConsole(e.Message);
-            Console.WriteLine(e);
+            ConsMsg(e.Message);
         }
     }
 
@@ -159,7 +159,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Logger.LogError(e, "hata");
+            ConsMsg(e.Message);
         }
     }
 }

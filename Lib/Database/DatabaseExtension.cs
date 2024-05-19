@@ -26,9 +26,8 @@ internal static class JailbreakExtrasDatabaseExtension
         {
             return Convert.ToInt32(enumValue);
         }
-        catch (Exception e)
+        catch
         {
-            Console.WriteLine(e.Message);
             return 0;
         }
     }

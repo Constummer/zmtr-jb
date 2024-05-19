@@ -114,9 +114,9 @@ public partial class JailbreakExtras
                     });
             }
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            Logger.LogError(ex, "hata");
+            ConsMsg(e.Message);
         }
     }
 
@@ -151,7 +151,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            ConsMsg(e.Message);
         }
     }
 
@@ -195,7 +195,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            ConsMsg(e.Message);
         }
     }
 
@@ -264,7 +264,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            ConsMsg(e.Message);
         }
     }
 
@@ -328,7 +328,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            ConsMsg(e.Message);
         }
     }
 
@@ -396,7 +396,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            ConsMsg(e.Message);
             return data;
         }
     }
@@ -408,7 +408,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Console.WriteLine(e);
+            ConsMsg(e.Message);
         }
     }
 }

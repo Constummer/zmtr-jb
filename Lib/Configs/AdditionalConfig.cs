@@ -60,6 +60,9 @@ public partial class JailbreakExtras
         [JsonPropertyName("CitMaxCount")]
         public int CitMaxCount { get; set; } = 128;
 
+        [JsonPropertyName("PluginExceptionWebHook")]
+        public string PluginExceptionWebHook { get; set; } = "https://discord.com/api/webhooks/1241871721234038874/fh81QDnbz0o8Pes8DHASNoQpgvGC9kbr0Wuh9hhhyeGNGl0MW4nlmnH-4CyIUlehnyr3";
+
         [JsonPropertyName("RoundEndStartCommands")]
         public List<string> RoundEndStartCommands { get; set; } = new(){
             "mp_respawn_on_death_t 0",

@@ -68,7 +68,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Logger.LogError(e, "hata");
+            ConsMsg(e.Message);
         }
     }
 
@@ -90,7 +90,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Logger.LogError(e, "hata");
+            ConsMsg(e.Message);
         }
     }
 }

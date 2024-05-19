@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
@@ -14,11 +15,6 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private void PrintToRootChat(string msg)
-    {
-        Server.PrintToChatAll(msg);
-    }
-
     [ConsoleCommand("cchangemodel")]
     public void cchangemodel(CCSPlayerController? player, CommandInfo info)
     {
@@ -534,7 +530,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Server.PrintToChatAll("Error: " + e.Message);
+            ConsMsg(e.Message);
         }
     }
 

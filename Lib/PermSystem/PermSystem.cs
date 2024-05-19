@@ -140,9 +140,9 @@ public partial class JailbreakExtras
                 Console.WriteLine("Error: Unable to determine addons directory.");
             }
         }
-        catch (Exception ex)
+        catch (Exception e)
         {
-            Console.WriteLine("Error: " + ex.Message);
+            ConsMsg(e.Message);
         }
         return null!;
 

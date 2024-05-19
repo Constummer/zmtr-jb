@@ -62,7 +62,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Server.PrintToChatAll(e.Message);
+            ConsMsg(e.Message);
         }
         try
         {
@@ -74,7 +74,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Server.PrintToChatAll(e.Message);
+            ConsMsg(e.Message);
         }
         try
         {
@@ -86,7 +86,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Server.PrintToChatAll(e.Message);
+            ConsMsg(e.Message);
         }
         try
         {
@@ -98,7 +98,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Server.PrintToChatAll(e.Message);
+            ConsMsg(e.Message);
         }
         try
         {
@@ -110,7 +110,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Server.PrintToChatAll(e.Message);
+            ConsMsg(e.Message);
         }
         try
         {
@@ -122,7 +122,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Server.PrintToChatAll(e.Message);
+            ConsMsg(e.Message);
         }
         try
         {
@@ -134,7 +134,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Server.PrintToChatAll(e.Message);
+            ConsMsg(e.Message);
         }
         try
         {
@@ -146,7 +146,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Server.PrintToChatAll(e.Message);
+            ConsMsg(e.Message);
         }
         try
         {
@@ -158,7 +158,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Server.PrintToChatAll(e.Message);
+            ConsMsg(e.Message);
         }
         try
         {
@@ -170,7 +170,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Server.PrintToChatAll(e.Message);
+            ConsMsg(e.Message);
         }
         try
         {
@@ -182,7 +182,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Server.PrintToChatAll(e.Message);
+            ConsMsg(e.Message);
         }
         try
         {
@@ -194,7 +194,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Server.PrintToChatAll(e.Message);
+            ConsMsg(e.Message);
         }
         try
         {
@@ -206,7 +206,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Server.PrintToChatAll(e.Message);
+            ConsMsg(e.Message);
         }
         try
         {
@@ -218,7 +218,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Server.PrintToChatAll(e.Message);
+            ConsMsg(e.Message);
         }
         try
         {
@@ -230,7 +230,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Server.PrintToChatAll(e.Message);
+            ConsMsg(e.Message);
         }
         try
         {
@@ -242,7 +242,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Server.PrintToChatAll(e.Message);
+            ConsMsg(e.Message);
         }
         try
         {
@@ -250,7 +250,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Server.PrintToChatAll(e.Message);
+            ConsMsg(e.Message);
         }
         try
         {
@@ -258,7 +258,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Server.PrintToChatAll(e.Message);
+            ConsMsg(e.Message);
         }
         _Config.Burry.BuryColor
                     = Config.Burry.BuryColor
@@ -303,7 +303,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Server.PrintToChatAll(e.Message);
+            ConsMsg(e.Message);
         }
     }
 
@@ -377,7 +377,7 @@ public partial class JailbreakExtras
                     }
                     catch (Exception e)
                     {
-                        Server.PrintToChatAll(e.Message);
+                        ConsMsg(e.Message);
                     }
                 }
             }

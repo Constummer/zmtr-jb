@@ -327,7 +327,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Logger.LogError(e, "hata");
+            ConsMsg(e.Message);
         }
     }
 
@@ -381,7 +381,7 @@ public partial class JailbreakExtras
                                           (`SteamId`,`Total`,`CTTime`,`TTime`,`WTime`,`KaTime`,
                                            `WeeklyWTime`,`WeeklyCTTime`,`WeeklyTTime`,`WeeklyTotalTime`,`WeeklyKaTime`)
                                           VALUES
-                                          (@SteamId, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);", con);
+                                          (@SteamId, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0);", con);
 
                 cmd.Parameters.AddWithValue("@SteamId", steamID);
                 cmd.ExecuteNonQuery();
@@ -399,7 +399,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Console.WriteLine(e.Message);
+            ConsMsg(e.Message);
         }
     }
 
@@ -415,7 +415,7 @@ public partial class JailbreakExtras
                 }
                 var calcRemainTime = CalculateMinutesUntilSundayMidnight();
 
-                if (calcRemainTime > 1)
+                if (calcRemainTime > 15)
                 {
                     List<MySqlParameter> parameters = new List<MySqlParameter>();
                     var count = GetPlayerCount();
@@ -496,7 +496,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Logger.LogError(e, "hata");
+            ConsMsg(e.Message);
         }
     }
 

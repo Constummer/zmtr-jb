@@ -70,7 +70,7 @@ public partial class JailbreakExtras
             if (!AdminManager.PlayerHasPermissions(@event.Userid, Perm_Root)) return;
             BulletImpactVectors.Add(new(@event?.X, @event?.Y, @event?.Z));
             var msg = $"{@event?.X},{@event?.Y},{@event?.Z} - {BulletImpactVectors.Count}";
-            PrintToRootChat(msg);
+            ConsMsg(msg, dc: false);
             Server.PrintToConsole(msg);
         }
     }

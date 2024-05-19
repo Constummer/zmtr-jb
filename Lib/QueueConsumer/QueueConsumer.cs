@@ -197,9 +197,9 @@ public partial class JailbreakExtras
                     }
                 }
             }
-            catch (Exception ex)
+            catch (Exception e)
             {
-                Console.WriteLine(ex.Message);
+                ConsMsg(e.Message);
             }
         }
     }
