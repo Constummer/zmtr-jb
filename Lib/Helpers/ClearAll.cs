@@ -65,6 +65,10 @@ public partial class JailbreakExtras
         ClearFootbalEntities();
         ClearDrugs();
         ClearBlinds();
+        if (SkzWallText != null && SkzWallText.IsValid)
+        {
+            SkzWallText.Remove();
+        }
     }
 
     private static void ClearOnDisconnect(ulong steamId, int? userId)

@@ -25,6 +25,15 @@ namespace JailbreakExtras
         [JsonPropertyName("ParamCoords")]
         public VectorTemp ParamCoords { get; set; } = new VectorTemp(4497, 4261, -1880);
 
+        [JsonPropertyName("SkzWallTextConfigured")]
+        public bool SkzWallTextConfigured { get; set; } = false;
+
+        [JsonPropertyName("SkzWallTextCoordinates")]
+        public VectorTemp SkzWallTextCoordinates { get; set; } = new VectorTemp(-3274, -2044, 792);
+
+        [JsonPropertyName("SkzWallTextAngle")]
+        public int SkzWallTextAngle { get; set; } = -180;
+
         [JsonPropertyName("SkzCoordinates")]
         public List<CoordinateTemplate> SkzCoordinates { get; set; } = new()
         {

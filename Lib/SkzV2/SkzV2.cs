@@ -97,6 +97,59 @@ public partial class JailbreakExtras
         }
     }
 
+    private static CPointWorldText SkzWallText = null;
+
+    private static void SkzWallTextInit(VectorTemp wall, int angle)
+    {
+        if (SkzWallText != null && SkzWallText.IsValid)
+        {
+            SkzWallText.Remove();
+        }
+        SkzWallText = Utilities.CreateEntityByName<CPointWorldText>("point_worldtext");
+        if (SkzWallText != null && SkzWallText.IsValid)
+        {
+            SkzWallText.MessageText = $"****SKZ SÜRELERİ****";
+            SkzWallText.Enabled = true;
+            SkzWallText.FontSize = 30;
+            SkzWallText.Color = Color.DarkRed;
+            SkzWallText.Fullbright = true;
+            SkzWallText.WorldUnitsPerPx = 1.0f;
+            SkzWallText.DepthOffset = 0.0f;
+            SkzWallText.JustifyHorizontal = PointWorldTextJustifyHorizontal_t.POINT_WORLD_TEXT_JUSTIFY_HORIZONTAL_LEFT;
+            SkzWallText.JustifyVertical = PointWorldTextJustifyVertical_t.POINT_WORLD_TEXT_JUSTIFY_VERTICAL_TOP;
+            SkzWallText.ReorientMode = PointWorldTextReorientMode_t.POINT_WORLD_TEXT_REORIENT_NONE;
+
+            SkzWallText.Teleport(new Vector(wall.X, wall.Y, wall.Z),
+                new QAngle(0, angle, 90),
+                new Vector(0, 0, 0));
+            SkzWallText.DispatchSpawn();
+        }
+    }
+
+    private static string GetFormattedSKZPrintHtmlData(string firstLine)
+    {
+        var str = string.Join(" <br> ",
+                SkzTimeDatas
+                    .ToList()
+                    .Where(x => x.Time != 0)
+                    .OrderBy(x => x.Time)
+                    .Take(4)
+                    .Select(x => $"{x.Name} - {(x.Time)} sn"));
+        return $"{firstLine} <br> {str}";
+    }
+
+    private static string GetFormattedSKZPrintData(string firstLine)
+    {
+        var str = string.Join("\n",
+                SkzTimeDatas
+                    .ToList()
+                    .Where(x => x.Time != 0)
+                    .OrderBy(x => x.Time)
+                    .Take(4)
+                    .Select(x => $"{x.Name} - {(x.Time)} sn"));
+        return $"{firstLine}\n{str}";
+    }
+
     private static List<SkzTimes> SkzTimeDatas = new();
 
     public class SkzTimes

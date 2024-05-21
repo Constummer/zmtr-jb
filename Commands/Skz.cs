@@ -95,14 +95,33 @@ public partial class JailbreakExtras
                          && x.PawnIsAlive
                          && GetTeam(x) == CsTeam.Terrorist)
                     .ToList();
-                    SkzTimeDatas.AddRange(plist.Select(x => new SkzTimes(x.SteamID, x.PlayerName)));
+                    SkzTimeDatas.AddRange(plist.Select(x => new SkzTimes(x.SteamID, x.PlayerName?.Substring(0, Math.Min(x.PlayerName?.Length ?? 0, 12)))));
+                    if (mapConfig.SkzWallTextConfigured)
+                    {
+                        try
+                        {
+                            SkzWallTextInit(mapConfig.SkzWallTextCoordinates, mapConfig.SkzWallTextAngle);
+                        }
+                        catch (Exception e)
+                        {
+                            ConsMsg(e.Message);
+                        }
+                    }
                     SkzStartTime = DateTime.UtcNow;
                     var t = AddTimer(0.1f, () =>
                     {
-                        PrintToCenterHtmlAll(GetFormattedSKZPrintData("SKZ Süreleri"));
-                        PrintToCenterHtmlAll(GetFormattedSKZPrintData("SKZ Süreleri"));
-                        PrintToCenterHtmlAll(GetFormattedSKZPrintData("SKZ Süreleri"));
-                        PrintToCenterHtmlAll(GetFormattedSKZPrintData("SKZ Süreleri"));
+                        PrintToCenterHtmlAll(GetFormattedSKZPrintHtmlData("SKZ Süreleri"));
+                        PrintToCenterHtmlAll(GetFormattedSKZPrintHtmlData("SKZ Süreleri"));
+                        PrintToCenterHtmlAll(GetFormattedSKZPrintHtmlData("SKZ Süreleri"));
+                        PrintToCenterHtmlAll(GetFormattedSKZPrintHtmlData("SKZ Süreleri"));
+                        if (mapConfig.SkzWallTextConfigured)
+                        {
+                            if (SkzWallText != null && SkzWallText.IsValid)
+                            {
+                                SkzWallText.MessageText = GetFormattedSKZPrintData("****SKZ SÜRELERİ****");
+                                Utilities.SetStateChanged(SkzWallText, "CPointWorldText", "m_messageText");
+                            }
+                        }
                     }, Full);
                     AddTimer(value + 4, () =>
                     {
@@ -172,31 +191,10 @@ public partial class JailbreakExtras
                     var str = $"{Prefix}<br>" +
                         $"<font color='#00FF00'>{greenColor}</font> adet kz'yi yapan<br>" +
                         $"<font color='#FF0000'>{redColor}</font> adet kz'yi yapamayan var.";
-                    PrintToCenterHtmlAll(str);
-                    PrintToCenterHtmlAll(str);
-                    PrintToCenterHtmlAll(str);
-                    PrintToCenterHtmlAll(str);
-                    PrintToCenterHtmlAll(str);
-                    PrintToCenterHtmlAll(str);
-                    PrintToCenterHtmlAll(str);
-                    PrintToCenterHtmlAll(str);
-                    PrintToCenterHtmlAll(str);
                 }, SOM);
             });
         }
         MenuManager.OpenChatMenu(player, skzMenu);
-    }
-
-    private static string GetFormattedSKZPrintData(string firstLine)
-    {
-        var str = string.Join(" <br> ",
-                SkzTimeDatas
-                    .ToList()
-                    .Where(x => x.Time != 0)
-                    .OrderBy(x => x.Time)
-                    .Take(4)
-                    .Select(x => $"{x.Name} - {(x.Time)} sn"));
-        return $"{firstLine} <br> {str}";
     }
 
     #endregion SKZ

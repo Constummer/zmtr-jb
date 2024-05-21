@@ -3,18 +3,95 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CounterStrikeSharp.API.Modules.Menu;
+using CounterStrikeSharp.API.Modules.Timers;
 using CounterStrikeSharp.API.Modules.Utils;
 using Microsoft.Extensions.Logging;
 using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Drawing;
 
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    private CPointWorldText wallText = null;
+
+    [ConsoleCommand("cwalltext")]
+    public void cwalltext(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+
+        if (wallText != null && wallText.IsValid)
+        {
+            wallText.Remove();
+        }
+        wallText = Utilities.CreateEntityByName<CPointWorldText>("point_worldtext");
+        if (wallText != null && wallText.IsValid)
+        {
+            wallText.MessageText = $"****SKZ SÜRELERİ****";
+            wallText.Enabled = true;
+            wallText.FontSize = 30;
+            wallText.Color = Color.Red;
+            wallText.Fullbright = true;
+            wallText.WorldUnitsPerPx = 1.0f;
+            wallText.DepthOffset = 0.0f;
+            wallText.JustifyHorizontal = PointWorldTextJustifyHorizontal_t.POINT_WORLD_TEXT_JUSTIFY_HORIZONTAL_LEFT;
+            wallText.JustifyVertical = PointWorldTextJustifyVertical_t.POINT_WORLD_TEXT_JUSTIFY_VERTICAL_TOP;
+            wallText.ReorientMode = PointWorldTextReorientMode_t.POINT_WORLD_TEXT_REORIENT_NONE;
+
+            wallText.Teleport(new Vector(-3274, -2044, 792),
+                new QAngle(0, -180, 90),
+                new Vector(0, 0, 0));
+            wallText.DispatchSpawn();
+
+            //wallText.AcceptInput("display", activator: player.PlayerPawn.Value, value: "!activator");
+            AddTimer(1.0f, () =>
+            {
+                wallText.MessageText = Random.Shared.Next().ToString() + "\n amskaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaam cok ıyı1" + "\n amskm cok ıyı2" + "\n amskm cok ıyı3" + "\n amskm cok ıyı4" + "\n amskm cok ıyı5" + "\n amskm cok ıyı6" + "\n amskm cok ıyı7" + "\n amskm cok ıyı8" + "\n amskm cok ıyı9";
+                Utilities.SetStateChanged(wallText, "CPointWorldText", "m_messageText");
+            }, TimerFlags.REPEAT);
+            //CustomSetParent(wallText, player.PlayerPawn.Value);
+
+            return;
+            wallText.MessageText = $"Heelo\n a";
+            wallText.Enabled = true;
+            wallText.FontSize = 30;
+            wallText.Color = Color.Red;
+            wallText.Fullbright = true;
+            wallText.WorldUnitsPerPx = 1.0f;
+            wallText.DepthOffset = 0.0f;
+            wallText.JustifyHorizontal = PointWorldTextJustifyHorizontal_t.POINT_WORLD_TEXT_JUSTIFY_HORIZONTAL_LEFT;
+            wallText.JustifyVertical = PointWorldTextJustifyVertical_t.POINT_WORLD_TEXT_JUSTIFY_VERTICAL_TOP;
+            wallText.ReorientMode = PointWorldTextReorientMode_t.POINT_WORLD_TEXT_REORIENT_NONE;
+
+            wallText.Teleport(player.PlayerPawn.Value!.AbsOrigin!.With(z: player.PlayerPawn.Value.AbsOrigin.Z + 10), player.PlayerPawn.Value.AbsRotation!, new Vector(0, 0, 0));
+            wallText.DispatchSpawn();
+            AddTimer(1.0f, () =>
+            {
+                wallText.MessageText = Random.Shared.Next().ToString() + "\n amskaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaam cok ıyı1" + "\n amskm cok ıyı2" + "\n amskm cok ıyı3" + "\n amskm cok ıyı4" + "\n amskm cok ıyı5" + "\n amskm cok ıyı6" + "\n amskm cok ıyı7" + "\n amskm cok ıyı8" + "\n amskm cok ıyı9";
+                Utilities.SetStateChanged(wallText, "CPointWorldText", "m_messageText");
+            }, TimerFlags.REPEAT);
+            //wallText.MessageText = "testtesttesttesttest";
+            //wallText.FontName = "TF2";
+            //wallText.Enabled = true;
+            //wallText.FontSize = 10;
+            //wallText.Color = Color.Red;
+            //wallText.ReorientMode = PointWorldTextReorientMode_t.POINT_WORLD_TEXT_REORIENT_AROUND_UP;
+            //wallText.JustifyVertical = PointWorldTextJustifyVertical_t.POINT_WORLD_TEXT_JUSTIFY_VERTICAL_TOP;
+            //wallText.JustifyHorizontal = PointWorldTextJustifyHorizontal_t.POINT_WORLD_TEXT_JUSTIFY_HORIZONTAL_CENTER;
+            ////wallText.Teleport(player.PlayerPawn.Value.AbsOrigin, ANGLE_ZERO, VEC_ZERO);
+            //wallText.DispatchSpawn();
+            ////wallText.AcceptInput("Start");
+            //CustomSetParent(wallText, player.PlayerPawn.Value);
+        }
+    }
+
     [ConsoleCommand("cchangemodel")]
     public void cchangemodel(CCSPlayerController? player, CommandInfo info)
     {
