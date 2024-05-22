@@ -8,15 +8,23 @@ public partial class JailbreakExtras
     {
         RegisterEventHandler<EventPlayerDisconnect>((@event, _) =>
         {
-            var tempSteamId = @event?.Userid?.SteamID;
-            var tempUserId = @event?.Userid?.UserId;
-            var tempUserName = @event?.Userid?.PlayerName;
-            if (tempSteamId.HasValue)
+            try
             {
-                LastBanDatas.Enqueue(new(tempSteamId.Value, tempUserName));
+                var tempSteamId = @event?.Userid?.SteamID;
+                var tempUserId = @event?.Userid?.UserId;
+                var tempUserName = @event?.Userid?.PlayerName;
+                if (tempSteamId.HasValue)
+                {
+                    LastBanDatas.Enqueue(new(tempSteamId.Value, tempUserName));
+                }
+                _ClientQueue.Enqueue(new(tempSteamId ?? 0, tempUserId, "", QueueItemType.OnClientDisconnect));
+                return HookResult.Continue;
             }
-            _ClientQueue.Enqueue(new(tempSteamId ?? 0, tempUserId, "", QueueItemType.OnClientDisconnect));
-            return HookResult.Continue;
+            catch (Exception e)
+            {
+                ConsMsg(e.Message);
+                return HookResult.Continue;
+            }
         }, HookMode.Pre);
     }
 }

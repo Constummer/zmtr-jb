@@ -8,20 +8,28 @@ public partial class JailbreakExtras
     {
         RegisterEventHandler<EventItemPickup>((@event, info) =>
         {
-            if (ActiveTeamGamesGameBase != null)
+            try
             {
-                ActiveTeamGamesGameBase?.EventItemPickup(@event);
-            }
-            else
-            {
-                if (@event == null) return HookResult.Continue;
-                if (ValidateCallerPlayer(@event.Userid, false) == false) return HookResult.Continue;
-                if (SutolCommandCalls.Contains(@event?.Userid?.SteamID ?? 0))
+                if (ActiveTeamGamesGameBase != null)
                 {
-                    @event.Userid.RemoveWeapons();
+                    ActiveTeamGamesGameBase?.EventItemPickup(@event);
                 }
+                else
+                {
+                    if (@event == null) return HookResult.Continue;
+                    if (ValidateCallerPlayer(@event.Userid, false) == false) return HookResult.Continue;
+                    if (SutolCommandCalls.Contains(@event?.Userid?.SteamID ?? 0))
+                    {
+                        @event.Userid.RemoveWeapons();
+                    }
+                }
+                return HookResult.Continue;
             }
-            return HookResult.Continue;
+            catch (Exception e)
+            {
+                ConsMsg(e.Message);
+                return HookResult.Continue;
+            }
         }, HookMode.Post);
     }
 }

@@ -24,6 +24,28 @@ public partial class JailbreakExtras
         [JsonPropertyName("RetrieveCreditEvery5MinRewardCssPremium")]
         public short RetrieveCreditEvery5MinRewardCssPremium { get; set; } = 3;
 
+        [JsonPropertyName("HaftalikWCredit")]
+        public short HaftalikWCredit { get; set; } = 3000;
+
+        [JsonPropertyName("HaftalikKaCredit")]
+        public short HaftalikKaCredit { get; set; } = 3000;
+
+        [JsonPropertyName("HaftalikIsCredit")]
+        public short HaftalikIsCredit { get; set; } = 3000;
+
+        [JsonPropertyName("HaftalikTopCredit")]
+        public Dictionary<string, short> HaftalikTopCredit { get; set; } = new() {
+                    {"1",   2500},
+                    {"2",   2250},
+                    {"3",   2000},
+                    {"4",   1750},
+                    {"5",   1500},
+                    {"6",   1250},
+                    {"7",   1000},
+                    {"8",   750},
+                    {"9",   500},
+                    {"10",  2500}};
+
         [JsonPropertyName("TPMarketDatas")]
         public List<TPMarketItem> TPMarketDatas { get; set; } = new()
         {

@@ -212,22 +212,30 @@ public partial class JailbreakExtras
 
     private HookResult CTKitOnPlayerSpawn(EventPlayerSpawn @event, GameEventInfo info)
     {
-        CCSPlayerController? player = @event.Userid;
-
-        if (player != null && IsValid(player))
+        try
         {
-            int? slot = Slot(player);
+            CCSPlayerController? player = @event.Userid;
 
-            AddTimer(0.5f, () =>
+            if (player != null && IsValid(player))
             {
-                if (slot != null)
-                {
-                    Spawn(Utilities.GetPlayerFromSlot(slot.Value));
-                }
-            });
-        }
+                int? slot = Slot(player);
 
-        return HookResult.Continue;
+                AddTimer(0.5f, () =>
+                {
+                    if (slot != null)
+                    {
+                        Spawn(Utilities.GetPlayerFromSlot(slot.Value));
+                    }
+                });
+            }
+
+            return HookResult.Continue;
+        }
+        catch (Exception e)
+        {
+            ConsMsg(e.Message);
+            return HookResult.Continue;
+        }
     }
 
     public void Spawn(CCSPlayerController? player)

@@ -16,6 +16,11 @@ public partial class JailbreakExtras
         {
             return;
         }
+        if (HideActive)
+        {
+            player!.PrintToChat($"{Prefix} {CC.R}Hide aktifken ayakgoster - ayakgizle kullanamazsin!");
+            return;
+        }
         HideFoots[player.SteamID] = true;
         AyakGizle(player);
     }
@@ -25,6 +30,11 @@ public partial class JailbreakExtras
     {
         if (ValidateCallerPlayer(player, false) == false)
         {
+            return;
+        }
+        if (HideActive)
+        {
+            player!.PrintToChat($"{Prefix} {CC.R}Hide aktifken ayakgoster - ayakgizle kullanamazsin!");
             return;
         }
         HideFoots[player.SteamID] = false;

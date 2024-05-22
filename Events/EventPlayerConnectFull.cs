@@ -45,22 +45,24 @@ public partial class JailbreakExtras
         });
         RegisterEventHandler<EventPlayerConnectFull>((@event, _) =>
         {
-            //if (@event == null) return HookResult.Continue;
-            //if (@event.Userid == null) return HookResult.Continue;
-            //if (@event.Userid.IsValid == false) return HookResult.Continue;
-            //if (@event.Userid.SteamID == 0) return HookResult.Continue;
-            //if (ValidateCallerPlayer(@event.Userid, false) == false) return HookResult.Continue;
-
-            var tempSteamId = @event?.Userid?.SteamID;
-            var tempPlayerName = @event?.Userid?.PlayerName;
-            var tempUserId = @event?.Userid?.UserId;
-            _ClientQueue.Enqueue(new(tempSteamId ?? 0, tempUserId, tempPlayerName, QueueItemType.OnClientConnect));
-            if (Config.Additional.WelcomeActive && @event?.Userid != null && is_valid(@event?.Userid))
+            try
             {
-                WelcomeMsgSpam(@event?.Userid);
-            }
+                var tempSteamId = @event?.Userid?.SteamID;
+                var tempPlayerName = @event?.Userid?.PlayerName;
+                var tempUserId = @event?.Userid?.UserId;
+                _ClientQueue.Enqueue(new(tempSteamId ?? 0, tempUserId, tempPlayerName, QueueItemType.OnClientConnect));
+                if (Config.Additional.WelcomeActive && @event?.Userid != null && is_valid(@event?.Userid))
+                {
+                    WelcomeMsgSpam(@event?.Userid);
+                }
 
-            return HookResult.Continue;
+                return HookResult.Continue;
+            }
+            catch (Exception e)
+            {
+                ConsMsg(e.Message);
+                return HookResult.Continue;
+            }
         });
     }
 }

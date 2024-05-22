@@ -8,8 +8,16 @@ public partial class JailbreakExtras
     {
         RegisterEventHandler<EventBombPickup>((@event, _) =>
         {
-            ActiveTeamGamesGameBase?.EventBombPickup(@event);
-            return HookResult.Continue;
+            try
+            {
+                ActiveTeamGamesGameBase?.EventBombPickup(@event);
+                return HookResult.Continue;
+            }
+            catch (Exception e)
+            {
+                ConsMsg(e.Message);
+                return HookResult.Continue;
+            }
         });
     }
 }

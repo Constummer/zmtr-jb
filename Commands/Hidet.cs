@@ -9,6 +9,8 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    private static bool HideActive = false;
+
     [ConsoleCommand("hidet")]
     [ConsoleCommand("thide")]
     [CommandHelper(1, "<0/1>")]
@@ -35,7 +37,6 @@ public partial class JailbreakExtras
                     case 0:
                         if (ValidateCallerPlayer(x, false) == false) return;
                         ShowPlayer(x);
-
                         break;
 
                     case 1:
@@ -47,6 +48,7 @@ public partial class JailbreakExtras
         switch (godOneTwo)
         {
             case 0:
+                HideActive = false;
                 Config.Additional.ParachuteModelEnabled = true;
                 Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W} {T_PluralCamel} için hide kapadı.");
                 if (Config.Additional.HideMsg)
@@ -57,6 +59,7 @@ public partial class JailbreakExtras
                 break;
 
             case 1:
+                HideActive = true;
                 Config.Additional.ParachuteModelEnabled = false;
                 Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W} {T_PluralCamel} için hide açtı.");
                 if (Config.Additional.HideMsg)

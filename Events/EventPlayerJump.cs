@@ -9,28 +9,36 @@ public partial class JailbreakExtras
     {
         RegisterEventHandler((GameEventHandler<EventPlayerJump>)((@event, _) =>
         {
-            if (@event != null)
+            try
             {
-                if (ValidateCallerPlayer(@event.Userid, false))
+                if (@event != null)
                 {
-                    if ((@event.Userid.Buttons & PlayerButtons.Jump) != 0)
+                    if (ValidateCallerPlayer(@event.Userid, false))
                     {
-                        SaveBattlePasssesJumpDataToCache(@event);
-                        if (JumpCountActive)
+                        if ((@event.Userid.Buttons & PlayerButtons.Jump) != 0)
                         {
-                            if (JumpCount.TryGetValue(@event.Userid.SteamID, out var val))
+                            SaveBattlePasssesJumpDataToCache(@event);
+                            if (JumpCountActive)
                             {
-                                JumpCount[@event.Userid.SteamID] = new(val.Item1 + 1, val.Item2);
-                            }
-                            else
-                            {
-                                JumpCount.Add(@event.Userid.SteamID, new(1, @event.Userid.PlayerName));
+                                if (JumpCount.TryGetValue(@event.Userid.SteamID, out var val))
+                                {
+                                    JumpCount[@event.Userid.SteamID] = new(val.Item1 + 1, val.Item2);
+                                }
+                                else
+                                {
+                                    JumpCount.Add(@event.Userid.SteamID, new(1, @event.Userid.PlayerName));
+                                }
                             }
                         }
                     }
                 }
+                return HookResult.Continue;
             }
-            return HookResult.Continue;
+            catch (Exception e)
+            {
+                ConsMsg(e.Message);
+                return HookResult.Continue;
+            }
         }));
     }
 }

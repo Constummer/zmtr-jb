@@ -10,38 +10,46 @@ public partial class JailbreakExtras
     {
         RegisterEventHandler<EventRoundEnd>((@event, _) =>
         {
-            PrepareRoundDefaults();
-            RoundDefaultCommands();
+            try
+            {
+                PrepareRoundDefaults();
+                RoundDefaultCommands();
 
-            CoinRemove();
-            CheckAllLevelTags();
-            if (KumarKapatDisable == false)
-            {
-                RuletActivate();
-                PiyangoKazananSonuc();
-            }
-            if (PatronuKoruActive)
-            {
-                ChooseRandomTwoGuardian();
-            }
-            RoundEndParticle(@event.Winner);
-
-            if (GetPlayerCount() > 10 && LatestWCommandUser != null)
-            {
-                switch ((CsTeam)@event.Winner)
+                CoinRemove();
+                CheckAllLevelTags();
+                if (KumarKapatDisable == false)
                 {
-                    case CsTeam.Terrorist:
-                        BattlePassBase.RoundTWin();
-                        BattlePassPremiumBase.RoundTWin();
-                        break;
+                    RuletActivate();
+                    PiyangoKazananSonuc();
+                }
+                if (PatronuKoruActive)
+                {
+                    ChooseRandomTwoGuardian();
+                }
+                RoundEndParticle(@event.Winner);
 
-                    case CsTeam.CounterTerrorist:
-                        BattlePassBase.RoundCTWin();
-                        BattlePassPremiumBase.RoundCTWin();
-                        break;
-                };
+                if (GetPlayerCount() > 10 && LatestWCommandUser != null)
+                {
+                    switch ((CsTeam)@event.Winner)
+                    {
+                        case CsTeam.Terrorist:
+                            BattlePassBase.RoundTWin();
+                            BattlePassPremiumBase.RoundTWin();
+                            break;
+
+                        case CsTeam.CounterTerrorist:
+                            BattlePassBase.RoundCTWin();
+                            BattlePassPremiumBase.RoundCTWin();
+                            break;
+                    };
+                }
+                return HookResult.Continue;
             }
-            return HookResult.Continue;
+            catch (Exception e)
+            {
+                ConsMsg(e.Message);
+                return HookResult.Continue;
+            }
         });
     }
 

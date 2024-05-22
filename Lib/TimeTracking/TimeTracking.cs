@@ -654,11 +654,38 @@ public partial class JailbreakExtras
             cmd.ExecuteNonQuery();
         }
 
+        SendCreditsForWeeklyDatas(dicw, dicka, dictotal);
+
         SendWarningForLessThan7HrsAWeekKomutcu(dicw, true);
         SendWarningForLessThan7HrsAWeekKomutcu(dicct, false, "CT");
         SendWarningForLessThan7HrsAWeekKomutcu(dict, false, "T");
         SendWarningForLessThan7HrsAWeekKomutcu(dictotal, false, "Total");
         SendWarningForLessThan7HrsAWeekKomutcu(dicka, false, "KA");
+    }
+
+    private void SendCreditsForWeeklyDatas(Dictionary<long, int> dicw, Dictionary<long, int> dicka, Dictionary<long, int> dictotal)
+    {
+        var w = dicw.ToList().OrderByDescending(x => x.Value).FirstOrDefault();
+        if (w.Key != 0)
+        {
+            PanelKrediVerAction(w.Key.ToString(), Config.Credit.HaftalikWCredit);
+        }
+
+        var ka = dicka.ToList().OrderByDescending(x => x.Value).FirstOrDefault();
+        if (ka.Key != 0)
+        {
+            PanelKrediVerAction(ka.Key.ToString(), Config.Credit.HaftalikKaCredit);
+        }
+
+        for (int i = 0; i < dictotal.Count; i++)
+        {
+            var data = dictotal.ToList().OrderByDescending(x => x.Value).Skip(0).FirstOrDefault();
+            if (data.Key != 0)
+            {
+                var reward = Config.Credit.HaftalikTopCredit[(i + 1).ToString()];
+                PanelKrediVerAction(data.Key.ToString(), reward);
+            }
+        }
     }
 
     private static void AddToDic(Dictionary<long, int> dic, long steamid, int time)

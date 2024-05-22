@@ -225,6 +225,7 @@ public partial class JailbreakExtras
 
     internal static bool GetTargetAction(CCSPlayerController x, string target, CCSPlayerController? self, bool forSingle = false)
     {
+        if (string.IsNullOrWhiteSpace(target)) return false;
         var targetArgument = GetTargetArgument(target);
 
         return targetArgument switch

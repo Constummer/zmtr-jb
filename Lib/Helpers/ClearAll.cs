@@ -10,6 +10,7 @@ public partial class JailbreakExtras
         SkzStartTime = null;
         JumpCountActive = false;
         SutolCommandCalls?.Clear();
+        HideActive = false;
         SinirsizXKapaAction("@all", null);
         CountdownText = "";
         CountdownTime = 0;

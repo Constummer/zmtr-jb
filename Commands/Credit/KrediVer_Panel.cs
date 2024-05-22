@@ -24,42 +24,40 @@ public partial class JailbreakExtras
         }
         LogManagerCommand(1, info.GetCommandString);
 
+        PanelKrediVerAction(target, miktar);
+    }
+
+    private static void PanelKrediVerAction(string target, int miktar)
+    {
         var players = GetPlayers()
                .Where(x => GetTargetAction(x, target, null))
                .ToList();
         if (players.Count > 0)
         {
             players.ForEach(x =>
-             {
-                 if (ValidateCallerPlayer(x, false) && x?.SteamID != null && x!.SteamID != 0)
-                 {
-                     if (PlayerMarketModels.TryGetValue(x.SteamID, out var item))
-                     {
-                         item.Credit += miktar;
-                     }
-                     else
-                     {
-                         item = new(x.SteamID);
-                         item.Credit = miktar;
-                     }
-                     PlayerMarketModels[x.SteamID] = item;
-                     Server.PrintToConsole($"{x.PlayerName} isimli oyuncuya {miktar} kredi verdin MESAJ 1");
-                     Server.PrintToConsole($"{x.PlayerName} isimli oyuncuya {miktar} kredi verdin MESAJ 2");
-                 }
-             });
+            {
+                if (ValidateCallerPlayer(x, false) && x?.SteamID != null && x!.SteamID != 0)
+                {
+                    if (PlayerMarketModels.TryGetValue(x.SteamID, out var item))
+                    {
+                        item.Credit += miktar;
+                    }
+                    else
+                    {
+                        item = new(x.SteamID);
+                        item.Credit = miktar;
+                    }
+                    PlayerMarketModels[x.SteamID] = item;
+                }
+            });
         }
         else
         {
             if (ulong.TryParse(target, out var steamId) == false)
             {
-                Server.PrintToConsole($"{target} hatali steamId 1");
-                Server.PrintToConsole($"{target} hatali steamId 2");
                 return;
             }
-            Server.PrintToConsole("aaa");
             AddPlayerMarketCredit(steamId, miktar);
-            Server.PrintToConsole($"{target} steamIdli oyuncuya {miktar} kredi verdin MESAJ 1");
-            Server.PrintToConsole($"{target} steamIdli oyuncuya {miktar} kredi verdin MESAJ 2");
         }
     }
 }

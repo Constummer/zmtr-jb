@@ -88,7 +88,7 @@ public partial class JailbreakExtras
                         if (data != null)
                         {
                             data.Time = (DateTime.UtcNow - SkzStartTime.Value).TotalSeconds;
-                            Server.PrintToChatAll($"{Prefix}{CC.Ol} {data.Name} {CC.W} adlı oyuncu, SKZ'yi {CC.G}{data.Time} {CC.W}saniyede bitirdi.");
+                            Server.PrintToChatAll($"{Prefix}{CC.Ol} {data.Name} {CC.W} adlı oyuncu, SKZ'yi {CC.G}{data.Time:F3} {CC.W}saniyede bitirdi.");
                             data.Done = true;
                         }
                     }
@@ -134,7 +134,7 @@ public partial class JailbreakExtras
                     .Where(x => x.Time != 0)
                     .OrderBy(x => x.Time)
                     .Take(4)
-                    .Select(x => $"{x.Name} - {(x.Time)} sn"));
+                    .Select(x => $"{x.Name} - {x.Time:F3} sn"));
         return $"{firstLine} <br> {str}";
     }
 
@@ -146,7 +146,7 @@ public partial class JailbreakExtras
                     .Where(x => x.Time != 0)
                     .OrderBy(x => x.Time)
                     .Take(4)
-                    .Select(x => $"{x.Name} - {(x.Time)} sn"));
+                    .Select(x => $"{x.Name} - {x.Time:F3} sn"));
         return $"{firstLine}\n{str}";
     }
 

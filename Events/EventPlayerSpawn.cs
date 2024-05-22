@@ -17,85 +17,72 @@ public partial class JailbreakExtras
 
         RegisterEventHandler((GameEventHandler<EventPlayerSpawn>)((@event, _) =>
         {
-            if (@event == null)
-                return HookResult.Continue;
-            var x = @event.Userid;
-            if (ValidateCallerPlayer(x, false)
-                && x?.SteamID != null
-                && x!.SteamID != 0)
+            try
             {
-                if (x.SteamID != LatestWCommandUser)
+                if (@event == null)
+                    return HookResult.Continue;
+                var x = @event.Userid;
+                if (ValidateCallerPlayer(x, false)
+                    && x?.SteamID != null
+                    && x!.SteamID != 0)
                 {
-                    if (Unmuteds.Contains(x.SteamID) == false)
+                    if (x.SteamID != LatestWCommandUser)
                     {
-                        if (x.Connected == PlayerConnectedState.PlayerConnected)
-                            AddTimer(2f, () =>
-                            {
-                                if (ValidateCallerPlayer(x, false))
+                        if (Unmuteds.Contains(x.SteamID) == false)
+                        {
+                            if (x.Connected == PlayerConnectedState.PlayerConnected)
+                                AddTimer(2f, () =>
                                 {
-                                    x.VoiceFlags |= VoiceFlags.Muted;
-                                }
-                            }, SOM);
-                    }
-                }
-                SetStatusClanTag(@event.Userid);
-
-                var tempUserId = @event?.Userid?.UserId;
-                var tempSteamId = @event?.Userid?.SteamID;
-                if (tempSteamId.HasValue)
-                {
-                    AddTimer(0.3f, () =>
-                    {
-                        GiveSkin(x, tempSteamId);
-                    });
-
-                    CreateAuraParticle(tempSteamId.Value);
-                }
-                if (x.PawnIsAlive && get_health(x) > 0)
-                {
-                    if (LatestWCommandUser == x.SteamID)
-                    {
-                        if (ValidateCallerPlayer(x, false))
-                        {
-                            SetColour(x, Color.FromArgb(255, 0, 0, 255));
-                        };
-                    }
-                    else
-                    {
-                        if (ValidateCallerPlayer(x, false))
-                        {
-                            SetColour(x, DefaultColor);
-                        };
-                    }
-                }
-                AddTimer(3f, () =>
-                {
-                    _ClientQueue.Enqueue(new(tempSteamId ?? 0, tempUserId, "", QueueItemType.OnPlayerSpawn));
-                });
-
-                AddTimer(0.5f, () =>
-                {
-                    if (ValidateCallerPlayer(x, false) == false) return;
-                    if (LatestWCommandUser == x.SteamID)
-                    {
-                        if (ValidateCallerPlayer(x, false) == false) return;
-                        SetColour(x, Color.FromArgb(255, 0, 0, 255));
-                    }
-                    else if (Config.Additional.HideFootsOnConnect && HideFoots.TryGetValue(x.SteamID, out var _) == false)
-                    {
-                        if (ValidateCallerPlayer(x, false))
-                        {
-                            AyakGizle(x, true, false);
+                                    if (ValidateCallerPlayer(x, false))
+                                    {
+                                        x.VoiceFlags |= VoiceFlags.Muted;
+                                    }
+                                }, SOM);
                         }
                     }
-                    else
+                    SetStatusClanTag(@event.Userid);
+
+                    var tempUserId = @event?.Userid?.UserId;
+                    var tempSteamId = @event?.Userid?.SteamID;
+                    if (tempSteamId.HasValue)
+                    {
+                        AddTimer(0.3f, () =>
+                        {
+                            GiveSkin(x, tempSteamId);
+                        }, SOM);
+
+                        CreateAuraParticle(tempSteamId.Value);
+                    }
+
+                    AddTimer(0.5f, () =>
                     {
                         if (ValidateCallerPlayer(x, false) == false) return;
-                        SetColour(x, DefaultColor);
-                    }
-                }, SOM);
+                        if (x.PawnIsAlive && get_health(x) > 0)
+                        {
+                            if (LatestWCommandUser == x.SteamID)
+                            {
+                                if (ValidateCallerPlayer(x, false) == false) return;
+                                SetColour(x, Color.FromArgb(255, 0, 0, 255));
+                            }
+                            else
+                            {
+                                if (ValidateCallerPlayer(x, false) == false) return;
+                                SetColour(x, DefaultColor);
+                            }
+                        }
+                    }, SOM);
+                    AddTimer(3f, () =>
+                    {
+                        _ClientQueue.Enqueue(new(tempSteamId ?? 0, tempUserId, "", QueueItemType.OnPlayerSpawn));
+                    }, SOM);
+                }
+                return HookResult.Continue;
             }
-            return HookResult.Continue;
+            catch (Exception e)
+            {
+                ConsMsg(e.Message);
+                return HookResult.Continue;
+            }
         }));
     }
 

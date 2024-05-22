@@ -12,16 +12,24 @@ public partial class JailbreakExtras
 
     private HookResult NoBlockOnPlayerSpawn(EventPlayerSpawn @event, GameEventInfo info)
     {
-        if (Config.Additional.NoBlockActive == false) return HookResult.Continue;
-        var player = @event?.Userid;
-        if (ValidateCallerPlayer(player, false) == false) return HookResult.Continue;
+        try
+        {
+            if (Config.Additional.NoBlockActive == false) return HookResult.Continue;
+            var player = @event?.Userid;
+            if (ValidateCallerPlayer(player, false) == false) return HookResult.Continue;
 
-        if (ValidateCallerPlayer(player, false) == false) return HookResult.Continue;
+            if (ValidateCallerPlayer(player, false) == false) return HookResult.Continue;
 
-        PlayerSpawnNextFrame(player);
-        if (ValidateCallerPlayer(player, false) == false) return HookResult.Continue;
+            PlayerSpawnNextFrame(player);
+            if (ValidateCallerPlayer(player, false) == false) return HookResult.Continue;
 
-        return HookResult.Continue;
+            return HookResult.Continue;
+        }
+        catch (Exception e)
+        {
+            ConsMsg(e.Message);
+            return HookResult.Continue;
+        }
     }
 
     private void PlayerSpawnNextFrame(CCSPlayerController player)

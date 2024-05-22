@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
+using Discord;
 using JailbreakExtras.Lib.Database;
 using MySqlConnector;
 
@@ -110,7 +111,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-           ConsMsg(e.Message);
+            ConsMsg(e.Message);
         }
     }
 
@@ -143,7 +144,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-           ConsMsg(e.Message);
+            ConsMsg(e.Message);
         }
     }
 
@@ -204,6 +205,12 @@ public partial class JailbreakExtras
             {
                 continue;
             }
+        }
+
+        var data = datas.Where(x => IsyanTeamPlayers.Contains(x.Key)).FirstOrDefault();
+        if (data.Key != 0)
+        {
+            PanelKrediVerAction(data.Key.ToString(), Config.Credit.HaftalikIsCredit);
         }
         int maxLengthPerRequest = 1999;
 

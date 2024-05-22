@@ -8,10 +8,18 @@ public partial class JailbreakExtras
     {
         RegisterEventHandler<EventCsWinPanelRound>((@event, info) =>
         {
-            if (@event == null) return HookResult.Continue;
-            info.DontBroadcast = true;
+            try
+            {
+                if (@event == null) return HookResult.Continue;
+                info.DontBroadcast = true;
 
-            return HookResult.Handled;
+                return HookResult.Handled;
+            }
+            catch (Exception e)
+            {
+                ConsMsg(e.Message);
+                return HookResult.Continue;
+            }
         }, HookMode.Pre);
     }
 }
