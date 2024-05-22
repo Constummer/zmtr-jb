@@ -126,6 +126,29 @@ public partial class JailbreakExtras
         }
     }
 
+    [ConsoleCommand("cchickencontrol")]
+    public void cchickencontrol(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        var entity = Utilities.CreateEntityByName<CChicken>("chicken");
+        if (entity != null && entity.IsValid)
+        {
+            entity.Teleport(player.PlayerPawn.Value.AbsOrigin, ANGLE_ZERO, VEC_ZERO);
+            entity.DispatchSpawn();
+
+            player.PlayerPawn.Value!.CameraServices!.ViewEntity.Raw = entity.EntityHandle.Raw;
+            Utilities.SetStateChanged(player.PlayerPawn.Value, "CBasePlayerPawn", "m_pCameraServices");
+        }
+    }
+
     [ConsoleCommand("cvoiceunmute")]
     public void cvoiceunmute(CCSPlayerController? player, CommandInfo info)
     {

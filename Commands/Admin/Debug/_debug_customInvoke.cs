@@ -63,6 +63,10 @@ public partial class JailbreakExtras
             var attributes = eventHandler.GetCustomAttributes<ConsoleCommandAttribute>();
             foreach (var commandInfo in attributes)
             {
+                if (commandInfo.Command.Contains("css_"))
+                {
+                    Server.PrintToChatAll($"31:>{commandInfo.Command}");
+                }
                 if (commandInfo.Command == "callMethods3")
                 {
                     Server.PrintToChatAll("1");
@@ -77,6 +81,7 @@ public partial class JailbreakExtras
                     info     // Second parameter: CommandInfo info
                     });
                     Server.PrintToChatAll("3");
+                    player.ExecuteClientCommandFromServer("css_2");
                 }
             }
         }

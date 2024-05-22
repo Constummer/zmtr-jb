@@ -248,9 +248,6 @@ public partial class JailbreakExtras
         static bool IsSutPlayer(CCSPlayerController x) => SutolCommandCalls.Contains(x.SteamID);
     }
 
-    [Obsolete("Bundayken çökme yaşandığı oluyordu, bundan mı emin değilim ama iptal")]
-    private static CsTeam GetTeamOld(CCSPlayerController x) => x.PendingTeamNum != x.TeamNum ? (CsTeam)x.PendingTeamNum : (CsTeam)x.TeamNum;
-
     private static CsTeam GetTeam(CCSPlayerController x) => (CsTeam)x.TeamNum;
 
     private static TargetForArgument GetTargetArgument(string target) => target?.ToLower() switch

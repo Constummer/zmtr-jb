@@ -2,7 +2,6 @@ using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
-using Microsoft.Extensions.Logging;
 using MySqlConnector;
 
 namespace JailbreakExtras;
@@ -14,6 +13,10 @@ public partial class JailbreakExtras
         AddCommandListener("say", OnSay);
         AddCommandListener("say_team", OnSayTeam);
     }
+
+    private HookResult OnSayTeam(CCSPlayerController? player, CommandInfo commandInfo) => OnSayOrSayTeam(player, commandInfo, true);
+
+    private HookResult OnSay(CCSPlayerController? player, CommandInfo commandInfo) => OnSayOrSayTeam(player, commandInfo, false);
 
     private void LogPlayerChat(ulong steamId, string msg)
     {
@@ -40,9 +43,39 @@ public partial class JailbreakExtras
         }
     }
 
-    private HookResult OnSayTeam(CCSPlayerController? player, CommandInfo commandInfo) => OnSayOrSayTeam(player, commandInfo, true);
-
-    private HookResult OnSay(CCSPlayerController? player, CommandInfo commandInfo) => OnSayOrSayTeam(player, commandInfo, false);
+    private static readonly List<string> NumberChoices = new List<string>()
+    {
+        "!1",
+        "!2",
+        "!3",
+        "!4",
+        "!5",
+        "!6",
+        "!7",
+        "!8",
+        "!9",
+        "!0",
+        "/1",
+        "/2",
+        "/3",
+        "/4",
+        "/5",
+        "/6",
+        "/7",
+        "/8",
+        "/9",
+        "/0",
+        "css_1",
+        "css_2",
+        "css_3",
+        "css_4",
+        "css_5",
+        "css_6",
+        "css_7",
+        "css_8",
+        "css_9",
+        "css_0",
+    };
 
     private HookResult OnSayOrSayTeam(CCSPlayerController? player, CommandInfo info, bool isSayTeam)
     {
@@ -61,12 +94,14 @@ public partial class JailbreakExtras
 
         if (arg.StartsWith("!") || arg.StartsWith("/") || arg.StartsWith("css_"))
         {
-            if (arg.Contains("!skins"))
+            if (!VoteInProgress && !KomAlVoteInProgress)
             {
-                player.PrintToChat($"{Prefix} {CC.W} LÜTFEN BU MENÜYÜ KULLANMAK YERÝNE {CC.R}skin.zmtr.org {CC.W} SÝTESÝNDEN SKÝN SEÇÝNÝZ.");
-                player.PrintToChat($"{Prefix} {CC.W} LÜTFEN BU MENÜYÜ KULLANMAK YERÝNE {CC.R}skin.zmtr.org {CC.W} SÝTESÝNDEN SKÝN SEÇÝNÝZ.");
-                player.PrintToChat($"{Prefix} {CC.W} LÜTFEN BU MENÜYÜ KULLANMAK YERÝNE {CC.R}skin.zmtr.org {CC.W} SÝTESÝNDEN SKÝN SEÇÝNÝZ.");
-                return HookResult.Handled;
+                if (NumberChoices.Contains(arg.Trim()))
+                {
+                    var number = arg.Last();
+                    player.ExecuteClientCommandFromServer($"css_{number}");
+                    return HookResult.Handled;
+                }
             }
 
             if (csaytestActive && AdminManager.PlayerHasPermissions(player, Perm_Root))

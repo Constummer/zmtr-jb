@@ -51,11 +51,19 @@ public partial class JailbreakExtras
                    {
                        if (x.SteamID != player.SteamID)
                        {
-                           Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} yanına ışınladı{CC.W}.");
+                           if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
+                           {
+                               Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu{CC.B} yanına ışınladı{CC.W}.");
+                           }
+
                            var playerAbs = player.PawnIsAlive == false ? player.Pawn.Value.AbsOrigin : player.PlayerPawn.Value.AbsOrigin;
                            x.PlayerPawn.Value.Teleport(new Vector(playerAbs.X, playerAbs.Y + 1, playerAbs.Z), x.PlayerPawn.Value.EyeAngles, VEC_ZERO);
                        }
                    });
+        if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
+        {
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.B}yanına ışınladı");
+        }
     }
 
     #endregion Disarm
