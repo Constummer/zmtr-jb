@@ -96,17 +96,17 @@ public partial class JailbreakExtras
                          && GetTeam(x) == CsTeam.Terrorist)
                     .ToList();
                     SkzTimeDatas.AddRange(plist.Select(x => new SkzTimes(x.SteamID, x.PlayerName?.Substring(0, Math.Min(x.PlayerName?.Length ?? 0, 12)))));
-                    if (mapConfig.SkzWallTextConfigured)
-                    {
-                        try
-                        {
-                            SkzWallTextInit(mapConfig.SkzWallTextCoordinates, mapConfig.SkzWallTextAngle);
-                        }
-                        catch (Exception e)
-                        {
-                            ConsMsg(e.Message);
-                        }
-                    }
+                    //if (mapConfig.SkzWallTextConfigured)
+                    //{
+                    //    try
+                    //    {
+                    //        SkzWallTextInit(mapConfig.SkzWallTextCoordinates, mapConfig.SkzWallTextAngle);
+                    //    }
+                    //    catch (Exception e)
+                    //    {
+                    //        ConsMsg(e.Message);
+                    //    }
+                    //}
                     SkzStartTime = DateTime.UtcNow;
                     var t = AddTimer(0.1f, () =>
                     {
@@ -114,14 +114,14 @@ public partial class JailbreakExtras
                         PrintToCenterHtmlAll(GetFormattedSKZPrintHtmlData("SKZ Süreleri"));
                         PrintToCenterHtmlAll(GetFormattedSKZPrintHtmlData("SKZ Süreleri"));
                         PrintToCenterHtmlAll(GetFormattedSKZPrintHtmlData("SKZ Süreleri"));
-                        if (mapConfig.SkzWallTextConfigured)
-                        {
-                            if (SkzWallText != null && SkzWallText.IsValid)
-                            {
-                                SkzWallText.MessageText = GetFormattedSKZPrintData("****SKZ SÜRELERİ****");
-                                Utilities.SetStateChanged(SkzWallText, "CPointWorldText", "m_messageText");
-                            }
-                        }
+                        //if (mapConfig.SkzWallTextConfigured)
+                        //{
+                        //    if (SkzWallText != null && SkzWallText.IsValid)
+                        //    {
+                        //        SkzWallText.MessageText = GetFormattedSKZPrintData("****SKZ SÜRELERİ****");
+                        //        Utilities.SetStateChanged(SkzWallText, "CPointWorldText", "m_messageText");
+                        //    }
+                        //}
                     }, Full);
                     AddTimer(value + 4, () =>
                     {
