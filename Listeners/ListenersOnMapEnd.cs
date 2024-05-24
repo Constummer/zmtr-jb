@@ -17,6 +17,7 @@ public partial class JailbreakExtras
             bUsingPara?.Clear();
             Unmuteds?.Clear();
             FovActivePlayers?.Clear();
+            //PlayerCustomImageMenus?.Clear();
             UpdateAllModels();
         });
     }

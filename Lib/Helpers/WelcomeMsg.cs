@@ -27,7 +27,10 @@ public partial class JailbreakExtras
             WelcomeMsgDatas.Add(player?.SteamID ?? 0);
             var t = AddTimer(0.1f, () =>
             {
-                player.PrintToCenterHtml("<img src='https://zmtr.org/assets/welcome.gif'></img>");
+                if (is_valid(player))
+                {
+                    player.PrintToCenterHtml("<img src='https://zmtr.org/assets/welcome.gif'></img>");
+                }
             }, Full);
             AddTimer(10f, () =>
             {

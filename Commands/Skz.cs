@@ -60,7 +60,7 @@ public partial class JailbreakExtras
 
         foreach (var k in coordsFound)
         {
-            skzMenu.AddMenuOption(k.Text, (p, t) =>
+            skzMenu.AddMenuOption(k.Text, (_, _) =>
             {
                 Server.PrintToChatAll($"{Prefix} {CC.W}{T_PluralCamel} {CC.B}{k.Text} {CC.W} ışınlanıyor");
                 LogManagerCommand(player.SteamID, info.GetCommandString);
@@ -90,23 +90,9 @@ public partial class JailbreakExtras
                         Config.Additional.ParachuteModelEnabled = false;
                     }
                     var plist = GetPlayers()
-                    .Where(x => x != null
-                         && x.IsValid
-                         && x.PawnIsAlive
-                         && GetTeam(x) == CsTeam.Terrorist)
+                    .Where(x => x.PawnIsAlive && GetTeam(x) == CsTeam.Terrorist)
                     .ToList();
-                    SkzTimeDatas.AddRange(plist.Select(x => new SkzTimes(x.SteamID, x.PlayerName?.Substring(0, Math.Min(x.PlayerName?.Length ?? 0, 12)))));
-                    //if (mapConfig.SkzWallTextConfigured)
-                    //{
-                    //    try
-                    //    {
-                    //        SkzWallTextInit(mapConfig.SkzWallTextCoordinates, mapConfig.SkzWallTextAngle);
-                    //    }
-                    //    catch (Exception e)
-                    //    {
-                    //        ConsMsg(e.Message);
-                    //    }
-                    //}
+                    SkzTimeDatas.AddRange(plist.Select(x => new SkzTimes(x.SteamID, x.PlayerName)));
                     SkzStartTime = DateTime.UtcNow;
                     var t = AddTimer(0.1f, () =>
                     {
@@ -114,14 +100,6 @@ public partial class JailbreakExtras
                         PrintToCenterHtmlAll(GetFormattedSKZPrintHtmlData("SKZ Süreleri"));
                         PrintToCenterHtmlAll(GetFormattedSKZPrintHtmlData("SKZ Süreleri"));
                         PrintToCenterHtmlAll(GetFormattedSKZPrintHtmlData("SKZ Süreleri"));
-                        //if (mapConfig.SkzWallTextConfigured)
-                        //{
-                        //    if (SkzWallText != null && SkzWallText.IsValid)
-                        //    {
-                        //        SkzWallText.MessageText = GetFormattedSKZPrintData("****SKZ SÜRELERİ****");
-                        //        Utilities.SetStateChanged(SkzWallText, "CPointWorldText", "m_messageText");
-                        //    }
-                        //}
                     }, Full);
                     AddTimer(value + 4, () =>
                     {
@@ -187,10 +165,6 @@ public partial class JailbreakExtras
                     FreezeOrUnfreezeSound();
                     Server.PrintToChatAll($"{Prefix} {CC.Ol}{value}{CC.W} saniye süren {CC.Ol}SKZ{CC.W} bitti, {CC.G}{T_PluralCamel} {CC.B}dondu{CC.W}.");
                     Server.PrintToChatAll($"{Prefix} {CC.G}{greenColor}{CC.W} adet kz'yi yapan {CC.R}{redColor}{CC.W} adet kz'yi yapamayan var{CC.W}.");
-
-                    var str = $"{Prefix}<br>" +
-                        $"<font color='#00FF00'>{greenColor}</font> adet kz'yi yapan<br>" +
-                        $"<font color='#FF0000'>{redColor}</font> adet kz'yi yapamayan var.";
                 }, SOM);
             });
         }

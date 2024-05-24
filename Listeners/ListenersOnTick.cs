@@ -35,7 +35,7 @@ public partial class JailbreakExtras
                         UpdatePlayersBasedOnTheirPos(player?.PlayerPawn?.Value?.AbsOrigin ?? VEC_ZERO, player.SteamID);
                     }
                 }
-
+                //CustomImageMenuOnTick(player);
                 if (GrabOrCizPlayers.TryGetValue(player.SteamID, out var c) && c)
                 {
                     CizOnTick(player);

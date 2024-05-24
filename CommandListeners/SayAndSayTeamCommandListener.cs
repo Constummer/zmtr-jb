@@ -94,16 +94,22 @@ public partial class JailbreakExtras
 
         if (arg.StartsWith("!") || arg.StartsWith("/") || arg.StartsWith("css_"))
         {
-            if (!VoteInProgress && !KomAlVoteInProgress)
+            //if (!VoteInProgress && !KomAlVoteInProgress)
+            //{
+            //    if (NumberChoices.Contains(arg.Trim()))
+            //    {
+            //        var number = arg.Last();
+            //        player.ExecuteClientCommandFromServer($"css_{number}");
+            //        return HookResult.Handled;
+            //    }
+            //}
+            if (arg.Contains("!skins"))
             {
-                if (NumberChoices.Contains(arg.Trim()))
-                {
-                    var number = arg.Last();
-                    player.ExecuteClientCommandFromServer($"css_{number}");
-                    return HookResult.Handled;
-                }
+                player.PrintToChat($"{Prefix} {CC.W} LÜTFEN BU MENÜYÜ KULLANMAK YERÝNE {CC.R}skin.zmtr.org {CC.W} SÝTESÝNDEN SKÝN SEÇÝNÝZ.");
+                player.PrintToChat($"{Prefix} {CC.W} LÜTFEN BU MENÜYÜ KULLANMAK YERÝNE {CC.R}skin.zmtr.org {CC.W} SÝTESÝNDEN SKÝN SEÇÝNÝZ.");
+                player.PrintToChat($"{Prefix} {CC.W} LÜTFEN BU MENÜYÜ KULLANMAK YERÝNE {CC.R}skin.zmtr.org {CC.W} SÝTESÝNDEN SKÝN SEÇÝNÝZ.");
+                return HookResult.Handled;
             }
-
             if (csaytestActive && AdminManager.PlayerHasPermissions(player, Perm_Root))
             {
                 Server.PrintToChatAll("arg=>" + arg);

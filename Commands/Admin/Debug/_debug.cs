@@ -161,9 +161,14 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var target = info.ArgString.GetArg(0);
-
-        var snd = target switch
+        var DATA = info.ArgString.GetArgLast();
+        var target = info.ArgString.GetArgSkip(0);
+        Server.PrintToChatAll($"{target}");
+        if (FindSinglePlayer(player, target, out var x) == false)
+        {
+            return;
+        }
+        var snd = DATA switch
         {
             "1" => VoiceFlags.Normal,
             "2" => VoiceFlags.Muted,
@@ -172,7 +177,7 @@ public partial class JailbreakExtras
             "5" => VoiceFlags.Team,
             "6" => VoiceFlags.ListenTeam,
         };
-        player.VoiceFlags |= snd;
+        x.VoiceFlags |= snd;
     }
 
     [ConsoleCommand("cvoicemute")]
