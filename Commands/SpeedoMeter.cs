@@ -45,9 +45,11 @@ public partial class JailbreakExtras
                           $"{((buttons & PlayerButtons.Left) != 0 ? "←" : "_")} " +
                           $"{((buttons & PlayerButtons.Forward) != 0 ? "W" : "_")} " +
                           $"{((buttons & PlayerButtons.Right) != 0 ? "→" : "_")}<br>" +
+                          $"{((buttons & PlayerButtons.Duck) != 0 ? "↓" : "_")} " +
                           $"{((buttons & PlayerButtons.Moveleft) != 0 ? "A" : "_")} " +
                           $"{((buttons & PlayerButtons.Back) != 0 ? "S" : "_")} " +
-                          $"{((buttons & PlayerButtons.Moveright) != 0 ? "D" : "_")}");
+                          $"{((buttons & PlayerButtons.Moveright) != 0 ? "D" : "_")} " +
+                          $"{((buttons & PlayerButtons.Jump) != 0 ? "↑" : "_")}");
             }
         }
     }

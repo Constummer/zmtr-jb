@@ -135,7 +135,10 @@ public partial class JailbreakExtras
             //oto remove - cok tatli
             AddTimer(clearTimer, () =>
             {
-                laser.Remove();
+                if (laser?.IsValid ?? false)
+                {
+                    laser.Remove();
+                }
             }, SOM);
         }
         else

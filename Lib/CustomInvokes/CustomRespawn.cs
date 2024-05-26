@@ -24,6 +24,10 @@ public partial class JailbreakExtras
         }
         else
         {
+            if (ValidateCallerPlayer(x, false) == false)
+            {
+                return;
+            }
             x.Respawn();
         }
     }

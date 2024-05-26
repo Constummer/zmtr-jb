@@ -35,10 +35,14 @@ public partial class JailbreakExtras
                   {
                       SetColour(x, Config.Burry.BuryColor);
                   }
-                  Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
-                  Vector currentSpeed = new Vector(0, 0, 0);
-                  QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
-                  x.PlayerPawn.Value.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z - 30), currentRotation, currentSpeed);
+
+                  if (x != null)
+                  {
+                      if (ValidateCallerPlayer(x, false) == false)
+                          return;
+                      Vector currentPosition = x.PlayerPawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
+                      x.PlayerPawn.Value.Teleport(currentPosition.With(z: currentPosition.Z - 30), QAngle.Zero, Vector.Zero);
+                  }
                   if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
                   {
                       Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu {CC.B}gömdü{CC.W}.");
@@ -87,10 +91,14 @@ public partial class JailbreakExtras
                         {
                             SetColour(x, Config.Burry.BuryColor);
                         }
-                        Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
-                        Vector currentSpeed = new Vector(0, 0, 0);
-                        QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
-                        x.PlayerPawn.Value.Teleport(new(currentPosition.X, currentPosition.Y, currentPosition.Z - 30), currentRotation, currentSpeed);
+
+                        if (x != null)
+                        {
+                            if (ValidateCallerPlayer(x, false) == false)
+                                return;
+                            Vector currentPosition = x.PlayerPawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
+                            x.PlayerPawn.Value.Teleport(currentPosition.With(z: currentPosition.Z - 30), QAngle.Zero, Vector.Zero);
+                        }
                     });
                 }, SOM);
             }

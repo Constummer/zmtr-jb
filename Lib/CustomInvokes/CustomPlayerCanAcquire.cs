@@ -37,7 +37,7 @@ public partial class JailbreakExtras
         var vdata = GetCSWeaponDataFromKeyFunc.Invoke(-1, hook.GetParam<CEconItemView>(1).ItemDefinitionIndex.ToString());
         // Weapon is not restricted
 
-        var client = hook.GetParam<CCSPlayer_ItemServices>(0).Pawn.Value!.Controller.Value!.As<CCSPlayerController>();
+        var client = hook.GetParam<CCSPlayer_ItemServices>(0)?.Pawn?.Value?.Controller?.Value?.As<CCSPlayerController>();
 
         if (client == null || !client.IsValid || !client.PawnIsAlive)
             return HookResult.Continue;

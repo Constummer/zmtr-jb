@@ -162,7 +162,7 @@ public partial class JailbreakExtras
             return;
         }
         var DATA = info.ArgString.GetArgLast();
-        var target = info.ArgString.GetArgSkip(0);
+        var target = info.ArgString.GetArgSkipFromLast(1);
         Server.PrintToChatAll($"{target}");
         if (FindSinglePlayer(player, target, out var x) == false)
         {

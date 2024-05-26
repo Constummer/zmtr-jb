@@ -197,6 +197,20 @@ public partial class JailbreakExtras
         }
     }
 
+    /*
+     *
+ctdeyken mavi, tdeyken kırmızı nick
+chat rengi:
+[Stajyer Komutçu] beyaz
+[Tecrübeli Komutçu] (şu anki neyse o)
+[Usta Komutçu] (şu anki neyse o)
+
+Tag rengi:
+[Stajyer Komutçu] yeşil
+[Tecrübeli Komutçu] lacivertimsi bişey varsa kafana göre koy
+[Usta Komutçu] kırmızı nasıl gider acaba
+    */
+
     private bool WLevelPlayer(CCSPlayerController player, CommandInfo info, bool isSayTeam)
     {
         if (PlayerTimeTracking.TryGetValue(player.SteamID, out var item) == false)
@@ -225,15 +239,15 @@ public partial class JailbreakExtras
         var tagname = "";
         if (item.WTime < 20 * 60)
         {
-            tagname = "Junior Komutçu";
+            tagname = "Stajyer Komutçu";
         }
         else if (item.WTime < 30 * 60)
         {
-            tagname = "Mid Komutçu";
+            tagname = "Tecrübeli Komutçu";
         }
         else
         {
-            tagname = "Senior Komutçu";
+            tagname = "Usta Komutçu";
         }
         var deadStr = player.PawnIsAlive == false ? $"{CC.R}*ÖLÜ*" : "";
         var str = $" {deadStr}"

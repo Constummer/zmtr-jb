@@ -54,12 +54,13 @@ public partial class JailbreakExtras
                         }
                         SetMoveType(x, MoveType_t.MOVETYPE_OBSOLETE);
 
-                        RefreshPawnTP(x);
-
-                        //Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
-                        //Vector currentSpeed = new Vector(0, 0, 0);
-                        //QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
-                        //x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
+                        if (x != null)
+                        {
+                            if (ValidateCallerPlayer(x, false) == false)
+                                return;
+                            Vector currentPosition = x.PlayerPawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
+                            x.PlayerPawn.Value.Teleport(currentPosition, QAngle.Zero, Vector.Zero);
+                        }
                     });
                     FreezeOrUnfreezeSound();
                     Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{T_PluralLowerObjective} {CC.B}dondurdu{CC.W}.");
