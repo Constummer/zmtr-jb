@@ -33,7 +33,7 @@ public partial class JailbreakExtras
         .ForEach(x =>
         {
             //SetColour(x, Color.FromArgb(128, 0, 128));
-            SetModelNextServerFrame(x.PlayerPawn.Value!, "characters/models/ambrosian/zmtr/sut/sut.vmdl");
+            SetModelNextServerFrame(x, "characters/models/ambrosian/zmtr/sut/sut.vmdl");
             SutolCommandCalls.Add(x.SteamID);
 
             RefreshPawnTP(x);

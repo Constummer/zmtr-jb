@@ -106,7 +106,7 @@ public partial class JailbreakExtras
                             {
                                 if (ValidateCallerPlayer(x, false))
                                 {
-                                    SetModelNextServerFrame(x!.PlayerPawn.Value!, model.PathToModel);
+                                    SetModelNextServerFrame(x, model.PathToModel);
                                 }
                             }
                         }
@@ -127,7 +127,7 @@ public partial class JailbreakExtras
                             {
                                 if (ValidateCallerPlayer(x, false))
                                 {
-                                    SetModelNextServerFrame(x!.PlayerPawn.Value!, model.PathToModel);
+                                    SetModelNextServerFrame(x, model.PathToModel);
                                 }
                             }
                         }
@@ -160,7 +160,7 @@ public partial class JailbreakExtras
                     return;
                 }
                 if (ValidateCallerPlayer(x, false) == false) return;
-                SetModelNextServerFrame(x!.PlayerPawn.Value!, randomModel);
+                SetModelNextServerFrame(x, randomModel);
                 break;
 
             case CsTeam.CounterTerrorist:
@@ -170,7 +170,7 @@ public partial class JailbreakExtras
                     return;
                 }
                 if (ValidateCallerPlayer(x, false) == false) return;
-                SetModelNextServerFrame(x!.PlayerPawn.Value!, randomModel);
+                SetModelNextServerFrame(x, randomModel);
                 break;
 
             default:

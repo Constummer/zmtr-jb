@@ -121,7 +121,7 @@ public partial class JailbreakExtras
             var model = Config.Market.MarketModeller.Where(x => x.Id == id).FirstOrDefault();
             if (model != null)
             {
-                SetModelNextServerFrame(x!.PlayerPawn.Value!, model.PathToModel);
+                SetModelNextServerFrame(x, model.PathToModel);
             }
             else
             {
@@ -394,7 +394,7 @@ public partial class JailbreakExtras
             return;
         }
 
-        SetModelNextServerFrame(player.PlayerPawn.Value!, "characters/models/ambrosian/zmtr/sut/sut.vmdl");
+        SetModelNextServerFrame(player, "characters/models/ambrosian/zmtr/sut/sut.vmdl");
     }
 
     [ConsoleCommand("crandom")]

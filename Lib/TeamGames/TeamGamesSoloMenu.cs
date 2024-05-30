@@ -97,12 +97,8 @@ public partial class JailbreakExtras
 
         players.ToList().ForEach(x =>
         {
-            SetModelNextServerFrame(x.PlayerPawn.Value!, "characters/models/ambrosian/gunslinger/gunslinger_red.vmdl");
+            SetModelNextServerFrame(x, "characters/models/ambrosian/gunslinger/gunslinger_red.vmdl");
 
-            //Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
-            //Vector currentSpeed = new Vector(0, 0, 0);
-            //QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
-            //x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
             x.PrintToChat("Herkes Tek oyunu başlamak üzere.");
             x.PrintToCenter("Herkes Tek oyunu başlamak üzere.");
         });

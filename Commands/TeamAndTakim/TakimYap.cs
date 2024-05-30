@@ -122,22 +122,22 @@ public partial class JailbreakExtras
             {
                 if (i == 0)
                 {
-                    SetModelNextServerFrame(x.PlayerPawn.Value!, "characters/models/ambrosian/gunslinger/gunslinger_red.vmdl");
+                    SetModelNextServerFrame(x, "characters/models/ambrosian/gunslinger/gunslinger_red.vmdl");
                     x.PrintToChat($"{Prefix} {CC.P}{res.Msg} {CC.W}Takıma girdin!{(additionalMsg ? " Takım oyunu başlamak üzere" : "")}");
                 }
                 else if (i == 1)
                 {
-                    SetModelNextServerFrame(x.PlayerPawn.Value!, "characters/models/ambrosian/gunslinger/gunslinger_blue.vmdl");
+                    SetModelNextServerFrame(x, "characters/models/ambrosian/gunslinger/gunslinger_blue.vmdl");
                     x.PrintToCenter($"{Prefix} {CC.P}{res.Msg} {CC.W}Takıma girdin!{(additionalMsg ? " Takım oyunu başlamak üzere" : "")}");
                 }
                 else if (i == 2)
                 {
-                    SetModelNextServerFrame(x.PlayerPawn.Value!, "characters/models/nozb1/roblox8_player_model/roblox8_player_model.vmdl");
+                    SetModelNextServerFrame(x, "characters/models/nozb1/roblox8_player_model/roblox8_player_model.vmdl");
                     x.PrintToCenter($"{Prefix} {CC.P}{res.Msg} {CC.W}Takıma girdin!{(additionalMsg ? " Takım oyunu başlamak üzere" : "")}");
                 }
                 else
                 {
-                    SetModelNextServerFrame(x.PlayerPawn.Value!, "characters/models/nozb1/roblox6_player_model/roblox6_player_model.vmdl");
+                    SetModelNextServerFrame(x, "characters/models/nozb1/roblox6_player_model/roblox6_player_model.vmdl");
                     x.PrintToCenter($"{Prefix} {CC.P}{res.Msg} {CC.W}Takıma girdin!{(additionalMsg ? " Takım oyunu başlamak üzere" : "")}");
                 }
 

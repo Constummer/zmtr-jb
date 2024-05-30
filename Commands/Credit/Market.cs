@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Commands.Targeting;
+using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using JailbreakExtras.Lib.Database;
@@ -262,7 +263,7 @@ public partial class JailbreakExtras
                         }
                         else
                         {
-                            SetModelNextServerFrame(player.PlayerPawn.Value!, model.PathToModel);
+                            SetModelNextServerFrame(player, model.PathToModel);
                         }
                     }
                     break;
@@ -277,7 +278,7 @@ public partial class JailbreakExtras
                         }
                         else
                         {
-                            SetModelNextServerFrame(player.PlayerPawn.Value!, model.PathToModel);
+                            SetModelNextServerFrame(player, model.PathToModel);
                         }
                     }
                     break;
@@ -285,12 +286,12 @@ public partial class JailbreakExtras
         }
     }
 
-    public static void SetModelNextServerFrame(CCSPlayerPawn playerPawn, string? model)
+    private static void SetModelNextServerFrame(CCSPlayerController x, string? model)
     {
         if (_Config.Model.SetModelActive == false) return;
         if (_Config.Model.CustomModelActive)
         {
-            model = playerPawn.TeamNum switch
+            model = x?.TeamNum switch
             {
                 0 => null,
                 1 => null,
@@ -307,8 +308,11 @@ public partial class JailbreakExtras
         }
         Server.NextFrame(() =>
         {
-            if (playerPawn == null || playerPawn.IsValid == false) return;
-            playerPawn.SetModel(model);
+            if (ValidateCallerPlayer(x, false) == false) return;
+            if (x.PlayerPawn is not null && x.PlayerPawn.Value is not null && x.PawnIsAlive)
+            {
+                x.PlayerPawn.Value.SetModel(model);
+            }
         });
     }
 
