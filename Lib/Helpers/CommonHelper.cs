@@ -217,9 +217,7 @@ public partial class JailbreakExtras
             if (ValidateCallerPlayer(x, false) == false) return;
             pawn.Render = colour;
             if (ValidateCallerPlayer(x, false) == false) return;
-            Utilities.SetStateChanged(pawn, "CBaseModelEntity", "m_clrRender");
             if (ValidateCallerPlayer(x, false) == false) return;
-            Utilities.SetStateChanged(pawn, "CBaseModelEntity", "m_nRenderMode");
         }
     }
 

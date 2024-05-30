@@ -28,6 +28,11 @@ public partial class JailbreakExtras
                     player.PrintToChat($"{Prefix} {CC.W}Sadece yaşayan son {T_AllLower} lr atabilir.");
                     return;
                 }
+                if (LrActive)
+                {
+                    player.PrintToChat($"{Prefix} {CC.W}Mevcutta bir LR var, Tekrar açılamaz.");
+                    return;
+                }
                 var gardSelectMenu = new ChatMenu($"LR Menü | {CT_CamelCase} Seçimi");
                 var gards = GetPlayers(CsTeam.CounterTerrorist).ToList();
                 if (gards.Any() == false)
@@ -58,6 +63,11 @@ public partial class JailbreakExtras
                     }
                     gardSelectMenu.AddMenuOption(gardText, (_, _) =>
                     {
+                        if (LrActive)
+                        {
+                            player.PrintToChat($"{Prefix} {CC.W}Mevcutta bir LR var, Tekrar açılamaz.");
+                            return;
+                        }
                         if (player.PawnIsAlive == false)
                         {
                             return;

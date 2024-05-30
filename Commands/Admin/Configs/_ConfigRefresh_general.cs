@@ -12,40 +12,26 @@ public partial class JailbreakExtras
     public void ConfigReadPath()
     {
         var path = Server.GameDirectory;
-        if (!Directory.Exists(path))
-        {
-            return;
-        }
+        if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+
         path = Path.Combine(path, "csgo");
-        if (!Directory.Exists(path))
-        {
-            return;
-        }
+        if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+
         path = Path.Combine(path, "addons");
-        if (!Directory.Exists(path))
-        {
-            return;
-        }
+        if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+
         path = Path.Combine(path, "counterstrikesharp");
-        if (!Directory.Exists(path))
-        {
-            return;
-        }
+        if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+
         path = Path.Combine(path, "configs");
-        if (!Directory.Exists(path))
-        {
-            return;
-        }
+        if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+
         path = Path.Combine(path, "plugins");
-        if (!Directory.Exists(path))
-        {
-            return;
-        }
+        if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+
         path = Path.Combine(path, ModuleName);
-        if (!Directory.Exists(path))
-        {
-            return;
-        }
+        if (!Directory.Exists(path)) Directory.CreateDirectory(path);
+
         _customConfigPath = path;
     }
 

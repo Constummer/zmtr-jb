@@ -156,37 +156,37 @@ public partial class JailbreakExtras
 
                             #region OnPlayerSpawn
 
-                            CCSPlayerController? x = null;
-                            if (tempUserId.HasValue)
-                            {
-                                x = Utilities.GetPlayerFromUserid(tempUserId.Value);
-                            }
-                            else if (tempSteamId > 0)
-                            {
-                                x = Utilities.GetPlayerFromSteamId(tempSteamId);
-                            }
-                            else
-                            {
-                                return;
-                            }
-                            if (ValidateCallerPlayer(x, false) == false) return;
-                            if (x.PawnIsAlive && get_health(x) > 0)
-                            {
-                                if (LatestWCommandUser == x.SteamID)
-                                {
-                                    if (ValidateCallerPlayer(x, false) == false) return;
-                                    SetColour(x, Color.FromArgb(255, 0, 0, 255));
-                                }
-                                else
-                                {
-                                    if (ValidateCallerPlayer(x, false) == false) return;
-                                    SetColour(x, DefaultColor);
-                                }
-                            }
-                            if (CheckPlayerIsTeamTag(tempSteamId) == false)
-                            {
-                                CheckPlayerSutTeamTag(tempSteamId);
-                            }
+                            //CCSPlayerController? x = null;
+                            //if (tempUserId.HasValue)
+                            //{
+                            //    x = Utilities.GetPlayerFromUserid(tempUserId.Value);
+                            //}
+                            //else if (tempSteamId > 0)
+                            //{
+                            //    x = Utilities.GetPlayerFromSteamId(tempSteamId);
+                            //}
+                            //else
+                            //{
+                            //    return;
+                            //}
+                            //if (ValidateCallerPlayer(x, false) == false) return;
+                            ////if (x.PawnIsAlive && get_health(x) > 0)
+                            ////{
+                            ////    if (LatestWCommandUser == x.SteamID)
+                            ////    {
+                            ////        if (ValidateCallerPlayer(x, false) == false) return;
+                            ////        SetColour(x, Color.FromArgb(255, 0, 0, 255));
+                            ////    }
+                            ////    else
+                            ////    {
+                            ////        if (ValidateCallerPlayer(x, false) == false) return;
+                            ////        SetColour(x, DefaultColor);
+                            ////    }
+                            ////}
+                            //if (CheckPlayerIsTeamTag(tempSteamId) == false)
+                            //{
+                            //    CheckPlayerSutTeamTag(tempSteamId);
+                            //}
 
                             #endregion OnPlayerSpawn
 

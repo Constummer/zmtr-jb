@@ -13,9 +13,8 @@ public partial class JailbreakExtras
     private void EventPlayerSpawn()
     {
         RegisterEventHandler<EventPlayerSpawn>(CTKitOnPlayerSpawn);
-        RegisterEventHandler<EventPlayerSpawn>(NoBlockOnPlayerSpawn, HookMode.Post);
 
-        RegisterEventHandler((GameEventHandler<EventPlayerSpawn>)((@event, _) =>
+        RegisterEventHandler<EventPlayerSpawn>((@event, _) =>
         {
             try
             {
@@ -71,10 +70,6 @@ public partial class JailbreakExtras
                             }
                         }
                     }, SOM);
-                    AddTimer(3f, () =>
-                    {
-                        _ClientQueue.Enqueue(new(tempSteamId ?? 0, tempUserId, "", QueueItemType.OnPlayerSpawn));
-                    }, SOM);
                 }
                 return HookResult.Continue;
             }
@@ -83,7 +78,7 @@ public partial class JailbreakExtras
                 ConsMsg(e.Message);
                 return HookResult.Continue;
             }
-        }));
+        });
     }
 
     private static void GiveSkin(CCSPlayerController x, ulong? tempSteamId)

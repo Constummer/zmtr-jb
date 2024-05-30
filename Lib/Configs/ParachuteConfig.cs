@@ -4,6 +4,9 @@ namespace JailbreakExtras.Lib.Configs
 {
     public class ParachuteConfig
     {
+        [JsonPropertyName("DefaultParachute")]
+        public string DefaultParachute { get; set; } = "models/zmtr/special.vmdl";
+
         [JsonPropertyName("MarketModeller")]
         public List<ParticleModel> MarketModeller { get; set; } = new List<ParticleModel>()
         {

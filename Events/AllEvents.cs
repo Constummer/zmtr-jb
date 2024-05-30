@@ -144,7 +144,7 @@ public partial class JailbreakExtras
         RegisterEventHandler<EventItemPurchase>((@event, _) => HookResult.Continue);
         RegisterEventHandler<EventItemRemove>((@event, _) => HookResult.Continue);
         RegisterEventHandler<EventItemSchemaInitialized>((@event, _) => HookResult.Continue);
-        RegisterEventHandler<EventItemsGifted>((@event, _) => HookResult.Continue);
+        //RegisterEventHandler<EventItemsGifted>((@event, _) => HookResult.Continue);
         RegisterEventHandler<EventJointeamFailed>((@event, _) => HookResult.Continue);
         RegisterEventHandler<EventLocalPlayerControllerTeam>((@event, _) => HookResult.Continue);
         RegisterEventHandler<EventLocalPlayerPawnChanged>((@event, _) => HookResult.Continue);
@@ -252,13 +252,13 @@ public partial class JailbreakExtras
         RegisterEventHandler<EventTeamplayRoundStart>((@event, _) => HookResult.Continue);
         RegisterEventHandler<EventTeamScore>((@event, _) => HookResult.Continue);
         RegisterEventHandler<EventTournamentReward>((@event, _) => HookResult.Continue);
-        RegisterEventHandler<EventTrExitHintTrigger>((@event, _) => HookResult.Continue);
+        //RegisterEventHandler<EventTrExitHintTrigger>((@event, _) => HookResult.Continue);
         RegisterEventHandler<EventTrialTimeExpired>((@event, _) => HookResult.Continue);
-        RegisterEventHandler<EventTrMarkBestTime>((@event, _) => HookResult.Continue);
-        RegisterEventHandler<EventTrMarkComplete>((@event, _) => HookResult.Continue);
-        RegisterEventHandler<EventTrPlayerFlashbanged>((@event, _) => HookResult.Continue);
-        RegisterEventHandler<EventTrShowExitMsgbox>((@event, _) => HookResult.Continue);
-        RegisterEventHandler<EventTrShowFinishMsgbox>((@event, _) => HookResult.Continue);
+        //RegisterEventHandler<EventTrMarkBestTime>((@event, _) => HookResult.Continue);
+        //RegisterEventHandler<EventTrMarkComplete>((@event, _) => HookResult.Continue);
+        //RegisterEventHandler<EventTrPlayerFlashbanged>((@event, _) => HookResult.Continue);
+        //RegisterEventHandler<EventTrShowExitMsgbox>((@event, _) => HookResult.Continue);
+        //RegisterEventHandler<EventTrShowFinishMsgbox>((@event, _) => HookResult.Continue);
         RegisterEventHandler<EventUgcFileDownloadFinished>((@event, _) => HookResult.Continue);
         RegisterEventHandler<EventUgcFileDownloadStart>((@event, _) => HookResult.Continue);
         RegisterEventHandler<EventUgcMapDownloadError>((@event, _) => HookResult.Continue);
@@ -281,7 +281,7 @@ public partial class JailbreakExtras
         RegisterEventHandler<EventWeaponFire>((@event, _) => HookResult.Continue);
         RegisterEventHandler<EventWeaponFireOnEmpty>((@event, _) => HookResult.Continue);
         RegisterEventHandler<EventWeaponhudSelection>((@event, _) => HookResult.Continue);
-        RegisterEventHandler<EventWeaponOutofammo>((@event, _) => HookResult.Continue);
+        //RegisterEventHandler<EventWeaponOutofammo>((@event, _) => HookResult.Continue);
         RegisterEventHandler<EventWeaponReload>((@event, _) => HookResult.Continue);
         RegisterEventHandler<EventWeaponZoom>((@event, _) => HookResult.Continue);
         RegisterEventHandler<EventWeaponZoomRifle>((@event, _) => HookResult.Continue);

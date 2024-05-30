@@ -2,6 +2,7 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Commands.Targeting;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using JailbreakExtras.Lib.Database;
@@ -284,8 +285,26 @@ public partial class JailbreakExtras
         }
     }
 
-    public static void SetModelNextServerFrame(CCSPlayerPawn playerPawn, string model)
+    public static void SetModelNextServerFrame(CCSPlayerPawn playerPawn, string? model)
     {
+        if (_Config.Model.SetModelActive == false) return;
+        if (_Config.Model.CustomModelActive)
+        {
+            model = playerPawn.TeamNum switch
+            {
+                0 => null,
+                1 => null,
+                //t
+                2 => _Config.Market.MarketModeller.Where(x => x.Id == _Config.Model.SelectedModelIdT).Select(x => x.PathToModel).FirstOrDefault(),
+                //ct
+                3 => _Config.Market.MarketModeller.Where(x => x.Id == _Config.Model.SelectedModelIdCT).Select(x => x.PathToModel).FirstOrDefault(),
+                _ => null
+            };
+        }
+        if (string.IsNullOrWhiteSpace(model))
+        {
+            return;
+        }
         Server.NextFrame(() =>
         {
             if (playerPawn == null || playerPawn.IsValid == false) return;

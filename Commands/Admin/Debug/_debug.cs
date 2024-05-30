@@ -123,6 +123,10 @@ public partial class JailbreakExtras
             {
                 SetModelNextServerFrame(x!.PlayerPawn.Value!, model.PathToModel);
             }
+            else
+            {
+                GiveRandomSkin(x);
+            }
         }
     }
 
@@ -391,6 +395,45 @@ public partial class JailbreakExtras
         }
 
         SetModelNextServerFrame(player.PlayerPawn.Value!, "characters/models/ambrosian/zmtr/sut/sut.vmdl");
+    }
+
+    [ConsoleCommand("crandom")]
+    public void crandom(CCSPlayerController? player, CommandInfo info)
+    {
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
+        {
+            player.PrintToChat(NotEnoughPermission);
+            return;
+        }
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        var target = info.ArgString.GetArg(0);
+
+        Server.PrintToChatAll(target);
+        var snd = target switch
+        {
+            "-1" => _Config.Model.RandomTModels[0],
+            "-2" => _Config.Model.RandomTModels[1],
+            "-3" => _Config.Model.RandomTModels[2],
+            "-4" => _Config.Model.RandomCTModels[0],
+            "-5" => _Config.Model.RandomCTModels[1],
+            "-6" => _Config.Model.RandomCTModels[2],
+            _ => Config.Market.MarketModeller.Where(x => x.Id == int.Parse(target)).Select(x => x.PathToModel).FirstOrDefault()
+        };
+        if (string.IsNullOrWhiteSpace(snd))
+            return;
+        GetPlayers().ToList().ForEach(x =>
+        {
+            var playerPawn = x.PlayerPawn.Value;
+
+            Server.NextFrame(() =>
+            {
+                if (playerPawn == null || playerPawn.IsValid == false) return;
+                playerPawn.SetModel(snd);
+            });
+        });
     }
 
     private CParticleSystem auratest = null;

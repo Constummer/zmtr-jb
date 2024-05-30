@@ -61,7 +61,7 @@ public partial class JailbreakExtras
         var entity = Utilities.CreateEntityByName<CDynamicProp>("prop_dynamic_override");
         if (entity != null && entity.IsValid)
         {
-            var model = "models/zmtr/special.vmdl";
+            var model = _Config.Parachute.DefaultParachute;
             if (PlayerParachuteDatas.TryGetValue(steamID, out var parachuteData))
             {
                 if (string.IsNullOrWhiteSpace(parachuteData?.SelectedModelId) == false &&
@@ -295,7 +295,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-           ConsMsg(e.Message);
+            ConsMsg(e.Message);
         }
     }
 
@@ -353,7 +353,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-           ConsMsg(e.Message);
+            ConsMsg(e.Message);
         }
     }
 }
