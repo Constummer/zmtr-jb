@@ -98,7 +98,7 @@ public partial class JailbreakExtras
                         {
                             CreateParachute(tempUserId, tempSteamId);
                         }
-                        if (tempSteamId != 0)
+                        if (tempSteamId != 0 && !PatronuKoruActive && !TelliSeferActive)
                         {
                             CreateAuraParticle(tempSteamId);
                         }

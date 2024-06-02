@@ -29,6 +29,14 @@ public partial class JailbreakExtras
 
     private static void Model0Action()
     {
+        foreach (var item in PlayerAuras)
+        {
+            if (item.Value != null && item.Value.IsValid)
+            {
+                item.Value.Remove();
+            }
+        }
+        PlayerAuras = new();
         GetPlayers()
             .Where(x => x.PawnIsAlive)
             .ToList()
