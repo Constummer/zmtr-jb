@@ -58,7 +58,7 @@ public partial class JailbreakExtras
             return;
         }
         LogManagerCommand(player.SteamID, info.GetCommandString);
-        Server.ExecuteCommand($"host_workshop_map 3178317288");
+        Server.ExecuteCommand($"host_workshop_map {Config.Map.PatronuKoruWorkshopId}");
     }
 
     [ConsoleCommand("PatronuKoruCTLider")]
@@ -96,17 +96,18 @@ public partial class JailbreakExtras
     private static void PatronuKoruRoundStart()
     {
         HookDisabled = true;
-        Server.ExecuteCommand($"sv_enablebunnyhopping 0;sv_autobunnyhopping 0");
-        Server.ExecuteCommand("mp_autoteambalance 1");
-        Server.ExecuteCommand("mp_forcecamera 1");
 
-        Server.ExecuteCommand("mp_free_armor 1");
-        Server.ExecuteCommand("sv_alltalk 1");
-        Server.ExecuteCommand("sv_deadtalk 1");
-        Server.ExecuteCommand("sv_voiceenable 1");
+        foreach (var item in _Config.Map.PatronuKoruCodes)
+        {
+            Server.ExecuteCommand(item);
+        }
         Model0Action();
         Global?.AddTimer(3f, () =>
         {
+            foreach (var item in _Config.Map.PatronuKoruCodes)
+            {
+                Server.ExecuteCommand(item);
+            }
             Model0Action();
         });
     }

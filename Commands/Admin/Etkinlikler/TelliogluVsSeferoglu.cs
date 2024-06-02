@@ -53,38 +53,22 @@ public partial class JailbreakExtras
             return;
         }
         LogManagerCommand(player.SteamID, info.GetCommandString);
-        Server.ExecuteCommand($"host_workshop_map 3239955866");
+        Server.ExecuteCommand($"host_workshop_map {Config.Map.TelliSeferWorkshopId}");
     }
 
     private static void TelliogluVsSeferogluRoundStart()
     {
         HookDisabled = true;
-        Server.ExecuteCommand($"sv_enablebunnyhopping 0;sv_autobunnyhopping 0");
-        Server.ExecuteCommand("mp_autoteambalance 1");
-
-        Server.ExecuteCommand("mp_maxrounds 30");
-        Server.ExecuteCommand("mp_halftime 1");
-        Server.ExecuteCommand("mp_freezetime 5");
-        Server.ExecuteCommand("mp_free_armor 1");
-        Server.ExecuteCommand("mp_roundtime 3");
-        Server.ExecuteCommand("sv_alltalk 1");
-        Server.ExecuteCommand("sv_deadtalk 1");
-        Server.ExecuteCommand("sv_voiceenable 1");
-        Server.ExecuteCommand("mp_forcecamera 1");
+        foreach (var item in _Config.Map.TelliSeferCodes)
+        {
+            Server.ExecuteCommand(item);
+        }
         Global?.AddTimer(1f, () =>
         {
-            Server.ExecuteCommand($"sv_enablebunnyhopping 0;sv_autobunnyhopping 0");
-            Server.ExecuteCommand("mp_autoteambalance 1");
-            Server.ExecuteCommand("mp_forcecamera 1");
-
-            Server.ExecuteCommand("mp_maxrounds 30");
-            Server.ExecuteCommand("mp_halftime 1");
-            Server.ExecuteCommand("mp_freezetime 5");
-            Server.ExecuteCommand("mp_free_armor 1");
-            Server.ExecuteCommand("mp_roundtime 3");
-            Server.ExecuteCommand("sv_alltalk 1");
-            Server.ExecuteCommand("sv_deadtalk 1");
-            Server.ExecuteCommand("sv_voiceenable 1");
+            foreach (var item in _Config.Map.TelliSeferCodes)
+            {
+                Server.ExecuteCommand(item);
+            }
             Model0Action();
         });
 

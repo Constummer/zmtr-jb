@@ -19,5 +19,39 @@ namespace JailbreakExtras
         {
             { "map_jb_example.json" ,new MapConfigDetailed() },
         };
+
+        [JsonPropertyName("TelliSeferWorkshopId")]
+        public string TelliSeferWorkshopId { get; set; } = "3239955866";
+
+        [JsonPropertyName("PatronuKoruWorkshopId")]
+        public string PatronuKoruWorkshopId { get; set; } = "3178317288";
+
+        [JsonPropertyName("TelliSeferCodes")]
+        public List<string> TelliSeferCodes { get; set; } = new()
+        {
+            "sv_enablebunnyhopping 0;sv_autobunnyhopping 0;",
+            "mp_autoteambalance 1;",
+            "mp_maxrounds 30;",
+            "mp_halftime 1;",
+            "mp_freezetime 5;",
+            "mp_free_armor 1;",
+            "mp_roundtime 3;",
+            "sv_alltalk 1;",
+            "sv_deadtalk 1;",
+            "sv_voiceenable 1;",
+            "mp_forcecamera 1;",
+        };
+
+        [JsonPropertyName("PatronuKoruCodes")]
+        public List<string> PatronuKoruCodes { get; set; } = new()
+        {
+            "sv_enablebunnyhopping 0;sv_autobunnyhopping 0;",
+            "mp_autoteambalance 1;",
+            "mp_forcecamera 1;",
+            "mp_free_armor 1;",
+            "sv_alltalk 1;",
+            "sv_deadtalk 1;",
+            "sv_voiceenable 1;",
+        };
     }
 }
