@@ -51,14 +51,6 @@ public partial class JailbreakExtras
         }, Full);
     }
 
-    private CounterStrikeSharp.API.Modules.Timers.Timer CheckPublicIpTimer()
-    {
-        return AddTimer(1_800f, () =>
-        {
-            Checker();
-        }, Full);
-    }
-
     private void Checker()
     {
         string[] whitelist = {
