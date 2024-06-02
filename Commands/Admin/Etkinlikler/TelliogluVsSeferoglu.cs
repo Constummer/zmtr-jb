@@ -69,12 +69,13 @@ public partial class JailbreakExtras
         Server.ExecuteCommand("mp_roundtime 3");
         Server.ExecuteCommand("sv_alltalk 1");
         Server.ExecuteCommand("sv_deadtalk 1");
-        Server.ExecuteCommand("mp_forcecamera 0");
         Server.ExecuteCommand("sv_voiceenable 1");
+        Server.ExecuteCommand("mp_forcecamera 1");
         Global?.AddTimer(1f, () =>
         {
             Server.ExecuteCommand($"sv_enablebunnyhopping 0;sv_autobunnyhopping 0");
             Server.ExecuteCommand("mp_autoteambalance 1");
+            Server.ExecuteCommand("mp_forcecamera 1");
 
             Server.ExecuteCommand("mp_maxrounds 30");
             Server.ExecuteCommand("mp_halftime 1");
@@ -83,7 +84,6 @@ public partial class JailbreakExtras
             Server.ExecuteCommand("mp_roundtime 3");
             Server.ExecuteCommand("sv_alltalk 1");
             Server.ExecuteCommand("sv_deadtalk 1");
-            Server.ExecuteCommand("mp_forcecamera 0");
             Server.ExecuteCommand("sv_voiceenable 1");
             Model0Action();
         });

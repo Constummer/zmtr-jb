@@ -103,7 +103,6 @@ public partial class JailbreakExtras
         Server.ExecuteCommand("mp_free_armor 1");
         Server.ExecuteCommand("sv_alltalk 1");
         Server.ExecuteCommand("sv_deadtalk 1");
-        Server.ExecuteCommand("mp_forcecamera 0");
         Server.ExecuteCommand("sv_voiceenable 1");
         Model0Action();
         Global?.AddTimer(3f, () =>
