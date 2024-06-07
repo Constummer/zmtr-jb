@@ -212,12 +212,9 @@ public partial class JailbreakExtras
         if (pawn != null)
         {
             if (ValidateCallerPlayer(x, false) == false) return;
-
             pawn.RenderMode = RenderMode_t.kRenderTransColor;
             if (ValidateCallerPlayer(x, false) == false) return;
             pawn.Render = colour;
-            if (ValidateCallerPlayer(x, false) == false) return;
-            if (ValidateCallerPlayer(x, false) == false) return;
         }
     }
 

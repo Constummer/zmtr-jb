@@ -4,6 +4,7 @@ public partial class JailbreakExtras
 {
     private void ClearAll()
     {
+        GiveKnifeToSutsOnRoundEnd();
         SutolCommandCallForBPs?.Clear();
         JumpCount?.Clear();
         SkzTimeDatas?.Clear();

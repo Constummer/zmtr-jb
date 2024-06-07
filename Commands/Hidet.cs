@@ -44,6 +44,7 @@ public partial class JailbreakExtras
                         HidePlayer(x);
                         break;
                 }
+                RefreshPawn(x);
             });
         switch (godOneTwo)
         {

@@ -2,6 +2,7 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
@@ -12,6 +13,17 @@ public partial class JailbreakExtras
 
     private static List<ulong> SutolCommandCalls = new();
     private static List<ulong> SutolCommandCallForBPs = new();
+
+    private void GiveKnifeToSutsOnRoundEnd()
+    {
+        if (SutolCommandCalls != null && SutolCommandCalls.Count > 0)
+        {
+            foreach (var item in GetPlayers().Where(x => SutolCommandCalls.Contains(x.SteamID)).ToList())
+            {
+                item.GiveNamedItem(CsItem.KnifeT);
+            }
+        }
+    }
 
     [ConsoleCommand("sut")]
     [ConsoleCommand("sutol")]

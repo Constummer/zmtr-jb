@@ -2,6 +2,7 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
@@ -20,25 +21,18 @@ public partial class JailbreakExtras
                .ToList()
                .ForEach(x =>
                {
-                   x.GiveNamedItem($"weapon_knife");
+                   switch (GetTeam(x))
+                   {
+                       case CsTeam.Terrorist:
+                           x.GiveNamedItem($"weapon_knife_t");
+                           break;
+
+                       default:
+                           x.GiveNamedItem($"weapon_knife");
+                           break;
+                   }
                });
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}@all {CC.W}hedefine {CC.B}knife {CC.W}adlı silahı verdi.");
-    }
-
-    [ConsoleCommand("gdd", "bicak Verir")]
-    public void gdd(CCSPlayerController? player, CommandInfo info)
-    {
-        if (ValidateCallerPlayer(player) == false) return;
-        LogManagerCommand(player.SteamID, info.GetCommandString);
-
-        GetPlayers()
-               .Where(x => x.PawnIsAlive)
-               .ToList()
-               .ForEach(x =>
-               {
-                   RemoveAllButKnife(x);
-               });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}@all {CC.W}hedefine {CC.B}gdd.");
     }
 
     #endregion GK

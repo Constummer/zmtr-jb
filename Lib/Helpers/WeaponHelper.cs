@@ -9,7 +9,45 @@ public partial class JailbreakExtras
 {
     private static bool WeaponIsValid(CBasePlayerWeapon? weapon) => weapon != null && weapon.IsValid != false;
 
-    private static void RemoveWeapons(CCSPlayerController x, bool knifeStays, string custom = null, int? setHp = null)
+    public static void RemoveWeapons(CCSPlayerController? x, bool knifeStays, string custom = null, int? setHp = null)
+    {
+        if (x is null || !x.IsValid || x.IsBot || x.IsHLTV)
+            return;
+
+        if (ValidateCallerPlayer(x, false) == false) return;
+        if (knifeStays)
+        {
+            foreach (var weapon in x?.PlayerPawn?.Value?.WeaponServices?.MyWeapons!)
+            {
+                if (weapon is { IsValid: true, Value.IsValid: true })
+                {
+                    if (weapon.Value.DesignerName.Contains("bayonet") || weapon.Value.DesignerName.Contains("knife"))
+                    {
+                        continue;
+                    }
+                    Utilities.RemoveItemByDesignerName(x, weapon.Value.DesignerName);
+                }
+                x.ExecuteClientCommand("slot3");
+            }
+        }
+        else
+        {
+            x.RemoveWeapons();
+        }
+
+        if (custom != null)
+        {
+            x.GiveNamedItem(custom);
+        }
+        if (setHp != null)
+        {
+            SetHp(x, setHp.Value);
+            RefreshPawnTP(x);
+        }
+    }
+
+    [Obsolete("2nd method on disarm")]
+    private static void RemoveWeapons2ndMethod(CCSPlayerController x, bool knifeStays, string custom = null, int? setHp = null)
     {
         if (ValidateCallerPlayer(x, false) == false) return;
         x.RemoveWeapons();
@@ -29,37 +67,6 @@ public partial class JailbreakExtras
         }
     }
 
-    private static void RemoveAllButKnife(CCSPlayerController player)
-    {
-        if (player != null)
-        {
-            if (ValidateCallerPlayer(player, false) == false)
-                return;
-            var weaponServices = player.PlayerPawn.Value!.WeaponServices;
-            if (weaponServices == null) return;
-
-            if (weaponServices.MyWeapons != null)
-            {
-                foreach (var weapon in weaponServices.MyWeapons)
-                {
-                    if (weapon != null
-                        && weapon.IsValid
-                        && weapon.Value != null
-                        && string.IsNullOrWhiteSpace(weapon.Value!.DesignerName) == false
-                        && weapon.Value!.DesignerName != "[null]")
-                    {
-                        if ((weapon.Value!.DesignerName.Contains("healthshot")))
-                        {
-                            weapon.Value.Remove();
-                            return;
-                        }
-                    }
-                }
-            }
-            RefreshPawn(player);
-        }
-    }
-
     private static List<ulong> RemoveAllWeapons(bool giveKnife, bool giveFists = false, string custom = null, int? setHp = null)
     {
         List<ulong> steamids = new List<ulong>();
@@ -70,24 +77,25 @@ public partial class JailbreakExtras
             {
                 if (ValidateCallerPlayer(x, false) == false) return;
                 steamids.Add(x.SteamID);
-                x.RemoveWeapons();
-                if (giveKnife)
-                {
-                    x.GiveNamedItem("weapon_knife");
-                }
-                if (giveFists)
-                {
-                    x.GiveNamedItem("weapon_knife");
-                }
-                if (custom != null)
-                {
-                    x.GiveNamedItem(custom);
-                }
-                if (setHp != null)
-                {
-                    SetHp(x, setHp.Value);
-                    RefreshPawnTP(x);
-                }
+                RemoveWeapons(x, giveKnife || giveFists, custom, setHp);
+                //x.RemoveWeapons();
+                //if (giveKnife)
+                //{
+                //    x.GiveNamedItem("weapon_knife");
+                //}
+                //if (giveFists)
+                //{
+                //    x.GiveNamedItem("weapon_knife");
+                //}
+                //if (custom != null)
+                //{
+                //    x.GiveNamedItem(custom);
+                //}
+                //if (setHp != null)
+                //{
+                //    SetHp(x, setHp.Value);
+                //    RefreshPawnTP(x);
+                //}
             });
         return steamids;
     }
@@ -133,7 +141,7 @@ public partial class JailbreakExtras
                 {
                     if (weapon.Value.DesignerName == weaponName)
                     {
-                        weapon.Value.Remove();
+                        Utilities.RemoveItemByDesignerName(x, weapon.Value.DesignerName);
                     }
                 }
             }

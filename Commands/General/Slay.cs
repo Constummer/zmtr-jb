@@ -3,6 +3,7 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
+using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
 
@@ -28,6 +29,9 @@ public partial class JailbreakExtras
         .ToList()
         .ForEach(x =>
         {
+            x.TakesDamage = true;
+            x.PlayerPawn.Value.TakesDamage = true;
+            x.Pawn.Value.TakesDamage = true;
             var playerPawn = x.PlayerPawn.Value;
             playerPawn!.CommitSuicide(false, true);
             if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
@@ -114,6 +118,9 @@ public partial class JailbreakExtras
                       {
                           if (plist.Contains(x.SteamID))
                           {
+                              x.TakesDamage = true;
+                              x.PlayerPawn.Value.TakesDamage = true;
+                              x.Pawn.Value.TakesDamage = true;
                               x!.CommitSuicide(false, true);
                           }
                       }
@@ -149,6 +156,9 @@ public partial class JailbreakExtras
            .ToList()
            .ForEach(x =>
            {
+               x.TakesDamage = true;
+               x.PlayerPawn.Value.TakesDamage = true;
+               x.Pawn.Value.TakesDamage = true;
                var playerPawn = x.PlayerPawn.Value;
                playerPawn.CommitSuicide(false, true);
            });
@@ -168,6 +178,9 @@ public partial class JailbreakExtras
            .ToList()
            .ForEach(x =>
            {
+               x.TakesDamage = true;
+               x.PlayerPawn.Value.TakesDamage = true;
+               x.Pawn.Value.TakesDamage = true;
                var playerPawn = x.PlayerPawn.Value;
                playerPawn.CommitSuicide(false, true);
            });
@@ -181,6 +194,9 @@ public partial class JailbreakExtras
           .ToList()
           .ForEach(x =>
           {
+              x.TakesDamage = true;
+              x.PlayerPawn.Value.TakesDamage = true;
+              x.Pawn.Value.TakesDamage = true;
               var playerPawn = x.PlayerPawn.Value;
               playerPawn!.CommitSuicide(false, true);
           });

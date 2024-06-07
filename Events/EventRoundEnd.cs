@@ -12,6 +12,7 @@ public partial class JailbreakExtras
         {
             try
             {
+                GiveKnifeToSutsOnRoundEnd();
                 PrepareRoundDefaults();
                 RoundDefaultCommands();
 
