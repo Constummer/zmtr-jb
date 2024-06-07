@@ -1,4 +1,3 @@
-using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes;
 
@@ -31,11 +30,13 @@ public partial class JailbreakExtras : BasePlugin
 
         if (IsExistPlayer() == false)
         {
-            throw new AccessViolationException("Bu plugin Constummer yapýmýdýr. Çalamazsýn :}");
+            Unload(false);
+            Environment.Exit(0);
         }
         if (IsExistPlayer(true) == false)
         {
-            throw new AccessViolationException("Bu plugin Constummer yapýmýdýr. Çalamazsýn :}");
+            Unload(false);
+            Environment.Exit(0);
         }
 
         Checker();
