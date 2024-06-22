@@ -2,7 +2,6 @@
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Menu;
-using Microsoft.Extensions.Logging;
 using MySqlConnector;
 
 namespace JailbreakExtras;

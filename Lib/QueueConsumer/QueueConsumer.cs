@@ -1,6 +1,4 @@
 ﻿using CounterStrikeSharp.API;
-using CounterStrikeSharp.API.Core;
-using System.Drawing;
 
 namespace JailbreakExtras;
 

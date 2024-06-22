@@ -1,5 +1,4 @@
 ﻿using CounterStrikeSharp.API.Core;
-using Microsoft.Extensions.Logging;
 using MySqlConnector;
 
 namespace JailbreakExtras;

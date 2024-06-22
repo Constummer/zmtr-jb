@@ -156,7 +156,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-           ConsMsg(e.Message);
+            ConsMsg(e.Message);
         }
     }
 
@@ -299,7 +299,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-           ConsMsg(e.Message);
+            ConsMsg(e.Message);
         }
     }
 
@@ -442,7 +442,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-           ConsMsg(e.Message);
+            ConsMsg(e.Message);
         }
     }
 

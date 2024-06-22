@@ -1,6 +1,5 @@
 ﻿using JailbreakExtras.Lib.Database;
 using JailbreakExtras.Lib.Database.Models;
-using Microsoft.Extensions.Logging;
 using MySqlConnector;
 using static JailbreakExtras.JailbreakExtras;
 

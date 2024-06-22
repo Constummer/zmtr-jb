@@ -1,5 +1,4 @@
-﻿using Microsoft.Extensions.Logging;
-using MySqlConnector;
+﻿using MySqlConnector;
 
 namespace JailbreakExtras;
 

@@ -1,7 +1,6 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Menu;
-using Microsoft.Extensions.Logging;
 using MySqlConnector;
 using System.Text.Json.Serialization;
 
