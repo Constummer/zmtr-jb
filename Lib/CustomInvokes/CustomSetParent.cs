@@ -18,11 +18,11 @@ public partial class JailbreakExtras
         string signature;
         if (RuntimeInformation.IsOSPlatform(OSPlatform.Linux))
         {
-            signature = "\\x48\\x85\\xF6\\x74\\x2A\\x48\\x8B\\x47\\x10\\xF6\\x40\\x31\\x02\\x75\\x2A\\x48\\x8B\\x46\\x10\\xF6\\x40\\x31\\x02\\x75\\x2A\\xB8\\x2A\\x2A\\x2A\\x2A";
+            signature = _Config.Additional.CustomSetParentLinuxSignature;
         }
         else
         {
-            signature = "\\x4D\\x8B\\xD9\\x48\\x85\\xD2\\x74\\x2A";
+            signature = _Config.Additional.CustomSetParentWindowsSignature;
         }
         return signature;
     }

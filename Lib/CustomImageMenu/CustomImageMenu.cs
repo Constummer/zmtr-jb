@@ -5,6 +5,8 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    //not completed
+
     /*
      * TİTLE
      * RESIM
