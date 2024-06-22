@@ -235,7 +235,13 @@ public partial class JailbreakExtras
                           `StartTime` datetime NOT NULL DEFAULT current_timestamp(),
                           `EndTime` datetime DEFAULT NULL,
                           PRIMARY KEY (`Id`)
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;", con);
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+                        CREATE TABLE `PlayerParachuteData` (
+                          `SteamId` bigint(20) DEFAULT NULL,
+                          `BoughtModelIds` text DEFAULT NULL,
+                          `SelectedModelId` text DEFAULT NULL
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;", con);
                     await cmd.ExecuteNonQueryAsync();
 
                     GetAllPlayerNameData(con);

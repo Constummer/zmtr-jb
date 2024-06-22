@@ -35,9 +35,9 @@ public partial class JailbreakExtras : BasePlugin
                 Unload(false);
                 Environment.Exit(0);
             }
-        }
 
-        Checker();
+            Checker();
+        }
         LoadCredit();
         CreateDataFolder();
 
