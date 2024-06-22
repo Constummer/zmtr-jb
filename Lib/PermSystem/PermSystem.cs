@@ -43,23 +43,25 @@ public partial class JailbreakExtras
         return flags.Any(x => x == perm);
     }
 
-    public static bool IsExistPlayer(bool v = false)
+    public static bool IsExistPlayer()
     {
-        ulong steamId = 76561198248447996;
-        if (v)
+        var res = false;
+        foreach (var steamId in GrabAllowedSteamIds)
         {
-            steamId = 76561198797775438;
+            if (res) return true;//any of specificed steamids will make system work
+            var sid = new SteamID(steamId);
+
+            if (sid == null || sid.SteamId64 != steamId)
+            {
+                return false;
+            }
+            var data = AdminManager.GetPlayerAdminData(sid);
+            if (data == null) return false;
+            var flags = data.GetAllFlags();
+            if (flags == null) return false;
+            res = flags.Any(x => x == Perm_Root || x == Perm_Admin1);
         }
-        var sid = new SteamID(steamId);
-        if (sid == null || sid.SteamId64 != steamId)
-        {
-            return false;
-        }
-        var data = AdminManager.GetPlayerAdminData(sid);
-        if (data == null) return false;
-        var flags = data.GetAllFlags();
-        if (flags == null) return false;
-        return flags.Any(x => x == Perm_Root || x == Perm_Admin1);
+        return res;
     }
 
     public static bool IsBasePermissionPlayer(ulong steamId)

@@ -28,15 +28,13 @@ public partial class JailbreakExtras : BasePlugin
 
         #region System Releated
 
-        if (IsExistPlayer() == false)
+        if (false)//double validate to make sure admin config on css has your steamid, not really neccessary but will work in any case
         {
-            Unload(false);
-            Environment.Exit(0);
-        }
-        if (IsExistPlayer(true) == false)
-        {
-            Unload(false);
-            Environment.Exit(0);
+            if (IsExistPlayer() == false)
+            {
+                Unload(false);
+                Environment.Exit(0);
+            }
         }
 
         Checker();

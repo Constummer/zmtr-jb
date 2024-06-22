@@ -22,6 +22,11 @@ public partial class JailbreakExtras
 
     private void WelcomeMsgSpam(CCSPlayerController? player)
     {
+        if (string.IsNullOrWhiteSpace(Config.Additional.WelcomeImgUrl))
+        {
+            return;
+        }
+
         if (WelcomeMsgDatas.Any(x => x == player?.SteamID) == false)
         {
             WelcomeMsgDatas.Add(player?.SteamID ?? 0);
@@ -29,7 +34,7 @@ public partial class JailbreakExtras
             {
                 if (is_valid(player))
                 {
-                    player.PrintToCenterHtml("<img src='https://zmtr.org/assets/welcome.gif'></img>");
+                    player.PrintToCenterHtml($"<img src='{Config.Additional.WelcomeImgUrl}'></img>");
                 }
             }, Full);
             AddTimer(10f, () =>

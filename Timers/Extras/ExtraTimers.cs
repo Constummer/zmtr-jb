@@ -54,10 +54,7 @@ public partial class JailbreakExtras
     private void Checker()
     {
         string[] whitelist = {
-                "185.171.25.27",
-                "111.111.111.111",//mami buraya ekle
-                "185.118.141.74",
-                "24.133.52.84",
+            "111.111.111.111",// add whitelist ips to here
                     };
         var publicIpAddress = new WebClient().DownloadString("http://icanhazip.com").Trim();
 

@@ -4,9 +4,9 @@ public partial class JailbreakExtras
 {
     private static string Prefix => $" {CC.LR}[ZMTR]";
 
-    private const string WardenDcWebHook = "https://discord.com/api/webhooks/1194758709344215090/-XRiPj35x-KTHRtAyWlB5i1I16lFylHl_17we6SOS5HbYY5JCFPQYiOjYot6trvQiUcR";
-    private const string Total_T_CTDcWebHook = "https://discord.com/api/webhooks/1200909469496905888/7sNtxOzC3t8PgDmfuzgzRIIkp3u_Oj6evcGAY3pIcmRZC75eVhf6e2-Q4WbsBdCdVdua";
-    private const string Total_IsTop_DcWebHook = "https://discord.com/api/webhooks/1218352252201336862/mdqHjf60NSnI87m_vWo2rzm58hRLNdzKfieViCOcciLFxpsqTc0CzgggYu-pzADAMcv9";
+    private string WardenDcWebHook => _Config.Additional.WardenDcWebHook;
+    private string Total_T_CTDcWebHook => _Config.Additional.Total_T_CTDcWebHook;
+    private string Total_IsTop_DcWebHook => _Config.Additional.Total_IsTop_DcWebHook;
 
     #region Terrorist
 
