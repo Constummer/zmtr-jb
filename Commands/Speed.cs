@@ -8,8 +8,6 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private List<ulong> SpeedActive = new List<ulong>();
-
     #region Speed
 
     [ConsoleCommand("speed")]
@@ -37,7 +35,7 @@ public partial class JailbreakExtras
         GetPlayers()
                .Where(x => x.PawnIsAlive
                         && x.Pawn.Value != null
-                        && GetTargetAction(x, target, player!.PlayerName))
+                        && GetTargetAction(x, target, player))
                .ToList()
                .ForEach(x =>
                {
