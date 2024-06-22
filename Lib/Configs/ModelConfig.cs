@@ -20,5 +20,17 @@ public partial class JailbreakExtras
             "characters\\models\\ctm_swat\\ctm_swat_variante.vmdl",
             "characters\\models\\ctm_gendarmerie\\ctm_gendarmerie_variantd.vmdl",
         };
+
+        [JsonPropertyName("CustomModelActive")]
+        public bool CustomModelActive { get; set; } = true;
+
+        [JsonPropertyName("SetModelActive")]
+        public bool SetModelActive { get; set; } = true;
+
+        [JsonPropertyName("SelectedModelIdT")]
+        public int SelectedModelIdT { get; set; } = 18;
+
+        [JsonPropertyName("SelectedModelIdCT")]
+        public int SelectedModelIdCT { get; set; } = 1;
     }
 }

@@ -1,22 +1,21 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Entities;
+using CounterStrikeSharp.API.Modules.Utils;
 using JailbreakExtras.Lib.Configs;
+using JailbreakExtras.Lib.Database;
 using JailbreakExtras.Lib.Database.Models;
-using Microsoft.Extensions.Logging;
 using MySqlConnector;
-using System.Numerics;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private Dictionary<ulong, PlayerLevel> PlayerLevels = new();
+    private static Dictionary<ulong, PlayerLevel> PlayerLevels = new();
     private Dictionary<int, string> LevelPermissions = new();
     private Dictionary<string, int> LevelPermissionsChecker = new();
-    private List<ulong> LevelTagDisabledPlayers = new();
+    private static List<ulong> LevelTagDisabledPlayers = new();
 
     //++ biri sunucuya girince dbye bakilcak kaydi var mi diye, varsa playerLevels modeline eklenecek
     //++ yoksa player !seviyeal, !slotol gibi bisi yazana kadar playerLevels'e eklenmicek, yazinca database e kaydi atilcak
@@ -84,21 +83,20 @@ public partial class JailbreakExtras
         var team = GetTeam(player);
         var teamStr = isSayTeam ? team switch
         {
-            CounterStrikeSharp.API.Modules.Utils.CsTeam.CounterTerrorist => $"{CC.B}[GARDİYAN]",
-            CounterStrikeSharp.API.Modules.Utils.CsTeam.Terrorist => $"{CC.R}[MAHKÛM]",
-            CounterStrikeSharp.API.Modules.Utils.CsTeam.Spectator => $"{CC.P}[SPEC]",
+            CsTeam.CounterTerrorist => $"{CC.B}[{CT_AllCap}]",
+            CsTeam.Terrorist => $"{CC.R}[{T_AllCap}]",
+            CsTeam.Spectator => $"{CC.P}[SPEC]",
             _ => ""
         } : "";
         string msg;
         if (config?.ClanTag != null)
         {
-            msg = $" {deadStr} {teamStr} {CC.Ol}{config.ClanTag} {CC.Gr}{player.PlayerName} {CC.W}: {requestMsg}";
+            msg = $" {deadStr} {teamStr} {CC.Ol}{config.ClanTag} {(team == CsTeam.Terrorist ? CC.Gr : CC.B)}{player.PlayerName} {CC.W}: {requestMsg}";
         }
         else
         {
             msg = $" {deadStr} {teamStr} {CC.Or}{player.PlayerName} {CC.W}: {requestMsg}";
         }
-        Server.PrintToConsole(msg);
         if (isSayTeam)
         {
             GetPlayers(team).ToList()
@@ -114,15 +112,17 @@ public partial class JailbreakExtras
     {
         if (PlayerLevels.TryGetValue(player.SteamID, out var level))
         {
+            if (ValidateCallerPlayer(player, false) == false) return;
             PlayerLevels.Remove(player.SteamID);
             DeletePlayerLevelData(player.SteamID);
             LevelTagDisabledPlayers = LevelTagDisabledPlayers.Where(x => x != player.SteamID).ToList();
             player.Clan = null;
             AddTimer(0.2f, () =>
             {
+                if (ValidateCallerPlayer(player, false) == false) return;
                 Utilities.SetStateChanged(player, "CCSPlayerController", "m_szClan");
                 Utilities.SetStateChanged(player, "CBasePlayerController", "m_iszPlayerName");
-            });
+            }, SOM);
         }
     }
 
@@ -147,12 +147,14 @@ public partial class JailbreakExtras
                 {
                     if (config.ClanTag != player.Clan)
                     {
+                        if (ValidateCallerPlayer(player, false) == false) return;
                         player.Clan = config.ClanTag;
                         AddTimer(0.2f, () =>
                         {
+                            if (ValidateCallerPlayer(player, false) == false) return;
                             Utilities.SetStateChanged(player, "CCSPlayerController", "m_szClan");
                             Utilities.SetStateChanged(player, "CBasePlayerController", "m_iszPlayerName");
-                        });
+                        }, SOM);
                     }
                 }
             }
@@ -177,11 +179,11 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Logger.LogError(e, "hata");
+            ConsMsg(e.Message);
         }
     }
 
-    private void InsertAndGetPlayerLevelData(ulong steamId, bool mustExist = false, string playerName = null)
+    private static void InsertAndGetPlayerLevelData(ulong steamId, bool mustExist = false, string playerName = null)
     {
         try
         {
@@ -211,6 +213,10 @@ public partial class JailbreakExtras
                         {
                             LevelTagDisabledPlayers.Add(steamId);
                         }
+                        if (IsBasePermissionPlayer(steamId))
+                        {
+                            LevelTagDisabledPlayers.Add(steamId);
+                        }
                         return;
                     }
                 }
@@ -229,7 +235,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Logger.LogError(e, "hata");
+            ConsMsg(e.Message);
         }
     }
 
@@ -276,7 +282,7 @@ public partial class JailbreakExtras
                     data.Model!.Credit += reward;
 
                     PlayerMarketModels[steamid] = data.Model;
-                    Server.PrintToChatAll($"{Prefix}{CC.Ol}{playerName} {CC.W}seviye {CC.B}{item} {CC.W}ödülü olan {CC.P}{reward}{CC.W} kredisini aldı!");
+                    Server.PrintToChatAll($"{Prefix} {CC.Ol}{playerName} {CC.W}seviye {CC.B}{item} {CC.W}ödülü olan {CC.P}{reward}{CC.W} kredisini aldı!");
                 }
                 if (string.IsNullOrWhiteSpace(givenRewards))
                 {
@@ -308,39 +314,13 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Logger.LogError(e, "hata");
+            ConsMsg(e.Message);
         }
     }
 
     private int GetLevelReward(string item)
     {
         return Config?.Level?.LevelGifts?.Where(x => x?.Permission == $"@css/seviye{item}")?.Select(x => x?.CreditReward)?.FirstOrDefault() ?? 0;
-    }
-
-    private async Task UpdatePlayerLevelData(ulong steamId, int xp)
-    {
-        try
-        {
-            using (var con = Connection())
-            {
-                if (con == null)
-                {
-                    return;
-                }
-                var cmd = new MySqlCommand(@$"UPDATE `PlayerLevel`
-                                          SET `Xp` = @Xp
-                                          WHERE `SteamId` = @SteamId;", con);
-
-                cmd.Parameters.AddWithValue("@SteamId", steamId);
-                cmd.Parameters.AddWithValue("@Xp", xp);
-
-                await cmd.ExecuteNonQueryAsync();
-            }
-        }
-        catch (Exception e)
-        {
-            Logger.LogError(e, "hata");
-        }
     }
 
     private void UpdatePlayerLevelTagDisableData(ulong steamId, bool disable)
@@ -365,7 +345,62 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Logger.LogError(e, "hata");
+            ConsMsg(e.Message);
+        }
+    }
+
+    private static void BulkUpdatePlayerLevels()
+    {
+        try
+        {
+            using (var con = Connection())
+            {
+                if (con == null)
+                {
+                    return;
+                }
+                List<MySqlParameter> parameters = new List<MySqlParameter>();
+
+                var cmdText = "";
+                var i = 0;
+                GetPlayers()
+                 .ToList()
+                 .ForEach(x =>
+                 {
+                     if (PlayerLevels.TryGetValue(x.SteamID, out var data))
+                     {
+                         data.Xp += (1 * 6 * TPModifier);
+
+                         if (AdminManager.PlayerHasPermissions(x, Perm_LiderKredi))
+                         {
+                             data.Xp += (int)(0.5 * 6 * TPModifier);
+                         }
+                         if (AdminManager.PlayerHasPermissions(x, Perm_Premium))
+                         {
+                             data.Xp += (1 * 6 * TPModifier);
+                         }
+                         cmdText += @$"UPDATE `PlayerLevel`
+                                         SET
+                                            `Xp` = @Xp_{i}
+                                        WHERE `SteamId` = @SteamId_{i};";
+
+                         parameters.Add(new MySqlParameter($"@SteamId_{i}", x.SteamID));
+                         parameters.Add(new MySqlParameter($"@Xp_{i}", data.Xp.GetDbValue()));
+                         i++;
+                     }
+                 });
+                if (string.IsNullOrWhiteSpace(cmdText))
+                {
+                    return;
+                }
+                var cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddRange(parameters.ToArray());
+                cmd.ExecuteNonQuery();
+            }
+        }
+        catch (Exception e)
+        {
+            ConsMsg(e.Message);
         }
     }
 
@@ -382,6 +417,39 @@ public partial class JailbreakExtras
 
             if (item.Permission != null)
                 LevelPermissionsChecker.Add(item.Permission, item.Xp);
+        }
+    }
+
+    private static void UpdatePlayerLevelDataOnDisconnect(ulong steamId)
+    {
+        try
+        {
+            if (PlayerLevels.TryGetValue(steamId, out var levelData))
+            {
+                if (levelData == null || levelData.Xp <= 0)
+                {
+                    return;
+                }
+                using (var con = Connection())
+                {
+                    if (con == null)
+                    {
+                        return;
+                    }
+                    var cmd = new MySqlCommand(@$"UPDATE `PlayerLevel`
+                                          SET `Xp` = @Xp
+                                          WHERE `SteamId` = @SteamId;", con);
+
+                    cmd.Parameters.AddWithValue("@SteamId", steamId);
+                    cmd.Parameters.AddWithValue("@Xp", levelData.Xp);
+
+                    cmd.ExecuteNonQuery();
+                }
+            }
+        }
+        catch (Exception e)
+        {
+            ConsMsg(e.Message);
         }
     }
 }

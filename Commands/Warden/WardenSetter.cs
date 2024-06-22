@@ -9,7 +9,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static ulong? LatestWCommandUser { get; set; }
+    private static ulong? LatestWCommandUser { get; set; } = 0;
 
     #region OnWCommand
 
@@ -36,25 +36,29 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.W}Komutçu olabilmek için CT takımında olman gerekmektedir!");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         player.VoiceFlags &= ~VoiceFlags.Muted;
         SetColour(player, Color.FromArgb(255, 0, 0, 255));
         RefreshPawn(player);
 
+        KomStartTime = DateTime.UtcNow;
         LatestWCommandUser = player.SteamID;
         CoinGoWanted = true;
         WardenRefreshPawn();
         ClearLasers();
         CoinAfterNewCommander();
         WardenEnterSound();
-        Server.PrintToChatAll($"{Prefix} {CC.W}{player.PlayerName} Komutçu oldu!");
+        _ClientQueue.Enqueue(new(player.SteamID, null, "", QueueItemType.OnWChange));
+
+        Server.PrintToChatAll($"{Prefix} {CC.B}{player.PlayerName}{CC.W} Komutçu oldu!");
         player.PrintToChat($"{Prefix} {CC.B}!wkomutlar {CC.W}veya {CC.B}!wcommands {CC.W}yazarak komutçu komutlarını öğrenebilirsin!");
 
         GetPlayers()
             .ToList()
             .ForEach((x) =>
             {
-                x.PrintToCenter($"{Prefix} {CC.W}{player.PlayerName} Komutçu oldu!");
+                x.PrintToCenter($"{Prefix} {CC.B}{player.PlayerName}{CC.B} Komutçu oldu!");
             });
     }
 
@@ -78,6 +82,7 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.W}Şu an {CC.G}{warden.PlayerName}{CC.W} isimli oyuncu komutçu. Bu komutu sadece komutçu kullanabilir!");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         player.PrintToChat($"{Prefix} {CC.W}!w - komutçu ol");
         player.PrintToChat($"{Prefix} {CC.W}!uw - komutçuluktan ayrıl.");
@@ -106,24 +111,21 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.W}Şu an {CC.G}{warden.PlayerName}{CC.W} isimli oyuncu komutçu. Bu komutu sadece komutçu kullanabilir!");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+        KomStartTime = null;
         LatestWCommandUser = null;
         ClearLasers();
         CoinRemove();
         WardenLeaveSound();
         CleanTagOnKomutcuAdmin();
+        _ClientQueue.Enqueue(new(player.SteamID, null, "", QueueItemType.OnWChange));
 
         player.VoiceFlags |= VoiceFlags.Muted;
         SetColour(player, DefaultColor);
         RefreshPawn(player);
 
-        Server.PrintToChatAll($"{Prefix} {CC.W}{player.PlayerName} artık komutçu değil!");
-
-        GetPlayers()
-            .ToList()
-            .ForEach((x) =>
-            {
-                x.PrintToCenter($"{Prefix} {CC.W}{player.PlayerName} artık komutçu değil!");
-            });
+        Server.PrintToChatAll($"{Prefix} {CC.B}{player.PlayerName}{CC.W} artık komutçu değil!");
+        Server.PrintToChatAll($"{Prefix} {CC.B}{player.PlayerName}{CC.W} artık komutçu değil!");
     }
 
     [ConsoleCommand("rw")]
@@ -133,6 +135,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         var warden = GetWarden();
         if (warden == null)
         {
@@ -158,15 +161,111 @@ public partial class JailbreakExtras
         warden.VoiceFlags |= VoiceFlags.Muted;
         SetColour(warden, DefaultColor);
         RefreshPawn(warden);
+        KomStartTime = null;
+        _ClientQueue.Enqueue(new(warden.SteamID, null, "", QueueItemType.OnWChange));
 
-        Server.PrintToChatAll($"{Prefix} {CC.W}{warden.PlayerName} artık komutçu değil!");
+        Server.PrintToChatAll($"{Prefix} {CC.B}{warden.PlayerName} {CC.W}artık komutçu değil!");
 
         GetPlayers()
             .ToList()
             .ForEach((x) =>
             {
-                x.PrintToCenter($"{Prefix} {CC.W}{warden.PlayerName} artık komutçu değil!");
+                x.PrintToCenter($"{Prefix} {CC.B}{warden.PlayerName} {CC.W} artık komutçu değil!");
             });
+    }
+
+    public static void WardenSay(CCSPlayerController? player, CommandInfo info, bool isSayTeam)
+    {
+        var teamStr = $"{CC.B}[{CT_AllCap}]";
+
+        var deadStr = player.PawnIsAlive == false ? $"{CC.R}*ÖLÜ*" : "";
+
+        var str = $" {deadStr}"
+                + $" {(isSayTeam ? $"{teamStr}" : "")}"
+                + $" {CC.G}[K]"
+                + $" {CC.B}{player.PlayerName}"
+                + $" {CC.W}:"
+                + $" {CC.W}{info.GetArg(1)}";
+        if (isSayTeam)
+        {
+            GetPlayers(CsTeam.CounterTerrorist).ToList()
+                .ForEach(x => x.PrintToChat(str));
+        }
+        else
+        {
+            Server.PrintToChatAll(str);
+        }
+    }
+
+    /*
+     *
+ctdeyken mavi, tdeyken kırmızı nick
+chat rengi:
+[Stajyer Komutçu] beyaz
+[Tecrübeli Komutçu] (şu anki neyse o)
+[Usta Komutçu] (şu anki neyse o)
+
+Tag rengi:
+[Stajyer Komutçu] yeşil
+[Tecrübeli Komutçu] lacivertimsi bişey varsa kafana göre koy
+[Usta Komutçu] kırmızı nasıl gider acaba
+    */
+
+    private bool WLevelPlayer(CCSPlayerController player, CommandInfo info, bool isSayTeam)
+    {
+        if (PlayerTimeTracking.TryGetValue(player.SteamID, out var item) == false)
+        {
+            return false;
+        }
+        if (!HasPerm(player.SteamID, Perm_Komutcu))
+        {
+            return false;
+        }
+        var team = GetTeam(player);
+        var teamStr = team switch
+        {
+            CsTeam.CounterTerrorist => $"{CC.B}[{CT_AllCap}]",
+            CsTeam.Terrorist => $"{CC.R}[{T_AllCap}]",
+            CsTeam.Spectator => $"{CC.P}[SPEC]",
+            _ => ""
+        };
+        var c = team switch
+        {
+            CsTeam.CounterTerrorist => CC.B,
+            CsTeam.Terrorist => CC.Or,
+            CsTeam.Spectator => CC.W,
+            _ => CC.W
+        };
+        var tagname = "";
+        if (item.WTime < 20 * 60)
+        {
+            tagname = "Stajyer Komutçu";
+        }
+        else if (item.WTime < 30 * 60)
+        {
+            tagname = "Tecrübeli Komutçu";
+        }
+        else
+        {
+            tagname = "Usta Komutçu";
+        }
+        var deadStr = player.PawnIsAlive == false ? $"{CC.R}*ÖLÜ*" : "";
+        var str = $" {deadStr}"
+                + $" {(isSayTeam ? $"{teamStr}" : "")}"
+                + $" {CC.G}[{tagname}]"
+                + $" {c}{player.PlayerName}"
+                + $" {CC.W}:"
+                + $" {info.GetArg(1)}";
+        if (isSayTeam)
+        {
+            GetPlayers(team).ToList()
+                .ForEach(x => x.PrintToChat(str));
+        }
+        else
+        {
+            Server.PrintToChatAll(str);
+        }
+        return true;
     }
 
     #endregion OnWCommand

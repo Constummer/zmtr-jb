@@ -17,11 +17,13 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers(CsTeam.Terrorist)
            .Where(x => x.PawnIsAlive)
            .ToList()
            .ForEach(x =>
            {
+               if (ValidateCallerPlayer(x, false) == false) return;
                if (CTBanCheck(x) == false)
                {
                    Server.PrintToChatAll($"{Prefix} {CC.W}{x.PlayerName} CT banı olduğu için CT atılamadı!");
@@ -34,7 +36,7 @@ public partial class JailbreakExtras
            });
         SlayAllAction();
 
-        Server.PrintToChatAll($"{Prefix} {CC.W}Yaşayan Mahkûmlar, Gardiyan takımına atıldı.");
+        Server.PrintToChatAll($"{Prefix} {CC.W}Yaşayan {T_PluralCamel}, {CT_CamelCase} takımına atıldı.");
     }
 
     #endregion CT AL

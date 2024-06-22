@@ -2,7 +2,6 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
-using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
 
@@ -19,10 +18,16 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var target = info.ArgCount > 1 ? info.GetArg(1) : null;
+        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
-        SinirsizXTimer = GiveSinirsizCustomNade(0, SinirsizXTimer, null, target, player.PlayerName);
+        SinirsizXKapaAction(target, player);
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.Ol}{target} {CC.W} hedefinin {CC.DB}SMX{CC.W}'ini kapattı.");
+    }
+
+    public void SinirsizXKapaAction(string? target, CCSPlayerController? self)
+    {
+        SinirsizXTimer = GiveSinirsizCustomNade(0, SinirsizXTimer, null, target, self);
     }
 
     #endregion SinirsizX

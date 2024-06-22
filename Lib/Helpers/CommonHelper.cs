@@ -1,9 +1,9 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Admin;
+using CounterStrikeSharp.API.Modules.Memory;
 using CounterStrikeSharp.API.Modules.Utils;
 using System.Drawing;
-using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
 
@@ -13,19 +13,59 @@ public partial class JailbreakExtras
     {
         return Utilities.GetPlayers()
              .Where(x => ValidateCallerPlayer(x, false)
+                         && (GetTeam(x) == CsTeam.Terrorist || GetTeam(x) == CsTeam.CounterTerrorist)
                          && (team.HasValue ? team.Value == GetTeam(x) : true));
+    }
+
+    private static void SetMoveType(CCSPlayerController x, MoveType_t mtype)
+    {
+        var actualMType = Schema.GetRef<MoveType_t>(x.PlayerPawn.Value.Handle, "CBaseEntity", "m_nActualMoveType");
+        x.PlayerPawn.Value!.MoveType = mtype;
+        actualMType = mtype;
+        Schema.SetSchemaValue<byte>(x.PlayerPawn.Value.Handle, "CBaseEntity", "m_nActualMoveType", (byte)mtype);
+        Utilities.SetStateChanged(x.PlayerPawn.Value, "CBaseEntity", "m_nActualMoveType");
+        Utilities.SetStateChanged(x.PlayerPawn.Value, "CBaseEntity", "m_MoveType");
+    }
+
+    private static void SetStatusClanTag(CCSPlayerController? player)
+    {
+        //if (ValidateCallerPlayer(player, false) == false) return;
+        //if (string.IsNullOrWhiteSpace(player.Clan))
+        //{
+        //    player.Clan = $"[#{player.UserId}]";
+        //}
+        //else
+        //{
+        //    if (!player.Clan.Contains($"[#{player.UserId}]"))
+        //    {
+        //        player.Clan += $"[#{player.UserId}]";
+        //    }
+        //}
+        Global?.AddTimer(0.2f, () =>
+        {
+            if (ValidateCallerPlayer(player, false) == false) return;
+            Utilities.SetStateChanged(player, "CCSPlayerController", "m_szClan");
+            if (ValidateCallerPlayer(player, false) == false) return;
+            Utilities.SetStateChanged(player, "CBasePlayerController", "m_iszPlayerName");
+        }, SOM);
     }
 
     private static int GetPlayerCount(CsTeam? team = null, bool? alive = null)
     {
-        List<CCSPlayerController> players = new();
+        int players = 0;
 
         for (int i = 0; i < Server.MaxPlayers; i++)
         {
             var controller = Utilities.GetPlayerFromSlot(i);
 
-            if (!controller.IsValid || controller.UserId == -1)
+            if (controller == null
+                || !controller.IsValid
+                || controller.UserId == -1
+                || controller.PlayerPawn == null
+                || controller.PlayerPawn.Value == null
+                || !controller.PlayerPawn.IsValid)
                 continue;
+
             if ((team.HasValue ? team.Value == GetTeam(controller) : true) == false)
             {
                 continue;
@@ -35,10 +75,13 @@ public partial class JailbreakExtras
                 continue;
             }
 
-            players.Add(controller);
+            if ((GetTeam(controller) == CsTeam.Terrorist || GetTeam(controller) == CsTeam.CounterTerrorist))
+            {
+                players++;
+            }
         }
 
-        return players.Count;
+        return players;
     }
 
     private static CCSPlayerController? GetWarden()
@@ -49,60 +92,78 @@ public partial class JailbreakExtras
     private static bool CheckPermission(CCSPlayerController player)
     {
         bool res = false;
-        foreach (var item in BaseRequiresPermissions)
+        if (AdminManager.PlayerHasPermissions(player, Perm_Admin1))
         {
-            if (AdminManager.PlayerHasPermissions(player, item))
-            {
-                res = true; break;
-            }
+            res = true;
         }
         return res;
     }
 
-    private static bool ValidateCallerPlayer(CCSPlayerController? player, bool checkPermission = true, bool printMsg = true)
+    public static bool is_valid(CCSPlayerController? player)
     {
-        if (player == null) return false;
-        //if (player.Connected != PlayerConnectedState.PlayerConnected)
-        //{
-        //    return false;
-        //}
+        return player != null && player.IsValid && player.PlayerPawn.IsValid;
+    }
+
+    public static CCSPlayerPawn? Pawn(CCSPlayerController? player)
+    {
+        if (ValidateCallerPlayer(player, false) == false) return null;
+        if (player == null || !IsValid(player))
+        {
+            return null;
+        }
+
+        CCSPlayerPawn? pawn = player.PlayerPawn.Value;
+
+        return pawn;
+    }
+
+    public static int get_health(CCSPlayerController? player)
+    {
+        CCSPlayerPawn? pawn = Pawn(player);
+
+        if (pawn == null)
+        {
+            return 100;
+        }
+
+        return pawn.Health;
+    }
+
+    private static bool ValidateCallerPlayer(CCSPlayerController? x, bool checkPermission = true, bool printMsg = true)
+    {
+        if (is_valid(x) == false)
+        {
+            return false;
+        }
+
+        if (x == null) return false;
         if (checkPermission)
         {
-            if (CheckPermission(player) == false)
+            if (CheckPermission(x) == false)
             {
                 if (printMsg)
                 {
-                    player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+                    x.PrintToChat(NotEnoughPermission);
                 }
                 return false;
             }
         }
-        if (player == null
-            || !player.IsValid
-            //|| player.PlayerPawn == null
-            //|| !player.PlayerPawn.IsValid
-            //|| player.PlayerPawn.Value == null
-            //|| !player.PlayerPawn.Value.IsValid
-            ) return false;
-        //if (player.AuthorizedSteamID == null
-        //    || player.AuthorizedSteamID.SteamId64 != player.SteamID)
-        //{
-        //    return false;
-        //}
-        //if (player.AuthorizedSteamID.IsValid() == false) return false;//todo chjeck
-        if (player.IsBot) return false;
-        if (player.Connected == PlayerConnectedState.PlayerConnected
-            && player.Index != 32767
-            && !player.IsHLTV
+        if (x.IsBot) return false;
+        if (x.Connected == PlayerConnectedState.PlayerConnected
+            && x.Index != 32767
+            && !x.IsHLTV
             //&& player.Pawn?.Value != null
             )
-            return true;
+            if ((GetTeam(x) == CsTeam.Terrorist || GetTeam(x) == CsTeam.CounterTerrorist))
+            {
+                return true;
+            }
         return false;
     }
 
-    private bool OnCommandValidater(CCSPlayerController? player, bool checkPermission, string seviyeLevel = null, string permLevel = "@css/admin1")
+    private bool OnCommandValidater(CCSPlayerController? player, bool checkPermission, string? seviyeLevel = null, string permLevel = Perm_Admin1, bool printMsg = true)
     {
-        if (ValidateCallerPlayer(player, false) == false)
+        if (ValidateCallerPlayer(player, false, printMsg) == false)
         {
             return false;
         }
@@ -114,7 +175,7 @@ public partial class JailbreakExtras
                 {
                     if (AdminManager.PlayerHasPermissions(player, permLevel) == false)
                     {
-                        player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+                        player.PrintToChat(NotEnoughPermission);
                         return false;
                     }
                 }
@@ -123,7 +184,7 @@ public partial class JailbreakExtras
             {
                 if (AdminManager.PlayerHasPermissions(player, permLevel) == false)
                 {
-                    player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+                    player.PrintToChat(NotEnoughPermission);
                     return false;
                 }
             }
@@ -142,94 +203,64 @@ public partial class JailbreakExtras
         return player != null && player.IsValid && player.PlayerPawn.IsValid;
     }
 
-    private static void SetColour(CCSPlayerController? player, Color colour)
+    private static void SetColour(CCSPlayerController? x, Color colour)
     {
-        if (player == null || !IsValid(player))
-        {
-            return;
-        }
+        if (ValidateCallerPlayer(x, false) == false) return;
 
-        CCSPlayerPawn? pawn = player.PlayerPawn.Value;
+        CCSPlayerPawn? pawn = x.PlayerPawn.Value;
 
         if (pawn != null)
         {
+            if (ValidateCallerPlayer(x, false) == false) return;
             pawn.RenderMode = RenderMode_t.kRenderTransColor;
+            if (ValidateCallerPlayer(x, false) == false) return;
             pawn.Render = colour;
-            Utilities.SetStateChanged(pawn, "CBaseModelEntity", "m_clrRender");
-            Utilities.SetStateChanged(pawn, "CBaseModelEntity", "m_nRenderMode");
         }
     }
 
-    private static bool GetTargetAction(CCSPlayerController x, string target, string self)
+    internal static bool GetTargetAction(CCSPlayerController x, string target, CCSPlayerController? self, bool forSingle = false)
     {
+        if (string.IsNullOrWhiteSpace(target)) return false;
         var targetArgument = GetTargetArgument(target);
 
         return targetArgument switch
         {
-            TargetForArgument.All => true,
-            TargetForArgument.T => GetTeam(x) == CsTeam.Terrorist,
-            TargetForArgument.Ct => GetTeam(x) == CsTeam.CounterTerrorist,
-            TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target) ?? false,
-            TargetForArgument.Me => x.PlayerName == self,
+            TargetForArgument.All => forSingle ? GetExtraCheck(x, "@all") : true,
+            TargetForArgument.Alive => forSingle ? GetExtraCheck(x, "@alive") : x.PawnIsAlive == true,
+            TargetForArgument.Dead => forSingle ? GetExtraCheck(x, "@dead") : x.PawnIsAlive == false,
+            TargetForArgument.T => forSingle ? GetExtraCheck(x, "@t") : GetTeam(x) == CsTeam.Terrorist,
+            TargetForArgument.Ct => forSingle ? GetExtraCheck(x, "@ct") : GetTeam(x) == CsTeam.CounterTerrorist,
+            TargetForArgument.None => (x.PlayerName?.ToLower()?.Contains(target?.ToLower() ?? "") ?? false) || x.SteamID.ToString() == target,
+            TargetForArgument.Me => forSingle ? GetExtraCheck(x, "@me") : x.SteamID == self?.SteamID,
             TargetForArgument.UserIdIndex => GetUserIdIndex(target) == x.UserId,
+            TargetForArgument.Aim => GetClosestPlayer(self, x),
+            TargetForArgument.Sut => forSingle ? GetExtraCheck(x, "@sut") : IsSutPlayer(x),
             _ => false
         };
+
+        static bool GetExtraCheck(CCSPlayerController x, string text) => x.PlayerName?.ToLower() == text;
+
+        static bool IsSutPlayer(CCSPlayerController x) => SutolCommandCalls.Contains(x.SteamID);
     }
-
-    private static bool ExecuteFreezeOrUnfreeze(CCSPlayerController x, string target, string self, out bool randomFreeze)
-    {
-        randomFreeze = _random.NextDouble() >= 0.5;
-
-        var targetArgument = GetTargetArgument(target);
-        return targetArgument switch
-        {
-            TargetForArgument.T => GetTeam(x) == CsTeam.Terrorist,
-            TargetForArgument.Ct => GetTeam(x) == CsTeam.CounterTerrorist,
-            TargetForArgument.Random => randomFreeze,
-            TargetForArgument.RandomT => randomFreeze && GetTeam(x) == CsTeam.Terrorist,
-            TargetForArgument.RandomCt => randomFreeze && GetTeam(x) == CsTeam.CounterTerrorist,
-            TargetForArgument.All => true,
-            TargetForArgument.Alive => true,
-            TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target) ?? false,
-            TargetForArgument.Me => x.PlayerName == self,
-            TargetForArgument.UserIdIndex => GetUserIdIndex(target) == x.UserId,
-            _ => false,
-        };
-    }
-
-    private static CsTeam GetTeamOld(CCSPlayerController x) => x.PendingTeamNum != x.TeamNum ? (CsTeam)x.PendingTeamNum : (CsTeam)x.TeamNum;
 
     private static CsTeam GetTeam(CCSPlayerController x) => (CsTeam)x.TeamNum;
 
-    private static TargetForArgument GetTargetArgument(string target) => target switch
+    private static TargetForArgument GetTargetArgument(string target) => target?.ToLower() switch
     {
         "@all" => TargetForArgument.All,
-        "@ALL" => TargetForArgument.All,
         "@t" => TargetForArgument.T,
-        "@T" => TargetForArgument.T,
         "@terrorist" => TargetForArgument.T,
         "@terorist" => TargetForArgument.T,
-        "@TERRORIST" => TargetForArgument.T,
-        "@TERORIST" => TargetForArgument.T,
         "@ct" => TargetForArgument.Ct,
-        "@Ct" => TargetForArgument.Ct,
-        "@cT" => TargetForArgument.Ct,
-        "@CT" => TargetForArgument.Ct,
         "@counterstrike" => TargetForArgument.Ct,
-        "@COUNTERSTRIKE" => TargetForArgument.Ct,
-        "@COUNTERSTRİKE" => TargetForArgument.Ct,
         "@alive" => TargetForArgument.Alive,
-        "@ALIVE" => TargetForArgument.Alive,
         "@dead" => TargetForArgument.Dead,
-        "@DEAD" => TargetForArgument.Dead,
         "@random" => TargetForArgument.Random,
-        "@RANDOM" => TargetForArgument.Random,
         "@randomt" => TargetForArgument.RandomT,
-        "@RANDOMT" => TargetForArgument.RandomT,
         "@randomct" => TargetForArgument.RandomCt,
-        "@RANDOMCT" => TargetForArgument.RandomCt,
         "@me" => TargetForArgument.Me,
-        "@ME" => TargetForArgument.Me,
+        "@aim" => TargetForArgument.Aim,
+        "@sut" => TargetForArgument.Sut,
         _ when IsUserIdIndexChecker(target, out var userId) && userId != null => TargetForArgument.UserIdIndex,
         _ => TargetForArgument.None,
     };
@@ -260,19 +291,6 @@ public partial class JailbreakExtras
 
     private static List<List<T>> ChunkBy<T>(List<T> list, int numberOfLists)
     {
-        //if (numLists * elementsPerList != list.Count)
-        //{
-        //    throw new ArgumentException("The product of numLists and elementsPerList must equal the count of the input list.");
-        //}
-        //int elementsPerList = (int)Math.Ceiling((double)source.Count / chunkSize);
-        //return Enumerable.Range(0, chunkSize)
-        //                .Select(i => source.Skip(i * elementsPerList).Take(elementsPerList).ToList())
-        //                .ToList();
-        //return Enumerable.Range(0, (int)Math.Ceiling(source.Count / (double)chunkSize))
-        //               .Select(i => source.Skip(i * chunkSize).Take(chunkSize).ToList())
-        //               .ToList();
-        //}
-
         int totalItems = list.Count;
         int itemsPerList = totalItems / numberOfLists;
         int remainder = totalItems % numberOfLists;
@@ -293,25 +311,6 @@ public partial class JailbreakExtras
         }
 
         return result;
-        //int totalItems = source.Count;
-        //int chunks = (int)Math.Ceiling((double)totalItems / chunkSize);
-
-        //List<List<T>> result = new List<List<T>>();
-
-        //for (int i = 0; i < chunks; i++)
-        //{
-        //    int startIndex = i * chunkSize;
-        //    int endIndex = Math.Min((i + 1) * chunkSize, totalItems);
-
-        //    result.Add(source.GetRange(startIndex, endIndex - startIndex));
-        //}
-
-        //return result;
-        //return source
-        //    .Select((x, i) => new { Index = i, Value = x })
-        //    .GroupBy(x => x.Index / chunkSize)
-        //    .Select(x => x.Select(v => v.Value).ToList())
-        //    .ToList();
     }
 
     private static double CalculateMinutesUntilSundayMidnight()

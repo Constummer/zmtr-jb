@@ -7,27 +7,36 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private static readonly List<CEnvBeam> Lasers = new();
+    private static List<CEnvBeam> Lasers = new();
 
     private enum LaserType
     {
         Hook,
         Grab,
-        Marker
+        Marker,
+        CizRgb
     }
 
     private HookResult EXTRAOnPlayerPing(EventPlayerPing @event, GameEventInfo info)
     {
-        if (@event == null)
-            return HookResult.Continue;
-        var player = @event.Userid;
-        if (player.SteamID != LatestWCommandUser)
+        try
         {
+            if (@event == null)
+                return HookResult.Continue;
+            var player = @event.Userid;
+            if (player.SteamID != LatestWCommandUser)
+            {
+                return HookResult.Continue;
+            }
+            LasersEntry(@event.X, @event.Y, @event.Z);
+
             return HookResult.Continue;
         }
-        LasersEntry(@event.X, @event.Y, @event.Z);
-
-        return HookResult.Continue;
+        catch (Exception e)
+        {
+            ConsMsg(e.Message);
+            return HookResult.Continue;
+        }
     }
 
     private static void ClearLasers()
@@ -42,6 +51,10 @@ public partial class JailbreakExtras
                 }
             }
             Lasers.Clear();
+        }
+        else
+        {
+            Lasers = new();
         }
     }
 
@@ -78,7 +91,7 @@ public partial class JailbreakExtras
         }
     }
 
-    private CEnvBeam DrawLaser(Vector start, Vector end, LaserType laserType, bool clearAfter = true)
+    private CEnvBeam DrawLaser(Vector start, Vector end, LaserType laserType, bool clearAfter = true, float clearTimer = 0.1f)
     {
         CEnvBeam? laser = Utilities.CreateEntityByName<CEnvBeam>("env_beam");
 
@@ -100,6 +113,10 @@ public partial class JailbreakExtras
                 laser.Render = Color.FromArgb(255, 153, 255, 255);
                 break;
 
+            case LaserType.CizRgb:
+                laser.Render = Color.FromArgb(_random.Next(255), _random.Next(255), _random.Next(255), 255);
+                break;
+
             default:
                 break;
         }
@@ -116,10 +133,13 @@ public partial class JailbreakExtras
         if (clearAfter)
         {
             //oto remove - cok tatli
-            AddTimer(0.1f, () =>
+            AddTimer(clearTimer, () =>
             {
-                laser.Remove();
-            });
+                if (laser?.IsValid ?? false)
+                {
+                    laser.Remove();
+                }
+            }, SOM);
         }
         else
         {

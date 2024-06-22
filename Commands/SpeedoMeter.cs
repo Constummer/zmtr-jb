@@ -7,7 +7,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private List<ulong> SpeedoMeterActive = new List<ulong>();
+    private static List<ulong> SpeedoMeterActive = new List<ulong>();
 
     #region SpeedoMeter
 
@@ -40,14 +40,16 @@ public partial class JailbreakExtras
             if (!VoteInProgress && !KomAlVoteInProgress)
             {
                 var buttons = player.Buttons;
-                SharpTimerPrintHtml(player,
-                $"<pre>Speed: <font color='#00FF00'>{Math.Round(player.PlayerPawn.Value.AbsVelocity.Length2D())}</font><br>" +
-                            $"{((buttons & PlayerButtons.Left) != 0 ? "←" : "_")} " +
-                            $"{((buttons & PlayerButtons.Forward) != 0 ? "W" : "_")} " +
-                            $"{((buttons & PlayerButtons.Right) != 0 ? "→" : "_")}<br>" +
-                            $"{((buttons & PlayerButtons.Moveleft) != 0 ? "A" : "_")} " +
-                            $"{((buttons & PlayerButtons.Back) != 0 ? "S" : "_")} " +
-                            $"{((buttons & PlayerButtons.Moveright) != 0 ? "D" : "_")} </pre>");
+                PrintToCenterHtml(player,
+              $"HIZ: <font color='#00FF00'>{Math.Round(player.PlayerPawn.Value.AbsVelocity.Length2D())}</font><br>" +
+                          $"{((buttons & PlayerButtons.Left) != 0 ? "←" : "_")} " +
+                          $"{((buttons & PlayerButtons.Forward) != 0 ? "W" : "_")} " +
+                          $"{((buttons & PlayerButtons.Right) != 0 ? "→" : "_")}<br>" +
+                          $"{((buttons & PlayerButtons.Duck) != 0 ? "↓" : "_")} " +
+                          $"{((buttons & PlayerButtons.Moveleft) != 0 ? "A" : "_")} " +
+                          $"{((buttons & PlayerButtons.Back) != 0 ? "S" : "_")} " +
+                          $"{((buttons & PlayerButtons.Moveright) != 0 ? "D" : "_")} " +
+                          $"{((buttons & PlayerButtons.Jump) != 0 ? "↑" : "_")}");
             }
         }
     }

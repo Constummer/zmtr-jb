@@ -8,22 +8,63 @@ public partial class JailbreakExtras
 {
     private void EventPlayerConnectFull()
     {
-        var checkqueue = new Queue<Tuple<ulong, string, int?>>();
-        //disabled, was causing crash
+        RegisterEventHandler<EventPlayerChat>((@event, info) =>
+        {
+            //Server.PrintToChatAll($"{@event.Teamonly}");
+            //Server.PrintToChatAll($"{@event.Text}");
+            //Server.PrintToChatAll($"{@event.Userid}");
+            //var p = Utilities.GetPlayerFromUserid(@event.Userid);
+            //if (p != null)
+            //{
+            //    if (ValidateCallerPlayer(p, false) == false)
+            //    {
+            //        return HookResult.Continue;
+            //    }
+            //    Server.PrintToChatAll(p.PlayerName);
+            //    return HookResult.Continue;
+            //}
+            /*
+             False
+            tamam
+            3
+            smartest indian
+            False
+            tamam
+            3
+            smartest indian
+            [KOMUTÇU] smartest indian : tamam
+            False
+            !gag @all
+            1
+            Constummer
+            False
+            !gag @all
+            1
+            Constummer
+            *ÖLÜ* [Dev] Constummer : !gag @all
+            */
+            return HookResult.Continue;
+        });
         RegisterEventHandler<EventPlayerConnectFull>((@event, _) =>
         {
-            if (@event == null)
-                return HookResult.Continue;
-            if (ValidateCallerPlayer(@event.Userid, false) == false)
+            try
             {
+                var tempSteamId = @event?.Userid?.SteamID;
+                var tempPlayerName = @event?.Userid?.PlayerName;
+                var tempUserId = @event?.Userid?.UserId;
+                _ClientQueue.Enqueue(new(tempSteamId ?? 0, tempUserId, tempPlayerName, QueueItemType.OnClientConnect));
+                if (Config.Additional.WelcomeActive && @event?.Userid != null && is_valid(@event?.Userid))
+                {
+                    WelcomeMsgSpam(@event?.Userid);
+                }
+
                 return HookResult.Continue;
             }
-            var player = @event.Userid;
-            if (player != null)
+            catch (Exception e)
             {
-                checkqueue.Enqueue(new Tuple<ulong, string, int?>(player.SteamID, player.PlayerName, player.UserId));
+                ConsMsg(e.Message);
+                return HookResult.Continue;
             }
-            return HookResult.Continue;
         });
         AddTimer(1f, () =>
         {

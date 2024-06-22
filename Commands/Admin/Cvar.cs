@@ -4,7 +4,6 @@ using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Cvars;
-using CounterStrikeSharp.API.Modules.Entities;
 using Microsoft.Extensions.Logging;
 
 namespace JailbreakExtras;
@@ -16,24 +15,25 @@ public partial class JailbreakExtras
     [ConsoleCommand("css_cvar")]
     [CommandHelper(2, "<cvar> <value>")]
     [RequiresPermissions("@css/cvar")]
-    public void OnCvarCommand(CCSPlayerController? caller, CommandInfo command)
+    public void OnCvarCommand(CCSPlayerController? player, CommandInfo info)
     {
-        var cvar = ConVar.Find(command.GetArg(1));
-        string playerName = caller == null ? "Console" : caller.PlayerName;
+        var cvar = ConVar.Find(info.ArgString.GetArg(0));
+        string playerName = player == null ? "Console" : player.PlayerName;
 
         if (cvar == null)
         {
-            command.ReplyToCommand($"{Prefix} {CC.W}\"{command.GetArg(1)}\" ayarı bulunamadı.");
+            info.ReplyToCommand($"{Prefix} {CC.W}\"{info.ArgString.GetArg(0)}\" ayarı bulunamadı.");
             return;
         }
 
-        if (cvar.Name.Equals("sv_cheats") && !AdminManager.PlayerHasPermissions(caller, "@css/cheats"))
+        if (cvar.Name.Equals("sv_cheats") && !AdminManager.PlayerHasPermissions(player, "@css/cheats"))
         {
-            command.ReplyToCommand($"\"{command.GetArg(1)}\" Komutunu degistirme yetkiniz yok");
+            info.ReplyToCommand($"\"{info.ArgString.GetArg(0)}\" Komutunu degistirme yetkiniz yok");
             return;
         }
 
-        var value = command.GetArg(2);
+        var value = info.ArgString.GetArg(1);
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         Server.ExecuteCommand($"{cvar.Name} {value}");
 

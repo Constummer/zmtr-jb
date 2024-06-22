@@ -2,6 +2,14 @@
 
 public partial class JailbreakExtras
 {
+    private static readonly Dictionary<string, string> NoScopeGuns = new Dictionary<string, string>()
+        {
+                {"AWP",                                new("awp")},
+                {"SSG 08",                             new("ssg08")},
+                {"G3SG1",                              new("g3sg1")},
+                {"SCAR-20",                            new("scar20" )},
+        };
+
     public enum WeaponType
     {
         Primary = 0,
@@ -10,14 +18,16 @@ public partial class JailbreakExtras
 
     public class Weapon
     {
-        public Weapon(string giveName, WeaponType type = WeaponType.Primary)
+        public Weapon(string giveName, WeaponType type = WeaponType.Primary, bool hideIseli = false)
         {
             Type = type;
             GiveName = giveName;
+            HideIseli = hideIseli;
         }
 
         public WeaponType Type { get; set; }
         public string GiveName { get; set; }
+        public bool HideIseli { get; set; } = false;
     }
 
     private static class WeaponHelper
@@ -28,14 +38,18 @@ public partial class JailbreakExtras
             {
                 {"AK-47",                              new("weapon_ak47")},
                 {"AWP",                                new("weapon_awp")},
-                {"Desert Eagle",                       new("weapon_deagle")},
+                {"Desert Eagle",                       new("weapon_deagle",         WeaponType.Secondary)},
+                {"P90",                                new("weapon_p90")},
+                {"Negev",                              new("weapon_negev", hideIseli: true)},
+                {"SSG 08",                             new("weapon_ssg08")},
                 {"M4A4",                               new("weapon_m4a1")},
                 {"M4A1-S",                             new("weapon_m4a1_silencer")},
-                {"SG 553",                             new("weapon_sg553")},
+                {"XM1014",                             new("weapon_xm1014")},
+                {"MAG-7",                              new("weapon_mag7")},
+                {"SCAR-20",                            new("weapon_scar20" , hideIseli: true)},
+                {"SG 556",                             new("weapon_sg556")},
                 {"AUG",                                new("weapon_aug")},
-                {"SSG 08",                             new("weapon_ssg08")},
-                {"Negev",                              new("weapon_negev")},
-                {"M249",                               new("weapon_m249")},
+                {"M249",                               new("weapon_m249", hideIseli: true)},
                 {"FAMAS",                              new("weapon_famas")},
                 {"Galil AR",                           new("weapon_galilar")},
                 {"Glock-18",                           new("weapon_glock",          WeaponType.Secondary)},
@@ -51,20 +65,15 @@ public partial class JailbreakExtras
                 {"PP-Bizon",                           new("weapon_bizon")},
                 {"UMP-45",                             new("weapon_ump45")},
                 {"MP9",                                new("weapon_mp9")},
-                {"P90",                                new("weapon_p90")},
                 {"MP7",                                new("weapon_mp7")},
                 {"MAC-10",                             new("weapon_mac10")},
-                {"sg556",                              new("weapon_sg556")},
-                {"G3SG1",                              new("weapon_g3sg1")},
-                {"SCAR-20",                            new("weapon_scar20" )},
-                {"XM1014",                             new("weapon_xm1014")},
-                {"MAG-7",                              new("weapon_mag7")},
+                {"G3SG1",                              new("weapon_g3sg1", hideIseli: true)},
                 {"Sawed-Off",                          new("weapon_sawedoff")},
                 {"Nova",                               new("weapon_nova")},
             };
 
             ///Duplicates of weapons dictionarys value objects givename property.
-            ///<see cref="MenuHelper.RemoveCurrentWeapon"/>
+            ///<see cref="WeaponMenuHelper.RemoveCurrentWeapon"/>
             var weaponCheckers = new Dictionary<string, Weapon>(StringComparer.InvariantCultureIgnoreCase)
             {
                 {"weapon_ak47",                        new("weapon_ak47")},
@@ -72,7 +81,6 @@ public partial class JailbreakExtras
                 {"weapon_deagle",                      new("weapon_deagle")},
                 {"weapon_m4a1",                        new("weapon_m4a1")},
                 {"weapon_m4a1_silencer",               new("weapon_m4a1_silencer")},
-                {"weapon_sg553",                       new("weapon_sg553")},
                 {"weapon_aug",                         new("weapon_aug")},
                 {"weapon_ssg08",                       new("weapon_ssg08")},
                 {"weapon_negev",                       new("weapon_negev")},

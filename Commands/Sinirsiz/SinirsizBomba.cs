@@ -1,7 +1,7 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Timers;
 
 namespace JailbreakExtras;
 
@@ -21,26 +21,23 @@ public partial class JailbreakExtras
             return;
         }
 
-        if (info.ArgCount < 2) return;
-        var oneTwoStr = info.ArgCount == 2 ? info.GetArg(1) : "0";
+        var oneTwoStr = info.ArgCount == 2 ? info.ArgString.GetArg(0) : "0";
         int.TryParse(oneTwoStr, out var oneTwo);
         if (oneTwo < 0 || oneTwo > 1)
         {
             player.PrintToChat($"{Prefix}{CC.W} 0 = kapatmak icin, 1 = acmak icin.");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+        Server.PrintToChatAll($"{Prefix} {CC.W} Sınırsız bomba {oneTwo}.");
+
         SinirsizBombaTimer = GiveSinirsizCustomNade(oneTwo, SinirsizBombaTimer, "weapon_hegrenade");
     }
 
-    private CounterStrikeSharp.API.Modules.Timers.Timer? GiveSinirsizCustomNade(int oneTwo, CounterStrikeSharp.API.Modules.Timers.Timer sinirsizGiveTimer, string itemXName, string target = null, string playerName = null)
+    private CounterStrikeSharp.API.Modules.Timers.Timer? GiveSinirsizCustomNade(int oneTwo, CounterStrikeSharp.API.Modules.Timers.Timer sinirsizGiveTimer, string itemXName, string target = null, CCSPlayerController? self = null)
     {
         switch (oneTwo)
         {
-            case 0:
-                sinirsizGiveTimer?.Kill();
-                sinirsizGiveTimer = null;
-                break;
-
             case 1:
                 sinirsizGiveTimer = AddTimer(3f, () =>
                 {
@@ -54,12 +51,13 @@ public partial class JailbreakExtras
                     else
                     {
                         players = GetPlayers()
-                              .Where(x => x.PawnIsAlive && GetTargetAction(x, target, playerName))
+                              .Where(x => x.PawnIsAlive && GetTargetAction(x, target, self))
                               .ToList();
                     }
 
                     players.ForEach(x =>
                     {
+                        if (ValidateCallerPlayer(x, false) == false) return;
                         if (x?.PlayerPawn?.Value?.WeaponServices?.MyWeapons != null)
                         {
                             if (x.PlayerPawn.Value.WeaponServices!.MyWeapons
@@ -77,10 +75,12 @@ public partial class JailbreakExtras
                             }
                         }
                     });
-                }, TimerFlags.REPEAT | TimerFlags.STOP_ON_MAPCHANGE);
+                }, Full);
                 break;
 
             default:
+                sinirsizGiveTimer?.Kill();
+                sinirsizGiveTimer = null;
                 break;
         }
         return sinirsizGiveTimer;

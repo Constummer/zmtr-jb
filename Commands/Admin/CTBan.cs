@@ -4,7 +4,6 @@ using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Utils;
-using Microsoft.Extensions.Logging;
 using MySqlConnector;
 
 namespace JailbreakExtras;
@@ -27,9 +26,9 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<playerismi>")]
     public void CTUnBan(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
@@ -37,96 +36,75 @@ public partial class JailbreakExtras
             return;
         }
 
-        var target = info.ArgCount > 1 ? info.GetArg(1) : null;
-        if (target == null)
+        var target = info.ArgString.GetArgSkip(0);
+        if (FindSinglePlayer(player, target, out var x) == false)
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
-        var targetArgument = GetTargetArgument(target);
-        GetPlayers()
-            .Where(x => targetArgument switch
-            {
-                TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target) ?? false,
-                TargetForArgument.UserIdIndex => GetUserIdIndex(target) == x.UserId,
-                _ => false
-            })
-            .ToList()
-            .ForEach(x =>
-            {
-                CTBans.Remove(x.SteamID, out var _);
-                RemoveCTBanData(x.SteamID);
-                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W} CT banını kaldırdı.");
-            });
+        CTBans.Remove(x.SteamID, out var _);
+        RemoveCTBanData(x.SteamID);
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W} CT banını kaldırdı.");
     }
 
     [ConsoleCommand("ctban")]
     [CommandHelper(2, "<playerismi> <dakika/0 süresiz>")]
     public void CTBan(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
-        if (ValidateCallerPlayer(player) == false)
+        if (ValidateCallerPlayer(player, false) == false)
         {
             return;
         }
 
-        var target = info.ArgCount > 1 ? info.GetArg(1) : null;
-        if (target == null)
-        {
-            return;
-        }
-        var godOneTwoStr = info.ArgCount > 2 ? info.GetArg(2) : "0";
+        var godOneTwoStr = info.ArgString.GetArgLast();
         if (int.TryParse(godOneTwoStr, out var value) == false)
         {
             return;
         }
 
-        var targetArgument = GetTargetArgument(target);
-        GetPlayers()
-            .Where(x => targetArgument switch
+        var target = info.ArgString.GetArgSkipFromLast(1);
+        if (FindSinglePlayer(player, target, out var x) == false)
+        {
+            return;
+        }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
+        if (value <= 0)
+        {
+            if (CTBans.TryGetValue(x.SteamID, out var dateTime))
             {
-                TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target) ?? false,
-                TargetForArgument.UserIdIndex => GetUserIdIndex(target) == x.UserId,
-                _ => false
-            })
-            .ToList()
-            .ForEach(x =>
+                CTBans[x.SteamID] = DateTime.UtcNow.AddYears(1);
+            }
+            else
             {
-                if (value <= 0)
-                {
-                    if (CTBans.TryGetValue(x.SteamID, out var dateTime))
-                    {
-                        CTBans[x.SteamID] = DateTime.UtcNow.AddYears(1);
-                    }
-                    else
-                    {
-                        CTBans.Add(x.SteamID, DateTime.UtcNow.AddYears(1));
-                    }
-                    AddCTBanData(x.SteamID, player.SteamID, DateTime.UtcNow.AddYears(1));
-                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.B}Sınırsız{CC.W} ct banladı.");
-                }
-                else
-                {
-                    if (CTBans.TryGetValue(x.SteamID, out var dateTime))
-                    {
-                        CTBans[x.SteamID] = DateTime.UtcNow.AddMinutes(value);
-                    }
-                    else
-                    {
-                        CTBans.Add(x.SteamID, DateTime.UtcNow.AddMinutes(value));
-                    }
-                    AddCTBanData(x.SteamID, player.SteamID, DateTime.UtcNow.AddMinutes(value));
-                    Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.B}{value}{CC.W} dakika boyunca ct banladı.");
-                }
-                if (GetTeam(x) == CsTeam.CounterTerrorist)
-                {
-                    x.ChangeTeam(CsTeam.Terrorist);
-                }
-            });
+                CTBans.Add(x.SteamID, DateTime.UtcNow.AddYears(1));
+            }
+            AddCTBanData(x.SteamID, player.SteamID, DateTime.UtcNow.AddYears(1));
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.B}Sınırsız{CC.W} ct banladı.");
+        }
+        else
+        {
+            if (CTBans.TryGetValue(x.SteamID, out var dateTime))
+            {
+                CTBans[x.SteamID] = DateTime.UtcNow.AddMinutes(value);
+            }
+            else
+            {
+                CTBans.Add(x.SteamID, DateTime.UtcNow.AddMinutes(value));
+            }
+            AddCTBanData(x.SteamID, player.SteamID, DateTime.UtcNow.AddMinutes(value));
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.B}{value}{CC.W} dakika boyunca ct banladı.");
+        }
+        if (GetTeam(x) == CsTeam.CounterTerrorist)
+        {
+            x.ChangeTeam(CsTeam.Terrorist);
+        }
     }
 
     private void GetAllCTBanData(MySqlConnection con)
@@ -215,12 +193,14 @@ public partial class JailbreakExtras
                     cmd.Parameters.AddWithValue("@SteamId", steamId);
                     cmd.Parameters.AddWithValue("@BannedBySteamId", bannerId);
                     cmd.Parameters.AddWithValue("@Time", time);
+
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
         catch (Exception e)
         {
-            Logger.LogError(e, "hata");
+            ConsMsg(e.Message);
         }
     }
 
@@ -242,7 +222,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Logger.LogError(e, "hata");
+            ConsMsg(e.Message);
         }
     }
 

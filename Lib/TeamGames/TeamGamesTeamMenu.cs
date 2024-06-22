@@ -8,27 +8,79 @@ public partial class JailbreakExtras
 {
     private void TeamedTeamGamesMenu(CCSPlayerController player, ChatMenuOption option)
     {
+        MarketEnvDisable = true;
+        TakimYapAction(2);
+        if (ValidateCallerPlayer(player, false) == false) return;
+
         var teamTGMenu = new ChatMenu("Team Games Menü | Takımlı");
-        foreach (var item in MultiTGGamesMenu)
+        foreach (var item in MultiTGGamesMenu.OrderBy(x => x.Disabled).ThenBy(x => x.Text))
         {
             teamTGMenu.AddMenuOption(item.Text, (p, i) =>
             {
-                var @base = GetTeamGameBase(item.MultiChoice);
-                if (@base == null)
+                if (ValidateCallerPlayer(player, false) == false) return;
+                if (ValidateCallerPlayer(p, false) == false) return;
+                ActiveTeamGamesGameBase = GetTeamGameBase(item.MultiChoice);
+                if (ActiveTeamGamesGameBase == null)
                 {
-                    player.PrintToChat($"{Prefix} {CC.W}{item.Text} takimli oyununda bir problem var, admin ile gorusmelisin.");
+                    player.PrintToChat($"{Prefix} {CC.W}{item.Text} takımlı oyununda bir problem var, admin ile gorusmelisin.");
                     return;
                 }
-                @base.StartGame(() =>
+                ActiveTeamGamesGameBase.GameName = item.Text;
+                if (ActiveTeamGamesGameBase.HasAdditionalChoices)
                 {
-                    TakimYapAction(2);
-                    AddTimer(3f, () =>
+                    ActiveTeamGamesGameBase.AdditionalChoiceMenu(player, () =>
                     {
-                        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}{item.Text} takimlı oyununu başlattı.");
+                        if (ValidateCallerPlayer(player, false) == false) return;
+                        if (ActiveTeamGamesGameBase == null) return;
+
+                        BasicCountdown.CommandStartTextCountDown(this, $"{item.Text} takımlı oyunun başlamasına 3 saniye !");
+                        TgTimer = AddTimer(3.0f, () =>
+                        {
+                            if (ValidateCallerPlayer(player, false) == false) return;
+                            if (ActiveTeamGamesGameBase == null) return;
+
+                            TgActive = true;
+                            ActiveTeamGamesGameBase.StartGame(() =>
+                            {
+                                if (ActiveTeamGamesGameBase.FfActive)
+                                {
+                                    Server.ExecuteCommand("mp_teammates_are_enemies 1");
+                                }
+                                TGStartSound();
+
+                                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}{item.Text} takımlı oyununu başlattı.");
+                            });
+                        }, SOM);
                     });
-                });
+                }
+                else
+                {
+                    if (ValidateCallerPlayer(player, false) == false) return;
+                    if (ActiveTeamGamesGameBase == null) return;
+
+                    BasicCountdown.CommandStartTextCountDown(this, $"{item.Text} takımlı oyunun başlamasına 3 saniye !");
+                    TgTimer = AddTimer(3.0f, () =>
+                    {
+                        if (ValidateCallerPlayer(player, false) == false) return;
+                        if (ActiveTeamGamesGameBase == null) return;
+
+                        TgActive = true;
+                        ActiveTeamGamesGameBase.StartGame(() =>
+                        {
+                            if (ValidateCallerPlayer(player, false) == false) return;
+                            if (ActiveTeamGamesGameBase == null) return;
+                            if (ActiveTeamGamesGameBase.FfActive)
+                            {
+                                Server.ExecuteCommand("mp_teammates_are_enemies 1");
+                            }
+                            TGStartSound();
+
+                            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.W}{item.Text} takımlı oyununu başlattı.");
+                        });
+                    }, SOM);
+                }
             }, item.Disabled);
         }
-        ChatMenus.OpenMenu(player, teamTGMenu);
+        MenuManager.OpenChatMenu(player, teamTGMenu);
     }
 }

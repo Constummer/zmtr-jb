@@ -1,27 +1,27 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>net7.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-	<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
-  </PropertyGroup>
-	
-  <ItemGroup>
-    <Compile Remove="Cs2Jailbreak\**" />
-    <Compile Remove="HelloWorldPlugin\**" />
-    <Compile Remove="ToJbPlugin\**" />
-    <EmbeddedResource Remove="Cs2Jailbreak\**" />
-    <EmbeddedResource Remove="HelloWorldPlugin\**" />
-    <EmbeddedResource Remove="ToJbPlugin\**" />
-    <None Remove="Cs2Jailbreak\**" />
-    <None Remove="HelloWorldPlugin\**" />
-    <None Remove="ToJbPlugin\**" />
-  </ItemGroup>
+	<PropertyGroup>
+		<TargetFramework>net8.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="CounterStrikeSharp.API" Version="1.0.142" />
-    <PackageReference Include="MySqlConnector" Version="2.3.1" />
-  </ItemGroup>
+	<ItemGroup>
+		<None Remove="Commands\json_play_ground.deps.json" />
+		<None Remove="Commands\json_play_ground.dll" />
+		<None Remove="Commands\json_play_ground.exe" />
+		<None Remove="Commands\json_play_ground.pdb" />
+		<None Remove="Commands\json_play_ground.runtimeconfig.json" />
+		<None Remove="Commands\Newtonsoft.Json.dll" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<PackageReference Include="CounterStrikeSharp.API" Version="1.0.239" />
+		<PackageReference Include="MySqlConnector" Version="2.3.1" />
+		<PackageReference Include="Discord.Net" Version="3.13.0" />
+		<PackageReference Include="Discord.Net.Interactions" Version="3.13.0" />
+	</ItemGroup>
 
 </Project>

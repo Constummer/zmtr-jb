@@ -4,6 +4,15 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    internal static void PlayGivenMusic(string musicPath)
+    {
+        var players = GetPlayers();
+        foreach (var player in players)
+        {
+            player.ExecuteClientCommand($"play {musicPath}");
+        }
+    }
+
     private static void LastAliveTSound()
     {
         if (LastRSoundDisable)
@@ -12,6 +21,7 @@ public partial class JailbreakExtras
         }
         if (GetPlayerCount(CsTeam.Terrorist, true) == 2)//TODO: yeni method ile 1 mi olmali 2 mi emin deilim
         {
+            SutolCommandCalls.Clear();
             var players = GetPlayers();
             foreach (var player in players)
             {
@@ -53,6 +63,15 @@ public partial class JailbreakExtras
         foreach (var player in players)
         {
             player.ExecuteClientCommand($"play {_Config.Sounds.LrStartSound}");
+        }
+    }
+
+    private static void TGStartSound()
+    {
+        var players = GetPlayers();
+        foreach (var player in players)
+        {
+            player.ExecuteClientCommand($"play {_Config.Sounds.TGStartSound}");
         }
     }
 }

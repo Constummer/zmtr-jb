@@ -12,7 +12,7 @@ public partial class JailbreakExtras
     private static Dictionary<ulong, DateTime> LatestHediyeCommandCalls = new Dictionary<ulong, DateTime>();
 
     [ConsoleCommand("hediye")]
-    [CommandHelper(2, "<oyuncu ismi> <miktar>")]
+    [CommandHelper(2, "<oyuncu ismi-#userid> <miktar>")]
     public void Hediye(CCSPlayerController? player, CommandInfo info)
     {
         if (ValidateCallerPlayer(player, false) == false)
@@ -28,9 +28,7 @@ public partial class JailbreakExtras
             }
         }
 
-        if (info.ArgCount != 3) return;
-        var target = info.GetArg(1);
-        if (!int.TryParse(info.GetArg(2), out var miktar) || miktar <= 0)
+        if (!int.TryParse(info.ArgString.GetArgLast(), out var miktar) || miktar <= 0)
         {
             player.PrintToChat($"{Prefix} {CC.W}Miktar yanlış!");
             return;
@@ -41,20 +39,12 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.W}Yetersiz Bakiye!");
             return;
         }
-        var players = GetPlayers()
-               .Where(x => x.PlayerName.ToLower().Contains(target.ToLower()))
-               .ToList();
-        if (players.Count == 0)
+        var target = info.ArgString.GetArgSkipFromLast(1);
+        if (FindSinglePlayer(player, target, out var x) == false)
         {
-            player.PrintToChat($"{Prefix} {CC.W}Eşleşen oyuncu bulunamadı!");
             return;
         }
-        if (players.Count != 1)
-        {
-            player.PrintToChat($"{Prefix} {CC.W}Birden fazla oyuncu bulundu.");
-            return;
-        }
-        var x = players.FirstOrDefault();
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         if (x?.SteamID != null && x!.SteamID != 0)
         {

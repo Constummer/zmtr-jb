@@ -5,6 +5,7 @@ public partial class JailbreakExtras
     private void CallEvents()
     {
         EventRoundStart();
+        EventPlayerJump();
         EventRoundEnd();
         EventPlayerDeath();
         EventPlayerHurt();
@@ -17,5 +18,10 @@ public partial class JailbreakExtras
         EventWeaponZoom();
         EventWeaponFire();
         EventEntityKilled();
+        EventBombDropped();
+        EventItemPickup();
+        EventBombPickup();
+        EventCsWinPanelRound();
+        //EventSpecTargetUpdated();
     }
 }

@@ -1,5 +1,4 @@
 using CounterStrikeSharp.API.Core;
-using CounterStrikeSharp.API.Modules.Timers;
 using System.Text.RegularExpressions;
 
 namespace JailbreakExtras;
@@ -48,7 +47,10 @@ public partial class JailbreakExtras
                     client.PrintToCenter($"{CC.G}{CountdownText}");
                     if (printToCenterHtml)
                     {
-                        SharpTimerPrintHtml(client, $"{CC.G}{CountdownText}");
+                        PrintToCenterHtml(client, $"{CC.G}{CountdownText}");
+                        PrintToCenterHtml(client, $"{CC.G}{CountdownText}");
+                        PrintToCenterHtml(client, $"{CC.G}{CountdownText}");
+                        PrintToCenterHtml(client, $"{CC.G}{CountdownText}");
                     }
                 }
             }
@@ -84,7 +86,7 @@ public partial class JailbreakExtras
                         }
 
                         CountdownTime = CountdownTime - 1.0f;
-                    }, TimerFlags.REPEAT);
+                    }, Full);
                 }
             }
             catch

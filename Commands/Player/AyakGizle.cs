@@ -16,7 +16,12 @@ public partial class JailbreakExtras
         {
             return;
         }
-
+        if (HideActive)
+        {
+            player!.PrintToChat($"{Prefix} {CC.R}Hide aktifken ayakgoster - ayakgizle kullanamazsin!");
+            return;
+        }
+        HideFoots[player.SteamID] = true;
         AyakGizle(player);
     }
 
@@ -27,15 +32,19 @@ public partial class JailbreakExtras
         {
             return;
         }
+        if (HideActive)
+        {
+            player!.PrintToChat($"{Prefix} {CC.R}Hide aktifken ayakgoster - ayakgizle kullanamazsin!");
+            return;
+        }
         HideFoots[player.SteamID] = false;
         player!.PlayerPawn.Value!.Render = DefaultColor;
         RefreshPawn(player);
         player!.PrintToChat($"{Prefix} {CC.G}Ayakların artık gözüküyor!");
     }
 
-    private void AyakGizle(CCSPlayerController player, bool refreshTp = false)
+    private void AyakGizle(CCSPlayerController player, bool refreshTp = false, bool prntmsg = true)
     {
-        HideFoots[player.SteamID] = true;
         player!.PlayerPawn.Value!.Render = Color.FromArgb(254, 254, 254, 254);
         if (refreshTp == false)
         {
@@ -44,8 +53,8 @@ public partial class JailbreakExtras
         }
         else
         {
-            RefreshPawnTP(player);
-            player!.PrintToChat($" {CC.G}[ZMTR] {CC.DR}Ayakların otomatik olarak gizlendi. !ayakgoster ile tekrar gösterebilirsin");
+            if (prntmsg)
+                player!.PrintToChat($" {CC.G}[ZMTR] {CC.DR}Ayaklarını gizlemek için !ayakgizle, göstermek için !ayakgoster");
         }
     }
 

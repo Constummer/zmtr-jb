@@ -18,14 +18,18 @@ public partial class JailbreakExtras
     */
 
     [ConsoleCommand("panelunban")]
+    [ConsoleCommand("unbanpanel")]
+    [ConsoleCommand("banunpanel")]
+    [ConsoleCommand("panelbankaldir")]
     [CommandHelper(1, "<playerismi | steamid | #userid>", CommandUsage.SERVER_ONLY)]
     public void cUnBan(CCSPlayerController? player, CommandInfo info)
     {
-        var target = info.ArgCount > 1 ? info.GetArg(1) : null;
+        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
         if (target == null)
         {
             return;
         }
+        LogManagerCommand(1, info.GetCommandString);
 
         Bans.ToList()
              .Where(x => x.Key.ToString() == target)
@@ -42,13 +46,13 @@ public partial class JailbreakExtras
     [CommandHelper(2, "<playerismi | steamid | #userid> <dakika/0 süresiz>", CommandUsage.SERVER_ONLY)]
     public void PanelBan(CCSPlayerController? player, CommandInfo info)
     {
-        var target = info.ArgCount > 1 ? info.GetArg(1) : null;
+        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
         if (target == null)
         {
             return;
         }
 
-        var godOneTwoStr = info.ArgCount > 2 ? info.GetArg(2) : "0";
+        var godOneTwoStr = info.ArgCount > 2 ? info.ArgString.GetArg(1) : "0";
         if (int.TryParse(godOneTwoStr, out var value) == false)
         {
             return;
@@ -63,7 +67,7 @@ public partial class JailbreakExtras
         }
         var players = GetPlayers()
             .Where(x =>
-            (x.PlayerName?.ToLower()?.Contains(target) ?? false)
+            (x.PlayerName?.ToLower()?.Contains(target?.ToLower()) ?? false)
             || GetUserIdIndex(target) == x.UserId
             || x.SteamID == steamidbck).ToList();
 
@@ -73,6 +77,7 @@ public partial class JailbreakExtras
             return;
         }
 
+        LogManagerCommand(1, info.GetCommandString);
         var x = players.FirstOrDefault();
         if (x == null)
         {

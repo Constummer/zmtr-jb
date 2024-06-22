@@ -23,11 +23,21 @@ public partial class JailbreakExtras
                 {
                     return;
                 }
-                var gardSelectMenu = new ChatMenu("LR Menü | Gardiyan Seçimi");
+                if (GetPlayerCount(CsTeam.Terrorist, true) != 1)
+                {
+                    player.PrintToChat($"{Prefix} {CC.W}Sadece yaşayan son {T_AllLower} lr atabilir.");
+                    return;
+                }
+                if (LrActive)
+                {
+                    player.PrintToChat($"{Prefix} {CC.W}Mevcutta bir LR var, Tekrar açılamaz.");
+                    return;
+                }
+                var gardSelectMenu = new ChatMenu($"LR Menü | {CT_CamelCase} Seçimi");
                 var gards = GetPlayers(CsTeam.CounterTerrorist).ToList();
                 if (gards.Any() == false)
                 {
-                    player.PrintToChat($"{Prefix}{CC.W} Hiç gardiyan bulunmadığı için LR atamazsın!.");
+                    player.PrintToChat($"{Prefix}{CC.W} Hiç {CT_AllLower} bulunmadığı için LR atamazsın!.");
 
                     return;
                 }
@@ -37,17 +47,27 @@ public partial class JailbreakExtras
                     {
                         return;
                     }
+                    if (GetPlayerCount(CsTeam.Terrorist, true) != 1)
+                    {
+                        player.PrintToChat($"{Prefix} {CC.W}Sadece yaşayan son {T_AllLower} lr atabilir.");
+                        return;
+                    }
                     var gardText = string.Empty;
                     if (LatestWCommandUser == gard.SteamID)
                     {
-                        gardText = $"{gard.PlayerName} | Komutçu";
+                        gardText = $"{gard.PlayerName} | {CC.DB}Komutçu{CC.W}";
                     }
                     else
                     {
-                        gardText = $"{gard.PlayerName} | Koruma";
+                        gardText = $"{gard.PlayerName} | {CC.B}Koruma{CC.W}";
                     }
                     gardSelectMenu.AddMenuOption(gardText, (_, _) =>
                     {
+                        if (LrActive)
+                        {
+                            player.PrintToChat($"{Prefix} {CC.W}Mevcutta bir LR var, Tekrar açılamaz.");
+                            return;
+                        }
                         if (player.PawnIsAlive == false)
                         {
                             return;
@@ -56,40 +76,63 @@ public partial class JailbreakExtras
                         {
                             CustomRespawn(gard);
                         }
-
+                        if (GetPlayerCount(CsTeam.Terrorist, true) != 1)
+                        {
+                            player.PrintToChat($"{Prefix} {CC.W}Sadece yaşayan son {T_AllLower} lr atabilir.");
+                            return;
+                        }
                         InitLr(item, player, gard);
                     });
                 });
-                ChatMenus.OpenMenu(player, gardSelectMenu);
+                MenuManager.OpenChatMenu(player, gardSelectMenu);
             });
         }
 
-        ChatMenus.OpenMenu(player, lrMenu);
+        MenuManager.OpenChatMenu(player, lrMenu);
     }
 
     private void InitLr(LrData item, CCSPlayerController? mahkum, CCSPlayerController gard)
     {
-        //BasicCountdown.CommandStartTextCountDown(this, $"{item.Text} {CC.W}LR'si  başlamasına 5 saniye.");
+        SutolCommandCalls?.Clear();
         LrActive = true;
         ActivatedLr = new(mahkum.SteamID, gard.SteamID, item);
-        //LRTimer = AddTimer(5f, () =>
-        //{
+
+        if (ValidateCallerPlayer(mahkum, false) == false) return;
+        if (ValidateCallerPlayer(gard, false) == false) return;
         RemoveWeapons(mahkum, true);
         RemoveWeapons(gard, true);
+        Global?.FovKapaAction(null, true);
+
+        if (ValidateCallerPlayer(mahkum, false) == false) return;
+        if (ValidateCallerPlayer(gard, false) == false) return;
         SetHp(mahkum);
         SetHp(gard);
+        if (ValidateCallerPlayer(mahkum, false) == false) return;
+        if (ValidateCallerPlayer(gard, false) == false) return;
         ActiveGodMode.Remove(gard.SteamID);
         ActiveGodMode.Remove(mahkum.SteamID);
-        Server.PrintToChatAll($"{Prefix}{CC.G}{mahkum.PlayerName}{CC.W}adlı mahkûm,{CC.B}{gard.PlayerName}{CC.W} adlı gardiyana {CC.LY}{item.Text} {CC.W}LR'si başladı.");
+        gard.TakesDamage = true;
+        gard.PlayerPawn.Value.TakesDamage = true;
+        gard.Pawn.Value.TakesDamage = true;
+        mahkum.TakesDamage = true;
+        mahkum.PlayerPawn.Value.TakesDamage = true;
+        mahkum.Pawn.Value.TakesDamage = true;
+        Server.PrintToChatAll($"{Prefix} {CC.G}{mahkum.PlayerName} {CC.W}adlı {T_AllLower}, {CC.B}{gard.PlayerName}{CC.W} adlı {CT_LowerPrePosition} {CC.LY}{item.Text} {CC.W}LR'si başladı.");
         LrStartSound();
+        if (ValidateCallerPlayer(mahkum, false) == false) return;
+        if (ValidateCallerPlayer(gard, false) == false) return;
         mahkum.GiveNamedItem("item_assaultsuit");
         gard.GiveNamedItem("item_assaultsuit");
-
+        if (ValidateCallerPlayer(mahkum, false) == false) return;
+        if (ValidateCallerPlayer(gard, false) == false) return;
         mahkum.GiveNamedItem(item.WeaponName);
         gard.GiveNamedItem(item.WeaponName);
-
-        SetColour(mahkum, System.Drawing.Color.Red);
-        SetColour(gard, System.Drawing.Color.Blue);
+        if (ValidateCallerPlayer(mahkum, false) == false) return;
+        if (ValidateCallerPlayer(gard, false) == false) return;
+        GiveRandomSkin(gard);
+        GiveRandomSkin(mahkum);
+        if (ValidateCallerPlayer(mahkum, false) == false) return;
+        if (ValidateCallerPlayer(gard, false) == false) return;
         switch (item.Choice)
         {
             case LrChoices.None:
@@ -98,22 +141,38 @@ public partial class JailbreakExtras
             case LrChoices.Deagle:
                 //AddTimer(1f, () =>
                 //{
+                if (ValidateCallerPlayer(mahkum, false) == false) return;
                 CBasePlayerWeapon? mahkumWeapon = GetWeapon(mahkum, item.WeaponName);
                 if (WeaponIsValid(mahkumWeapon) == false)
                 {
                     return;
                 }
                 SetAmmo(mahkumWeapon, 1, 0);
+                if (ValidateCallerPlayer(gard, false) == false) return;
                 CBasePlayerWeapon? gardWeapon = GetWeapon(gard, item.WeaponName);
                 if (WeaponIsValid(gardWeapon) == false)
                 {
                     return;
                 }
                 SetAmmo(gardWeapon, 0, 0);
-                //AddTimer(0.1f, () => SetAmmo(gardWeapon, 0, 0));
-                //AddTimer(0.1f, () => SetAmmo(gardWeapon, 0, 0));
-                //AddTimer(0.1f, () => SetAmmo(mahkumWeapon, 1, 0));
-                //});
+                Global?.AddTimer(0.1f, () =>
+                {
+                    if (ValidateCallerPlayer(mahkum, false) == false) return;
+                    CBasePlayerWeapon? mahkumWeapon = GetWeapon(mahkum, item.WeaponName);
+                    if (WeaponIsValid(mahkumWeapon) == false)
+                    {
+                        return;
+                    }
+                    SetAmmo(mahkumWeapon, 1, 0);
+                    if (ValidateCallerPlayer(gard, false) == false) return;
+                    CBasePlayerWeapon? gardWeapon = GetWeapon(gard, item.WeaponName);
+                    if (WeaponIsValid(gardWeapon) == false)
+                    {
+                        return;
+                    }
+                    SetAmmo(gardWeapon, 0, 0);
+                });
+
                 break;
 
             case LrChoices.NoScopeScout:
@@ -125,6 +184,5 @@ public partial class JailbreakExtras
             default:
                 break;
         }
-        //});
     }
 }

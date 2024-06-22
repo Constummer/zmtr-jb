@@ -20,14 +20,14 @@ public partial class JailbreakExtras
             return;
         }
 
-        if (info.ArgCount < 2) return;
-        var oneTwoStr = info.ArgCount == 2 ? info.GetArg(1) : "0";
+        var oneTwoStr = info.ArgCount == 2 ? info.ArgString.GetArg(0) : "0";
         int.TryParse(oneTwoStr, out var oneTwo);
         if (oneTwo < 0 || oneTwo > 1)
         {
             player.PrintToChat($"{Prefix}{CC.W} 0 = kapatmak icin, 1 = acmak icin.");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         SinirsizMolyTimer = GiveSinirsizCustomNade(oneTwo, SinirsizMolyTimer, "weapon_incgrenade");
     }
 

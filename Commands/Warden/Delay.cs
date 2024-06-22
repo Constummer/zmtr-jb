@@ -28,7 +28,7 @@ public partial class JailbreakExtras
                 return;
             }
         }
-        var target = info.ArgCount > 1 ? info.GetArg(1) : "5";
+        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : "5";
         if (int.TryParse(target, out var value))
         {
             if (value > 120)
@@ -43,26 +43,29 @@ public partial class JailbreakExtras
             }
             else
             {
+                LogManagerCommand(player.SteamID, info.GetCommandString);
                 DelayCt(value); return;
             }
         }
         else
         {
+            LogManagerCommand(player.SteamID, info.GetCommandString);
             DelayCt(value); return;
         }
     }
 
     private void DelayCt(int value)
     {
-        Server.PrintToChatAll($"{Prefix} {CC.W}Gardiyanlar, {value} saniye mutelendi.");
+        Server.PrintToChatAll($"{Prefix} {CC.W}{CT_PluralCamel}, {value} saniye mutelendi.");
 
         GetPlayers(CsTeam.CounterTerrorist)
             .ToList()
             .ForEach(x =>
         {
+            if (ValidateCallerPlayer(x, false) == false) return;
             x.VoiceFlags |= VoiceFlags.Muted;
         });
-        BasicCountdown.CommandStartTextCountDown(this, $"Gardiyanlar, {value} saniye mutelendi");
+        BasicCountdown.CommandStartTextCountDown(this, $"{CT_PluralCamel}, {value} saniye mutelendi");
 
         _ = AddTimer(value, () =>
         {
@@ -70,12 +73,13 @@ public partial class JailbreakExtras
             .ToList()
             .ForEach(x =>
             {
+                if (ValidateCallerPlayer(x, false) == false) return;
                 Unmuteds.Add(x.SteamID);
                 x.VoiceFlags &= ~VoiceFlags.Muted;
             });
             FreezeOrUnfreezeSound();
-            Server.PrintToChatAll($"{Prefix} {CC.W}Gardiyanların, mutesi kaldırıldı.");
-        });
+            Server.PrintToChatAll($"{Prefix} {CC.W}{CT_PluralCamelPossesive}, mutesi kaldırıldı.");
+        }, SOM);
     }
 
     #endregion Delay

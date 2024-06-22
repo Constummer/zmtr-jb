@@ -6,7 +6,7 @@ public partial class JailbreakExtras
 
     public ActiveLr? ActivatedLr { get; set; } = null;
 
-    private CounterStrikeSharp.API.Modules.Timers.Timer LRTimer;
+    private CounterStrikeSharp.API.Modules.Timers.Timer LRTimer { get; set; } = null;
 
     public List<LrData> LrDatas = new List<LrData>()
     {
@@ -55,7 +55,6 @@ public partial class JailbreakExtras
         }
 
         public uint GardWeaponIndex { get; set; }
-
         public ulong MahkumSteamId { get; set; }
         public ulong GardSteamId { get; set; }
     }

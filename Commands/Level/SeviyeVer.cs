@@ -14,20 +14,21 @@ public partial class JailbreakExtras
     [CommandHelper(2, "<oyuncu ismi,@t,@ct,@all,@me> <miktar>")]
     public void SeviyeVer(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
-        if (info.ArgCount != 3) return;
-        var target = info.GetArg(1);
-        if (!int.TryParse(info.GetArg(2), out var miktar))
+        var target = info.ArgString.GetArgSkipFromLast(1);
+        if (!int.TryParse(info.ArgString.GetArgLast(), out var miktar))
         {
             player!.PrintToChat($"{Prefix}{CC.G} Miktar duzgun deil!");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         GetPlayers()
-               .Where(x => GetTargetAction(x, target, player!.PlayerName))
+               .Where(x => GetTargetAction(x, target, player))
                .ToList()
                .ForEach(x =>
                {

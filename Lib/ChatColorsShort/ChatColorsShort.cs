@@ -8,7 +8,7 @@ public partial class JailbreakExtras
     {
         public static char D => ChatColors.Default;
         public static char W => ChatColors.White;
-        public static char DR => ChatColors.Darkred;
+        public static char DR => ChatColors.DarkRed;
         public static char G => ChatColors.Green;
         public static char LY => ChatColors.LightYellow;
         public static char LB => ChatColors.LightBlue;
@@ -27,5 +27,39 @@ public partial class JailbreakExtras
         public static char M => ChatColors.Magenta;
         public static char LR => ChatColors.LightRed;
         public static char Or => ChatColors.Orange;
+    }
+
+    public static readonly Dictionary<string, char> ChatColorsData = new(StringComparer.InvariantCultureIgnoreCase)
+    {
+        {"D"    ,CC.D },
+        {"W"    ,CC.W},
+        {"DR"   ,CC.DR},
+        {"G"    ,CC.G},
+        {"LY"   ,CC.LY},
+        {"LB"   ,CC.LB},
+        {"Ol"   ,CC.Ol},
+        {"L"    ,CC.L},
+        {"R"    ,CC.R},
+        {"LP"   ,CC.LP},
+        {"P"    ,CC.P},
+        {"Gr"   ,CC.Gr},
+        {"Y"    ,CC.Y},
+        {"Go"   ,CC.Go},
+        {"S"    ,CC.S},
+        {"B"    ,CC.B},
+        {"DB"   ,CC.DB},
+        {"BG"   ,CC.BG},
+        {"M"    ,CC.M},
+        {"LR"   ,CC.LR},
+        {"Or"   ,CC.Or},
+    };
+
+    private static char GetChatColor(string cName)
+    {
+        if (ChatColorsData.TryGetValue(cName, out var res) == false)
+        {
+            return CC.W;
+        }
+        return res;
     }
 }

@@ -9,68 +9,20 @@ public partial class JailbreakExtras
     {
         RegisterEventHandler<EventWeaponReload>((@event, info) =>
         {
-            if (@event == null)
+            try
+            {
+                if (@event == null)
+                    return HookResult.Continue;
+
+                LrWeaponReload(@event, info);
+
                 return HookResult.Continue;
-
-            LrWeaponReload(@event, info);
-
-            return HookResult.Continue;
-
-            //    if (LrActive == false)
-            //    {
-            //        UnlimitedReserverAmmo(@event, info);
-            //    }
-            //    return HookResult.Continue;
-            //});
-
-            //RegisterListener<Listeners.OnEntityCreated>(entity =>
-            //{
-            //    if (UnlimitedReserverAmmoActive == false)
-            //    {
-            //        return;
-            //    }
-            //    else
-            //    {
-            //        if (entity == null || entity.Entity == null || !entity.IsValid || !entity.DesignerName.Contains("weapon_")) return;
-            //        var weapon = new CBasePlayerWeapon(entity.Handle);
-            //        Server.NextFrame(() =>
-            //        {
-            //            try
-            //            {
-            //                if (UnlimitedReserverAmmoActive == false)
-            //                {
-            //                    return;
-            //                }
-            //                else
-            //                {
-            //                    if (!weapon.IsValid) return;
-
-            //                    CCSWeaponBaseVData? _weapon = weapon.As<CCSWeaponBase>().VData;
-            //                    if (_weapon == null) return;
-            //                    if (_weapon.GearSlot != gear_slot_t.GEAR_SLOT_KNIFE &&
-            //                        _weapon.GearSlot != gear_slot_t.GEAR_SLOT_GRENADES &&
-            //                        _weapon.GearSlot != gear_slot_t.GEAR_SLOT_INVALID &&
-            //                        _weapon.GearSlot != gear_slot_t.GEAR_SLOT_BOOSTS &&
-            //                        _weapon.GearSlot != gear_slot_t.GEAR_SLOT_UTILITY &&
-            //                        _weapon.GearSlot != gear_slot_t.GEAR_SLOT_C4)
-            //                    {
-            //                        weaponDefaults.Add(entity.Handle, new(
-            //                            _weapon.MaxClip1,
-            //                            _weapon.MaxClip2,
-            //                            _weapon.DefaultClip1,
-            //                            _weapon.DefaultClip2)
-            //                        {
-            //                        });
-            //                        _weapon.MaxClip1 = 999;
-            //                        _weapon.MaxClip2 = 999;
-            //                        _weapon.DefaultClip1 = 999;
-            //                        _weapon.DefaultClip2 = 999;
-            //                    }
-            //                }
-            //            }
-            //            catch (Exception) { }
-            //        });
-            //    }
+            }
+            catch (Exception e)
+            {
+                ConsMsg(e.Message);
+                return HookResult.Continue;
+            }
         });
     }
 
@@ -99,7 +51,7 @@ public partial class JailbreakExtras
                 }
                 try
                 {
-                    if (MenuHelper.ValidWeaponChecker(weapon.Value.DesignerName) == false)
+                    if (WeaponMenuHelper.ValidWeaponChecker(weapon.Value.DesignerName) == false)
                     {
                         continue;
                     }
@@ -112,7 +64,7 @@ public partial class JailbreakExtras
                 }
                 catch (Exception e)
                 {
-                    Console.WriteLine(e.Message);
+                    ConsMsg(e.Message);
                 }
             }
         }

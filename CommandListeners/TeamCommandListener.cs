@@ -16,7 +16,7 @@ public partial class JailbreakExtras
                     {
                         CustomRespawn(player);
                     }
-                });
+                }, SOM);
             }
             CoinRemoveOnWardenTeamChange(player, info);
 

@@ -8,7 +8,16 @@ public partial class JailbreakExtras
     {
         RegisterEventHandler<EventEntityKilled>((@event, _) =>
         {
-            return HookResult.Continue;
+            try
+            {
+                ActiveTeamGamesGameBase?.EventEntityKilled(@event);
+                return HookResult.Continue;
+            }
+            catch (Exception e)
+            {
+                ConsMsg(e.Message);
+                return HookResult.Continue;
+            }
         });
     }
 }

@@ -1,10 +1,10 @@
-﻿using CounterStrikeSharp.API.Core;
-
-namespace JailbreakExtras;
+﻿namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private bool TgActive = false;
+    private static bool TgActive { get; set; } = false;
+    public static CounterStrikeSharp.API.Modules.Timers.Timer TgTimer { get; set; } = null;
+    public static TeamGamesGameBase? ActiveTeamGamesGameBase { get; set; } = null;
 
     public enum TeamGamesSoloChoices
     {
@@ -22,7 +22,15 @@ public partial class JailbreakExtras
         WildWest,
         HeGrenades,
         Machines500HP,
-        CoctailParty
+        CoctailParty,
+        ChickenSlayer,
+        HideFight,
+        Corona,
+        Pubg,
+        RedLightGreenLight,
+        Zombie,
+        Zombie2,
+        MORESOON,
     }
 
     public enum TeamGamesMultiChoices
@@ -40,7 +48,9 @@ public partial class JailbreakExtras
         WeildWest,
         HeGrenades,
         Machines500HP,
-        CoctailParty
+        CoctailParty,
+        ChickenSlayer,
+        MORESOON
     }
 
     public class TGBaseClass
@@ -64,36 +74,58 @@ public partial class JailbreakExtras
 
     public List<TGBaseClass> SoloTGGamesMenu { get; set; } = new()
     {
-        new ("Chicken Hunt",      true,  null, TeamGamesSoloChoices.ChickenHunt),
+        //new ("Chicken Hunt",      false,  null, TeamGamesSoloChoices.ChickenHunt),
         new ("Hot Patato",        true,  null, TeamGamesSoloChoices.HotPatato),
-        new ("Chicken Roulette",  true,  null, TeamGamesSoloChoices.ChickenRoulette),
-        new ("Gun Fight",         true,  null, TeamGamesSoloChoices.GunFight),
-        new ("HeadShot Only",     true,  null, TeamGamesSoloChoices.HeadShotOnly),
-        new ("Knife Fight",       true,  null, TeamGamesSoloChoices.KnifeFight),
-        new ("No Zoom",           true,  null, TeamGamesSoloChoices.NoZoom),
-        new ("Pistol Zoom Battle",true,  null, TeamGamesSoloChoices.PistolZoomBattle),
-        new ("Reload Battle",     true,  null, TeamGamesSoloChoices.ReloadBattle),
-        new ("Taser Mania",       true,  null, TeamGamesSoloChoices.TaserMania),
-        new ("Weild West",        true,  null, TeamGamesSoloChoices.WildWest),
-        new ("He Grenades",       true,  null, TeamGamesSoloChoices.HeGrenades),
-        new ("Machines + 500HP",  true,  null, TeamGamesSoloChoices.Machines500HP),
-        new ("Coctail Part",      true,  null, TeamGamesSoloChoices.CoctailParty),
+        //new ("Chicken Roulette",  false,  null, TeamGamesSoloChoices.ChickenRoulette),
+        new ("Gun Fight",         false,  null, TeamGamesSoloChoices.GunFight),
+        new ("HeadShot Only",     false,  null, TeamGamesSoloChoices.HeadShotOnly),
+        new ("Knife Fight",       false,  null, TeamGamesSoloChoices.KnifeFight),
+        new ("No Scope",          false,  null, TeamGamesSoloChoices.NoZoom),
+        new ("Pistol Zoom Battle",false,  null, TeamGamesSoloChoices.PistolZoomBattle),
+        new ("Reload Battle",     false,  null, TeamGamesSoloChoices.ReloadBattle),
+        new ("Taser Mania",       false,  null, TeamGamesSoloChoices.TaserMania),
+        new ("Weild West",        false,  null, TeamGamesSoloChoices.WildWest),
+        new ("He Grenades",       false,  null, TeamGamesSoloChoices.HeGrenades),
+        new ("Machines + 500HP",  false,  null, TeamGamesSoloChoices.Machines500HP),
+        new ("Coctail Part",      false,  null, TeamGamesSoloChoices.CoctailParty),
+        new ("Chicken Slayer",    false,  null, TeamGamesSoloChoices.ChickenSlayer),
+        new ("Hide Fight",        false,  null, TeamGamesSoloChoices.HideFight),
+        new ("Corona",            false,  null, TeamGamesSoloChoices.Corona),
+        new ("Pubg",              false,  null, TeamGamesSoloChoices.Pubg),
+        new ("Zombie - Zined19 - 8K HP, Bicak",       false,  null, TeamGamesSoloChoices.Zombie),
+        new ("Zombie - Ysnkrtkn - 100 HP, Silah",     false,  null, TeamGamesSoloChoices.Zombie2),
+        new ("Red Light - Green Light",           true,  null, TeamGamesSoloChoices.Pubg),
+        new ("VE ÇOK DAHA FAZLASI... YAKINDA",    true,  null, TeamGamesSoloChoices.MORESOON),
     };
 
     public List<TGBaseClass> MultiTGGamesMenu { get; set; } = new()
     {
-        new ("Chiken Hucnt",      true,  TeamGamesMultiChoices.ChickenHunt),
-        new ("Chicken Roulette",  true,  TeamGamesMultiChoices.ChickenRoulette),
-        new ("Gun Fight",         true,  TeamGamesMultiChoices.GunFight),
-        new ("HeadShot Only",     true,  TeamGamesMultiChoices.HeadShotOnly),
-        new ("Knife Fight",       true,  TeamGamesMultiChoices.KnifeFight),
-        new ("No Zoom",           true,  TeamGamesMultiChoices.NoZoom),
-        new ("Pistol Zoom Battle",true,  TeamGamesMultiChoices.PistolZoomBattle),
-        new ("Reload Battle",     true,  TeamGamesMultiChoices.ReloadBattle),
-        new ("Taser Mania",       true,  TeamGamesMultiChoices.TaserMania),
-        new ("Weild West",        true,  TeamGamesMultiChoices.WeildWest),
-        new ("He Grenades",       true,  TeamGamesMultiChoices.HeGrenades),
-        new ("Machines + 500HP",  true,  TeamGamesMultiChoices.Machines500HP),
-        new ("Coctail Party",     true,  TeamGamesMultiChoices.CoctailParty)
+        //new ("Chiken Hunt",       true,  TeamGamesMultiChoices.ChickenHunt),
+        //new ("Chicken Roulette",  true,  TeamGamesMultiChoices.ChickenRoulette),
+        new ("Gun Fight",         false,  TeamGamesMultiChoices.GunFight),
+        new ("HeadShot Only",     false,  TeamGamesMultiChoices.HeadShotOnly),
+        new ("Knife Fight",       false,  TeamGamesMultiChoices.KnifeFight),
+        new ("No Scope",          false,  TeamGamesMultiChoices.NoZoom),
+        new ("Pistol Zoom Battle",false,  TeamGamesMultiChoices.PistolZoomBattle),
+        new ("Reload Battle",     false,  TeamGamesMultiChoices.ReloadBattle),
+        new ("Taser Mania",       false,  TeamGamesMultiChoices.TaserMania),
+        new ("Weild West",        false,  TeamGamesMultiChoices.WeildWest),
+        new ("He Grenades",       false,  TeamGamesMultiChoices.HeGrenades),
+        new ("Machines + 500HP",  false,  TeamGamesMultiChoices.Machines500HP),
+        new ("Coctail Party",     false,  TeamGamesMultiChoices.CoctailParty),
+        new ("Chicken Slayer",    false,  TeamGamesMultiChoices.ChickenSlayer),
+        new ("VE ÇOK DAHA FAZLASI... YAKINDA",    true,  TeamGamesMultiChoices.MORESOON),
     };
+
+    public class ChickenKiller
+    {
+        public ChickenKiller(string pname, int count)
+        {
+            Pname = pname;
+            Count = count;
+        }
+
+        public string Pname { get; set; } = "";
+        public int Count { get; set; } = 0;
+    }
 }

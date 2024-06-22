@@ -7,6 +7,9 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
+    public CCSPlayerController Closest { get; private set; } = null;
+    public CEnvBeam Laser { get; set; } = null;
+
     #region Grab
 
     [ConsoleCommand("grab")]
@@ -16,7 +19,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (player.PlayerName != "Constummer")
+        if (GrabAllowedSteamIds.Contains(player.SteamID) == false)
         {
             player.PrintToChat("-disabled- (for now)");
             return;
@@ -27,6 +30,44 @@ public partial class JailbreakExtras
         }
     }
 
+    [ConsoleCommand("grabclear")]
+    public void GrabClear(CCSPlayerController? player, CommandInfo info)
+    {
+        if (ValidateCallerPlayer(player) == false && LatestWCommandUser != player.SteamID)
+        {
+            return;
+        }
+        if (GrabAllowedSteamIds.Contains(player.SteamID) == false)
+        {
+            player.PrintToChat("-disabled- (for now)");
+            return;
+        }
+        else
+        {
+            //Laser?.Remove();
+            Closest = null;
+        }
+    }
+
+    private void GrabOnTick(CCSPlayerController player)
+    {
+        if (ValidateCallerPlayer(player, false) == false) { return; }
+        if (GrabAllowedSteamIds.Contains(player.SteamID) == false) return;
+
+        bool isFButtonPressed = (player.Pawn.Value.MovementServices!.Buttons.ButtonStates[0] & FButtonIndex) != 0;
+        if (isFButtonPressed)
+        {
+            //TODO: mouse 1 and mouse 2 , get closer etc
+            //bool isJumpPressed = (buttons & PlayerButtons.Jump) != 0;
+            AllowGrabForWarden(player);
+        }
+        else
+        {
+            Closest = null;
+            //Laser?.Remove();
+        }
+    }
+
     private void AllowGrabForWarden(CCSPlayerController player)
     {
         if (ValidateCallerPlayer(player, false) == false
@@ -34,70 +75,162 @@ public partial class JailbreakExtras
         {
             return;
         }
-        //Logger.LogInformation("af");
 
+        var playerAbs = player.PawnIsAlive == false ? player.Pawn.Value.AbsOrigin : player.PlayerPawn.Value.AbsOrigin;
         float x, y, z;
-        x = player.PlayerPawn.Value!.AbsOrigin!.X;
-        y = player.PlayerPawn.Value!.AbsOrigin!.Y;
-        z = player.PlayerPawn.Value!.AbsOrigin!.Z;
+        x = playerAbs!.X;
+        y = playerAbs!.Y;
+        z = playerAbs!.Z;
+
         var start = new Vector((float)x, (float)y, (float)z);
         var end = GetEndXYZ(player);
-
-        var players = GetPlayers().Where(x => x.PawnIsAlive
-                        && x.SteamID != player.SteamID).ToList();
-        var closest = GetClosestPlayer(start, end, players, 100);
-        if (closest != null)
+        if (Closest != null)
         {
-            ActiveGodMode[closest.SteamID] = true;
-            closest.Teleport(end, closest.PlayerPawn.Value.AbsRotation!, closest.PlayerPawn.Value.AbsVelocity);
-            closest.PlayerPawn.Value.Teleport(end, closest.PlayerPawn.Value.AbsRotation!, closest.PlayerPawn.Value.AbsVelocity);
-            var laser = DrawLaser(start, closest.PlayerPawn.Value.AbsOrigin, LaserType.Grab, true);
+            if (ValidateCallerPlayer(Closest, false) == false)
+            {
+                return;
+            }
+            ActiveGodMode[Closest.SteamID] = true;
+            var @new = ProjectPointOntoLine(start, end, Closest.PlayerPawn.Value.AbsOrigin);
+            Closest.PlayerPawn.Value.Teleport(@new, Closest.PlayerPawn.Value.EyeAngles!, VEC_ZERO);
+            Closest.Pawn.Value.Teleport(@new, Closest.PlayerPawn.Value.EyeAngles!, VEC_ZERO);
+            Closest.Teleport(@new, Closest.PlayerPawn.Value.EyeAngles!, VEC_ZERO);
+
+            var tempClosesSteamid = Closest.SteamID;
             AddTimer(1, () =>
             {
-                ActiveGodMode[closest.SteamID] = false;
-            });
+                ActiveGodMode.Remove(tempClosesSteamid);
+                GetPlayers()
+                .Where(x => x.SteamID == tempClosesSteamid && x.PawnIsAlive)
+                .ToList()
+                .ForEach(x =>
+                {
+                    x.TakesDamage = true;
+                    x.PlayerPawn.Value.TakesDamage = true;
+                    x.Pawn.Value.TakesDamage = true;
+                });
+            }, SOM);
         }
-
-        Vector playerPosition = player.PlayerPawn?.Value.CBodyComponent?.SceneNode?.AbsOrigin;
-        QAngle viewAngles = player.PlayerPawn.Value.EyeAngles;
-
-        if (IsPlayerCloseToTarget(player, end, player.PlayerPawn.Value!.AbsOrigin, 100))
+        else
         {
-            //DetachGrapple(player);
-            return;
+            var closest = GetClosestPlayer(start, end, 25, player.SteamID);
+            if (closest != null)
+            {
+                ActiveGodMode[closest.SteamID] = true;
+                Closest = closest;
+                var @new = ProjectPointOntoLine(start, end, closest.PlayerPawn.Value.AbsOrigin);
+                closest.PlayerPawn.Value.Teleport(@new, closest.PlayerPawn.Value.EyeAngles!, VEC_ZERO);
+                closest.Pawn.Value.Teleport(@new, closest.PlayerPawn.Value.EyeAngles!, VEC_ZERO);
+                closest.Teleport(@new, closest.PlayerPawn.Value.EyeAngles!, VEC_ZERO);
+                //if (Laser != null && Laser.IsValid)
+                //{
+                //    Laser.EndPos.X = Closest.PlayerPawn.Value.AbsOrigin.X;
+                //    Laser.EndPos.Y = Closest.PlayerPawn.Value.AbsOrigin.Y;
+                //    Laser.EndPos.Z = Closest.PlayerPawn.Value.AbsOrigin.Z;
+                //    Laser.Teleport(start, ANGLE_ZERO, VEC_ZERO);
+                //}
+                //else
+                //{
+                //    Laser = DrawLaser(start, Closest.PlayerPawn.Value.AbsOrigin, LaserType.Grab, false);
+                //}
+                var tempClosesSteamid = closest.SteamID;
+                AddTimer(1, () =>
+                {
+                    ActiveGodMode.Remove(tempClosesSteamid);
+                    GetPlayers()
+                         .Where(x => x.SteamID == tempClosesSteamid && x.PawnIsAlive)
+                         .ToList()
+                         .ForEach(x =>
+                         {
+                             x.TakesDamage = true;
+                             x.PlayerPawn.Value.TakesDamage = true;
+                             x.Pawn.Value.TakesDamage = true;
+                         });
+                }, SOM);
+            }
         }
-        var angleDifference = CalculateAngleDifference(new Vector(viewAngles.X, viewAngles.Y, viewAngles.Z), end - playerPosition);
-        if (angleDifference > 180.0f)
-        {
-            //DetachGrapple(player);
-            Console.WriteLine($"Player {player.PlayerName} looked away from the grapple target.");
-            return;
-        }
-        //PullPlayer(player, end, playerPosition, viewAngles);
-        //var laser = DrawLaser(start, end, true);
-
-        //if (IsPlayerCloseToTarget(player, end, playerPosition, 100))
-        //{
-        //    //DetachGrapple(player);
-        //}
-        //if (laser != null)
-        //{
-        //    var velocity = player.PlayerPawn.Value.AbsVelocity;
-        //    var res = HookThere(start, end, velocity);
-
-        //    //player.Teleport(res.Position, player.PlayerPawn.Value.AbsRotation, res.Velocity);
-        //    player.PlayerPawn.Value.Teleport(player.PlayerPawn.Value.AbsOrigin, player.PlayerPawn.Value.AbsRotation, res);
-        //}
-        //LasersEntry(x, y, z);
     }
 
-    private static CCSPlayerController GetClosestPlayer(Vector start, Vector end, List<CCSPlayerController> players, double threshold)
+    private static Vector ProjectPointOntoLine2(Vector start, Vector end, Vector point)
     {
+        // Calculate the direction vector of the line
+        double lineDirectionX = end.X - start.X;
+        double lineDirectionY = end.Y - start.Y;
+        double lineDirectionZ = end.Z - start.Z;
+
+        // Calculate the vector from start to the point
+        double pointVectorX = point.X - start.X;
+        double pointVectorY = point.Y - start.Y;
+        double pointVectorZ = point.Z - start.Z;
+
+        // Calculate the scalar projection of pointVector onto the lineDirection
+        double scalarProjection = (pointVectorX * lineDirectionX + pointVectorY * lineDirectionY + pointVectorZ * lineDirectionZ) /
+                                 (lineDirectionX * lineDirectionX + lineDirectionY * lineDirectionY + lineDirectionZ * lineDirectionZ);
+
+        // Clamp the scalarProjection to ensure the point lies within the line segment
+        scalarProjection = Math.Max(0, Math.Min(1, scalarProjection));
+
+        // Calculate the closest point on the line to the given point
+        double closestPointX = start.X + scalarProjection * lineDirectionX;
+        double closestPointY = start.Y + scalarProjection * lineDirectionY;
+        double closestPointZ = start.Z + scalarProjection * lineDirectionZ;
+
+        // Return the closest point as a Vector
+        return new Vector((float)closestPointX, (float)closestPointY, (float)closestPointZ);
+    }
+
+    private static Vector ProjectPointOntoLine(Vector start, Vector end, Vector point)
+    {
+        // Calculate the direction vector of the line
+        double lineDirectionX = end.X - start.X;
+        double lineDirectionY = end.Y - start.Y;
+        double lineDirectionZ = end.Z - start.Z;
+
+        // Calculate the vector from start to the point
+        double pointVectorX = point.X - start.X;
+        double pointVectorY = point.Y - start.Y;
+        double pointVectorZ = point.Z - start.Z;
+
+        // Calculate the scalar projection of pointVector onto the lineDirection
+        double scalarProjection = (pointVectorX * lineDirectionX + pointVectorY * lineDirectionY + pointVectorZ * lineDirectionZ) /
+                                 (lineDirectionX * lineDirectionX + lineDirectionY * lineDirectionY + lineDirectionZ * lineDirectionZ);
+
+        // Calculate the closest point on the line to the given point
+        double closestPointX = start.X + scalarProjection * lineDirectionX;
+        double closestPointY = start.Y + scalarProjection * lineDirectionY;
+        double closestPointZ = start.Z + scalarProjection * lineDirectionZ;
+        // Return the closest point as a Vector
+        return new Vector((float)closestPointX, (float)closestPointY, (float)closestPointZ);
+    }
+
+    private static bool GetClosestPlayer(CCSPlayerController self, CCSPlayerController target)
+    {
+        if (ValidateCallerPlayer(self, false) == false) return false;
+        if (ValidateCallerPlayer(target, false) == false) return false;
+        float x, y, z;
+        x = self.PlayerPawn.Value!.AbsOrigin!.X;
+        y = self.PlayerPawn.Value!.AbsOrigin!.Y;
+        z = self.PlayerPawn.Value!.AbsOrigin!.Z;
+        var start = new Vector((float)x, (float)y, (float)z);
+        var end = GetEndXYZ(self);
+        var closest = GetClosestPlayer(start, end, 25, self.SteamID);
+        if (closest == null) return false;
+        if (ValidateCallerPlayer(closest, false) == false) return false;
+
+        if (target.SteamID == closest.SteamID) return true;
+        return false;
+    }
+
+    private static CCSPlayerController GetClosestPlayer(Vector start, Vector end, double threshold, ulong callerSteamId)
+    {
+        var players = GetPlayers().Where(x => x.PawnIsAlive
+                           && x.SteamID != callerSteamId).ToList();
         var closestPlayer = (CCSPlayerController)null;
         double closestDistance = double.MaxValue;
 
         foreach (var player in players)
         {
+            //bool isOnLine = IsPointOnLine(start, end, player.PlayerPawn?.Value.CBodyComponent?.SceneNode?.AbsOrigin);
             bool isOnLine = IsPointOnLine(start, end, player.PlayerPawn?.Value.CBodyComponent?.SceneNode?.AbsOrigin, threshold);
 
             if (isOnLine)
@@ -122,8 +255,6 @@ public partial class JailbreakExtras
 
     private static bool IsPointOnLine(Vector start, Vector end, Vector point, double threshold)
     {
-        // Check if the point is on the line defined by start and end within the specified threshold
-
         // Calculate the direction vector of the line
         double lineDirectionX = end.X - start.X;
         double lineDirectionY = end.Y - start.Y;
@@ -138,19 +269,42 @@ public partial class JailbreakExtras
         double scalarProjection = (pointVectorX * lineDirectionX + pointVectorY * lineDirectionY + pointVectorZ * lineDirectionZ) /
                                  (lineDirectionX * lineDirectionX + lineDirectionY * lineDirectionY + lineDirectionZ * lineDirectionZ);
 
-        // Calculate the closest point on the line to the given point
-        double closestPointX = start.X + scalarProjection * lineDirectionX;
-        double closestPointY = start.Y + scalarProjection * lineDirectionY;
-        double closestPointZ = start.Z + scalarProjection * lineDirectionZ;
+        // Check if the scalar projection is within [0, 1], meaning the point is between start and end
+        if (scalarProjection >= 0 && scalarProjection <= 1)
+        {
+            // Calculate the closest point on the line to the given point
+            double closestPointX = start.X + scalarProjection * lineDirectionX;
+            double closestPointY = start.Y + scalarProjection * lineDirectionY;
+            double closestPointZ = start.Z + scalarProjection * lineDirectionZ;
 
-        // Calculate the distance between the given point and the closest point on the line
-        double distance = Math.Sqrt(Math.Pow(point.X - closestPointX, 2) + Math.Pow(point.Y - closestPointY, 2) + Math.Pow(point.Z - closestPointZ, 2));
+            // Calculate the distance between the given point and the closest point on the line
+            double distance = Math.Sqrt(Math.Pow(point.X - closestPointX, 2) + Math.Pow(point.Y - closestPointY, 2) + Math.Pow(point.Z - closestPointZ, 2));
 
-        // Check if the distance is within the specified threshold
-        return distance <= threshold;
+            // Check if the distance is within the specified threshold
+            return distance <= threshold;
+        }
+
+        // Point is not between start and end
+        return false;
     }
 
-    private static Vector GetEndXYZ(CCSPlayerController player)
+    private static bool IsPointInPolygon(Vector point, Vector[] polygon)
+    {
+        // Use a ray casting algorithm to determine if the point is inside the polygon
+        int count = 0;
+        for (int i = 0, j = polygon.Length - 1; i < polygon.Length; j = i++)
+        {
+            if (((polygon[i].Y <= point.Y && point.Y < polygon[j].Y) || (polygon[j].Y <= point.Y && point.Y < polygon[i].Y)) &&
+                (point.X < (polygon[j].X - polygon[i].X) * (point.Y - polygon[i].Y) / (polygon[j].Y - polygon[i].Y) + polygon[i].X))
+            {
+                count++;
+            }
+        }
+
+        return count % 2 == 1;
+    }
+
+    private static Vector GetEndXYZ(CCSPlayerController player, double distance = 1000)
     {
         double karakterX = player.PlayerPawn.Value.AbsOrigin.X;
         double karakterY = player.PlayerPawn.Value.AbsOrigin.Y;
@@ -163,9 +317,6 @@ public partial class JailbreakExtras
         // Açıları dereceden radyana çevir
         double radianA = (Math.PI / 180) * angleA;
         double radianB = (Math.PI / 180) * angleB;
-
-        // Uzaklık
-        double distance = 1000;
 
         // Açılara göre XYZ koordinatlarını hesapla
         double x = karakterX + distance * Math.Cos(radianA) * Math.Cos(radianB);

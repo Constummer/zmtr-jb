@@ -10,6 +10,9 @@ public partial class JailbreakExtras
 {
     [ConsoleCommand("tgdurdur")]
     [ConsoleCommand("tgiptal")]
+    [ConsoleCommand("tgcancel")]
+    [ConsoleCommand("tgboz")]
+    [ConsoleCommand("boztg")]
     [ConsoleCommand("iptaltg")]
     [ConsoleCommand("canceltg")]
     [ConsoleCommand("durdurtg")]
@@ -17,16 +20,11 @@ public partial class JailbreakExtras
     [ConsoleCommand("teamgamesdurdur")]
     public void OnTeamGamesCancelCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
-        {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
-            return;
-        }
         if (LatestWCommandUser != player.SteamID)
         {
-            if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+            if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
             {
-                player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+                player.PrintToChat(NotEnoughPermission);
                 return;
             }
         }
@@ -34,23 +32,27 @@ public partial class JailbreakExtras
         {
             return;
         }
-        TeamGamesCancel();
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+        TgActive = false;
+        TgTimer?.Kill();
+        TgTimer = null;
+        ActiveTeamGamesGameBase?.Clear(true);
+        if (ActiveTeamGamesGameBase != null)
+        {
+            Server.ExecuteCommand("mp_teammates_are_enemies 0");
+        }
+        ActiveTeamGamesGameBase = null;
     }
 
     [ConsoleCommand("teamgames")]
     [ConsoleCommand("tg")]
     public void OnTeamGamesCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
-        {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
-            return;
-        }
         if (LatestWCommandUser != player.SteamID)
         {
-            if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+            if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
             {
-                player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+                player.PrintToChat(NotEnoughPermission);
                 return;
             }
         }
@@ -58,6 +60,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         InitializeTG(player);
     }
 }

@@ -1,9 +1,7 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
-using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
-using Microsoft.Extensions.Logging;
 using MySqlConnector;
 
 namespace JailbreakExtras;
@@ -26,68 +24,43 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<playerismi | steamid | #userid>", CommandUsage.CLIENT_ONLY)]
     public void UnBan(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye30", "@css/lider") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye30, Perm_Lider) == false)
         {
             return;
         }
 
-        var target = info.ArgCount > 1 ? info.GetArg(1) : null;
-        if (target == null)
+        var target = info.ArgString.GetArgSkip(0);
+        if (FindSinglePlayer(player, target, out var x) == false)
         {
             return;
         }
-
-        GetPlayers()
-            .Where(x => x.PlayerName?.ToLower()?.Contains(target) ?? false
-            || GetUserIdIndex(target) == x.UserId
-            || x.SteamID.ToString() == target)
-            .ToList()
-            .ForEach(x =>
-            {
-                Bans.Remove(x.SteamID, out var _);
-                RemoveBanData(x.SteamID);
-                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W} Banını kaldırdı.");
-            });
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+        Bans.Remove(x.SteamID, out var _);
+        RemoveBanData(x.SteamID);
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W} Banını kaldırdı.");
     }
 
     [ConsoleCommand("ban")]
     [CommandHelper(2, "<playerismi | steamid | #userid> <dakika/0 süresiz>", CommandUsage.CLIENT_ONLY)]
     public void Ban(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye30", "@css/lider") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye30, Perm_Lider) == false)
         {
             return;
         }
 
-        var target = info.ArgCount > 1 ? info.GetArg(1) : null;
-        if (target == null)
-        {
-            return;
-        }
-        var godOneTwoStr = info.ArgCount > 2 ? info.GetArg(2) : "0";
+        var godOneTwoStr = info.ArgString.GetArgLast();
         if (int.TryParse(godOneTwoStr, out var value) == false)
         {
             return;
         }
 
-        var players = GetPlayers()
-            .Where(x => x.PlayerName?.ToLower()?.Contains(target) ?? false
-            || GetUserIdIndex(target) == x.UserId
-            || x.SteamID.ToString() == target
-            )
-            .ToList();
-        if (players.Count == 0)
+        var target = info.ArgString.GetArgSkipFromLast(1);
+        if (FindSinglePlayer(player, target, out var x) == false)
         {
-            player.PrintToChat($"{Prefix} {CC.W}Eşleşen oyuncu bulunamadı!");
             return;
         }
-        if (players.Count != 1)
-        {
-            player.PrintToChat($"{Prefix} {CC.W}Birden fazla oyuncu bulundu.");
-
-            return;
-        }
-        var x = players.FirstOrDefault();
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         if (value <= 0)
         {
@@ -130,22 +103,30 @@ public partial class JailbreakExtras
             while (reader.Read())
             {
                 var steamId = reader.IsDBNull(0) ? 0 : reader.GetInt64(0);
+                var time = reader.IsDBNull(1) ? DateTime.UtcNow : reader.GetDateTime(1);
 
-                if (Bans.ContainsKey((ulong)steamId) == false)
+                if (time <= DateTime.UtcNow)
                 {
-                    var time = reader.IsDBNull(1) ? DateTime.UtcNow : reader.GetDateTime(1);
-
+                    continue;
+                }
+                if (Bans.TryGetValue((ulong)steamId, out var data) == false)
+                {
                     Bans.Add((ulong)steamId, time);
+                }
+                else
+                {
+                    if (time > data)
+                    {
+                        Bans[(ulong)steamId] = time;
+                    }
                 }
             }
         }
-
-        return;
     }
 
-    private bool BanCheck(ulong steamid)
+    private static bool BanCheck(ulong steamId)
     {
-        if (Bans.TryGetValue(steamid, out var call))
+        if (Bans.TryGetValue(steamId, out var call))
         {
             if (call > DateTime.UtcNow)
             {
@@ -153,7 +134,7 @@ public partial class JailbreakExtras
             }
             else
             {
-                Bans.Remove(steamid);
+                Bans.Remove(steamId);
             }
         }
         return true;
@@ -169,46 +150,19 @@ public partial class JailbreakExtras
                 {
                     return;
                 }
-                var cmd = new MySqlCommand(@$"SELECT 1 FROM `PlayerBan` WHERE `SteamId` = @SteamId;", con);
-                cmd.Parameters.AddWithValue("@SteamId", steamId);
-                bool exist = false;
-                using (var reader = cmd.ExecuteReader())
-                {
-                    if (reader.Read())
-                    {
-                        exist = true;
-                    }
-                }
-                if (exist)
-                {
-                    cmd = new MySqlCommand(@$"UPDATE `PlayerBan`
-                                          SET
-                                              `BannedBySteamId` = @BannedBySteamId,
-                                              `Time` = @Time
-                                          WHERE `SteamId` = @SteamId;
-                ", con);
-
-                    cmd.Parameters.AddWithValue("@SteamId", steamId);
-                    cmd.Parameters.AddWithValue("@BannedBySteamId", bannerId);
-                    cmd.Parameters.AddWithValue("@Time", time);
-
-                    cmd.ExecuteNonQuery();
-                }
-                else
-                {
-                    cmd = new MySqlCommand(@$"INSERT INTO `PlayerBan`
+                var cmd = new MySqlCommand(@$"INSERT INTO `PlayerBan`
                                       (SteamId,BannedBySteamId,Time)
                                       VALUES (@SteamId,@BannedBySteamId,@Time);", con);
+                cmd.Parameters.AddWithValue("@SteamId", steamId);
+                cmd.Parameters.AddWithValue("@BannedBySteamId", bannerId);
+                cmd.Parameters.AddWithValue("@Time", time);
 
-                    cmd.Parameters.AddWithValue("@SteamId", steamId);
-                    cmd.Parameters.AddWithValue("@BannedBySteamId", bannerId);
-                    cmd.Parameters.AddWithValue("@Time", time);
-                }
+                cmd.ExecuteNonQuery();
             }
         }
         catch (Exception e)
         {
-            Logger.LogError(e, "hata");
+            ConsMsg(e.Message);
         }
     }
 
@@ -229,7 +183,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Logger.LogError(e, "hata");
+            ConsMsg(e.Message);
         }
     }
 

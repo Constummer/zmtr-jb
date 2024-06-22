@@ -1,11 +1,10 @@
-﻿using Microsoft.Extensions.Logging;
-using MySqlConnector;
+﻿using MySqlConnector;
 
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private void AddOrUpdatePlayerToPlayerNameTable(ulong steamId, string playerName)
+    private static void AddOrUpdatePlayerToPlayerNameTable(ulong steamId, string playerName)
     {
         if (PlayerNamesDatas.ContainsKey(steamId))
         {
@@ -62,7 +61,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Logger.LogError(e, "hata");
+            ConsMsg(e.Message);
         }
     }
 }

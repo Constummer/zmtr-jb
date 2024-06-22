@@ -16,6 +16,7 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix}{CC.G} sen bunu temizleyemezsin :}}");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         ClearLasers();
     }
 

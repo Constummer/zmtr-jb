@@ -3,8 +3,6 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Utils;
-using Microsoft.Extensions.Logging;
 using MySqlConnector;
 
 namespace JailbreakExtras;
@@ -13,15 +11,13 @@ public partial class JailbreakExtras
 {
     private static List<ulong> PGags = new();
 
-    #region Gag
-
     [ConsoleCommand("pgag")]
     [CommandHelper(1, "<playerismi-@all-@t-@ct-@me-@alive-@dead>")]
     public void OnPGagCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player, false) == false)
@@ -29,37 +25,27 @@ public partial class JailbreakExtras
             return;
         }
 
-        var target = info.ArgCount > 1 ? info.GetArg(1) : null;
+        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : null;
         if (target == null)
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         var targetArgument = GetTargetArgument(target);
         GetPlayers()
-            .Where(x => targetArgument switch
-            {
-                TargetForArgument.All => true,
-                TargetForArgument.T => GetTeam(x) == CsTeam.Terrorist,
-                TargetForArgument.Ct => GetTeam(x) == CsTeam.CounterTerrorist,
-                TargetForArgument.Me => player.PlayerName == x.PlayerName,
-                TargetForArgument.Alive => x.PawnIsAlive,
-                TargetForArgument.Dead => x.PawnIsAlive == false,
-                TargetForArgument.None => x.PlayerName?.ToLower()?.Contains(target) ?? false,
-                TargetForArgument.UserIdIndex => GetUserIdIndex(target) == x.UserId,
-                _ => false
-            }
-            && ValidateCallerPlayer(x, false))
+            .Where(x => GetTargetAction(x, target, player))
             .ToList()
             .ForEach(gagPlayer =>
             {
                 AddPGagData(gagPlayer.SteamID);
                 PGags.Add(gagPlayer.SteamID);
-                if (targetArgument == TargetForArgument.None)
+                if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
                 {
                     Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{gagPlayer.PlayerName} {CC.W}adlı oyuncuyu {CC.B}sonsuz gagladı{CC.W}.");
                 }
             });
-        if (targetArgument != TargetForArgument.None)
+        if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.B}gagladı{CC.W}.");
         }
@@ -83,11 +69,11 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Logger.LogError(e, "hata");
+            ConsMsg(e.Message);
         }
     }
 
-    private void GetPGagData(ulong steamID)
+    private static void GetPGagData(ulong steamID)
     {
         try
         {
@@ -112,7 +98,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Logger.LogError(e, "hata");
+            ConsMsg(e.Message);
         }
     }
 
@@ -145,9 +131,7 @@ public partial class JailbreakExtras
         }
         catch (Exception e)
         {
-            Logger.LogError(e, "hata");
+            ConsMsg(e.Message);
         }
     }
-
-    #endregion Gag
 }

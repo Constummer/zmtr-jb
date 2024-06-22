@@ -8,8 +8,18 @@ public partial class JailbreakExtras
     {
         RegisterEventHandler<EventWeaponZoom>((@event, _) =>
         {
-            LrWeaponZoom(@event);
-            return HookResult.Continue;
+            try
+            {
+                LrWeaponZoom(@event);
+                ActiveTeamGamesGameBase?.EventWeaponZoom(@event);
+
+                return HookResult.Continue;
+            }
+            catch (Exception e)
+            {
+                ConsMsg(e.Message);
+                return HookResult.Continue;
+            }
         });
     }
 }

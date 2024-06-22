@@ -1,8 +1,8 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
-using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
@@ -13,16 +13,24 @@ public partial class JailbreakExtras
     [ConsoleCommand("gk", "bicak Verir")]
     public void GiveKnife(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye9", "@css/seviye9") == false)
-        {
-            return;
-        }
+        if (ValidateCallerPlayer(player) == false) return;
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         GetPlayers()
                .Where(x => x.PawnIsAlive)
                .ToList()
                .ForEach(x =>
                {
-                   x.GiveNamedItem($"weapon_knife");
+                   switch (GetTeam(x))
+                   {
+                       case CsTeam.Terrorist:
+                           x.GiveNamedItem($"weapon_knife_t");
+                           break;
+
+                       default:
+                           x.GiveNamedItem($"weapon_knife");
+                           break;
+                   }
                });
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}@all {CC.W}hedefine {CC.B}knife {CC.W}adlı silahı verdi.");
     }

@@ -6,7 +6,6 @@ using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
 using JailbreakExtras.Lib.Database;
 using JailbreakExtras.Lib.Database.Models;
-using Microsoft.Extensions.Logging;
 using MySqlConnector;
 
 //using Microsoft.Data.Sqlite;
@@ -17,6 +16,7 @@ public partial class JailbreakExtras
 {
     private static Dictionary<ulong, PlayerMarketModel> PlayerMarketModels = new();
     private static Dictionary<int, PlayerModel> PlayerModels = new();
+    public static bool MarketEnvDisable { get; set; } = false;
 
     private enum ModelMenuType
     {
@@ -42,16 +42,27 @@ public partial class JailbreakExtras
         {
             return;
         }
-
+        if (PatronuKoruActive)
+        {
+            player.PrintToChat($"{Prefix} {CC.Go}PATRONU KORU ETKINLIGI {CC.W}nde model değiştiremezsin");
+            return;
+        }
+        if (TelliSeferActive)
+        {
+            player.PrintToChat($"{Prefix} {CC.Go}TELLI VS SEFER ETKINLIGI {CC.W}nde model değiştiremezsin");
+            return;
+        }
         var data = GetPlayerMarketModel(player.SteamID);
         if (data.Model == null) return;
 
-        var marketMenu = new ChatMenu($"Market | Krediniz = [{data.Model.Credit}]");
+        var marketMenu = new ChatMenu($" {CC.LB}Market {CC.W}|{CC.G} Kredin {CC.W}<{CC.G}{data.Model.Credit}{CC.W}>");
         marketMenu.AddMenuOption(CTOyuncuModeli, OpenSelectedModelMarket);
         marketMenu.AddMenuOption(TOyuncuModeli, OpenSelectedModelMarket);
+        marketMenu.AddMenuOption("Aura Market", AuraMarketSelected);
+        marketMenu.AddMenuOption("Paraşüt Market", ParachuteMarketSelected);
         marketMenu.AddMenuOption("TP Market", TPMarketSelected);
 
-        ChatMenus.OpenMenu(player, marketMenu);
+        MenuManager.OpenChatMenu(player, marketMenu);
     }
 
     private void OpenSelectedModelMarket(CCSPlayerController player, ChatMenuOption option)
@@ -94,7 +105,7 @@ public partial class JailbreakExtras
             CsTeam.Terrorist => TOyuncuModeli,
             _ => "Market"
         };
-        var marketMenu = new ChatMenu($"{menuText} Market | Krediniz = [{data.Model.Credit}]");
+        var marketMenu = new ChatMenu($" {CC.LB}{menuText} Market {CC.W}|{CC.G} Kredin {CC.W}<{CC.G}{data.Model.Credit}{CC.W}>");
         var models = PlayerModels.ToList().Where(x => x.Value.TeamNo == team).ToList();
         if (onlyBoughtOnes && models.Count == 0)
         {
@@ -102,6 +113,14 @@ public partial class JailbreakExtras
         }
         else
         {
+            if (player.PawnIsAlive == false)
+            {
+                marketMenu.AddMenuOption($"{CC.R}SEÇİM YAPABİLMEK İÇİN {CC.DR}HAYATTA {CC.R}OLMALISINIZ", null, true);
+            }
+            if (MarketEnvDisable == true)
+            {
+                marketMenu.AddMenuOption($"{CC.R}SEÇİM YAPABİLMEK İÇİN {CC.DR}TG{CC.R}'NIN BITMESINI BEKLEMELISIN", null, true);
+            }
             foreach (var item in models)
             {
                 var selected = team switch
@@ -138,10 +157,10 @@ public partial class JailbreakExtras
                     if (data.Model == null) return;
 
                     SetModel(player, item.Value, data.Model, i.Text, i.Text!.EndsWith(" | [SATIN ALINDI]"));
-                });
+                }, !player.PawnIsAlive || MarketEnvDisable);
             }
         }
-        ChatMenus.OpenMenu(player, marketMenu);
+        MenuManager.OpenChatMenu(player, marketMenu);
     }
 
     private void SetModel(CCSPlayerController player, PlayerModel model, PlayerMarketModel playerData, string? text, bool isBoughtAlready)
@@ -208,7 +227,7 @@ public partial class JailbreakExtras
                         }
                     });
                 }
-                ChatMenus.OpenMenu(player, marketMenu);
+                MenuManager.OpenChatMenu(player, marketMenu);
             }
         }
         else
@@ -242,7 +261,7 @@ public partial class JailbreakExtras
                         }
                         else
                         {
-                            SetModelNextServerFrame(player.PlayerPawn.Value!, model.PathToModel);
+                            SetModelNextServerFrame(player, model.PathToModel);
                         }
                     }
                     break;
@@ -257,7 +276,7 @@ public partial class JailbreakExtras
                         }
                         else
                         {
-                            SetModelNextServerFrame(player.PlayerPawn.Value!, model.PathToModel);
+                            SetModelNextServerFrame(player, model.PathToModel);
                         }
                     }
                     break;
@@ -265,11 +284,33 @@ public partial class JailbreakExtras
         }
     }
 
-    public static void SetModelNextServerFrame(CCSPlayerPawn playerPawn, string model)
+    private static void SetModelNextServerFrame(CCSPlayerController x, string? model)
     {
+        if (_Config.Model.SetModelActive == false) return;
+        if (_Config.Model.CustomModelActive)
+        {
+            model = x?.TeamNum switch
+            {
+                0 => null,
+                1 => null,
+                //t
+                2 => _Config.Market.MarketModeller.Where(x => x.Id == _Config.Model.SelectedModelIdT).Select(x => x.PathToModel).FirstOrDefault(),
+                //ct
+                3 => _Config.Market.MarketModeller.Where(x => x.Id == _Config.Model.SelectedModelIdCT).Select(x => x.PathToModel).FirstOrDefault(),
+                _ => null
+            };
+        }
+        if (string.IsNullOrWhiteSpace(model))
+        {
+            return;
+        }
         Server.NextFrame(() =>
         {
-            playerPawn.SetModel(model);
+            if (ValidateCallerPlayer(x, false) == false) return;
+            if (x.PlayerPawn is not null && x.PlayerPawn.Value is not null && x.PawnIsAlive)
+            {
+                x.PlayerPawn.Value.SetModel(model);
+            }
         });
     }
 
@@ -290,12 +331,8 @@ public partial class JailbreakExtras
         return modelId;
     }
 
-    private async Task<PlayerMarketModel?> GetPlayerMarketData(ulong steamID)
+    private static PlayerMarketModel? GetPlayerMarketData(ulong steamID)
     {
-        if (PlayerMarketModels == null)
-        {
-            PlayerMarketModels = new();
-        }
         if (PlayerMarketModels.ContainsKey(steamID))
         {
             return null;
@@ -320,8 +357,7 @@ public partial class JailbreakExtras
                 FROM `PlayerMarketModel`
                 WHERE `SteamId` = @SteamId", con);
                 cmd.Parameters.AddWithValue("@SteamId", steamID);
-
-                using (var reader = await cmd.ExecuteReaderAsync())
+                using (var reader = cmd.ExecuteReader())
                 {
                     if (reader.Read())
                     {
@@ -341,23 +377,52 @@ public partial class JailbreakExtras
                     (`SteamId`)
                 VALUES (@SteamId)", con);
                     cmd.Parameters.AddWithValue("@SteamId", steamID);
-                    await cmd.ExecuteNonQueryAsync();
+                    cmd.ExecuteNonQuery();
 
                     data = new(steamID);
                 }
 
+                data = RuletV2GetNotExpiredGambleData(steamID, data);
                 PlayerMarketModels.TryAdd(steamID, data);
+
                 return data;
             }
         }
         catch (Exception e)
         {
-            Logger.LogInformation(e, "hata");
+            ConsMsg(e.Message);
         }
         return null;
     }
 
-    private async Task UpdatePlayerMarketData(ulong steamID)
+    private static void AddPlayerMarketCredit(ulong steamID, int credit)
+    {
+        try
+        {
+            using (var con = Connection())
+            {
+                if (con == null)
+                {
+                    return;
+                }
+
+                var cmd = new MySqlCommand(@$"UPDATE `PlayerMarketModel`
+                                          SET `Credit` = `Credit` + @Credit
+                                          WHERE `SteamId` = @SteamId;", con);
+
+                cmd.Parameters.AddWithValue("@SteamId", steamID);
+                cmd.Parameters.AddWithValue("@Credit", credit);
+
+                cmd.ExecuteNonQuery();
+            }
+        }
+        catch (Exception e)
+        {
+            ConsMsg(e.Message);
+        }
+    }
+
+    private static void UpdatePlayerMarketData(ulong steamID)
     {
         var data = GetPlayerMarketModel(steamID);
         if (data.Model == null) return;
@@ -374,7 +439,7 @@ public partial class JailbreakExtras
                 var cmd = new MySqlCommand(@$"SELECT 1 FROM `PlayerMarketModel` WHERE `SteamId` = @SteamId;", con);
                 cmd.Parameters.AddWithValue("@SteamId", steamID);
                 bool exist = false;
-                using (var reader = await cmd.ExecuteReaderAsync())
+                using (var reader = cmd.ExecuteReader())
                 {
                     if (reader.Read())
                     {
@@ -399,7 +464,7 @@ public partial class JailbreakExtras
                     cmd.Parameters.AddWithValue("@DefaultIdT", data.Model.DefaultIdT.GetDbValue());
                     cmd.Parameters.AddWithValue("@Credit", data.Model.Credit.GetDbValue());
 
-                    await cmd.ExecuteNonQueryAsync();
+                    cmd.ExecuteNonQuery();
                 }
                 else
                 {
@@ -415,42 +480,26 @@ public partial class JailbreakExtras
                     cmd.Parameters.AddWithValue("@DefaultIdT", data.Model.DefaultIdT.GetDbValue());
                     cmd.Parameters.AddWithValue("@Credit", data.Model.Credit.GetDbValue());
 
-                    await cmd.ExecuteNonQueryAsync();
+                    cmd.ExecuteNonQuery();
                 }
             }
         }
         catch (Exception e)
         {
-            Logger.LogError(e, "hata");
+            ConsMsg(e.Message);
         }
     }
 
-    private (PlayerMarketModel Model, bool ChooseRandom) GetPlayerMarketModel(ulong? steamId)
+    private static (PlayerMarketModel Model, bool ChooseRandom) GetPlayerMarketModel(ulong? steamId)
     {
-        bool chooseRandom = false;
         PlayerMarketModel? data = null;
 
         if (steamId.HasValue == false || steamId == 0)
             return (null!, true);
 
-        if (PlayerMarketModels == null)
+        if (PlayerMarketModels.TryGetValue(steamId.Value, out data) == false)
         {
-            data = new PlayerMarketModel(steamId.Value);
-            PlayerMarketModels = new()
-            {
-                {steamId.Value,data }
-            };
-            chooseRandom = true;
-        }
-
-        var res = false;
-        if (PlayerMarketModels.TryGetValue(steamId.Value, out data))
-        {
-            res = true;
-        }
-        else if (res == false)
-        {
-            data = GetPlayerMarketData(steamId.Value).GetAwaiter().GetResult();
+            data = GetPlayerMarketData(steamId.Value);
             if (data != null)
             {
                 PlayerMarketModels[steamId.Value] = data;
@@ -459,51 +508,100 @@ public partial class JailbreakExtras
             {
                 data = new PlayerMarketModel(steamId.Value);
                 PlayerMarketModels[steamId.Value] = data;
-                chooseRandom = true;
             }
         }
-        else
+
+        if (data == null)
         {
             data = new PlayerMarketModel(steamId.Value);
             PlayerMarketModels[steamId.Value] = data;
-            chooseRandom = true;
         }
 
+        var cttrue = false;
         if (string.IsNullOrWhiteSpace(data.DefaultIdCT) == false)
         {
             if (int.TryParse(data.DefaultIdCT, out var parsed))
             {
                 if (parsed < 0)
                 {
-                    return (data, true);
+                    cttrue = true;
                 }
             }
         }
-
+        var ttrue = false;
         if (string.IsNullOrWhiteSpace(data.DefaultIdT) == false)
         {
             if (int.TryParse(data.DefaultIdT, out var parsed))
             {
                 if (parsed < 0)
                 {
-                    return (data, true);
+                    ttrue = true;
                 }
             }
         }
-        return (data, chooseRandom);
+
+        if (cttrue || ttrue)
+        {
+            return (data, true);
+        }
+        return (data, false);
     }
 
     private void UpdateAllModels()
     {
-        foreach (var player in GetPlayers())
+        try
         {
-            if (player?.SteamID != null && player!.SteamID != 0)
+            using (var con = Connection())
             {
-                Task.Run(async () =>
+                if (con == null)
                 {
-                    await UpdatePlayerMarketData(player!.SteamID);
-                });
+                    return;
+                }
+                var cmdText = "";
+                var i = 0;
+                List<MySqlParameter> parameters = new List<MySqlParameter>();
+
+                foreach (var player in GetPlayers())
+                {
+                    if (player?.SteamID != null && player!.SteamID != 0)
+                    {
+                        var data = GetPlayerMarketModel(player.SteamID);
+                        if (data.Model == null) continue;
+
+                        cmdText += $@"INSERT INTO `PlayerMarketModel` (`SteamId`, `ModelIdCT`, `ModelIdT`, `DefaultIdCT`, `DefaultIdT`, `Credit`)
+                                      VALUES (@SteamId_{i}, @ModelIdCT_{i}, @ModelIdT_{i}, @DefaultIdCT_{i}, @DefaultIdT_{i}, @Credit_{i})
+                                      ON DUPLICATE KEY UPDATE
+                                          `ModelIdCT`= IFNULL(VALUES(`ModelIdCT`), `ModelIdCT`),
+                                          `ModelIdT`= IFNULL(VALUES(`ModelIdT`), `ModelIdT`),
+                                          `DefaultIdCT`= IFNULL(VALUES(`DefaultIdCT`), `DefaultIdCT`),
+                                          `DefaultIdT`= IFNULL(VALUES(`DefaultIdT`), `DefaultIdT`),
+                                          `Credit`= IFNULL(VALUES(`Credit`), `Credit`);
+                                      ";
+
+                        parameters.Add(new MySqlParameter($"@SteamId_{i}", player.SteamID));
+                        parameters.Add(new MySqlParameter($"@ModelIdCT_{i}", data.Model?.ModelIdCT?.GetDbValue()));
+                        parameters.Add(new MySqlParameter($"@ModelIdT_{i}", data.Model?.ModelIdT?.GetDbValue()));
+                        parameters.Add(new MySqlParameter($"@DefaultIdCT_{i}", data.Model?.DefaultIdCT?.GetDbValue()));
+                        parameters.Add(new MySqlParameter($"@DefaultIdT_{i}", data.Model?.DefaultIdT?.GetDbValue()));
+                        parameters.Add(new MySqlParameter($"@Credit_{i}", data.Model?.Credit.GetDbValue()));
+
+                        i++;
+                    }
+                }
+                if (string.IsNullOrWhiteSpace(cmdText))
+                {
+                    return;
+                }
+
+                var cmd = new MySqlCommand(cmdText, con);
+                cmd.Parameters.AddRange(parameters.ToArray());
+                cmd.ExecuteNonQuery();
             }
+        }
+        catch (Exception e)
+        {
+            Server.PrintToChatAll(e.Message);
+            ConsMsg(e.Message);
         }
     }
 

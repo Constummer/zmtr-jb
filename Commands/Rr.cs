@@ -14,12 +14,12 @@ public partial class JailbreakExtras
     [CommandHelper(0, "<saniye>")]
     public void RR(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
-        var target = info.ArgCount > 1 ? info.GetArg(1) : "1";
+        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : "1";
         if (int.TryParse(target, out var value))
         {
             if (value > 120)
@@ -29,11 +29,13 @@ public partial class JailbreakExtras
             }
             else
             {
+                LogManagerCommand(player.SteamID, info.GetCommandString);
                 Server.ExecuteCommand($"mp_restartgame {target}");
             }
         }
         else
         {
+            LogManagerCommand(player.SteamID, info.GetCommandString);
             Server.ExecuteCommand($"mp_restartgame 1");
         }
     }

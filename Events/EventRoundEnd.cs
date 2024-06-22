@@ -1,5 +1,6 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Utils;
 
 namespace JailbreakExtras;
 
@@ -9,25 +10,60 @@ public partial class JailbreakExtras
     {
         RegisterEventHandler<EventRoundEnd>((@event, _) =>
         {
-            PrepareRoundDefaults();
-            CoinRemove();
-            CheckAllLevelTags();
-            AllDonbozAction();
-            if (KumarKapatDisable == false)
+            try
             {
-                RuletActivate();
-                PiyangoKazananSonuc();
+                GiveKnifeToSutsOnRoundEnd();
+                PrepareRoundDefaults();
+                RoundDefaultCommands();
+
+                CoinRemove();
+                CheckAllLevelTags();
+                if (KumarKapatDisable == false)
+                {
+                    RuletActivate();
+                    PiyangoKazananSonuc();
+                }
+                if (PatronuKoruActive)
+                {
+                    ChooseRandomTwoGuardian();
+                }
+                RoundEndParticle(@event.Winner);
+
+                if (GetPlayerCount() > 10 && LatestWCommandUser != null)
+                {
+                    switch ((CsTeam)@event.Winner)
+                    {
+                        case CsTeam.Terrorist:
+                            BattlePassBase.RoundTWin();
+                            BattlePassPremiumBase.RoundTWin();
+                            break;
+
+                        case CsTeam.CounterTerrorist:
+                            BattlePassBase.RoundCTWin();
+                            BattlePassPremiumBase.RoundCTWin();
+                            break;
+                    };
+                }
+                return HookResult.Continue;
             }
-            return HookResult.Continue;
+            catch (Exception e)
+            {
+                ConsMsg(e.Message);
+                return HookResult.Continue;
+            }
         });
     }
 
-    private void PrepareRoundDefaults()
+    private void RoundDefaultCommands()
     {
         foreach (var item in _Config.Additional.RoundEndStartCommands)
         {
             Server.ExecuteCommand(item);
         }
+    }
+
+    private void PrepareRoundDefaults()
+    {
         LastRSoundDisable = false;
         CurrentCtRespawns = 0;
         LrActive = false;
@@ -44,22 +80,5 @@ public partial class JailbreakExtras
         SinirsizBombaTimer = null;
         SinirsizXTimer?.Kill();
         SinirsizXTimer = null;
-
-        //for (int i = 0; i < Server.MaxPlayers; i++)
-        //{
-        //    var x = Utilities.GetPlayerFromSlot(i);
-
-        //    if (x == null)
-        //        continue;
-        //    if (!x.IsValid || x.UserId == -1)
-        //        continue;
-        //    if (x.AuthorizedSteamID == null)
-        //        continue;
-        //    if (x.SteamID != LatestWCommandUser)
-        //    {
-        //        SetColour(x, DefaultPlayerColor);
-        //        RefreshPawn(x);
-        //    }
-        //}
     }
 }

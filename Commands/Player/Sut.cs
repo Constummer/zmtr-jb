@@ -2,8 +2,8 @@
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Commands;
+using CounterStrikeSharp.API.Modules.Entities.Constants;
 using CounterStrikeSharp.API.Modules.Utils;
-using System.Drawing;
 
 namespace JailbreakExtras;
 
@@ -11,7 +11,19 @@ public partial class JailbreakExtras
 {
     #region Sut
 
-    private static Dictionary<ulong, DateTime> LatestSutolCommandCalls = new Dictionary<ulong, DateTime>();
+    private static List<ulong> SutolCommandCalls = new();
+    private static List<ulong> SutolCommandCallForBPs = new();
+
+    private void GiveKnifeToSutsOnRoundEnd()
+    {
+        if (SutolCommandCalls != null && SutolCommandCalls.Count > 0)
+        {
+            foreach (var item in GetPlayers().Where(x => SutolCommandCalls.Contains(x.SteamID)).ToList())
+            {
+                item.GiveNamedItem(CsItem.KnifeT);
+            }
+        }
+    }
 
     [ConsoleCommand("sut")]
     [ConsoleCommand("sutol")]
@@ -26,26 +38,48 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix}{CC.W} Sadece T ler bu komutu kullanabilir.");
             return;
         }
-        if (LatestSutolCommandCalls.TryGetValue(player.SteamID, out var call))
-        {
-            if (DateTime.UtcNow < call.AddMinutes(1))
-            {
-                player.PrintToChat($"{Prefix} {CC.W}Tekrar sutol diyebilmek için {CC.DR}60 {CC.W}saniye beklemelisin!");
-                return;
-            }
-        }
+
         GetPlayers()
         .Where(x => x.PawnIsAlive && x.SteamID == player!.SteamID)
         .ToList()
         .ForEach(x =>
         {
-            SetColour(x, Color.FromArgb(128, 0, 128));
+            //SetColour(x, Color.FromArgb(128, 0, 128));
+            SetModelNextServerFrame(x, "characters/models/ambrosian/zmtr/sut/sut.vmdl");
+            SutolCommandCalls.Add(x.SteamID);
+
             RefreshPawnTP(x);
             RemoveWeapons(x, false);
+            if (GetPlayerCount() > 10 && LatestWCommandUser != null)
+            {
+                if (SutolCommandCallForBPs.Any(y => y == x.SteamID) == false)
+                {
+                    SutolCommandCallForBPs.Add(x.SteamID);
+                    if (BattlePassDatas.TryGetValue(x.SteamID, out var battlePassData))
+                    {
+                        battlePassData?.OnSutCommand();
+                    }
+                    if (BattlePassPremiumDatas.TryGetValue(x.SteamID, out var battlePassPremiumData))
+                    {
+                        battlePassPremiumData?.OnSutCommand();
+                    }
+                }
+            }
 
-            LatestSutolCommandCalls[x.SteamID] = DateTime.UtcNow;
             Server.PrintToChatAll($"{Prefix} {CC.G}{player.PlayerName}{CC.W} adlı oyuncu, {CC.LP}süt oldu.");
         });
+    }
+
+    [ConsoleCommand("suttemizle")]
+    public void SutTemizle(CCSPlayerController? player, CommandInfo info)
+    {
+        if (ValidateCallerPlayer(player) == false)
+        {
+            return;
+        }
+        SutolCommandCalls.Clear();
+
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.LP}süt isimlerini temizledi.");
     }
 
     #endregion Sut

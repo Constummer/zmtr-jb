@@ -1,3 +1,4 @@
+using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Utils;
 
@@ -26,6 +27,26 @@ public partial class JailbreakExtras
                     }
                 }
             }
+        }
+    }
+
+    private static void RefreshPawnnew2(CCSPlayerController player)
+    {
+        if (player != null)
+        {
+            if (ValidateCallerPlayer(player, false) == false)
+                return;
+            Utilities.SetStateChanged(player.PlayerPawn.Value, "CBaseEntity", "m_MoveType");
+        }
+    }
+
+    private static void RefreshPawnTPnew2(CCSPlayerController x)
+    {
+        if (x != null)
+        {
+            if (ValidateCallerPlayer(x, false) == false)
+                return;
+            Utilities.SetStateChanged(x.PlayerPawn.Value, "CBaseEntity", "m_MoveType");
         }
     }
 

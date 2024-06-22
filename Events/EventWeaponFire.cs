@@ -8,8 +8,18 @@ public partial class JailbreakExtras
     {
         RegisterEventHandler<EventWeaponFire>((@event, _) =>
         {
-            LrWeaponFire(@event);
-            return HookResult.Continue;
+            try
+            {
+                LrWeaponFire(@event);
+                ActiveTeamGamesGameBase?.EventWeaponFire(@event);
+
+                return HookResult.Continue;
+            }
+            catch (Exception e)
+            {
+                ConsMsg(e.Message);
+                return HookResult.Continue;
+            }
         });
     }
 }

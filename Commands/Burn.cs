@@ -1,9 +1,7 @@
 ﻿using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
-using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
-using CounterStrikeSharp.API.Modules.Timers;
 
 namespace JailbreakExtras;
 
@@ -17,16 +15,11 @@ public partial class JailbreakExtras
     [ConsoleCommand("burnsil")]
     public void OnUnBurnCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
-        {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
-            return;
-        }
-
         if (ValidateCallerPlayer(player) == false)
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         BurnTimer?.Kill();
         BurnTimer = null;
         return;
@@ -36,18 +29,12 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me> <0,1>")]
     public void OnBurnCommand(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
-        {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
-            return;
-        }
-
         if (ValidateCallerPlayer(player) == false)
         {
             return;
         }
-        var target = info.ArgCount > 1 ? info.GetArg(1) : null;
-        var godOneTwoStr = info.ArgCount > 2 ? info.GetArg(2) : null;
+        var target = info.ArgString.GetArgSkipFromLast(1);
+        var godOneTwoStr = info.ArgString.GetArgLast();
         if (string.IsNullOrWhiteSpace(target) || string.IsNullOrWhiteSpace(godOneTwoStr))
         {
             return;
@@ -65,8 +52,10 @@ public partial class JailbreakExtras
         var targetArgument = GetTargetArgument(target);
         var counter = 0;
         Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.B}burnledi");
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+        BurnTimer?.Kill();
 
-        BurnTimer = AddTimer(0.3f, () =>
+        BurnTimer = AddTimer(0.5f, () =>
         {
             counter++;
             if (counter > value)
@@ -76,13 +65,35 @@ public partial class JailbreakExtras
                 return;
             }
             GetPlayers()
-                       .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player.PlayerName))
+                       .Where(x => x.PawnIsAlive && GetTargetAction(x, target, player))
                        .ToList()
-                       .ForEach(x =>
-                       {
-                           PerformSlap(x.PlayerPawn.Value, 1);
-                       });
-        }, TimerFlags.REPEAT);
+            .ForEach(x =>
+            {
+                //var randSound = Config.Sounds.BurnSounds.Skip(_random.Next(Config.Sounds.BurnSounds.Count())).FirstOrDefault();
+                //x.ExecuteClientCommand($"play {randSound}");
+                PerformBurn(x, 1);
+            });
+        }, Full);
+    }
+
+    private static void PerformBurn(CCSPlayerController x, int damage)
+    {
+        if (ValidateCallerPlayer(x, false) == false) return;
+
+        if (x.PawnIsAlive == false)
+            return;
+
+        if (damage <= 0)
+            return;
+
+        x.PlayerPawn.Value.Health -= damage;
+
+        if (x.PlayerPawn.Value.Health <= 0)
+        {
+            x.PlayerPawn.Value.CommitSuicide(true, true);
+            return;
+        }
+        Utilities.SetStateChanged(x.PlayerPawn.Value, "CBaseEntity", "m_iHealth");
     }
 
     #endregion Burn

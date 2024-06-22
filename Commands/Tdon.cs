@@ -17,6 +17,7 @@ public partial class JailbreakExtras
             return;
         }
 
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers(CsTeam.Terrorist)
                          .Where(x => x.PawnIsAlive)
                          .ToList()
@@ -26,14 +27,15 @@ public partial class JailbreakExtras
                              {
                                  SetColour(x, Config.Burry.BuryColor);
                              }
-                             x.PlayerPawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
-                             Vector currentPosition = x.Pawn.Value!.CBodyComponent?.SceneNode?.AbsOrigin ?? new Vector(0, 0, 0);
-                             Vector currentSpeed = new Vector(0, 0, 0);
-                             QAngle currentRotation = x.PlayerPawn.Value.EyeAngles ?? new QAngle(0, 0, 0);
-                             x.PlayerPawn.Value.Teleport(currentPosition, currentRotation, currentSpeed);
+                             SetMoveType(x, MoveType_t.MOVETYPE_OBSOLETE);
+                             //SetStateChanged(x, "CBaseEntity", "m_MoveType");
+                             //Utilities.SetStateChanged(x.PlayerPawn.Value, "CBaseEntity", "m_MoveType");
+                             //x.Pawn.Value!.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
+                             //x.MoveType = MoveType_t.MOVETYPE_OBSOLETE;
+                             RefreshPawn(x);
                          });
         FreezeOrUnfreezeSound();
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}mahkûmları {CC.B}dondurdu{CC.W}.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{T_PluralLowerObjective} {CC.B}dondurdu{CC.W}.");
     }
 
     [ConsoleCommand("tdonboz", "Unfreeze t.")]
@@ -44,9 +46,10 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         TdonbozAction();
         FreezeOrUnfreezeSound();
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}mahkûmların {CC.B}donunu kaldırdı{CC.W}.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{T_PluralCamelPossesive} {CC.B}donunu kaldırdı{CC.W}.");
     }
 
     private static void TdonbozAction()
@@ -60,9 +63,8 @@ public partial class JailbreakExtras
                             {
                                 SetColour(x, DefaultColor);
                             }
+                            SetMoveType(x, MoveType_t.MOVETYPE_WALK);
                             RefreshPawn(x);
-
-                            x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
                         });
     }
 
@@ -77,9 +79,9 @@ public partial class JailbreakExtras
                {
                    SetColour(x, DefaultColor);
                }
-               RefreshPawn(x);
+               SetMoveType(x, MoveType_t.MOVETYPE_WALK);
 
-               x.PlayerPawn.Value.MoveType = MoveType_t.MOVETYPE_WALK;
+               RefreshPawn(x);
            });
     }
 }

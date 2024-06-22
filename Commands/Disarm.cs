@@ -18,23 +18,24 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (info.ArgCount != 2) return;
-        var target = info.GetArg(1);
+        var target = info.ArgString.GetArgSkip(0);
 
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         var targetArgument = GetTargetArgument(target);
         GetPlayers()
         .Where(x => x.PawnIsAlive
-                   && GetTargetAction(x, target, player!.PlayerName))
+                   && GetTargetAction(x, target, player))
         .ToList()
         .ForEach(x =>
         {
-            if (targetArgument == TargetForArgument.None)
+            if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
             {
                 Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncuyu {CC.LR}disarmladı{CC.W}.");
             }
+
             RemoveWeapons(x, true);
         });
-        if (targetArgument != TargetForArgument.None)
+        if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefini {CC.LR}disarmladı{CC.W}.");
         }
@@ -48,6 +49,7 @@ public partial class JailbreakExtras
             return;
         }
 
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers(CsTeam.Terrorist)
         .Where(x => x.PawnIsAlive)
         .ToList()
@@ -55,7 +57,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, true);
         });
-        Server.PrintToChatAll($"{Prefix} {CC.W}Mahkûmların silahları silindi.");
+        Server.PrintToChatAll($"{Prefix} {CC.W}{T_PluralCamelPossesive} silahları silindi.");
     }
 
     [ConsoleCommand("disarmct", "Bicak dahil silme")]
@@ -66,6 +68,7 @@ public partial class JailbreakExtras
             return;
         }
 
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers(CsTeam.CounterTerrorist)
         .Where(x => x.PawnIsAlive)
         .ToList()
@@ -73,7 +76,7 @@ public partial class JailbreakExtras
         {
             RemoveWeapons(x, true);
         });
-        Server.PrintToChatAll($"{Prefix} {CC.W}Gardiyanların silahları silindi.");
+        Server.PrintToChatAll($"{Prefix} {CC.W}{CT_PluralCamelPossesive} silahları silindi.");
     }
 
     [ConsoleCommand("disarmall", "Bicak dahil silme")]
@@ -84,6 +87,7 @@ public partial class JailbreakExtras
             return;
         }
 
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers()
         .Where(x => x.PawnIsAlive)
         .ToList()

@@ -2,177 +2,130 @@ using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Utils;
 using JailbreakExtras.Lib.Database.Models;
+using System.Drawing;
 
 namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    public static int? Slot(CCSPlayerController? player)
-    {
-        if (player == null)
-        {
-            return null;
-        }
-
-        return ToSlot(player.UserId);
-    }
-
-    public static int? ToSlot(int? user_id)
-    {
-        if (user_id == null)
-        {
-            return null;
-        }
-
-        return user_id & 0xff;
-    }
-
-    public static int GetHealth(CCSPlayerController? player)
-    {
-        if (player == null || !IsValid(player))
-        {
-            return 100;
-        }
-
-        CCSPlayerPawn? pawn = player.PlayerPawn.Value;
-
-        if (pawn == null)
-        {
-            return 100;
-        }
-
-        return pawn.Health;
-    }
-
-    public static bool IsValidAlive(CCSPlayerController? player)
-    {
-        return player != null && IsValid(player) && player.PawnIsAlive && GetHealth(player) > 0;
-    }
+    private static Dictionary<ulong, bool> HideFoots = new();
 
     private void EventPlayerSpawn()
     {
-        RegisterEventHandler((GameEventHandler<EventPlayerSpawn>)((@event, _) =>
+        RegisterEventHandler<EventPlayerSpawn>(CTKitOnPlayerSpawn);
+
+        RegisterEventHandler<EventPlayerSpawn>((@event, _) =>
         {
-            if (@event == null)
-                return HookResult.Continue;
-            CCSPlayerController? player = @event.Userid;
-
-            if (player != null && IsValid(player))
+            try
             {
-                int? slot = Slot(player);
-
-                AddTimer(0.5f, () =>
+                if (@event == null)
+                    return HookResult.Continue;
+                var x = @event.Userid;
+                if (ValidateCallerPlayer(x, false)
+                    && x?.SteamID != null
+                    && x!.SteamID != 0)
                 {
-                    if (slot != null)
+                    if (x.SteamID != LatestWCommandUser)
                     {
-                        if (player == null || !IsValidAlive(player))
+                        if (Unmuteds.Contains(x.SteamID) == false)
                         {
-                            return;
+                            if (x.Connected == PlayerConnectedState.PlayerConnected)
+                                AddTimer(2f, () =>
+                                {
+                                    if (ValidateCallerPlayer(x, false))
+                                    {
+                                        x.VoiceFlags |= VoiceFlags.Muted;
+                                    }
+                                }, SOM);
                         }
-                        if (ValidateCallerPlayer(@event.Userid, false) == false)
-                        {
-                            return;
-                        }
-                        if (GetTeam(player) == CsTeam.CounterTerrorist)
-                        {
-                            player.GiveNamedItem("weapon_deagle");
-                            player.GiveNamedItem("weapon_m4a1");
-                            player.GiveNamedItem("item_assaultsuit");
-                        }
-                        player.PlayerPawn.Value.VelocityModifier = 1.0f;
                     }
-                });
+                    SetStatusClanTag(@event.Userid);
+
+                    var tempUserId = @event?.Userid?.UserId;
+                    var tempSteamId = @event?.Userid?.SteamID;
+                    if (tempSteamId.HasValue)
+                    {
+                        AddTimer(0.3f, () =>
+                        {
+                            GiveSkin(x, tempSteamId);
+                        }, SOM);
+
+                        CreateAuraParticle(tempSteamId.Value);
+                    }
+
+                    AddTimer(0.5f, () =>
+                    {
+                        if (ValidateCallerPlayer(x, false) == false) return;
+                        if (x.PawnIsAlive && get_health(x) > 0)
+                        {
+                            if (LatestWCommandUser == x.SteamID)
+                            {
+                                if (ValidateCallerPlayer(x, false) == false) return;
+                                SetColour(x, Color.FromArgb(255, 0, 0, 255));
+                            }
+                            else
+                            {
+                                if (ValidateCallerPlayer(x, false) == false) return;
+                                SetColour(x, DefaultColor);
+                            }
+                        }
+                    }, SOM);
+                }
+                return HookResult.Continue;
             }
-            var x = @event.Userid;
-            if (ValidateCallerPlayer(x, false)
-                && x?.SteamID != null
-                && x!.SteamID != 0)
+            catch (Exception e)
             {
-                //if (HideFoots.TryGetValue(x.SteamID, out var _) == false && Config.Additional.HideFootsOnConnect)
-                //{
-                //    AddTimer(2f, () =>
-                //   {
-                //       if (IsValidAlive(x))
-                //       {
-                //           AyakGizle(x, true);
-                //       }
-                //   });
-                //}
-                //if (x.SteamID != LatestWCommandUser)
-                //{
-                //    if (Unmuteds.Contains(x.SteamID) == false)
-                //    {
-                //        if (x.Connected == PlayerConnectedState.PlayerConnected)
-                //            AddTimer(2f, () =>
-                //            {
-                //                if (IsValid(x))
-                //                {
-                //                    x.VoiceFlags |= VoiceFlags.Muted;
-                //                }
-                //            });
-                //    }
-                //}
-
-                //AddTimer(0.5f, () =>
-                //{
-                //    if (IsValidAlive(x) == false)
-                //    {
-                //        return;
-                //    }
-                //    var data = GetPlayerMarketModel(x?.SteamID);
-                //    if (data.Model == null || data.ChooseRandom)
-                //    {
-                //        GiveRandomSkin(x);
-                //    }
-                //    else
-                //    {
-                //        PlayerModel? model;
-                //        switch (GetTeam(x!))
-                //        {
-                //            case CsTeam.Terrorist:
-                //                if (string.IsNullOrWhiteSpace(data.Model.DefaultIdT) == false)
-                //                {
-                //                    if (int.TryParse(data.Model.DefaultIdT, out var modelId)
-                //                        && PlayerModels.TryGetValue(modelId, out model))
-                //                    {
-                //                        SetModelNextServerFrame(x!.PlayerPawn.Value!, model.PathToModel);
-                //                    }
-                //                }
-                //                else
-                //                {
-                //                    GiveRandomSkin(x);
-                //                }
-                //                break;
-
-                //            case CsTeam.CounterTerrorist:
-                //                if (string.IsNullOrWhiteSpace(data.Model.DefaultIdCT) == false)
-                //                {
-                //                    if (int.TryParse(data.Model.DefaultIdCT, out var modelId)
-                //                        && PlayerModels.TryGetValue(modelId, out model))
-                //                    {
-                //                        SetModelNextServerFrame(x!.PlayerPawn.Value!, model.PathToModel);
-                //                    }
-                //                }
-                //                else
-                //                {
-                //                    GiveRandomSkin(x);
-                //                }
-                //                break;
-
-                //            default:
-                //                break;
-                //        }
-                //    }
-                //});
+                ConsMsg(e.Message);
+                return HookResult.Continue;
             }
-            return HookResult.Continue;
-        }));
+        });
     }
 
-    private static void GiveRandomSkin(CCSPlayerController? item)
+    private static void GiveSkin(CCSPlayerController x, ulong? tempSteamId)
     {
+        var data = GetPlayerMarketModel(tempSteamId);
+        if (ValidateCallerPlayer(x, false) == false) return;
+        if (data.Model != null && !data.ChooseRandom)
+        {
+            PlayerModel? model;
+            switch (GetTeam(x!))
+            {
+                case CsTeam.Terrorist:
+                    if (string.IsNullOrWhiteSpace(data.Model.DefaultIdT) == false)
+                    {
+                        if (int.TryParse(data.Model.DefaultIdT, out var modelId)
+                            && PlayerModels.TryGetValue(modelId, out model))
+                        {
+                            SetModelNextServerFrame(x, model.PathToModel);
+                            return;
+                        }
+                    }
+                    break;
+
+                case CsTeam.CounterTerrorist:
+                    if (string.IsNullOrWhiteSpace(data.Model.DefaultIdCT) == false)
+                    {
+                        if (int.TryParse(data.Model.DefaultIdCT, out var modelId)
+                            && PlayerModels.TryGetValue(modelId, out model))
+                        {
+                            if (ValidateCallerPlayer(x, false))
+                            {
+                                SetModelNextServerFrame(x, model.PathToModel);
+                                return;
+                            }
+                        }
+                    }
+                    break;
+            }
+        }
+        GiveRandomSkin(x);
+    }
+
+    private static void GiveRandomSkin(CCSPlayerController? x)
+    {
+        if (ValidateCallerPlayer(x, false) == false) return;
         string randomModel;
-        switch (GetTeam(item!))
+        switch (GetTeam(x!))
         {
             case CsTeam.Terrorist:
                 randomModel = GetRandomItem(_Config.Model.RandomTModels);
@@ -180,7 +133,8 @@ public partial class JailbreakExtras
                 {
                     return;
                 }
-                SetModelNextServerFrame(item!.PlayerPawn.Value!, randomModel);
+                if (ValidateCallerPlayer(x, false) == false) return;
+                SetModelNextServerFrame(x, randomModel);
                 break;
 
             case CsTeam.CounterTerrorist:
@@ -189,7 +143,8 @@ public partial class JailbreakExtras
                 {
                     return;
                 }
-                SetModelNextServerFrame(item!.PlayerPawn.Value!, randomModel);
+                if (ValidateCallerPlayer(x, false) == false) return;
+                SetModelNextServerFrame(x, randomModel);
                 break;
 
             default:

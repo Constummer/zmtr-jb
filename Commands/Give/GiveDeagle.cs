@@ -12,10 +12,12 @@ public partial class JailbreakExtras
     [ConsoleCommand("gdeagle", "deagle Verir")]
     public void GiveDeagle(CCSPlayerController? player, CommandInfo info)
     {
-        if (OnCommandValidater(player, true, "@css/seviye9", "@css/seviye9") == false)
+        if (OnCommandValidater(player, true, Perm_Seviye9, Perm_Seviye9) == false)
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+
         GetPlayers()
                .Where(x => x.PawnIsAlive)
                .ToList()

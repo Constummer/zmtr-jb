@@ -10,6 +10,8 @@ namespace JailbreakExtras;
 public partial class JailbreakExtras
 {
     public static bool HookDisabled { get; set; } = false;
+    private static Dictionary<ulong, bool> HookPlayers = new();
+    private static List<ulong> HookDisablePlayers = new();
 
     #region Hook
 
@@ -24,11 +26,25 @@ public partial class JailbreakExtras
 
         if (LatestWCommandUser != player.SteamID)
         {
-            if (HookPlayers.TryGetValue(player.SteamID, out bool canUse) == false)
+            if (HookPlayers.ContainsKey(player.SteamID) == false)
             {
-                if (OnCommandValidater(player, true, "@css/seviye30", "@css/seviye30") == false)
+                if (OnCommandValidater(player, true, Perm_Seviye30, Perm_Seviye30, false) == false)
                 {
-                    return;
+                    if (PlayerTimeTracking.TryGetValue(player.SteamID, out var item) == false)
+                    {
+                        player.PrintToChat(NotEnoughPermission);
+                        return;
+                    }
+                    if (!HasPerm(player.SteamID, Perm_Komutcu))
+                    {
+                        player.PrintToChat(NotEnoughPermission);
+                        return;
+                    }
+                    if (item.WTime < 30 * 60)
+                    {
+                        player.PrintToChat(NotEnoughPermission);
+                        return;
+                    }
                 }
             }
         }
@@ -42,13 +58,13 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<oyuncu ismi>")]
     public void HookVer(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Yonetim))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
-        if (info.ArgCount != 2) return;
-        var target = info.GetArg(1);
+        var target = info.ArgString.GetArgSkip(0);
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers()
               .Where(x => GetTargetAction(x, target, null))
               .ToList()
@@ -66,9 +82,9 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<oyuncu ismi,@t,@ct,@all,@me> [el boyunca hooku iptal eder]")]
     public void HookDisable(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
 
@@ -76,15 +92,14 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (info.ArgCount != 2) return;
 
-        var target = info.GetArg(1);
+        var target = info.ArgString.GetArgSkip(0);
         var targetArgument = GetTargetArgument(target);
 
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers()
              .Where(x => x.PawnIsAlive
-                     && GetTargetAction(x, target, player!.PlayerName)
-                     && x.PlayerName != "Constummer")
+                     && GetTargetAction(x, target, player))
              .ToList()
              .ForEach(x =>
              {
@@ -92,12 +107,12 @@ public partial class JailbreakExtras
                  {
                      HookDisablePlayers.Add(x.SteamID);
                  }
-                 if (targetArgument == TargetForArgument.None)
+                 if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
                  {
                      Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun {CC.B} hookunu el boyunca aldı{CC.W}.");
                  }
              });
-        if (targetArgument != TargetForArgument.None)
+        if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin {CC.B}hookunu el boyunca aldı{CC.W}.");
         }
@@ -107,13 +122,13 @@ public partial class JailbreakExtras
     [CommandHelper(1, "<oyuncu ismi>")]
     public void HookAl(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Yonetim))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
-        if (info.ArgCount != 2) return;
-        var target = info.GetArg(1);
+        var target = info.ArgString.GetArgSkip(0);
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers()
               .Where(x => GetTargetAction(x, target, null))
               .ToList()
@@ -124,16 +139,19 @@ public partial class JailbreakExtras
                       HookDisablePlayers.Add(x.SteamID);
                   }
                   x.PrintToChat($"{Prefix}{CC.G} Hookunuz alındı!");
+                  Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun {CC.B} hookunu aldı{CC.W}.");
+
                   HookPlayers.Remove(x.SteamID, out _);
               });
     }
 
     [ConsoleCommand("hookac")]
+    [ConsoleCommand("ha")]
     public void HookAc(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         Server.PrintToChatAll($"{Prefix}{CC.W} Hook açıldı.");
@@ -143,16 +161,27 @@ public partial class JailbreakExtras
 
     [ConsoleCommand("hookkapat")]
     [ConsoleCommand("hookkapa")]
+    [ConsoleCommand("hk")]
     public void HookKapat(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/lider"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         Server.PrintToChatAll($"{Prefix}{CC.W} Hook el boyunca kapalı.");
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         HookDisabled = true;
+    }
+
+    public static float GetRemainingRoundTime()
+    {
+        var gameRules = Utilities.FindAllEntitiesByDesignerName<CCSGameRulesProxy>("cs_gamerules").FirstOrDefault()?.GameRules;
+        if (gameRules == null)
+            return 0.0f;
+
+        return (gameRules.RoundStartTime + gameRules.RoundTime) - Server.CurrentTime;
     }
 
     private void AllowLaserForWarden(CCSPlayerController player)
@@ -162,16 +191,14 @@ public partial class JailbreakExtras
         {
             return;
         }
+        var hookText = GetHookText();
         var warden = GetWarden();
-        if (warden != null)
-        {
-            warden.PrintToConsole($"{Prefix} {CC.B}{player.PlayerName} {CC.W}Hook bastı");
-        }
+        warden?.PrintToConsole($"{Prefix} {hookText} {player.PlayerName} Hook bastı");
 
         GetPlayers()
-         .Where(x => AdminManager.PlayerHasPermissions(x, "@css/admin1"))
+         .Where(x => AdminManager.PlayerHasPermissions(x, Perm_Admin1))
          .ToList()
-         .ForEach(x => x.PrintToConsole($"{Prefix} {CC.B}{player.PlayerName} {CC.W}Hook bastı"));
+         .ForEach(x => x.PrintToConsole($"{Prefix} {hookText} {player.PlayerName} Hook bastı"));
 
         float x, y, z;
         x = player.PlayerPawn.Value!.AbsOrigin!.X;
@@ -196,6 +223,22 @@ public partial class JailbreakExtras
         PullPlayer(player, end, playerPosition, viewAngles);
 
         return;
+    }
+
+    private static int CTWin = 0;
+    private static int TWin = 0;
+
+    private string GetHookText()
+    {
+        try
+        {
+            TimeSpan remainingTime = TimeSpan.FromMinutes(60) - ((DateTime.UtcNow - RoundStartTime));
+            return $"{CTWin} - {TWin} | {(new DateTime(remainingTime.Ticks).ToString("mm:ss"))}";
+        }
+        catch (Exception)
+        {
+            return "";
+        }
     }
 
     private void PullPlayer(CCSPlayerController player, Vector grappleTarget, Vector playerPosition, QAngle viewAngles)
@@ -254,20 +297,6 @@ public partial class JailbreakExtras
             player.PlayerPawn.Value.AbsVelocity.Y = newVelocity.Y;
             player.PlayerPawn.Value.AbsVelocity.Z = newVelocity.Z;
         }
-        else
-        {
-            Console.WriteLine("AbsVelocity is null.");
-            return;
-        }
-
-        //if (playerGrapples[player.Slot].GrappleWire != null)
-        //{
-        //    playerGrapples[player.Slot].GrappleWire.Teleport(playerPosition, new QAngle(0, 0, 0), new Vector(0, 0, 0));
-        //}
-        //else
-        //{
-        //    Console.WriteLine("GrappleWire is null.");
-        //}
     }
 
     private Vector CalculateForwardVector(Vector viewAngles)

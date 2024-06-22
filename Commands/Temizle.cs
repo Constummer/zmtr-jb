@@ -16,6 +16,12 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+        TemizleAction(player);
+    }
+
+    private static void TemizleAction(CCSPlayerController? player)
+    {
         var target = Utilities.FindAllEntitiesByDesignerName<CBaseEntity>("weapon_");
 
         var playerWeaponIndexes = new List<uint>();

@@ -3,7 +3,6 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Entities;
 using CounterStrikeSharp.API.Modules.Utils;
-using Microsoft.Extensions.Logging;
 using System.Net.Http.Json;
 using System.Text.Json;
 
@@ -11,7 +10,8 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    private readonly List<ulong> PlayerSteamGroup = new();
+    private static List<ulong> PlayerSteamGroup = new();
+    private static Dictionary<ulong, int> SteamGroupCheckTimer = new();
 
     private bool OnSteamGroupPlayerChat(CCSPlayerController? player, string arg)
     {
@@ -39,18 +39,18 @@ public partial class JailbreakExtras
         return false;
     }
 
-    private bool CheckPlayerGroups(ulong steamid)
+    private static bool CheckPlayerGroups(ulong steamId)
     {
-        if (Config.SteamGroup.SteamApiKey == "-" || Config.SteamGroup.SteamGroupId == "-")
+        if (_Config.SteamGroup.SteamApiKey == "-" || _Config.SteamGroup.SteamGroupId == "-")
             return false;
 
-        if (PlayerSteamGroup.Contains(steamid))
+        if (PlayerSteamGroup.Contains(steamId))
         {
             return true;
         }
         else
         {
-            string apiUrl = $"https://api.steampowered.com/ISteamUser/GetUserGroupList/v1/?key={Config.SteamGroup.SteamApiKey}&steamid={steamid}";
+            string apiUrl = $"https://api.steampowered.com/ISteamUser/GetUserGroupList/v1/?key={_Config.SteamGroup.SteamApiKey}&steamid={steamId}";
 
             try
             {
@@ -69,22 +69,31 @@ public partial class JailbreakExtras
                             {
                                 string? groupId = group.GetProperty("gid").GetString();
 
-                                if (groupId == Config.SteamGroup.SteamGroupId)
+                                if (groupId == _Config.SteamGroup.SteamGroupId)
                                 {
-                                    PlayerSteamGroup.Add(steamid);
-                                    return true;
+                                    if (PlayerSteamGroup.Contains(steamId))
+                                    {
+                                        return true;
+                                    }
+                                    else
+                                    {
+                                        PlayerSteamGroup.Add(steamId);
+                                        return true;
+                                    }
                                 }
                             }
                         }
                     }
-
+                    if (SteamGroupCheckTimer.ContainsKey(steamId) == false)
+                    {
+                        SteamGroupCheckTimer.Add(steamId, 0);
+                    }
                     return false;
                 });
             }
             catch (Exception e)
             {
-                Logger.LogError(e, "hata");
-
+                ConsMsg(e.Message);
                 return false;
             }
         }
@@ -96,8 +105,10 @@ public partial class JailbreakExtras
     {
         Task.Run(() =>
         {
+            if (ValidateCallerPlayer(player, false) == false) return Task.CompletedTask;
             Server.NextFrame(() =>
             {
+                if (ValidateCallerPlayer(player, false) == false) return;
                 if (CheckPlayerGroups(player.SteamID))
                 {
                     player.PrintToChat($"{Prefix} {CC.W}Steam grubumuza katıldığın için teşekkurler. Artık komutları kullanabilirsin");
@@ -106,6 +117,7 @@ public partial class JailbreakExtras
                 else
                 {
                     player.PrintToChat($"{Prefix} {CC.W}Steam grubumuza katılmamışsın.");
+                    player.PrintToChat($"{Prefix} {CC.W}Steam hesabının gizli {CC.R}OLMAMASI {CC.W}gerekiyor.");
                     player.PrintToChat($"{Prefix} {CC.W}Steam Grup: steamcommunity.com/groups/zombieturkeyclan/");
                     player.PrintToChat($"{Prefix} {CC.W}Katılarak {CC.B}!knife {CC.W},{CC.B}!ws {CC.W},{CC.B}!skinler {CC.W},{CC.B}!yenile");
                     player.PrintToChat($"{Prefix} {CC.W}Komutlarını kullanabilirsin");
@@ -138,6 +150,24 @@ public partial class JailbreakExtras
 
                 return HookResult.Stop;
             });
+        }
+    }
+
+    private void CheckSteamGroupsData()
+    {
+        foreach (var item in SteamGroupCheckTimer.ToList())
+        {
+            if (SteamGroupCheckTimer.TryGetValue(item.Key, out int value))
+            {
+                if (value > 3)
+                {
+                    SteamGroupCheckTimer.Remove(item.Key);
+                    continue;
+                }
+                value++;
+                SteamGroupCheckTimer[item.Key] = value;
+                CheckPlayerGroups(item.Key);
+            }
         }
     }
 }

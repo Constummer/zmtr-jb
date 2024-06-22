@@ -18,18 +18,18 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (info.ArgCount != 3) return;
-        var target = info.GetArg(1);
-        if (!int.TryParse(info.GetArg(2), out var health) || health < 1)
+        var target = info.ArgString.GetArgSkipFromLast(1);
+        if (!int.TryParse(info.ArgString.GetArgLast(), out var health) || health < 1)
         {
             player!.PrintToChat($"{Prefix}{CC.G} Can değeri yanlış!");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         var targetArgument = GetTargetArgument(target);
         GetPlayers()
                .Where(x => x.PawnIsAlive
                         && x.Pawn.Value != null
-                        && GetTargetAction(x, target, player!.PlayerName))
+                        && GetTargetAction(x, target, player))
                .ToList()
                .ForEach(x =>
                {
@@ -39,12 +39,12 @@ public partial class JailbreakExtras
                    }
 
                    RefreshPawn(x);
-                   if (targetArgument == TargetForArgument.None)
+                   if ((targetArgument & TargetForArgument.SingleUser) == targetArgument)
                    {
                        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{x.PlayerName} {CC.W}adlı oyuncunun canını {CC.B}{health} {CC.W}olarak ayarladı.");
                    }
                });
-        if (targetArgument != TargetForArgument.None)
+        if ((targetArgument & TargetForArgument.SingleUser) != targetArgument)
         {
             Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{target} {CC.W}hedefinin canını {CC.B}{health} {CC.W}olarak ayarladı.");
         }
@@ -57,6 +57,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers(CsTeam.Terrorist)
                .Where(x => x.PawnIsAlive)
                .ToList()
@@ -66,7 +67,7 @@ public partial class JailbreakExtras
 
                    RefreshPawn(x);
                });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}mahkûmların canını {CC.B}100 {CC.W}olarak ayarladı.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{T_PluralCamelPossesive} canını {CC.B}100 {CC.W}olarak ayarladı.");
     }
 
     [ConsoleCommand("hpct", "Change ct player's HP.")]
@@ -76,6 +77,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers(CsTeam.CounterTerrorist)
                .Where(x => x.PawnIsAlive)
                .ToList()
@@ -85,7 +87,7 @@ public partial class JailbreakExtras
 
                    RefreshPawn(x);
                });
-        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}gardiyanların canını {CC.B}100 {CC.W}olarak ayarladı.");
+        Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)} {CC.G}{CT_PluralCamelPossesive} canını {CC.B}100 {CC.W}olarak ayarladı.");
     }
 
     [ConsoleCommand("hpall", "Change all player's HP.")]
@@ -95,6 +97,7 @@ public partial class JailbreakExtras
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers()
                .Where(x => x.PawnIsAlive)
                .ToList()

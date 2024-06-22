@@ -13,15 +13,16 @@ public partial class JailbreakExtras
     [ConsoleCommand("seviyeler")]
     public void Seviyeler(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/root"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Root))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
         if (ValidateCallerPlayer(player) == false)
         {
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
 
         GetPlayers()
                 .ToList()

@@ -1,17 +1,15 @@
-﻿using CounterStrikeSharp.API.Modules.Timers;
-
-namespace JailbreakExtras;
+﻿namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
     #region CoinRespawnTimer
 
-    public void CoinRespawnTimer()
+    public CounterStrikeSharp.API.Modules.Timers.Timer CoinRespawnTimer()
     {
-        AddTimer(30f, () =>
+        return AddTimer(30f, () =>
          {
              CoinSpawn();
-         }, TimerFlags.REPEAT | TimerFlags.STOP_ON_MAPCHANGE);
+         }, Full);
     }
 
     #endregion CoinRespawnTimer

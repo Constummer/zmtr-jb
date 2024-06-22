@@ -36,7 +36,7 @@ public partial class JailbreakExtras
         }
         var players = GetPlayers()
                         .Where(x => x.SteamID != KomutcuAdminId
-                                    && AdminManager.PlayerHasPermissions(x, "@css/admin1"))
+                                    && AdminManager.PlayerHasPermissions(x, Perm_Admin1))
                         .ToList();
 
         if (players.Count == 0)
@@ -44,23 +44,22 @@ public partial class JailbreakExtras
             player.PrintToChat($"{Prefix} {CC.W}Aktif hiç admin bulunamadı");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         var kaMenu = new ChatMenu("Komutçu Admin Menü");
         kaMenu.AddMenuOption("Seçeceğin Admin Komutçu Admin Olacak!", null, true);
         players.ForEach(x =>
         {
             kaMenu.AddMenuOption(x.PlayerName, (p, t) =>
             {
+                if (ValidateCallerPlayer(x, false) == false) return;
                 KomutcuAdminId = x.SteamID;
-                x.Clan = $"{CC.P}[Komutçu Admin]";
-                AddTimer(0.2f, () =>
-                {
-                    Utilities.SetStateChanged(x, "CCSPlayerController", "m_szClan");
-                    Utilities.SetStateChanged(x, "CBasePlayerController", "m_iszPlayerName");
-                });
+                x.Clan = $"[Komutçu Admin]";
+                SetStatusClanTag(x);
+
                 Server.PrintToChatAll($"{Prefix} {CC.B}{player.PlayerName} {CC.P} [Komutçu Admin]{CC.W}'liğini {CC.B}{x.PlayerName} {CC.W}'e saldı.");
             });
         });
-        ChatMenus.OpenMenu(player, kaMenu);
+        MenuManager.OpenChatMenu(player, kaMenu);
     }
 
     #endregion KomutcuAdminSal

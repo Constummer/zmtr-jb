@@ -26,6 +26,8 @@ public partial class JailbreakExtras
 
                 CCSWeaponBase _weapon = weapon.As<CCSWeaponBase>();
                 if (_weapon == null) return;
+                //_weapon.SilencerOn = true;
+                //Utilities.SetStateChanged(_weapon, "CCSWeaponBase", "m_bSilencerOn");
                 if (WeaponDefaults.ContainsKey(entity.DesignerName) == false)
                 {
                     var wepDef = new WeaponDefault();
@@ -44,7 +46,7 @@ public partial class JailbreakExtras
                     if (_weapon.VData != null)
                     {
                         _weapon.VData.MaxClip1 = 999;
-                        _weapon.VData.DefaultClip1 = 999;
+                        //_weapon.VData.DefaultClip1 = 999;
                     }
 
                     _weapon.Clip1 = 999;
@@ -58,7 +60,7 @@ public partial class JailbreakExtras
                         if (_weapon.VData != null)
                         {
                             _weapon.VData.MaxClip1 = weaponDefault.VData1MaxClip1;
-                            _weapon.VData.DefaultClip1 = weaponDefault.VData1DefaultClip1;
+                            //_weapon.VData.DefaultClip1 = weaponDefault.VData1DefaultClip1;
                         }
 
                         _weapon.Clip1 = weaponDefault._1Clip1;
@@ -67,7 +69,7 @@ public partial class JailbreakExtras
                     }
                 }
 
-                if (weaponValues[2].Length > 0 && weaponValues[2] != "-1")
+                if (Config.Additional.UnlimitedReserver)
                 {
                     if (_weapon.VData != null)
                     {

@@ -17,8 +17,7 @@ public partial class JailbreakExtras
     private static void CoinAfterNewCommander()
     {
         if (LatestWCommandUser.HasValue == false) return;
-        var css = Utilities.GetPlayerFromSteamId(LatestWCommandUser.Value);
-
+        var css = GetPlayers().Where(x => x.SteamID == LatestWCommandUser).FirstOrDefault();
         if (css != null)
         {
             if (ValidateCallerPlayer(css, false))
@@ -54,9 +53,14 @@ public partial class JailbreakExtras
         //var playerAbs = x.PlayerPawn.Value.AbsOrigin;
         //var vector = new Vector(playerAbs.X, playerAbs.Y, playerAbs.Z + 100);
         //var vector = VEC_ZERO;
-        var vector = new Vector(-718, -765, 24);
+        var data = _Config.Map.MapConfigDatums.TryGetValue(Server.MapName, out var conf);
+        var coords = new Vector(0, 0, 0);
+        if (data && data != null)
+        {
+            coords = new Vector(conf.CoinCoords.X, conf.CoinCoords.Y, conf.CoinCoords.Z);
+        }
 
-        Coin.Teleport(vector, new QAngle(0.0f, 0.0f, 0.0f), VEC_ZERO);
+        Coin.Teleport(coords, new QAngle(0.0f, 0.0f, 0.0f), VEC_ZERO);
         Coin.DispatchSpawn();
         Coin.SetModel("models/coop/challenge_coin.vmdl");
 
@@ -136,7 +140,7 @@ public partial class JailbreakExtras
         {
             return;
         }
-        if (warden.PlayerName.ToLower().Contains(pname.ToLower()))
+        if (warden.PlayerName?.ToLower()?.Contains(pname?.ToLower()) ?? false)
         {
             Server.NextFrame(() =>
             {

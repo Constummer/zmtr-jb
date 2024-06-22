@@ -21,32 +21,33 @@ public partial class JailbreakExtras
         {
             return;
         }
-        var target = info.ArgCount > 1 ? info.GetArg(1) : null;
-        if (info.ArgCount > 2)
-        {
-            var weapon = info.ArgCount > 2 ? info.GetArg(2) : null;
-            if (string.IsNullOrWhiteSpace(weapon))
-            {
-                player.PrintToChat($"{Prefix} {CC.G} Silah ismini vermeniz gerekmektedir..");
-                player.PrintToChat($"{Prefix} {CC.G} Örnek = !sinirsizx @all ssg08.");
-                player.PrintToChat($"{Prefix} {CC.G} Örnek = !smx @all ssg08.");
-                return;
-            }
-            else
-            {
-                SinirsizXTimer?.Kill();
-                SinirsizXTimer = null;
-                SinirsizXTimer = GiveSinirsizCustomNade(1, SinirsizXTimer, $"weapon_{weapon}", target, player.PlayerName);
-                Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.Ol}{target}{CC.W} hedefine {CC.P}{weapon} {CC.W} silahıyla {CC.DB}SMX{CC.W} başlattı.");
-            }
-        }
-        else
+        var target = info.ArgString.GetArgSkipFromLast(1);
+        LogManagerCommand(player.SteamID, info.GetCommandString);
+        var weapon = info.ArgString.GetArgLast();
+        if (string.IsNullOrWhiteSpace(weapon))
         {
             player.PrintToChat($"{Prefix} {CC.G} Silah ismini vermeniz gerekmektedir..");
             player.PrintToChat($"{Prefix} {CC.G} Örnek = !sinirsizx @all ssg08.");
             player.PrintToChat($"{Prefix} {CC.G} Örnek = !smx @all ssg08.");
             return;
         }
+        else
+        {
+            weapon = GiveHandler(weapon);
+            if (ValidWantedWeapon(weapon) == false)
+            {
+                return;
+            }
+            SinirsizXAction(player, target, weapon);
+            Server.PrintToChatAll($"{AdliAdmin(player.PlayerName)}{CC.Ol}{target}{CC.W} hedefine {CC.P}{weapon} {CC.W} silahıyla {CC.DB}SMX{CC.W} başlattı.");
+        }
+    }
+
+    public void SinirsizXAction(CCSPlayerController? self, string? target, string? weapon)
+    {
+        SinirsizXTimer?.Kill();
+        SinirsizXTimer = null;
+        SinirsizXTimer = GiveSinirsizCustomNade(1, SinirsizXTimer, $"weapon_{weapon}", target, self);
     }
 
     #endregion SinirsizX

@@ -1,5 +1,7 @@
-﻿using CounterStrikeSharp.API.Core;
+﻿using CounterStrikeSharp.API;
+using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
+using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
 using CounterStrikeSharp.API.Modules.Menu;
 using CounterStrikeSharp.API.Modules.Utils;
@@ -8,8 +10,7 @@ namespace JailbreakExtras;
 
 public partial class JailbreakExtras
 {
-    #region Delay
-
+    private static bool IsEliGivenCheck { get; set; } = false;
     private static bool IsEliMenuCheck { get; set; } = false;
     private CounterStrikeSharp.API.Modules.Timers.Timer IseliTimer { get; set; } = null;
 
@@ -26,9 +27,19 @@ public partial class JailbreakExtras
 
         if (LatestWCommandUser != player.SteamID)
         {
+            if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
+            {
+                player.PrintToChat($"{Prefix} {CC.B}Sadece {CC.W} Komutçu bu komutu kullanabilir");
+                return;
+            }
+        }
+
+        if (LatestWCommandUser != player.SteamID)
+        {
             player.PrintToChat($"{Prefix} {CC.B}Sadece {CC.W} Komutçu bu komutu kullanabilir");
             return;
         }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         IseliTimer?.Kill();
         RespawnKapatAction();
         IsEliMenuCheck = false;
@@ -45,39 +56,46 @@ public partial class JailbreakExtras
 
         if (LatestWCommandUser != player.SteamID)
         {
-            player.PrintToChat($"{Prefix} {CC.B}Sadece {CC.W} Komutçu bu komutu kullanabilir");
-            return;
-        }
-        var target = info.ArgCount > 1 ? info.GetArg(1) : "20";
-        if (int.TryParse(target, out var value))
-        {
-            if (value > 120)
+            if (!AdminManager.PlayerHasPermissions(player, Perm_Lider))
             {
-                player.PrintToChat("Max 120 sn girebilirsin");
+                player.PrintToChat($"{Prefix} {CC.B}Sadece {CC.W} Komutçu bu komutu kullanabilir");
                 return;
             }
-            else if (value < 1)
+        }
+        var target = info.ArgCount > 1 ? info.ArgString.GetArg(0) : "20";
+        if (int.TryParse(target, out var value))
+        {
+            if (value > 30)
             {
-                player.PrintToChat("Min 1 sn girebilirsin");
+                player.PrintToChat("Max 30 sn girebilirsin");
+                return;
+            }
+            if (value < 5)
+            {
+                player.PrintToChat("Min 5 sn girebilirsin");
                 return;
             }
             else
             {
+                LogManagerCommand(player.SteamID, info.GetCommandString);
                 IsEliStart(value); return;
             }
         }
         else
         {
-            IsEliStart(value); return;
+            LogManagerCommand(player.SteamID, info.GetCommandString);
+            IsEliStart(20); return;
         }
     }
 
     private void IsEliStart(int value)
     {
+        IsEliGivenCheck = true;
+        Server.PrintToChatAll($"{Prefix}{CC.W} Hook el boyunca kapalı.");
+        HookDisabled = true;
         ForceCloseDoor();
         RespawnAcAction();
         ForceEntInput("func_breakable", "Break");
-        //ForceEntInput("func_breakable", "Break", "DropEldenGidiyeah");
         IsEliWardenNotify();
         BasicCountdown.CommandStartTextCountDown(this, $"İseli - İsyan Eli | Başlamasına {value} saniye kaldı!");
         IsEliTerroristTp();
@@ -94,14 +112,11 @@ public partial class JailbreakExtras
                  }
              }
              SetHp(x, 100);
-             x.GiveNamedItem("weapon_ak47");
-             x.GiveNamedItem("weapon_deagle");
-             x.GiveNamedItem("weapon_hegrenade");
              x.GiveNamedItem("item_assaultsuit");
 
              var gunMenu = new ChatMenu("Silah Menu");
-             MenuHelper.GetGuns(gunMenu);
-             ChatMenus.OpenMenu(x, gunMenu);
+             WeaponMenuHelper.GetGuns(gunMenu, hideIseli: true);
+             MenuManager.OpenChatMenu(x, gunMenu);
              x.PrintToChat($"{Prefix} {CC.W}Iseli başlayana kadar silah değiştirebilirsin !guns");
          });
         IsEliMenuCheck = true;
@@ -109,10 +124,30 @@ public partial class JailbreakExtras
         IseliTimer?.Kill();
         IseliTimer = AddTimer(value, () =>
         {
-            ForceOpenDoor();
+            ForceRemoveDoors();
             RespawnKapatAction();
             IsEliMenuCheck = false;
-        });
+        }, SOM);
+    }
+
+    private void ForceRemoveDoors()
+    {
+        if (Config.Map.MapConfigDatums.TryGetValue(Server.MapName, out var list)
+          && list != null && list.KapiAcKapaList != null && list.KapiAcKapaList.Count > 0)
+        {
+            foreach (var item in list.KapiAcKapaList)
+            {
+                ForceRemoveEntity(item.Value, item.Key);
+            }
+        }
+        else
+        {
+            ForceRemoveEntity("func_door");
+            ForceRemoveEntity("func_movelinear");
+            ForceRemoveEntity("func_door_rotating");
+            ForceRemoveEntity("prop_door_rotating");
+            ForceRemoveEntity("func_breakable");
+        }
     }
 
     private static void IsEliWardenNotify()
@@ -122,24 +157,30 @@ public partial class JailbreakExtras
         {
             warden.PrintToChat($"{Prefix} {CC.W} eğer {CC.R}İSELİ {CC.W} ise");
             warden.PrintToChat($"{Prefix} {CC.B} !rm {CC.W}veya {CC.B}!revmenu {CC.W} ile menüden seçerek veya");
-            warden.PrintToChat($"{Prefix} {CC.B} !rmf {CC.W} HIZLICA ");
+            warden.PrintToChat($"{Prefix} {CC.B} !rmf {CC.W}veya");
+            warden.PrintToChat($"{Prefix} konsoluna {CC.B} bind p rmf {CC.W} yazarak HIZLICA ");
             warden.PrintToChat($"{Prefix} {CC.W} Ölen ctleri 3 kere revleyebilirsin");
-            SharpTimerPrintHtml(warden, $"{CC.W} eğer {CC.R}İSELİ {CC.W} ise {CC.B} !rm {CC.W}veya {CC.B}!revmenu {CC.W} ile menüden seçerek veya {CC.B} !rmf {CC.W} HIZLICA {CC.W} Ölen ctleri 3 kere revleyebilirsin");
+            PrintToCenterHtml(warden, $"{CC.W} eğer {CC.R}İSELİ {CC.W} ise {CC.B} !rm {CC.W}veya {CC.B}!revmenu {CC.W} ile menüden seçerek veya {CC.B} !rmf {CC.W} HIZLICA {CC.W} Ölen ctleri 3 kere revleyebilirsin");
+            PrintToCenterHtml(warden, $"{CC.W} eğer {CC.R}İSELİ {CC.W} ise {CC.B} !rm {CC.W}veya {CC.B}!revmenu {CC.W} ile menüden seçerek veya {CC.B} !rmf {CC.W} HIZLICA {CC.W} Ölen ctleri 3 kere revleyebilirsin");
+            PrintToCenterHtml(warden, $"{CC.W} eğer {CC.R}İSELİ {CC.W} ise {CC.B} !rm {CC.W}veya {CC.B}!revmenu {CC.W} ile menüden seçerek veya {CC.B} !rmf {CC.W} HIZLICA {CC.W} Ölen ctleri 3 kere revleyebilirsin");
+            PrintToCenterHtml(warden, $"{CC.W} eğer {CC.R}İSELİ {CC.W} ise {CC.B} !rm {CC.W}veya {CC.B}!revmenu {CC.W} ile menüden seçerek veya {CC.B} !rmf {CC.W} HIZLICA {CC.W} Ölen ctleri 3 kere revleyebilirsin");
         }
     }
 
     private void IsEliTerroristTp()
     {
-        GetPlayers(CsTeam.Terrorist)
-           .Where(x => x.PawnIsAlive)
-                  .ToList()
-                  .ForEach(x =>
-                  {
-                      RemoveWeapons(x, true);
-
-                      x.PlayerPawn.Value.Teleport(Hucre, ANGLE_ZERO, VEC_ZERO);
-                  });
+        if (Config.Map.MapConfigDatums.TryGetValue(Server.MapName, out var val) && val != null && val.MapCellCoords != null)
+        {
+            var coord = val.MapCellCoords;
+            if (coord == null) return;
+            var vector = new Vector(coord.X, coord.Y, coord.Z);
+            GetPlayers(CsTeam.Terrorist)
+               .Where(x => x.PawnIsAlive)
+                      .ToList()
+                      .ForEach(x =>
+                      {
+                          x.PlayerPawn.Value.Teleport(vector, x.PlayerPawn.Value.EyeAngles, VEC_ZERO);
+                      });
+        }
     }
-
-    #endregion Delay
 }

@@ -1,5 +1,6 @@
 using CounterStrikeSharp.API;
 using CounterStrikeSharp.API.Core;
+using CounterStrikeSharp.API.Modules.Utils;
 using System.Drawing;
 
 namespace JailbreakExtras;
@@ -8,30 +9,124 @@ public partial class JailbreakExtras
 {
     private static bool WeaponIsValid(CBasePlayerWeapon? weapon) => weapon != null && weapon.IsValid != false;
 
-    private static void RemoveWeapons(CCSPlayerController x, bool knifeStays)
+    public static void RemoveWeapons(CCSPlayerController? x, bool knifeStays, string custom = null, int? setHp = null)
     {
-        if (x?.PlayerPawn?.Value?.WeaponServices?.MyWeapons != null)
+        if (x is null || !x.IsValid || x.IsBot || x.IsHLTV)
+            return;
+
+        if (ValidateCallerPlayer(x, false) == false) return;
+        if (knifeStays)
         {
-            foreach (var weapon in x.PlayerPawn.Value.WeaponServices!.MyWeapons)
+            foreach (var weapon in x?.PlayerPawn?.Value?.WeaponServices?.MyWeapons!)
             {
-                if (weapon.Value != null
-                    && string.IsNullOrWhiteSpace(weapon.Value.DesignerName) == false
-                    && weapon.Value.DesignerName != "[null]")
+                if (weapon is { IsValid: true, Value.IsValid: true })
                 {
-                    if (knifeStays == true)
+                    if (weapon.Value.DesignerName.Contains("bayonet") || weapon.Value.DesignerName.Contains("knife"))
                     {
-                        if (weapon.Value.DesignerName.Contains("knife") == false)
-                        {
-                            weapon.Value.Remove();
-                        }
+                        continue;
                     }
-                    else
-                    {
-                        weapon.Value.Remove();
-                    }
+                    Utilities.RemoveItemByDesignerName(x, weapon.Value.DesignerName);
                 }
+                x.ExecuteClientCommand("slot3");
             }
         }
+        else
+        {
+            x.RemoveWeapons();
+        }
+
+        if (custom != null)
+        {
+            x.GiveNamedItem(custom);
+        }
+        if (setHp != null)
+        {
+            SetHp(x, setHp.Value);
+            RefreshPawnTP(x);
+        }
+    }
+
+    [Obsolete("2nd method on disarm")]
+    private static void RemoveWeapons2ndMethod(CCSPlayerController x, bool knifeStays, string custom = null, int? setHp = null)
+    {
+        if (ValidateCallerPlayer(x, false) == false) return;
+        x.RemoveWeapons();
+        if (ValidateCallerPlayer(x, false) == false) return;
+        if (knifeStays)
+        {
+            x.GiveNamedItem("weapon_knife");
+        }
+        if (custom != null)
+        {
+            x.GiveNamedItem(custom);
+        }
+        if (setHp != null)
+        {
+            SetHp(x, setHp.Value);
+            RefreshPawnTP(x);
+        }
+    }
+
+    private static List<ulong> RemoveAllWeapons(bool giveKnife, bool giveFists = false, string custom = null, int? setHp = null)
+    {
+        List<ulong> steamids = new List<ulong>();
+        GetPlayers(CsTeam.Terrorist)
+            .Where(x => x.PawnIsAlive)
+            .ToList()
+            .ForEach(x =>
+            {
+                if (ValidateCallerPlayer(x, false) == false) return;
+                steamids.Add(x.SteamID);
+                RemoveWeapons(x, giveKnife || giveFists, custom, setHp);
+                //x.RemoveWeapons();
+                //if (giveKnife)
+                //{
+                //    x.GiveNamedItem("weapon_knife");
+                //}
+                //if (giveFists)
+                //{
+                //    x.GiveNamedItem("weapon_knife");
+                //}
+                //if (custom != null)
+                //{
+                //    x.GiveNamedItem(custom);
+                //}
+                //if (setHp != null)
+                //{
+                //    SetHp(x, setHp.Value);
+                //    RefreshPawnTP(x);
+                //}
+            });
+        return steamids;
+    }
+
+    private static void RemoveAllWeaponsCT(bool giveKnife, bool giveFists = false, string custom = null, int? setHp = null)
+    {
+        GetPlayers(CsTeam.CounterTerrorist)
+            .Where(x => x.PawnIsAlive)
+            .ToList()
+            .ForEach(x =>
+            {
+                if (ValidateCallerPlayer(x, false) == false) return;
+                x.RemoveWeapons();
+                if (giveKnife)
+                {
+                    x.GiveNamedItem("weapon_knife");
+                }
+                if (giveFists)
+                {
+                    x.GiveNamedItem("weapon_knife");
+                }
+                if (custom != null)
+                {
+                    x.GiveNamedItem(custom);
+                }
+                if (setHp != null)
+                {
+                    SetHp(x, setHp.Value);
+                    RefreshPawnTP(x);
+                }
+            });
     }
 
     private static void RemoveWeapon(CCSPlayerController x, string weaponName)
@@ -46,7 +141,7 @@ public partial class JailbreakExtras
                 {
                     if (weapon.Value.DesignerName == weaponName)
                     {
-                        weapon.Value.Remove();
+                        Utilities.RemoveItemByDesignerName(x, weapon.Value.DesignerName);
                     }
                 }
             }
@@ -73,7 +168,7 @@ public partial class JailbreakExtras
         return null;
     }
 
-    private void HideWeapons(CCSPlayerController x)
+    private static void HideWeapons(CCSPlayerController x)
     {
         if (x?.PlayerPawn?.Value?.WeaponServices?.MyWeapons != null)
         {
@@ -95,7 +190,7 @@ public partial class JailbreakExtras
         }
     }
 
-    private void ShowWeapons(CCSPlayerController x)
+    private static void ShowWeapons(CCSPlayerController x)
     {
         if (x?.PlayerPawn?.Value?.WeaponServices?.MyWeapons != null)
         {

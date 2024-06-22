@@ -9,11 +9,23 @@ public partial class JailbreakExtras
     {
         RegisterListener<Listeners.OnMapStart>(name =>
         {
+            TelliSeferActive = false;
+            PatronuKoruActive = false;
+            PatronuKoruTLider = null;
+            PatronuKoruCTLider = null;
+            PatronuKoruCTKoruma1 = null;
+            PatronuKoruCTKoruma2 = null;
+            PatronuKoruTKoruma1 = null;
+            PatronuKoruTKoruma2 = null;
+            MapStartTime = DateTime.UtcNow;
             Server.ExecuteCommand("mp_force_pick_time 3000");
             Server.ExecuteCommand("mp_autoteambalance 0");
             Server.ExecuteCommand("mp_equipment_reset_rounds 1");
             Server.ExecuteCommand("mp_t_default_secondary \"\" ");
             ClearAll();
+            //PlayerCustomImageMenus?.Clear();
+            CreditModifier = 1;
+            TPModifier = 1;
             HideFoots?.Clear();
             HookPlayers?.Clear();
             bUsingPara?.Clear();

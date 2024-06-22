@@ -3,7 +3,6 @@ using CounterStrikeSharp.API.Core;
 using CounterStrikeSharp.API.Core.Attributes.Registration;
 using CounterStrikeSharp.API.Modules.Admin;
 using CounterStrikeSharp.API.Modules.Commands;
-using static JailbreakExtras.JailbreakExtras;
 
 namespace JailbreakExtras;
 
@@ -14,11 +13,20 @@ public partial class JailbreakExtras
     [ConsoleCommand("af", "af")]
     public void Af(CCSPlayerController? player, CommandInfo info)
     {
-        if (!AdminManager.PlayerHasPermissions(player, "@css/admin1"))
+        if (!AdminManager.PlayerHasPermissions(player, Perm_Admin1))
         {
-            player.PrintToChat($"{Prefix}{CC.W} Bu komut için yeterli yetkin bulunmuyor.");
+            player.PrintToChat(NotEnoughPermission);
             return;
         }
+        if (IsEliGivenCheck == false)
+        {
+            if (CurrentCtRespawnFirst == false)
+            {
+                CurrentCtRespawns = 0;
+                CurrentCtRespawnFirst = true;
+            }
+        }
+        LogManagerCommand(player.SteamID, info.GetCommandString);
         GetPlayers()
          .ToList()
          .ForEach(x =>

@@ -20,6 +20,13 @@ public partial class JailbreakExtras
             TeamGamesSoloChoices.HeGrenades => new SoloHeGrenadesTG(),
             TeamGamesSoloChoices.Machines500HP => new SoloMachines500HPTG(),
             TeamGamesSoloChoices.CoctailParty => new SoloCoctailPartyTG(),
+            TeamGamesSoloChoices.ChickenSlayer => new SoloChickenSlayerTG(),
+            TeamGamesSoloChoices.HideFight => new SoloHideFightTG(),
+            TeamGamesSoloChoices.Corona => new SoloCoronaTG(),
+            TeamGamesSoloChoices.Pubg => new SoloPubgTG(),
+            TeamGamesSoloChoices.RedLightGreenLight => new SoloRedLightGreenLightTG(),
+            TeamGamesSoloChoices.Zombie => new SoloZombieTG(),
+            TeamGamesSoloChoices.Zombie2 => new SoloZombie2TG(),
             _ => null
         };
     }
@@ -41,6 +48,7 @@ public partial class JailbreakExtras
             TeamGamesMultiChoices.HeGrenades => new MultiHeGrenadesTG(),
             TeamGamesMultiChoices.Machines500HP => new MultiMachines500HPTG(),
             TeamGamesMultiChoices.CoctailParty => new MultiCoctailPartyTG(),
+            TeamGamesMultiChoices.ChickenSlayer => new MultiChickenSlayerTG(),
             _ => null
         };
     }
