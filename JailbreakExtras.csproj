@@ -24,4 +24,13 @@
 		<PackageReference Include="Discord.Net.Interactions" Version="3.13.0" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <None Update="gamedata\CCSPlayer_WeaponServices_CanUse.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	  <None Update="gamedata\WeaponRestrict.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
+	</ItemGroup>
+
 </Project>
