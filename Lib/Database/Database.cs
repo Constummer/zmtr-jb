@@ -41,207 +41,310 @@ public partial class JailbreakExtras
                     await cmd.ExecuteNonQueryAsync();
 
                     cmd = new MySqlCommand(
-                    @"  CREATE TABLE IF NOT EXISTS `PlayerMarketModel` (
-                         `SteamId` bigint(20) DEFAULT NULL,
-                         `ModelIdCT` varchar(0) DEFAULT NULL,
-                         `ModelIdT` varchar(1) DEFAULT NULL,
-                         `DefaultIdCT` varchar(0) DEFAULT NULL,
-                         `DefaultIdT` varchar(1) DEFAULT NULL,
-                         `Credit` mediumint(9) DEFAULT NULL
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+                    @"
 
-                        CREATE TABLE IF NOT EXISTS `PlayerLevel` (
-                         `SteamId` bigint(20) DEFAULT NULL,
-                         `Xp` mediumint(9) DEFAULT NULL,
-                         `TagDisable` bit DEFAULT 0,
-                         `GivenRewards` TEXT DEFAULT NULL
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- BayramCredit definition
 
-                        CREATE TABLE IF NOT EXISTS `PlayerName` (
-                        `SteamId` bigint(20) DEFAULT NULL,
-                        `Name` TEXT DEFAULT NULL
-                     ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS `BayramCredit` (
+  `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `SteamId` bigint(20) DEFAULT NULL,
+  `RecieveTime` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=113 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-                        CREATE TABLE IF NOT EXISTS `PlayerGag` (
-                          `SteamId` bigint(20) DEFAULT NULL
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- DcNotifyData definition
 
-                        CREATE TABLE IF NOT EXISTS `PlayerTime` (
-                          `SteamId` bigint(20) DEFAULT NULL,
-                          `Total` mediumint(9) DEFAULT NULL,
-                          `CTTime` mediumint(9) DEFAULT NULL,
-                          `TTime` mediumint(9) DEFAULT NULL,
-                          `WTime` mediumint(9) DEFAULT NULL,
-                          `KaTime` mediumint(9) DEFAULT NULL,
-                          `WeeklyWTime` mediumint(9) DEFAULT NULL,
-                          `WeeklyCTTime` mediumint(9) DEFAULT NULL,
-                          `WeeklyTTime` mediumint(9) DEFAULT NULL,
-                          `WeeklyTotalTime` mediumint(9) DEFAULT NULL,
-                          `WeeklyKaTime` mediumint(9) DEFAULT NULL
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS `DcNotifyData` (
+  `MapName` text DEFAULT NULL,
+  `WardenName` text DEFAULT NULL,
+  `PlayerCount` mediumint(9) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-                        CREATE TABLE IF NOT EXISTS `PlayerCTBan` (
-                         `SteamId` bigint(20) DEFAULT NULL,
-                         `BannedBySteamId` bigint(20) DEFAULT NULL,
-                         `Time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-                       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- GambleData definition
 
-                        CREATE TABLE IF NOT EXISTS `ManagerCommands` (
-                         `Id` bigint(20) PRIMARY KEY AUTO_INCREMENT,
-                         `SteamId` bigint(20) DEFAULT NULL,
-                         `Command` TEXT DEFAULT NULL,
-                         `Time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-                       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS `GambleData` (
+  `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `StartTime` datetime NOT NULL DEFAULT current_timestamp(),
+  `EndTime` datetime DEFAULT NULL,
+  `Red` mediumint(9) DEFAULT 0,
+  `Green` mediumint(9) DEFAULT 0,
+  `Black` mediumint(9) DEFAULT 0,
+  `Winner` mediumint(9) DEFAULT 0,
+  `ParticipationCount` mediumint(9) DEFAULT 0,
+  `TourFinalized` bit(1) DEFAULT b'0',
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=24310 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-                        CREATE TABLE IF NOT EXISTS `PlayerChat` (
-                         `Id` bigint(20) PRIMARY KEY AUTO_INCREMENT,
-                         `SteamId` bigint(20) DEFAULT NULL,
-                         `Msg` TEXT DEFAULT NULL,
-                         `Time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-                       ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- KomKalanInterceptor definition
 
-                        CREATE TABLE IF NOT EXISTS `PlayerBan` (
-                          `SteamId` bigint(20) DEFAULT NULL,
-                          `BannedBySteamId` bigint(20) DEFAULT NULL,
-                          `Time` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS `KomKalanInterceptor` (
+  `SelectedModelId` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-                        CREATE TABLE IF NOT EXISTS `PlayerWeeklyWTime` (
-                          `SteamId` bigint(20) DEFAULT NULL,
-                          `WTime` mediumint(9) DEFAULT NULL,
-                          `WeekNo` mediumint(9) DEFAULT NULL
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- KomWeeklyWCredit definition
 
-                        CREATE TABLE IF NOT EXISTS `BayramCredit` (
-                          `Id` bigint(20) PRIMARY KEY AUTO_INCREMENT,
-                          `SteamId` bigint(20) DEFAULT NULL,
-                          `RecieveTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS `KomWeeklyWCredit` (
+  `SteamId` bigint(20) DEFAULT NULL,
+  `Recieved` bit(1) DEFAULT b'0',
+  `WeekNo` mediumint(9) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-                        CREATE TABLE IF NOT EXISTS `KomWeeklyWCredit` (
-                          `SteamId` bigint(20) DEFAULT NULL,
-                          `Recieved` bit DEFAULT 0,
-                          `WeekNo` mediumint(9) DEFAULT NULL
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- ManagerCommands definition
 
-                        CREATE TABLE IF NOT EXISTS `PlayerIsyanTeam` (
-                          `SteamId` bigint(20) DEFAULT NULL
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS `ManagerCommands` (
+  `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `SteamId` bigint(20) DEFAULT NULL,
+  `Command` text DEFAULT NULL,
+  `Time` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=258636 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-                        CREATE TABLE IF NOT EXISTS `PlayerSutTeam` (
-                          `SteamId` bigint(20) DEFAULT NULL
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- PlayerBan definition
 
-                        CREATE TABLE IF NOT EXISTS `PlayerCTKit` (
-                          `SteamId` bigint(20) DEFAULT NULL,
-                          `KitId` mediumint(9) DEFAULT 0
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS `PlayerBan` (
+  `SteamId` bigint(20) DEFAULT NULL,
+  `BannedBySteamId` bigint(20) DEFAULT NULL,
+  `Time` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-                        CREATE TABLE IF NOT EXISTS `PlayerCustomTag` (
-                          `SteamId` bigint(20) DEFAULT NULL,
-                          `Tag` TEXT DEFAULT NULL,
-                          `TagColor` TEXT DEFAULT NULL,
-                          `SayColor` TEXT DEFAULT NULL,
-                          `TColor` TEXT DEFAULT NULL,
-                          `CTColor` TEXT DEFAULT NULL
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- PlayerBattlePass definition
 
-                        CREATE TABLE IF NOT EXISTS `PlayerParticleData` (
-                          `SteamId` bigint(20) DEFAULT NULL,
-                          `BoughtModelIds` TEXT DEFAULT NULL,
-                          `SelectedModelId` TEXT DEFAULT NULL
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS `PlayerBattlePass` (
+  `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `SteamId` bigint(20) DEFAULT NULL,
+  `Level` mediumint(9) DEFAULT NULL,
+  `Config` text DEFAULT NULL,
+  `Completed` bit(1) DEFAULT b'0',
+  `StartTime` datetime NOT NULL DEFAULT current_timestamp(),
+  `EndTime` datetime DEFAULT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1657 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-                        CREATE TABLE IF NOT EXISTS `DcNotifyData` (
-                          `MapName` TEXT DEFAULT NULL,
-                          `WardenName` TEXT DEFAULT NULL,
-                          `PlayerCount` mediumint(9) DEFAULT 0
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- PlayerBattlePassPremium definition
 
-                        CREATE TABLE IF NOT EXISTS `PlayerGambleData` (
-                         `Id` bigint(20) PRIMARY KEY AUTO_INCREMENT,
-                         `GambleDataId` bigint(20) DEFAULT 0,
-                         `SteamId` bigint(20) DEFAULT NULL,
-                         `Credit` mediumint(9) DEFAULT 0,
-                         `Color` mediumint(9) DEFAULT 0,
-                         `Expired` bit DEFAULT 0,
-                         `PlayedTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                         `ExpiredTime` DATETIME NULL
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS `PlayerBattlePassPremium` (
+  `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `SteamId` bigint(20) DEFAULT NULL,
+  `Level` mediumint(9) DEFAULT NULL,
+  `Config` text DEFAULT NULL,
+  `Completed` bit(1) DEFAULT b'0',
+  `StartTime` datetime NOT NULL DEFAULT current_timestamp(),
+  `EndTime` datetime DEFAULT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1403 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-                        CREATE TABLE IF NOT EXISTS `GambleData` (
-                         `Id` bigint(20) PRIMARY KEY AUTO_INCREMENT,
-                         `StartTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                         `EndTime` DATETIME NULL,
-                         `Red` mediumint(9) DEFAULT 0,
-                         `Green` mediumint(9) DEFAULT 0,
-                         `Black` mediumint(9) DEFAULT 0,
-                         `Winner` mediumint(9) DEFAULT 0,
-                         `ParticipationCount` mediumint(9) DEFAULT 0,
-                         `TourFinalized` bit DEFAULT 0
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- PlayerCTBan definition
 
-                        CREATE TABLE IF NOT EXISTS `PlayerIsTop` (
-                          `SteamId` bigint(20) DEFAULT NULL,
-                          `KillCount` mediumint(9) DEFAULT 0
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS `PlayerCTBan` (
+  `SteamId` bigint(20) DEFAULT NULL,
+  `BannedBySteamId` bigint(20) DEFAULT NULL,
+  `Time` datetime NOT NULL DEFAULT current_timestamp()
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-                        CREATE TABLE IF NOT EXISTS `KomKalanInterceptor` (
-                            `SelectedModelId` TEXT DEFAULT NULL
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- PlayerCTKit definition
 
-                        CREATE TABLE IF NOT EXISTS `PlayerWTime` (
-                          `SteamId` bigint(20) DEFAULT NULL,
-                          `WTime` mediumint(9) DEFAULT 0
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS `PlayerCTKit` (
+  `SteamId` bigint(20) DEFAULT NULL,
+  `KitId` mediumint(9) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-                        CREATE TABLE IF NOT EXISTS `PlayerKasa` (
-                          `Id` bigint(20) PRIMARY KEY AUTO_INCREMENT,
-                          `StartTime` DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
-                          `SteamId` bigint(20) DEFAULT NULL,
-                          `Opened` mediumint(9) DEFAULT 0,
-                          `Won` mediumint(9) DEFAULT 0,
-                          `GotTheReward` bit DEFAULT 0
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- PlayerChat definition
 
-                        CREATE TABLE IF NOT EXISTS `PlayerTimeReward` (
-                          `Id` bigint(20) NOT NULL AUTO_INCREMENT,
-                          `SteamId` bigint(20) DEFAULT NULL,
-                          `Level` mediumint(9) DEFAULT NULL,
-                          `Config` text DEFAULT NULL,
-                          `Completed` bit(1) DEFAULT b'0',
-                          `StartTime` datetime NOT NULL DEFAULT current_timestamp(),
-                          `EndTime` datetime DEFAULT NULL,
-                          PRIMARY KEY (`Id`)
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS `PlayerChat` (
+  `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `SteamId` bigint(20) DEFAULT NULL,
+  `Msg` text DEFAULT NULL,
+  `Time` datetime NOT NULL DEFAULT current_timestamp(),
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1318770 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-                        CREATE TABLE IF NOT EXISTS `PlayerBattlePassPremium` (
-                          `Id` bigint(20) NOT NULL AUTO_INCREMENT,
-                          `SteamId` bigint(20) DEFAULT NULL,
-                          `Level` mediumint(9) DEFAULT NULL,
-                          `Config` text DEFAULT NULL,
-                          `Completed` bit(1) DEFAULT b'0',
-                          `StartTime` datetime NOT NULL DEFAULT current_timestamp(),
-                          `EndTime` datetime DEFAULT NULL,
-                          PRIMARY KEY (`Id`)
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+-- PlayerCustomTag definition
 
-                        CREATE TABLE IF NOT EXISTS `PlayerBattlePass` (
-                          `Id` bigint(20) NOT NULL AUTO_INCREMENT,
-                          `SteamId` bigint(20) DEFAULT NULL,
-                          `Level` mediumint(9) DEFAULT NULL,
-                          `Config` text DEFAULT NULL,
-                          `Completed` bit(1) DEFAULT b'0',
-                          `StartTime` datetime NOT NULL DEFAULT current_timestamp(),
-                          `EndTime` datetime DEFAULT NULL,
-                          PRIMARY KEY (`Id`)
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+CREATE TABLE IF NOT EXISTS `PlayerCustomTag` (
+  `SteamId` bigint(20) DEFAULT NULL,
+  `Tag` text DEFAULT NULL,
+  `TagColor` text DEFAULT NULL,
+  `SayColor` text DEFAULT NULL,
+  `TColor` text DEFAULT NULL,
+  `CTColor` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
-                        CREATE TABLE `PlayerParachuteData` (
-                          `SteamId` bigint(20) DEFAULT NULL,
-                          `BoughtModelIds` text DEFAULT NULL,
-                          `SelectedModelId` text DEFAULT NULL
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;", con);
+-- PlayerGag definition
+
+CREATE TABLE IF NOT EXISTS `PlayerGag` (
+  `SteamId` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- PlayerGambleData definition
+
+CREATE TABLE IF NOT EXISTS `PlayerGambleData` (
+  `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `GambleDataId` bigint(20) DEFAULT 0,
+  `SteamId` bigint(20) DEFAULT NULL,
+  `Credit` mediumint(9) DEFAULT 0,
+  `Color` mediumint(9) DEFAULT 0,
+  `Expired` bit(1) DEFAULT b'0',
+  `PlayedTime` datetime NOT NULL DEFAULT current_timestamp(),
+  `ExpiredTime` datetime DEFAULT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=12927 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- PlayerIsTop definition
+
+CREATE TABLE IF NOT EXISTS `PlayerIsTop` (
+  `SteamId` bigint(20) DEFAULT NULL,
+  `KillCount` mediumint(9) DEFAULT 0,
+  `TotalKillCount` mediumint(9) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- PlayerIsyanTeam definition
+
+CREATE TABLE IF NOT EXISTS `PlayerIsyanTeam` (
+  `SteamId` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- PlayerKasa definition
+
+CREATE TABLE IF NOT EXISTS `PlayerKasa` (
+  `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `StartTime` datetime NOT NULL DEFAULT current_timestamp(),
+  `SteamId` bigint(20) DEFAULT NULL,
+  `Opened` mediumint(9) DEFAULT 0,
+  `Won` mediumint(9) DEFAULT 0,
+  `GotTheReward` bit(1) DEFAULT b'0',
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- PlayerLevel definition
+
+CREATE TABLE IF NOT EXISTS `PlayerLevel` (
+  `SteamId` bigint(20) DEFAULT NULL,
+  `Xp` mediumint(9) DEFAULT NULL,
+  `TagDisable` bit(1) DEFAULT b'0',
+  `GivenRewards` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- PlayerMarketModel definition
+
+CREATE TABLE IF NOT EXISTS `PlayerMarketModel` (
+  `SteamId` bigint(20) DEFAULT NULL,
+  `ModelIdCT` varchar(255) DEFAULT NULL,
+  `ModelIdT` varchar(255) DEFAULT NULL,
+  `DefaultIdCT` varchar(8) DEFAULT NULL,
+  `DefaultIdT` varchar(8) DEFAULT NULL,
+  `Credit` mediumint(9) DEFAULT NULL,
+  UNIQUE KEY `SteamId` (`SteamId`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- PlayerModel definition
+
+CREATE TABLE IF NOT EXISTS `PlayerModel` (
+  `Id` int(11) DEFAULT NULL,
+  `Text` varchar(14) DEFAULT NULL,
+  `PathToModel` varchar(86) DEFAULT NULL,
+  `TeamNo` tinyint(4) DEFAULT NULL,
+  `Cost` mediumint(9) DEFAULT NULL,
+  `Enable` tinyint(4) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- PlayerName definition
+
+CREATE TABLE IF NOT EXISTS `PlayerName` (
+  `SteamId` bigint(20) DEFAULT NULL,
+  `Name` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
+
+-- PlayerParachuteData definition
+
+CREATE TABLE IF NOT EXISTS `PlayerParachuteData` (
+  `SteamId` bigint(20) DEFAULT NULL,
+  `BoughtModelIds` text DEFAULT NULL,
+  `SelectedModelId` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- PlayerParticleData definition
+
+CREATE TABLE IF NOT EXISTS `PlayerParticleData` (
+  `SteamId` bigint(20) DEFAULT NULL,
+  `BoughtModelIds` text DEFAULT NULL,
+  `SelectedModelId` text DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- PlayerSutTeam definition
+
+CREATE TABLE IF NOT EXISTS `PlayerSutTeam` (
+  `SteamId` bigint(20) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- PlayerTime definition
+
+CREATE TABLE IF NOT EXISTS `PlayerTime` (
+  `SteamId` bigint(20) DEFAULT NULL,
+  `Total` mediumint(9) DEFAULT NULL,
+  `CTTime` mediumint(9) DEFAULT NULL,
+  `TTime` mediumint(9) DEFAULT NULL,
+  `WTime` mediumint(9) DEFAULT NULL,
+  `WeeklyWTime` mediumint(9) DEFAULT NULL,
+  `WeeklyCTTime` mediumint(9) DEFAULT NULL,
+  `WeeklyTTime` mediumint(9) DEFAULT NULL,
+  `WeeklyTotalTime` mediumint(9) DEFAULT NULL,
+  `WeeklyKaTime` mediumint(9) DEFAULT NULL,
+  `KaTime` mediumint(9) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- PlayerTimeReward definition
+
+CREATE TABLE IF NOT EXISTS `PlayerTimeReward` (
+  `Id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `SteamId` bigint(20) DEFAULT NULL,
+  `Level` mediumint(9) DEFAULT NULL,
+  `Config` text DEFAULT NULL,
+  `Completed` bit(1) DEFAULT b'0',
+  `StartTime` datetime NOT NULL DEFAULT current_timestamp(),
+  `EndTime` datetime DEFAULT NULL,
+  PRIMARY KEY (`Id`)
+) ENGINE=InnoDB AUTO_INCREMENT=1776 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- PlayerWTime definition
+
+CREATE TABLE IF NOT EXISTS `PlayerWTime` (
+  `SteamId` bigint(20) DEFAULT NULL,
+  `WTime` mediumint(9) DEFAULT 0
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- PlayerWeeklyCTTime definition
+
+CREATE TABLE IF NOT EXISTS `PlayerWeeklyCTTime` (
+  `SteamId` bigint(20) DEFAULT NULL,
+  `WTime` mediumint(9) DEFAULT NULL,
+  `WeekNo` mediumint(9) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- PlayerWeeklyTTime definition
+
+CREATE TABLE IF NOT EXISTS `PlayerWeeklyTTime` (
+  `SteamId` bigint(20) DEFAULT NULL,
+  `WTime` mediumint(9) DEFAULT NULL,
+  `WeekNo` mediumint(9) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- PlayerWeeklyTotalTime definition
+
+CREATE TABLE IF NOT EXISTS `PlayerWeeklyTotalTime` (
+  `SteamId` bigint(20) DEFAULT NULL,
+  `WTime` mediumint(9) DEFAULT NULL,
+  `WeekNo` mediumint(9) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+-- PlayerWeeklyWTime definition
+
+CREATE TABLE IF NOT EXISTS `PlayerWeeklyWTime` (
+  `SteamId` bigint(20) DEFAULT NULL,
+  `WTime` mediumint(9) DEFAULT NULL,
+  `WeekNo` mediumint(9) DEFAULT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+", con);
                     await cmd.ExecuteNonQueryAsync();
 
                     GetAllPlayerNameData(con);
